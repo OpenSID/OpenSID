@@ -202,7 +202,7 @@ class Penduduk_log extends Admin_Controller
 
     public function dokumen($id): void
     {
-        $log = LogPenduduk::findOrFail($id);
+        $log  = LogPenduduk::findOrFail($id);
         $file = $log->file_akta_mati;
         if ($file != '') {
             $tampil = (int) ($this->input->get('tampil') ?? 0);

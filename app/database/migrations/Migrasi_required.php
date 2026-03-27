@@ -96,8 +96,8 @@ use Migrator;
                 'attribute'  => json_encode([
                     'disabled' => 'true',
                 ]),
-                'kategori'   => 'sistem',
-                'urut'    => 999,
+                'kategori' => 'sistem',
+                'urut'     => 999,
             ]
         );
 
@@ -121,7 +121,7 @@ use Migrator;
                 'attribute' => json_encode([
                     'disabled' => 'true',
                 ]),
-                'urut'    => 999,
+                'urut' => 999,
             ]);
         }
 

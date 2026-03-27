@@ -35,19 +35,11 @@
  *
  */
 
-use App\Enums\FormatNoRtmEnum;
-use App\Models\GrupAkses;
-use App\Models\Modul;
-use App\Models\UserGrup;
-use App\Traits\Migrator;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use App\Models\FormatSurat;
 use App\Models\Simbol;
 use App\Scopes\RemoveRtfScope;
+use App\Traits\Migrator;
+use Illuminate\Database\Migrations\Migration;
 
 return new class () extends Migration {
     use Migrator;
@@ -75,7 +67,7 @@ return new class () extends Migration {
         // Daftar url_surat legacy dibangun dari nama surat di JSON (getSuratBawaanTinyMCE),
         // sehingga hanya menghapus yang memang punya padanan bawaan, bukan semua 'surat-*'.
         $legacyUrls = getSuratBawaanTinyMCE()
-            ->map(fn ($surat) => 'surat-' . url_title($surat['nama'], '-', true))
+            ->map(static fn ($surat) => 'surat-' . url_title($surat['nama'], '-', true))
             ->values()
             ->all();
 
@@ -95,5 +87,4 @@ return new class () extends Migration {
         // dan file fisik ikut terhapus via event deleting di model Simbol.
         Simbol::notImageOnly()->get()->each->delete();
     }
-    
 };

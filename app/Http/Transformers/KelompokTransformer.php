@@ -45,16 +45,16 @@ class KelompokTransformer extends TransformerAbstract
     public function transform(Kelompok $kelompok)
     {
         return [
-            'id'               => $kelompok->id,
-            'nama'             => $kelompok->nama,
-            'kode'             => $kelompok->kode,
-            'kategori'         => $kelompok->kategori,
-            'tipe'             => ucwords($kelompok->tipe),
-            'no_sk_pendirian'  => $kelompok->no_sk_pendirian ?? '',
-            'keterangan'       => $kelompok->keterangan,
-            'logo'             => $kelompok->url_logo,
-            'nama_ketua'       => $kelompok->nama_ketua,
-            'slug'             => $kelompok->slug,
+            'id'              => $kelompok->id,
+            'nama'            => $kelompok->nama,
+            'kode'            => $kelompok->kode,
+            'kategori'        => $kelompok->kategori,
+            'tipe'            => ucwords($kelompok->tipe),
+            'no_sk_pendirian' => $kelompok->no_sk_pendirian ?? '',
+            'keterangan'      => $kelompok->keterangan,
+            'logo'            => $kelompok->url_logo,
+            'nama_ketua'      => $kelompok->nama_ketua,
+            'slug'            => $kelompok->slug,
         ];
     }
 }

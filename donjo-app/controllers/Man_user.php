@@ -110,9 +110,9 @@ class Man_user extends Admin_Controller
                 })
                 ->addColumn('aksi', static function ($row): string {
                     if ($row->deleted_at !== null) {
-                        $nama  = htmlspecialchars((string) $row->nama, ENT_QUOTES);
-                        $url   = site_url("man_user/restore/{$row->id}");
-                        $aksi  = View::make('admin.layouts.components.buttons.btn', [
+                        $nama = htmlspecialchars((string) $row->nama, ENT_QUOTES);
+                        $url  = site_url("man_user/restore/{$row->id}");
+                        $aksi = View::make('admin.layouts.components.buttons.btn', [
                             'url'        => '#',
                             'judul'      => 'Pulihkan',
                             'icon'       => 'fa fa-undo',
@@ -130,19 +130,19 @@ class Man_user extends Admin_Controller
                             'attribut'   => '',
                         ])->render() . ' ';
                         $aksi .= View::make('admin.layouts.components.buttons.confirm', [
-                            'url'    => site_url("man_user/force_delete/{$row->id}"),
-                            'type'   => 'bg-maroon',
-                            'icon'   => 'fa fa-times',
-                            'judul'  => 'Hapus Permanen',
-                            'target' => 'confirm-delete',
-                            'method' => 'POST',
+                            'url'            => site_url("man_user/force_delete/{$row->id}"),
+                            'type'           => 'bg-maroon',
+                            'icon'           => 'fa fa-times',
+                            'judul'          => 'Hapus Permanen',
+                            'target'         => 'confirm-delete',
+                            'method'         => 'POST',
                             'confirmMessage' => '',
                         ])->render();
 
                         return $aksi;
                     }
 
-                    $aksi  = View::make('admin.layouts.components.buttons.edit', ['url' => 'man_user/form/' . $row->id])->render();
+                    $aksi = View::make('admin.layouts.components.buttons.edit', ['url' => 'man_user/form/' . $row->id])->render();
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
@@ -152,8 +152,8 @@ class Man_user extends Admin_Controller
                     }
 
                     if (can('h') && $row->id != super_admin()) {
-                        $nama  = htmlspecialchars((string) $row->nama, ENT_QUOTES);
-                        $url   = site_url("man_user/delete/{$row->id}");
+                        $nama = htmlspecialchars((string) $row->nama, ENT_QUOTES);
+                        $url  = site_url("man_user/delete/{$row->id}");
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                             'url'           => $url,
                             'confirmDelete' => false,
@@ -316,6 +316,7 @@ class Man_user extends Admin_Controller
         isCan('h');
 
         $errors = [];
+
         foreach ($this->request['id_cb'] as $id) {
             $validasi = $this->validate_before_delete((int) $id);
             if (! $validasi['status']) {
@@ -362,7 +363,7 @@ class Man_user extends Admin_Controller
 
         $user = User::findOrFail($id);
         $user->update([
-            'active' => 1,
+            'active'     => 1,
             'last_login' => Carbon::now(),
         ]);
 
@@ -374,55 +375,6 @@ class Man_user extends Admin_Controller
         }
         redirect_with('success', 'Berhasil Ubah Data');
 
-    }
-
-    protected function delete_user($id = ''): void
-    {
-        User::findOrFail($id)->delete();
-    }
-
-    protected function validate_before_delete(int $id): array
-    {
-        $user = User::findOrFail($id);
-
-        $jumlah_surat = LogSurat::where('id_user', $id)->count();
-
-        $jumlah_surat_dinas = LogSuratDinas::where(static function ($query) use ($id): void {
-                $query->where('id_user', $id)
-                    ->orWhere('created_by', $id)
-                    ->orWhere('updated_by', $id);
-            })->count();
-
-        $jumlah_artikel = Artikel::where('id_user', $id)->count();
-
-        $jumlah_notifikasi = LogNotifikasiAdmin::where('id_user', $id)->count();
-
-        $total_aktivitas = $jumlah_surat + $jumlah_surat_dinas + $jumlah_artikel + $jumlah_notifikasi;
-
-        if ($total_aktivitas > 0) {
-            $detail = [];
-            if ($jumlah_surat > 0) {
-                $detail[] = "{$jumlah_surat} surat warga";
-            }
-            if ($jumlah_surat_dinas > 0) {
-                $detail[] = "{$jumlah_surat_dinas} surat dinas";
-            }
-            if ($jumlah_artikel > 0) {
-                $detail[] = "{$jumlah_artikel} artikel";
-            }
-            if ($jumlah_notifikasi > 0) {
-                $detail[] = "{$jumlah_notifikasi} notifikasi";
-            }
-
-            return [
-                'status' => false,
-                'pesan'  => "Pengguna {$user->nama} tidak dapat dihapus karena sudah memiliki aktivitas: "
-                          . implode(', ', $detail)
-                          . '.<br>Silakan nonaktifkan pengguna ini saja.',
-            ];
-        }
-
-        return ['status' => true];
     }
 
     public function restore($id = ''): void
@@ -472,6 +424,55 @@ class Man_user extends Admin_Controller
         }
 
         redirect_with('success', "Berhasil menghapus permanen {$jumlah} pengguna yang telah dihapus.");
+    }
+
+    protected function delete_user($id = ''): void
+    {
+        User::findOrFail($id)->delete();
+    }
+
+    protected function validate_before_delete(int $id): array
+    {
+        $user = User::findOrFail($id);
+
+        $jumlah_surat = LogSurat::where('id_user', $id)->count();
+
+        $jumlah_surat_dinas = LogSuratDinas::where(static function ($query) use ($id): void {
+                $query->where('id_user', $id)
+                    ->orWhere('created_by', $id)
+                    ->orWhere('updated_by', $id);
+            })->count();
+
+        $jumlah_artikel = Artikel::where('id_user', $id)->count();
+
+        $jumlah_notifikasi = LogNotifikasiAdmin::where('id_user', $id)->count();
+
+        $total_aktivitas = $jumlah_surat + $jumlah_surat_dinas + $jumlah_artikel + $jumlah_notifikasi;
+
+        if ($total_aktivitas > 0) {
+            $detail = [];
+            if ($jumlah_surat > 0) {
+                $detail[] = "{$jumlah_surat} surat warga";
+            }
+            if ($jumlah_surat_dinas > 0) {
+                $detail[] = "{$jumlah_surat_dinas} surat dinas";
+            }
+            if ($jumlah_artikel > 0) {
+                $detail[] = "{$jumlah_artikel} artikel";
+            }
+            if ($jumlah_notifikasi > 0) {
+                $detail[] = "{$jumlah_notifikasi} notifikasi";
+            }
+
+            return [
+                'status' => false,
+                'pesan'  => "Pengguna {$user->nama} tidak dapat dihapus karena sudah memiliki aktivitas: "
+                          . implode(', ', $detail)
+                          . '.<br>Silakan nonaktifkan pengguna ini saja.',
+            ];
+        }
+
+        return ['status' => true];
     }
 
     protected function validate($request = [], $id = ''): array

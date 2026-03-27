@@ -36,6 +36,7 @@
  */
 
 use App\Libraries\Periksa as LibrariesPeriksa;
+use App\Models\Artikel;
 use App\Models\Config;
 use App\Models\Menu;
 use App\Models\Penduduk;
@@ -43,7 +44,6 @@ use App\Models\SuplemenTerdata;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
-use App\Models\Artikel;
 use App\Repositories\SettingAplikasiRepository;
 use App\Services\Auth\Traits\LoginRequest;
 use App\Services\MasaAktifAkunService;
@@ -137,6 +137,7 @@ class Periksa extends MY_Controller
         // Terima array: artikel_kategori[artikel_id] = id_kategori|null
         $raw  = $this->input->post('artikel_kategori') ?: [];
         $peta = [];
+
         foreach ($raw as $artikelId => $val) {
             $peta[(int) $artikelId] = ($val !== null && $val !== '' && $val !== 'null') ? (int) $val : null;
         }
@@ -164,6 +165,7 @@ class Periksa extends MY_Controller
         // Terima array: artikel_user[artikel_id] = id_user|null
         $raw  = $this->input->post('artikel_user') ?: [];
         $peta = [];
+
         foreach ($raw as $artikelId => $val) {
             $peta[(int) $artikelId] = ($val !== null && $val !== '' && $val !== 'null') ? (int) $val : null;
         }
@@ -229,7 +231,7 @@ class Periksa extends MY_Controller
         $this->session->sess_regenerate();
 
         // Lazy check: periksa masa aktif akun setelah autentikasi berhasil
-        $user = Auth::guard($this->guard)->user();
+        $user    = Auth::guard($this->guard)->user();
         $message = (new MasaAktifAkunService())->checkAndDeactivateIfInactive($user);
         if ($message) {
             Auth::guard($this->guard)->logout();

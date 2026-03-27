@@ -191,7 +191,7 @@ class AnalisisResponController extends AdminModulController
     {
         $data['field_nik'] = false;
         $data['aksi']      = 'Unduh';
-        $data['action']    = route("analisis_respon.data_unduh", ['master' => $this->analisisMaster->id]);
+        $data['action']    = route('analisis_respon.data_unduh', ['master' => $this->analisisMaster->id]);
 
         return view('analisis::respon.import.data_ajax', $data);
     }

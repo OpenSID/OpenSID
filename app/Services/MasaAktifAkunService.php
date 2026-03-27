@@ -115,7 +115,7 @@ class MasaAktifAkunService
             return null;
         }
 
-        $tanggalBatas = Carbon::now()->subDays($masaTidakAktifHari);
+        $tanggalBatas  = Carbon::now()->subDays($masaTidakAktifHari);
         $lastLoginDate = Carbon::parse($user->last_login); // Ensure it's a Carbon instance
 
         if ($lastLoginDate->lessThan($tanggalBatas)) {

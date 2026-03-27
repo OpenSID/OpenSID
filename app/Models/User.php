@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use App\Services\Auth\Traits\Authorizable;
 use App\Traits\ConfigId;
+use App\Traits\SafeSoftDeletes;
 use App\Traits\ShortcutCache;
 use App\Traits\StatusTrait;
 use Illuminate\Auth\Authenticatable;
@@ -48,7 +49,6 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use App\Traits\SafeSoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 

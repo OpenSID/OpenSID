@@ -74,7 +74,7 @@ class PemerintahTransformer extends TransformerAbstract
                 'jam_keluar'       => $kehadiran->jam_keluar,
                 'tanggal'          => $kehadiran->tanggal,
             ] : null,
-            'hari_libur'       => ! HariLibur::liburNasional()->exists(),
+            'hari_libur' => ! HariLibur::liburNasional()->exists(),
         ];
     }
 

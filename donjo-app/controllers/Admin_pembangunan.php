@@ -40,9 +40,9 @@ use App\Enums\SumberDanaEnum;
 use App\Models\Area;
 use App\Models\Garis;
 use App\Models\Lokasi;
+use App\Models\Pamong;
 use App\Models\Pembangunan;
 use App\Models\Wilayah;
-use App\Models\Pamong;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
 use Spatie\Image\Image;
@@ -157,7 +157,7 @@ class Admin_pembangunan extends Admin_Controller
         $data['list_lokasi']  = Wilayah::rt()->orderBy('dusun')->get()->toArray();
         $data['sumber_dana']  = SumberDanaEnum::all();
         $data['satuan_waktu'] = SatuanWaktuEnum::all();
-        $data['pamong'] = Pamong::daftar()->get();
+        $data['pamong']       = Pamong::daftar()->get();
 
         return view('admin.pembangunan.form', $data);
     }
@@ -274,7 +274,7 @@ class Admin_pembangunan extends Admin_Controller
         $silpa = $pagu - $realisasi;
 
         return [
-            'pamong_id' => $post['pamong_id'] ? bilangan($post['pamong_id']) : null,
+            'pamong_id'               => $post['pamong_id'] ? bilangan($post['pamong_id']) : null,
             'sumber_dana'             => $post['sumber_dana'] ?? [],
             'judul'                   => judul($post['judul']),
             'slug'                    => unique_slug('pembangunan', $post['judul'], $id),

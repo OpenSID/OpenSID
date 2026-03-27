@@ -37,10 +37,8 @@
 
 namespace App\Http\Requests\Lokasi;
 
-use App\Enums\AktifEnum;
 use App\Enums\StatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class LokasiRequest extends FormRequest
 {

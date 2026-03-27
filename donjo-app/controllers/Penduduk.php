@@ -146,11 +146,10 @@ class Penduduk extends Admin_Controller
             return datatables()->of($this->sumberData())
                 ->orderColumn(
                     'no_kk',
-                    static function ($query, $order) {
-                        return $query
-                            ->distinct()
-                            ->leftJoin('tweb_rtm', 'tweb_rtm.no_kk', '=', 'tweb_penduduk.id_rtm')
-                            ->orderByRaw("
+                    static fn ($query, $order) => $query
+                        ->distinct()
+                        ->leftJoin('tweb_rtm', 'tweb_rtm.no_kk', '=', 'tweb_penduduk.id_rtm')
+                        ->orderByRaw("
                                 CASE
                                     WHEN tweb_rtm.no_kk IS NULL THEN 1
                                     ELSE 0
@@ -159,8 +158,7 @@ class Penduduk extends Admin_Controller
                                 REGEXP_REPLACE(tweb_rtm.no_kk, '[0-9]', '') " . (strtoupper($order) === 'DESC' ? 'DESC' : 'ASC') . ",
                                 -- Then sort by numeric part
                                 CAST(REGEXP_REPLACE(tweb_rtm.no_kk, '[^0-9]', '') AS UNSIGNED) " . (strtoupper($order) === 'DESC' ? 'DESC' : 'ASC') . '
-                            ');
-                    }
+                            ')
                 )
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
@@ -1006,7 +1004,7 @@ class Penduduk extends Admin_Controller
                         $anggota->status_dasar = $data['status_dasar'];
                         $anggota->save();
 
-                        $logAnggota = $log;
+                        $logAnggota            = $log;
                         $logAnggota['id_pend'] = $anggotaId;
                         // Hapus file akta mati jika ada
                         unset($logAnggota['file_akta_mati']);
@@ -1777,7 +1775,7 @@ class Penduduk extends Admin_Controller
         return $judul;
     }
 
-     /**
+    /**
      * AJAX: Ambil daftar anggota keluarga (id_kk sama) yang masih HIDUP,
      * kecuali penduduk yang sedang diproses.
      * Digunakan oleh modal Ubah Status Dasar untuk fitur "Anggota Ikut Pindah".
@@ -1802,15 +1800,13 @@ class Penduduk extends Admin_Controller
             ->orderBy('kk_level')           // urut dari Kepala Keluarga dulu
             ->get(['id', 'nik', 'nama', 'kk_level', 'sex', 'tanggallahir']);
 
-        $data = $anggota->map(static function ($a) {
-            return [
-                'id'            => $a->id,
-                'nik'           => $a->nik,
-                'nama'          => strtoupper($a->nama),
-                'hubungan'      => SHDKEnum::valueOf($a->kk_level) ?? '-',
-                'jenis_kelamin' => JenisKelaminEnum::valueOf($a->sex) ?? '-',
-            ];
-        });
+        $data = $anggota->map(static fn ($a) => [
+            'id'            => $a->id,
+            'nik'           => $a->nik,
+            'nama'          => strtoupper($a->nama),
+            'hubungan'      => SHDKEnum::valueOf($a->kk_level) ?? '-',
+            'jenis_kelamin' => JenisKelaminEnum::valueOf($a->sex) ?? '-',
+        ]);
 
         return json(['data' => $data]);
     }

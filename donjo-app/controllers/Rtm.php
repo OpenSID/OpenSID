@@ -60,8 +60,8 @@ class Rtm extends Admin_Controller
 {
     use Upload;
 
-    public $modul_ini     = 'kependudukan';
-    public $sub_modul_ini = 'rumah-tangga';
+    public $modul_ini           = 'kependudukan';
+    public $sub_modul_ini       = 'rumah-tangga';
     public $kategori_pengaturan = 'Rumah Tangga';
     private $judulStatistik;
     private $filterColumn = [];

@@ -91,10 +91,10 @@ class LaporanPenduduk
 
     public function listData($lap = 0, $filter = [], $paramCetak = [])
     {
-        $this->lap        = $lap;
-        $this->filter     = $filter;
-        $this->paramCetak = $paramCetak;
-        $this->tanggal_laporan_sql = !empty($this->filter['tahun']) ? "'" . $this->filter['tahun'] . "-12-31'" : 'NOW()';
+        $this->lap                 = $lap;
+        $this->filter              = $filter;
+        $this->paramCetak          = $paramCetak;
+        $this->tanggal_laporan_sql = ! empty($this->filter['tahun']) ? "'" . $this->filter['tahun'] . "-12-31'" : 'NOW()';
 
         $judul_jumlah = 'JUMLAH';
         $judul_belum  = 'BELUM MENGISI';
@@ -315,8 +315,8 @@ class LaporanPenduduk
 
     protected function select_per_kategori()
     {
-        $lap = $this->lap;
-        $tahun     = $this->filter['tahun'] ?? null;
+        $lap   = $this->lap;
+        $tahun = $this->filter['tahun'] ?? null;
 
         $statistik_penduduk = [];
 
@@ -493,7 +493,7 @@ class LaporanPenduduk
                     ->selectRaw('COUNT(k.id) as jumlah')
                     ->selectRaw('COUNT(CASE WHEN k.kelas_sosial = u.id AND p.sex = 1 THEN p.id END) AS laki')
                     ->selectRaw('COUNT(CASE WHEN k.kelas_sosial = u.id AND p.sex = 2 THEN p.id END) AS perempuan')
-                    ->leftJoin('keluarga_aktif as k', static function ($join) use($tahun){
+                    ->leftJoin('keluarga_aktif as k', static function ($join) use ($tahun) {
                         $join->on('k.kelas_sosial', '=', 'u.id')
                             ->where('k.config_id', '=', identitas('id'));
                         if ($tahun) {
@@ -574,7 +574,7 @@ class LaporanPenduduk
                     ->selectRaw('COUNT(k.id) as jumlah')
                     ->selectRaw('COUNT(CASE WHEN k.status_covid = u.id AND p.sex = 1 THEN k.id_terdata END) AS laki')
                     ->selectRaw('COUNT(CASE WHEN k.status_covid = u.id AND p.sex = 2 THEN k.id_terdata END) AS perempuan')
-                    ->leftJoin('covid19_pemudik as k', static function ($join) use($tahun){
+                    ->leftJoin('covid19_pemudik as k', static function ($join) use ($tahun) {
                         $join->on('k.status_covid', '=', 'u.id')
                             ->where('k.config_id', '=', identitas('id'));
                         if ($tahun) {
@@ -835,8 +835,8 @@ class LaporanPenduduk
 
     private function select_jml_penduduk_per_kategori(string $id_referensi, string $tabel_referensi)
     {
-        $tahun     = $this->filter['tahun'] ?? null;
-        
+        $tahun = $this->filter['tahun'] ?? null;
+
         $query = DB::table("{$tabel_referensi} as u")
             ->select('u.*')
             ->selectRaw('COUNT(p.id) AS jumlah')

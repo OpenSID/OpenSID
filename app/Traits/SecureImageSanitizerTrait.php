@@ -1,19 +1,38 @@
 <?php
 
 /*
- * Trait: SecureImageSanitizerTrait
  *
- * Melakukan sanitasi gambar yang diunggah:
- * - Strip semua metadata (EXIF, IPTC, XMP, komentar biner)
- * - Re-encoding gambar sehingga payload tersembunyi dihilangkan
- * - Validasi magic bytes (bukan hanya ekstensi/MIME dari client)
- * - Batasi dimensi dan ukuran file
+ * File ini bagian dari:
  *
- * Proteksi terhadap:
- * - ImageTragick (CVE-2016-3714)
- * - XSS via metadata/comment injection (GIF, JPEG, PNG)
- * - Polyglot files (file yang valid sekaligus sebagai PHP/JS)
- * - MIME type spoofing
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
 
 namespace App\Traits;
@@ -45,14 +64,16 @@ trait SecureImageSanitizerTrait
     /**
      * Dimensi gambar maksimum
      */
-    private int $maxWidth  = 4096;
+    private int $maxWidth = 4096;
+
     private int $maxHeight = 4096;
 
     /**
      * Entry point utama: validasi + sanitasi file gambar
      *
-     * @param  array  $file    $_FILES['gambar']
-     * @param  string $destDir Direktori tujuan penyimpanan
+     * @param array  $file    $_FILES['gambar']
+     * @param string $destDir Direktori tujuan penyimpanan
+     *
      * @return array ['success' => bool, 'filename' => string|null, 'error' => string|null]
      */
     public function validateAndSanitizeImage(array $file, string $destDir): array
@@ -76,8 +97,8 @@ trait SecureImageSanitizerTrait
         }
 
         // --- 4. Validasi magic bytes (server-side, tidak bergantung client) ---
-        $tmpPath      = $file['tmp_name'];
-        $magicResult  = $this->validateMagicBytes($tmpPath, $ext);
+        $tmpPath     = $file['tmp_name'];
+        $magicResult = $this->validateMagicBytes($tmpPath, $ext);
         if (! $magicResult['valid']) {
             return $this->fail($magicResult['error']);
         }
@@ -186,19 +207,24 @@ trait SecureImageSanitizerTrait
     {
         // Buat resource GD dari file
         $image = null;
+
         switch ($imageType) {
             case IMAGETYPE_JPEG:
                 $image = @imagecreatefromjpeg($filePath);
                 break;
+
             case IMAGETYPE_PNG:
                 $image = @imagecreatefrompng($filePath);
                 break;
+
             case IMAGETYPE_GIF:
                 $image = @imagecreatefromgif($filePath);
                 break;
+
             case IMAGETYPE_WEBP:
                 $image = @imagecreatefromwebp($filePath);
                 break;
+
             default:
                 return ['success' => false, 'error' => 'Tipe gambar tidak didukung untuk sanitasi.'];
         }
@@ -211,19 +237,23 @@ trait SecureImageSanitizerTrait
         ob_start();
 
         $outputSuccess = false;
+
         switch ($imageType) {
             case IMAGETYPE_JPEG:
                 // Quality 85 = keseimbangan kualitas vs ukuran, tanpa metadata
                 $outputSuccess = imagejpeg($image, null, 85);
                 break;
+
             case IMAGETYPE_PNG:
                 // Compression 6 = standar, tanpa metadata
                 imagesavealpha($image, true);
                 $outputSuccess = imagepng($image, null, 6);
                 break;
+
             case IMAGETYPE_GIF:
                 $outputSuccess = imagegif($image);
                 break;
+
             case IMAGETYPE_WEBP:
                 $outputSuccess = imagewebp($image, null, 85);
                 break;
@@ -238,7 +268,7 @@ trait SecureImageSanitizerTrait
 
         // Verifikasi sekali lagi: hasil re-encode harus lebih kecil dari file asli
         // atau dalam range wajar (GIF kecil boleh sedikit berbeda)
-        if (strlen($data) === 0) {
+        if ($data === '') {
             return ['success' => false, 'error' => 'Hasil sanitasi gambar kosong.'];
         }
 

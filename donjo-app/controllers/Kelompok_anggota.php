@@ -35,8 +35,8 @@
  *
  */
 
-use App\Enums\JabatanKelompokEnum;
 use App\Enums\AgamaEnum;
+use App\Enums\JabatanKelompokEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\StatusDasarEnum;
@@ -235,11 +235,11 @@ class Kelompok_anggota extends Admin_Controller
     public function form($id = 0, $id_a = 0): void
     {
         isCan('u');
-        $data['controller']    = $this->controller;
-        $data['kelompok']      = $id;
-        $data['tipe']          = ucwords((string) $this->tipe);
-        $data['list_jabatan1'] = JabatanKelompokEnum::all();
-        $data['list_jabatan2'] = KelompokAnggotaModel::listJabatan($id, $this->tipe);
+        $data['controller']      = $this->controller;
+        $data['kelompok']        = $id;
+        $data['tipe']            = ucwords((string) $this->tipe);
+        $data['list_jabatan1']   = JabatanKelompokEnum::all();
+        $data['list_jabatan2']   = KelompokAnggotaModel::listJabatan($id, $this->tipe);
         $data['list_jk']         = JenisKelaminEnum::all();
         $data['list_agama']      = AgamaEnum::all();
         $data['list_pendidikan'] = PendidikanKKEnum::all();
@@ -450,7 +450,7 @@ class Kelompok_anggota extends Admin_Controller
                             'dusun'        => '',
                             'rw'           => '',
                             'rt'           => '',
-                            'alamat'       => $item->alamat_luar ?? '-'
+                            'alamat'       => $item->alamat_luar ?? '-',
                         ]
                         : [
                             'nama'         => $item->anggota->nama,
@@ -516,5 +516,4 @@ class Kelompok_anggota extends Admin_Controller
             ->set_content_type('application/json')
             ->set_output(json_encode($sumber, JSON_THROW_ON_ERROR));
     }
-
 }

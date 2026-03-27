@@ -148,7 +148,7 @@ class Produk extends BaseModel
 
             return false;
         }
-        
+
         return $this->create($data);
     }
 
@@ -156,7 +156,7 @@ class Produk extends BaseModel
     {
         $data = $this->produkValidasi($post);
 
-        if(isset($data['msg'])) {
+        if (isset($data['msg'])) {
             set_session('error', $data['msg']);
 
             return false;

@@ -52,6 +52,27 @@ class MapLokasiRequest extends FormRequest
     }
 
     /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'desk'    => 'sometimes|nullable|string|max:1000',
+            'nama'    => 'sometimes|required|string|max:255',
+            'enabled' => 'sometimes|required|boolean',
+
+            'lat' => 'required|numeric|between:-90,90',
+            'lng' => 'required|numeric|between:-180,180',
+
+            'ref_point'  => 'sometimes|nullable|string|max:255',
+            'foto'       => 'sometimes|nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'id_cluster' => 'sometimes|required|integer|exists:clusters,id',
+        ];
+    }
+
+    /**
      * Prepare the data for validation.
      * Normalize lat/lng decimal separator from comma to dot.
      */
@@ -64,26 +85,5 @@ class MapLokasiRequest extends FormRequest
         if (isset($this->data['lng'])) {
             $this->data['lng'] = str_replace(',', '.', (string) $this->data['lng']);
         }
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            'desk'       => 'sometimes|nullable|string|max:1000',
-            'nama'       => 'sometimes|required|string|max:255',
-            'enabled'    => 'sometimes|required|boolean',
-
-            'lat'        => 'required|numeric|between:-90,90',
-            'lng'        => 'required|numeric|between:-180,180',
-
-            'ref_point'  => 'sometimes|nullable|string|max:255',
-            'foto'       => 'sometimes|nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'id_cluster' => 'sometimes|required|integer|exists:clusters,id',
-        ];
     }
 }

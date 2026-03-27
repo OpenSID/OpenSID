@@ -51,7 +51,6 @@ class ProgramBantuanOpendkExport
         'edate',
         'asaldana',
     ];
-
     protected $exportFields = [
         'id',
         'nama',

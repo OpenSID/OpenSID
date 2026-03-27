@@ -36,8 +36,8 @@
  */
 
 use App\Enums\AktifEnum;
-use App\Http\Requests\Map\MapLokasiRequest;
 use App\Http\Requests\Lokasi\LokasiRequest;
+use App\Http\Requests\Map\MapLokasiRequest;
 use App\Models\Area;
 use App\Models\Garis;
 use App\Models\Lokasi;
@@ -300,20 +300,22 @@ class Plan extends Admin_Controller
                 Lokasi::whereId($id)->update($request->validated());
 
                 return json([
-                    'status' => true,
-                    'message' => 'Lokasi berhasil disimpan',
+                    'status'       => true,
+                    'message'      => 'Lokasi berhasil disimpan',
                     'redirect_url' => ci_route('plan.index', $parent),
                 ]);
-            } else {
+            }
+
                 return json([
-                    'status' => false,
+                    'status'  => false,
                     'message' => 'Titik koordinat lokasi harus diisi',
                 ]);
-            }
+
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
+
             return json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'Lokasi gagal disimpan',
             ]);
         }
@@ -333,18 +335,18 @@ class Plan extends Admin_Controller
                 }
 
                 return json([
-                    'status' => true,
-                    'message' => 'Berhasil Tambah Data',
+                    'status'       => true,
+                    'message'      => 'Berhasil Tambah Data',
                     'redirect_url' => ci_route('plan.index', $parent),
                 ]);
             }
-            
+
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
         }
 
         return json([
-            'status' => false,
+            'status'  => false,
             'message' => 'Gagal Tambah Data',
         ]);
     }
@@ -354,9 +356,9 @@ class Plan extends Admin_Controller
         isCan('u');
 
         try {
-            $request   = new LokasiRequest();
-            $lokasi       = Lokasi::findOrFail($id);
-            
+            $request = new LokasiRequest();
+            $lokasi  = Lokasi::findOrFail($id);
+
             if ($lokasi->update($request->validated())) {
                 if (request()->hasFile('foto')) {
                     $lokasi->foto = $this->uploadPicture('foto', LOKASI_FOTO_LOKASI);
@@ -364,8 +366,8 @@ class Plan extends Admin_Controller
                 }
 
                 return json([
-                    'status' => true,
-                    'message' => 'Berhasil Ubah Data',
+                    'status'       => true,
+                    'message'      => 'Berhasil Ubah Data',
                     'redirect_url' => ci_route('plan.index', $parent),
                 ]);
             }
@@ -374,7 +376,7 @@ class Plan extends Admin_Controller
         }
 
         return json([
-            'status' => false,
+            'status'  => false,
             'message' => 'Gagal Ubah Data',
         ]);
     }

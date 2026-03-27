@@ -144,9 +144,11 @@ class Sinkronisasi extends Admin_Controller
         switch ($modul) {
             case 'laporan-penduduk':
                 redirect('laporan_penduduk');
+
                 // no break
             case 'laporan-apbdes':
                 redirect('laporan_apbdes');
+
                 // no break
             default:
                 break;
@@ -330,6 +332,7 @@ class Sinkronisasi extends Admin_Controller
 
         return json($notif);
     }
+
     public function kirim_pembangunan()
     {
         $p                = $this->input->get('p');
@@ -394,6 +397,13 @@ class Sinkronisasi extends Admin_Controller
         return json($notif);
     }
 
+    public function kirim_penduduk()
+    {
+        $notif = $this->sinkronisasi_data_penduduk();
+
+        return json($notif);
+    }
+
     private function sinkronisasi_identitas_desa()
     {
         return opendk_api('/api/v1/identitas-desa', [
@@ -404,13 +414,6 @@ class Sinkronisasi extends Admin_Controller
                 'path'         => $this->header['desa']['path'],
             ],
         ], 'post');
-    }
-
-    public function kirim_penduduk()
-    {
-        $notif = $this->sinkronisasi_data_penduduk();
-
-        return json($notif);
     }
 
     private function sinkronisasi_data_penduduk()

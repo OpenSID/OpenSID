@@ -1,4 +1,4 @@
-Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta oleh komunitas SID.
+Rilis versi 2603.1.0 ini berisi penambahan fitur pindah 1 keluarga sekaligus  dan perbaikan lainnya yang diminta oleh komunitas SID.
 
 ### FITUR
 1. [#10877](https://github.com/OpenSID/premium/issues/10877) Deaktivasi akun tidak aktif dengan lazy check saat login.

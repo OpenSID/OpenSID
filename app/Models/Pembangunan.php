@@ -248,7 +248,7 @@ class Pembangunan extends BaseModel
 
     public function pamong()
     {
-        return $this->belongsTo(\App\Models\Pamong::class, 'pamong_id');
+        return $this->belongsTo(Pamong::class, 'pamong_id');
     }
 
     public function getPelaksanaKegiatanAttribute($value)

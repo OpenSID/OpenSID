@@ -50,32 +50,6 @@ class KelompokAnggotaRequest extends FormRequest
     }
 
     /**
-     * Konversi empty string ke null untuk kolom integer/date.
-     */
-    protected function prepareForValidation(): void
-    {
-        $nullableFields = ['id_penduduk', 'sex_luar', 'tanggallahir_luar', 'tgl_sk_pengangkatan', 'tgl_sk_pemberhentian', 'agama_luar', 'pendidikan_luar'];
-        $dateFields     = ['tanggallahir_luar', 'tgl_sk_pengangkatan', 'tgl_sk_pemberhentian'];
-
-        $data = $this->all();
-
-        foreach ($nullableFields as $field) {
-            if (array_key_exists($field, $data) && $data[$field] === '') {
-                $data[$field] = null;
-            }
-        }
-
-        // Konversi format tanggal d-m-Y (datepicker) → Y-m-d (MySQL)
-        foreach ($dateFields as $field) {
-            if (! empty($data[$field]) && preg_match('/^\d{2}-\d{2}-\d{4}$/', $data[$field])) {
-                $data[$field] = \Carbon\Carbon::createFromFormat('d-m-Y', $data[$field])->format('Y-m-d');
-            }
-        }
-
-        $this->data = $data;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      */
     public function rules(): array
@@ -130,5 +104,31 @@ class KelompokAnggotaRequest extends FormRequest
             'tgl_sk_pemberhentian' => 'Tanggal SK Pemberhentian',
             'periode'              => 'Masa Jabatan',
         ];
+    }
+
+    /**
+     * Konversi empty string ke null untuk kolom integer/date.
+     */
+    protected function prepareForValidation(): void
+    {
+        $nullableFields = ['id_penduduk', 'sex_luar', 'tanggallahir_luar', 'tgl_sk_pengangkatan', 'tgl_sk_pemberhentian', 'agama_luar', 'pendidikan_luar'];
+        $dateFields     = ['tanggallahir_luar', 'tgl_sk_pengangkatan', 'tgl_sk_pemberhentian'];
+
+        $data = $this->all();
+
+        foreach ($nullableFields as $field) {
+            if (array_key_exists($field, $data) && $data[$field] === '') {
+                $data[$field] = null;
+            }
+        }
+
+        // Konversi format tanggal d-m-Y (datepicker) → Y-m-d (MySQL)
+        foreach ($dateFields as $field) {
+            if (! empty($data[$field]) && preg_match('/^\d{2}-\d{2}-\d{4}$/', $data[$field])) {
+                $data[$field] = \Carbon\Carbon::createFromFormat('d-m-Y', $data[$field])->format('Y-m-d');
+            }
+        }
+
+        $this->data = $data;
     }
 }

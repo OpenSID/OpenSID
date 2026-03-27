@@ -2,10 +2,12 @@
 
 namespace STS\ZipStream\Models;
 
-use Aws;
 use Aws\S3\S3Client;
-use Aws\S3\S3UriParser;
 use GuzzleHttp\Psr7\Utils;
+use Illuminate\Filesystem\AwsS3V3Adapter;
+use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Psr\Http\Message\StreamInterface;
 use STS\ZipStream\OutputStream;
 
@@ -14,6 +16,29 @@ class S3File extends File
     protected string $region;
 
     protected S3Client $client;
+
+    public static function supports(string $source): bool
+    {
+        return Str::startsWith($source, 's3://');
+    }
+
+    public static function supportsDisk(FilesystemAdapter $disk): bool
+    {
+        return $disk instanceof AwsS3V3Adapter;
+    }
+
+    public static function supportsWriting(): bool
+    {
+        return true;
+    }
+
+    public static function fromDisk(FilesystemAdapter $disk, string $source, ?string $zipPath = null): static
+    {
+        return (new static(
+            "s3://" . Arr::get($disk->getConfig(), "bucket") . "/" . $disk->path($source),
+            $zipPath
+        ))->setS3Client($disk->getClient());
+    }
 
     public function calculateFilesize(): int
     {

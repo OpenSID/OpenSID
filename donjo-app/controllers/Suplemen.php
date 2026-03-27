@@ -645,8 +645,7 @@ class Suplemen extends Admin_Controller
         $writer->addRow($rowFromValues);
 
         // Cetak Data Anggota Suplemen
-        foreach ($data_suplemen['terdata'] as $data) 
-        {
+        foreach ($data_suplemen['terdata'] as $data) {
             $cells = [
                 $this->escapeExcelValue($data['nik'] ?? '-'),
                 $this->escapeExcelValue(strtoupper((string) $data['nama'])),

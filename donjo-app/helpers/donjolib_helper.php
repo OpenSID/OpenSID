@@ -909,8 +909,8 @@ if (! function_exists('opendk_api')) {
      * @param string $method   HTTP method yang digunakan: 'get', 'post', 'put', 'delete'
      *
      * @return array{status: string, pesan: string} Array notifikasi dengan key:
-     *               - 'status': 'success' jika berhasil, 'danger' jika gagal
-     *               - 'pesan' : pesan response dari server atau pesan error
+     *                                              - 'status': 'success' jika berhasil, 'danger' jika gagal
+     *                                              - 'pesan' : pesan response dari server atau pesan error
      */
     function opendk_api($path_url = '', $options = [], $method = 'get')
     {

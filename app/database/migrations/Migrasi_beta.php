@@ -54,7 +54,7 @@ return new class () extends Migration {
     public function tambahPamongIdPadaPembangunan(): void
     {
         if (! Schema::hasColumn('pembangunan', 'pamong_id')) {
-            Schema::table('pembangunan', function (Blueprint $table) {
+            Schema::table('pembangunan', static function (Blueprint $table) {
                 $table->integer('pamong_id')
                     ->nullable()
                     ->after('pelaksana_kegiatan');
