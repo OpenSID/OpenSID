@@ -1,0 +1,13 @@
+<?php
+
+if (! function_exists('{{ moduleLower }}')) {
+    /**
+     * Helper untuk modul {{ moduleName }}.
+     *
+     * @return string
+     */
+    function {{ moduleLower }}(): string
+    {
+        return '{{ moduleLower }}';
+    }
+}

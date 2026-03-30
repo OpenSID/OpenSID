@@ -35,67 +35,47 @@
  *
  */
 
-namespace App\Console\Commands\Modules;
+namespace Modules\DTSEN\Providers;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\ServiceProvider;
 
-class MigrationMakeCommand extends BaseModuleMakeCommand
+class DTSENServiceProvider extends ServiceProvider
 {
-    protected $signature   = 'make:migration {name} {--module=}';
-    protected $description = 'Create a new migration (optionally for a specific module)';
+    protected string $moduleName      = 'DTSEN';
+    protected string $moduleNameLower = 'dtsen';
 
-    protected function stub(): string
+    public function boot(): void
     {
-        return 'app/Console/Commands/Modules/Stubs/migration.stub';
+        $this->registerConfig();
+        $this->registerHelpers();
+        $this->registerViews();
     }
 
-    protected function moduleFolder(): string
+    public function register(): void
     {
-        return 'Database/Migrations';
     }
 
-    protected function defaultNamespace(): string
+    protected function registerConfig(): void
     {
-        return 'Database\\Migrations';
+        $this->mergeConfigFrom(
+            FCPATH . "Modules/{$this->moduleName}/Config/config.php",
+            $this->moduleNameLower
+        );
     }
 
-    /**
-     * Dapatkan path lengkap file migrasi termasuk timestamp
-     */
-    protected function getDestinationFilePath(): string
+    protected function registerHelpers(): void
     {
-        $folder   = $this->getFolder();
-        $filename = $this->getFileName();
+        $helperPath = FCPATH . "Modules/{$this->moduleName}/Helpers/dtsen_helper.php";
 
-        if (! is_dir($folder)) {
-            mkdir($folder, 0755, true);
+        if (is_file($helperPath)) {
+            require_once $helperPath;
         }
-
-        return $folder . DIRECTORY_SEPARATOR . $filename;
     }
 
-    /**
-     * Dapatkan nama file migrasi dengan timestamp
-     */
-    protected function getFileName(): string
+    protected function registerViews(): void
     {
-        $name      = $this->argument('name');
-        $timestamp = date('Y_m_d_His');
+        $sourcePath = FCPATH . "Modules/{$this->moduleName}/Resources/views";
 
-        return $timestamp . '_' . Str::snake($name) . '.php';
-    }
-
-    /**
-     * Dapatkan folder tujuan migrasi
-     */
-    protected function getFolder(): string
-    {
-        $module = $this->option('module');
-
-        if ($module) {
-            return base_path("Modules/{$module}/{$this->moduleFolder()}");
-        }
-
-        return database_path('migrations');
+        $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
     }
 }

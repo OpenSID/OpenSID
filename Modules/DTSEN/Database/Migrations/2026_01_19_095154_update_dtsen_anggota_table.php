@@ -35,67 +35,46 @@
  *
  */
 
-namespace App\Console\Commands\Modules;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Support\Str;
-
-class MigrationMakeCommand extends BaseModuleMakeCommand
-{
-    protected $signature   = 'make:migration {name} {--module=}';
-    protected $description = 'Create a new migration (optionally for a specific module)';
-
-    protected function stub(): string
+return new class () extends Migration {
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        return 'app/Console/Commands/Modules/Stubs/migration.stub';
-    }
+        Schema::table('dtsen_anggota', static function (Blueprint $table) {
+            // Cek apakah kolom id_dtsen belum ada
+            if (! Schema::hasColumn('dtsen_anggota', 'id_dtsen')) {
+                $table->integer('id_dtsen')->unsigned()->nullable()->after('id');
 
-    protected function moduleFolder(): string
-    {
-        return 'Database/Migrations';
-    }
+                // Tambahkan foreign key constraint
+                $table->foreign('id_dtsen')
+                    ->references('id')
+                    ->on('dtsen')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
 
-    protected function defaultNamespace(): string
-    {
-        return 'Database\\Migrations';
+                // Tambahkan index untuk performa
+                $table->index('id_dtsen');
+            }
+        });
     }
 
     /**
-     * Dapatkan path lengkap file migrasi termasuk timestamp
+     * Reverse the migrations.
      */
-    protected function getDestinationFilePath(): string
+    public function down(): void
     {
-        $folder   = $this->getFolder();
-        $filename = $this->getFileName();
-
-        if (! is_dir($folder)) {
-            mkdir($folder, 0755, true);
-        }
-
-        return $folder . DIRECTORY_SEPARATOR . $filename;
+        Schema::table('dtsen_anggota', static function (Blueprint $table) {
+            // Hapus foreign key constraint terlebih dahulu
+            if (Schema::hasColumn('dtsen_anggota', 'id_dtsen')) {
+                $table->dropForeign(['id_dtsen']);
+                $table->dropIndex(['id_dtsen']);
+                $table->dropColumn('id_dtsen');
+            }
+        });
     }
-
-    /**
-     * Dapatkan nama file migrasi dengan timestamp
-     */
-    protected function getFileName(): string
-    {
-        $name      = $this->argument('name');
-        $timestamp = date('Y_m_d_His');
-
-        return $timestamp . '_' . Str::snake($name) . '.php';
-    }
-
-    /**
-     * Dapatkan folder tujuan migrasi
-     */
-    protected function getFolder(): string
-    {
-        $module = $this->option('module');
-
-        if ($module) {
-            return base_path("Modules/{$module}/{$this->moduleFolder()}");
-        }
-
-        return database_path('migrations');
-    }
-}
+};

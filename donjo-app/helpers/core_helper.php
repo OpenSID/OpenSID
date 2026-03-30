@@ -82,6 +82,7 @@ define('WEBSITE_DEMO', [
     'pelatihan-opensid.opendesa.id',
     'localhost',
     '127.0.0.1',
+    'devtestpremium.opendesa.id',
 ]);
 
 // Modul bawaan OpenSID
@@ -92,6 +93,7 @@ define('MODUL_BAWAAN', [
     'Kehadiran',
     'Pelanggan',
     'Lapak',
+    'DTSEN',
 ]);
 
 if (! function_exists('cek_anjungan')) {

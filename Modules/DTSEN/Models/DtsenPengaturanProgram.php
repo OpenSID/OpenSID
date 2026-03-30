@@ -35,67 +35,50 @@
  *
  */
 
-namespace App\Console\Commands\Modules;
+namespace Modules\DTSEN\Models;
 
-use Illuminate\Support\Str;
+use App\Models\Bantuan;
+use App\Models\BaseModel;
+use App\Traits\ConfigId;
+use Modules\DTSEN\Enums\DtsenEnum;
 
-class MigrationMakeCommand extends BaseModuleMakeCommand
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class DtsenPengaturanProgram extends BaseModel
 {
-    protected $signature   = 'make:migration {name} {--module=}';
-    protected $description = 'Create a new migration (optionally for a specific module)';
-
-    protected function stub(): string
-    {
-        return 'app/Console/Commands/Modules/Stubs/migration.stub';
-    }
-
-    protected function moduleFolder(): string
-    {
-        return 'Database/Migrations';
-    }
-
-    protected function defaultNamespace(): string
-    {
-        return 'Database\\Migrations';
-    }
+    use ConfigId;
 
     /**
-     * Dapatkan path lengkap file migrasi termasuk timestamp
+     * The table associated with the model.
+     *
+     * @var string
      */
-    protected function getDestinationFilePath(): string
-    {
-        $folder   = $this->getFolder();
-        $filename = $this->getFileName();
-
-        if (! is_dir($folder)) {
-            mkdir($folder, 0755, true);
-        }
-
-        return $folder . DIRECTORY_SEPARATOR . $filename;
-    }
+    protected $table = 'dtsen_pengaturan_program';
 
     /**
-     * Dapatkan nama file migrasi dengan timestamp
+     * The guarded with the model.
+     *
+     * @var array
      */
-    protected function getFileName(): string
-    {
-        $name      = $this->argument('name');
-        $timestamp = date('Y_m_d_His');
+    protected $guarded = [];
 
-        return $timestamp . '_' . Str::snake($name) . '.php';
-    }
+    protected $casts = [
+        'created_at' => 'date:Y-m-d H:i:s',
+        'updated_at' => 'date:Y-m-d H:i:s',
+    ];
 
     /**
-     * Dapatkan folder tujuan migrasi
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
-    protected function getFolder(): string
+    public function bantuan()
     {
-        $module = $this->option('module');
+        return $this->belongsTo(Bantuan::class, 'id_bantuan', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+    }
 
-        if ($module) {
-            return base_path("Modules/{$module}/{$this->moduleFolder()}");
-        }
-
-        return database_path('migrations');
+    public function getVersiKuisionerNameAttribute(): string
+    {
+        return DtsenEnum::VERSION_LIST[$this->attributes['versi_kuisioner']];
     }
 }

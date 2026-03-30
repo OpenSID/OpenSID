@@ -35,67 +35,23 @@
  *
  */
 
-namespace App\Console\Commands\Modules;
+namespace Modules\DTSEN\Database\Seeders;
 
-use Illuminate\Support\Str;
+use App\Traits\Migrator;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
-class MigrationMakeCommand extends BaseModuleMakeCommand
+class SettingSeeder extends Seeder
 {
-    protected $signature   = 'make:migration {name} {--module=}';
-    protected $description = 'Create a new migration (optionally for a specific module)';
-
-    protected function stub(): string
-    {
-        return 'app/Console/Commands/Modules/Stubs/migration.stub';
-    }
-
-    protected function moduleFolder(): string
-    {
-        return 'Database/Migrations';
-    }
-
-    protected function defaultNamespace(): string
-    {
-        return 'Database\\Migrations';
-    }
+    use Migrator;
 
     /**
-     * Dapatkan path lengkap file migrasi termasuk timestamp
+     * Run the database seeds.
+     *
+     * @return void
      */
-    protected function getDestinationFilePath(): string
+    public function run()
     {
-        $folder   = $this->getFolder();
-        $filename = $this->getFileName();
-
-        if (! is_dir($folder)) {
-            mkdir($folder, 0755, true);
-        }
-
-        return $folder . DIRECTORY_SEPARATOR . $filename;
-    }
-
-    /**
-     * Dapatkan nama file migrasi dengan timestamp
-     */
-    protected function getFileName(): string
-    {
-        $name      = $this->argument('name');
-        $timestamp = date('Y_m_d_His');
-
-        return $timestamp . '_' . Str::snake($name) . '.php';
-    }
-
-    /**
-     * Dapatkan folder tujuan migrasi
-     */
-    protected function getFolder(): string
-    {
-        $module = $this->option('module');
-
-        if ($module) {
-            return base_path("Modules/{$module}/{$this->moduleFolder()}");
-        }
-
-        return database_path('migrations');
+        Model::unguard();
     }
 }

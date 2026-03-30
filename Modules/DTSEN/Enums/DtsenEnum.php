@@ -35,67 +35,24 @@
  *
  */
 
-namespace App\Console\Commands\Modules;
+namespace Modules\DTSEN\Enums;
 
-use Illuminate\Support\Str;
+use App\Enums\BaseEnum;
 
-class MigrationMakeCommand extends BaseModuleMakeCommand
+defined('BASEPATH') || exit('No direct script access allowed');
+class DtsenEnum extends BaseEnum
 {
-    protected $signature   = 'make:migration {name} {--module=}';
-    protected $description = 'Create a new migration (optionally for a specific module)';
+    public const VERSION_CODE     = 2;
+    public const REGSOS_EK2021_RT = 1;
+    public const REGSOS_EK2022_K  = 2;
+    public const VERSION_LIST     = [
+        self::REGSOS_EK2021_RT => 'REGSOS-EK2021.RT',
+        self::REGSOS_EK2022_K  => 'REGSOSEK2022.K',
+    ];
 
-    protected function stub(): string
+    final public static function GET_CLEAN_NAME_VERSION($code = self::VERSION_CODE): string
     {
-        return 'app/Console/Commands/Modules/Stubs/migration.stub';
-    }
-
-    protected function moduleFolder(): string
-    {
-        return 'Database/Migrations';
-    }
-
-    protected function defaultNamespace(): string
-    {
-        return 'Database\\Migrations';
-    }
-
-    /**
-     * Dapatkan path lengkap file migrasi termasuk timestamp
-     */
-    protected function getDestinationFilePath(): string
-    {
-        $folder   = $this->getFolder();
-        $filename = $this->getFileName();
-
-        if (! is_dir($folder)) {
-            mkdir($folder, 0755, true);
-        }
-
-        return $folder . DIRECTORY_SEPARATOR . $filename;
-    }
-
-    /**
-     * Dapatkan nama file migrasi dengan timestamp
-     */
-    protected function getFileName(): string
-    {
-        $name      = $this->argument('name');
-        $timestamp = date('Y_m_d_His');
-
-        return $timestamp . '_' . Str::snake($name) . '.php';
-    }
-
-    /**
-     * Dapatkan folder tujuan migrasi
-     */
-    protected function getFolder(): string
-    {
-        $module = $this->option('module');
-
-        if ($module) {
-            return base_path("Modules/{$module}/{$this->moduleFolder()}");
-        }
-
-        return database_path('migrations');
+        // remove char (-) and (.)
+        return strtoupper(str_replace(['-', '.'], '', self::VERSION_LIST[$code]));
     }
 }

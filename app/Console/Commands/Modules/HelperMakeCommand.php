@@ -37,65 +37,23 @@
 
 namespace App\Console\Commands\Modules;
 
-use Illuminate\Support\Str;
-
-class MigrationMakeCommand extends BaseModuleMakeCommand
+class HelperMakeCommand extends BaseModuleMakeCommand
 {
-    protected $signature   = 'make:migration {name} {--module=}';
-    protected $description = 'Create a new migration (optionally for a specific module)';
+    protected $signature   = 'make:helper {name} {--module=}';
+    protected $description = 'Create a new Helper class (optionally for a specific module)';
 
     protected function stub(): string
     {
-        return 'app/Console/Commands/Modules/Stubs/migration.stub';
+        return 'app/Console/Commands/Modules/Stubs/helper.stub';
     }
 
     protected function moduleFolder(): string
     {
-        return 'Database/Migrations';
+        return 'Helpers';
     }
 
     protected function defaultNamespace(): string
     {
-        return 'Database\\Migrations';
-    }
-
-    /**
-     * Dapatkan path lengkap file migrasi termasuk timestamp
-     */
-    protected function getDestinationFilePath(): string
-    {
-        $folder   = $this->getFolder();
-        $filename = $this->getFileName();
-
-        if (! is_dir($folder)) {
-            mkdir($folder, 0755, true);
-        }
-
-        return $folder . DIRECTORY_SEPARATOR . $filename;
-    }
-
-    /**
-     * Dapatkan nama file migrasi dengan timestamp
-     */
-    protected function getFileName(): string
-    {
-        $name      = $this->argument('name');
-        $timestamp = date('Y_m_d_His');
-
-        return $timestamp . '_' . Str::snake($name) . '.php';
-    }
-
-    /**
-     * Dapatkan folder tujuan migrasi
-     */
-    protected function getFolder(): string
-    {
-        $module = $this->option('module');
-
-        if ($module) {
-            return base_path("Modules/{$module}/{$this->moduleFolder()}");
-        }
-
-        return database_path('migrations');
+        return 'App\\Helpers';
     }
 }

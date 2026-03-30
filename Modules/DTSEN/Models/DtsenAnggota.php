@@ -35,67 +35,62 @@
  *
  */
 
-namespace App\Console\Commands\Modules;
+namespace Modules\DTSEN\Models;
 
-use Illuminate\Support\Str;
+use App\Models\BaseModel;
+use App\Models\Penduduk;
+use App\Traits\ConfigId;
 
-class MigrationMakeCommand extends BaseModuleMakeCommand
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class DtsenAnggota extends BaseModel
 {
-    protected $signature   = 'make:migration {name} {--module=}';
-    protected $description = 'Create a new migration (optionally for a specific module)';
-
-    protected function stub(): string
-    {
-        return 'app/Console/Commands/Modules/Stubs/migration.stub';
-    }
-
-    protected function moduleFolder(): string
-    {
-        return 'Database/Migrations';
-    }
-
-    protected function defaultNamespace(): string
-    {
-        return 'Database\\Migrations';
-    }
+    use ConfigId;
 
     /**
-     * Dapatkan path lengkap file migrasi termasuk timestamp
+     * The table associated with the model.
+     *
+     * @var string
      */
-    protected function getDestinationFilePath(): string
-    {
-        $folder   = $this->getFolder();
-        $filename = $this->getFileName();
-
-        if (! is_dir($folder)) {
-            mkdir($folder, 0755, true);
-        }
-
-        return $folder . DIRECTORY_SEPARATOR . $filename;
-    }
+    protected $table = 'dtsen_anggota';
 
     /**
-     * Dapatkan nama file migrasi dengan timestamp
+     * The guarded with the model.
+     *
+     * @var array
      */
-    protected function getFileName(): string
-    {
-        $name      = $this->argument('name');
-        $timestamp = date('Y_m_d_His');
+    protected $guarded = [];
 
-        return $timestamp . '_' . Str::snake($name) . '.php';
-    }
+    protected $casts = [
+        'tgl_lahir'  => 'date:Y-m-d',
+        'created_at' => 'date:Y-m-d H:i:s',
+        'updated_at' => 'date:Y-m-d H:i:s',
+    ];
 
     /**
-     * Dapatkan folder tujuan migrasi
+     * All of the relationships to be touched.
+     *
+     * @var array
      */
-    protected function getFolder(): string
+    protected $touches = ['dtsen'];
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function dtsen()
     {
-        $module = $this->option('module');
+        return $this->belongsTo(Dtsen::class, 'id_dtsen', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+    }
 
-        if ($module) {
-            return base_path("Modules/{$module}/{$this->moduleFolder()}");
-        }
+    public function penduduk()
+    {
+        return $this->belongsTo(Penduduk::class, 'id_penduduk', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+    }
 
-        return database_path('migrations');
+    public function getUmurAttribute()
+    {
+        return $this->penduduk->umur;
     }
 }
