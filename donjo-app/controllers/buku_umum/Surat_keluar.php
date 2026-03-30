@@ -38,6 +38,7 @@
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
 use App\Models\SuratKeluar;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -82,28 +83,52 @@ class Surat_keluar extends Admin_Controller
                 })
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('surat_keluar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi = View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "surat_keluar/form/{$row->id}",
+                    ])->render();
 
                     if ($row->berkas_scan) {
-                        $aksi .= '<a href="' . ci_route("surat_keluar.berkas.{$row->id}.0") . '" class="btn bg-purple btn-sm" title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route("surat_keluar.berkas.{$row->id}.0"),
+                            'judul'      => 'Unduh Berkas Surat',
+                            'icon'       => 'fa fa-download',
+                            'type'       => 'bg-purple',
+                            'buttonOnly' => true,
+                            'blank'      => true,
+                        ])->render();
                     }
 
                     if (can('u')) {
                         if ($row->ekspedisi) {
-                            $aksi .= '<a href="' . ci_route('ekspedisi') . '" class="btn bg-info btn-sm" title="Buku Ekspedisi"><i class="fa fa-envelope-open"></i></a> ';
+                            $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                'url'        => ci_route('ekspedisi'),
+                                'judul'      => 'Buku Ekspedisi',
+                                'icon'       => 'fa fa-envelope-open',
+                                'type'       => 'bg-info',
+                                'buttonOnly' => true,
+                            ])->render();
                         } else {
-                            $aksi .= '<a href="' . ci_route('surat_keluar.untuk_ekspedisi', $row->id) . '" class="btn bg-blue btn-sm" title="Tambahkan ke Buku Ekspedisi"><i class="fa fa-envelope-open"></i></a> ';
+                            $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                'url'        => ci_route('surat_keluar.untuk_ekspedisi', $row->id),
+                                'judul'      => 'Tambahkan ke Buku Ekspedisi',
+                                'icon'       => 'fa fa-envelope-open',
+                                'type'       => 'bg-blue',
+                                'buttonOnly' => true,
+                            ])->render();
                         }
                     }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('surat_keluar.delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('surat_keluar.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => ci_route("surat_keluar.berkas.{$row->id}.1"),
+                        'blank' => true,
+                        'judul' => 'Lihat Berkas Surat',
+                    ])->render();
 
-                    return $aksi . ('<a href="' . ci_route("surat_keluar.berkas.{$row->id}.1") . '" target="_blank" class="btn btn-info btn-sm"  title="Lihat Berkas Surat"><i class="fa fa-eye"></i></a> ');
+                    return $aksi;
                 })
                 ->editColumn('tanggal_surat', static fn ($row) => tgl_indo_out($row->tanggal_surat))
                 ->rawColumns(['ceklist', 'aksi'])

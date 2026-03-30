@@ -44,6 +44,7 @@ use App\Models\Kategori;
 use App\Models\Menu;
 use App\Models\UserGrup;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -110,33 +111,69 @@ class Web extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($canDelete, $canUpdate): string {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    if ($canUpdate && $row->bolehUbah()) {
-                        $aksi .= '<a href="' . ci_route('web.form.' . $row->kategori, encrypt($row->id)) . '" class="btn bg-orange btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                            if ($canDelete) {
-                                $aksi .= '<a href="#" data-href="' . ci_route('web.delete.' . $row->kategori, encrypt($row->id)) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                            }
-                            $aksi .= '<a href="' . ci_route('web.ubah_kategori_form', encrypt($row->id)) . '" class="btn bg-purple btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori" title="Ubah Kategori"><i class="fa fa-folder-open"></i></a> ';
-                            if ($row->boleh_komentar == 1) {
-                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.boleh_komentar', encrypt($row->id)) . '" class="btn bg-info btn-sm" title="Tutup Komentar Artikel"><i class="fa fa-comment-o"></i></a> ';
-                            } else {
-                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.boleh_komentar', encrypt($row->id)) . '" class="btn bg-info btn-sm" title="Buka Komentar Artikel"><i class="fa fa-comment"></i></a> ';
-                            }
-                            if ($row->enabled == '1') {
-                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.enabled', encrypt($row->id)) . '" class="btn bg-navy btn-sm" title="Nonaktifkan Artikel"><i class="fa fa-unlock"></i></a> ';
-                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.headline', encrypt($row->id)) . '" class="btn bg-teal btn-sm" title="Jadikan Berita Utama">
-                                    <i class="' . ($row->headline == 1 ? 'fa fa-star' : 'fa fa-star-o') . '"></i>
-                                </a> ';
-                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.slider', encrypt($row->id)) . '" class="btn bg-gray btn-sm" title="' . (($row->slider == 1) ? 'Keluarkan dari slide' : 'Masukkan ke dalam slide') . '">
-                                    <i class="' . ($row->slider == 1 ? 'fa fa-pause' : 'fa fa-play') . '"></i>
-                                </a> ';
-                            } else {
-                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.enabled', encrypt($row->id)) . '" class="btn bg-navy btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock"></i></a> ';
-                            }
+                    if ($row->bolehUbah()) {
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => 'web/form/' . $row->kategori . '/' . encrypt($row->id),
+                        ])->render();
+
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('web.delete.' . $row->kategori, encrypt($row->id)),
+                            'confirmDelete' => true,
+                        ])->render();
+
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route('web.ubah_kategori_form', encrypt($row->id)),
+                            'judul'      => 'Ubah Kategori',
+                            'icon'       => 'fa fa-folder-open',
+                            'type'       => 'bg-purple',
+                            'buttonOnly' => true,
+                            'modal'      => true,
+                        ])->render();
+
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route('web.lock.' . $row->kategori . '.boleh_komentar', encrypt($row->id)),
+                            'judul'      => ($row->boleh_komentar == 1 ? 'Tutup' : 'Buka') . ' Komentar Artikel',
+                            'icon'       => 'fa fa-comment' . ($row->boleh_komentar == 1 ? '-o' : ''),
+                            'type'       => 'bg-info',
+                            'buttonOnly' => true,
+                        ])->render();
+
+                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                            'url'    => ci_route('web.lock.' . $row->kategori . '.enabled', encrypt($row->id)),
+                            'active' => $row->enabled,
+                        ])->render();
+
+                        if ($row->enabled == '1') {
+                            $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                'url'        => ci_route('web.lock.' . $row->kategori . '.headline', encrypt($row->id)),
+                                'icon'       => ($row->headline == 1 ? 'fa fa-star' : 'fa fa-star-o'),
+                                'judul'      => 'Jadikan Berita Utama',
+                                'type'       => 'bg-teal',
+                                'buttonOnly' => true,
+                            ])->render();
+
+                            $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                'url'        => ci_route('web.lock.' . $row->kategori . '.slider', encrypt($row->id)),
+                                'icon'       => ($row->slider == 1 ? 'fa fa-pause' : 'fa fa-play'),
+                                'judul'      => (($row->slider == 1) ? 'Keluarkan dari slide' : 'Masukkan ke dalam slide'),
+                                'type'       => 'bg-gray',
+                                'buttonOnly' => true,
+                            ])->render();
+                        }
                     }
 
-                    return $aksi . ('<a href="' . $row->url_slug . '" target="_blank" class="btn bg-green btn-sm" title="Lihat Artikel"><i class="fa fa-eye"></i></a>');
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'        => $row->url_slug,
+                        'icon'       => 'fa fa-eye',
+                        'judul'      => 'Lihat Artikel',
+                        'type'       => 'bg-green',
+                        'blank'      => true,
+                        'buttonOnly' => true,
+                    ])->render();
+
+                    return $aksi;
                 })
                 ->editColumn('hit', static fn ($row): string => hit($row->hit))
                 ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))

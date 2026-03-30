@@ -91,7 +91,7 @@ class NewPasswordController extends MY_Controller
             $request->only($this->via($request), 'token'),
             static function ($user) use ($request) {
                 $user->forceFill([
-                    'pin'            => Hash::driver('md5')->make($request->pin),
+                    'pin'            => Hash::make($request->pin),
                     'remember_token' => Str::random(60),
                 ])->save();
 

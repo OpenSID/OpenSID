@@ -39,6 +39,7 @@ namespace App\Services\Auth;
 
 use Closure;
 use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -53,9 +54,7 @@ class PendudukMandiriProvider extends EloquentUserProvider
     }
 
     /**
-     * Retrieve a user by the given credentials.
-     *
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     * {@inheritDoc}
      */
     public function retrieveByCredentials(array $credentials)
     {
@@ -87,5 +86,29 @@ class PendudukMandiriProvider extends EloquentUserProvider
         }
 
         return $query->first();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function validateCredentials(UserContract $user, array $credentials)
+    {
+        if (null === ($plain = $credentials['password'])) {
+            return false;
+        }
+
+        if ($this->isMd5Hash($user)) {
+            return $this->hasher->driver('md5')->check($plain, $user->getAuthPassword());
+        }
+
+        return $this->hasher->check($plain, $user->getAuthPassword());
+    }
+
+    /**
+     * Check if the user's password is an MD5 hash.
+     */
+    public function isMd5Hash(UserContract $user): bool
+    {
+        return preg_match('/^[a-f0-9]{32}$/', $user->getAuthPassword());
     }
 }

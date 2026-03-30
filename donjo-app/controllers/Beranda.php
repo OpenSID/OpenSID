@@ -45,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Beranda extends Admin_Controller
 {
     public $isAdmin;
-    public $modul_ini = 'beranda';
+    public $modul_ini           = 'beranda';
     public $kategori_pengaturan = 'Beranda';
 
     public function __construct()
@@ -56,13 +56,22 @@ class Beranda extends Admin_Controller
 
     public function index()
     {
-        get_pesan_opendk(); //ambil pesan baru di opendk
+        get_pesan_opendk(); // ambil pesan baru di opendk
+
+        $notif_langganan = PelangganService::statusLangganan();
+        $notif_percobaan = null;
+
+        // hanya cek percobaan kalau premium kosong
+        if (empty($notif_langganan)) {
+            $notif_percobaan = PelangganService::statusPercobaan();
+        }
 
         $data = [
-            'rilis' => $this->getUpdate(),
-            'shortcut' => Shortcut::querys()['data'],
-            'saas' => Saas::peringatan(),
-            'notif_langganan' => PelangganService::statusLangganan(),
+            'rilis'           => $this->getUpdate(),
+            'shortcut'        => Shortcut::querys()['data'],
+            'saas'            => Saas::peringatan(),
+            'notif_langganan' => $notif_langganan,
+            'notif_percobaan' => $notif_percobaan,
         ];
 
         return view('admin.home.index', $data);

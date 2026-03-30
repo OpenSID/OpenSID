@@ -108,7 +108,7 @@ class AnalisisLaporanController extends AdminModulController
                 })
                 ->editColumn('alamat', static fn ($q) => strtoupper($q->alamat . ' ' . 'RT/RW ' . $q->rt . '/' . $q->rw . ' - ' . setting('sebutan_dusun') . ' ' . $q->dusun))
                 ->editColumn('nilai', static fn ($q) => $q->nilai ? number_format($q->nilai, 2, ',', '.') : '-')
-                ->editColumn('sex', static fn ($q) => strtoupper(JenisKelaminEnum::valueOf($q->sex)))
+                ->editColumn('sex', static fn ($q) => JenisKelaminEnum::valueToUpper($q->sex))
                 ->editColumn('cek', static fn ($q) => '<img src="' . base_url('assets/images/icon/') . ($q->cek ? 'ok' : 'nok') . '.png">')
                 ->rawColumns(['ceklist', 'aksi', 'cek'])
                 ->make();
@@ -222,11 +222,11 @@ class AnalisisLaporanController extends AdminModulController
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => request('pamong_ketahui')])->first()->toArray();
         $data['aksi']           = $aksi;
         $data['config']         = $this->header['desa'];
-        // $data['judul']           = Analisis::judulSubjek($this->analisisMaster->subjek_tipe);
-        $data['file']      = 'Laporan Hasil Analisis ' . AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
-        $data['isi']       = 'analisis::laporan.table_print';
-        $data['main']      = $query->get();
-        $data['letak_ttd'] = ['2', '2', '1'];
+        $data['judul']          = Analisis::judulSubjek($this->analisisMaster->subjek_tipe);
+        $data['file']           = 'Laporan Hasil Analisis ' . AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
+        $data['isi']            = 'analisis::laporan.table_print';
+        $data['main']           = $query->get();
+        $data['letak_ttd']      = ['2', '2', '1'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }

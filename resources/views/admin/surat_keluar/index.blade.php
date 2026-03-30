@@ -2,32 +2,32 @@
 
 <div class="box box-info">
     <div class="box-header">
-        @if (can('u'))
-            <a href="{{ ci_route('surat_keluar.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
-        @endif
-        @if (can('h'))
-            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('surat_keluar.delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                    class='fa fa-trash-o'
-                ></i> Hapus</a>
-        @endif
-        <a
-            href="{{ ci_route('surat_keluar/dialog/cetak') }}"
-            class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Agenda Surat Keluar"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Cetak Agenda Surat Keluar"
-        ><i class="fa fa-print "></i> Cetak</a>
-        <a
-            href="{{ ci_route('surat_keluar/dialog/unduh') }}"
-            class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Agenda Surat Keluar"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Unduh Agenda Surat Keluar"
-        ><i class="fa fa-download"></i> Unduh</a>
+        <x-tambah-button :url="'surat_keluar/form'" />
+        <x-hapus-button confirmDelete="true" selectData="true" :url="'surat_keluar/delete_all'" />
+        @php
+            $listCetakUnduh = [
+                [
+                    'url' => 'surat_keluar/dialog/cetak',
+                    'judul' => 'Cetak',
+                    'icon' => 'fa fa-print',
+                    'modal' => true,
+                ],
+                [
+                    'url' => 'surat_keluar/dialog/unduh',
+                    'judul' => 'Unduh',
+                    'icon' => 'fa fa-download',
+                    'modal' => true,
+                ]
+            ];
+        @endphp
+
+        <x-split-button
+            judul="Cetak/Unduh"
+            :list="$listCetakUnduh"
+            :icon="'fa fa-arrow-circle-down'"
+            :type="'bg-purple'"
+            :target="true"
+        />
     </div>
     <div class="box-body">
         <div class="row mepet">

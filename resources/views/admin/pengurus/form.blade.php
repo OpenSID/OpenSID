@@ -219,21 +219,22 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="pamong_sex">Jenis Kelamin</label>
                         <div class="col-sm-7">
-                            <input class="form-control input-sm pengurus-desa" type="text" placeholder="Jenis Kelamin" value="{{ $individu['jenis_kelamin']['nama'] }}" disabled="disabled" />
+                            <input class="form-control input-sm pengurus-desa" type="text" placeholder="Jenis Kelamin" value="{{ $individu['jenis_kelamin'] }}" disabled="disabled" />
                             <select class="form-control input-sm pengurus-luar-desa" name="pamong_sex" style="display: none;">
                                 <option value="">Jenis Kelamin</option>
-                                <option value="1" {{ selected($pamong['pamong_sex'], '1') }}>Laki-Laki</option>
-                                <option value="2" {{ selected($pamong['pamong_sex'], '2') }}>Perempuan</option>
+                                @foreach (App\Enums\JenisKelaminEnum::all() as $key => $value)
+                                    <option value="{{ $key }}" {{ selected($pamong['pamong_sex_id'], (string) $key) }}>{{ $value }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="pamong_pendidikan">Pendidikan</label>
                         <div class="col-sm-7">
-                            <input class="form-control input-sm pengurus-desa" type="text" placeholder="Pendidikan" value="{{ $individu['pendidikan_k_k']['nama'] }}" disabled="disabled" />
+                            <input class="form-control input-sm pengurus-desa" type="text" placeholder="Pendidikan" value="{{ $individu['pendidikan_kk'] }}" disabled="disabled" />
                             <select class="form-control input-sm pengurus-luar-desa" name="pamong_pendidikan" style="display: none;">
                                 <option value="">Pilih Pendidikan (Dalam KK) </option>
-                                @foreach ($pendidikan_kk as $key => $value)
+                                @foreach (\App\Enums\PendidikanKKEnum::all() as $key => $value)
                                     <option value="{{ $key }}" {{ selected($pamong['pamong_pendidikan'], $key) }}>
                                         {{ strtoupper($value) }}</option>
                                 @endforeach
@@ -243,13 +244,15 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="pamong_agama">Agama</label>
                         <div class="col-sm-7">
-                            <input class="form-control input-sm pengurus-desa" type="text" placeholder="Agama" value="{{ $individu['agama']['nama'] }}" disabled="disabled" />
+                            <input class="form-control input-sm pengurus-desa" type="text" placeholder="Agama" value="{{ $individu['agama'] }}" disabled="disabled" />
                             <select class="form-control input-sm pengurus-luar-desa" name="pamong_agama" style="display: none;">
                                 <option value="">Pilih Agama</option>
-                                @foreach ($agama as $key => $value)
-                                    <option value="{{ $key }}" {{ selected($pamong['pamong_agama'], $key) }}>
-                                        {{ strtoupper($value) }}</option>
+                                @foreach (\App\Enums\AgamaEnum::all() as $key => $value)
+                                    <option value="{{ $key }}" @selected($pamong['pamong_agama_id'] == $key)>
+                                        {{ $value }}
+                                    </option>
                                 @endforeach
+
                             </select>
                         </div>
                     </div>

@@ -125,21 +125,10 @@ class Periksa extends CI_Controller
         } catch (Exception $e) {
             logger()->error($e);
 
-            return $this->output
-                ->set_status_header(400)
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'status'  => 0,
-                    'message' => 'Terjadi kesalahan saat memproses permintaan.',
-                ], JSON_THROW_ON_ERROR));
+            return json(['status' => 0, 'message' => 'Terjadi kesalahan saat memproses permintaan.']);
         }
 
-        return $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode([
-                'status'  => 1,
-                'message' => 'Perbaikan berhasil dilakukan.',
-            ], JSON_THROW_ON_ERROR));
+        return json(['status' => 1]);
     }
 
     // Login khusus untuk periksa
@@ -219,11 +208,36 @@ class Periksa extends CI_Controller
 
         $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
 
-        return $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode([
-                'status' => 1,
-            ], JSON_THROW_ON_ERROR));
+        return json(['status' => 1]);
+    }
+
+    public function datanull()
+    {
+        $this->cekUser();
+
+        $fields = [
+            'nama', 'nik', 'sex', 'kk_level', 'tempatlahir', 'tanggallahir',
+            'agama_id', 'pendidikan_kk_id', 'pekerjaan_id', 'golongan_darah_id',
+            'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu',
+            'dokumen_pasport', 'dokumen_kitas',
+        ];
+
+        $updateData = [];
+
+        foreach ($fields as $field) {
+            $value = $this->input->post($field);
+            if (! empty($value)) {
+            $updateData[$field] = $value;
+            }
+        }
+
+        if (! empty($updateData)) {
+            Penduduk::where('id', $this->input->post('id'))->update($updateData);
+        }
+
+        $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+
+        return json(['status' => 1]);
     }
 
     // Periksa tanggal lahir null atau kosong
@@ -251,10 +265,6 @@ class Periksa extends CI_Controller
 
         $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
 
-        return $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode([
-                'status' => 1,
-            ], JSON_THROW_ON_ERROR));
+        return json(['status' => 1]);
     }
 }

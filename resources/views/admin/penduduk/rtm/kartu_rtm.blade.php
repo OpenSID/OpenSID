@@ -106,8 +106,8 @@
                                         <td>{{ strtoupper(App\Enums\JenisKelaminEnum::valueOf($data['sex'])) }}</td>
                                         <td>{{ $data['tempatlahir'] }}</td>
                                         <td>{{ $data['tanggallahir'] }}</td>
-                                        <td>{{ $data['agama']['nama'] ?? '' }}</td>
-                                        <td>{{ $data['pendidikan_k_k']['nama'] ?? '' }}</td>
+                                        <td>{{ strtoupper(App\Enums\AgamaEnum::valueOf($data['agama_id'])) }}</td>
+                                        <td>{{ App\Enums\PendidikanKKEnum::valueToUpper($data['pendidikan_kk_id']) }}</td>
                                         <td>{{ $data['pekerjaan']['nama'] ?? '' }}</td>
                                     </tr>
                                 @endforeach
@@ -137,10 +137,10 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $data['status_perkawinan'] ?? '' }}</td>
                                         <td>{{ App\Enums\HubunganRTMEnum::valueOf($data['rtm_level']) }}</td>
-                                        <td>{{ $data['warga_negara']['nama'] ?? '' }}</td>
+                                        <td>{{ strtoupper(App\Enums\WargaNegaraEnum::valueOf($data['warganegara_id'])) }}</td>
                                         <td>{{ strtoupper($data['nama_ayah']) }}</td>
                                         <td>{{ strtoupper($data['nama_ibu']) }}</td>
-                                        <td>{{ $data['golongan_darah']['nama'] ?? '' }}</td>
+                                        <td>{{ strtoupper(App\Enums\GolonganDarahEnum::valueOf($data['golongan_darah_id'])) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

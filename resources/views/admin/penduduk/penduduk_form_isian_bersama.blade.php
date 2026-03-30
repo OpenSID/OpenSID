@@ -156,10 +156,9 @@
             <select class="form-control input-sm required" name="sex"
                 onchange="ubah_sex($(this).find(':selected').val());">
                 <option value="">Jenis Kelamin</option>
-                <option value="1" @selected($penduduk['id_sex']==\App\Enums\JenisKelaminEnum::LAKI_LAKI)>Laki-Laki
-                </option>
-                <option value="2" @selected($penduduk['id_sex']==\App\Enums\JenisKelaminEnum::PEREMPUAN)>Perempuan
-                </option>
+                @foreach(\App\Enums\JenisKelaminEnum::all() as $key => $label)
+                    <option value="{{ $key }}" @selected($penduduk['id_sex'] == $key)>{{ $label }}</option>
+                @endforeach
             </select>
         </div>
     </div>
@@ -168,9 +167,10 @@
             <label for="agama_id">Agama</label>
             <select class="form-control input-sm required" name="agama_id">
                 <option value="">Pilih Agama</option>
-                @foreach ($agama as $key => $value)
-                <option value="{{ $key }}" @selected($penduduk['agama_id']==$key)>{{ strtoupper($value) }}
-                </option>
+                @foreach (\App\Enums\AgamaEnum::all() as $key => $value)
+                    <option value="{{ $key }}" @selected($penduduk['agama_id'] == $key)>
+                        {{ $value }}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -326,9 +326,10 @@
             <label for="pendidikan_kk_id">Pendidikan Dalam KK </label>
             <select class="form-control input-sm required" name="pendidikan_kk_id">
                 <option value="">Pilih Pendidikan (Dalam KK) </option>
-                @foreach ($pendidikan_kk as $key => $value)
+                @foreach (\App\Enums\PendidikanKKEnum::all() as $key => $value)
                 <option value="{{ $key }}" @selected($penduduk['pendidikan_kk_id']==$key || ($jenis_peristiwa=='1' &&
-                    $key==1))>{{ strtoupper($value) }}
+                    $key==1))>
+                    {{ $value }}
                 </option>
                 @endforeach
             </select>
@@ -360,6 +361,38 @@
             </select>
         </div>
     </div>
+
+    <div class='col-sm-4'>
+        <div class='form-group'>
+            <label for="pekerja_migran">Pekerja Migran</label>
+            @if ($status_pantau)
+            <select class="form-control input-sm" data-placeholder="Pilih Pekerja Migran" id="pekerja_migran"
+                name="pekerja_migran">
+                <option value="BUKAN PEKERJA MIGRAN" @selected(empty($penduduk['pekerja_migran']) ||
+                    $penduduk['pekerja_migran']=='BUKAN PEKERJA MIGRAN' )>BUKAN PEKERJA MIGRAN</option>
+                @if ($penduduk && !empty($penduduk['pekerja_migran']) && $penduduk['pekerja_migran'] != 'BUKAN PEKERJA
+                MIGRAN')
+                <option value="{{ $penduduk['pekerja_migran'] }}" selected>{{ $penduduk['pekerja_migran'] }}
+                </option>
+                @endif
+            </select>
+            @else
+            <select class="form-control input-sm select2-tags pekerja_migran" id="pekerja_migran" name="pekerja_migran">
+                <option value="BUKAN PEKERJA MIGRAN" @selected(empty($penduduk['pekerja_migran']) ||
+                    $penduduk['pekerja_migran']=='BUKAN PEKERJA MIGRAN' )>BUKAN PEKERJA MIGRAN</option>
+                @if ($pekerja_migran_penduduk)
+                @foreach ($pekerja_migran_penduduk as $key => $value)
+                @if ($key != 'BUKAN PEKERJA MIGRAN' && !empty($key))
+                <option value="{{ $key }}" @selected($penduduk['pekerja_migran']==$key)>{{ $key }}
+                </option>
+                @endif
+                @endforeach
+                @endif
+            </select>
+            @endif
+        </div>
+    </div>
+
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
             <label class="text-right"><strong>DATA KESUKUAN :</strong></label>
@@ -455,10 +488,10 @@
                     <select class="form-control input-sm required" id="warganegara_id" name="warganegara_id"
                         onchange="show_hide_status_warga_negara($(this).find(':selected').val())">
                         <option value="">Pilih Warga Negara</option>
-                        @foreach ($warganegara as $key => $value)
-                        <option value="{{ $key }}" @selected($penduduk['warganegara_id']==$key)>
-                            {{ strtoupper($value) }}
-                        </option>
+                        @foreach (\App\Enums\WargaNegaraEnum::all() as $key => $value)
+                            <option value="{{ $key }}" @selected($penduduk['warganegara_id'] == $key)>
+                                {{ $value }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -488,7 +521,7 @@
     <div class='col-sm-8' id='field_dokumen_kitas'>
         <div class='form-group'>
             <label for="dokumen_kitas">Nomor KITAS/KITAP </label>
-            <input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="45"
+            <input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm" maxlength="45"
                 type="text" placeholder="Nomor KITAS/KITAP"
                 value="{{ strtoupper($penduduk['dokumen_kitas']) }}"></input>
         </div>
@@ -746,9 +779,10 @@
                     <label for="golongan_darah_id">Golongan Darah</label>
                     <select class="form-control input-sm required" name="golongan_darah_id">
                         <option value="">Pilih Golongan Darah</option>
-                        @foreach ($golongan_darah as $key => $value)
-                        <option value="{{ $key }}" @selected($penduduk['golongan_darah_id']==$key)>
-                            {{ strtoupper($value) }}</option>
+                        @foreach (\App\Enums\GolonganDarahEnum::all() as $key => $value)
+                            <option value="{{ $key }}" @selected($penduduk['golongan_darah_id'] == $key)>
+                                {{ $value }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -1050,6 +1084,64 @@
                         cache: true
                     },
                 });
+
+                // Pekerja Migran select2
+                $('#pekerja_migran').select2({
+                    tags: true,
+                    minimumInputLength: 0,
+                    placeholder: 'Pilih Pekerja Migran',
+                    language: {
+                        errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
+                        noResults: () => 'Tidak ditemukan. Tekan Enter untuk menambahkan.'
+                    },
+                    ajax: {
+                        transport: function (params, success, failure) {
+                            $.ajax(params).then(success).fail(function () {
+                                success({ results: [] });
+                            });
+                        },
+                        url: "{{ config_item('server_pantau') }}/index.php/api/wilayah/pekerjaan-pmi?token={{ config_item('token_pantau') }}",
+                        // url: "http://pantau.test/api/wilayah/pekerjaan-pmi",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                q: params.term || '',
+                                page: params.page || 1
+                            };
+                        },
+                        processResults: function (data) {
+                            let results = [
+                                { id: 'BUKAN PEKERJA MIGRAN', text: 'BUKAN PEKERJA MIGRAN' }
+                            ];
+
+                            if (data && Array.isArray(data.results)) {
+                                const apiResults = data.results
+                                    .filter(item => item.nama && item.nama !== 'BUKAN PEKERJA MIGRAN')
+                                    .map(item => ({
+                                        id: item.nama,
+                                        text: item.nama
+                                    }));
+                                results = results.concat(apiResults);
+                            }
+
+                            return { results: results };
+                        },
+                        createTag: function (params) {
+                            let term = $.trim(params.term);
+                            if (term === '') return null;
+                            return {
+                                id: term,
+                                text: term,
+                                newOption: true
+                            };
+                        },
+                        insertTag: function (data, tag) {
+                            data.push(tag);
+                        },
+                        cache: true
+                    },
+                });
             @else
                 $('#adat').select2({
                     tags: true,
@@ -1065,6 +1157,11 @@
                     tags: true,
                     placeholder: 'Pilih Marga',
                     minimumInputLength: 2,
+                });
+                $('#pekerja_migran').select2({
+                    tags: true,
+                    placeholder: 'Pilih Pekerja Migran',
+                    minimumInputLength: 0,
                 });
             @endif
             // Selesai Suku

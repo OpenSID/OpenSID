@@ -68,5 +68,6 @@ class LogNotifikasiAdmin extends BaseModel
         'device',
         'image',
         'payload',
+        'read',
     ];
 }

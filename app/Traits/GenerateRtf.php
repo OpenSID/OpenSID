@@ -58,19 +58,19 @@ trait GenerateRtf
             $no                .= $i . '\\line ';
             $hubungan          .= \App\Enums\SHDKEnum::valueOf($ranggota['kk_level']) . '\\line ';
             $nik               .= $ranggota['nik'] . '\\line ';
-            $sex               .= ($ranggota['jenisKelamin']['nama'] ?? '') . '\\line ';
+            $sex               .= ($ranggota['jenis_kelamin']) . '\\line ';
             $tempatlahir       .= $ranggota['tempatlahir'] . '\\line ';
             $tanggallahir      .= tgl_indo($ranggota['tanggallahir']) . '\\line ';
-            $agama             .= ($ranggota['agama']['nama'] ?? '') . '\\line ';
-            $pendidikan        .= ($ranggota['pendidikanKK']['nama'] ?? '') . '\\line ';
+            $agama             .= ($ranggota['agama']) . '\\line ';
+            $pendidikan        .= ($ranggota['pendidikan_kk'] ?? '') . '\\line ';
             $pekerjaan         .= ($ranggota['pekerjaan']['nama'] ?? '') . '\\line ';
             $status_kawin      .= ($ranggota['status_perkawinan'] ?? '') . '\\line ';
-            $warganegara       .= ($ranggota['wargaNegara']['nama'] ?? '') . '\\line ';
+            $warganegara       .= ($ranggota['warganegara']) . '\\line ';
             $dokumen_pasport   .= $ranggota['dokumen_pasport'] . '\\line ';
             $dokumen_kitas     .= $ranggota['dokumen_kitas'] . '\\line ';
             $nama_ayah         .= $ranggota['nama_ayah'] . '\\line ';
             $nama_ibu          .= $ranggota['nama_ibu'] . '\\line ';
-            $golongan_darah    .= ($ranggota['golonganDarah']['nama'] ?? '') . '\\line ';
+            $golongan_darah    .= ($ranggota['golongan_darah']) . '\\line ';
             $tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo($ranggota['tanggalperkawinan']) . '\\line ' : '- \\line ';
             $tanggalperceraian .= isset($ranggota['tanggalperceraian']) ? tgl_indo($ranggota['tanggalperceraian']) . '\\line ' : '- \\line ';
         }

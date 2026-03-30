@@ -59,10 +59,10 @@
                         <p>{!! request()->is('anjungan-mandiri/penduduk-guest*') ? 'Anjungan<br>Awal' : 'Anjungan<br>Cepat' !!}</p>
                     </a>
                 @endif
-                <a class="topright-icon radius-4 popup" title="Kehadiran Perangkat Desa" data-value="./kehadiran"><img src="{{ module_asset('anjungan', 'images/icon/absen.png') }}">
+                <a class="topright-icon radius-4 popup" title="Kehadiran Perangkat Desa" data-value="{{ ci_route('kehadiran') }}"><img src="{{ module_asset('anjungan', 'images/icon/absen.png') }}">
                     <p>Absen</p>
                 </a>
-                <a class="topright-icon radius-4" href="./buku-tamu"><img src="{{ module_asset('anjungan', 'images/icon/bukutamu.png') }}">
+                <a class="topright-icon radius-4" href="{{ ci_route('buku-tamu') }}"><img src="{{ module_asset('anjungan', 'images/icon/bukutamu.png') }}">
                     <p>Buku<br />Tamu</p>
                 </a>
                 @php $pemerintah = explode(' ', ucwords(setting('sebutan_pemerintah_desa'))); @endphp
@@ -111,12 +111,17 @@
                                 </div>
                             </div>
                         @else
+                            @php
+                                $youtube = setting('anjungan_youtube');
+                                $videoId = filter_var($youtube, FILTER_VALIDATE_URL) ? basename(parse_url($youtube, PHP_URL_PATH)) : $youtube;
+                            @endphp
+
                             <div class="video-container">
                                 <iframe class="video-view" 
-                                        src="{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=1&loop=1" 
-                                        frameborder="0" 
-                                        allow="autoplay; encrypted-media" 
-                                        allowfullscreen>
+                                    src="https://www.youtube.com/embed/{{ $videoId }}?autoplay=1&controls=1&mute=1&loop=1&playlist={{ $videoId }}" 
+                                    frameborder="0" 
+                                    allow="autoplay; encrypted-media" 
+                                    allowfullscreen>
                                 </iframe>
                             </div>
                         @endif

@@ -41,6 +41,7 @@ use App\Enums\JenisPeraturan;
 use App\Enums\StatusEnum;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
+use Illuminate\Support\Facades\View;
 
 class Lembaran_desa extends Admin_Controller
 {
@@ -76,22 +77,23 @@ class Lembaran_desa extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('lembaran_desa.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi = View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "lembaran_desa/form/{$row->id}",
+                    ])->render();
 
-                    if (can('u')) {
-                        if ($row->enabled == StatusEnum::YA) {
-                            $aksi .= '<a href="' . ci_route('lembaran_desa.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('lembaran_desa.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
-                        }
-                    }
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => ci_route('lembaran_desa.lock', $row->id),
+                        'active' => $row->enabled,
+                    ])->render();
 
                     if ($row->satuan != null) {
-                        $aksi .= '<a href="' . ci_route('lembaran_desa.unduh_berkas', $row->id) . '" class="btn bg-purple btn-sm" title="Unduh"><i class="fa fa-download"></i></a> ';
-                    } else {
-                        $aksi .= '<a class="btn bg-purple btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a> ';
+                         $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                             'url'        => ci_route('lembaran_desa.unduh_berkas', $row->id),
+                             'judul'      => 'Unduh',
+                             'icon'       => 'fa fa-download',
+                             'type'       => 'bg-purple',
+                             'buttonOnly' => true,
+                         ])->render();
                     }
 
                     return $aksi;

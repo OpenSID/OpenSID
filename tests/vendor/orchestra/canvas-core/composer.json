@@ -1,0 +1,87 @@
+{
+    "name": "orchestra/canvas-core",
+    "description": "Code Generators Builder for Laravel Applications and Packages",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        },
+        {
+            "name": "Mior Muhammad Zaki",
+            "email": "crynobone@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Orchestra\\Canvas\\Core\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Orchestra\\Canvas\\Core\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "composer-runtime-api": "^2.2",
+        "composer/semver": "^3.0",
+        "illuminate/console": "^10.38.1",
+        "illuminate/filesystem": "^10.38.1",
+        "symfony/polyfill-php83": "^1.28"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.6",
+        "laravel/framework": "^10.38.1",
+        "mockery/mockery": "^1.5.1",
+        "orchestra/testbench-core": "^8.19",
+        "phpstan/phpstan": "^1.10.6",
+        "phpunit/phpunit": "^10.1",
+        "symfony/yaml": "^6.2"
+    },
+    "conflict": {
+        "orchestra/canvas": "<8.11.0",
+        "orchestra/testbench-core": "<8.2.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "support": {
+        "issues": "https://github.com/orchestral/canvas/issues"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "9.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Orchestra\\Canvas\\Core\\LaravelServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "lint": [
+            "@php vendor/bin/phpstan analyse",
+            "@php vendor/bin/pint"
+        ],
+        "test": "@php vendor/bin/phpunit -c ./ --color",
+        "ci": [
+            "@composer audit",
+            "@prepare",
+            "@lint",
+            "@test"
+        ]
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}

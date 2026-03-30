@@ -37,6 +37,8 @@
 
 namespace App\Models;
 
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
 use App\Enums\SasaranEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
@@ -126,11 +128,7 @@ class Rtm extends BaseModel
             };
         }
 
-        if ($sex == 1) {
-            $judul['nama'] .= ' - LAKI-LAKI';
-        } elseif ($sex == 2) {
-            $judul['nama'] .= ' - PEREMPUAN';
-        }
+        $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex) ?? 'TIDAK DIKETAHUI';
 
         return $judul;
     }
@@ -169,13 +167,10 @@ class Rtm extends BaseModel
                 'u.status_dasar',
                 'r.no_kk',
                 'r.bdt',
-                'x.nama as sex',
+                'u.pendidikan_kk_id',
                 'u.tempatlahir',
                 'u.tanggallahir',
                 DB::raw('(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(u.tanggallahir)), "%Y") + 0) AS umur'),
-                'd.nama as pendidikan',
-                'f.nama as warganegara',
-                'a.nama as agama',
                 'wil.rt',
                 'wil.rw',
                 'wil.dusun',
@@ -184,16 +179,13 @@ class Rtm extends BaseModel
                 $join->on('r.no_kk', '=', 'u.id_rtm')
                     ->where('u.rtm_level', '=', 1);
             })
-            ->leftJoin('tweb_penduduk_sex as x', 'u.sex', '=', 'x.id')
-            ->leftJoin('tweb_penduduk_pendidikan_kk as d', 'u.pendidikan_kk_id', '=', 'd.id')
-            ->leftJoin('tweb_penduduk_warganegara as f', 'u.warganegara_id', '=', 'f.id')
-            ->leftJoin('tweb_penduduk_agama as a', 'u.agama_id', '=', 'a.id')
             ->leftJoin('tweb_wil_clusterdesa as wil', 'wil.id', '=', 'u.id_cluster')
             ->where('r.config_id', identitas('id'))
             ->where($kolom_id, $id)
             ->first();
 
         if ($data) {
+            $data['pendidikan_kk']  = PendidikanKKEnum::valueOf($data['pendidikan_kk_id']);
             $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
         }
 

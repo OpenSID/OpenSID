@@ -205,7 +205,7 @@
                         orderable: false
                     },
                     {
-                        data: 'sex',
+                        data: 'pamong_sex',
                         name: 'sex',
                         searchable: false,
                         orderable: false

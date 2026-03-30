@@ -142,7 +142,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->app['auth']->provider(PendudukMandiriProvider::class, static function ($app, $config) {
             return new PendudukMandiriProvider(
-                $app['hash']->driver('md5'),
+                $app['hash'],
                 $config['model'],
                 $config['belongsTo']
             );

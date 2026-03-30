@@ -170,7 +170,7 @@ class Inventaris_tanah extends Admin_Controller
         $data['tahun_pengadaan']    = bilangan($data['tahun_pengadaan']);
         $data['letak']              = strip_tags((string) $data['letak']);
         $data['hak']                = strip_tags((string) $data['hak']);
-        $data['tanggal_sertifikat'] = date('Y-m-d', strtotime((string) $this->input->post('tanggal_sertifikat')));
+        $data['tanggal_sertifikat'] = $this->input->post('tanggal_sertifikat') ? date('Y-m-d', strtotime((string) $this->input->post('tanggal_sertifikat'))) : null;
         $data['no_sertifikat']      = strip_tags((string) $data['no_sertifikat']);
         $data['penggunaan']         = strip_tags((string) $data['penggunaan']);
         $data['asal']               = strip_tags((string) $data['asal']);

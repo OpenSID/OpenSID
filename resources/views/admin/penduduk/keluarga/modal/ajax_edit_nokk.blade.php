@@ -77,9 +77,9 @@
             <label for="kelas_sosial">Kelas Sosial</label>
             <select id="kelas_sosial" name="kelas_sosial" class="form-control input-sm">
                 <option value="">Pilih Tingkatan Keluarga Sejahtera</option>
-                @foreach ($keluarga_sejahtera as $data)
-                    <option value="{{ $data->id }}" @selected($kk->kelas_sosial == $data->id)>
-                        {{ strtoupper($data->nama) }}</option>
+                @foreach (\App\Enums\KeluargaSejahteraEnum::all() as $key => $label)
+                    <option value="{{ $key }}" @selected($kk->kelas_sosial == $key)>
+                        {{ strtoupper($label) }}</option>
                 @endforeach
             </select>
         </div>

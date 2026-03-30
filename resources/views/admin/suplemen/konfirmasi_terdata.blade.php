@@ -21,16 +21,16 @@
     <div class="form-group">
         <label for="keperluan" class="col-sm-3 control-label">Pendidikan</label>
         <div class="col-sm-8">
-            <input class="form-control input-sm" type="text" value="{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($individu->pendidikan_kk_id)) }}" disabled="">
+            <input class="form-control input-sm" type="text" value="{{ \App\Enums\PendidikanKKEnum::valueToUpper($individu->pendidikan_kk_id) }}" disabled="">
         </div>
     </div>
     <div class="form-group">
         <label for="keperluan" class="col-sm-3 control-label">Warga Negara /Agama</label>
         <div class="col-sm-4">
-            <input class="form-control input-sm" type="text" value="{{ $individu->warganegara->nama }}" disabled="">
+            <input class="form-control input-sm" type="text" value="{{ $individu->warganegara }}" disabled="">
         </div>
         <div class="col-sm-4">
-            <input class="form-control input-sm" type="text" value="{{ $individu->agama->nama }}" disabled="">
+            <input class="form-control input-sm" type="text" value="{{ $individu->agama }}" disabled="">
         </div>
     </div>
 @elseif ($suplemen->sasaran == 2)
@@ -56,16 +56,16 @@
     <div class="form-group">
         <label for="keperluan" class="col-sm-3 control-label">Pendidikan KK</label>
         <div class="col-sm-9">
-            <input class="form-control input-sm" type="text" value="{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($individu->pendidikan_kk_id)) }}" disabled="">
+            <input class="form-control input-sm" type="text" value="{{ \App\Enums\PendidikanKKEnum::valueToUpper($individu->pendidikan_kk_id) }}" disabled="">
         </div>
     </div>
     <div class="form-group">
         <label for="keperluan" class="col-sm-3 control-label">Warga Negara /Agama KK</label>
         <div class="col-sm-4">
-            <input class="form-control input-sm" type="text" value="{{ $individu->warganegara->nama }}" disabled="">
+            <input class="form-control input-sm" type="text" value="{{ $individu->warganegara }}" disabled="">
         </div>
         <div class="col-sm-5">
-            <input class="form-control input-sm" type="text" value="{{ $individu->agama->nama }}" disabled="">
+            <input class="form-control input-sm" type="text" value="{{ $individu->agama }}" disabled="">
         </div>
     </div>
 @endif

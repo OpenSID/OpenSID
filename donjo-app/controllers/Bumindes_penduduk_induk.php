@@ -35,14 +35,11 @@
  *
  */
 
-use App\Enums\AgamaEnum;
 use App\Enums\BahasaEnum;
 use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanKKEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusPendudukEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 
@@ -74,13 +71,13 @@ class Bumindes_penduduk_induk extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables()->of($this->sumberData())
                 ->addIndexColumn()
-                ->editColumn('sex', static fn ($row) => strtoupper(JenisKelaminEnum::valueOf($row->sex)))
+                ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueToUpper($row->sex))
                 ->editColumn('status_kawin', static fn ($row) => strtoupper(in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')))
                 ->editColumn('tanggallahir', static fn ($row) => tgl_indo_out($row->tanggallahir))
-                ->editColumn('agama', static fn ($row) => strtoupper(AgamaEnum::valueOf($row->agama_id)))
-                ->editColumn('pendidikan', static fn ($row) => strtoupper(PendidikanKKEnum::valueOf($row->pendidikan_kk_id)))
+                ->editColumn('agama', static fn ($row) => $row->agama)
+                ->editColumn('pendidikan', static fn ($row) => $row->pendidikan_kk)
                 ->editColumn('bahasa', static fn ($row) => strtoupper(BahasaEnum::valueOf($row->bahasa_id)))
-                ->editColumn('warganegara', static fn ($row) => strtoupper(WargaNegaraEnum::valueOf($row->warganegara_id)))
+                ->editColumn('warganegara', static fn ($row) => $row->warganegara)
                 ->editColumn('kk_level', static fn ($row) => strtoupper(SHDKEnum::valueOf($row->kk_level)))
                 ->editColumn('alamat_wilayah', static fn ($row) => strtoupper($row->alamat_wilayah))
                 ->editColumn('nik', static fn ($row) => '<a href="' . ci_route('penduduk.detail', $row->id) . '">' . $row->nik . '</a>')

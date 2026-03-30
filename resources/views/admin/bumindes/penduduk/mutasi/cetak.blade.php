@@ -75,8 +75,8 @@
                                 <td>{{ strtoupper($data->penduduk->nama) }}</td>
                                 <td>{{ $data->penduduk->tempatlahir }}</td>
                                 <td>{{ tgl_indo_out($data->penduduk->tanggallahir) }}</td>
-                                <td>{{ strtoupper($data->penduduk->jenisKelamin->nama) }}</td>
-                                <td>{{ $data->penduduk->warganegara->nama }}</td>
+                                <td>{{ $data->penduduk->jenis_kelamin }}</td>
+                                <td>{{ $data->penduduk->warganegara }}</td>
                                 <td>{{ $data->kode_peristiwa == 5 ? strtoupper($data->penduduk->alamat_sebelumnya) : '-' }}</td>
                                 <td>{{ $data->kode_peristiwa == 5 ? tgl_indo_out($data->penduduk->created_at) : '-' }}</td>
                                 <td>{{ strtoupper($data->kode_peristiwa == 3 ? $data->alamat_tujuan : '-') }}</td>

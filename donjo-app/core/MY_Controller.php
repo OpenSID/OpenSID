@@ -189,7 +189,10 @@ class MY_Controller extends CI_Controller
 
                 return array_merge($data_user, $isi);
             });
-            LogNotifikasiAdmin::insert($logs->toArray());
+
+            foreach ($logs as $log) {
+                LogNotifikasiAdmin::create($log);
+            }
         }
     }
 

@@ -1470,10 +1470,9 @@ style="font-family: Arial, Helvetica, sans-serif; font-size: 8pt">
             <td style="width: 25%;">
                 408. Status Perkawinan (isikan kode)
                 <br>
-                <?=str_repeat('&nbsp;', 6)?>1. Belum kawin
-                <?=str_repeat('&nbsp;', 6)?>2. Kawin/nikah
-                <br><?=str_repeat('&nbsp;', 6)?>3. Cerai hidup
-                <?=str_repeat('&nbsp;', 6)?>4. Cerai mati
+                 <?php foreach (\App\Enums\StatusKawinEnum::valuesToUcwords() as $kode => $label): ?>
+                    <?= str_repeat('&nbsp;', 6) . $kode . '. ' . $label ?><br>
+                <?php endforeach; ?>
             </td>
             <?php foreach($dtksAnggota as $key => $agt) : ?>
                 <td style="width: 15%;">

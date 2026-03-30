@@ -35,9 +35,27 @@
  *
  */
 
-use App\Imports\KlasifikasiSuratImports;
 use App\Models\Config;
+use App\Enums\SHDKEnum;
+use App\Enums\AgamaEnum;
+use App\Enums\CacatEnum;
+use App\Enums\BahasaEnum;
+use App\Enums\CaraKBEnum;
+use App\Enums\PindahEnum;
+use App\Enums\AsuransiEnum;
+use App\Enums\PekerjaanEnum;
+use App\Models\PendidikanKK;
+use App\Enums\StatusKawinEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\GolonganDarahEnum;
+use App\Enums\StatusPendudukEnum;
 use Illuminate\Support\Facades\DB;
+use App\Enums\PendidikanSedangEnum;
+use App\Enums\KeluargaSejahteraEnum;
+use Illuminate\Support\Facades\Schema;
+use App\Imports\KlasifikasiSuratImports;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -591,232 +609,28 @@ class Data_awal_seeder extends CI_Model
             ['id' => 6, 'nama' => 'Pergi'],
         ]);
 
+        $this->insertEnumToTable('ref_peristiwa', PindahEnum::class);
+
         DB::table('ref_pindah')->insert([
             ['id' => 1, 'nama' => 'Pindah keluar Desa/Kelurahan'],
             ['id' => 2, 'nama' => 'Pindah keluar Kecamatan'],
             ['id' => 3, 'nama' => 'Pindah keluar Kabupaten/Kota'],
             ['id' => 4, 'nama' => 'Pindah keluar Provinsi'],
         ]);
-
-        DB::table('tweb_cacat')->insert([
-            ['id' => 1, 'nama' => 'CACAT FISIK'],
-            ['id' => 2, 'nama' => 'CACAT NETRA/BUTA'],
-            ['id' => 3, 'nama' => 'CACAT RUNGU/WICARA'],
-            ['id' => 4, 'nama' => 'CACAT MENTAL/JIWA'],
-            ['id' => 5, 'nama' => 'CACAT FISIK DAN MENTAL'],
-            ['id' => 6, 'nama' => 'CACAT LAINNYA'],
-            ['id' => 7, 'nama' => 'TIDAK CACAT'],
-        ]);
-
-        DB::table('tweb_cara_kb')->insert([
-            ['id' => 1, 'nama' => 'Pil', 'sex' => 2],
-            ['id' => 2, 'nama' => 'IUD', 'sex' => 2],
-            ['id' => 3, 'nama' => 'Suntik', 'sex' => 2],
-            ['id' => 4, 'nama' => 'Kondom', 'sex' => 1],
-            ['id' => 5, 'nama' => 'Susuk KB', 'sex' => 2],
-            ['id' => 6, 'nama' => 'Sterilisasi Wanita', 'sex' => 2],
-            ['id' => 7, 'nama' => 'Sterilisasi Pria', 'sex' => 1],
-            ['id' => 99, 'nama' => 'Lainnya', 'sex' => 3],
-        ]);
-
-        DB::table('tweb_golongan_darah')->insert([
-            ['id' => 1, 'nama' => 'A'],
-            ['id' => 2, 'nama' => 'B'],
-            ['id' => 3, 'nama' => 'AB'],
-            ['id' => 4, 'nama' => 'O'],
-            ['id' => 5, 'nama' => 'A+'],
-            ['id' => 6, 'nama' => 'A-'],
-            ['id' => 7, 'nama' => 'B+'],
-            ['id' => 8, 'nama' => 'B-'],
-            ['id' => 9, 'nama' => 'AB+'],
-            ['id' => 10, 'nama' => 'AB-'],
-            ['id' => 11, 'nama' => 'O+'],
-            ['id' => 12, 'nama' => 'O-'],
-            ['id' => 13, 'nama' => 'TIDAK TAHU'],
-        ]);
-
-        DB::table('tweb_penduduk_agama')->insert([
-            ['id' => 1, 'nama' => 'ISLAM'],
-            ['id' => 2, 'nama' => 'KRISTEN'],
-            ['id' => 3, 'nama' => 'KATHOLIK'],
-            ['id' => 4, 'nama' => 'HINDU'],
-            ['id' => 5, 'nama' => 'BUDHA'],
-            ['id' => 6, 'nama' => 'KHONGHUCU'],
-            ['id' => 7, 'nama' => 'Kepercayaan Terhadap Tuhan YME / Lainnya'],
-        ]);
-        DB::table('tweb_penduduk_asuransi')->insert([
-            ['id' => 1, 'nama' => 'Tidak/Belum Punya'],
-            ['id' => 2, 'nama' => 'BPJS Penerima Bantuan Iuran'],
-            ['id' => 3, 'nama' => 'BPJS Non Penerima Bantuan Iuran'],
-            ['id' => 99, 'nama' => 'Asuransi Lainnya'],
-        ]);
-
-        DB::table('tweb_penduduk_hubungan')->insert([
-            ['id' => 1, 'nama' => 'KEPALA KELUARGA'],
-            ['id' => 2, 'nama' => 'SUAMI'],
-            ['id' => 3, 'nama' => 'ISTRI'],
-            ['id' => 4, 'nama' => 'ANAK'],
-            ['id' => 5, 'nama' => 'MENANTU'],
-            ['id' => 6, 'nama' => 'CUCU'],
-            ['id' => 7, 'nama' => 'ORANGTUA'],
-            ['id' => 8, 'nama' => 'MERTUA'],
-            ['id' => 9, 'nama' => 'FAMILI LAIN'],
-            ['id' => 10, 'nama' => 'PEMBANTU'],
-            ['id' => 11, 'nama' => 'LAINNYA'],
-        ]);
-        DB::table('tweb_penduduk_kawin')->insert([
-            ['id' => 1, 'nama' => 'BELUM KAWIN'],
-            ['id' => 2, 'nama' => 'KAWIN'],
-            ['id' => 3, 'nama' => 'CERAI HIDUP'],
-            ['id' => 4, 'nama' => 'CERAI MATI'],
-        ]);
-
-        DB::table('tweb_penduduk_pekerjaan')->insert([
-            ['id' => 1, 'nama' => 'BELUM/TIDAK BEKERJA'],
-            ['id' => 2, 'nama' => 'MENGURUS RUMAH TANGGA'],
-            ['id' => 3, 'nama' => 'PELAJAR/MAHASISWA'],
-            ['id' => 4, 'nama' => 'PENSIUNAN'],
-            ['id' => 5, 'nama' => 'PEGAWAI NEGERI SIPIL (PNS)'],
-            ['id' => 6, 'nama' => 'TENTARA NASIONAL INDONESIA (TNI)'],
-            ['id' => 7, 'nama' => 'KEPOLISIAN RI (POLRI)'],
-            ['id' => 8, 'nama' => 'PERDAGANGAN'],
-            ['id' => 9, 'nama' => 'PETANI/PEKEBUN'],
-            ['id' => 10, 'nama' => 'PETERNAK'],
-            ['id' => 11, 'nama' => 'NELAYAN/PERIKANAN'],
-            ['id' => 12, 'nama' => 'INDUSTRI'],
-            ['id' => 13, 'nama' => 'KONSTRUKSI'],
-            ['id' => 14, 'nama' => 'TRANSPORTASI'],
-            ['id' => 15, 'nama' => 'KARYAWAN SWASTA'],
-            ['id' => 16, 'nama' => 'KARYAWAN BUMN'],
-            ['id' => 17, 'nama' => 'KARYAWAN BUMD'],
-            ['id' => 18, 'nama' => 'KARYAWAN HONORER'],
-            ['id' => 19, 'nama' => 'BURUH HARIAN LEPAS'],
-            ['id' => 20, 'nama' => 'BURUH TANI/PERKEBUNAN'],
-            ['id' => 21, 'nama' => 'BURUH NELAYAN/PERIKANAN'],
-            ['id' => 22, 'nama' => 'BURUH PETERNAKAN'],
-            ['id' => 23, 'nama' => 'PEMBANTU RUMAH TANGGA'],
-            ['id' => 24, 'nama' => 'TUKANG CUKUR'],
-            ['id' => 25, 'nama' => 'TUKANG LISTRIK'],
-            ['id' => 26, 'nama' => 'TUKANG BATU'],
-            ['id' => 27, 'nama' => 'TUKANG KAYU'],
-            ['id' => 28, 'nama' => 'TUKANG SOL SEPATU'],
-            ['id' => 29, 'nama' => 'TUKANG LAS/PANDAI BESI'],
-            ['id' => 30, 'nama' => 'TUKANG JAHIT'],
-            ['id' => 31, 'nama' => 'TUKANG GIGI'],
-            ['id' => 32, 'nama' => 'PENATA RIAS'],
-            ['id' => 33, 'nama' => 'PENATA BUSANA'],
-            ['id' => 34, 'nama' => 'PENATA RAMBUT'],
-            ['id' => 35, 'nama' => 'MEKANIK'],
-            ['id' => 36, 'nama' => 'SENIMAN'],
-            ['id' => 37, 'nama' => 'TABIB'],
-            ['id' => 38, 'nama' => 'PARAJI'],
-            ['id' => 39, 'nama' => 'PERANCANG BUSANA'],
-            ['id' => 40, 'nama' => 'PENTERJEMAH'],
-            ['id' => 41, 'nama' => 'IMAM MASJID'],
-            ['id' => 42, 'nama' => 'PENDETA'],
-            ['id' => 43, 'nama' => 'PASTOR'],
-            ['id' => 44, 'nama' => 'WARTAWAN'],
-            ['id' => 45, 'nama' => 'USTADZ/MUBALIGH'],
-            ['id' => 46, 'nama' => 'JURU MASAK'],
-            ['id' => 47, 'nama' => 'PROMOTOR ACARA'],
-            ['id' => 48, 'nama' => 'ANGGOTA DPR-RI'],
-            ['id' => 49, 'nama' => 'ANGGOTA DPD'],
-            ['id' => 50, 'nama' => 'ANGGOTA BPK'],
-            ['id' => 51, 'nama' => 'PRESIDEN'],
-            ['id' => 52, 'nama' => 'WAKIL PRESIDEN'],
-            ['id' => 53, 'nama' => 'ANGGOTA MAHKAMAH KONSTITUSI'],
-            ['id' => 54, 'nama' => 'ANGGOTA KABINET KEMENTERIAN'],
-            ['id' => 55, 'nama' => 'DUTA BESAR'],
-            ['id' => 56, 'nama' => 'GUBERNUR'],
-            ['id' => 57, 'nama' => 'WAKIL GUBERNUR'],
-            ['id' => 58, 'nama' => 'BUPATI'],
-            ['id' => 59, 'nama' => 'WAKIL BUPATI'],
-            ['id' => 60, 'nama' => 'WALIKOTA'],
-            ['id' => 61, 'nama' => 'WAKIL WALIKOTA'],
-            ['id' => 62, 'nama' => 'ANGGOTA DPRD PROVINSI'],
-            ['id' => 63, 'nama' => 'ANGGOTA DPRD KABUPATEN/KOTA'],
-            ['id' => 64, 'nama' => 'DOSEN'],
-            ['id' => 65, 'nama' => 'GURU'],
-            ['id' => 66, 'nama' => 'PILOT'],
-            ['id' => 67, 'nama' => 'PENGACARA'],
-            ['id' => 68, 'nama' => 'NOTARIS'],
-            ['id' => 69, 'nama' => 'ARSITEK'],
-            ['id' => 70, 'nama' => 'AKUNTAN'],
-            ['id' => 71, 'nama' => 'KONSULTAN'],
-            ['id' => 72, 'nama' => 'DOKTER'],
-            ['id' => 73, 'nama' => 'BIDAN'],
-            ['id' => 74, 'nama' => 'PERAWAT'],
-            ['id' => 75, 'nama' => 'APOTEKER'],
-            ['id' => 76, 'nama' => 'PSIKIATER/PSIKOLOG'],
-            ['id' => 77, 'nama' => 'PENYIAR TELEVISI'],
-            ['id' => 78, 'nama' => 'PENYIAR RADIO'],
-            ['id' => 79, 'nama' => 'PELAUT'],
-            ['id' => 80, 'nama' => 'PENELITI'],
-            ['id' => 81, 'nama' => 'SOPIR'],
-            ['id' => 82, 'nama' => 'PIALANG'],
-            ['id' => 83, 'nama' => 'PARANORMAL'],
-            ['id' => 84, 'nama' => 'PEDAGANG'],
-            ['id' => 85, 'nama' => 'PERANGKAT DESA'],
-            ['id' => 86, 'nama' => 'KEPALA DESA'],
-            ['id' => 87, 'nama' => 'BIARAWATI'],
-            ['id' => 88, 'nama' => 'WIRASWASTA'],
-            ['id' => 89, 'nama' => 'LAINNYA'],
-        ]);
-
-        DB::table('tweb_penduduk_pendidikan')->insert([
-            ['id' => 1, 'nama' => 'BELUM MASUK TK/KELOMPOK BERMAIN'],
-            ['id' => 2, 'nama' => 'SEDANG TK/KELOMPOK BERMAIN'],
-            ['id' => 3, 'nama' => 'TIDAK PERNAH SEKOLAH'],
-            ['id' => 4, 'nama' => 'SEDANG SD/SEDERAJAT'],
-            ['id' => 5, 'nama' => 'TIDAK TAMAT SD/SEDERAJAT'],
-            ['id' => 6, 'nama' => 'SEDANG SLTP/SEDERAJAT'],
-            ['id' => 7, 'nama' => 'SEDANG SLTA/SEDERAJAT'],
-            ['id' => 8, 'nama' => 'SEDANG  D-1/SEDERAJAT'],
-            ['id' => 9, 'nama' => 'SEDANG D-2/SEDERAJAT'],
-            ['id' => 10, 'nama' => 'SEDANG D-3/SEDERAJAT'],
-            ['id' => 11, 'nama' => 'SEDANG  S-1/SEDERAJAT'],
-            ['id' => 12, 'nama' => 'SEDANG S-2/SEDERAJAT'],
-            ['id' => 13, 'nama' => 'SEDANG S-3/SEDERAJAT'],
-            ['id' => 14, 'nama' => 'SEDANG SLB A/SEDERAJAT'],
-            ['id' => 15, 'nama' => 'SEDANG SLB B/SEDERAJAT'],
-            ['id' => 16, 'nama' => 'SEDANG SLB C/SEDERAJAT'],
-            [
-                'id'   => 17,
-                'nama' => 'TIDAK DAPAT MEMBACA DAN MENULIS HURUF LATIN/ARAB',
-            ],
-            ['id' => 18, 'nama' => 'TIDAK SEDANG SEKOLAH'],
-        ]);
-
-        DB::table('tweb_penduduk_pendidikan_kk')->insert([
-            ['id' => 1, 'nama' => 'TIDAK / BELUM SEKOLAH'],
-            ['id' => 2, 'nama' => 'BELUM TAMAT SD/SEDERAJAT'],
-            ['id' => 3, 'nama' => 'TAMAT SD / SEDERAJAT'],
-            ['id' => 4, 'nama' => 'SLTP/SEDERAJAT'],
-            ['id' => 5, 'nama' => 'SLTA / SEDERAJAT'],
-            ['id' => 6, 'nama' => 'DIPLOMA I / II'],
-            ['id' => 7, 'nama' => 'AKADEMI/ DIPLOMA III/S. MUDA'],
-            ['id' => 8, 'nama' => 'DIPLOMA IV/ STRATA I'],
-            ['id' => 9, 'nama' => 'STRATA II'],
-            ['id' => 10, 'nama' => 'STRATA III'],
-        ]);
-
-        DB::table('tweb_penduduk_sex')->insert([
-            ['id' => 1, 'nama' => 'LAKI-LAKI'],
-            ['id' => 2, 'nama' => 'PEREMPUAN'],
-        ]);
-
-        DB::table('tweb_penduduk_status')->insert([
-            ['id' => 1, 'nama' => 'TETAP'],
-            ['id' => 2, 'nama' => 'TIDAK TETAP'],
-        ]);
-
-        // DB::table('tweb_penduduk_umur')->insert(); ikut data awal
-
-        DB::table('tweb_penduduk_warganegara')->insert([
-            ['id' => 1, 'nama' => 'WNI'],
-            ['id' => 2, 'nama' => 'WNA'],
-            ['id' => 3, 'nama' => 'DUA KEWARGANEGARAAN'],
-        ]);
+        
+        $this->insertEnumToTable('tweb_cacat', CacatEnum::class);
+        $this->insertEnumToTable('tweb_cara_kb', CaraKBEnum::class);
+        $this->insertEnumToTable('tweb_golongan_darah', GolonganDarahEnum::class);
+        $this->insertEnumToTable('tweb_penduduk_agama', AgamaEnum::class);
+        $this->insertEnumToTable('tweb_penduduk_asuransi', AsuransiEnum::class);
+        $this->insertEnumToTable('tweb_penduduk_hubungan', SHDKEnum::class);
+        $this->insertEnumToTable('tweb_penduduk_kawin', StatusKawinEnum::class);
+        $this->insertEnumToTable('tweb_penduduk_pekerjaan', PekerjaanEnum::class);
+        $this->insertEnumToTable('tweb_penduduk_pendidikan', PendidikanSedangEnum::class);
+        $this->insertEnumToTable('tweb_penduduk_pendidikan_kk', PendidikanKKEnum::class);
+        $this->insertEnumToTable('tweb_penduduk_sex', JenisKelaminEnum::class);
+        $this->insertEnumToTable('tweb_penduduk_status', StatusPendudukEnum::class);
+        $this->insertEnumToTable('tweb_penduduk_warganegara', WargaNegaraEnum::class);
 
         DB::table('tweb_rtm_hubungan')->insert([
             ['id' => 1, 'nama' => 'Kepala Rumah Tangga'],
@@ -1507,13 +1321,7 @@ class Data_awal_seeder extends CI_Model
 
         // DB::table('notifikasi')->insert(); ikut data awal
 
-        DB::table('tweb_keluarga_sejahtera')->insert([
-            ['id' => 1, 'nama' => 'Keluarga Pra Sejahtera'],
-            ['id' => 2, 'nama' => 'Keluarga Sejahtera I'],
-            ['id' => 3, 'nama' => 'Keluarga Sejahtera II'],
-            ['id' => 4, 'nama' => 'Keluarga Sejahtera III'],
-            ['id' => 5, 'nama' => 'Keluarga Sejahtera III Plus'],
-        ]);
+        $this->insertEnumToTable('tweb_keluarga_sejahtera', KeluargaSejahteraEnum::class);
 
         $this->load->model('seeders/dataAwal/Twebaset', 'twebaset');
         $this->load->model('seeders/dataAwal/KeuanganManualRefKegiatan', 'keuanganRefKegiatan');
@@ -1543,5 +1351,28 @@ class Data_awal_seeder extends CI_Model
             'nama_kepala_camat' => '',
             'nip_kepala_camat'  => '',
         ]);
+    }
+
+    public function insertEnumToTable(string $tableName, string $enumClass): void
+    {
+        if (! Schema::hasTable($tableName)) {
+            return;
+        }
+
+        if (! method_exists($enumClass, 'all')) {
+            return;
+        }
+
+        $data = [];
+        foreach ($enumClass::all() as $id => $nama) {
+            $data[] = [
+                'id'   => $id,
+                'nama' => $nama,
+            ];
+        }
+
+        DB::table($tableName)->truncate();
+
+        DB::table($tableName)->insert($data);
     }
 }

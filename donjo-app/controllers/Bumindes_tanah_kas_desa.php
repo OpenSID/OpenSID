@@ -41,6 +41,7 @@ use App\Models\RefDokumen;
 use App\Models\RefPersilKelas;
 use App\Models\RefPeruntukanTanahKas;
 use App\Models\TanahKasDesa;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -109,16 +110,19 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
             ->addIndexColumn()
             ->addColumn('aksi', static function ($row): string {
                 $aksi = '';
+                $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                    'url'   => route('bumindes_tanah_kas_desa.view_tanah_kas_desa', ['id' => $row->id]),
+                    'judul' => 'Lihat Data',
+                ])->render();
 
-                $aksi .= '<a href="' . route('bumindes_tanah_kas_desa.view_tanah_kas_desa', ['id' => $row->id]) . '" class="btn btn-info btn-sm"  title="Lihat Data"><i class="fa fa-eye"></i></a> ';
+                $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                    'url' => "bumindes_tanah_kas_desa/form/{$row->id}",
+                ])->render();
 
-                if (can('u')) {
-                        $aksi .= '<a href="' . route('bumindes_tanah_kas_desa.form', ['id' => $row->id]) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                }
-
-                if (can('h')) {
-                    $aksi .= '<a href="#" data-href="' . route('bumindes_tanah_kas_desa.delete_tanah_kas_desa', ['id' => $row->id]) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                }
+                $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                    'url'           => route('bumindes_tanah_kas_desa.delete_tanah_kas_desa', ['id' => $row->id]),
+                    'confirmDelete' => true,
+                ])->render();
 
                 return $aksi;
             })

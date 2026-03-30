@@ -97,6 +97,12 @@ class SuplemenTerdata extends BaseModel
 
     public function scopeAnggota($query, $sasaran, $suplemen)
     {
+         // Skip data yang tidak punya penduduk_id dan keluarga_id
+        $query->where(static function ($q) {
+            $q->whereNotNull('suplemen_terdata.penduduk_id')
+                ->orWhereNotNull('suplemen_terdata.keluarga_id');
+        });
+
         if ($sasaran == SuplemenTerdata::PENDUDUK) {
             $query->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'suplemen_terdata.penduduk_id', 'left')
                 ->join('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk', 'left')

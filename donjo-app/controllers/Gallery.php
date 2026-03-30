@@ -122,10 +122,16 @@ class Gallery extends Admin_Controller
                     $gambarKecil  = ($row->jenis == 1 ? AmbilGaleri($row->gambar ?? '', 'kecil') : $row->gambar);
 
                     return '<label style="cursor: pointer;" class="tampil" data-img="' . $gambarSedang . '" data-rel="popover" data-content="<img width=200 height=134 src=' . $gambarKecil . '>" >' . $row->nama . '</label>';
-                } )
+                } )->editColumn('gambar', static function ($row): string {
+                    if ($row->gambar) {
+                        return '<img src="' . AmbilGaleri($row->gambar, 'kecil') . '" class="penduduk_kecil" alt="Gambar">';
+                    }
+
+                    return '';
+                })
                 ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))
                 ->editColumn('enabled', static fn ($row) => $row->enabled ? 'Ya' : 'Tidak')
-                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'nama'])
+                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'nama', 'gambar'])
                 ->make();
         }
 

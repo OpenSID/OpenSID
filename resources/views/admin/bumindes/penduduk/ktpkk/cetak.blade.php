@@ -1,3 +1,8 @@
+<style>
+    .textx {
+            mso-number-format: "\@";
+        }
+        </style>
 <table>
     <tbody>
         <tr>
@@ -90,11 +95,11 @@
                             @foreach ($main as $key => $data)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $privasi_nik ? sensor_nik_kk($data['kk']) : $data['kk'] }}</td>
+                                    <td class="textx">{{ $privasi_nik ? sensor_nik_kk($data['kk']) : $data['kk'] }}</td>
                                     <td>{{ strtoupper($data['nama']) }}</td>
-                                    <td>{{ $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik'] }}</td>
+                                    <td class="textx">{{ $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik'] }}</td>
                                     <td class="padat">{{ $data['sex'] }}</td>
-                                    <td>{{ strtoupper($data['tempatlahir']) . ', ' . tgl_indo_out($data['tanggallahir']) }}</td>
+                                    <td>{{ strtoupper($data['tempatlahir']) . ', ' . $data['tanggallahir'] }}</td>
                                     <td class="padat">{{ $data['golongan_darah'] }}</td>
                                     <td>{{ $data['agama'] }}</td>
                                     <td>{{ $data['pendidikan'] }}</td>

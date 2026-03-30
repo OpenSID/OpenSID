@@ -65,12 +65,14 @@ class Bdt
     private $kolom_subjek;
     private $kolom_indikator_pertama;
     private $list_id_subjek;
+    private $subjekTipe;
 
-    public function __construct($idMaster, $periode)
+    public function __construct($idMaster, $periode, $subjekTipe)
     {
         $this->idMaster       = $idMaster;
         $this->periode        = $periode;
         $this->analisisMaster = AnalisisMaster::findOrFail($idMaster);
+        $this->subjekTipe     = $subjekTipe;
     }
 
     private function fileImportValid()
@@ -204,7 +206,10 @@ class Bdt
             $prefix = ', ';
         }
 
-        AnalisisRespon::where('id_periode', $per)->whereRaw("id_subjek in({$list_id_subjek_str})")->delete();
+        AnalisisRespon::where('id_periode', $per)
+            ->whereRaw("id_subjek in({$list_id_subjek_str})")
+            ->orWhereRaw("{$this->subjekTipe} in({$list_id_subjek_str})")
+            ->delete();
     }
 
     private function cariBarisPertama(Spreadsheet_Excel_Reader $data, $jml_baris)
@@ -303,10 +308,11 @@ class Bdt
             foreach ($list_parameter as $parameter) {
                 if (! empty($parameter)) {
                     $respon[] = [
-                        'id_indikator' => $indi['id'],
-                        'id_subjek'    => $this->list_id_subjek[$baris[$this->kolom_subjek]],
-                        'id_periode'   => $per,
-                        'id_parameter' => $parameter,
+                        'id_indikator'    => $indi['id'],
+                        'id_subjek'       => $this->list_id_subjek[$baris[$this->kolom_subjek]],
+                        $this->subjekTipe => $this->list_id_subjek[$baris[$this->kolom_subjek]],
+                        'id_periode'      => $per,
+                        'id_parameter'    => $parameter,
                     ];
                 }
             }

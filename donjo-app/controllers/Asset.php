@@ -35,49 +35,102 @@
  *
  */
 
-use Illuminate\Http\File;
-use Symfony\Component\Mime\MimeTypes;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\PathTraversalDetected;
 
 class Asset extends Web_Controller
 {
+    private const ALLOWED_DISKS    = ['assets', 'desa', 'public'];
+    private const SECURITY_HEADERS = [
+        'Cache-Control'           => 'no-store, no-cache, must-revalidate, max-age=0',
+        'Content-Security-Policy' => "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+    ];
+
     public function serveTheme()
     {
-        $filename  = explode('?', request()->get('file'))[0];
-        $path      = FCPATH . theme_full_path() . '/assets/' . $filename;
-        $file      = new File($path);
-        $mimeType  = $file->getMimeType();
-        $mimeTypes = new MimeTypes();
-        $mimeType  = $mimeTypes->getMimeTypes($file->getExtension())[0] ?? 'application/octet-stream';
+        $diskRoot = base_path(theme_full_path() . '/assets');
 
-        header('Content-Length: ' . $file->getSize());
-        header('Content-Type: ' . $mimeType);
-        header('Pragma: cache');
-        header('Cache-Control: public, max-age=2592000');
-
-        readfile($path);
-
-        exit;
+        return $this->serveAsset($diskRoot);
     }
 
     public function serveModule($moduleName)
     {
-        $originalModule = $this->getOriginalModule($moduleName);
-        $filename       = explode('?', request()->get('file'))[0];
+        $moduleName = $this->getOriginalModule($moduleName);
+        $diskRoot   = base_path("Modules/{$moduleName}/Views/assets");
 
-        $path      = module_path($originalModule) . '/Views/assets/' . $filename;
-        $file      = new File($path);
-        $mimeType  = $file->getMimeType();
-        $mimeTypes = new MimeTypes();
-        $mimeType  = $mimeTypes->getMimeTypes($file->getExtension())[0] ?? 'application/octet-stream';
+        return $this->serveAsset($diskRoot);
+    }
 
-        header('Content-Length: ' . $file->getSize());
-        header('Content-Type: ' . $mimeType);
-        header('Pragma: cache');
-        header('Cache-Control: public, max-age=2592000');
+    private function serveAsset($rootPath)
+    {
+        $request = request();
+        $path    = $this->cleanFilePath($request->query('file', ''));
 
-        readfile($path);
+        try {
+            $primaryDisk = Storage::build([
+                'driver' => 'local',
+                'root'   => $rootPath,
+                'links'  => false,
+            ]);
 
-        exit;
+            [$disk, $finalPath] = $this->resolveDiskAndPath($primaryDisk, $path, $request);
+
+            return tap(
+                $disk->response(path: $finalPath, headers: self::SECURITY_HEADERS),
+                static function ($response) {
+                    if (! $response->headers->has('Content-Security-Policy')) {
+                        $response->headers->replace(self::SECURITY_HEADERS);
+                    }
+                }
+            )->send();
+        } catch (PathTraversalDetected $e) {
+            logger()->error($e);
+            show_404();
+        }
+    }
+
+    private function resolveDiskAndPath($primaryDisk, $path, Request $request)
+    {
+        // Gunakan file utama jika ada
+        if ($primaryDisk->exists($path)) {
+            return [$primaryDisk, $path];
+        }
+
+        // Fallback ke file default
+        $defaultPath = $request->query('default');
+        $diskName    = $request->query('defaultDisk', 'desa');
+
+        if (! in_array($diskName, self::ALLOWED_DISKS) || ! $defaultPath) {
+            show_404();
+        }
+
+        $disk = Storage::disk($diskName);
+
+        if (! $disk->exists($defaultPath)) {
+            show_404();
+        }
+
+        return [$disk, $defaultPath];
+    }
+
+    /**
+     * Membersihkan path file dari karakter yang tidak diinginkan
+     *
+     * @param string $filePath
+     *
+     * @return string
+     */
+    private function cleanFilePath($filePath)
+    {
+        // Hapus karakter ? dan parameter query yang mungkin ada di akhir
+        $cleanPath = preg_replace('/\?.*$/', '', $filePath);
+
+        // Hapus slash (/) di awal path
+        $cleanPath = ltrim($cleanPath, '/');
+
+        // Hapus trailing whitespace atau karakter ? yang tersisa
+        return rtrim($cleanPath, " \t\n\r\0\x0B?");
     }
 
     private function getOriginalModule($moduleName)

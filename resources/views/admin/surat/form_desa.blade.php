@@ -128,6 +128,39 @@
                 $('table.kis tr[data-row=' + $(elm).val() + '] input').prop('disabled', 1)
             }
         }
+
+        function pilihAnggotaPiPertama(elm) {
+            let _checked = $(elm).is(':checked')
+
+            if (_checked) {
+                $('table.pi tr[data-row=' + $(elm).val() + ']').find('input, select').prop('disabled', 0)
+                $('table.pi tr[data-row=' + $(elm).val() + '] input.datepicker').datepicker({
+                    weekStart: 1,
+                    language: 'id',
+                    format: 'dd-mm-yyyy',
+                    autoclose: true
+                });
+            } else {
+                $('table.pi tr[data-row=' + $(elm).val() + ']').find('input, select').prop('disabled', 1)
+            }
+        }
+
+        function pilihAnggotaPiDua(elm) {
+            let _checked = $(elm).is(':checked')
+
+            if (_checked) {
+                $('table.pi2 tr[data-row=' + $(elm).val() + '] input').prop('disabled', 0)
+                $('table.pi2 tr[data-row=' + $(elm).val() + '] input.datepicker').datepicker({
+                    weekStart: 1,
+                    language: 'id',
+                    format: 'dd-mm-yyyy',
+                    autoclose: true
+                });
+            } else {
+                $('table.pi2 tr[data-row=' + $(elm).val() + '] input').prop('disabled', 1)
+            }
+        }
+
         $('document').ready(function() {
             const hash = window.location.hash.substring(1)
             if (hash.length) {

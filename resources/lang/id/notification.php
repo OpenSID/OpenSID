@@ -54,5 +54,8 @@ return [
         'success' => 'Berhasil mengubah status data',
         'error'   => 'Gagal mengubah status data',
     ],
+
+    // Lainnya
+    'mode_demo' => 'Fitur ini tidak tersedia dalam mode demo.',
 ];
 

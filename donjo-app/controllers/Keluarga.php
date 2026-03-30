@@ -112,7 +112,7 @@ class Keluarga extends Admin_Controller
             'judul_statistik' => $this->judulStatistik,
             'filterColumn'    => $this->filterColumn,
             'statistikFilter' => $this->statistikFilter,
-            'defaultStatus'   => $this->defaultStatus,
+            'defaultStatus'   => $this->filterColumn['status'] === 'all' ? null : $this->defaultStatus,
         ];
 
         view('admin.penduduk.keluarga.index', $data);

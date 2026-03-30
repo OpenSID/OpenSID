@@ -85,7 +85,7 @@
                 <div class="form-group" id="youtube" style="display: {{ setting('anjungan_profil') == 3 ? '' : 'none' }}">
                     <label class="col-sm-3 control-label" for="youtube">URL Youtube</label>
                     <div class="col-sm-9">
-                        <input class="form-control input-sm {{ setting('anjungan_profil') == 3 ? 'required' : '' }}" type="text" placeholder="Masukkan url youtube" name="youtube" value="{{ setting('anjungan_youtube') }}">
+                        <input id="youtubeInput" class="form-control input-sm {{ setting('anjungan_profil') == 3 ? 'required' : '' }}" type="text" placeholder="Masukkan url youtube" name="youtube" value="{{ setting('anjungan_youtube') }}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -160,6 +160,20 @@
     <script>
         $(document).ready(function() {
             $('.artikel-multiple').select2();
+        });
+
+        $('#youtubeInput').on('change', function() {
+            let val = $(this).val().trim();
+
+            try {
+                let url = new URL(val);
+                // Ambil path terakhir setelah /
+                let videoId = url.pathname.split('/').pop();
+                $(this).val(videoId);
+            } catch (e) {
+                // kalau bukan URL, biarkan
+                $(this).val(val);
+            }
         });
 
         $('select[name="tampilan_profil"]').on('change', function() {

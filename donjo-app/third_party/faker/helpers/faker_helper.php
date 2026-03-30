@@ -35,17 +35,17 @@
  *
  */
 
+use App\Enums\AgamaEnum;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
-use App\Models\Agama;
+use App\Enums\StatusKawinEnum;
 use App\Models\GolonganDarah;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\Pekerjaan;
 use App\Models\Pendidikan;
 use App\Models\PendidikanKK;
-use App\Models\StatusKawin;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -236,7 +236,7 @@ function buatIndividu($configId, string $kodeKecamatan, $kkLevel, $statusKawin =
     } elseif (in_array($kkLevel, [SHDKEnum::SUAMI, SHDKEnum::ISTRI, SHDKEnum::SUAMI])) {
         $statusKawin = 2;
     } else {
-        $statusKawin = faker()->numberBetween(2, StatusKawin::count());
+        $statusKawin = faker()->numberBetween(2, StatusKawinEnum::count());
     }
 
     // NIK diambil dari kode kecamatan + 6 digit tgl lahir + 4 digit nomer urut
@@ -260,7 +260,7 @@ function buatIndividu($configId, string $kodeKecamatan, $kkLevel, $statusKawin =
         'sex'                  => $sex,
         'tempatlahir'          => faker()->city,
         'tanggallahir'         => $tanggallahir,
-        'agama_id'             => faker()->numberBetween(1, Agama::count()),
+        'agama_id'             => faker()->numberBetween(1, AgamaEnum::count()),
         'pendidikan_kk_id'     => faker()->numberBetween(1, PendidikanKK::count()),
         'pendidikan_sedang_id' => faker()->numberBetween(1, Pendidikan::count()),
         'pekerjaan_id'         => faker()->numberBetween(1, Pekerjaan::count()),

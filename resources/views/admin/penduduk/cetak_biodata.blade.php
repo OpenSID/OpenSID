@@ -76,12 +76,12 @@
                 <tr>
                     <td>Agama</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->agama->nama) }}</td>
+                    <td>{{ $penduduk->agama }}</td>
                 </tr>
                 <tr>
                     <td>Pendidikan Terakhir</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->pendidikanKK) }}</td>
+                    <td>{{ $penduduk->pendidikan_kk }}</td>
                 </tr>
                 <tr>
                     <td>Pekerjaan</td>
@@ -91,7 +91,7 @@
                 <tr>
                     <td>Golongan Darah</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->golonganDarah->nama) }}</td>
+                    <td>{{ $penduduk->golongan_darah }}</td>
                 </tr>
                 <tr>
                     <td>Cacat</td>
@@ -111,7 +111,7 @@
                 <tr>
                     <td>Warga Negara</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->warganegara->nama) }}</td>
+                    <td>{{ strtoupper($penduduk->warganegara) }}</td>
                 </tr>
                 <tr>
                     <td>Suku/Etnis</td>

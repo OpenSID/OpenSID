@@ -121,12 +121,12 @@ class Program_bantuan extends Admin_Controller
                         ])->render();
                     }
 
-                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => site_url("program_bantuan/hapus/{$row->id}"),
-                        'confirmDelete' => true,
-                        'target'        => ($row->peserta_count != 0 || null === $row->config_id || $openKab) ? '' : 'confirm-delete',
-                        'attributes'    => ($row->peserta_count != 0 || null === $row->config_id || $openKab) ? 'disabled' : '',
-                    ])->render();
+                    if (! $openKab) {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => site_url("program_bantuan/hapus/{$row->id}"),
+                            'confirmDelete' => true,
+                        ])->render();
+                    }
 
                     return $aksi;
                 })
@@ -383,6 +383,11 @@ class Program_bantuan extends Admin_Controller
     {
         isCan('h', 'program-bantuan');
         $bantuan = Bantuan::findOrFail($id);
+
+        if ($bantuan->peserta()->exists()) {
+            redirect_with('information', 'Program bantuan tidak dapat dihapus karena masih memiliki peserta');
+        }
+
         if ($bantuan->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
