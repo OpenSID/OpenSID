@@ -22,6 +22,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 18. [#10878](https://github.com/OpenSID/OpenSID/issues/10878) Perbaikan inputan lat/long pada pengaturan peta lokasi agar tidak bisa menerima inputan huruf.
 19. [#10963](https://github.com/OpenSID/OpenSID/issues/10963) Perbaikan tidak bisa upload file galeri dan gambar tidak tampil di slider.
 20. [#6093](https://github.com/OpenSID/premium/issues/6093) Perbaikan Stored XSS via Attribute Injection pada Modul Pembangunan (Halaman Publik).
+21. [#10971](https://github.com/OpenSID/OpenSID/issues/10971) Perbaikan bagan struktur organisasi pemerintah desa tidak tampil.
 
 ### KEAMANAN
 1. [#6016](https://github.com/OpenSID/premium/issues/6016) Peningkatan keamanan backup .sid dan pengurus.
