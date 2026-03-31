@@ -77,13 +77,6 @@ Route::group('internal_api', ['namespace' => 'internal_api'], static function ()
     // DPT
     Route::get('dpt', 'Dpt@index')->name('api.dpt');
 
-    // Lapak
-    Route::group('lapak', static function (): void {
-        Route::get('produk', 'Lapak@produk')->name('api.lapak.produk');
-        Route::get('kategori', 'Lapak@kategori')->name('api.lapak.kategori');
-        Route::get('pelapak', 'Lapak@pelapak')->name('api.lapak.pelapak');
-    });
-
     // Kelompok
     Route::get('/kelompok/{slug}', 'Kelompok@detail')->name('api.kelompok.detail');
     Route::get('/kelompok/anggota/{slug}', 'Kelompok@anggota')->name('api.kelompok.anggota');

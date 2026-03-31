@@ -35,15 +35,14 @@
  *
  */
 
-namespace App\Http\Transformers;
+use App\Traits\ModulTrait;
 
-use League\Fractal\TransformerAbstract;
-use Modules\Lapak\Models\Pelapak;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-class LapakPelapakTransformer extends TransformerAbstract
+abstract class ApiModulController extends Api_Controller
 {
-    public function transform(Pelapak $pelapak)
+    public function __construct()
     {
-        return $pelapak->toArray();
+        parent::__construct();
     }
 }

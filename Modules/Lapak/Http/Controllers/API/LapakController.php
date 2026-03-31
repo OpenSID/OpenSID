@@ -35,15 +35,26 @@
  *
  */
 
-namespace App\Http\Transformers;
+use Modules\Lapak\Http\Transformers\LapakKategoriTransformer;
+use Modules\Lapak\Http\Transformers\LapakProdukTransformer;
+use Modules\Lapak\Repositories\LapakKategoriRepository;
+use Modules\Lapak\Repositories\LapakProdukRepository;
 
-use League\Fractal\TransformerAbstract;
-use Modules\Lapak\Models\ProdukKategori;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-class LapakKategoriTransformer extends TransformerAbstract
+class LapakController extends ApiModulController
 {
-    public function transform(ProdukKategori $produkKategori)
+    public function produk()
     {
-        return $produkKategori->toArray();
+        $lapakProduk = new LapakProdukRepository();
+
+        return json($this->fractal($lapakProduk->list(), new LapakProdukTransformer(), 'lapak-produk'));
+    }
+
+    public function kategori()
+    {
+        $lapakKategori = new LapakKategoriRepository();
+
+        return json($this->fractal($lapakKategori->list(), new LapakKategoriTransformer(), 'lapak-kategori'));
     }
 }
