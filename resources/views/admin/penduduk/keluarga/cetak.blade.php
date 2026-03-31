@@ -54,7 +54,7 @@
                             <td>{{ strtoupper($data->kepalaKeluarga->nama) }}</td>
                             <td>{{ $privasi_kk ? sensor_nik_kk($data->kepalaKeluarga->nik) : $data->kepalaKeluarga->nik }}</td>
                             <td>{{ $data->anggota->count() }}</td>
-                            <td>{{ $data->kepalaKeluarga->jenisKelamin->nama }}</td>
+                            <td>{{ $data->kepalaKeluarga->jenis_kelamin }}</td>
                             <td>{{ strtoupper($data->kepalaKeluarga->alamat_wilayah) }}</td>
                             <td>{{ strtoupper($data->kepalaKeluarga->wilayah->dusun) }}</td>
                             <td>{{ strtoupper($data->kepalaKeluarga->wilayah->rw) }}</td>

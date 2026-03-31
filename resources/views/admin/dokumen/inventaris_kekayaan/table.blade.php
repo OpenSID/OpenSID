@@ -1,12 +1,30 @@
 <form id="mainform" name="mainform" method="post" class="">
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ route('bumindes_inventaris_kekayaan.cetak', ['aksi' => 'cetak']) }}" target="_blank" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Inventaris">
-                <i class="fa fa-print"></i>Cetak
-            </a>
-            <a href="{{ route('bumindes_inventaris_kekayaan.cetak', ['aksi' => 'unduh']) }}" target="_blank" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Inventaris">
-                <i class="fa fa-download"></i>Unduh
-            </a>
+            @php
+                $listCetakUnduh = [
+                    [
+                        'url' => 'bumindes_inventaris_kekayaan/cetak/cetak',
+                        'judul' => 'Cetak',
+                        'icon' => 'fa fa-print',
+                        'target' => 'true',
+                    ],
+                    [
+                        'url' => 'bumindes_inventaris_kekayaan/cetak/unduh',
+                        'judul' => 'Unduh',
+                        'icon' => 'fa fa-download',
+                        'target' => 'true',
+                    ]
+                ];
+            @endphp
+
+            <x-split-button
+                judul="Cetak/Unduh"
+                :list="$listCetakUnduh"
+                :icon="'fa fa-arrow-circle-down'"
+                :type="'bg-purple'"
+                :target="true"
+            />
         </div>
         <div class="box-body">
             <div class="row mepet">

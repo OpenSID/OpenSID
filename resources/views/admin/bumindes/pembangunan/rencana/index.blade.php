@@ -2,24 +2,30 @@
 
 <div class="box box-info">
     <div class="box-header with-border">
-        <a
-            href="{{ ci_route('bumindes_rencana_pembangunan/dialog/cetak') }}"
-            class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Buku Rencana Kerja Pembangunan"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Cetak Buku Rencana Kerja Pembangunan"
-        ><i class="fa fa-print "></i> Cetak</a>
-        <a
-            href="{{ ci_route('bumindes_rencana_pembangunan/dialog/unduh') }}"
-            class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Buku Rencana Kerja Pembangunan"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Unduh Buku Rencana Kerja Pembangunan"
-        ><i class="fa fa-download"></i> Unduh</a>
+        @php
+            $listCetakUnduh = [
+                [
+                    'url' => 'bumindes_rencana_pembangunan/dialog/cetak',
+                    'judul' => 'Cetak',
+                    'icon' => 'fa fa-print',
+                    'modal' => true,
+                ],
+                [
+                    'url' => 'bumindes_rencana_pembangunan/dialog/unduh',
+                    'judul' => 'Unduh',
+                    'icon' => 'fa fa-download',
+                    'modal' => true,
+                ]
+            ];
+        @endphp
+
+        <x-split-button
+            judul="Cetak/Unduh"
+            :list="$listCetakUnduh"
+            :icon="'fa fa-arrow-circle-down'"
+            :type="'bg-purple'"
+            :target="true"
+        />
     </div>
     <div class="box-body">
         <div class="row mepet">

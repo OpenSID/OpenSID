@@ -140,7 +140,7 @@ class RegisteredUserController extends Web_Controller
             'scan_kk'     => basename($filePaths['scan_kk']),
             'foto_selfie' => basename($filePaths['foto_selfie']),
             'ganti_pin'   => 0,
-            'pin'         => Hash::driver('md5')->make($data['password']),
+            'pin'         => Hash::make($data['password']),
         ]);
 
         Auth::guard('penduduk')->login($mandiri);

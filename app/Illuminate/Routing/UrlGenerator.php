@@ -58,7 +58,7 @@ class UrlGenerator
     /**
      * The application instance.
      *
-     * @var \App\Services\Laravel
+     * @var Laravel
      */
     protected $app;
 
@@ -150,9 +150,9 @@ class UrlGenerator
         $tail = implode(
             '/',
             array_map(
-            'rawurlencode',
-            (array) $extra
-        )
+                'rawurlencode',
+                (array) $extra
+            )
         );
 
         // Once we have the scheme we will compile the "tail" by collapsing the values
@@ -556,7 +556,7 @@ class UrlGenerator
     /**
      * Clone a new instance of the URL generator with a different encryption key resolver.
      *
-     * @return \Illuminate\Routing\UrlGenerator
+     * @return UrlGenerator
      */
     public function withKeyResolver(callable $keyResolver)
     {

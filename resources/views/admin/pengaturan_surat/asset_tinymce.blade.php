@@ -362,7 +362,12 @@ src: url($url) format('truetype');
             }
 
             function splitTextEveryNChars(text, chunkSize) {
-                return text.replace(new RegExp(`.{${chunkSize}}`, 'g'), '$& ');
+                return text.replace(/\S+/g, function(word) {
+                    if (word.length > chunkSize) {
+                        return word.replace(new RegExp(`.{${chunkSize}}`, 'g'), '$& ');
+                    }
+                    return word;
+                });
             }
         });
     </script>

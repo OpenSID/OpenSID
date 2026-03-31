@@ -109,7 +109,7 @@
                                                             <th>{{ $nomor }}</th>
                                                             <th>{{ $nama }}</th>
                                                             @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, App\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
-                                                                <th>L/P</th>
+                                                                <th>Jenis Kelamin</th>
                                                             @endif
                                                             @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, App\Enums\AnalisisRefSubjekEnum::KELOMPOK, App\Enums\AnalisisRefSubjekEnum::RW, App\Enums\AnalisisRefSubjekEnum::RT]))
                                                                 <th>{{ ucwords(setting('sebutan_dusun')) }}</th>

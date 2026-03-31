@@ -60,9 +60,8 @@ class Klasifikasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $enable = $this->input->get('enable');
 
-            return datatables()->of(KlasifikasiSurat::filter($enable))
+            return datatables()->of($this->sumberData())
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
@@ -93,6 +92,13 @@ class Klasifikasi extends Admin_Controller
                 ->rawColumns(['aksi', 'checkbox'])
                 ->make();
         }
+    }
+
+    private function sumberData()
+    {
+        $enable = $this->input->get('enable');
+
+        return KlasifikasiSurat::filter($enable);
     }
 
     public function form($id = '')
@@ -216,5 +222,27 @@ class Klasifikasi extends Admin_Controller
             'nama'   => alfa_spasi($data['nama']),
             'uraian' => strip_tags($data['uraian']),
         ];
+    }
+
+    public function cetak()
+    {
+        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+        $query          = $this->sumberData();
+        if ($paramDatatable['start']) {
+            $query->skip($paramDatatable['start']);
+        }
+
+        $data         = $this->modal_penandatangan();
+        $data['aksi'] = 'cetak';
+        $data['main'] = $query->take($paramDatatable['length'])->get();
+
+        $data['tgl_cetak']   = $this->input->post('tgl_cetak');
+        $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
+        $data['file']        = 'Klasifikasi Surat';
+        $data['isi']         = 'admin.klasifikasi.cetak';
+        $data['letak_ttd']   = ['2', '2', '9'];
+
+        return view('admin.layouts.components.format_cetak', $data);
     }
 }

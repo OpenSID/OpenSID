@@ -39,6 +39,7 @@ use App\Models\PendudukMandiri;
 use App\Services\Auth\Traits\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -122,6 +123,12 @@ class AuthenticatedSessionController extends Web_Controller
                     static fn ($q) => $q->status(1)
                 ),
             ]);
+
+            if (Hash::needsRehash(Auth::guard($this->guard)->user()->getAuthPassword())) {
+                Auth::guard($this->guard)->user()->forceFill([
+                    'pin' => Hash::make($request->password),
+                ])->save();
+            }
         } elseif ($request->has('tag_id_card')) {
             // Login menggunakan E-KTP tanpa password
             $this->authenticateEktp($request);

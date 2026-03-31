@@ -35,11 +35,11 @@
  *
  */
 
+use App\Imports\KlasifikasiSuratImports;
 use App\Models\Modul;
 use App\Models\Widget;
 use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
-use App\Imports\KlasifikasiSuratImports;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

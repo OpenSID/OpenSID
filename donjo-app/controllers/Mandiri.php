@@ -39,6 +39,7 @@ use App\Libraries\OTP\OtpManager;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
 use App\Models\PendudukMandiri;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 use NotificationChannels\Telegram\Telegram;
 
@@ -259,7 +260,7 @@ class Mandiri extends Admin_Controller
             $mandiri = new PendudukMandiri();
             $pin     = bilangan($this->request['pin'] ?: $mandiri->generate_pin());
 
-            $mandiri->pin     = hash_pin($pin); // Hash PIN
+            $mandiri->pin     = Hash::make($pin); // Hash PIN
             $mandiri->id_pend = $this->request['id_pend'];
             $mandiri->save();
 
@@ -287,7 +288,7 @@ class Mandiri extends Admin_Controller
             $penduduk = PendudukHidup::select(['nik', 'nama', 'email', 'telepon', 'telegram'])->find($id_pend);
 
             $pilihan_kirim = $this->request['pilihan_kirim'];
-            $data['pin']   = hash_pin($pin); // Hash PIN
+            $data['pin']   = Hash::make($pin); // Hash PIN
             $media         = null;
 
             switch ($pilihan_kirim) {

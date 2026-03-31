@@ -149,8 +149,8 @@
                         orderable: true
                     },
                     {
-                        data: 'jk.nama',
-                        name: 'jk.nama',
+                        data: 'jenis_kelamin',
+                        name: 'jenis_kelamin',
                         searchable: true,
                         orderable: true
                     },

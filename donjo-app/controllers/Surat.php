@@ -318,6 +318,33 @@ class Surat extends Admin_Controller
                 $log_surat['pengikut_pindah'] = generatePengikutPindah($pengikut);
             }
 
+            if (isset($log_surat['input']['id_pengikut_pi'])) {
+
+                // Ambil SEMUA anggota keluarga dari pemohon untuk tabel pertama
+                $pemohon = Penduduk::find($log_surat['id_pend']);
+                $semua_anggota = Penduduk::with(['pendudukHubungan'])->where('id_kk', $pemohon->id_kk)->orderKeluarga()->get();
+
+                // Ambil data pengikut yang DICENTANG (yang datanya diubah)
+                $pengikut_diubah = Penduduk::whereIn('id', $log_surat['input']['id_pengikut_pi'])->orderKeluarga()->get();
+                $perubahan_data  = [];
+
+                // Buat array perubahan data, dengan NIK sebagai key
+                foreach ($pengikut_diubah as $anggota) {
+                    if (isset($log_surat['input']['pi'][$anggota->nik])) {
+                        $perubahan_data[$anggota->nik] = $log_surat['input']['pi'][$anggota->nik];
+                    }
+                }
+
+                $log_surat['pengikut_semua_anggota'] = $semua_anggota;
+                $log_surat['pengikut_ubahan_pendidikan_pekerjaan'] = $perubahan_data;
+                $log_surat['pengikut_ubahan_agama_lainnya'] = $perubahan_data;
+                $lainnya_pilihan = $log_surat['input']['lainnya'] ?? [];
+                $log_surat['pengikut_pi']       = generatePengikutSuratPI($semua_anggota);
+                $log_surat['pengikut_pi_pendidikan_pekerjaan'] = generatePengikutPiPendidikanPekerjaan($semua_anggota,$perubahan_data);
+                $log_surat['pengikut_pi_agama_lainnya'] = generatePengikutPiAgamaLainnya($semua_anggota, $perubahan_data, $lainnya_pilihan);
+
+            }
+
             $daftar_kategori = get_key_form_kategori($surat->form_isian);
 
             foreach ($daftar_kategori as $key => $kategori) {
@@ -719,6 +746,13 @@ class Surat extends Admin_Controller
             }
         }
 
+        if (preg_match('/\[pengikut_perubahan_kependudukan\]/i', $template)) {
+            $pengikut = $this->pengikutSuratPerubahanKependudukan($data);
+            if ($pengikut) {
+                $data['pengikut_perubahan_kependudukan'] = $pengikut;
+            }
+        }
+
         $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
@@ -887,6 +921,11 @@ class Surat extends Admin_Controller
     }
 
     private function pengikutSuratKIS(array $data)
+    {
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
+    }
+
+    private function pengikutSuratPerubahanKependudukan(array $data)
     {
         return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
     }

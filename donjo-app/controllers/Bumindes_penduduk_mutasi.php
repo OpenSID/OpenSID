@@ -37,7 +37,6 @@
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusPendudukEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Models\LogHapusPenduduk;
 use App\Models\LogPenduduk;
 
@@ -73,7 +72,7 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
                 ->addIndexColumn()
                 ->editColumn('sex', static fn ($row): string => strtoupper((string) JenisKelaminEnum::valueOf($row->penduduk->sex)))
                 ->editColumn('tanggallahir', static fn ($row) => tgl_indo_out($row->penduduk->tanggallahir))
-                ->editColumn('warganegara', static fn ($row): string => strtoupper((string) WargaNegaraEnum::valueOf($row->penduduk->warganegara_id)))
+                ->editColumn('warganegara', static fn ($row): string => $row->penduduk->warganegara)
                 ->editColumn('alamat_sebelumnya', static fn ($row) => $row->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK ? $row->penduduk->alamat_sebelumnya : '-')
                 ->editColumn('tanggal_sebelumnya', static fn ($row) => $row->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK ? tgl_indo_out($row->penduduk->created_at) : '-')
                 ->editColumn('alamat_tujuan', static fn ($row) => $row->kode_peristiwa == LogPenduduk::PINDAH_KELUAR ? $row->alamat_tujuan : '-')

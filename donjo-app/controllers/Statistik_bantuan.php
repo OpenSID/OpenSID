@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikJenisBantuanEnum;
 use App\Libraries\Statistik;
@@ -182,16 +183,16 @@ class Statistik_bantuan extends Admin_Controller
             $query = BantuanPeserta::join('program', 'program.id', '=', 'program_peserta.program_id')
                 ->where('program_peserta.config_id', identitas('id'))
                 ->when($filter['tahun'], static fn ($q) => $q->whereYear('sdate', '<=', $filter['tahun'])->whereYear('edate', '>=', $filter['tahun']))
-                ->when($filter['status'] == 1, static function ($query) use ($currentDate) {
+                ->when($filter['status'] == AktifEnum::AKTIF, static function ($query) use ($currentDate) {
                     $query->where(static function ($query) use ($currentDate) {
                         $query->whereDate('sdate', '<=', $currentDate)
                             ->whereDate('edate', '>=', $currentDate);
                     });
                 })
-                ->when($filter['status'] == 0, static function ($query) use ($currentDate) {
+                ->when($filter['status'] == AktifEnum::TIDAK_AKTIF, static function ($query) use ($currentDate) {
                     $query->where(static function ($query) use ($currentDate) {
-                        $query->whereDate('sdate', '>=', $currentDate)
-                            ->orWhereDate('edate', '<=', $currentDate);
+                        $query->whereDate('sdate', '>', $currentDate)
+                            ->orWhereDate('edate', '<', $currentDate);
                     });
                 });
 

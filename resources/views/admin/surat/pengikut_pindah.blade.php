@@ -29,7 +29,7 @@
                                 <td class="padat">{{ $data->nik }}</td>
                                 <td nowrap>Seumur Hidup</td>
                                 <td nowrap>{{ $data->nama }}</td>
-                                <td nowrap>{{ $data->jenisKelamin->nama }}</td>
+                                <td nowrap>{{ $data->jenis_kelamin }}</td>
                                 <td nowrap>{{ $data->umur }}</td>
                                 <td nowrap>{{ $data->status_perkawinan }}</td>
                             </tr>

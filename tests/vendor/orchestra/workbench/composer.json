@@ -1,0 +1,94 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "orchestra/workbench",
+    "description": "Workbench Companion for Laravel Packages Development",
+    "type": "library",
+    "keywords": ["laravel", "laravel-packages", "testing", "dev"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mior Muhammad Zaki",
+            "email": "crynobone@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Orchestra\\Workbench\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Orchestra\\Workbench\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "composer-runtime-api": "^2.2",
+        "fakerphp/faker": "^1.21",
+        "laravel/framework": "^10.48.28",
+        "laravel/tinker": "^2.8.2",
+        "nunomaduro/collision": "^6.4|^7.10",
+        "orchestra/canvas": "^8.12.0",
+        "orchestra/sidekick": "^1.1.0",
+        "orchestra/testbench-core": "^8.35.0",
+        "symfony/polyfill-php83": "^1.31",
+        "symfony/process": "^6.2",
+        "symfony/yaml": "^6.2"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.17",
+        "mockery/mockery": "^1.5.1",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^10.1",
+        "spatie/laravel-ray": "^1.39"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "suggest": {
+        "ext-pcntl": "Required to use all features of the console signal trapping."
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "build:assets": [
+            "npm ci",
+            "npm run build"
+        ],
+        "build:dev-assets": [
+            "npm ci",
+            "npm run dev"
+        ],
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
+        "lint": [
+            "@php vendor/bin/pint --ansi",
+            "@php vendor/bin/phpstan analyse --verbose"
+        ],
+        "test": "@php vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php --color tests",
+        "sync": [
+            "@php bin/sync",
+            "@php vendor/bin/pint --ansi",
+            "npm ci",
+            "npm run build"
+        ],
+        "ci": [
+            "@prepare",
+            "@lint",
+            "@test"
+        ]
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}

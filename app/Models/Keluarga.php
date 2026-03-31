@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
@@ -484,10 +485,9 @@ class Keluarga extends BaseModel
                     break;
             }
         }
-        if ($sex == 1) {
-            $judul['nama'] .= ' - LAKI-LAKI';
-        } elseif ($sex == 2) {
-            $judul['nama'] .= ' - PEREMPUAN';
+
+        if (in_array($sex, [1, 2])) {
+            $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex);
         }
 
         return $judul;
@@ -514,7 +514,7 @@ class Keluarga extends BaseModel
             }
             if ($exists = self::where(['no_kk' => $data['no_kk']])->exists()) {
                 set_session('autodismiss', true);
-                $url       = base_url("keluarga?kumpulanKK[]={$data['no_kk']}");
+                $url       = base_url("keluarga?status=all&kumpulanKK={$data['no_kk']}");
                 $invalid[] = "Nomor KK <a href='{$url}'>{$data['no_kk']}</a> sudah digunakan";
             }
         }

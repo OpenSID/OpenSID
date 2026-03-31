@@ -99,9 +99,6 @@ class Suplemen extends Admin_Controller
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                             'url'           => "suplemen/delete/{$row->id}",
                             'confirmDelete' => true,
-                            'target'        => $row->terdata_count > 0 ? '' : 'confirm-delete',
-                            'attributes'    => $row->terdata_count > 0 ? 'disabled' : '',
-                            'judul'         => $row->terdata_count > 0 ? 'Tidak bisa dihapus karena sudah ada data terdata' : '',
                         ])->render();
                     }
 
@@ -174,7 +171,7 @@ class Suplemen extends Admin_Controller
             redirect_with('error', 'Anda tidak memiliki akses untuk halaman tersebut!');
         }
         if ($suplemen->terdata()->count() > 0) {
-            redirect_with('error', 'Gagal Hapus Data');
+            redirect_with('information', 'Suplemen tidak dapat dihapus karena masih memiliki peserta');
         }
 
         if ($suplemen->destroy($id)) {
@@ -236,13 +233,13 @@ class Suplemen extends Admin_Controller
                         $sasaran = $row->sasaran == SuplemenTerdata::PENDUDUK
                             ? $row->penduduk_id
                             : $row->keluarga_id;
-                        View::make('admin.layouts.components.buttons.edit', [
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
                             'url' => "suplemen/form_terdata/{$row->id_suplemen}/0/{$sasaran}",
                         ])->render();
                     }
 
                     if (can('h')) {
-                        View::make('admin.layouts.components.buttons.hapus', [
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                             'url'           => ci_route('suplemen.delete_terdata', $row->id),
                             'confirmDelete' => true,
                         ])->render();

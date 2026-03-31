@@ -55,7 +55,7 @@ class PemerintahTransformer extends TransformerAbstract
             ->where('tanggal', Carbon::now()->format('Y-m-d'))
             ->orderBy('id', 'DESC')->first();
 
-        $defaultFoto = ($pemerintah->pamong_sex ?? 1) == 1 ? 'kuser.png' : 'wuser.png';
+        $defaultFoto = ($pemerintah->pamong_sex_id ?? 1) == 1 ? 'kuser.png' : 'wuser.png';
 
         $tampilkanStatusKehadiran = ! (JamKerja::libur()->exists() || HariLibur::liburNasional()->exists())
             || setting('tampilkan_status_kehadiran_pada_hari_libur');

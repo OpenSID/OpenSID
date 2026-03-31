@@ -151,6 +151,12 @@ class DataSuratPenduduk extends CI_Controller
                     $data['pengikut_pindah'] = $pengikut;
                 }
             }
+            if (str_contains($surat->lampiran ?? '', 'F-1.06')) {
+                $pengikut = $this->pengikutSuratPI($data);
+                if ($pengikut) {
+                    $data['pengikut_pi'] = $pengikut;
+                }
+            }
         }
 
         $filters = collect($surat->form_isian->{$kategori})->toArray();
@@ -230,6 +236,11 @@ class DataSuratPenduduk extends CI_Controller
     }
 
     private function pengikutSuratKIS(array $data)
+    {
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
+    }
+
+    private function pengikutSuratPI(array $data)
     {
         return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
     }

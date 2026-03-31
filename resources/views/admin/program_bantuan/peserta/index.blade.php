@@ -26,13 +26,13 @@
                 <div class="box-header with-border">
                     @php 
                     $listTambah = [
-                        [ 'url' => "peserta_bantuan/aksi/1/{$detail['id']}", 'judul' => "Tambah Satu Peserta Baru", 'icon' => 'fa fa-plus'],
-                        [ 'url' => "peserta_bantuan/aksi/2/{$detail['id']}", 'judul' => "Tambah Beberapa Peserta Baru", 'icon' => 'fa fa-plus']
+                        ['url' => "peserta_bantuan/aksi/1/{$detail['id']}", 'judul' => "Tambah Satu Peserta Baru", 'icon' => 'fa fa-plus'],
+                        ['url' => "peserta_bantuan/aksi/2/{$detail['id']}", 'judul' => "Tambah Beberapa Peserta Baru", 'icon' => 'fa fa-plus']
                     ];
 
                     $listCetakUnduh = [
-                        [ 'url' => "peserta_bantuan/daftar/{$detail['id']}/cetak", 'judul' => "Cetak", 'icon' => 'fa fa-print', 'target' => true],
-                        [ 'url' => "peserta_bantuan/daftar/{$detail['id']}/unduh", 'judul' => "Unduh", 'icon' => 'fa fa-download', 'target' => true]
+                        ['url' => "peserta_bantuan/daftar/{$detail['id']}/cetak", 'judul' => "Cetak", 'icon' => 'fa fa-print', 'target' => true],
+                        ['url' => "peserta_bantuan/daftar/{$detail['id']}/unduh", 'judul' => "Unduh", 'icon' => 'fa fa-download', 'target' => true]
                     ];
                     @endphp
                     <x-split-button judul="Tambah" :list="$listTambah" />

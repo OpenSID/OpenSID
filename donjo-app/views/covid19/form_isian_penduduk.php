@@ -19,8 +19,8 @@
 			<label for="sex">Jenis Kelamin</label>
 			<select class="form-control input-sm required" name="sex" >
 				<option value="">-- Pilih Jenis Kelamin --</option>
-				<?php foreach ($jenis_kelamin as $data): ?>
-					<option <?php selected($penduduk['id_sex'], $data['id']); ?> value="<?= $data['id']?>"> <?= strtoupper($data['nama'])?> </option>
+				<?php foreach (\App\Enums\JenisKelaminEnum::valuesToUpper() as $id => $nama): ?>
+					<option <?php selected($penduduk['id_sex'], $id); ?> value="<?= $id ?>"> <?= $nama ?> </option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -31,9 +31,12 @@
 			<label for="agama_id">Agama</label>
 			<select class="form-control input-sm required" name="agama_id" >
 				<option value="">-- Pilih Agama --</option>
-				<?php foreach ($agama as $data): ?>
-					<option <?php selected($penduduk['agama_id'], $data['id']); ?> value="<?= $data['id']?>"> <?= strtoupper($data['nama'])?> </option>
+				<?php foreach (App\Enums\AgamaEnum::all() as $id => $nama): ?>
+					<option <?= selected($penduduk['agama_id'], $id); ?> value="<?= $id ?>">
+						<?= $nama ?>
+					</option>
 				<?php endforeach; ?>
+
 			</select>
 		</div>
 	</div>

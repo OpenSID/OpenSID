@@ -72,7 +72,7 @@ class Teks_berjalan extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? null;
-            $query  = TeksBerjalan::status($status);
+            $query  = TeksBerjalan::with('artikel')->status($status);
 
             return datatables()->of($query)
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')

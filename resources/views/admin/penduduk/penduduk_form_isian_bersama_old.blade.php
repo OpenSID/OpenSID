@@ -156,10 +156,9 @@
             <select class="form-control input-sm required" name="sex"
                 onchange="ubah_sex($(this).find(':selected').val());">
                 <option value="">Jenis Kelamin</option>
-                <option value="1" @selected($penduduk['id_sex']==\App\Enums\JenisKelaminEnum::LAKI_LAKI)>Laki-Laki
-                </option>
-                <option value="2" @selected($penduduk['id_sex']==\App\Enums\JenisKelaminEnum::PEREMPUAN)>Perempuan
-                </option>
+                @foreach(\App\Enums\JenisKelaminEnum::all() as $key => $label)
+                    <option value="{{ $key }}" @selected($penduduk['id_sex'] == $key)>{{ $label }}</option>
+                @endforeach
             </select>
         </div>
     </div>
@@ -168,10 +167,12 @@
             <label for="agama_id">Agama</label>
             <select class="form-control input-sm required" name="agama_id">
                 <option value="">Pilih Agama</option>
-                @foreach ($agama as $key => $value)
-                <option value="{{ $key }}" @selected($penduduk['agama_id']==$key)>{{ strtoupper($value) }}
-                </option>
+                @foreach (\App\Enums\AgamaEnum::all() as $key => $value)
+                    <option value="{{ $key }}" @selected($penduduk['agama_id'] == $key)>
+                        {{ $value }}
+                    </option>
                 @endforeach
+
             </select>
         </div>
     </div>
@@ -326,7 +327,7 @@
             <label for="pendidikan_kk_id">Pendidikan Dalam KK </label>
             <select class="form-control input-sm required" name="pendidikan_kk_id">
                 <option value="">Pilih Pendidikan (Dalam KK) </option>
-                @foreach ($pendidikan_kk as $key => $value)
+                @foreach (\App\Enums\PendidikanKKEnum::all() as $key => $value)
                 <option value="{{ $key }}" @selected($penduduk['pendidikan_kk_id']==$key || ($jenis_peristiwa=='1' &&
                     $key==1))>{{ strtoupper($value) }}
                 </option>
@@ -449,10 +450,10 @@
                     <select class="form-control input-sm required" id="warganegara_id" name="warganegara_id"
                         onchange="show_hide_status_warga_negara($(this).find(':selected').val())">
                         <option value="">Pilih Warga Negara</option>
-                        @foreach ($warganegara as $key => $value)
-                        <option value="{{ $key }}" @selected($penduduk['warganegara_id']==$key)>
-                            {{ strtoupper($value) }}
-                        </option>
+                        @foreach (\App\Enums\WargaNegaraEnum::all() as $key => $value)
+                            <option value="{{ $key }}" @selected($penduduk['warganegara_id'] == $key)>
+                                {{ $value }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -740,9 +741,10 @@
                     <label for="golongan_darah_id">Golongan Darah</label>
                     <select class="form-control input-sm required" name="golongan_darah_id">
                         <option value="">Pilih Golongan Darah</option>
-                        @foreach ($golongan_darah as $key => $value)
-                        <option value="{{ $key }}" @selected($penduduk['golongan_darah_id']==$key)>
-                            {{ strtoupper($value) }}</option>
+                          @foreach (\App\Enums\GolonganDarahEnum::all() as $key => $value)
+                            <option value="{{ $key }}" @selected($penduduk['golongan_darah_id'] == $key)>
+                                {{ $value }}
+                            </option>
                         @endforeach
                     </select>
                 </div>

@@ -1,0 +1,9 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+transform(unserialize({{routes}})->getClosure(), function ($serializedClosure) use ($router) {
+    if ($serializedClosure instanceof Closure) {
+        value($serializedClosure, $router);
+    }
+});

@@ -19,7 +19,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <x-kembali-button judul="Kembali ke Widget" url="{{ci_route('web_widget')}}" />
+                    <x-kembali-button judul="Kembali ke Widget" url="web_widget" />
                 </div>
                 <div class="box-body">
                     <div class="form-group">

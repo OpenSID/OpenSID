@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <x-kembali-button judul="Kembali ke Daftar Sinergi Program" url="{{site_url('sinergi_program')}}" />
+            <x-kembali-button judul="Kembali ke Daftar Sinergi Program" url="sinergi_program" />
         </div>
         {!! form_open_multipart($form_action, 'id="validasi"') !!}
         <div class="box-body">

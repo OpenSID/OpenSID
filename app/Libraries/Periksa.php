@@ -195,6 +195,12 @@ class Periksa
             $this->periksa['tgllahir_null_kosong'] = $tgllahirNullKosong->toArray();
         }
 
+        $dataNull = $this->deteksiDataNull();
+        if (! $dataNull->isEmpty()) {
+            $this->periksa['masalah'][] = 'data_null';
+            $this->periksa['data_null'] = $dataNull->toArray();
+        }
+
         $suplemenTerdataKosong = $this->deteksiSuplemenTerdataKosong();
         if (! $suplemenTerdataKosong->isEmpty()) {
             $this->periksa['masalah'][]               = 'suplemen_terdata_kosong';
@@ -379,6 +385,30 @@ class Periksa
     private function deteksiModulAsingGrupAkses()
     {
         return GrupAkses::with(['grup'])->whereDoesntHave('modul')->get();
+    }
+
+    private function deteksiDataNull()
+    {
+        return Penduduk::where(static function ($query) {
+                $query->whereNull('nama');
+                $query->orWhereNull('nik');
+                $query->orWhereNull('sex');
+                $query->orWhereNull('kk_level');
+                $query->orWhereNull('kk_level');
+                $query->orWhereNull('tempatlahir');
+                $query->orWhereNull('tanggallahir');
+                $query->orWhereNull('agama_id');
+                $query->orWhereNull('pendidikan_kk_id');
+                $query->orWhereNull('pekerjaan_id');
+                $query->orWhereNull('golongan_darah_id');
+                $query->orWhereNull('status_kawin');
+                $query->orWhereNull('warganegara_id');
+                $query->orWhereNull('nama_ayah');
+                $query->orWhereNull('nama_ibu');
+                $query->orWhereNull('dokumen_pasport');
+                $query->orWhereNull('dokumen_kitas');
+            })
+            ->get();
     }
 
     public function perbaiki(): void

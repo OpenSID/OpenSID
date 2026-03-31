@@ -1,6 +1,6 @@
 @use('App\Libraries\UserAgent')
 
-<div class="penduduk_form penduduk_desa {{ in_array(old("{$kategori}.opsi_penduduk"), [2, 3]) ? 'hide' : '' }}">
+<div class="penduduk_form penduduk_desa {{ in_array(old("{$kategori}.opsi_penduduk"), array_keys($pendudukLuar)) ? 'hide' : '' }}">
     <div class="form-group">
         <label for="nik" class="col-sm-3 control-label">NIK / Nama</label>
         <div class="col-sm-8">

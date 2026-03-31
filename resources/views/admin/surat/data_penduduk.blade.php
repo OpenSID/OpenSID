@@ -34,7 +34,7 @@
                                     <td class="padat">{{ $key + 1 }}</td>
                                     <td class="padat">{{ $data->nik }}</td>
                                     <td nowrap>{{ $data->nama }}</td>
-                                    <td nowrap>{{ $data->jenisKelamin->nama }}</td>
+                                    <td nowrap>{{ $data->jenis_kelamin }}</td>
                                     <td nowrap>{{ $data->tempatlahir }},
                                         {{ tgl_indo($data->tanggallahir) }}
                                     </td>
@@ -75,6 +75,7 @@
 
     @includeWhen(isset($pengikut), 'admin.surat.pengikut')
     @includeWhen(isset($pengikut_kis), 'admin.surat.pengikut_kis')
+    @includeWhen(isset($pengikut_pi), 'admin.surat.pengikut_pi')
     @includeWhen(isset($pengikut_pindah), 'admin.surat.pengikut_pindah')
 @endif
 

@@ -1,38 +1,43 @@
-Di rilis ini, versi 2603.0.0 berisi penambahan histori pemesanan dan pendafataran modul dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2604.0.0 berisi penambahan data pekerja migran pada modul penduduk dan perbaikan lain yang diminta Komunitas SID.
 
 ### FITUR
 
-1. [#9022](https://github.com/OpenSID/OpenSID/issues/9022) Penambahan logo baru BSRE pada tinymce.
-2. [#9666](https://github.com/OpenSID/OpenSID/issues/9666) Penambahan histori pemesanan dan pendafataran modul.
+1. [#9846](https://github.com/OpenSID/OpenSID/issues/9846) Penambahan pengaturan sensor nama pada pengaduan.
+2. [#9853](https://github.com/OpenSID/OpenSID/issues/9853) Penambahan input data pekerja migran pada modul penduduk.
+3. [#9798](https://github.com/OpenSID/OpenSID/issues/9798) Penambahan detail data pada lampiran F-1.06.
+4. [#9780](https://github.com/OpenSID/OpenSID/issues/9780) Penambahan kolom gambar pada galeri.
 
 
 ### BUG
 
-1. [#9764](https://github.com/OpenSID/OpenSID/issues/9764) Perbaikan dan penambahan pengaturan tte untuk surat dinas.
-2. [#9833](https://github.com/OpenSID/OpenSID/issues/9833) Perbaikan sumber data penduduk yang boleh digunakan berulang berdasarkan status hubungan data pada form isian.
-3. [#9838](https://github.com/OpenSID/OpenSID/issues/9838) Perbaikan validasi form pada modul buku agenda surat masuk.
-4. [#9851](https://github.com/OpenSID/OpenSID/issues/9851) Perbaikan data ganda pada input keuangan.
-5. [#9829](https://github.com/OpenSID/OpenSID/issues/9829) Perbaikan text pada tools bullets/numbering tinymce, batasi sampai 85 karakter berurut.
-6. [#9869](https://github.com/OpenSID/OpenSID/issues/9869) Perbaikan menampilkan data statistik stunting pada halaman web.
-7. [#9868](https://github.com/OpenSID/OpenSID/issues/9868) Perbaikan menghapus data pada modul pemilihan.
-8. [#9872](https://github.com/OpenSID/OpenSID/issues/9872) Perbaikan penamaan penyandang catat menjadi penyandang disabilitas.
-9. [#9866](https://github.com/OpenSID/OpenSID/issues/9866) Perbaikan unduh dan cetak rumah tangga berdasarkan urutan.
-10. [#9467](https://github.com/OpenSID/OpenSID/issues/9467) Perbaikan kirim permohonan surat pada halaman layanan mandiri warga.
+1. [#9951](https://github.com/OpenSID/OpenSID/issues/9951) Perbaikan notifikasi ganti pin pengguna layanan mandiri.
+2. [#9961](https://github.com/OpenSID/OpenSID/issues/9961) Perbaikan cetak/unduh data pada modul analisis laporan.
+3. [#9939](https://github.com/OpenSID/OpenSID/issues/9939) Perbaikan template bawaan surat permohonan duplikat kelahiran.
+4. [#9894](https://github.com/OpenSID/OpenSID/issues/9894) Perbaikan dan penyesuaian relasi dari subjek analisis.
+5. [#9966](https://github.com/OpenSID/OpenSID/issues/9966) Perbaikan filter status pada modul program bantuan.
+6. [#9953](https://github.com/OpenSID/OpenSID/issues/9953) Perbaikan fungsi tombol pada pada form modul analisis indikator.
+7. [#9954](https://github.com/OpenSID/OpenSID/issues/9954) Perbaikan tombol cetak/unduh pada modul klasifikasi surat.
+8. [#9986](https://github.com/OpenSID/OpenSID/issues/9986) Perbaikan ubah status dasar menjadi mati pada modul penduduk.
+9. [#9991](https://github.com/OpenSID/OpenSID/issues/9991) Perbaikan hak akses ubah dokumen pada layanan mandiri warga.
+10. [#9990](https://github.com/OpenSID/OpenSID/issues/9990) Perbaikan tombol batal pada form tambah anggota rumah tangga.
+11. [#9968](https://github.com/OpenSID/OpenSID/issues/9968) Perbaikan pengaturan anjungan youtube autoreplay.
+12. [#9995](https://github.com/OpenSID/OpenSID/issues/9995) Perbaikan ubah data pada modul suplemen.
+13. [#9988](https://github.com/OpenSID/OpenSID/issues/9988) Perbaikan form inputan tanggal dan nomor sertifikat tidak wajib isi pada modul inventaris tanah.
+14. [#9827](https://github.com/OpenSID/OpenSID/issues/9827) Perbaikan perhitungan penyandang cacat, kepemilikan ktp, dan status kehamilan pada statistik kependudukan.
+15. [#9904](https://github.com/OpenSID/OpenSID/issues/9904) Perbaikan struktur tabel log_penduduk, penambahan ulang kolom catatan.
+16. [#9994](https://github.com/OpenSID/OpenSID/issues/9994) Perbaikan tidak dapat unggah dokumen peraturan desa.
+17. [#9930](https://github.com/OpenSID/OpenSID/issues/9930) Perbaikan struktur kolom wajib isi pada tabel tweb_penduduk.
+18. [#9932](https://github.com/OpenSID/OpenSID/issues/9932) Perbaikan data penduduk wajib isi melalui halaman periksa.
+19. [#10008](https://github.com/OpenSID/OpenSID/issues/10008) Perbaikan hapus data pada program bantuan.
+20. [#9894](https://github.com/OpenSID/OpenSID/issues/9894) Perbaikan dan penyesuaian relasi dari subjek analisis.
 
 
-### TEKNIS
+## TEKNIS
 
-1. [#5152](https://github.com/OpenSID/premium/issues/5152) Penyesuaian password pengguna menggunakan hash bawaan laravel.
-2. [#9842](https://github.com/OpenSID/OpenSID/issues/9842) Penyesuaian struktur view melalui halaman periksa.
-3. [#9870](https://github.com/OpenSID/OpenSID/issues/9870) Penyesuaian dan peningkatan performa menampilkan daftar peserta pada program bantuan.
+1. [#9923](https://github.com/OpenSID/OpenSID/issues/9923) Penyesuaian referensi data pendidikan dalam kk menggunakan enum.
+2. [#9925](https://github.com/OpenSID/OpenSID/issues/9925) Penyesuaian referensi data keluarga sejahtera menggunakan enum.
 
 
 ### KEAMANAN
 
-1. [#5163](https://github.com/OpenSID/premium/issues/5163) Peningkatan akses url dokumen.
-
-
-### LAYANAN
-
-1. [#5133](https://github.com/OpenSID/premium/issues/5133) Penambahan validasi domain alternatif untuk pelanggan premium.
-2. [#9843](https://github.com/OpenSID/OpenSID/issues/9843) Perbaikan ubah atau perbarui data pemesanan pada modul pelanggan.
+1. [#5275](https://github.com/OpenSID/premium/issues/5275) Peningkatan keamanan pada asset modul dan tema.

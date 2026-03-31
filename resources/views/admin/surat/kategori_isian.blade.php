@@ -18,7 +18,12 @@
         @endif
         @includeWhen(in_array(1, $sumberDataPenduduk) && ($surat->form_isian->{$key}->sumber ?? 1) == 1, 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])
         @foreach ($pendudukLuar as $index => $penduduk)
-            @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['index' => $index, 'opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key, 'input' => explode(',', $penduduk['input'])])
+            @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', [
+                'index' => $index,
+                'opsiSumberPenduduk' => $surat->form_isian->{$key}->data,
+                'kategori' => $key,
+                'input' => explode(',', $penduduk['input'])
+            ])
         @endforeach
 
         @if ($kategori["saksi_{$key}"])

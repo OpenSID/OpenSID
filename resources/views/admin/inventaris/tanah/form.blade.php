@@ -114,13 +114,13 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="tanggal_sertifikat">Tanggal Sertifikat</label>
                                 <div class="col-sm-4">
-                                    <input maxlength="50" value="{{ date('d-m-Y', strtotime($main->tanggal_sertifikat ?? 'now')) }}" class="form-control input-sm datepicker required" name="tanggal_sertifikat" id="tanggal_sertifikat" type="text" />
+                                    <input maxlength="50" value="{{ $main->tanggal_sertifikat ? date('d-m-Y', strtotime($main->tanggal_sertifikat)) : '' }}" class="form-control input-sm datepicker" name="tanggal_sertifikat" id="tanggal_sertifikat" type="text" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="no_sertifikat">Nomor Sertifikat</label>
                                 <div class="col-sm-8">
-                                    <input maxlength="50" class="form-control input-sm required" name="no_sertifikat" id="no_sertifikat" type="text" value="{{ $main->no_sertifikat }}" />
+                                    <input maxlength="50" class="form-control input-sm" name="no_sertifikat" id="no_sertifikat" type="text" value="{{ $main->no_sertifikat }}" />
                                 </div>
                             </div>
                             <div class="form-group">

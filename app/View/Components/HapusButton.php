@@ -51,6 +51,7 @@ class HapusButton extends Component
         public string $url,
         public bool $confirmDelete = false,
         public bool $selectData = false,
+        public bool $visible = false,
         public string $target = 'confirm-delete',
         public string $judul = 'Hapus'
     ) {

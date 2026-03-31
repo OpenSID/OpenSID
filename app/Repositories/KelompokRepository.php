@@ -63,14 +63,26 @@ class KelompokRepository
                     $query->where(static function ($subQuery) use ($value) {
                         $subQuery->where('no_anggota', 'LIKE', '%' . $value . '%')
                             ->orWhereHas('anggota', static function ($anggotaQuery) use ($value) {
-                                $anggotaQuery->where('nama', 'LIKE', '%' . $value . '%')
-                                    ->orWhereHas('jenisKelamin', static function ($jenisKelaminQuery) use ($value) {
-                                        $jenisKelaminQuery->where('nama', 'LIKE', '%' . $value . '%');
+                                $anggotaQuery->where('nama', 'LIKE', "%{$value}%")
+                                    ->orWhere(static function ($q) use ($value) {
+                                        $v   = strtolower($value);
+                                        $sex = null;
+
+                                        if (strpbrk($v, 'laki')) {
+                                            $sex = 1;
+                                        } elseif (strpbrk($v, 'perempuan')) {
+                                            $sex = 2;
+                                        }
+
+                                        if ($sex) {
+                                            $q->where('sex', $sex);
+                                        }
                                     })
+
                                     ->orWhereHas('wilayah', static function ($wilayahQuery) use ($value) {
-                                        $wilayahQuery->where('dusun', 'LIKE', '%' . $value . '%')
-                                            ->orWhere('rw', 'LIKE', '%' . $value . '%')
-                                            ->orWhere('rt', 'LIKE', '%' . $value . '%');
+                                        $wilayahQuery->where('dusun', 'LIKE', "%{$value}%")
+                                            ->orWhere('rw', 'LIKE', "%{$value}%")
+                                            ->orWhere('rt', 'LIKE', "%{$value}%");
                                     });
                             });
                     });

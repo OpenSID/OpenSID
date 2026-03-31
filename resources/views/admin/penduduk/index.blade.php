@@ -28,7 +28,7 @@
                     </ul>
                 </div>
             @endif
-            @if (can('h') && !data_lengkap())
+            @if (can('h'))
                 <a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '{{ ci_route('penduduk.delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                         class='fa fa-trash-o'
                     ></i> Hapus Data Terpilih</a>
@@ -357,8 +357,8 @@
                         defaultContent: '-',
                     },
                     {
-                        data: 'pendidikanKK',
-                        name: 'pendidikanKK',
+                        data: 'pendidikan_kk',
+                        name: 'pendidikan_kk',
                         searchable: false,
                         orderable: false,
                         defaultContent: '-',

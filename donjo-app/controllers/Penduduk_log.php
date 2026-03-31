@@ -461,7 +461,7 @@ class Penduduk_log extends Admin_Controller
         $rw                             = $this->input->get('rw');
         $rt                             = $this->input->get('rt');
         $this->statistikFilter['sex']   = ($sex == 0) ? null : $sex;
-        $judulJenisKelamin              = $sex ? ' - ' . strtoupper(JenisKelaminEnum::valueOf($sex)) : '';
+        $judulJenisKelamin              = $sex ? ' - ' . JenisKelaminEnum::valueToUpper($sex) : '';
         $this->statistikFilter['dusun'] = $dusun;
         $this->statistikFilter['rw']    = $rw;
         $this->statistikFilter['rt']    = $rt;

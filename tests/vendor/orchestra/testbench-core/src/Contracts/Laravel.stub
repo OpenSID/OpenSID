@@ -1,0 +1,135 @@
+<?php
+
+namespace Orchestra\Testbench\Contracts;
+
+interface Laravel
+{
+    /**
+     * Get application timezone.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return string|null
+     */
+    protected function getApplicationTimezone($app);
+
+    /**
+     * Override application bindings.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<string|class-string, string|class-string>
+     */
+    protected function overrideApplicationBindings($app);
+
+    /**
+     * Get application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<string, class-string>
+     */
+    protected function getApplicationAliases($app);
+
+    /**
+     * Override application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<string, class-string>
+     */
+    protected function overrideApplicationAliases($app);
+
+    /**
+     * Get package aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<string, class-string>
+     */
+    protected function getPackageAliases($app);
+
+    /**
+     * Get package bootstrapper.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<int, class-string>
+     */
+    protected function getPackageBootstrappers($app);
+
+    /**
+     * Get application providers.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<int, class-string>
+     */
+    protected function getApplicationProviders($app);
+
+    /**
+     * Override application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<class-string, class-string>
+     */
+    protected function overrideApplicationProviders($app);
+
+    /**
+     * Get package providers.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<int, class-string>
+     */
+    protected function getPackageProviders($app);
+
+    /**
+     * Get Application's base path.
+     *
+     * @return string
+     */
+    public static function applicationBasePath();
+
+    /**
+     * Resolve application core configuration implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationConfiguration($app);
+
+    /**
+     * Resolve application rate limiting configuration.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return void
+     */
+    protected function resolveApplicationRateLimiting($app);
+
+    /**
+     * Resolve application core implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationCore($app);
+
+    /**
+     * Resolve application Console Kernel implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return void
+     */
+    protected function resolveApplicationConsoleKernel($app);
+
+    /**
+     * Resolve application HTTP Kernel implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationHttpKernel($app);
+
+    /**
+     * Resolve application HTTP exception handler.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationExceptionHandler($app);
+}

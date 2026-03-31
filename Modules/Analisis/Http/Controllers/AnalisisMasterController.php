@@ -122,7 +122,7 @@ class AnalisisMasterController extends AdminModulController
         isCan('u');
         $data['list_format_impor'] = ['1' => 'BDT 2015'];
         $data['list_subjek']       = AnalisisRefSubjekEnum::all();
-        $data['list_kelompok']     = KelompokMaster::get()->toArray();
+        $data['list_kelompok']     = KelompokMaster::tipe('kelompok')->get()->toArray();
         $data['list_analisis']     = AnalisisMaster::subjekPenduduk()->get()->toArray();
         if ($id) {
             $data['action']          = 'Ubah';

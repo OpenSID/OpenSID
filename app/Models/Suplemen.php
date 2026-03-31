@@ -78,13 +78,20 @@ class Suplemen extends BaseModel
     ];
 
     /**
-     * Define a one-to-many relationship.
+     * Relasi terdata yang otomatis filter sesuai sasaran.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function terdata()
     {
-        return $this->hasMany(SuplemenTerdata::class, 'id_suplemen');
+        return $this->hasMany(SuplemenTerdata::class, 'id_suplemen')
+            ->where(static function ($query) {
+                $query->where(static function ($query) {
+                    $query->whereNotNull('penduduk_id');
+                })->orWhere(static function ($query) {
+                    $query->whereNotNull('keluarga_id');
+                });
+            });
     }
 
     public function scopeFilter($query, $sasaran)

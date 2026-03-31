@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('bumindes_tanah_desa'), 'label' => 'Daftar Buku Tanah di Desa'])
+            <x-kembali-button judul="Kembali Ke Daftar Buku Tanah Di Desa" url="bumindes_tanah_desa" />
         </div>
         {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">

@@ -62,7 +62,7 @@
                         <label>Jenis Kelamin</label>
                         <select class="form-control select2" name="jenis_kelamin">
                             @foreach (\App\Enums\JenisKelaminEnum::all() as $key => $value)
-                                <option value="{{ $key }}" @selected($key == $buku_tamu->jenis_kelamin)>{{ $value }}
+                                <option value="{{ $key }}" @selected($key == $buku_tamu->jenis_kelamin_id)>{{ $value }}
                                 </option>
                             @endforeach
                         </select>

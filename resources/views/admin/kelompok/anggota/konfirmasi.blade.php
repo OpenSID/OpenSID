@@ -17,14 +17,14 @@
     </div>
 </div>
 <div class="form-group konfirmasi">
-    <label class="col-sm-4 control-label">Pendidikan / Warga Negara /Agama</label>
+    <label class="col-sm-4 control-label">Pendidikan / Warga Negara / Agama</label>
     <div class="col-sm-4">
-        <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->pendidikanKK) }}" disabled>
+        <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->pendidikan_kk) }}" disabled>
     </div>
     <div class="col-sm-2">
-        <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->warganegara->nama) }}" disabled>
+        <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->warganegara) }}" disabled>
     </div>
     <div class="col-sm-2">
-        <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->agama->nama) }}" disabled>
+        <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->agama) }}" disabled>
     </div>
 </div>

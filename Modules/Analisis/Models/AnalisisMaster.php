@@ -68,8 +68,13 @@ class AnalisisMaster extends BaseModel
         return $this->attributes['jenis'] == 1;
     }
 
-    protected function scopeSubjekPenduduk($query)
+    public function scopeSubjekPenduduk($query)
     {
-        return $query->where('subjek_tipe', AnalisisRefSubjekEnum::PENDUDUK);
+        return $this->subjek(AnalisisRefSubjekEnum::PENDUDUK);
+    }
+
+    public function scopeSubjek($query, $subjek)
+    {
+        return $query->where('subjek_tipe', $subjek);
     }
 }

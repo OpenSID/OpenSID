@@ -56,13 +56,13 @@
                       <td class="text-center" width="2">{{ $key + 1 }}</td>
                       <td>{{ strtoupper($data['nama']) }}</td>
                       <td>{{ get_nik($data['nik']) }}</td>
-                      <td>{{ $data->jenisKelamin->nama ?? '' }}</td>
+                      <td>{{ $data->jenis_kelamin ?? '' }}</td>
                       <td>{{ $data['tempatlahir'] }}</td>
                       <td>{{ tgl_indo_out($data['tanggallahir']) }}</td>
-                      <td>{{ $data->agama->nama ?? '' }}</td>
-                      <td>{{ $data->pendidikanKK ?? '' }}</td>
+                      <td>{{ strtoupper($data->agama) }}</td>
+                      <td>{{ $data->pendidikan_kk ?? '' }}</td>
                       <td>{{ $data->pekerjaan->nama ?? '' }}</td>
-                      <td align="center">{{ $data->golonganDarah->nama ?? '' }}</td>
+                      <td align="center">{{ $data->golongan_darah ?? '' }}</td>
                   </tr>
               @endforeach
           </tbody>
@@ -91,7 +91,7 @@
                       <td>{{ $data->statusPerkawinan ?? '' }}</td>
                       <td class="text-center">{{ str_contains($data['status_perkawinan'], 'KAWIN') ? tgl_indo_out($data['tanggalperkawinan']) : tgl_indo_out($data['tanggalperceraian']) }}</td>
                       <td>{{ App\Enums\SHDKEnum::valueOf($data['kk_level']) }}</td>
-                      <td>{{ $data->wargaNegara->nama ?? '' }}</td>
+                      <td>{{ $data->wargaNegara ?? '' }}</td>
                       <td>{{ $data['dokumen_pasport'] }}</td>
                       <td>{{ $data['dokumen_kitas'] }}</td>
                       <td>{{ strtoupper($data['nama_ayah']) }}</td>

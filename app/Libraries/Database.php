@@ -45,6 +45,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Modules\Pelanggan\Services\CekService;
 
 class Database
 {
@@ -55,6 +56,11 @@ class Database
     public string $minimumVersion;
     private array $databaseOption;
     private string $databaseName;
+
+    /**
+     * @var CekService
+     */
+    public $premium;
 
     public function __construct()
     {
@@ -118,6 +124,11 @@ class Database
                             echo json_encode(['message' => $resultMigration['message'], 'status' => $resultMigration['status'] ? 0 : 500]);
                         }
                         log_message($resultMigration['status'] ? 'notice' : 'error', $resultMigration['message']);
+
+                        if (isset($resultMigration['exception'])) {
+                            logger()->error($resultMigration['exception']);
+                        }
+
                         $this->updateVersi($migrateName);
                     }
                 }
@@ -140,6 +151,7 @@ class Database
             }
             $resultMigration = $this->runMigration($migrateName);
             if ($this->getShowProgress()) {
+                log_message($resultMigration['status'] ? 'notice' : 'error', $resultMigration['message']);
                 echo json_encode(['message' => $resultMigration['message'], 'status' => $resultMigration['status'] ? 0 : 500]);
             }
         }
@@ -172,8 +184,10 @@ class Database
 
     public function checkMigration($install = false): void
     {
+        $premium = new CekService();
+
         $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
-        if ($install && Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
+        if (($premium->validasiVersi($install) || $install) && Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
             $this->migrateDatabase($install);
         }
     }

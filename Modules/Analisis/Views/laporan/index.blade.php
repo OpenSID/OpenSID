@@ -32,8 +32,8 @@
                     ])
 
                     @include('admin.layouts.components.tombol_cetak_unduh', [
-                        'cetak' => "analisis_laporan/{$analisis_master['id']}/dialog.cetak",
-                        'unduh' => "analisis_laporan/{$analisis_master['id']}/dialog.unduh"
+                        'cetak' => "analisis_laporan/{$analisis_master['id']}/dialog/cetak",
+                        'unduh' => "analisis_laporan/{$analisis_master['id']}/dialog/unduh"
                     ])
 
                     @include('admin.layouts.components.tombol_kembali', [
