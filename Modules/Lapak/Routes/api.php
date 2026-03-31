@@ -35,35 +35,8 @@
  *
  */
 
-use App\Http\Transformers\LapakKategoriTransformer;
-use App\Http\Transformers\LapakPelapakTransformer;
-use App\Http\Transformers\LapakProdukTransformer;
-use App\Repositories\LapakKategoriRepository;
-use App\Repositories\LapakPelapakRepository;
-use App\Repositories\LapakProdukRepository;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class Lapak extends Api_Controller
-{
-    public function produk()
-    {
-        $lapakProduk = new LapakProdukRepository();
-
-        return json($this->fractal($lapakProduk->list(), new LapakProdukTransformer(), 'lapak-produk'));
-    }
-
-    public function kategori()
-    {
-        $lapakKategori = new LapakKategoriRepository();
-
-        return json($this->fractal($lapakKategori->list(), new LapakKategoriTransformer(), 'lapak-kategori'));
-    }
-
-    public function pelapak()
-    {
-        $lapakPelapak = new LapakPelapakRepository();
-
-        return json($this->fractal($lapakPelapak->list(), new LapakPelapakTransformer(), 'lapak-pelapak'));
-    }
-}
+Route::group('internal_api/lapak', ['namespace' => 'Lapak/API'], static function (): void {
+    Route::get('produk', 'LapakController@produk')->name('api.lapak.produk');
+    Route::get('kategori', 'LapakController@kategori')->name('api.lapak.kategori');
+});

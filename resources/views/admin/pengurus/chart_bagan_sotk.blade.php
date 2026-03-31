@@ -12,23 +12,25 @@
                         hangingIndent: 30
                     }
                 },
-
                 title: {
                     text: 'Struktur Organisasi {{ ucwords(setting('sebutan_pemerintah_desa')) }}'
                 },
-
                 accessibility: {
                     point: {
-                        descriptionFormatter: function(point) {
-                            var nodeName = point.toNode.name,
-                                nodeId = point.toNode.id,
-                                nodeDesc = nodeName === nodeId ? nodeName : nodeName + ', ' + nodeId,
-                                parentDesc = point.fromNode.id;
-                            return point.index + '. ' + nodeDesc + ', reports to ' + parentDesc + '.';
+                        descriptionFormatter: function (point) {
+                            const nodeName = point.toNode.name;
+                            const nodeId = point.toNode.id;
+
+                            const nodeDesc = nodeName === nodeId
+                                ? nodeName
+                                : `${nodeName}, ${nodeId}`;
+
+                            const parentDesc = point.fromNode.id;
+
+                            return `${point.index}. ${nodeDesc}, reports to ${parentDesc}.`;
                         }
                     }
                 },
-
                 series: [{
                     type: 'organization',
                     name: "{{ ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa']) }}",
@@ -90,7 +92,6 @@
                     sourceWidth: 800,
                     sourceHeight: 600
                 }
-
             });
         }
 
@@ -111,25 +112,25 @@
                 }
 
                 @if ($ada_bpd)
-                const initialStructure = [
-                    {
-                        id: 'BPD',
-                        color: 'gold',
-                        column: 0,
-                        offset: '-150'
-                    },
-                    {
-                        id: 'LPM',
-                        color: 'gold',
-                        column: 0,
-                        dataLabels: {
-                            color: 'black'
+                    const initialStructure = [
+                        {
+                            id: 'BPD',
+                            color: 'gold',
+                            column: 0,
+                            offset: '-150'
                         },
-                        offset: '150'
-                    }
-                ];
-                strukturPemerintah.push(...initialStructure);
-                strukturSotk.push(['BPD', 'LPM']);
+                        {
+                            id: 'LPM',
+                            color: 'gold',
+                            column: 0,
+                            dataLabels: {
+                                color: 'black'
+                            },
+                            offset: '150'
+                        }
+                    ];
+                    strukturPemerintah.push(...initialStructure);
+                    strukturSotk.push(['BPD', 'LPM']);
                 @endif
 
                 pemerintah.forEach(item => {
@@ -152,12 +153,12 @@
                 });
 
                 $sotkList.html(`
-                <center>
-                    <figure class="highcharts-figure" style="max-width: 100%;">
-                        <div id="container" style="max-width: 100%;"></div>
-                    </figure>
-                </center>
-            `);
+                    <center>
+                        <figure class="highcharts-figure" style="max-width: 100%;">
+                            <div id="container" style="max-width: 100%;"></div>
+                        </figure>
+                    </center>
+                `);
 
                 loadHighcharts(strukturPemerintah, strukturSotk);
             });

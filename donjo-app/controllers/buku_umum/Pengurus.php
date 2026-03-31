@@ -491,6 +491,21 @@ class Pengurus extends Admin_Controller
         isCan('u');
         $post    = $this->input->post();
         $list_id = $post['list_id'];
+        
+        // Validasi dan sanitasi input list_id
+        if (empty($list_id)) {
+            redirect_with('error', 'Data ID tidak boleh kosong');
+        }
+        
+        // Konversi list_id ke array dan sanitasi setiap nilai menjadi integer
+        $list_id_array = array_map('intval', array_filter(array_map('trim', explode(',', $list_id))));
+        
+        // Validasi bahwa list_id_array tidak kosong setelah sanitasi
+        if (empty($list_id_array)) {
+            redirect_with('error', 'Data ID tidak valid');
+        }
+        
+        $data = [];
         if ($post['atasan']) {
             $data['atasan'] = ($post['atasan'] <= 0) ? null : $post['atasan'];
         }
@@ -501,7 +516,8 @@ class Pengurus extends Admin_Controller
             $data['bagan_warna'] = (warna($post['bagan_warna'] == '#000000')) ? null : warna($post['bagan_warna']);
         }
 
-        Pamong::whereRaw("pamong_id in ({$list_id})")->update($data);
+        // Gunakan whereIn() yang aman dari SQL Injection
+        Pamong::whereIn('pamong_id', $list_id_array)->update($data);
         // model seperti di atas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
         (new Pamong())->flushQueryCache();
         redirect_with('success', 'Data Berhasil Simpan');

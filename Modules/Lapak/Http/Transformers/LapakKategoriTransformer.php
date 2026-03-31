@@ -35,26 +35,20 @@
  *
  */
 
-namespace App\Repositories;
+namespace Modules\Lapak\Http\Transformers;
 
+use League\Fractal\TransformerAbstract;
 use Modules\Lapak\Models\ProdukKategori;
-use Spatie\QueryBuilder\QueryBuilder;
 
-class LapakKategoriRepository
+class LapakKategoriTransformer extends TransformerAbstract
 {
-    protected $produkKategori;
-
-    public function __construct()
+    public function transform(ProdukKategori $produkKategori)
     {
-        $this->produkKategori = ProdukKategori::withCount('produk')->active();
-    }
-
-    public function list()
-    {
-        return QueryBuilder::for($this->produkKategori)
-            ->allowedFields('*')
-            ->allowedFilters('*')
-            ->allowedSorts(['id', 'kategori', 'status'])
-            ->jsonPaginate();
+        return [
+            'id' => $produkKategori->id,
+            'kategori' => $produkKategori->kategori,
+            'slug' => $produkKategori->slug,
+            'produk_count' => $produkKategori->produk_count,
+        ];
     }
 }

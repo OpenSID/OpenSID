@@ -51,37 +51,64 @@ class PemerintahTransformer extends TransformerAbstract
 {
     public function transform(Pamong $pemerintah)
     {
+        $today = Carbon::now()->format('Y-m-d');
+
         $kehadiran = Kehadiran::where('pamong_id', $pemerintah->pamong_id)
-            ->where('tanggal', Carbon::now()->format('Y-m-d'))
-            ->orderBy('id', 'DESC')->first();
+            ->where('tanggal', $today)
+            ->latest('id')
+            ->first();
 
         $defaultFoto = ($pemerintah->pamong_sex_id ?? 1) == 1 ? 'kuser.png' : 'wuser.png';
 
-        $tampilkanStatusKehadiran = ! JamKerja::libur()->exists() && ! HariLibur::liburNasional()->exists()
+        $isHariLiburNasional = HariLibur::liburNasional()->exists();
+        $isJamLibur          = JamKerja::libur()->exists();
+
+        $tampilkanStatusKehadiran = (!$isJamLibur && !$isHariLiburNasional)
             || setting('tampilkan_status_kehadiran_pada_hari_libur');
 
         return [
-            'id'               => (int) $pemerintah->pamong_id,
-            'nama'             => $pemerintah->pamong_nama,
-            'nama_jabatan'     => $pemerintah->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $pemerintah->jabatan->nama : $pemerintah->jabatan->nama,
-            'tupoksi'          => $pemerintah->jabatan->tupoksi ?? null,
-            'foto'             => $this->urlAsset($pemerintah->foto_staff ?? $defaultFoto, $defaultFoto),
-            'media_sosial'     => $pemerintah->media_sosial,
-            'status_kehadiran' => ! HariLibur::liburNasional()->exists() ? ucwords($kehadiran ? $kehadiran->status_kehadiran : 'Belum Rekam Kehadiran') : 'Hari Libur',
-            'kehadiran'        => $tampilkanStatusKehadiran && $kehadiran ? [
+            // Data utama
+            'id'           => (int) $pemerintah->pamong_id,
+            'nama'         => $pemerintah->pamong_nama,
+            'nama_jabatan' => $pemerintah->status_pejabat == StatusEnum::YA
+                ? setting('sebutan_pj_kepala_desa') . ' ' . $pemerintah->jabatan->nama
+                : $pemerintah->jabatan->nama,
+            'tupoksi'      => $pemerintah->jabatan->tupoksi ?? null,
+
+            // Bagan untuk organisasi charts
+            'atasan'        => $pemerintah->atasan ? (int) $pemerintah->atasan : null,
+            'bagan_tingkat' => $pemerintah->bagan_tingkat,
+            'bagan_offset'  => $pemerintah->bagan_offset,
+            'bagan_layout'  => $pemerintah->bagan_layout,
+            'bagan_warna'   => $pemerintah->bagan_warna,
+
+            // Data media sosial dan foto
+            'foto'         => $this->urlAsset($pemerintah->foto_staff ?? $defaultFoto, $defaultFoto),
+            'media_sosial' => $pemerintah->media_sosial,
+
+            // Data kehadiran
+            'status_kehadiran' => !$isHariLiburNasional
+                ? ucwords($kehadiran->status_kehadiran ?? 'Belum Rekam Kehadiran')
+                : 'Hari Libur',
+
+            'kehadiran' => $tampilkanStatusKehadiran && $kehadiran ? [
                 'status_kehadiran' => ucwords($kehadiran->status_kehadiran),
                 'jam_masuk'        => $kehadiran->jam_masuk,
                 'jam_keluar'       => $kehadiran->jam_keluar,
                 'tanggal'          => $kehadiran->tanggal,
             ] : null,
-            'hari_libur' => ! HariLibur::liburNasional()->exists(),
+
+            // Informasi tambahan
+            'hari_libur' => $isHariLiburNasional,
         ];
     }
 
     private function urlAsset(?string $foto = null, ?string $defaultFoto = null)
     {
         return URL::signedRoute('storage.desa', [
-            'path'        => (string) Str::of(LOKASI_USER_PICT)->remove('desa/')->append($foto),
+            'path'        => (string) Str::of(LOKASI_USER_PICT)
+                ->remove('desa/')
+                ->append($foto),
             'default'     => "images/pengguna/{$defaultFoto}",
             'defaultDisk' => 'assets',
         ]);

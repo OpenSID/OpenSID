@@ -94,7 +94,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
                     return '';
                 })
-                ->editColumn('persentase', static fn ($row): string => $row->persentase)
+                ->editColumn('persentase', static fn ($row): string => e($row->persentase))
                 ->orderColumn('persentase', static function ($query, $order): void {
                     $query->orderByRaw("CONVERT(persentase, SIGNED) {$order}");
                 })
@@ -131,10 +131,18 @@ class Pembangunan_dokumentasi extends Admin_Controller
         isCan('u');
 
         $post                   = $this->input->post();
-        $data['id_pembangunan'] = $post['id_pembangunan'];
+
+        // Validasi persentase: hanya boleh angka dan karakter %
+        $persentase = $post['persentase'] ?: $post['id_persentase'];
+        if (! preg_match('/^\d{1,3}%?$/', $persentase)) {
+            redirect_with('error', 'Format persentase tidak valid', ci_route('pembangunan_dokumentasi.dokumentasi', $post['id_pembangunan']));
+            return;
+        }
+
+        $data['id_pembangunan'] = (int) $post['id_pembangunan'];
         $data['gambar']         = $this->upload_gambar_pembangunan('gambar', $post['id_pembangunan']);
-        $data['persentase']     = $post['persentase'] ?: $post['id_persentase'];
-        $data['keterangan']     = $post['keterangan'];
+        $data['persentase']     = htmlspecialchars(strip_tags($persentase), ENT_QUOTES, 'UTF-8');
+        $data['keterangan']     = htmlspecialchars(strip_tags($post['keterangan']), ENT_QUOTES, 'UTF-8');
         $data['created_at']     = date('Y-m-d H:i:s');
         $data['updated_at']     = date('Y-m-d H:i:s');
 
@@ -157,11 +165,18 @@ class Pembangunan_dokumentasi extends Admin_Controller
         isCan('u');
 
         $post                   = $this->input->post();
+
+        // Validasi persentase: hanya boleh angka dan karakter %
+        $persentase = $post['persentase'] ?: $post['id_persentase'];
+        if (! preg_match('/^\d{1,3}%?$/', $persentase)) {
+            redirect_with('error', 'Format persentase tidak valid', ci_route('pembangunan_dokumentasi.dokumentasi', $post['id_pembangunan']));
+            return;
+        }
+
         $update                 = PembangunanDokumentasi::findOrFail($id);
-        $data['id_pembangunan'] = $post['id_pembangunan'];
-        $data['gambar']         = $this->upload_gambar_pembangunan('gambar', $post['id_pembangunan'], $update->gambar);
-        $data['persentase']     = $post['persentase'] ?: $post['id_persentase'];
-        $data['keterangan']     = $post['keterangan'];
+        $data['id_pembangunan'] = (int) $post['id_pembangunan'];
+        $data['persentase']     = htmlspecialchars(strip_tags($persentase), ENT_QUOTES, 'UTF-8');
+        $data['keterangan']     = htmlspecialchars(strip_tags($post['keterangan']), ENT_QUOTES, 'UTF-8');
         $data['updated_at']     = date('Y-m-d H:i:s');
 
         if ($update->update($data)) {

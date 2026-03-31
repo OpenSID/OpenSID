@@ -35,36 +35,26 @@
  *
  */
 
-namespace App\Http\Transformers;
+namespace Modules\Lapak\Repositories;
 
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
-use League\Fractal\TransformerAbstract;
-use Modules\Lapak\Models\Produk;
+use Modules\Lapak\Models\ProdukKategori;
+use Spatie\QueryBuilder\QueryBuilder;
 
-class LapakProdukTransformer extends TransformerAbstract
+class LapakKategoriRepository
 {
-    public function transform(Produk $produk)
-    {
-        $kantor = identitas();
-        $foto   = json_decode($produk->foto, true);
-        if (empty($foto)) {
-            // Agar terbaca saja, nanti hasilnya diubah 404-image-not-found.jpg
-            $foto = ['404-image-not-found.jpg'];
-        }
-        $produk->pelapak->lat ??= $kantor->lat;
-        $produk->pelapak->lng ??= $kantor->lng;
-        $produk->foto = collect($foto)->map(fn ($item) => $this->urlAsset($item))->all();
+    protected $produkKategori;
 
-        return $produk->toArray();
+    public function __construct()
+    {
+        $this->produkKategori = ProdukKategori::withCount('produk')->active();
     }
 
-    private function urlAsset(?string $foto = '')
+    public function list()
     {
-        return URL::signedRoute('storage.desa', [
-            'path'        => (string) Str::of(LOKASI_PRODUK)->remove('desa/')->append($foto),
-            'default'     => 'images/404-image-not-found.jpg',
-            'defaultDisk' => 'assets',
-        ]);
+        return QueryBuilder::for($this->produkKategori)
+            ->allowedFields('*')
+            ->allowedFilters('*')
+            ->allowedSorts(['id', 'kategori', 'status'])
+            ->jsonPaginate();
     }
 }

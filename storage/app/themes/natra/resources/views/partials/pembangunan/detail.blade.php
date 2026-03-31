@@ -42,6 +42,18 @@
             var slug = '{{ $slug }}';
             var notFound = '{{ asset('images/404-image-not-found.jpg') }}';
 
+            function escapeHtml(unsafe) {
+                if (typeof unsafe !== 'string') {
+                    return unsafe;
+                }
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
             function loadPembangunan() {
                 const apiPembangunan = '{{ route('api.pembangunan') }}';
                 const params = {
@@ -140,10 +152,11 @@
 
                     if (dokumentasi && dokumentasi.length > 0) {
                         dokumentasi.forEach((dok) => {
+                            const escapedPersentase = escapeHtml(dok.persentase);
                             gambarDokumentasi += `
                             <div class="col-sm-6 text-center">
-                                <img width="auto" class="img-fluid img-thumbnail" src="${dok.gambar ?? notFound}" alt="Foto Pembangunan ${dok.persentase}" />
-                                <b>Foto Pembangunan ${dok.persentase}</b>
+                                <img width="auto" class="img-fluid img-thumbnail" src="${dok.gambar ?? notFound}" alt="Foto Pembangunan ${escapedPersentase}" />
+                                <b>Foto Pembangunan ${escapedPersentase}</b>
                             </div>`;
                         });
                     } else {

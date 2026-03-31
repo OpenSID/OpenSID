@@ -39,10 +39,14 @@ Rilis versi 2603.1.0 ini berisi penambahan fitur pindah 1 keluarga sekaligus  da
 16. [#10961](https://github.com/OpenSID/OpenSID/issues/10961) Perbaikan unduh pada input data sensus / survei excel isi data dan kode data.
 17. [#10878](https://github.com/OpenSID/OpenSID/issues/10878) Perbaikan inputan lat/long pada pengaturan peta lokasi agar tidak bisa menerima inputan huruf.
 18. [#10963](https://github.com/OpenSID/OpenSID/issues/10963) Perbaikan tidak bisa upload file galeri dan gambar tidak tampil di slider.
+19. [#6093](https://github.com/OpenSID/premium/issues/6093) Perbaikan Stored XSS via Attribute Injection pada Modul Pembangunan (Halaman Publik).
+20. [#10971](https://github.com/OpenSID/OpenSID/issues/10971) Perbaikan bagan struktur organisasi pemerintah desa tidak tampil.
+21. [#10974](https://github.com/OpenSID/OpenSID/issues/10974) Perbaikan tanggal cetak yang dipilih tidak digunakan pada hasil cetak di Buku Administrasi Umum (selalu menampilkan tanggal hari ini).
 
 ### KEAMANAN
 1. [#6081](https://github.com/OpenSID/premium/issues/6081) Peningkatan keamanan pada ekspor excel data terdata.
-
+2. [#6016](https://github.com/OpenSID/premium/issues/6016) Peningkatan keamanan backup .sid dan pengurus.
+3. [#6117](https://github.com/OpenSID/premium/issues/6117) Peningkatan keamanan data pribadi pelapak (NIK, TTL, Status, dll) yang terbuka.
 
 ### TEKNIS
 1. [#10898](https://github.com/OpenSID/OpenSID/issues/10898) Pengelompokan surat sistem dan surat desa pada pengaturan catatan peristiwa di menu Riwayat Mutasi Penduduk.
