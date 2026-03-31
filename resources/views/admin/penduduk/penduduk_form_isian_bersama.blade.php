@@ -1648,12 +1648,21 @@
 
         function disable_kawin_cerai(status) {
             // Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
+            var col_akta_perkawinan = $("#akta_perkawinan").closest('div[class^="col-sm-"]');
+            var col_tgl_perkawinan = $("input[name=tanggalperkawinan]").closest('div[class^="col-sm-"]');
+            var col_akta_perceraian = $("#akta_perceraian").closest('div[class^="col-sm-"]');
+            var col_tgl_perceraian = $("input[name=tanggalperceraian]").closest('div[class^="col-sm-"]');
+
             switch (status) {
                 case '1':
                     $("#akta_perkawinan").attr('disabled', true);
                     $("input[name=tanggalperkawinan]").attr('disabled', true);
                     $("#akta_perceraian").attr('disabled', true);
                     $("input[name=tanggalperceraian]").attr('disabled', true);
+                    col_akta_perkawinan.hide();
+                    col_tgl_perkawinan.hide();
+                    col_akta_perceraian.hide();
+                    col_tgl_perceraian.hide();
                     $('#wajib_ktp').text('BELUM WAJIB');
                     $('#akseptor_kb').hide();
                     break;
@@ -1662,22 +1671,23 @@
                     $("input[name=tanggalperkawinan]").attr('disabled', false);
                     $("#akta_perceraian").attr('disabled', true);
                     $("input[name=tanggalperceraian]").attr('disabled', true);
+                    col_akta_perkawinan.show();
+                    col_tgl_perkawinan.show();
+                    col_akta_perceraian.hide();
+                    col_tgl_perceraian.hide();
                     $('#wajib_ktp').text('WAJIB');
                     $('#akseptor_kb').show();
                     break;
                 case '3':
-                    $("#akta_perkawinan").attr('disabled', false);
-                    $("input[name=tanggalperkawinan]").attr('disabled', false);
-                    $("#akta_perceraian").attr('disabled', false);
-                    $("input[name=tanggalperceraian]").attr('disabled', false);
-                    $('#wajib_ktp').text('WAJIB');
-                    $('#akseptor_kb').show();
-                    break;
                 case '4':
                     $("#akta_perkawinan").attr('disabled', false);
                     $("input[name=tanggalperkawinan]").attr('disabled', false);
                     $("#akta_perceraian").attr('disabled', false);
                     $("input[name=tanggalperceraian]").attr('disabled', false);
+                    col_akta_perkawinan.hide();
+                    col_tgl_perkawinan.hide();
+                    col_akta_perceraian.show();
+                    col_tgl_perceraian.show();
                     $('#wajib_ktp').text('WAJIB');
                     $('#akseptor_kb').show();
                     break;
