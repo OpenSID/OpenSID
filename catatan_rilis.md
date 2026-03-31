@@ -23,6 +23,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 19. [#10963](https://github.com/OpenSID/OpenSID/issues/10963) Perbaikan tidak bisa upload file galeri dan gambar tidak tampil di slider.
 20. [#6093](https://github.com/OpenSID/premium/issues/6093) Perbaikan Stored XSS via Attribute Injection pada Modul Pembangunan (Halaman Publik).
 21. [#10971](https://github.com/OpenSID/OpenSID/issues/10971) Perbaikan bagan struktur organisasi pemerintah desa tidak tampil.
+22. [#10974](https://github.com/OpenSID/OpenSID/issues/10974) Perbaikan tanggal cetak yang dipilih tidak digunakan pada hasil cetak di Buku Administrasi Umum (selalu menampilkan tanggal hari ini).
 
 ### KEAMANAN
 1. [#6016](https://github.com/OpenSID/premium/issues/6016) Peningkatan keamanan backup .sid dan pengurus.
