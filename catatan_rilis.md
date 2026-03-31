@@ -24,7 +24,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 20. [#6093](https://github.com/OpenSID/premium/issues/6093) Perbaikan Stored XSS via Attribute Injection pada Modul Pembangunan (Halaman Publik).
 
 ### KEAMANAN
-
+1. [#6016](https://github.com/OpenSID/premium/issues/6016) Peningkatan keamanan backup .sid dan pengurus.
 
 ### TEKNIS
 1. [#10898](https://github.com/OpenSID/OpenSID/issues/10898) Pengelompokan surat sistem dan surat desa pada pengaturan catatan peristiwa di menu Riwayat Mutasi Penduduk.
