@@ -60,7 +60,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `🔄 **AI PR Review sedang antri di server...**\n> Proses review akan segera dimulai di background — hasil akan muncul sebagai komentar setelah selesai.\n> Powered by CrewAI + OmniRoute · PR #${{ github.event.pull_request.number }}`
+              body: `🔄 **AI PR Review sedang antri di server...**\n> Proses review akan segera dimulai di background — hasil akan muncul sebagai komentar setelah selesai.\n> Powered by CrewAI · PR #${{ github.event.pull_request.number }}`
             });
 
       # ── Step 2: SSH ke server & launch review di background ───────────────
@@ -122,7 +122,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 comment_id: runningComment.id,
-                body: `⏳ **AI PR Review sedang berjalan di server...**\n> Proses review berjalan di background — hasil akan muncul sebagai komentar inline & summary setelah selesai.\n> Powered by CrewAI + OmniRoute · PR #${{ github.event.pull_request.number }}`
+                body: `⏳ **AI PR Review sedang berjalan di server...**\n> Proses review berjalan di background — hasil akan muncul sebagai komentar inline & summary setelah selesai.\n> Powered by CrewAI · PR #${{ github.event.pull_request.number }}`
               });
             }
 
@@ -228,7 +228,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: prNumber,
-              body: `🔄 **AI PR Review sedang antri di server...**\n> Di-trigger oleh @${context.payload.comment.user.login} via \`/review\` command.\n> Hasil akan muncul sebagai komentar setelah selesai.\n> Powered by CrewAI + OmniRoute · PR #${prNumber}`
+              body: `🔄 **AI PR Review sedang antri di server...**\n> Di-trigger oleh @${context.payload.comment.user.login} via \`/review\` command.\n> Hasil akan muncul sebagai komentar setelah selesai.\n> Powered by CrewAI · PR #${prNumber}`
             });
 
       # ── Step 3: SSH ke server & launch review di background ───────────────
@@ -295,7 +295,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 comment_id: runningComment.id,
-                body: `⏳ **AI PR Review sedang berjalan di server...**\n> Di-trigger oleh @${context.payload.comment.user.login} via \`/review\` command.\n> Hasil akan muncul sebagai komentar inline & summary setelah selesai.\n> Powered by CrewAI + OmniRoute · PR #${prNumber}`
+                body: `⏳ **AI PR Review sedang berjalan di server...**\n> Di-trigger oleh @${context.payload.comment.user.login} via \`/review\` command.\n> Hasil akan muncul sebagai komentar inline & summary setelah selesai.\n> Powered by CrewAI · PR #${prNumber}`
               });
             }
             // React ✅ ke komentar trigger sebagai konfirmasi selesai diluncurkan
