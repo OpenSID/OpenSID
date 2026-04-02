@@ -46,7 +46,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
-    use Upload; use ValidateCloudDomainTrait; use SecureImageSanitizerTrait;
+    use Upload;
+ use ValidateCloudDomainTrait;
+ use SecureImageSanitizerTrait;
 
     public $modul_ini           = 'admin-web';
     public $sub_modul_ini       = 'galeri';
@@ -140,7 +142,7 @@ class Gallery extends Admin_Controller
                     }
 
                     $safeName = htmlspecialchars($row->nama, ENT_QUOTES, 'UTF-8');
-                    
+
                     return '<label style="cursor: pointer;" class="tampil" data-img="' . $gambarSedang . '" data-rel="popover" data-content="<img width=200 height=134 src=' . $gambarKecil . '>" >' . $safeName . '</label>';
                 })->editColumn('gambar', function ($row): string {
                     if ($row->gambar) {
@@ -307,6 +309,7 @@ class Gallery extends Admin_Controller
 
             if (! in_array($scheme, ['http', 'https'], true)) {
                 $_SESSION['error_msg'] = 'URL hanya boleh menggunakan protokol http atau https.';
+
                 return false;
             }
 
@@ -328,11 +331,13 @@ class Gallery extends Admin_Controller
 
                 if (! $result['success']) {
                     $_SESSION['error_msg'] = $result['error'];
-                    log_message('warning', 
+                    log_message(
+                        'warning',
                         '[Gallery] Upload ditolak untuk user: ' . $this->session->user_id .
                         ' | IP: ' . $this->input->ip_address() .
                         ' | Alasan: ' . $result['error']
                     );
+
                     return false;
                 }
 

@@ -107,6 +107,7 @@ class Simbol extends Admin_Controller
             if ($file !== '' && $file !== '.' && $file !== '..') {
                 if (! SimbolModel::isImageFile($file)) {
                     log_message('info', sprintf('Simbol dilewati: "%s" bukan file gambar.', $file));
+
                     continue;
                 }
 
@@ -116,6 +117,7 @@ class Simbol extends Admin_Controller
                     if (! copy($source, $destination)) {
                         log_message('error', sprintf('Gagal menyalin simbol: "%s"', $file));
                         $failed[] = $file;
+
                         continue;
                     }
 

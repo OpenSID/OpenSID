@@ -35,6 +35,7 @@
  *
  */
 
+use App\Events\Kehadiran\PengajuanIzinApprovalChanged;
 use App\Models\Pamong;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
@@ -197,6 +198,7 @@ class PengajuanIzinController extends AdminModulController
             if ($pengajuan->approve(auth()->id(), 'Disetujui oleh admin')) {
                 // insert ke tabel kehadiran jika belum ada
                 $pengajuan->insertKehadiranForIzin();
+                event(new PengajuanIzinApprovalChanged($pengajuan));
                 redirect_with('success', 'Berhasil Menyetujui Pengajuan Izin');
             }
         } catch (Exception $e) {
@@ -215,6 +217,7 @@ class PengajuanIzinController extends AdminModulController
 
         try {
             if ($pengajuan->reject(auth()->id(), 'Ditolak oleh admin')) {
+                event(new PengajuanIzinApprovalChanged($pengajuan));
                 redirect_with('success', 'Berhasil Menolak Pengajuan Izin');
             }
         } catch (Exception $e) {

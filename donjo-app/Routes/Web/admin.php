@@ -145,6 +145,7 @@ Route::group('identitas_desa', static function (): void {
     Route::post('/update', 'Identitas_desa@update')->name('identitas_desa.update');
     Route::get('/maps/{tipe}', 'Identitas_desa@maps')->name('identitas_desa.maps');
     Route::post('/update_maps/{tipe}', 'Identitas_desa@update_maps')->name('identitas_desa.update_maps');
+    Route::get('/generate_boundary/{tipe}', 'Identitas_desa@generate_boundary')->name('identitas_desa.generate_boundary');
     Route::get('/reset', 'Identitas_desa@reset')->name('identitas_desa.reset');
 });
 
@@ -230,6 +231,7 @@ Route::group('penduduk', static function (): void {
     Route::get('ajax_penduduk_maps/{id?}/{edit?}', 'Penduduk@ajax_penduduk_maps')->name('penduduk.ajax_penduduk_maps');
     Route::post('update_maps/{id?}/{edit?}', 'Penduduk@update_maps')->name('penduduk.update_maps');
     Route::get('edit_status_dasar/{id?}/{url?}/{parrent?}', 'Penduduk@edit_status_dasar')->name('penduduk.edit_status_dasar');
+    Route::get('ajax_anggota_keluarga/{id_penduduk?}', 'Penduduk@ajax_anggota_keluarga')->name('penduduk.ajax_anggota_keluarga');
     Route::post('update_status_dasar/{id?}/{url?}/{parrent?}', 'Penduduk@update_status_dasar')->name('penduduk.update_status_dasar');
     Route::get('kembalikan_status/{id?}', 'Penduduk@kembalikan_status')->name('penduduk.kembalikan_status');
     Route::post('cetak/{aksi?}/{privasi_nik?}', 'Penduduk@cetak')->name('penduduk.cetak');
@@ -1654,11 +1656,14 @@ Route::group('man_user', static function (): void {
     Route::post('/insert', 'Man_user@insert')->name('man_user.insert');
     Route::get('/syarat_sandi/{str}', 'Man_user@syarat_sandi')->name('man_user.syarat_sandi');
     Route::post('/update/{id?}', 'Man_user@update')->name('man_user.update');
-    Route::get('/delete/{id?}', 'Man_user@delete')->name('man_user.delete');
+    Route::post('/delete/{id?}', 'Man_user@delete')->name('man_user.delete');
     Route::get('/trigger_masa_aktif_akun', 'Man_user@trigger_masa_aktif_akun')->name('man_user.trigger_masa_aktif_akun');
     Route::post('/delete_all', 'Man_user@delete_all')->name('man_user.delete_all');
     Route::get('/user_lock/{id?}', 'Man_user@user_lock')->name('man_user.user_lock');
     Route::get('/user_unlock/{id?}', 'Man_user@user_unlock')->name('man_user.user_unlock');
+    Route::post('/restore/{id}', 'Man_user@restore')->name('man_user.restore');
+    Route::post('/force_delete/{id}', 'Man_user@force_delete')->name('man_user.force_delete');
+    Route::post('/cleanup_soft_deleted', 'Man_user@cleanup_soft_deleted')->name('man_user.cleanup_soft_deleted');
 });
 
 // Pengaturan > Pengguna > Grup

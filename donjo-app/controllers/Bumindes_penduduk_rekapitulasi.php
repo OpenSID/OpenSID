@@ -131,9 +131,9 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
     public function cetak($aksi = '')
     {
         $data = [
-            'aksi'           => $aksi,
-            'main'           => datatables($this->dataProcess($this->sumberData()))->results(),
-            'filters'        => [
+            'aksi'    => $aksi,
+            'main'    => datatables($this->dataProcess($this->sumberData()))->results(),
+            'filters' => [
                 'tahun' => request()->get('tahun'),
                 'bulan' => request()->get('bulan'),
             ],

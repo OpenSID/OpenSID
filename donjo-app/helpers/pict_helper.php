@@ -224,7 +224,8 @@ function UploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = 
     return true;
 }
 
-function get_google_drive_direct_url($url) {
+function get_google_drive_direct_url($url)
+{
     if (strpos($url, 'drive.google.com') !== false) {
         preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $url, $matches);
         $fileId = $matches[1] ?? null;
@@ -232,6 +233,7 @@ function get_google_drive_direct_url($url) {
             return "https://drive.google.com/thumbnail?id={$fileId}";
         }
     }
+
     return $url;
 }
 

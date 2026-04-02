@@ -45,12 +45,12 @@ class SuplemenTransformer extends TransformerAbstract
     public function transform($suplemen)
     {
         return [
-            'id'          => (string) $suplemen->id,
-            'nama'        => $suplemen->nama,
-            'sasaran'     => $suplemen->sasaran,
+            'id'           => (string) $suplemen->id,
+            'nama'         => $suplemen->nama,
+            'sasaran'      => $suplemen->sasaran,
             'nama_sasaran' => SasaranEnum::valueOf($suplemen->sasaran),
-            'keterangan'  => $suplemen->keterangan,
-            'slug'        => $suplemen->slug,
+            'keterangan'   => $suplemen->keterangan,
+            'slug'         => $suplemen->slug,
         ];
     }
 }

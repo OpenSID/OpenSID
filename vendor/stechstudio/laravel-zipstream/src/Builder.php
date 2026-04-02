@@ -90,6 +90,11 @@ class Builder implements Responsable
         return $this->add(new TempFile($content, $zipPath));
     }
 
+    public function extend(string $fileClass): void
+    {
+        app(Factory::class)->extend($fileClass);
+    }
+
     public function addDirectory(string $name): self
     {
         $this->directories[] = $name;

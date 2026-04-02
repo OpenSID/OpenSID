@@ -116,5 +116,23 @@ return [
             'modul' => 'pengaduan',
             'query' => 'status=' . App\Enums\StatusPengaduanEnum::MENUNGGU_DIPROSES,
         ],
+
+        'pengajuan_izin' => [
+            'slug'  => 'pengajuan_izin',
+            'label' => 'Pengajuan Izin',
+            'icon'  => 'fa-calendar-check-o',
+            'color' => '#e67e22',
+            'route' => 'kehadiran_pengajuan_izin',
+            'modul' => 'approval-izin',
+        ],
+
+        'pengajuan_izin_approval' => [
+            'slug'  => 'pengajuan_izin_approval',
+            'label' => 'Status Pengajuan Izin',
+            'icon'  => 'fa-check-circle-o',
+            'color' => '#16a085',
+            'route' => 'kehadiran_pengajuan_izin_pamong',
+            'modul' => 'pengajuan-izin',
+        ],
     ],
 ];

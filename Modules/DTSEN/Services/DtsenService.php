@@ -35,48 +35,27 @@
  *
  */
 
-namespace App\Console\Commands;
+namespace Modules\DTSEN\Services;
 
-use App\Services\MasaAktifAkunService;
-use Illuminate\Console\Command;
+use App\Models\Config;
+use Exception;
+use Modules\DTSEN\Enums\DtsenEnum;
+use Modules\DTSEN\Models\Dtsen;
 
-class DeactivateInactiveAccounts extends Command
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class DtsenService
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected $signature = 'opensid:deactivate-inactive-accounts';
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $description = 'Menonaktifkan akun pengguna yang tidak aktif berdasarkan pengaturan sistem.';
-
-    /**
-     * {@inheritDoc}
-     */
-    public function handle(MasaAktifAkunService $masaAktifAkunService)
+    public function synchroniseDTSENWithOpenSid(Dtsen $dtsen)
     {
-        if (! setting('masa_akun_pengguna')) {
-            $this->info('Fitur penonaktifan akun otomatis tidak aktif.');
+        $config = Config::first();
 
-            return 0;
+        if (! $config) {
+            throw new Exception('Konfigurasi tidak ditemukan');
         }
 
-        if (setting('jenis_trigger_nonaktifkan_akun') !== 'cron') {
-            $this->info('Trigger penonaktifkan akun diatur ke Manual. Cron job tidak akan berjalan.');
-
-            return 0;
+        if ($dtsen->versi_kuisioner == DtsenEnum::REGSOS_EK2022_K) {
+            $dtsen = (new DTSENRegsosEk2022k())->syncronizeWithOpenSid($dtsen);
         }
-
-        $result = $masaAktifAkunService->deactivateInactiveAccounts();
-
-        if ($result['success']) {
-            $this->info($result['message']);
-        } else {
-            $this->error($result['message']);
-        }
-
-        return 0;
     }
 }

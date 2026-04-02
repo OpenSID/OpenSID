@@ -53,6 +53,7 @@ vendor/_laravel_ide
 vendor/libreoffice/*
 vendor/mikey179/*
 .vscode/*
+.qodo/*
 /node_modules
 .cache-rector/*
 !.cache-rector/.gitkeep
@@ -89,6 +90,8 @@ Modules/*
 !Modules/Lapak/**
 !Modules/Pelanggan/
 !Modules/Pelanggan/**
+!Modules/DTSEN/
+!Modules/DTSEN/**
 
 # Do not ignore specific files
 !Modules/.gitkeep

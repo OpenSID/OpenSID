@@ -188,7 +188,7 @@ class Web_Controller extends MY_Controller
             app('ci')->header['desa'] = collect(identitas())->toArray();
         }
 
-        $pemesanan = cache()->remember('tema_premium', 60 * 60 * 24 * 7, function () {
+        $pemesanan = cache()->remember('tema_premium', 60 * 60 * 24 * 7, static function () {
             $data = app('ci')->cache->file->get('status_langganan');
 
             if (empty($data) || empty($data->body)) {
@@ -204,7 +204,7 @@ class Web_Controller extends MY_Controller
             return collect($data->body->pemesanan)
                 ->pluck('layanan')
                 ->flatten(1)
-                ->filter(fn ($l) => isset($l->nama_kategori) && $l->nama_kategori === 'Tema')
+                ->filter(static fn ($l) => isset($l->nama_kategori) && $l->nama_kategori === 'Tema')
                 ->pluck('product_key')
                 ->filter()
                 ->values()
@@ -213,15 +213,6 @@ class Web_Controller extends MY_Controller
 
         $this->setCookieIfChanged('pemesanan-tema', json_encode($pemesanan));
         $this->setCookieIfChanged('langganan-premium', json_encode((new CekService())->validasiVersi()));
-    }
-
-    private function setCookieIfChanged(string $name, string $value): void
-    {
-        if (($_COOKIE[$name] ?? null) !== $value) {
-            if (! setcookie($name, $value, ['expires' => 0, 'path' => '/', 'httponly' => true, 'samesite' => 'Lax'])) {
-                log_message('error', "Gagal menetapkan cookie: {$name}");
-            }
-        }
     }
 
     /**
@@ -238,6 +229,15 @@ class Web_Controller extends MY_Controller
             view('theme::menu_not_active');
 
             exit;
+        }
+    }
+
+    private function setCookieIfChanged(string $name, string $value): void
+    {
+        if (($_COOKIE[$name] ?? null) !== $value) {
+            if (! setcookie($name, $value, ['expires' => 0, 'path' => '/', 'httponly' => true, 'samesite' => 'Lax'])) {
+                log_message('error', "Gagal menetapkan cookie: {$name}");
+            }
         }
     }
 

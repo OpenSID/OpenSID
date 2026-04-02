@@ -135,9 +135,9 @@ class Penduduk_log extends Admin_Controller
 
                     if ($row->kode_peristiwa == PeristiwaPendudukEnum::MATI->value) {
                         $aksi .= View::make('admin.layouts.components.buttons.lihat', [
-                            'url'   => ci_route("penduduk_log.dokumen.{$row->id}"),
+                            'url'   => ci_route("penduduk_log.dokumen.{$row->id}") . '?tampil=1',
                             'blank' => true,
-                            'judul' => 'Lihat File Akta Kematian',
+                            'judul' => 'Lihat Dokumen Akta Kematian',
                         ])->render();
                     }
 
@@ -202,14 +202,16 @@ class Penduduk_log extends Admin_Controller
 
     public function dokumen($id): void
     {
-        $log = LogPenduduk::findOrFail($id);
-
-        // download file
-        $this->load->helper('download');
+        $log  = LogPenduduk::findOrFail($id);
         $file = $log->file_akta_mati;
         if ($file != '') {
-            $path = LOKASI_DOKUMEN . $file;
-            force_download($path, null);
+            $tampil = (int) ($this->input->get('tampil') ?? 0);
+
+            ambilBerkas(
+                nama_berkas: $file,
+                lokasi: LOKASI_DOKUMEN,
+                tampil: $tampil === 1
+            );
         } else {
             show_404();
         }

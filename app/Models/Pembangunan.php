@@ -70,6 +70,7 @@ class Pembangunan extends BaseModel
         'volume',
         'tahun_anggaran',
         'pelaksana_kegiatan',
+        'pamong_id',
         'status',
         'created_at',
         'updated_at',
@@ -243,5 +244,28 @@ class Pembangunan extends BaseModel
         }
 
         return $query;
+    }
+
+    public function pamong()
+    {
+        return $this->belongsTo(Pamong::class, 'pamong_id');
+    }
+
+    public function getPelaksanaKegiatanAttribute($value)
+    {
+        // Jika pamong_id kosong, kembalikan nilai asli
+        if (! $this->pamong_id) {
+            return $value;
+        }
+
+        // Jika relasi pamong tidak ditemukan, kembalikan nilai asli
+        if (! $this->pamong) {
+            return $value;
+        }
+
+        // Prioritas: pamong_nama > nama penduduk > nilai asli
+        return $this->pamong->pamong_nama
+            ?? $this->pamong->penduduk?->nama
+            ?? $value;
     }
 }

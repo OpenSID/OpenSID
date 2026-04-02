@@ -72,6 +72,7 @@
                                 <th>Jenis Kelamin</th>
                                 <th>Tempat / Tanggal Lahir</th>
                                 <th>Agama</th>
+                                <th>Alamat</th>
                                 <th>Jabatan</th>
                                 <th>Pendidikan Terakhir</th>
                                 @if ($tipe == 'Lembaga')
@@ -91,6 +92,7 @@
                                     <td>{{ $data['sex'] }}</td>
                                     <td>{{ strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])) }}</td>
                                     <td>{{ $data['agama'] }}</td>
+                                    <td>{{ $data['alamat'] ?? '-' }}</td>
                                     <td>{{ $data['jabatan'] }}</td>
                                     <td>{{ $data['pendidikan'] }}</td>
                                     @if ($tipe == 'Lembaga')

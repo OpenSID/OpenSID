@@ -26,7 +26,7 @@
                         <label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Nomor Sertifikat Buku
                             Letter C / Persil</label>
                         <div class="col-sm-4">
-                            <input type="text" min="0" class="form-control input-sm number autoselect required" id="letter_c_persil" name="letter_c_persil" value="{{ $main->letter_c }}" />
+                            <input type="text" class="form-control input-sm autoselect required" id="letter_c_persil" name="letter_c_persil" value="{{ $main->letter_c }}" />
                         </div>
                     </div>
                     <div class="form-group">

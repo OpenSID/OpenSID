@@ -1,0 +1,12 @@
+{
+    "name": "{{ module }}",
+    "alias": "Modul {{ module }}",
+    "description": "Modul {{ module }} untuk OpenSID",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\{{ module }}\\Providers\\{{ module }}ServiceProvider"
+    ],
+    "files": [],
+    "version": "1.0.0"
+}

@@ -3,6 +3,13 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="no_kk_sebelumnya">Nomor KK Sebelumnya</label>
+                    <input id="no_kk_sebelumnya" class="form-control input-sm" type="text" placeholder="Nomor KK Sebelumnya" name="no_kk_sebelumnya" value="{{ $no_kk_sebelumnya ?? '' }}">
+                </div>
+            </div>
+
+            <div class="col-sm-12">
                 <label for="nama">Umur</label>
             </div>
             @if ($input_umur)
@@ -82,6 +89,20 @@
                             <option value=""> -- </option>
                             @foreach ($list_status_kawin as $key => $item)
                                 <option value="{{ $key }}" @selected($status == $key)>{{ $item }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
+            @if ($list_hubungan)
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="hubungan">Hubungan Dalam Keluarga</label>
+                        <select class="form-control input-sm select2" id="hubungan" name="hubungan">
+                            <option value=""> -- </option>
+                            @foreach ($list_hubungan as $key => $item)
+                                <option value="{{ $key }}" @selected($hubungan == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>

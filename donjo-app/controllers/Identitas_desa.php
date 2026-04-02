@@ -40,6 +40,7 @@ use App\Models\Pamong;
 use App\Models\ProfilDesa;
 use App\Models\Wilayah;
 use App\Traits\Upload;
+use Modules\BatasWilayah\Services\BatasWilayahService;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -232,6 +233,42 @@ class Identitas_desa extends Admin_Controller
     }
 
     /**
+     * Generate batas wilayah otomatis dari server pantau
+     *
+     * @param string $tipe kantor|wilayah
+     */
+    public function generate_boundary(string $tipe = 'kantor'): void
+    {
+        isCan('u');
+
+        if (! class_exists(BatasWilayahService::class)) {
+            redirect_with('error', 'Modul BatasWilayah tidak tersedia');
+        }
+
+        $kode     = $this->identitas_desa['kode_desa'];
+        $boundary = (new BatasWilayahService())->getBoundary($kode);
+
+        if (empty($boundary)) {
+            redirect_with('error', 'Data batas wilayah tidak ditemukan untuk kode ' . $kode);
+        }
+
+        $data = [];
+
+        if ($tipe === 'kantor') {
+            $data['lat'] = $boundary['lat'];
+            $data['lng'] = $boundary['lng'];
+        } else {
+            $data['path'] = htmlentities($boundary['path']);
+        }
+
+        if (Config::find($this->identitas_desa['id'])->update($data)) {
+            redirect_with('success', 'Berhasil generate batas wilayah dari server pantau');
+        }
+
+        redirect_with('error', 'Gagal menyimpan data batas wilayah');
+    }
+
+    /**
      * Proses kosongkan path peta
      *
      * @param string $id
@@ -280,6 +317,16 @@ class Identitas_desa extends Admin_Controller
             'jabatan_kontak'    => nama($request['jabatan_kontak']),
             'kode_desa_bps'     => substr((string) bilangan($request['kode_desa_bps']), 0, 10),
         ];
+
+        if (class_exists(BatasWilayahService::class)) {
+            $boundary = (new BatasWilayahService())->getBoundary($validate['kode_desa']);
+
+            if (! empty($boundary)) {
+                $validate['path'] = htmlentities($boundary['path']);
+                $validate['lat']  = $boundary['lat'];
+                $validate['lng']  = $boundary['lng'];
+            }
+        }
 
         return $validate;
     }

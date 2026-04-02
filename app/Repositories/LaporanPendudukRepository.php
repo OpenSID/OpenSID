@@ -51,34 +51,6 @@ use Illuminate\Support\Carbon;
 
 class LaporanPendudukRepository
 {
-    /**
-     * Ambil id_kk yang aktif secara historis sampai dengan tanggal $untilDate.
-     *
-     * Algoritma:
-     *   1. Mulai dari KK yang aktif saat ini (kepala KK masih hidup / status aktif).
-     *   2. Kurangi KK yang baru pertama kali muncul di log_keluarga SETELAH $untilDate.
-     *      → Artinya KK tersebut belum eksis pada tanggal $untilDate.
-     *
-     * Pendekatan ini menghindari masalah retroaktif dari awalBulan() (kk_level saat ini),
-     * serta tidak salah mengeksklusikan KK yang ganti kepala (KEPALA_KK_MATI dst.)
-     * karena kita bertolak dari status aktif sekarang, bukan dari event penutup.
-     */
-    private static function kkAktifIds(string $untilDate): array
-    {
-        // id_kk yang pertama kali terdaftar di log SETELAH untilDate = belum eksis saat itu
-        $kkBaruSetelahPeriode = LogKeluarga::select('id_kk')
-            ->groupBy('id_kk')
-            ->havingRaw('MIN(tgl_peristiwa) > ?', [$untilDate])
-            ->pluck('id_kk')
-            ->all();
-
-        // KK aktif per untilDate = KK yang saat ini aktif MINUS yang baru dibuat setelahnya
-        return Keluarga::aktif()
-            ->when($kkBaruSetelahPeriode, static fn ($q) => $q->whereNotIn('id', $kkBaruSetelahPeriode))
-            ->pluck('id')
-            ->all();
-    }
-
     public static function dataPenduduk($tahun, $bulan)
     {
         // =================================================================================
@@ -100,8 +72,8 @@ class LaporanPendudukRepository
             'WNA_L' => $pendudukAwalBulan->where('sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $pendudukAwalBulan->where('sex', JenisKelaminEnum::PEREMPUAN)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // KK: hitung dari kepala KK yang KK-nya historis aktif di akhir bulan lalu
-            'KK_L'  => Penduduk::withOnly([])->where('is_historical', false)->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->whereIn('id_kk', $idKKAktifAwal)->where('sex', JenisKelaminEnum::LAKI_LAKI)->count(),
-            'KK_P'  => Penduduk::withOnly([])->where('is_historical', false)->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->whereIn('id_kk', $idKKAktifAwal)->where('sex', JenisKelaminEnum::PEREMPUAN)->count(),
+            'KK_L' => Penduduk::withOnly([])->where('is_historical', false)->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->whereIn('id_kk', $idKKAktifAwal)->where('sex', JenisKelaminEnum::LAKI_LAKI)->count(),
+            'KK_P' => Penduduk::withOnly([])->where('is_historical', false)->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->whereIn('id_kk', $idKKAktifAwal)->where('sex', JenisKelaminEnum::PEREMPUAN)->count(),
         ];
         $pendudukAwal['KK'] = $pendudukAwal['KK_L'] + $pendudukAwal['KK_P'];
 
@@ -417,6 +389,34 @@ class LaporanPendudukRepository
         }
 
         return $data;
+    }
+
+    /**
+     * Ambil id_kk yang aktif secara historis sampai dengan tanggal $untilDate.
+     *
+     * Algoritma:
+     *   1. Mulai dari KK yang aktif saat ini (kepala KK masih hidup / status aktif).
+     *   2. Kurangi KK yang baru pertama kali muncul di log_keluarga SETELAH $untilDate.
+     *      → Artinya KK tersebut belum eksis pada tanggal $untilDate.
+     *
+     * Pendekatan ini menghindari masalah retroaktif dari awalBulan() (kk_level saat ini),
+     * serta tidak salah mengeksklusikan KK yang ganti kepala (KEPALA_KK_MATI dst.)
+     * karena kita bertolak dari status aktif sekarang, bukan dari event penutup.
+     */
+    private static function kkAktifIds(string $untilDate): array
+    {
+        // id_kk yang pertama kali terdaftar di log SETELAH untilDate = belum eksis saat itu
+        $kkBaruSetelahPeriode = LogKeluarga::select('id_kk')
+            ->groupBy('id_kk')
+            ->havingRaw('MIN(tgl_peristiwa) > ?', [$untilDate])
+            ->pluck('id_kk')
+            ->all();
+
+        // KK aktif per untilDate = KK yang saat ini aktif MINUS yang baru dibuat setelahnya
+        return Keluarga::aktif()
+            ->when($kkBaruSetelahPeriode, static fn ($q) => $q->whereNotIn('id', $kkBaruSetelahPeriode))
+            ->pluck('id')
+            ->all();
     }
 
     private static function rincian_pindah($mutasiPenduduk)

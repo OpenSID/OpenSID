@@ -256,8 +256,9 @@ class LogSuratDinas extends BaseModel
     /**
      * Generate or retrieve QR code for Surat Dinas using urlPendekDinas
      *
-     * @param string $namaSurat Nama file surat
-     * @param string|null $logo Path to logo
+     * @param string      $namaSurat Nama file surat
+     * @param string|null $logo      Path to logo
+     *
      * @return array Array dengan keys: viewqr (file path), urls_id (Urls record ID), isiqr (short URL)
      */
     public static function buatQrCode($namaSurat, ?string $logo): array

@@ -1,0 +1,14 @@
+{
+    "name": "opensid-modules/{{ moduleLower }}",
+    "description": "{{ module }} module",
+    "license": "GPL-3.0-or-later",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Modules\\{{ module }}\\": "app/"
+        }
+    },
+    "require": {
+        "php": "^8.1"
+    }
+}

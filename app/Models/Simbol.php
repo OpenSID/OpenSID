@@ -49,8 +49,20 @@ class Simbol extends BaseModel
     use ConfigId;
     use QueryCacheable;
 
+    /**
+     * Ekspresi SQL untuk mengekstrak ekstensi file dari kolom simbol.
+     *
+     * Keamanan SQL Injection:
+     * - Ekspresi hanya mereferensikan nama kolom internal ('simbol'), bukan input user.
+     * - Nilai yang di-bind ke whereIn/whereNotIn berasal dari ImageExtensionEnum::values()
+     *   yang merupakan konstanta compile-time — tidak dapat dimanipulasi dari luar.
+     * - Laravel mem-binding array tersebut sebagai parameterized query secara otomatis.
+     */
+    private const EXT_EXPR = "LOWER(SUBSTRING_INDEX(simbol, '.', -1))";
+
     // forever cache
-    public $cacheFor = -1;
+    public $cacheFor   = -1;
+    public $timestamps = false;
 
     /**
      * Invalidate the cache automatically
@@ -59,8 +71,6 @@ class Simbol extends BaseModel
      * @var bool
      */
     protected static $flushCacheOnUpdate = true;
-
-    public $timestamps = false;
 
     /**
      * The table associated with the model.
@@ -92,16 +102,10 @@ class Simbol extends BaseModel
         }
     }
 
-    /**
-     * Ekspresi SQL untuk mengekstrak ekstensi file dari kolom simbol.
-     *
-     * Keamanan SQL Injection:
-     * - Ekspresi hanya mereferensikan nama kolom internal ('simbol'), bukan input user.
-     * - Nilai yang di-bind ke whereIn/whereNotIn berasal dari ImageExtensionEnum::values()
-     *   yang merupakan konstanta compile-time — tidak dapat dimanipulasi dari luar.
-     * - Laravel mem-binding array tersebut sebagai parameterized query secara otomatis.
-     */
-    private const EXT_EXPR = "LOWER(SUBSTRING_INDEX(simbol, '.', -1))";
+    public static function isImageFile(string $filename): bool
+    {
+        return in_array(strtolower(pathinfo($filename, PATHINFO_EXTENSION)), ImageExtensionEnum::values(), true);
+    }
 
     public function scopeImageOnly($query)
     {
@@ -111,11 +115,6 @@ class Simbol extends BaseModel
     public function scopeNotImageOnly($query)
     {
         return $query->whereNotIn(DB::raw(self::EXT_EXPR), ImageExtensionEnum::values());
-    }
-
-    public static function isImageFile(string $filename): bool
-    {
-        return in_array(strtolower(pathinfo($filename, PATHINFO_EXTENSION)), ImageExtensionEnum::values(), true);
     }
 
     protected function scopeRoot($query)

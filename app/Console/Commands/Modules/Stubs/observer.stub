@@ -1,0 +1,18 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Model;
+
+class {{ class }}
+{
+    public function creating(Model $model): void
+    {
+        // Logic sebelum create
+    }
+
+    public function updating(Model $model): void
+    {
+        // Logic sebelum update
+    }
+}

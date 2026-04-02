@@ -125,11 +125,11 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
             'tahun' => request()->get('tahun'),
             'bulan' => request()->get('bulan'),
         ];
-        $data['tgl_cetak']    = request('tgl_cetak');
-        $data['file']         = 'Buku KTP dan KK';
-        $data['letak_ttd']    = ['2', '2', '9'];
-        $data['privasi_nik']  = request('privasi_nik') ?? null;
-        $data['is_landscape'] = true;
+        $data['tgl_cetak']      = request('tgl_cetak');
+        $data['file']           = 'Buku KTP dan KK';
+        $data['letak_ttd']      = ['2', '2', '9'];
+        $data['privasi_nik']    = request('privasi_nik') ?? null;
+        $data['is_landscape']   = true;
         $data['pamong_ttd']     = Pamong::kepalaDesa()->first();
         $data['pamong_ketahui'] = Pamong::sekretarisDesa()->first();
 

@@ -333,7 +333,7 @@ trait Migrator
     public function tambah_surat_tinymce($data, $config_id = null)
     {
         $config_id ??= identitas('id');
-        $data['url_surat']    = $data['url_surat'] ?? 'surat-' . url_title($data['nama'], '-', true);
+        $data['url_surat'] ??= 'surat-' . url_title($data['nama'], '-', true);
         $data['jenis']        = FormatSurat::TINYMCE_SISTEM;
         $data['syarat_surat'] = json_encode($data['syarat_surat'], JSON_THROW_ON_ERROR);
         $data['created_by']   = auth()->id ?? 1;
@@ -433,6 +433,28 @@ trait Migrator
         }
 
         return true;
+    }
+
+    /**
+     * Drop semua foreign keys pada sebuah tabel (dinamis, tanpa hardcode nama).
+     */
+    public function dropAllForeignKeysOnTable(string $table): void
+    {
+        $foreignKeys = DB::select("
+            SELECT CONSTRAINT_NAME
+            FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+            WHERE TABLE_SCHEMA = DATABASE()
+                AND TABLE_NAME = ?
+                AND CONSTRAINT_TYPE = 'FOREIGN KEY'
+        ", [$table]);
+
+        foreach ($foreignKeys as $fk) {
+            try {
+                DB::statement("ALTER TABLE `{$table}` DROP FOREIGN KEY `{$fk->CONSTRAINT_NAME}`");
+            } catch (Exception $e) {
+                logger()->warning("Gagal drop FK {$fk->CONSTRAINT_NAME} dari {$table}: " . $e->getMessage());
+            }
+        }
     }
 
     /**
@@ -696,28 +718,6 @@ trait Migrator
             Log::warning("Error cek foreign key {$foreignKeyName}: " . $e->getMessage());
 
             return false;
-        }
-    }
-
-    /**
-     * Drop semua foreign keys pada sebuah tabel (dinamis, tanpa hardcode nama).
-     */
-    private function dropAllForeignKeysOnTable(string $table): void
-    {
-        $foreignKeys = DB::select("
-            SELECT CONSTRAINT_NAME
-            FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-            WHERE TABLE_SCHEMA = DATABASE()
-                AND TABLE_NAME = ?
-                AND CONSTRAINT_TYPE = 'FOREIGN KEY'
-        ", [$table]);
-
-        foreach ($foreignKeys as $fk) {
-            try {
-                DB::statement("ALTER TABLE `{$table}` DROP FOREIGN KEY `{$fk->CONSTRAINT_NAME}`");
-            } catch (Exception $e) {
-                logger()->warning("Gagal drop FK {$fk->CONSTRAINT_NAME} dari {$table}: " . $e->getMessage());
-            }
         }
     }
 

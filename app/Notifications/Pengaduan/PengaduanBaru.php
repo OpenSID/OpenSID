@@ -53,17 +53,17 @@ class PengaduanBaru extends BaseNotification
 
     public function getTitle(): string
     {
-        return 'Pengaduan Warga';
+        return 'Pengaduan';
     }
 
     public function getMessage(): string
     {
-        return "Pengaduan baru dari: {$this->pengaduan->nama}";
+        return "{$this->pengaduan->nama}: " . \Illuminate\Support\Str::limit($this->pengaduan->judul, 40);
     }
 
     public function getUrl(): string
     {
-        return ci_route('pengaduan_admin.detail', $this->pengaduan->id);
+        return url('pengaduan_admin/detail/' . $this->pengaduan->id);
     }
 
     public function getData(): array

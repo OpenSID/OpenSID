@@ -261,7 +261,7 @@ class Dokumen_sekretariat extends Admin_Controller
             }
 
             if ($result === false && $data['tipe'] == 1) {
-                redirect_with('error', 'Data gagal disimpan '. $this->upload->display_errors(null, null), $this->redirectUrlPerdes($kat));
+                redirect_with('error', 'Data gagal disimpan ' . $this->upload->display_errors(null, null), $this->redirectUrlPerdes($kat));
             }
 
             Dokumen::create($data);

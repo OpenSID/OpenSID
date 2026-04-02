@@ -24,8 +24,25 @@
                 <?php if (can('u')) : ?>
                 <div class="box-header with-border">
                     <x-tambah-button :url="'man_user/form'" />
-                    <x-hapus-button confirmDelete="true" selectData="true" :url="'man_user/delete_all'" />
-                    
+                    @if (can('h'))
+                        <button type="button"
+                            class="btn btn-social btn-danger btn-sm hapus-terpilih"
+                            onclick="return softDeleteAllConfirm('mainform', '{{ ci_route('man_user.delete_all') }}')"
+                            title="Hapus Data">
+                            <i class="fa fa-trash-o"></i> Hapus
+                        </button>
+                    @endif
+                    @if (ci_auth()->id == super_admin())
+                        <a id="btn-hapus-semua-permanen"
+                            href="#"
+                            data-href="{{ ci_route('man_user.cleanup_soft_deleted') }}"
+                            data-method="POST"
+                            class="btn btn-social btn-danger btn-sm hidden"
+                            data-toggle="modal"
+                            data-target="#confirm-delete">
+                            <i class="fa fa-times"></i> Hapus Semua Permanen
+                        </a>
+                    @endif
                 </div>
                 @endif
                 <div class="box-body">
@@ -36,6 +53,9 @@
                                 @foreach ($status as $item)
                                     <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
                                 @endforeach
+                                @if (ci_auth()->id == super_admin() && $soft_deleted_count > 0)
+                                    <option value="deleted">Dihapus ({{ $soft_deleted_count }})</option>
+                                @endif
                             </select>
                         </div>
                         <div class="col-sm-3">
@@ -154,13 +174,7 @@
                         searchable: true,
                         orderable: true
                     },
-                    {
-                        data: 'email_verified_at',
-                        name: 'email_verified_at',
-                        class: 'padat',
-                        searchable: true,
-                        orderable: true
-                    },
+                    {data: 'email_verified_at', name: 'email_verified_at', class: 'padat', searchable: false, orderable: false},
                 ],
                 order: [
                     [4, 'asc']
@@ -182,14 +196,102 @@
                 TableData.column(7).visible(false);
             }
 
+            function toggleDeletedMode(isDeleted) {
+                TableData.column(0).visible(!isDeleted && hapus != 0);
+                $('.hapus-terpilih').toggleClass('hidden', isDeleted);
+                $('#btn-hapus-semua-permanen').toggleClass('hidden', !isDeleted);
+                $('#tabeldata thead th:last-child').text(isDeleted ? 'Dihapus Pada' : 'Tanggal Verifikasi');
+            }
+
             $('#status').select2().val(1).trigger('change');
+            toggleDeletedMode($('#status').val() === 'deleted');
+            TableData.draw();
 
             $('#status').on('select2:select', function(e) {
+                toggleDeletedMode($(this).val() === 'deleted');
                 TableData.draw();
             });
             $('#group').on('select2:select', function(e) {
                 TableData.draw();
             });
+
+            // Override #confirm-delete: jika trigger punya data-method="POST",
+            // simpan URL-nya lalu cegah navigasi GET dan POST saat OK diklik.
+            var pendingPostUrl = null;
+
+            $('#confirm-delete').on('show.bs.modal', function(e) {
+                var trigger = $(e.relatedTarget);
+                if (trigger.data('method') && trigger.data('method').toUpperCase() === 'POST') {
+                    pendingPostUrl = trigger.data('href');
+                } else {
+                    pendingPostUrl = null;
+                }
+            });
+
+            $('#confirm-delete').on('click', '.btn-ok', function(e) {
+                if (pendingPostUrl) {
+                    e.preventDefault();
+                    var url = pendingPostUrl;
+                    pendingPostUrl = null;
+                    $('#confirm-delete').modal('hide');
+                    submitPost(url);
+                }
+            });
         });
+
+        function swalKonfirmasi(opts, onConfirmed) {
+            Swal.fire(Object.assign({
+                showCancelButton : true,
+                cancelButtonText : 'Batal',
+            }, opts)).then(function(result) {
+                if (result.isConfirmed) { onConfirmed(); }
+            });
+        }
+
+        function softDeleteAllConfirm(idForm, action) {
+            swalKonfirmasi({
+                title            : 'Hapus Pengguna Terpilih?',
+                text             : 'Pengguna yang dipilih akan dipindahkan ke tempat sampah.',
+                icon             : 'warning',
+                confirmButtonText: 'Ya, Hapus',
+                confirmButtonColor: '#d33',
+            }, function() {
+                $('#' + idForm).attr('action', action);
+                refreshFormCsrf();
+                $('#' + idForm).submit();
+            });
+            return false;
+        }
+
+        /**
+         * Submit URL sebagai POST dengan CSRF token.
+         * Digunakan untuk aksi hapus/pulihkan agar tidak bisa diakses via URL langsung.
+         */
+        function submitPost(url) {
+            var $form = $('<form method="POST" style="display:none"></form>').attr('action', url);
+            $form.append($('<input type="hidden">').attr('name', csrfParam).val(getCsrfToken()));
+            $('body').append($form);
+            $form.submit();
+        }
+
+        function konfirmasiHapus(url, nama) {
+            swalKonfirmasi({
+                title            : 'Hapus Pengguna?',
+                html             : 'Pengguna <strong>' + nama + '</strong> akan dihapus dan dapat dipulihkan kembali.',
+                icon             : 'warning',
+                confirmButtonText: 'Ya, Hapus',
+                confirmButtonColor: '#d33',
+            }, function() { submitPost(url); });
+        }
+
+        function konfirmasiPulihkan(url, nama) {
+            swalKonfirmasi({
+                title            : 'Pulihkan Pengguna?',
+                html             : 'Pengguna <strong>' + nama + '</strong> akan dipulihkan.',
+                icon             : 'question',
+                confirmButtonText: 'Ya, Pulihkan',
+                confirmButtonColor: '#00a65a',
+            }, function() { submitPost(url); });
+        }
     </script>
 @endpush

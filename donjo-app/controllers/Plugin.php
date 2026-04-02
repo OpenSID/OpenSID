@@ -95,7 +95,7 @@ class Plugin extends Admin_Controller
     {
         if (config_item('demo_mode')) {
             $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
-    
+
             return redirect_with('error', $msg);
         }
 
@@ -193,7 +193,7 @@ class Plugin extends Admin_Controller
                 log_message('notice', 'Sukses: ' . $message);
 
                 return redirect_with('success', $message, 'plugin/pemesanan');
-            } else {
+            }
                 // Ambil pesan dari API jika ada
                 $errorMessage = 'Gagal mengirim data ke layanan.';
 
@@ -212,7 +212,6 @@ class Plugin extends Admin_Controller
                 log_message('error', 'Gagal: ' . $response->status() . ' - ' . $errorMessage);
 
                 return redirect_with('error', $errorMessage, 'plugin/pendaftaran');
-            }
 
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

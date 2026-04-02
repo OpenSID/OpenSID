@@ -58,7 +58,7 @@
                                                     @endif
                                                     <strong>{{ $notifikasi->data['title'] ?? 'Notifikasi' }}</strong>
                                                 </div>
-                                                <div style="font-size: 11px; color: #666; margin-top: 2px;">
+                                                <div style="font-size: 11px; color: #666; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                     {{ $notifikasi->data['message'] ?? '' }}
                                                 </div>
                                                 <div style="font-size: 10px; color: #999; margin-top: 2px;">

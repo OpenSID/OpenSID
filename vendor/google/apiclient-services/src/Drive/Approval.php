@@ -47,7 +47,7 @@ class Approval extends \Google\Collection
    */
   public $approvalId;
   /**
-   * Output only. The time time the approval was completed.
+   * Output only. The time the approval was completed.
    *
    * @var string
    */
@@ -111,7 +111,7 @@ class Approval extends \Google\Collection
     return $this->approvalId;
   }
   /**
-   * Output only. The time time the approval was completed.
+   * Output only. The time the approval was completed.
    *
    * @param string $completeTime
    */

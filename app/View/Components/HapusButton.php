@@ -55,6 +55,9 @@ class HapusButton extends Component
         public string $target = 'confirm-delete',
         public string $judul = 'Hapus',
         public string $icon = 'fa fa-trash-o',
+        public string $type = 'btn-danger',
+        public string $onclick = '',
+        public string $attribut = '',
     ) {
     }
 

@@ -2,15 +2,12 @@
 
 namespace STS\ZipStream\Models;
 
-use Illuminate\Filesystem\AwsS3V3Adapter;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
-use League\Flysystem\Local\LocalFilesystemAdapter;
-use Psr\Http\Message\StreamInterface;
 use Illuminate\Support\Str;
+use Psr\Http\Message\StreamInterface;
 use STS\ZipStream\Contracts\FileContract;
-use STS\ZipStream\Exceptions\UnsupportedSourceDiskException;
+use STS\ZipStream\Factory;
 use STS\ZipStream\OutputStream;
 use ZipStream\CompressionMethod;
 use ZipStream\ZipStream;
@@ -27,8 +24,6 @@ abstract class File implements FileContract
 
     protected int $filesize;
 
-    protected StreamInterface $readStream;
-
     protected OutputStream $writeStream;
 
     public function __construct(string $source, ?string $zipPath = null, array $options = [])
@@ -38,73 +33,44 @@ abstract class File implements FileContract
         $this->options = $options;
     }
 
-    public static function make(string $source, ?string $zipPath = null): static
+    public static function supports(string $source): bool
     {
-        if (Str::startsWith($source, "s3://")) {
-            return new S3File($source, $zipPath);
-        }
-
-        if (Str::startsWith($source, "http") && filter_var($source, FILTER_VALIDATE_URL)) {
-            return new HttpFile($source, $zipPath);
-        }
-
-        if (Str::startsWith($source, "/") || preg_match('/^\w:[\/\\\\]/', $source) || file_exists($source)) {
-            return new LocalFile($source, $zipPath);
-        }
-
-        return new TempFile($source, $zipPath);
+        return false;
     }
 
-    /**
-     * @throws UnsupportedSourceDiskException
-     */
-    public static function makeFromDisk($disk, string $source, ?string $zipPath = null): static
+    public static function supportsDisk(FilesystemAdapter $disk): bool
     {
-        if(!$disk instanceof FilesystemAdapter) {
-            $disk = Storage::disk($disk);
-        }
-
-        if($disk instanceof AwsS3V3Adapter) {
-            return S3File::make(
-                "s3://" . Arr::get($disk->getConfig(), "bucket") . "/" . $disk->path($source),
-                $zipPath
-            )->setS3Client($disk->getClient());
-        }
-
-        if($disk->getAdapter() instanceof LocalFilesystemAdapter) {
-            return new LocalFile(
-                $disk->path($source),
-                $zipPath
-            );
-        }
-
-        throw new UnsupportedSourceDiskException("Unsupported disk type");
+        return false;
     }
 
-    public static function makeWriteable(string $source): S3File|LocalFile
+    public static function supportsWriting(): bool
     {
-        if (Str::startsWith($source, "s3://")) {
-            return new S3File($source);
-        }
-
-        return new LocalFile($source);
+        return false;
     }
 
-    public static function makeWriteableFromDisk($disk, string $source): S3File|LocalFile
+    public static function fromDisk(FilesystemAdapter $disk, string $source, ?string $zipPath = null): static
     {
-        if(!$disk instanceof FilesystemAdapter) {
-            $disk = Storage::disk($disk);
-        }
+        return new static($disk->path($source), $zipPath);
+    }
 
-        if($disk instanceof AwsS3V3Adapter) {
-            return S3File::make(
-                "s3://" . Arr::get($disk->getConfig(), "bucket") . "/" . $disk->path($source)
-            )->setS3Client($disk->getClient());
-        }
+    public static function make(string $source, ?string $zipPath = null): File
+    {
+        return app(Factory::class)->make($source, $zipPath);
+    }
 
-        return new LocalFile(
-            $disk->path($source)
-        );
+    public static function makeFromDisk($disk, string $source, ?string $zipPath = null): File
+    {
+        return app(Factory::class)->makeFromDisk($disk, $source, $zipPath);
+    }
+
+    public static function makeWriteable(string $source): File
+    {
+        return app(Factory::class)->makeWriteable($source);
+    }
+
+    public static function makeWriteableFromDisk($disk, string $source): File
+    {
+        return app(Factory::class)->makeWriteableFromDisk($disk, $source);
     }
 
     public function getName(): string
@@ -152,11 +118,7 @@ abstract class File implements FileContract
 
     public function getReadableStream(): StreamInterface
     {
-        if (!isset($this->readStream)) {
-            $this->readStream = $this->buildReadableStream();
-        }
-
-        return $this->readStream;
+        return $this->buildReadableStream();
     }
 
     public function getWritableStream(): OutputStream

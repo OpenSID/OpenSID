@@ -40,7 +40,9 @@ namespace App\Libraries;
 use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
+use App\Models\Artikel;
 use App\Models\GrupAkses;
+use App\Models\Kategori;
 use App\Models\Keluarga;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogPenduduk;
@@ -52,8 +54,6 @@ use App\Models\Rtm;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
-use App\Models\Artikel;
-use App\Models\Kategori;
 use App\Traits\Collation;
 use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
@@ -216,6 +216,40 @@ class Periksa
         }
     }
 
+    public function perbaikiArtikelKategoriOrphanFleksibel(array $petaArtikelKategori): void
+    {
+        foreach ($petaArtikelKategori as $artikelId => $idKategori) {
+            Artikel::withoutGlobalScopes()
+                ->where('id', (int) $artikelId)
+                ->where('config_id', identitas('id'))
+                ->update(['id_kategori' => $idKategori, 'tipe' => 'dinamis']);
+        }
+
+        Log::notice('Berhasil memperbaiki id_kategori pada ' . count($petaArtikelKategori) . ' artikel dengan kategori tidak valid.');
+
+        // Setelah data bersih, langsung tambahkan relasi FK jika belum ada
+        if (! $this->cekForeignKeyArtikelKategori()) {
+            $this->tambahRelasiArtikelKategori();
+        }
+    }
+
+    public function perbaikiArtikelUserOrphanFleksibel(array $petaArtikelUser): void
+    {
+        foreach ($petaArtikelUser as $artikelId => $idUser) {
+            Artikel::withoutGlobalScopes()
+                ->where('id', (int) $artikelId)
+                ->where('config_id', identitas('id'))
+                ->update(['id_user' => $idUser]);
+        }
+
+        Log::notice('Berhasil memperbaiki id_user pada ' . count($petaArtikelUser) . ' artikel dengan penulis tidak valid.');
+
+        // Setelah data bersih, langsung tambahkan relasi FK jika belum ada
+        if (! $this->cekForeignKeyArtikelUser()) {
+            $this->tambahRelasiArtikelUser();
+        }
+    }
+
     private function deteksiMasalah()
     {
         $dbErrorCode    = session('db_error.code');
@@ -353,7 +387,7 @@ class Periksa
 
         $dataDuplikatArtikel = $this->deteksiDataDuplikatArtikel();
         if (! $dataDuplikatArtikel->isEmpty()) {
-            $this->periksa['masalah'][] = 'data_duplikatartikel';
+            $this->periksa['masalah'][]            = 'data_duplikatartikel';
             $this->periksa['data_duplikatartikel'] = $dataDuplikatArtikel->toArray();
         }
 
@@ -563,14 +597,14 @@ class Periksa
     private function deteksiDataDuplikatArtikel()
     {
         return Artikel::whereIn(
-                DB::raw('(slug, config_id)'),
-                function ($query) {
+            DB::raw('(slug, config_id)'),
+            static function ($query) {
                     $query->select('slug', 'config_id')
                         ->from('artikel')
                         ->groupBy('slug', 'config_id')
                         ->havingRaw('COUNT(*) > 1');
                 }
-            )
+        )
             ->orderBy('config_id')
             ->orderBy('slug')
             ->get();
@@ -907,40 +941,6 @@ class Periksa
             ->get();
     }
 
-    public function perbaikiArtikelKategoriOrphanFleksibel(array $petaArtikelKategori): void
-    {
-        foreach ($petaArtikelKategori as $artikelId => $idKategori) {
-            Artikel::withoutGlobalScopes()
-                ->where('id', (int) $artikelId)
-                ->where('config_id', identitas('id'))
-                ->update(['id_kategori' => $idKategori, 'tipe' => 'dinamis']);
-        }
-
-        Log::notice('Berhasil memperbaiki id_kategori pada ' . count($petaArtikelKategori) . ' artikel dengan kategori tidak valid.');
-
-        // Setelah data bersih, langsung tambahkan relasi FK jika belum ada
-        if (! $this->cekForeignKeyArtikelKategori()) {
-            $this->tambahRelasiArtikelKategori();
-        }
-    }
-
-    public function perbaikiArtikelUserOrphanFleksibel(array $petaArtikelUser): void
-    {
-        foreach ($petaArtikelUser as $artikelId => $idUser) {
-            Artikel::withoutGlobalScopes()
-                ->where('id', (int) $artikelId)
-                ->where('config_id', identitas('id'))
-                ->update(['id_user' => $idUser]);
-        }
-
-        Log::notice('Berhasil memperbaiki id_user pada ' . count($petaArtikelUser) . ' artikel dengan penulis tidak valid.');
-
-        // Setelah data bersih, langsung tambahkan relasi FK jika belum ada
-        if (! $this->cekForeignKeyArtikelUser()) {
-            $this->tambahRelasiArtikelUser();
-        }
-    }
-
     private function cekForeignKeyArtikelKategori(): bool
     {
         return DB::table('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
@@ -969,9 +969,9 @@ class Periksa
         // Bersihkan orphan (seluruh konfigurasi) termasuk update kolom tipe sebagai safety net,
         // karena tambahForeignKey() tidak mengetahui kolom tipe milik artikel.
         DB::table('artikel')
-            ->where(function ($q) {
+            ->where(static function ($q) {
                 $q->whereNotNull('id_kategori')
-                    ->whereNotIn('id_kategori', fn ($sub) => $sub->select('id')->from('kategori'));
+                    ->whereNotIn('id_kategori', static fn ($sub) => $sub->select('id')->from('kategori'));
             })
             ->orWhere('id_kategori', 0)
             ->update(['id_kategori' => null, 'tipe' => 'dinamis']);

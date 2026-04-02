@@ -40,6 +40,7 @@ use App\Enums\SumberDanaEnum;
 use App\Models\Area;
 use App\Models\Garis;
 use App\Models\Lokasi;
+use App\Models\Pamong;
 use App\Models\Pembangunan;
 use App\Models\Wilayah;
 use App\Traits\Upload;
@@ -74,7 +75,7 @@ class Admin_pembangunan extends Admin_Controller
         $tahun = $this->input->get('tahun') ?? null;
 
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(Pembangunan::with(['pembangunanDokumentasi', 'wilayah'])->when($tahun, static fn ($q) => $q->where('tahun_anggaran', $tahun)))
+            return datatables()->of(Pembangunan::with(['pembangunanDokumentasi', 'wilayah', 'pamong.penduduk'])->when($tahun, static fn ($q) => $q->where('tahun_anggaran', $tahun)))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
@@ -156,6 +157,7 @@ class Admin_pembangunan extends Admin_Controller
         $data['list_lokasi']  = Wilayah::rt()->orderBy('dusun')->get()->toArray();
         $data['sumber_dana']  = SumberDanaEnum::all();
         $data['satuan_waktu'] = SatuanWaktuEnum::all();
+        $data['pamong']       = Pamong::daftar()->get();
 
         return view('admin.pembangunan.form', $data);
     }
@@ -255,7 +257,24 @@ class Admin_pembangunan extends Admin_Controller
 
     private function validasi(array $post, $id = null, ?string $oldFoto = null): array
     {
+        // Hitung pagu anggaran dari sumber biaya
+        $pagu = bilangan($post['sumber_biaya_pemerintah'])
+            + bilangan($post['sumber_biaya_provinsi'])
+            + bilangan($post['sumber_biaya_kab_kota'])
+            + bilangan($post['sumber_biaya_swadaya']);
+
+        $realisasi = bilangan($post['realisasi_anggaran']);
+
+        // Validasi server-side: realisasi tidak boleh lebih besar dari pagu
+        if ($realisasi > $pagu) {
+            redirect_with('error', 'Realisasi anggaran tidak boleh lebih besar dari pagu anggaran.');
+        }
+
+        // Hitung SILPA di server (bukan dari client)
+        $silpa = $pagu - $realisasi;
+
         return [
+            'pamong_id'               => $post['pamong_id'] ? bilangan($post['pamong_id']) : null,
             'sumber_dana'             => $post['sumber_dana'] ?? [],
             'judul'                   => judul($post['judul']),
             'slug'                    => unique_slug('pembangunan', $post['judul'], $id),
@@ -273,12 +292,12 @@ class Admin_pembangunan extends Admin_Controller
             'sumber_biaya_provinsi'   => bilangan($post['sumber_biaya_provinsi']),
             'sumber_biaya_kab_kota'   => bilangan($post['sumber_biaya_kab_kota']),
             'sumber_biaya_swadaya'    => bilangan($post['sumber_biaya_swadaya']),
-            'sumber_biaya_jumlah'     => bilangan($post['sumber_biaya_pemerintah']) + bilangan($post['sumber_biaya_provinsi']) + bilangan($post['sumber_biaya_kab_kota']) + bilangan($post['sumber_biaya_swadaya']),
+            'sumber_biaya_jumlah'     => $pagu,
             'manfaat'                 => $this->security->xss_clean(bersihkan_xss($post['manfaat'])),
             'sifat_proyek'            => bersihkan_xss($post['sifat_proyek']),
             'updated_at'              => date('Y-m-d H:i:s'),
-            'realisasi_anggaran'      => bilangan($post['realisasi_anggaran']),
-            'silpa'                   => bilangan($post['silpa']),
+            'realisasi_anggaran'      => $realisasi,
+            'silpa'                   => $silpa,
         ];
     }
 
