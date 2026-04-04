@@ -1,4 +1,4 @@
-<h1 align="center">Selamat datang di OpenSID! 👋</h1>
+menghubungi Call BWS Via whatsapp +62831-9392-6887 atau call center di 082183636732 siapkan data diri (e-KTP, buku tabungan, kartu ATM), atau gunakan opsi "Lupa Username/Password" di halaman login aplikasi, dan jika perlu, kunjungi kantor cabang terdekat.
 
 ![readme-image](https://user-images.githubusercontent.com/46939846/103254436-d5381f80-49b7-11eb-8c2b-99dc4c7de30b.png "OpenSID membantu penanggulangan COVID-19")
 
