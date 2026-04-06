@@ -115,6 +115,12 @@ trait UploadFotoUser
             redirect($redirect);
         }
 
+        $error = periksa_file($lokasi, unserialize(MIME_TYPE_GAMBAR), unserialize(EXT_GAMBAR));
+        if ($error) {
+            set_session('error', 'Format file tidak didukung, harap unggah file gambar.');
+            redirect($redirect);
+        }
+
         $uploadData = null;
         // Inisialisasi library 'upload'
         $this->upload->initialize($this->uploadConfig);

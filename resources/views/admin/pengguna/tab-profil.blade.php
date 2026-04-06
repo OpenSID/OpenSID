@@ -16,13 +16,14 @@
         <div class="form-group">
             <label for="foto">Ganti Foto</label>
             <div class="input-group input-group-sm">
-                <input type="text" class="form-control" id="file_path" name="foto">
+                <input type="text" class="form-control" id="file_path">
                 <input type="file" class="hidden" id="file" name="foto">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i>
                         Browse</button>
                 </span>
             </div>
+            <p class="help-block text-muted"><small>Format file: .jpg, .jpeg, .png, .gif</small></p>
         </div>
         @if (setting('telegram_notifikasi'))
             <div class="form-group">
