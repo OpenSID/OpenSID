@@ -235,7 +235,7 @@ class Web_Controller extends MY_Controller
     private function setCookieIfChanged(string $name, string $value): void
     {
         if (($_COOKIE[$name] ?? null) !== $value) {
-            if (! setcookie($name, $value, ['expires' => 0, 'path' => '/', 'httponly' => true, 'samesite' => 'Lax'])) {
+            if (! setcookie($name, $value, ['expires' => 0, 'path' => '/', 'httponly' => false, 'samesite' => 'Lax'])) {
                 log_message('error', "Gagal menetapkan cookie: {$name}");
             }
         }
