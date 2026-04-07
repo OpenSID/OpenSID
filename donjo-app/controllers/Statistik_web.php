@@ -39,6 +39,7 @@ use App\Enums\SasaranEnum;
 use App\Enums\StatusEnum;
 use App\Models\Bantuan;
 use App\Models\PendudukSaja;
+use App\Models\Wilayah;
 use App\Repositories\StatistikRepository;
 use App\Services\LaporanPenduduk;
 
@@ -96,10 +97,28 @@ class Statistik_web extends Web_Controller
 
         $request = request();
 
+        $dusun = $this->session->dusun;
+        $rw    = $this->session->rw;
+        $rt    = $this->session->rt;
+
+        $idCluster = null;
+
+        if ($rt) {
+            $idCluster = Wilayah::whereDusun($dusun)->whereRw($rw)->whereRt($rt)->select(['id'])->get()->pluck('id')->toArray();
+        } elseif ($rw) {
+            $idCluster = Wilayah::whereDusun($dusun)->whereRw($rw)->select(['id'])->get()->pluck('id')->toArray();
+        } elseif ($dusun) {
+            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
         $data['main'] = (new StatistikRepository())->sumberData($lap, [
-            'tahun'   => $request->get('tahun'),
-            'status'  => $request->get('status', StatusEnum::YA),
-            'cluster' => $request->get('cluster', null),
+            'tahun'     => $request->get('tahun'),
+            'status'    => $request->get('status', StatusEnum::YA),
+            'cluster'   => $request->get('cluster', null),
+            'dusun'     => $dusun,
+            'rw'        => $rw,
+            'rt'        => $rt,
+            'idCluster' => $idCluster,
         ]);
 
         $data['lap']       = $lap;
