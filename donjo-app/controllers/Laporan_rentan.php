@@ -81,10 +81,7 @@ class Laporan_rentan extends Admin_Controller
         $data['wilayah'] = $wilayah;
         $data['main']    = $this->listData($wilayah, $data['dusunTerpilih']);
         if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=kelompok_rentan_' . date('Y-m-d') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
+            $data['file'] = 'kelompok_rentan_';
         }
         view('admin.laporan.rentan.cetak', $data);
     }
