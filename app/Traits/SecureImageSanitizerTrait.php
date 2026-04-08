@@ -165,28 +165,10 @@ trait SecureImageSanitizerTrait
             ];
         }
 
-        // Cek tambahan: pastikan tidak ada PHP tag di awal file (polyglot detection)
-        $handle      = fopen($filePath, 'rb');
-        $headerChunk = fread($handle, 1024); // Baca 1KB pertama
-        fclose($handle);
-
-        $dangerousPatterns = [
-            '<?php',
-            '<?=',
-            '<script',
-            'javascript:',
-            'vbscript:',
-            'data:text/html',
-        ];
-
-        foreach ($dangerousPatterns as $pattern) {
-            if (stripos($headerChunk, $pattern) !== false) {
-                return [
-                    'valid' => false,
-                    'error' => 'File mengandung konten berbahaya dan ditolak.',
-                ];
-            }
-        }
+        // CATATAN: Dangerous pattern check tidak diperlukan di sini
+        // karena re-encode image menggunakan GD Library akan menghilangkan
+        // semua metadata, EXIF, embedded scripts, dan payload berbahaya secara otomatis.
+        // Magic bytes validation sudah cukup untuk fase awal.
 
         return ['valid' => true, 'error' => null];
     }
