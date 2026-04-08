@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Models\Keuangan;
 use App\Enums\StatusEnum;
 use App\Models\Galery as Galeri;
 use App\Traits\ConfigId;
@@ -225,6 +226,10 @@ class SettingAplikasi extends BaseModel
 
     public function getOptionAttribute()
     {
+        if ($this->attributes['key'] == 'apbdes_tahun') {
+            return Keuangan::tahunAnggaran()->pluck('tahun', 'tahun')->toArray();
+        }
+
         if ($this->attributes['jenis'] == 'option' && $this->attributes['key'] == 'tampilan_anjungan_slider') {
             return Galeri::whereParrent(Galeri::PARRENT)->whereEnabled(StatusEnum::YA)->pluck('nama', 'id');
         }

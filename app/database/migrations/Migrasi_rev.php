@@ -40,7 +40,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class () extends Migration {
+return new class() extends Migration {
     use Migrator;
 
     /**
@@ -48,12 +48,26 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+        $this->tambahPengaturanTahunApbdes();
+    }
+
+    public function tambahPengaturanTahunApbdes()
+    {
+        $this->createSetting([
+            'judul'      => 'Tahun APBDes',
+            'key'        => 'apbdes_tahun',
+            'value'      => null,
+            'urut'       => 3,
+            'keterangan' => 'Tahun APBDes yang akan ditampilkan dihalaman depan',
+            'jenis'      => 'select-array',
+            'option'     => null,
+            'kategori'   => 'Keuangan',
+            'attribute'  => null,
+        ]);
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-    }
+    public function down(): void {}
 };

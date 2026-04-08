@@ -51,6 +51,7 @@ class Keuangan_manual extends Admin_Controller
 
     public $modul_ini     = 'keuangan';
     public $sub_modul_ini = 'input-data';
+    public $kategori_pengaturan = 'Keuangan';
     private $tahun;
     private $nama_file;
     private array $data_siskeudes = [
@@ -124,8 +125,8 @@ class Keuangan_manual extends Admin_Controller
                         default => $item->template->uraian,
                     };
                 })
-                ->editColumn('anggaran', static fn ($item) => Rupiah2($item->anggaran))
-                ->editColumn('realisasi', static fn ($item) => Rupiah2($item->realisasi))
+                ->editColumn('anggaran', static fn($item) => Rupiah2($item->anggaran))
+                ->editColumn('realisasi', static fn($item) => Rupiah2($item->realisasi))
                 ->rawColumns(['aksi', 'kode_menjorok', 'uraian_menjorok'])
                 ->skipPaging()
                 ->make();
@@ -212,7 +213,7 @@ class Keuangan_manual extends Admin_Controller
 
         // Ubah semua child lainnya agar anggaran dan realisasi menjadi 0
         $childrens->each(
-            static fn ($child) => Keuangan::where([
+            static fn($child) => Keuangan::where([
                 'tahun'         => $keuangan->tahun,
                 'template_uuid' => $child->uuid,
             ])->update([
@@ -250,7 +251,7 @@ class Keuangan_manual extends Admin_Controller
     // data tahun anggaran untuk keperluan dropdown pada plugin keuangan di text editor
     public function cek_tahun_manual(): void
     {
-        $list_tahun = Keuangan::tahunAnggaran()->get()->map(static fn ($item) => [
+        $list_tahun = Keuangan::tahunAnggaran()->get()->map(static fn($item) => [
             'text'  => (string) $item->tahun,
             'value' => (string) $item->tahun,
         ])->toArray();
@@ -278,7 +279,7 @@ class Keuangan_manual extends Admin_Controller
                     if (isset($templateTahun[$kodeCoa])) {
                         $obj = $templateTahun[$kodeCoa];
 
-                        switch($key) {
+                        switch ($key) {
                             case 'keuangan_ta_rab_rinci':
                                 $obj->anggaran = $item->sum('AnggaranStlhPAK');
                                 break;
@@ -337,7 +338,6 @@ class Keuangan_manual extends Admin_Controller
             if (! $this->tahun) {
                 redirect_with('error', 'File tidak berisi data siskeudes', ci_route('keuangan_manual.impor_data'));
             }
-
         } else {
             redirect_with('error', 'File harus dalam format .zip', ci_route('keuangan_manual.impor_data'));
         }
