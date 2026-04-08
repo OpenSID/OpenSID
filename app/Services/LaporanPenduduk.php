@@ -462,11 +462,10 @@ class LaporanPenduduk
 
             case 'akta-kematian':
                 // Akta Kematian
-                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0) >= u.dari
-    AND (DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0) <= u.sampai
-    AND l.akta_mati IS NOT NULL
-    AND l.akta_mati != ''
-    AND l.file_akta_mati IS NOT NULL ";
+                $where = "TIMESTAMPDIFF(YEAR, b.tanggallahir, l.tgl_peristiwa) BETWEEN u.dari AND u.sampai
+                    AND l.akta_mati IS NOT NULL
+                    AND l.akta_mati != ''
+                    AND l.file_akta_mati IS NOT NULL";
 
                 $jml = $this->select_jml($where, '2');
 
@@ -478,7 +477,7 @@ class LaporanPenduduk
                     ->selectRaw(DB::raw('(' . $jml['str_jml_perempuan'] . ') as perempuan'))
                     ->where('u.status', '1')
                     ->where('u.config_id', identitas('id'))
-                // kondisi param datatable
+                    // kondisi param datatable
                     ->when($this->paramCetak, static function ($query, $param) {
                         $query->take($param['length'])->skip($param['start']);
                     })
