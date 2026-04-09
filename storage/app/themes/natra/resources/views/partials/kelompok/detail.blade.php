@@ -127,7 +127,7 @@
                     autoWidth: false,
                     ordering: true,
                     ajax: {
-                        url: `{{ route('api.kelompok.anggota', ['slug' => $slug]) }}`,
+                        url: `{{ route('api.' . $tipe . '.anggota', ['slug' => $slug]) }}`,
                         method: 'GET',
                         data: row => ({
                             "page[size]": row.length,
@@ -172,7 +172,7 @@
                             data: 'nama',
                             name: 'nama',
                             className: 'text-wrap',
-                            render: (data, type, row) => row.attributes.anggota.nama
+                            render: (data, type, row) => row.attributes.nama_penduduk
                         },
                         {
                             data: 'alamat',

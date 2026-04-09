@@ -10,6 +10,7 @@ Rilis versi 2604.0.0 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 6. [#10982](https://github.com/OpenSID/OpenSID/issues/10982) Perbaikan nama file hasil unduh xls pada menu laporan kelompok rentan tidak berisi nama hanya timestamp saja.
 7. [#10966](https://github.com/OpenSID/OpenSID/issues/10966) Perbaikan pengaturan tahun apbdes.
 8. [#10986](https://github.com/OpenSID/OpenSID/issues/10986) Perbaikan data akta kematian tidak tampil benar pada laporan statistik.
+9. [#11018](https://github.com/OpenSID/OpenSID/issues/11018) Perbaikan data rincian lembaga tidak tampil di web.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.

@@ -127,7 +127,7 @@
                     autoWidth: false,
                     ordering: true,
                     ajax: {
-                        url: `{{ route('api.kelompok.anggota', ['slug' => $slug]) }}`,
+                        url: `{{ route('api.' . $tipe . '.anggota', ['slug' => $slug]) }}`,
                         method: 'GET',
                         data: row => ({
                             "page[size]": row.length,

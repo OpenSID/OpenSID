@@ -49,7 +49,7 @@ class KelompokRepository
 
     public function detail($slug)
     {
-        return QueryBuilder::for(Kelompok::with('pengurus')->tipe($this->tipe)->whereSlug($slug))
+        return QueryBuilder::for(Kelompok::with(['pengurus', 'kelompokMaster'])->tipe($this->tipe)->whereSlug($slug))
             ->allowedFields('*')
             ->first();
     }
@@ -109,6 +109,14 @@ class KelompokRepository
                     }
                 }),
                 AllowedSort::custom('nama', new class () implements \Spatie\QueryBuilder\Sorts\Sort {
+                    public function __invoke($query, $descending, string $property)
+                    {
+                        $direction = $descending ? 'desc' : 'asc';
+                        $query->join('tweb_penduduk', 'kelompok_anggota.id_penduduk', '=', 'tweb_penduduk.id')
+                            ->orderBy('tweb_penduduk.nama', $direction);
+                    }
+                }),
+                AllowedSort::custom('nama_penduduk', new class () implements \Spatie\QueryBuilder\Sorts\Sort {
                     public function __invoke($query, $descending, string $property)
                     {
                         $direction = $descending ? 'desc' : 'asc';

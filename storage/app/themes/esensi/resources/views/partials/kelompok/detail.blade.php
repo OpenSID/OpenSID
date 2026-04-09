@@ -34,9 +34,9 @@
                     $('#nav-tipe').text(`Data ${tipe}`);
 
                     var detailElemen = `
-              <h1 class="text-h2">Data ${tipe} ${detail.nama}</h1>
-              <h2 class="text-h4">Rinci Data ${tipe}</h2>
-              <div class="table-responsive content">
+              <h1 class="text-h2 mb-4">Data ${tipe} ${detail.nama}</h1>
+              <h2 class="text-h4 mt-8 mb-4">Rinci Data ${tipe}</h2>
+              <div class="table-responsive content mb-10">
                 <table class="w-full text-sm">
                   <tbody>
                     <tr>
@@ -71,8 +71,8 @@
                 </table>
               </div>`;
 
-                    var pengurusElemen = `<h2 class="text-h4">Daftar Pengurus</h2>
-              <div class="table-responsive content">
+                    var pengurusElemen = `<h2 class="text-h4 mt-12 mb-4">Daftar Pengurus</h2>
+              <div class="table-responsive content mb-10">
                 <table class="w-full text-sm">
                   <thead>
                     <tr>
@@ -99,8 +99,8 @@
               </div>`;
 
                     var anggotaElemen = `
-              <h2 class="text-h4">Daftar Anggota</h2>
-              <div class="table-responsive content">
+              <h2 class="text-h4 mt-12 mb-4">Daftar Anggota</h2>
+              <div class="table-responsive content mb-10">
                 <table class="w-full text-sm" id="tabel-data">
                   <thead>
                     <tr>
@@ -133,7 +133,7 @@
                     autoWidth: false,
                     ordering: true,
                     ajax: {
-                        url: `{{ route('api.kelompok.anggota', ['slug' => $slug]) }}`,
+                        url: `{{ route('api.' . $tipe . '.anggota', ['slug' => $slug]) }}`,
                         method: 'GET',
                         data: row => ({
                             "page[size]": row.length,
@@ -169,7 +169,7 @@
                             data: 'nama',
                             name: 'nama',
                             className: 'text-wrap',
-                            render: (data, type, row) => row.attributes.anggota.nama
+                            render: (data, type, row) => row.attributes.nama_penduduk
                         },
                         {
                             data: 'alamat',
