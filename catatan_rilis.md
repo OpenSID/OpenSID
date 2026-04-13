@@ -13,6 +13,7 @@ Rilis versi 2604.0.0 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 9. [#11018](https://github.com/OpenSID/OpenSID/issues/11018) Perbaikan data rincian lembaga tidak tampil di web.
 10. [#11019](https://github.com/OpenSID/OpenSID/issues/11019) Perbaikan banyaknya foto setiap produk di menu lapk tidak bisa di isi angka lebih dari 5.
 11. [#11020](https://github.com/OpenSID/OpenSID/issues/11020) Perbaikan peta desa tidak muncul di menu pemetaan.
+12. [#11026](https://github.com/OpenSID/OpenSID/issues/11026) Perbaikan tombol enter pada keyboard pada saat isi "HAPUS" pada modal alert konfirmasi hapus tidak berfungsi.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.

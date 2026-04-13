@@ -113,6 +113,16 @@
                     }
                 });
 
+                // Submit dengan Enter
+                input.off('keydown.confirmDelete').on('keydown.confirmDelete', function(e) {
+                    if (e.which === 13) {
+                        e.preventDefault();
+                        if (!button.prop('disabled')) {
+                            button.click();
+                        }
+                    }
+                });
+
                 // Auto focus
                 setTimeout(() => input.focus(), 150);
             });
