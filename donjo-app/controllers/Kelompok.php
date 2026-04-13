@@ -348,7 +348,7 @@ class Kelompok extends Admin_Controller
     public function indexDokumen($id_kelompok): void
     {
         $data['status']      = [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'];
-        $data['kat_nama']    = DokumenEnum::valueOf(DokumenEnum::KELOMPOK);
+        $data['kat_nama']    = 'Dokumen ' .  DokumenEnum::valueOf(DokumenEnum::KELOMPOK);
         $data['id_kelompok'] = $id_kelompok;
         $data['tipe']        = $this->tipe; // tambahkan ini
         $data['module_name'] = ucfirst($this->tipe); // tambahkan ini
@@ -438,7 +438,7 @@ class Kelompok extends Admin_Controller
             $data['id_kelompok'] = $id_kelompok;
         }
 
-        $data['kat_nama'] = DokumenEnum::valueOf(DokumenEnum::KELOMPOK);
+        $data['kat_nama'] = 'Dokumen ' . DokumenEnum::valueOf(DokumenEnum::KELOMPOK);
         $data['tipe']     = $tipe;
         $data['readonly'] = false;
 
