@@ -1,0 +1,139 @@
+[
+    {
+        "judul": "Url CCTV Online",
+        "key": "url_cctv",
+        "value": "https://cctvpenyedialayanan.com/hls/casdgfdsfdfgsfgsdfa202/stream.m3u8",
+        "type": "input-text",
+        "keterangan": "Masukan url streaming cctv online",
+        "options": null,
+        "readonly": false,
+        "link": true,
+        "group": "Pembangunan"
+    },
+    {
+        "judul": "Aktivasi AI Assistant",
+        "key": "ai_assistant_key",
+        "value": "1",
+        "type": "input-text",
+        "keterangan": "Masukan product key untuk klaim domain AI Assistant pada dashboard aiuntukdesa.digidesa.id",
+        "readonly": false,
+        "link": true,
+        "group": "Pembangunan"
+    },
+    {
+        "judul": "Widget Ai Asistant",
+        "key": "ai_assistant",
+        "value": "1",
+        "type": "select",
+        "keterangan": "Tampilkan widget Ai Asistant di beranda",
+        "options": {
+            "1": "Ya",
+            "0": "Tidak"
+        },
+        "attributes": {
+            "class": "select2"
+        },
+        "readonly": false
+    },
+    {
+        "judul": "Gaya Klasik",
+        "key": "hero_klasik",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Tampilkan Header Klasik di beranda",
+        "options": {
+            "1": "Ya",
+            "0": "Tidak"
+        },
+        "attributes": {
+            "class": "select2"
+        },
+        "readonly": true
+    },
+    {
+        "judul": "Jam Kerja",
+        "key": "jam_kerja",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Tampilkan Jam Kerja di beranda",
+        "options": {
+            "1": "Ya",
+            "0": "Tidak"
+        },
+        "attributes": {
+            "class": "select2"
+        },
+        "readonly": false
+    },
+    {
+        "judul": "Visi Misi Desa",
+        "key": "vision_mission",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Tampilkan Visi Misi Desa di beranda, [disable] beli Tema Preium untuk mengaktifkan",
+        "options": {
+            "0": "Tidak"
+        },
+        "attributes": {
+            "class": "select2"
+        },
+        "readonly": true
+    },
+    {
+        "judul": "Arah Pengembangan Desa",
+        "key": "development",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Tampilkan Arah Pengembangan Desa di beranda, [disable] beli Tema Preium untuk mengaktifkan",
+        "options": {
+            "0": "Tidak"
+        },
+        "attributes": {
+            "class": "select2"
+        },
+        "readonly": true
+    },
+    {
+        "judul": "Sejarah Desa",
+        "key": "history",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Tampilkan Sejarah Desa di beranda, [disable] beli Tema Preium untuk mengaktifkan",
+        "options": {
+            "0": "Tidak"
+        },
+        "attributes": {
+            "class": "select2"
+        },
+        "readonly": true
+    },
+    {
+        "judul": "Lokasi Kantor",
+        "key": "office_location",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Tampilkan Lokasi Kantor di beranda, [disable] beli Tema Preium untuk mengaktifkan",
+        "options": {
+            "0": "Tidak"
+        },
+        "attributes": {
+            "class": "select2"
+        },
+        "readonly": true
+    },
+    {
+        "judul": "Pemerintah dan Aparatur Desa",
+        "key": "village_officials",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Tampilkan Pemerintah dan Aparatur Desa di beranda",
+        "options": {
+            "1": "Ya",
+            "0": "Tidak"
+        },
+        "attributes": {
+            "class": "select2"
+        },
+        "readonly": true
+    }
+]

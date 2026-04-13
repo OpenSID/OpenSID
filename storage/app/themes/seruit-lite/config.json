@@ -1,0 +1,191 @@
+[
+    {
+        "judul": "STATUS LISENSI TEMA",
+        "key": "info_lisensi_seruit",
+        "value": "lite",
+        "type": "select",
+        "keterangan": "PENTING: Anda saat ini menggunakan SERUIT LITE (Versi Gratis). Dapatkan fitur eksklusif seperti 15+ Palet Warna Premium, SEO Booster, Auto-Ads, dan Widget Interaktif di Versi PRO. Upgrade: https://opendesa.id/tema-pro-opensid/",
+        "options": { "lite": "Seruit Lite (Versi Gratis)" }
+    },
+    {
+        "judul": "Fitur Aksesibilitas (Disabilitas) [PRO]",
+        "key": "accessibility_pro_notice",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Membantu pengunjung tunanetra atau lansia dengan fitur pembesar teks dan kontras tinggi. Aktifkan fitur ramah difabel ini di Versi PRO.",
+        "options": { "0": "Fitur Terkunci (Hanya Versi PRO)" }
+    },
+    {
+        "judul": "Pengaturan SEO Premium [PRO]",
+        "key": "seo_pro_separator",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Fitur optimasi mesin pencari agar website desa muncul di halaman pertama Google secara otomatis. Tersedia di Versi PRO.",
+        "options": { "0": "Fitur Terkunci (Hanya Versi PRO)" }
+    },
+    {
+        "judul": "Aktifkan Schema.org JSON-LD [PRO]",
+        "key": "seo_schema_aktif",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Menambahkan data terstruktur agar Google mengenali artikel desa sebagai berita resmi. (Fitur Unggulan PRO)",
+        "options": { "0": "Tidak Aktif (Lite)", "1": "Ya, Aktifkan [PRO ONLY]" }
+    },
+    {
+        "judul": "Integrasi Layanan Pihak Ketiga [PRO]",
+        "key": "integrasi_pro_info",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Hubungkan website dengan Google Search Console, Bing Webmaster, Analytics, dan Facebook Pixel. Hanya aktif di Versi PRO.",
+        "options": { "0": "Fitur Terkunci (Hanya Versi PRO)" }
+    },
+    {
+        "judul": "Kode Verifikasi Google [PRO]",
+        "key": "google_site_verification_id",
+        "value": "",
+        "type": "input-text",
+        "keterangan": "Input ini tidak akan diproses pada versi Lite."
+    },
+    {
+        "judul": "Kode Verifikasi Bing [PRO]",
+        "key": "bing_site_verification_id",
+        "value": "",
+        "type": "input-text",
+        "keterangan": "Input ini tidak akan diproses pada versi Lite."
+    },
+    {
+        "judul": "Google Analytics Measurement ID [PRO]",
+        "key": "google_analytics_id",
+        "value": "",
+        "type": "input-text",
+        "keterangan": "Pantau jumlah pengunjung secara akurat (G-XXXXXXXXXX). Gunakan di Versi PRO."
+    },
+    {
+        "judul": "Facebook Pixel ID [PRO]",
+        "key": "facebook_pixel_id",
+        "value": "",
+        "type": "input-text",
+        "keterangan": "Optimasi promosi potensi desa di media sosial Facebook. Gunakan di Versi PRO."
+    },
+    {
+        "judul": "Google AdSense Publisher ID [PRO]",
+        "key": "google_adsense_id",
+        "value": "",
+        "type": "input-text",
+        "keterangan": "Hasilkan pendapatan untuk kas desa melalui iklan Google. Buka akses monetisasi di Versi PRO."
+    },
+    {
+        "judul": "Slot Iklan Otomatis [PRO]",
+        "key": "ads_slot_info_pro",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Pengaturan iklan di atas dan bawah isi artikel secara otomatis tanpa merusak desain. Tersedia di Versi PRO.",
+        "options": { "0": "Fitur Terkunci (Hanya Versi PRO)" }
+    },
+    {
+        "judul": "Palet Warna Utama Tema",
+        "key": "palet_warna",
+        "value": "hijau",
+        "type": "select",
+        "keterangan": "Versi PRO menyediakan 15 skema warna premium. Pada versi Lite, tampilan dikunci pada warna Hijau ke Teal.",
+        "options": {
+            "hijau": "Hijau ke Teal (Lite - Aktif)",
+            "default": "Biru ke Merah Muda [PRO]",
+            "merah": "Merah ke Oranye [PRO]",
+            "jingga": "Jingga ke Kuning [PRO]",
+            "lembayung": "Lembayung ke Nila [PRO]",
+            "samudra": "Langit ke Biru Tua [PRO]",
+            "senja": "Amber ke Merah Tua [PRO]",
+            "fajar": "Mawar ke Oranye [PRO]",
+            "tropis": "Jeruk Nipis ke Zamrud [PRO]",
+            "permata": "Teal ke Sian [PRO]",
+            "aurora": "Fuchsia ke Ungu [PRO]",
+            "metalik": "Batu Tulis ke Abu-abu [PRO]",
+            "lavender": "Nila ke Lembayung [PRO]",
+            "matahari": "Kuning ke Amber [PRO]",
+            "cerah": "Sian ke Langit [PRO]"
+        }
+    },
+    {
+        "judul": "Warna Elemen & APBDes [PRO]",
+        "key": "warna_elemen_info_pro",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Kustomisasi warna kartu Sambutan, Aparatur, dan Grafik Transparansi Anggaran agar lebih menarik. Hanya aktif di Versi PRO.",
+        "options": { "0": "Gunakan Warna Standar (Lite)" }
+    },
+    {
+        "judul": "Layanan Mandiri di Beranda [PRO]",
+        "key": "layanan_home_aktif",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Form login cepat bagi warga untuk mengajukan surat langsung dari halaman depan. (Fitur PRO)",
+        "options": { "0": "Tidak Tampil (Lite)", "1": "Tampilkan [PRO ONLY]" }
+    },
+    {
+        "judul": "Teks Sambutan Kepala Desa",
+        "key": "sambutan_isi",
+        "value": "",
+        "type": "textarea",
+        "keterangan": "Biarkan kosong untuk menggunakan teks sambutan cerdas yang menyesuaikan nama pimpinan secara otomatis.",
+        "attributes": { "rows": 5 }
+    },
+    {
+        "judul": "Galeri Foto Premium [PRO]",
+        "key": "galeri_pro_info",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Slider galeri kegiatan desa dengan tampilan mewah dan responsif. Aktifkan di Versi PRO.",
+        "options": { "0": "Terkunci (Hanya Versi PRO)" }
+    },
+    {
+        "judul": "Widget Hitung Mundur Acara [PRO]",
+        "key": "countdown_aktif",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Widget interaktif untuk menyambut hari besar desa (HUT RI, Musdes, dll). Hanya aktif di Versi PRO.",
+        "options": { "0": "Sembunyikan (Lite)", "1": "Tampilkan [PRO ONLY]" }
+    },
+    {
+        "judul": "Grafik Statistik & Cuaca [PRO]",
+        "key": "stat_weather_info_pro",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Grafik Pie Chart penduduk dan data Cuaca BMKG otomatis di beranda sangat berguna bagi warga. Buka fitur ini di Versi PRO.",
+        "options": { "0": "Fitur Terkunci (Hanya Versi PRO)" }
+    },
+    {
+        "judul": "Tampilkan Widget Jadwal Sholat",
+        "key": "tampilkan_sholat",
+        "value": "1",
+        "type": "select",
+        "keterangan": "Memberikan informasi waktu ibadah yang akurat bagi warga desa.",
+        "options": { "1": "Ya, Tampilkan", "0": "Tidak" }
+    },
+    {
+        "judul": "Kota untuk Widget Jadwal Shalat",
+        "key": "kode_kota_sholat",
+        "value": "1301",
+        "type": "select",
+        "keterangan": "Pilih Kota Anda agar jadwal shalat muncul otomatis sesuai zona waktu.",
+        "options": {
+            "1001": "Kab. Lampung Tengah", "1002": "Kab. Lampung Utara", "1003": "Kab. Lampung Selatan", "1004": "Kab. Lampung Barat", "1005": "Kab. Lampung Timur", "1006": "Kab. Mesuji", "1007": "Kab. Pesawaran", "1008": "Kab. Pesisir Barat", "1009": "Kab. Pringsewu", "1010": "Kab. Tulang Bawang", "1011": "Kab. Tulang Bawang Barat", "1012": "Kab. Tanggamus", "1013": "Kab. Way Kanan", "1014": "Kota Bandar Lampung", "1015": "Kota Metro", "1101": "Kab. Lebak", "1102": "Kab. Pandeglang", "1103": "Kab. Serang", "1104": "Kab. Tangerang", "1105": "Kota Cilegon", "1106": "Kota Serang", "1107": "Kota Tangerang", "1108": "Kota Tangerang Selatan", "1201": "Kab. Bandung", "1202": "Kab. Bandung Barat", "1203": "Kab. Bekasi", "1204": "Kab. Bogor", "1205": "Kab. Ciamis", "1206": "Kab. Cianjur", "1207": "Kab. Cirebon", "1208": "Kab. Garut", "1209": "Kab. Indramayu", "1210": "Kab. Karawang", "1211": "Kab. Kuningan", "1212": "Kab. Majalengka", "1213": "Kab. Pangandaran", "1214": "Kab. Purwakarta", "1215": "Kab. Subang", "1216": "Kab. Sukabumi", "1217": "Kab. Sumedang", "1218": "Kab. Tasikmalaya", "1219": "Kota Bandung", "1220": "Kota Banjar", "1221": "Kota Bekasi", "1222": "Kota Bogor", "1223": "Kota Cimahi", "1224": "Kota Cirebon", "1225": "Kota Depok", "1226": "Kota Sukabumi", "1227": "Kota Tasikmalaya", "1301": "Kota Jakarta", "1302": "Kab. Kepulauan Seribu", "1401": "Kab. Banjarnegara", "1402": "Kab. Banyumas", "1403": "Kab. Batang", "1404": "Kab. Blora", "1405": "Kab. Boyolali", "1406": "Kab. Brebes", "1407": "Kab. Cilacap", "1408": "Kab. Demak", "1409": "Kab. Grobogan", "1410": "Kab. Jepara", "1411": "Kab. Karanganyar", "1412": "Kab. Kebumen", "1413": "Kab. Kendal", "1414": "Kab. Klaten", "1415": "Kab. Kudus", "1416": "Kab. Magelang", "1417": "Kab. Pati", "1418": "Kab. Pekalongan", "1419": "Kab. Pemalang", "1420": "Kab. Purbalingga", "1421": "Kab. Purworejo", "1422": "Kab. Rembang", "1423": "Kab. Semarang", "1424": "Kab. Sragen", "1425": "Kab. Sukoharjo", "1426": "Kab. Tegal", "1427": "Kab. Temanggung", "1428": "Kab. Wonogiri", "1429": "Kab. Wonosobo", "1430": "Kota Magelang", "1431": "Kota Pekalongan", "1432": "Kota Salatiga", "1433": "Kota Semarang", "1434": "Kota Surakarta", "1435": "Kota Tegal", "1501": "Kab. Bantul", "1502": "Kab. Gunungkidul", "1503": "Kab. Kulon Progo", "1504": "Kab. Sleman", "1505": "Kota Yogyakarta", "1601": "Kab. Bangkalan", "1602": "Kab. Banyuwangi", "1603": "Kab. Blitar", "1604": "Kab. Bojonegoro", "1605": "Kab. Bondowoso", "1606": "Kab. Gresik", "1607": "Kab. Jember", "1608": "Kab. Jombang", "1609": "Kab. Kediri", "1610": "Kab. Lamongan", "1611": "Kab. Lumajang", "1612": "Kab. Madiun", "1613": "Kab. Magetan", "1614": "Kab. Malang", "1615": "Kab. Mojokerto", "1616": "Kab. Nganjuk", "1617": "Kab. Ngawi", "1618": "Kab. Pacitan", "1619": "Kab. Pamekasan", "1620": "Kab. Pasuruan", "1621": "Kab. Ponorogo", "1622": "Kab. Probolinggo", "1623": "Kab. Sampang", "1624": "Kab. Sidoarjo", "1625": "Kab. Situbondo", "1626": "Kab. Sumenep", "1627": "Kab. Trenggalek", "1628": "Kab. Tuban", "1629": "Kab. Tulungagung", "1630": "Kota Batu", "1631": "Kota Blitar", "1632": "Kota Kediri", "1633": "Kota Madiun", "1634": "Kota Malang", "1635": "Kota Mojokerto", "1636": "Kota Pasuruan", "1637": "Kota Probolinggo", "1638": "Kota Surabaya", "1701": "Kab. Badung", "1702": "Kab. Bangli", "1703": "Kab. Buleleng", "1704": "Kab. Gianyar", "1705": "Kab. Jembrana", "1706": "Kab. Karangasem", "1707": "Kab. Klungkung", "1708": "Kab. Tabanan", "1709": "Kota Denpasar", "1801": "Kab. Bima", "1802": "Kab. Dompu", "1803": "Kab. Lombok Barat", "1804": "Kab. Lombok Tengah", "1805": "Kab. Lombok Timur", "1806": "Kab. Lombok Utara", "1807": "Kab. Sumbawa", "1808": "Kab. Sumbawa Barat", "1809": "Kota Bima", "1810": "Kota Mataram", "1901": "Kab. Alor", "1902": "Kab. Belu", "1903": "Kab. Ende", "1904": "Kab. Flores Timur", "1905": "Kab. Kupang", "1906": "Kab. Lembata", "1907": "Kab. Malaka", "1908": "Kab. Manggarai", "1909": "Kab. Manggarai Barat", "1910": "Kab. Manggarai Timur", "1911": "Kab. Ngada", "1912": "Kab. Nagekeo", "1913": "Kab. Rote Ndao", "1914": "Kab. Sabu Raijua", "1915": "Kab. Sikka", "1916": "Kab. Sumba Barat", "1917": "Kab. Sumba Barat Daya", "1918": "Kab. Sumba Tengah", "1919": "Kab. Sumba Timur", "1920": "Kab. Timor Tengah Selatan", "1921": "Kab. Timor Tengah Utara", "1922": "Kota Kupang", "2001": "Kab. Bengkayang", "2002": "Kab. Kapuas Hulu", "2003": "Kab. Kayong Utara", "2004": "Kab. Ketapang", "2005": "Kab. Kubu Raya", "2006": "Kab. Landak", "2007": "Kab. Melawi", "2008": "Kab. Mempawah", "2009": "Kab. Sambas", "2010": "Kab. Sanggau", "2011": "Kab. Sekadau", "2012": "Kab. Sintang", "2013": "Kota Pontianak", "2014": "Kota Singkawang", "2101": "Kab. Balangan", "2102": "Kab. Banjar", "2103": "Kab. Barito Kuala", "2104": "Kab. Hulu Sungai Selatan", "2105": "Kab. Hulu Sungai Tengah", "2106": "Kab. Hulu Sungai Utara", "2107": "Kab. Kotabaru", "2108": "Kab. Tabalong", "2109": "Kab. Tanah Bumbu", "2110": "Kab. Tanah Laut", "2111": "Kab. Tapin", "2112": "Kota Banjarbaru", "2113": "Kota Banjarmasin", "2201": "Kab. Barito Selatan", "2202": "Kab. Barito Timur", "2203": "Kab. Barito Utara", "2204": "Kab. Gunung Mas", "2205": "Kab. Kapuas", "2206": "Kab. Katingan", "2207": "Kab. Kotawaringin Barat", "2208": "Kab. Kotawaringin Timur", "2209": "Kab. Lamandau", "2210": "Kab. Murung Raya", "2211": "Kab. Pulang Pisau", "2212": "Kab. Sukamara", "2213": "Kab. Seruyan", "2214": "Kota Palangkaraya", "2301": "Kab. Berau", "2302": "Kab. Kutai Barat", "2303": "Kab. Kutai Kartanegara", "2304": "Kab. Kutai Timur", "2305": "Kab. Mahakam Ulu", "2306": "Kab. Paser", "2307": "Kab. Penajam Paser Utara", "2308": "Kota Balikpapan", "2309": "Kota Bontang", "2310": "Kota Samarinda", "2401": "Kab. Bulungan", "2402": "Kab. Malinau", "2403": "Kab. Nunukan", "2404": "Kab. Tana Tidung", "2405": "Kota Tarakan", "2501": "Kab. Boalemo", "2502": "Kab. Bone Bolango", "2503": "Kab. Gorontalo", "2504": "Kab. Gorontalo Utara", "2505": "Kab. Pohuwato", "2506": "Kota Gorontalo", "2601": "Kab. Bantaeng", "2602": "Kab. Barru", "2603": "Kab. Bone", "2604": "Kab. Bulukumba", "2605": "Kab. Enrekang", "2606": "Kab. Gowa", "2607": "Kab. Jeneponto", "2608": "Kab. Kepulauan Selayar", "2609": "Kab. Luwu", "2610": "Kab. Luwu Timur", "2611": "Kab. Luwu Utara", "2612": "Kab. Maros", "2613": "Kab. Pangkajene Dan Kepulauan", "2614": "Kab. Pinrang", "2615": "Kab. Sidenreng Rappang", "2616": "Kab. Sinjai", "2617": "Kab. Soppeng", "2618": "Kab. Takalar", "2619": "Kab. Tana Toraja", "2620": "Kab. Toraja Utara", "2621": "Kab. Wajo", "2622": "Kota Makassar", "2623": "Kota Palopo", "2624": "Kota Parepare", "2701": "Kab. Bombana", "2702": "Kab. Buton", "2703": "Kab. Buton Selatan", "2704": "Kab. Buton Tengah", "2705": "Kab. Buton Utara", "2706": "Kab. Kolaka", "2707": "Kab. Kolaka Timur", "2708": "Kab. Kolaka Utara", "2709": "Kab. Konawe", "2710": "Kab. Konawe Kepulauan", "2711": "Kab. Konawe Selatan", "2712": "Kab. Konawe Utara", "2713": "Kab. Muna", "2714": "Kab. Muna Barat", "2715": "Kab. Wakatobi", "2716": "Kota Bau-bau", "2717": "Kota Kendari", "2801": "Kab. Banggai", "2802": "Kab. Banggai Kepulauan", "2803": "Kab. Banggai Laut", "2804": "Kab. Buol", "2805": "Kab. Donggala", "2806": "Kab. Morowali", "2807": "Kab. Morowali Utara", "2808": "Kab. Parigi Moutong", "2809": "Kab. Poso", "2810": "Kab. Sigi", "2811": "Kab. Tojo Una-una", "2812": "Kab. Toli-toli", "2813": "Kota Palu", "2901": "Kab. Bolaang Mongondow", "2902": "Kab. Bolaang Mongondow Selatan", "2903": "Kab. Bolaang Mongondow Timur", "2904": "Kab. Bolaang Mongondow Utara", "2905": "Kab. Kepulauan Sangihe", "2906": "Kab. Kepulauan Siau Tagulandang Biaro", "2907": "Kab. Kepulauan Talaud", "2908": "Kab. Minahasa", "2909": "Kab. Minahasa Selatan", "2910": "Kab. Minahasa Tenggara", "2911": "Kab. Minahasa Utara", "2912": "Kota Bitung", "2913": "Kota Kotamobagu", "2914": "Kota Manado", "2915": "Kota Tomohon", "3001": "Kab. Majene", "3002": "Kab. Mamasa", "3003": "Kab. Mamuju", "3004": "Kab. Mamuju Tengah", "3005": "Kab. Mamuju Utara", "3006": "Kab. Polewali Mandar", "3101": "Kab. Buru", "3102": "Kab. Buru Selatan", "3103": "Kab. Kepulauan Aru", "3104": "Kab. Maluku Barat Daya", "3105": "Kab. Maluku Tengah", "3106": "Kab. Maluku Tenggara", "3107": "Kab. Maluku Tenggara Barat", "3108": "Kab. Seram Bagian Barat", "3109": "Kab. Seram Bagian Timur", "3110": "Kota Ambon", "3111": "Kota Tual", "3201": "Kab. Halmahera Barat", "3202": "Kab. Halmahera Tengah", "3203": "Kab. Halmahera Utara", "3204": "Kab. Halmahera Selatan", "3205": "Kab. Kepulauan Sula", "3206": "Kab. Halmahera Timur", "3207": "Kab. Pulau Morotai", "3208": "Kab. Pulau Taliabu", "3209": "Kota Ternate", "3210": "Kota Tidore Kepulauan", "3211": "Kota Sofifi", "3212": "Kota Sofifi", "3301": "Kab. Asmat", "3302": "Kab. Biak Numfor", "3303": "Kab. Boven Digoel", "3304": "Kab. Deiyai", "3305": "Kab. Dogiyai", "3306": "Kab. Intan Jaya", "3307": "Kab. Jayapura", "3308": "Kab. Jayawijaya", "3309": "Kab. Keerom", "3310": "Kab. Kepulauan Yapen", "3311": "Kab. Lanny Jaya", "3312": "Kab. Mamberamo Raya", "3313": "Kab. Mamberamo Tengah", "3314": "Kab. Mappi", "3315": "Kab. Merauke", "3316": "Kab. Mimika", "3317": "Kab. Nabire", "3318": "Kab. Nduga", "3319": "Kab. Paniai", "3320": "Kab. Pegunungan Bintang", "3321": "Kab. Puncak", "3322": "Kab. Puncak Jaya", "3323": "Kab. Sarmi", "3324": "Kab. Supiori", "3325": "Kab. Tolikara", "3326": "Kab. Waropen", "3327": "Kab. Yahukimo", "3328": "Kab. Yalimo", "3329": "Kota Jayapura", "3330": "Kab. Yapen Waropen", "3401": "Kab. Fakfak", "3402": "Kab. Kaimana", "3403": "Kab. Manokwari", "3404": "Kab. Manokwari Selatan", "3405": "Kab. Maybrat", "3406": "Kab. Pegunungan Arfak", "3407": "Kab. Raja Ampat", "3408": "Kab. Sorong", "3409": "Kab. Sorong Selatan", "3410": "Kab. Tambrauw", "3411": "Kab. Teluk Bintuni", "3412": "Kab. Teluk Wondama", "3413": "Kota Sorong", "0101": "Kab. Aceh Barat", "0102": "Kab. Aceh Barat Daya", "0103": "Kab. Aceh Besar", "0104": "Kab. Aceh Jaya", "0105": "Kab. Aceh Selatan", "0106": "Kab. Aceh Singkil", "0107": "Kab. Aceh Tamiang", "0108": "Kab. Aceh Tengah", "0109": "Kab. Aceh Tenggara", "0110": "Kab. Aceh Timur", "0111": "Kab. Aceh Utara", "0112": "Kab. Bener Meriah", "0113": "Kab. Bireuen", "0114": "Kab. Gayo Lues", "0115": "Kab. Nagan Raya", "0116": "Kab. Pidie", "0117": "Kab. Pidie Jaya", "0118": "Kab. Simeulue", "0119": "Kota Banda Aceh", "0120": "Kota Langsa", "0121": "Kota Lhokseumawe", "0122": "Kota Sabang", "0123": "Kota Subulussalam", "0201": "Kab. Asahan", "0202": "Kab. Batubara", "0203": "Kab. Dairi", "0204": "Kab. Deli Serdang", "0205": "Kab. Humbang Hasundutan", "0206": "Kab. Karo", "0207": "Kab. Labuhanbatu", "0208": "Kab. Labuhanbatu Selatan", "0209": "Kab. Labuhanbatu Utara", "0210": "Kab. Langkat", "0211": "Kab. Mandailing Natal", "0212": "Kab. Nias", "0213": "Kab. Nias Barat", "0214": "Kab. Nias Selatan", "0215": "Kab. Nias Utara", "0216": "Kab. Padang Lawas", "0217": "Kab. Padang Lawas Utara", "0218": "Kab. Pakpak Bharat", "0219": "Kab. Samosir", "0220": "Kab. Serdang Bedagai", "0221": "Kab. Simalungun", "0222": "Kab. Tapanuli Selatan", "0223": "Kab. Tapanuli Tengah", "0224": "Kab. Tapanuli Utara", "0225": "Kab. Toba Samosir", "0226": "Kota Binjai", "0227": "Kota Gunungsitoli", "0228": "Kota Medan", "0229": "Kota Padangsidempuan", "0230": "Kota Pematangsiantar", "0231": "Kota Sibolga", "0232": "Kota Tanjungbalai", "0233": "Kota Tebing Tinggi", "0301": "Kab. Agam", "0302": "Kab. Dharmasraya", "0303": "Kab. Kepulauan Mentawai", "0304": "Kab. Lima Puluh Kota", "0305": "Kab. Padang Pariaman", "0306": "Kab. Pasaman", "0307": "Kab. Pasaman Barat", "0308": "Kab. Pesisir Selatan", "0309": "Kab. Sijunjung", "0310": "Kab. Solok", "0311": "Kab. Solok Selatan", "0312": "Kab. Tanah Datar", "0313": "Kota Bukittinggi", "0314": "Kota Padang", "0315": "Kota Padangpanjang", "0316": "Kota Pariaman", "0317": "Kota Payakumbuh", "0318": "Kota Sawahlunto", "0319": "Kota Solok", "0401": "Kab. Bengkalis", "0402": "Kab. Indragiri Hilir", "0403": "Kab. Indragiri Hulu", "0404": "Kab. Kampar", "0405": "Kab. Kepulauan Meranti", "0406": "Kab. Kuantan Singingi", "0407": "Kab. Pelalawan", "0408": "Kab. Rokan Hilir", "0409": "Kab. Rokan Hulu", "0410": "Kab. Siak", "0411": "Kota Dumai", "0412": "Kota Pekanbaru", "0501": "Kab. Bintan", "0502": "Kab. Karimun", "0503": "Kab. Kepulauan Anambas", "0504": "Kab. Lingga", "0505": "Kab. Natuna", "0506": "Kota Batam", "0507": "Kota Tanjung Pinang", "0508": "Pulau Tambelan Kab. Bintan", "0509": "Pekajang Kab. Lingga", "0510": "Pulau Serasan Kab. Natuna", "0511": "Pulau Midai Kab. Natuna", "0512": "Pulau Laut Kab. Natuna", "0601": "Kab. Batanghari", "0602": "Kab. Bungo", "0603": "Kab. Kerinci", "0604": "Kab. Merangin", "0605": "Kab. Muaro Jambi", "0606": "Kab. Sarolangun", "0607": "Kab. Tanjung Jabung Barat", "0608": "Kab. Tanjung Jabung Timur", "0609": "Kab. Tebo", "0610": "Kota Jambi", "0611": "Kota Sungai Penuh", "0701": "Kab. Bengkulu Selatan", "0702": "Kab. Bengkulu Tengah", "0703": "Kab. Bengkulu Utara", "0704": "Kab. Kaur", "0705": "Kab. Kepahiang", "0706": "Kab. Lebong", "0707": "Kab. Mukomuko", "0708": "Kab. Rejang Lebong", "0709": "Kab. Seluma", "0710": "Kota Bengkulu", "0801": "Kab. Banyuasin", "0802": "Kab. Empat Lawang", "0803": "Kab. Lahat", "0804": "Kab. Muara Enim", "0805": "Kab. Musi Banyuasin", "0806": "Kab. Musi Rawas", "0807": "Kab. Musi Rawas Utara", "0808": "Kab. Ogan Ilir", "0809": "Kab. Ogan Komering Ilir", "0810": "Kab. Ogan Komering Ulu", "0811": "Kab. Ogan Komering Ulu Selatan", "0812": "Kab. Ogan Komering Ulu Timur", "0813": "Kab. Penukal Abab Lematang Ilir", "0814": "Kota Lubuklinggau", "0815": "Kota Pagar Alam", "0816": "Kota Palembang", "0817": "Kota Prabumulih", "0901": "Kab. Bangka", "0902": "Kab. Bangka Barat", "0903": "Kab. Bangka Selatan", "0904": "Kab. Bangka Tengah", "0905": "Kab. Belitung", "0906": "Kab. Belitung Timur", "0907": "Kota Pangkal Pinang"
+        }
+    },
+    {
+        "judul": "Widget Peta & Agenda Interaktif [PRO]",
+        "key": "peta_agenda_info_pro",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Website desa yang canggih memerlukan Peta Wilayah dan Agenda interaktif di beranda. Upgrade ke PRO untuk mengaktifkan fitur mewah ini.",
+        "options": { "0": "Fitur Terkunci (Hanya Versi PRO)" }
+    },
+    {
+        "judul": "Proteksi Konten Digital [PRO]",
+        "key": "proteksi_klik_kanan",
+        "value": "0",
+        "type": "select",
+        "keterangan": "Amankan artikel dan gambar desa dari aksi copy-paste ilegal. Fitur keamanan database ini hanya aktif di Versi PRO.",
+        "options": { "0": "Tidak Aktif (Lite)", "1": "Aktifkan [PRO]" }
+    }
+]

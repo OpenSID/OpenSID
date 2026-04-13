@@ -1,0 +1,51 @@
+# =========================================
+# Laravel Theme (Perwira) .gitignore
+# =========================================
+
+# Node & dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+*.zip
+
+# Tailwind build artifacts
+*.temp.css
+assets/css/*.map
+!assets/css/app.css   # Keep the compiled main CSS (optional, remove "!" if you don't want it in git)
+
+# Environment & local settings
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Build cache
+.cache/
+dist/
+public/hot
+public/storage
+storage/*.key
+
+# Logs
+logs/
+*.log
+
+# Laravel Mix / Vite output
+public/js/
+public/css/
+mix-manifest.json
+
+# Composer vendor (if this theme has PHP code)
+vendor/
+
+# =========================================
+# End of .gitignore
+# =========================================

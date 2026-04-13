@@ -1,0 +1,18 @@
+{
+    "name": "themes/wira",
+    "type": "library",
+    "description": "Perwira Theme",
+    "homepage": "https://github.com/akmalfadli/",
+    "license": "GPL-3.0-or-later",
+    "keywords": [
+        "Themes",
+        "Wira",
+        "OpenSID"
+    ],
+    "authors": [
+        {
+            "name": "Akmal Fadli",
+            "email": "akmalfadli94@gmail.com"
+        }
+    ]
+}

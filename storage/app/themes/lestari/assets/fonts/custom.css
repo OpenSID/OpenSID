@@ -1,0 +1,16 @@
+ @font-face {
+    font-family: 'Poppins-Regular';
+    font-style: normal;
+    src: local('Poppins-Regular'), url('Poppins-Regular.woff') format('woff');
+    }
+	
+	@font-face {
+    font-family: 'Poppins-Medium';
+    font-style: normal;
+    src: local('Poppins-Medium'), url('Poppins-Medium.woff') format('woff');
+    }
+	
+	@font-face {
+    font-family: 'Poppins-Bold';
+    src: local('Poppins-Bold'), url('Poppins-Bold.woff') format('woff');
+    }

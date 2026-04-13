@@ -203,15 +203,17 @@ if (! function_exists('theme_scan')) {
         $themeSistem   = glob(Theme::PATH_SISTEM . '*', GLOB_ONLYDIR);
         $themeDesa     = glob('desa/themes/*', GLOB_ONLYDIR);
         $templateBlade = 'resources/views/template.blade.php';
+        $premiumFree   = TEMA_PREMIUM_FREE;
 
         $themeList = collect($themeSistem)->merge($themeDesa)
             ->filter(static fn ($tema): bool => is_file(FCPATH . $tema . '/composer.json') && is_file(FCPATH . $tema . '/' . $templateBlade))
-            ->map(static function (string $tema) {
-                $sistem     = preg_match('/storage/', $tema) ? 1 : 0;
+            ->map(static function (string $tema) use ($premiumFree): array {
+                $isStoragePath = (bool) preg_match('/storage/', $tema);
+                $sistem     = $isStoragePath && ! in_array(basename($tema), $premiumFree) ? 1 : 0;
                 $composer   = json_decode(file_get_contents(FCPATH . $tema . '/composer.json'), true);
                 $versi      = $composer['version'] ?? VERSION;
                 $nama       = str_replace('-', ' ', explode('/', $composer['name'])[1]);
-                $slug       = Str::slug(($sistem ? '' : 'desa ') . $nama);
+                $slug       = Str::slug(($isStoragePath ? '' : 'desa ') . $nama);
                 $keterangan = $composer['description'];
 
                 return [

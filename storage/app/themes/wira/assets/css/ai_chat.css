@@ -1,0 +1,275 @@
+/**
+ * AI Chat Widget Styles
+ * Extracted from ai_chat.blade.php for better maintainability
+ */
+
+/* Pulse Animation for Chat Toggle Button */
+@keyframes pulse-green {
+
+    0%,
+    100% {
+        background: linear-gradient(135deg, #15803D, #22ed6cff);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+
+    50% {
+        background: linear-gradient(135deg, #15803D, #22ed6cff);
+        box-shadow: 0 0 0 15px rgba(16, 185, 129, 0);
+    }
+}
+
+.animate-pulse-green {
+    animation: pulse-green 2s ease-in-out infinite;
+}
+
+/* Spin Animation for AI Icon (Y-axis) */
+@keyframes spin-y {
+    0% {
+        transform: perspective(200px) rotateY(0deg);
+    }
+
+    100% {
+        transform: perspective(200px) rotateY(360deg);
+    }
+}
+
+/* Tilt Animation for AI Icon */
+@keyframes tilt-left {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(-20deg);
+    }
+}
+
+@keyframes tilt-right {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(20deg);
+    }
+}
+
+.animate-spin-y {
+    animation: spin-y 1.5s ease-in-out;
+}
+
+.animate-tilt-left {
+    animation: tilt-left 0.4s ease-in-out;
+}
+
+.animate-tilt-right {
+    animation: tilt-right 0.4s ease-in-out;
+}
+
+.animate-tilt {
+    /* Fallback - controlled by JS */
+}
+
+/* Markdown Styling for Chat Messages */
+#chat-messages .prose-sm ul {
+    list-style-type: disc;
+    padding-left: 1.25em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#chat-messages .prose-sm ol {
+    list-style-type: decimal;
+    padding-left: 1.25em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#chat-messages .prose-sm a {
+    color: #16a34a;
+    text-decoration: underline;
+}
+
+#chat-messages .prose-sm p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#chat-messages .prose-sm strong {
+    font-weight: 600;
+}
+
+#chat-messages .prose-sm img {
+    max-width: 100%;
+    border-radius: 0.5rem;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#chat-messages .prose-sm blockquote {
+    border-left: 4px solid #e5e7eb;
+    padding-left: 1em;
+    color: #4b5563;
+    font-style: italic;
+}
+
+#chat-messages .prose-sm code {
+    background-color: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25em;
+    font-size: 0.875em;
+}
+
+#chat-messages .prose-sm pre {
+    background-color: #1f2937;
+    color: #f9fafb;
+    padding: 1em;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+}
+
+#chat-messages .prose-sm pre code {
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+}
+
+/* ========================================
+   JDIH SEARCH RESULTS STYLES
+   ======================================== */
+
+.jdih-results {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.jdih-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.jdih-card:hover {
+    border-color: #16a34a;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.1);
+}
+
+.jdih-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.jdih-badge {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.jdih-year {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.jdih-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.4;
+    margin: 0 0 6px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.jdih-desc {
+    font-size: 11px;
+    color: #6b7280;
+    line-height: 1.5;
+    margin: 0 0 8px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.jdih-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 10px;
+    color: #9ca3af;
+    margin-bottom: 8px;
+}
+
+.jdih-status {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.jdih-status-berlaku {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.jdih-status-dicabut {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.jdih-status-diubah {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.jdih-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #16a34a;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #f0fdf4;
+    transition: all 0.2s ease;
+}
+
+.jdih-download:hover {
+    background: #16a34a;
+    color: white;
+}
+
+.jdih-pagination {
+    text-align: center;
+    font-size: 11px;
+    color: #9ca3af;
+    padding: 8px 0;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 8px;
+}
+
+@media (min-width: 1024px) {
+    #desa-ai-chat-widget {
+        right: 135px !important;
+    }
+}

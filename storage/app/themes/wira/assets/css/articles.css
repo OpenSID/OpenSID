@@ -1,0 +1,390 @@
+/**
+ * Articles Page Styles
+ * Extracted from partials/articles.blade.php for better maintainability
+ */
+
+/* ========================================
+   PEMERINTAH POPUP STYLES
+   ======================================== */
+
+/* Custom Scrollbar Styles */
+.custom-scrollbar {
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 12px;
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #16a34a, #15803d);
+    border-radius: 10px;
+    border: 3px solid #f1f5f9;
+    transition: all 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #15803d, #166534);
+    border: 2px solid #f1f5f9;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(180deg, #166534, #14532d);
+}
+
+/* Firefox */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #16a34a #f1f5f9;
+}
+
+/* Popup Container Animations */
+#pemerintah-popup {
+    transition: opacity 0.3s ease;
+}
+
+#pemerintah-popup .popup-overlay {
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0;
+}
+
+#pemerintah-popup.show .popup-overlay {
+    opacity: 1;
+}
+
+#pemerintah-popup .popup-content {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+/* Mobile - Bottom Sheet Style */
+@media (max-width: 639px) {
+    #pemerintah-popup .popup-content {
+        transform: translateY(100%);
+        opacity: 1;
+        max-height: 85vh !important;
+    }
+
+    #pemerintah-popup.show .popup-content {
+        transform: translateY(0);
+    }
+
+    #pemerintah-list {
+        max-height: 85vh !important;
+    }
+}
+
+/* Desktop - Scale and Fade */
+@media (min-width: 640px) {
+    #pemerintah-popup .popup-content {
+        transform: scale(0.9) translateY(20px);
+        opacity: 0;
+        max-height: 85vh !important;
+    }
+
+    #pemerintah-popup.show .popup-content {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+
+    #pemerintah-list {
+        max-height: 85vh !important;
+    }
+}
+
+/* Short screens */
+@media (max-height: 700px) {
+
+    #pemerintah-popup .popup-content,
+    #pemerintah-list {
+        max-height: 80vh !important;
+    }
+}
+
+@media (max-height: 600px) {
+
+    #pemerintah-popup .popup-content,
+    #pemerintah-list {
+        max-height: 75vh !important;
+    }
+}
+
+/* Filter Buttons */
+.filter-btn {
+    background: white;
+    color: #4b5563;
+    border: 2px solid #e5e7eb;
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.filter-btn:hover::before {
+    left: 100%;
+}
+
+.filter-btn:hover {
+    border-color: #16a34a;
+    color: #16a34a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white;
+    border-color: #16a34a;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.filter-btn:active {
+    transform: scale(0.95);
+}
+
+/* Pemerintah Cards - Enhanced Grid Layout */
+.pemerintah-item {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    animation: fadeInUpCard 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUpCard {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Card Hover Effects */
+.pemerintah-item {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pemerintah-item:hover {
+    transform: translateY(-8px);
+}
+
+/* Circular Avatar Container */
+.pemerintah-item>div:first-child {
+    position: relative;
+    overflow: visible;
+}
+
+.pemerintah-item>div:first-child>div {
+    position: relative;
+    overflow: hidden;
+}
+
+.pemerintah-item>div:first-child>div::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.1), rgba(21, 128, 61, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+}
+
+.pemerintah-item:hover>div:first-child>div::before {
+    opacity: 1;
+}
+
+/* Image Zoom Effect */
+.pemerintah-item img {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s;
+}
+
+.pemerintah-item:hover img {
+    transform: scale(1.1);
+}
+
+/* Status Badge Animation */
+.pemerintah-item .status-badge {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pemerintah-item:hover .status-badge {
+    transform: scale(1.1);
+}
+
+/* Status Dot Pulse */
+@keyframes statusPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.2);
+    }
+}
+
+.status-dot-green {
+    animation: statusPulse 2s infinite;
+}
+
+/* Search Input Focus Effect */
+#search-pemerintah:focus {
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+/* Empty State */
+.empty-state {
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Loading State */
+.loading-spinner {
+    position: relative;
+}
+
+.loading-spinner::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border: 2px solid rgba(22, 163, 74, 0.1);
+    border-radius: 50%;
+    animation: ripple 1.5s infinite;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Responsive Typography */
+@media (max-width: 639px) {
+    .pemerintah-item h4 {
+        font-size: 0.75rem;
+        line-height: 1.2;
+    }
+
+    .pemerintah-item p {
+        font-size: 0.65rem;
+    }
+}
+
+/* ========================================
+   MOBILE CAROUSEL STYLES
+   ======================================== */
+
+/* Hide scrollbar for mobile carousel */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scroll snapping for smooth navigation */
+.snap-x {
+    scroll-snap-type: x mandatory;
+}
+
+.snap-start {
+    scroll-snap-align: start;
+}
+
+/* Mobile article wrapper adjustments */
+.mobile-article-wrapper {
+    height: 100%;
+}
+
+.mobile-article-wrapper>* {
+    height: 100%;
+    max-width: none;
+    width: 100%;
+}
+
+/* Responsive adjustments for mobile carousel */
+@media (max-width: 639px) {
+    .mobile-article-wrapper .grid {
+        display: block !important;
+    }
+
+    .mobile-article-wrapper .md\:grid-cols-2,
+    .mobile-article-wrapper .lg\:grid-cols-3 {
+        display: block !important;
+    }
+
+    /* Ensure article cards fit properly in carousel */
+    .mobile-article-wrapper [class*="col-span"] {
+        width: 100% !important;
+    }
+}
+
+/* Touch scrolling improvements */
+@supports (-webkit-overflow-scrolling: touch) {
+    #mobile-articles-carousel {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Prevent text selection during drag */
+#mobile-articles-carousel.dragging * {
+    user-select: none;
+}
+
+/* Carousel navigation button improvements */
+#carousel-prev,
+#carousel-next {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#carousel-prev:hover,
+#carousel-next:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+#carousel-prev:active,
+#carousel-next:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* Carousel dots improvements */
+.carousel-dot {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.carousel-dot:hover {
+    transform: scale(1.3);
+}

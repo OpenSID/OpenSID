@@ -97,6 +97,13 @@ define('MODUL_BAWAAN', [
     'DTSEN',
 ]);
 
+// Tema premium gratis
+define('TEMA_PREMIUM_FREE', [
+    'wira',
+    'lestari',
+    'seruit-lite'
+]);
+
 if (! function_exists('cek_anjungan')) {
     /**
      * Cek status anjungan.

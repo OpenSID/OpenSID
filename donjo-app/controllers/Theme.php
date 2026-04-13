@@ -35,6 +35,7 @@
  *
  */
 
+use App\Actions\Theme\ActivateTheme;
 use App\Models\Theme as ThemeModel;
 use App\Traits\Upload;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -260,10 +261,7 @@ class Theme extends Admin_Controller
     {
         isCan('u');
 
-        $status = ThemeModel::findOrFail($id);
-        $status->update(['status' => 1]);
-
-        ThemeModel::where('id', '!=', $id)->update(['status' => 0]);
+        (new ActivateTheme())->handle($id);
 
         redirect_with('success', 'Berhasil Ubah Data');
     }

@@ -1,0 +1,54 @@
+[
+    {
+        "judul":"Warna Pertama Tema",
+        "key":"color1",
+        "value":"#005dfa",
+        "type":"color-picker",
+        "keterangan":"Warna Pertama Tema yang akan digunakan pada website",
+        "options": null,
+        "readonly":false
+    },
+	{
+        "judul":"Warna Kedua Tema",
+        "key":"color2",
+        "value":"#ffb200",
+        "type":"color-picker",
+        "keterangan":"Warna Kedua Tema yang akan digunakan pada website",
+        "options": null,
+        "readonly":false
+    },
+	{
+        "judul":"Warna Ketiga Tema",
+        "key":"color3",
+        "value":"#003793",
+        "type":"color-picker",
+        "keterangan":"Warna Ketiga Tema yang akan digunakan pada website",
+        "options": null,
+        "readonly":false
+    },
+    {
+        "judul":"Pintasan Masuk",
+        "key":"pintasan_masuk",
+        "value":"1",
+        "type":"select",
+        "keterangan":"Tampilkan pintasan masuk admin dan layanan mandiri pada website",
+        "options":{
+            "1":"Ya",
+            "0":"Tidak"
+        },
+        "attributes": {
+            "class":"select2"
+        },
+        "readonly":false
+    },
+    {
+        "judul":"Foto Tidak Tersedia",
+        "key":"foto_tidak_tersedia",
+        "value": null,
+        "type":"unggah",
+        "keterangan":"Tampilkan foto ketika foto tidak tersedia",
+        "options": null,
+        "readonly":false,
+        "link": true
+    }
+]

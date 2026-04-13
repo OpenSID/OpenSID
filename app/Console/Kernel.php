@@ -40,6 +40,7 @@ namespace App\Console;
 use App\Console\Commands\AcakDataCommand;
 use App\Console\Commands\DesaBaruCommand;
 use App\Console\Commands\ModuleCommand;
+use App\Console\Commands\UpdateThemesCommand;
 use App\Console\Commands\Modules\CastMakeCommand;
 use App\Console\Commands\Modules\ControllerMakeCommand;
 use App\Console\Commands\Modules\EnumMakeCommand;
@@ -107,6 +108,7 @@ class Kernel implements KernelContract
         DesaBaruCommand::class,
         ModuleCommand::class,
         SetupCommand::class,
+        UpdateThemesCommand::class,
         ViewClearCommand::class,
 
         // Command module tambahan

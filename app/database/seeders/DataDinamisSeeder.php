@@ -40,6 +40,7 @@ namespace Database\Seeders;
 use App\Actions\GrupAkses\DefaultGrupAkses;
 use App\Actions\Modul\ImportModul;
 use App\Actions\Setting\ImportSetting;
+use App\Actions\Theme\ActivateTheme;
 use App\Models\Config;
 use App\Traits\Migrator;
 use Illuminate\Database\Seeder;
@@ -252,6 +253,9 @@ class DataDinamisSeeder extends Seeder
     protected function theme()
     {
         theme_scan();
+
+        // Update menggunakan tema wira
+        (new ActivateTheme())->handle('wira');
     }
 
     protected function klasifikasiSurat()
