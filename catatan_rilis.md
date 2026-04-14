@@ -1,4 +1,4 @@
-Rilis versi 2604.0.0 ini berisi [untuk diisi]  dan perbaikan lainnya yang diminta oleh komunitas SID.
+Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang diminta oleh komunitas SID.
 
 ### BUG
 

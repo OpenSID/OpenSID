@@ -39,8 +39,9 @@ use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Theme;
 
-return new class() extends Migration {
+return new class () extends Migration {
     use Migrator;
 
     /**
@@ -48,10 +49,46 @@ return new class() extends Migration {
      */
     public function up(): void
     {
+        $this->tambahPengaturanTahunApbdes();
+        $this->hapusTemaNatra();
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void {}
+    public function down(): void
+    {
+    }
+
+    public function tambahPengaturanTahunApbdes()
+    {
+        $this->createSetting([
+            'judul'      => 'Tahun APBDes',
+            'key'        => 'apbdes_tahun',
+            'value'      => null,
+            'urut'       => 3,
+            'keterangan' => 'Tahun APBDes yang akan ditampilkan dihalaman depan',
+            'jenis'      => 'select-array',
+            'option'     => null,
+            'kategori'   => 'Keuangan',
+            'attribute'  => null,
+        ]);
+    }
+
+    private function hapusTemaNatra(): void
+    {
+        if ($theme = Theme::where('slug', 'natra')->first()) {
+            $theme->delete();
+            
+            // HIGH: Wrap theme_scan dengan error handling
+            try {
+                theme_scan();
+            } catch (\Exception $e) {
+                // Log error tapi jangan crash migration
+                \Log::error('Theme scan failed after deleting natra: ' . $e->getMessage());
+                // Atau re-throw jika critical
+                // throw new \Exception('Gagal update theme cache: ' . $e->getMessage());
+            }
+        }
+    }
 };
