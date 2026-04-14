@@ -47,7 +47,7 @@
 
     <hr class="col-sm-12">
     <div class="col-sm-12 text-center">
-        <button type="button" onclick="$(`#nav-bagian-6`).trigger('click')" class="btn btn-social btn-default btn-sm"><i class='fa fa-arrow-left'></i> Sebelumnya</button>
+        <button type="button" onclick="$(`#nav-bagian-2`).trigger('click')" class="btn btn-social btn-default btn-sm"><i class='fa fa-arrow-left'></i> Sebelumnya</button>
         <button type="button" disabled class="btn btn-social btn-default btn-sm">Selanjutnya <i class="fa fa-arrow-right"></i></button>
     </div>
 </div>

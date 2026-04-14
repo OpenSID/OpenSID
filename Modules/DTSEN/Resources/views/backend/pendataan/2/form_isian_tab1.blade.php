@@ -146,11 +146,18 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{  ci_route('dtsen/pendataan/save') . '/' . $dtsen->id }}",
+                    url: "{{ route('dtsen_pendataan.save', $dtsen->id) }}",
                     data: form,
+                    dataType: 'json'
+                }).done(function() {
+                    $(`#nav-bagian-3`).trigger('click');
+                }).fail(function() {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Gagal menyimpan',
+                        text: 'Data tidak tersimpan. Silakan coba lagi.'
+                    });
                 });
-
-                $(`#nav-bagian-2`).trigger('click');
             })
             $('#form-1 button[type=reset]').on('click', function(ev) {
                 setTimeout(() => {
@@ -171,7 +178,16 @@
                         'value': $(el).val()
                     });
                 });
-                ajax_save_dtsen("{{  ci_route('dtsen/pendataan/save') . '/' . $dtsen->id }}", form);
+                
+                let btn = $(this).find('button[type=submit]');
+                let originalContent = btn.html();
+                btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...');
+                
+                ajax_save_dtsen("{{ route('dtsen_pendataan.save', $dtsen->id) }}", form, function() {
+                    btn.prop('disabled', false).html(originalContent);
+                }, function() {
+                    btn.prop('disabled', false).html(originalContent);
+                });
             });
         })
     </script>

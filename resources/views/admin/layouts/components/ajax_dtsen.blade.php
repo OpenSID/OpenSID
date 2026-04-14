@@ -62,6 +62,10 @@
                 if (callback_fail) {
                     callback_fail(xhr);
                 }
+            })
+            .always(function() {
+                // Ensure loading dialog is closed after AJAX completes
+                Swal.hideLoading();
             });
     }
 

@@ -109,7 +109,7 @@
         <button type="reset" class="btn btn-social btn-danger btn-sm"><i class='fa fa-times'></i>Batal</button>
         <button type="button" class="next-prev-bagian-3 btn btn-social btn-default btn-sm"><i class='fa fa-arrow-left'></i> Sebelumnya</button>
         <button type="button" class="next-prev-bagian-3 btn btn-social btn-default btn-sm">Selanjutnya <i class="fa fa-arrow-right"></i></button>
-        <button type="subumit" class="btn btn-social btn-info btn-sm"><i class="fa fa-check"></i>Simpan</button>
+        <button type="submit" class="btn btn-social btn-info btn-sm"><i class="fa fa-check"></i>Simpan</button>
     </div>
 </div>
 </form>
@@ -157,18 +157,26 @@
                     });
                 });
 
+                let selajutnya = $(this).text().includes("Selanjutnya");
+                
                 $.ajax({
                     type: 'POST',
-                    url: "{{  ci_route('dtsen/pendataan/save') . '/' . $dtsen->id }}",
+                    url: "{{ route('dtsen_pendataan.save', $dtsen->id) }}",
                     data: form,
+                    dataType: 'json'
+                }).done(function() {
+                    if (selajutnya) {
+                        $(`#nav-bagian-4`).trigger('click');
+                    } else {
+                        $(`#nav-bagian-1`).trigger('click');
+                    }
+                }).fail(function() {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Gagal menyimpan',
+                        text: 'Data tidak tersimpan. Silakan coba lagi.'
+                    });
                 });
-
-                let selajutnya = $(this).text().includes("Selanjutnya");
-                if (selajutnya) {
-                    $(`#nav-bagian-4`).trigger('click');
-                } else {
-                    $(`#nav-bagian-2`).trigger('click');
-                }
             });
             $('#form-3').on('submit', function(ev) {
                 ev.preventDefault();
@@ -184,7 +192,16 @@
                         'value': $(el).val()
                     });
                 });
-                ajax_save_dtsen("{{  ci_route('dtsen/pendataan/save') . '/' . $dtsen->id }}", form);
+                
+                let btn = $(this).find('button[type=submit]');
+                let originalContent = btn.html();
+                btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...');
+                
+                ajax_save_dtsen("{{ route('dtsen_pendataan.save', $dtsen->id) }}", form, function() {
+                    btn.prop('disabled', false).html(originalContent);
+                }, function() {
+                    btn.prop('disabled', false).html(originalContent);
+                });
             });
         });
     </script>
