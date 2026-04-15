@@ -43,6 +43,7 @@ use App\Repositories\SettingAplikasiRepository;
 use CI_Controller;
 use Exception;
 use GuzzleHttp\Client;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Modules\Anjungan\Models\Anjungan;
@@ -53,6 +54,9 @@ class PelangganService
      * @var Client HTTP Client
      */
     protected Client $client;
+    // Konstanta untuk kategori layanan
+    public const KATEGORI_SIAPPAKAI = 9;
+    public const KATEGORI_PREMIUM = 4;
 
     public function __construct()
     {
@@ -351,7 +355,7 @@ class PelangganService
         if (config_item('token_layanan')) {
             $config  = file($configPath);
             $updated = array_map(
-                static fn ($line) => stristr($line, 'token_layanan')
+                static fn($line) => stristr($line, 'token_layanan')
                     ? "\$config['token_layanan']  = '{$token}';\n"
                     : $line,
                 $config
@@ -363,7 +367,7 @@ class PelangganService
         (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $token);
 
         // Simpan cache baru
-        $ci->cache->pakai_cache(static fn () => $data, 'status_langganan', 60 * 60 * 24 * 365 * 30); // 30 tahun (forever)
+        $ci->cache->pakai_cache(static fn() => $data, 'status_langganan', 60 * 60 * 24 * 365 * 30); // 30 tahun (forever)
 
         // Update status Anjungan
         Anjungan::where('tipe', '1')
@@ -372,5 +376,61 @@ class PelangganService
             ->update(['status' => '1']);
 
         logger()->info('Token berhasil tersimpan.');
+    }
+
+    /**
+     * Menentukan layanan yang aktif milik desa
+     * Pengecekan tertinggi adalah layanan siappakai (kategori_id = 9),
+     * kemudian premium (kategori_id = 4), dan jika tidak keduanya maka dianggap umum
+     * Status aktif ditentukan berdasarkan tanggal_akhir >= tanggal hari ini
+     *
+     * @return string 'siappakai', 'premium', atau 'umum'
+     */
+    public function getLayananAktifTier(): string
+    {
+        $response = self::apiPelangganPemesanan();
+
+        if (
+            empty($response)
+            || ! isset($response->body)
+            || ! is_object($response->body)
+            || ! isset($response->body->pemesanan)
+            || ! is_array($response->body->pemesanan)
+        ) {
+            return 'umum';
+        }
+
+        $hasPremium = false;
+        $today      = Carbon::today();
+
+        foreach ($response->body->pemesanan as $pemesanan) {
+            if (! isset($pemesanan->layanan) || ! is_array($pemesanan->layanan)) {
+                continue;
+            }
+
+            foreach ($pemesanan->layanan as $layanan) {
+                if (! isset($layanan->kategori_id) || ! isset($layanan->tanggal_akhir)) {
+                    continue;
+                }
+
+                try {
+                    if (Carbon::parse($layanan->tanggal_akhir)->lt($today)) {
+                        continue;
+                    }
+                } catch (Exception) {
+                    continue;
+                }
+
+                if ($layanan->kategori_id === self::KATEGORI_SIAPPAKAI) {
+                    return 'siappakai';
+                }
+
+                if ($layanan->kategori_id === self::KATEGORI_PREMIUM) {
+                    $hasPremium = true;
+                }
+            }
+        }
+
+        return $hasPremium ? 'premium' : 'umum';
     }
 }

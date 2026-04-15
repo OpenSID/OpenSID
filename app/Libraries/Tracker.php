@@ -52,14 +52,22 @@ use App\Models\PendudukMandiri;
 use App\Models\Persil;
 use App\Models\SettingAplikasi;
 use App\Models\User;
+use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Tracker
 {
+    protected $pelangganService;
+    
+    public function __construct(?PelangganService $pelangganService = null)
+    {
+        $this->pelangganService = $pelangganService ?? new PelangganService();
+    }
     public function trackDesa(): void
     {
-        if (setting('enable_track') == false || null === identitas()) {
+        // harus dikonversi ke boolean dulu, karena enable_track berupa string
+        if ((bool) setting('enable_track') === false || null === identitas()) {
             return;
         }
         // Track web dan admin masing2 maksimum sekali sehari
@@ -108,6 +116,7 @@ class Tracker
 
         $desa = [
             'nama_desa'           => $config->nama_desa,
+            'sebutan_desa'        => e(setting('sebutan_desa')) ?? 'desa',
             'kode_desa'           => $config->kode_desa,
             'kode_pos'            => $config->kode_pos,
             'nama_kecamatan'      => $config->nama_kecamatan,
@@ -142,13 +151,14 @@ class Tracker
             'hp_kontak'           => $config->hp_kontak,
             'jabatan_kontak'      => $config->jabatan_kontak,
             'tema'                => theme_active()->nama,
+            'layanan'             => $this->pelangganService->getLayananAktifTier(),
         ];
-
+            
         if ($this->abaikan($desa)) {
             return;
         }
 
-        $trackSID_output = httpPost($tracker . '/api/track/desa?token=' . config_item('token_pantau'), $desa); // kirim ke tracksid.
+        $trackSID_output = httpPost(config_item('server_pantau') . '/api/track/desa?token=' . config_item('token_pantau'), $desa); // kirim ke tracksid.
         if ($trackSID_output !== null && $trackSID_output !== '' && $trackSID_output !== '0') {
             cache()->put('tracksid_admin_web', date('Y m d'), DAY);
             $this->cekNotifikasiTrackSID($trackSID_output);
@@ -213,5 +223,5 @@ class Tracker
     private function jmlUnsurPeta(): float|int|array
     {
         return Area::count() + Garis::count() + Lokasi::count();
-    }
+    }    
 }

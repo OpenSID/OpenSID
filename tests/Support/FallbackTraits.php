@@ -179,10 +179,16 @@ if (! function_exists('max_upload')) {
 if (! function_exists('setting')) {
     function setting($key = null)
     {
+        // Check for test settings first
+        if (isset($GLOBALS['test_settings'][$key])) {
+            return $GLOBALS['test_settings'][$key];
+        }
+
         $settings = [
             'sebutan_desa'    => 'Desa',
             'sebutan_kecamatan' => 'Kecamatan',
             'sebutan_kabupaten' => 'Kabupaten',
+            'layanan_opendesa_token' => 'test_token',
         ];
 
         if ($key === null) {

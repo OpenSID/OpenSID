@@ -2,6 +2,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 
 ### FITUR
 1. [#11040](https://github.com/OpenSID/OpenSID/issues/11040) Penambahan fitur animasi skeleton wave (shimmer loading) pada modal AJAX global.
+2. [#589](https://github.com/OpenSID/pantau/issues/589) Penambahan fitur tracking layanan aktif dan sebutan desa ke sistem pantau.
 
 ### BUG
 
