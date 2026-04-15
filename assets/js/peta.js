@@ -1937,16 +1937,6 @@ function clearMap(peta) {
 }
 
 $(document).ready(function () {
-  var modalPetaSkeleton = [
-    '<div class="modal-body">',
-      '<div class="sk-line sk-label" style="width:60%"></div>',
-      '<div class="sk-line sk-label" style="width:80%; margin-top:8px"></div>',
-      '<div class="sk-line sk-label" style="width:70%; margin-top:8px"></div>',
-      '<div class="sk-line sk-label" style="width:50%; margin-top:8px"></div>',
-      '<div class="sk-line sk-label" style="width:75%; margin-top:8px"></div>',
-    '</div>',
-  ].join('');
-
   ["#modalKecil", "#modalSedang", "#modalBesar"].forEach(function (selector) {
     $(selector)
       .on("show.bs.modal", function (e) {
@@ -1954,9 +1944,22 @@ $(document).ready(function () {
         var modal = $(this);
         var fetchedData = modal.find(".fetched-data");
         modal.find(".modal-title").text(link.data("title"));
-        fetchedData.html(modalPetaSkeleton);
-        fetchedData.load(link.attr("href"), function(response, status, xhr) {
-          if (status === 'error') {
+        fetchedData.html(
+          `<div class="modal-body">
+            <div class="sk-line sk-label" style="width:60%"></div>
+            <div class="sk-line sk-label" style="width:80%; margin-top:8px"></div>
+            <div class="sk-line sk-label" style="width:70%; margin-top:8px"></div>
+            <div class="sk-line sk-label" style="width:50%; margin-top:8px"></div>
+            <div class="sk-line sk-label" style="width:75%; margin-top:8px"></div>
+          </div>
+        `);
+        $.ajax({
+          url: link.attr("href"),
+          type: 'GET',
+          success: function(response) {
+            fetchedData.html(response);
+          },
+          error: function(xhr) {
             fetchedData.html(
               `<div class="modal-body">
                 <div class="alert alert-danger">

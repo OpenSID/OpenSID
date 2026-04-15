@@ -260,27 +260,27 @@ $(document).ready(function() {
     mapBox();
     cetakBox();
 
-    var modalBoxSkeleton = [
-        '<div class="modal-body">',
-            '<div class="form-group">',
-                '<div class="sk-line sk-label"></div>',
-                '<input class="form-control input-sm sk-line" disabled />',
-            '</div>',
-            '<div class="form-group">',
-                '<div class="sk-line sk-label-sm"></div>',
-                '<input class="form-control input-sm sk-line" disabled />',
-            '</div>',
-            '<div class="form-group">',
-                '<div class="sk-line sk-label" style="width:55%"></div>',
-                '<input class="form-control input-sm sk-line" disabled />',
-            '</div>',
-        '</div>',
-        '<div class="modal-footer">',
-            '<button class="btn btn-danger btn-sm pull-left sk-line" style="min-width:80px" disabled></button>',
-            '<button class="btn btn-info btn-sm sk-line" style="min-width:90px" disabled></button>',
-            '<button class="btn btn-info btn-sm sk-line" style="min-width:90px" disabled></button>',
-        '</div>',
-    ].join('');
+    var modalBoxSkeleton = `
+        <div class="modal-body">
+            <div class="form-group">
+                <div class="sk-line sk-label"></div>
+                <input class="form-control input-sm sk-line" disabled />
+            </div>
+            <div class="form-group">
+                <div class="sk-line sk-label-sm"></div>
+                <input class="form-control input-sm sk-line" disabled />
+            </div>
+            <div class="form-group">
+                <div class="sk-line sk-label" style="width:55%"></div>
+                <input class="form-control input-sm sk-line" disabled />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger btn-sm pull-left sk-line" style="min-width:80px" disabled></button>
+            <button class="btn btn-info btn-sm sk-line" style="min-width:90px" disabled></button>
+            <button class="btn btn-info btn-sm sk-line" style="min-width:90px" disabled></button>
+        </div>
+    `;
 
     $('#modalBox').on('show.bs.modal', function(e) {
         var link        = $(e.relatedTarget);
@@ -307,10 +307,24 @@ $(document).ready(function() {
                     return (nativeXhr = $.ajaxSettings.xhr());
                 },
                 success: function(response) {
-                    if (nativeXhr && nativeXhr.responseURL && nativeXhr.responseURL !== href) {
-                        window.location.href = nativeXhr.responseURL;
+                    var redirectUrl = nativeXhr && nativeXhr.responseURL;
+
+                    if (redirectUrl.includes('siteman')) {
+                        window.location.href = redirectUrl;
                         return;
                     }
+                    if (redirectUrl.includes('beranda')) {
+                        fetchedData.html(
+                            `<div class="modal-body">
+                                <div class="alert alert-danger">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                    Anda tidak memiliki akses untuk halaman atau aksi tersebut!
+                                </div>
+                            </div>`
+                        );
+                        return;
+                    }
+
                     fetchedData.html(response);
                 },
                 error: function(xhr) {
