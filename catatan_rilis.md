@@ -1,5 +1,8 @@
 Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang diminta oleh komunitas SID.
 
+### FITUR
+1. [#11040](https://github.com/OpenSID/OpenSID/issues/11040) Penambahan fitur animasi skeleton wave (shimmer loading) pada modal AJAX global.
+
 ### BUG
 
 1. [#10974](https://github.com/OpenSID/OpenSID/issues/10974) Perbaikan tanggal cetak yang dipilih tidak digunakan pada hasil cetak di Buku Administrasi Umum (selalu menampilkan tanggal hari ini).

@@ -1937,28 +1937,41 @@ function clearMap(peta) {
 }
 
 $(document).ready(function () {
-  $("#modalKecil").on("show.bs.modal", function (e) {
-    var link = $(e.relatedTarget);
-    var title = link.data("title");
-    var modal = $(this);
-    modal.find(".modal-title").text(title);
-    $(this).find(".fetched-data").load(link.attr("href"));
-  });
+  var modalPetaSkeleton = [
+    '<div class="modal-body">',
+      '<div class="sk-line sk-label" style="width:60%"></div>',
+      '<div class="sk-line sk-label" style="width:80%; margin-top:8px"></div>',
+      '<div class="sk-line sk-label" style="width:70%; margin-top:8px"></div>',
+      '<div class="sk-line sk-label" style="width:50%; margin-top:8px"></div>',
+      '<div class="sk-line sk-label" style="width:75%; margin-top:8px"></div>',
+    '</div>',
+  ].join('');
 
-  $("#modalSedang").on("show.bs.modal", function (e) {
-    var link = $(e.relatedTarget);
-    var title = link.data("title");
-    var modal = $(this);
-    modal.find(".modal-title").text(title);
-    $(this).find(".fetched-data").load(link.attr("href"));
-  });
-
-  $("#modalBesar").on("show.bs.modal", function (e) {
-    var link = $(e.relatedTarget);
-    var title = link.data("title");
-    var modal = $(this);
-    modal.find(".modal-title").text(title);
-    $(this).find(".fetched-data").load(link.attr("href"));
+  ["#modalKecil", "#modalSedang", "#modalBesar"].forEach(function (selector) {
+    $(selector)
+      .on("show.bs.modal", function (e) {
+        var link = $(e.relatedTarget);
+        var modal = $(this);
+        var fetchedData = modal.find(".fetched-data");
+        modal.find(".modal-title").text(link.data("title"));
+        fetchedData.html(modalPetaSkeleton);
+        fetchedData.load(link.attr("href"), function(response, status, xhr) {
+          if (status === 'error') {
+            fetchedData.html(
+              `<div class="modal-body">
+                <div class="alert alert-danger">
+                  <i class="fa fa-exclamation-triangle"></i>
+                  Gagal memuat konten (${xhr.status} ${xhr.statusText}).
+                </div>
+              </div>`
+            );
+          }
+        });
+      })
+      .on("hidden.bs.modal", function () {
+        $(this).find(".fetched-data").html("");
+        $(this).find(".modal-title").text("");
+      });
   });
   return false;
 });
