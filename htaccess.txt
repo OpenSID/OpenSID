@@ -11,9 +11,16 @@ RewriteBase /
 # Apabila menggunakan sub-domain atau sub-folder gunakan bentuk berikut
 # RewriteBase /nama-sub-folder/
 
-# Serve theme assets langsung tanpa lewat PHP untuk performa lebih baik
-RewriteCond %{QUERY_STRING} file=([^&]+)
-RewriteRule ^theme_asset/(.+)$ storage/app/themes/$1/assets/%1 [L]
+# Serve theme assets langsung tanpa lewat PHP untuk performa lebih baik.
+# Dukung dua lokasi: storage/app/themes/ (tema sistem) dan desa/themes/ (tema custom desa).
+# Kondisi -f memastikan fallback ke PHP handler jika file tidak ada di lokasi target.
+RewriteCond %{QUERY_STRING} (?:^|&)file=([^&]+)
+RewriteCond %{DOCUMENT_ROOT}/storage/app/themes/$1/assets/%1 -f
+RewriteRule ^theme_asset/([^/]+)/?$ /storage/app/themes/$1/assets/%1 [L]
+
+RewriteCond %{QUERY_STRING} (?:^|&)file=([^&]+)
+RewriteCond %{DOCUMENT_ROOT}/desa/themes/$1/assets/%1 -f
+RewriteRule ^theme_asset/([^/]+)/?$ /desa/themes/$1/assets/%1 [L]
 
 # General dirs / files
 RewriteCond $1 !^(index\.php|resources|robots\.txt)
