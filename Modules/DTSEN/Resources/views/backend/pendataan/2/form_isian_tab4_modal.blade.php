@@ -751,7 +751,31 @@
                     };
                     setJumlahTerisi(index_anggota);
                 };
-                ajax_save_dtsen("{{  ci_route('dtsen/pendataan/save') . '/' . $dtsen->id }}", form, callback_success);
+
+                let btn = $(this).find('button[type=submit]');
+                let originalContent = btn.html();
+                btn.prop('disabled', true).html('<i class=\"fa fa-spinner fa-spin\"></i> Menyimpan...');
+                
+                ajax_save_dtsen(
+                    "{{ route('dtsen_pendataan.save', $dtsen->id) }}",
+                    form,
+                    function(data) {
+                        btn.prop('disabled', false).html(originalContent);
+
+                        let index_anggota = global_data_anggota.findIndex(function(item) {
+                            return item.id == data.new_data.id;
+                        });
+                        // combine data
+                        global_data_anggota[index_anggota] = {
+                            ...global_data_anggota[index_anggota],
+                            ...data.new_data
+                        };
+                        setJumlahTerisi(index_anggota);
+                    },
+                    function() {
+                        btn.prop('disabled', false).html(originalContent);
+                    }
+                );
             });
         });
     </script>
