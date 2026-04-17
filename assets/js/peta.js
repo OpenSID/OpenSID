@@ -1965,13 +1965,15 @@ $(document).ready(function () {
 
 //Cetak Peta ke PNG
 function cetakPeta(layerpeta) {
-  // Simpan zoom awal dan posisi tengah peta untuk dikembalikan setelah cetak
-  var initialZoom;
-  var initialCenter;
+  // Deteksi base layer aktif dan buat tile layer raster untuk cetak
+  // MapboxGL menggunakan WebGL canvas yang TIDAK bisa dicetak oleh window.print()
+  // Sehingga perlu fallback ke tile raster standar
+  var printTileLayer = _createPrintTileLayer(layerpeta);
 
   L.control
     .browserPrint({
       documentTitle: "Peta_Wilayah",
+      printLayer: printTileLayer,
       printModes: [
         L.control.browserPrint.mode.landscape("Landscape"),
         L.control.browserPrint.mode.portrait("Portrait"),
@@ -1987,37 +1989,137 @@ function cetakPeta(layerpeta) {
     }
   );
 
+  // MapboxGL WebGL canvas tidak bisa dicetak, register sebagai null
+  // agar plugin tidak mencoba clone-nya (printLayer sudah di-set sebagai raster)
   L.Control.BrowserPrint.Utils.registerLayer(
     L.MapboxGL,
     "L.MapboxGL",
     function (layer, utils) {
-      return L.mapboxGL(layer.options);
+      return null;
     }
   );
 
-  layerpeta.on("browser-print-start", function (e) {
-    // Cek apakah ada layer poligon/garis (wilayah) yang aktif
-    let isWilayahActive = false;
-    layerpeta.eachLayer(function (layer) {
-      if (layer instanceof L.GeoJSON && typeof layer.getLayers === 'function' && layer.getLayers().length > 0) {
-        isWilayahActive = true;
-      } else if (layer instanceof L.Polygon || layer instanceof L.Polyline) {
-        // Ini akan menangkap poligon/garis tunggal yang mungkin bukan bagian dari GeoJSON group
-        isWilayahActive = true;
+  // Buat tile layer raster berdasarkan base layer aktif
+  function _createPrintTileLayer(map) {
+    var mapboxToken = null;
+    var activeStyle = null;
+
+    // Cari base layer MapboxGL yang aktif
+    map.eachLayer(function (layer) {
+      if (layer instanceof L.MapboxGL && layer.options) {
+        if (layer.options.accessToken) {
+          mapboxToken = layer.options.accessToken;
+        }
+        if (layer.options.style) {
+          activeStyle = layer.options.style;
+        }
       }
     });
 
-    // Jika ada layer wilayah aktif, lakukan zoom out
-    if (isWilayahActive) {
-      initialZoom = layerpeta.getZoom();
-      initialCenter = layerpeta.getCenter();
-      layerpeta.setZoom(11.95);
+    // Jika MapboxGL aktif dengan token valid, gunakan Mapbox Raster Tiles API
+    if (mapboxToken && activeStyle) {
+      var tilesetId = 'mapbox.streets';
+      if (activeStyle.indexOf('satellite-streets') !== -1) {
+        tilesetId = 'mapbox.satellite';
+      } else if (activeStyle.indexOf('satellite') !== -1) {
+        tilesetId = 'mapbox.satellite';
+      } else if (activeStyle.indexOf('streets') !== -1) {
+        tilesetId = 'mapbox.streets';
+      }
+
+      // Menggunakan Mapbox Static Tiles API (raster, bisa dicetak)
+      return L.tileLayer(
+        'https://api.mapbox.com/styles/v1/mapbox/' + _getMapboxStyleName(activeStyle) + '/tiles/256/{z}/{x}/{y}?access_token=' + mapboxToken,
+        {
+          attribution: '&copy; <a href="https://www.mapbox.com/about/maps">Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+          tileSize: 256,
+          maxZoom: 18
+        }
+      );
     }
 
-    // --- Kode yang sudah ada untuk memastikan label jalan ikut tercetak ---
+    // Fallback ke OpenStreetMap standar
+    return L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+      maxZoom: 18
+    });
+  }
+
+  // Konversi style URL mapbox ke nama style untuk Static Tiles API
+  function _getMapboxStyleName(styleUrl) {
+    if (!styleUrl) return 'streets-v11';
+
+    if (styleUrl.indexOf('satellite-streets') !== -1) return 'satellite-streets-v11';
+    if (styleUrl.indexOf('satellite') !== -1) return 'satellite-v9';
+    if (styleUrl.indexOf('streets') !== -1) return 'streets-v11';
+    if (styleUrl.indexOf('outdoors') !== -1) return 'outdoors-v11';
+    if (styleUrl.indexOf('light') !== -1) return 'light-v10';
+    if (styleUrl.indexOf('dark') !== -1) return 'dark-v10';
+
+    return 'streets-v11';
+  }
+
+  // Kumpulkan bounds dari semua layer polygon/geoJSON yang terlihat di peta asli
+  function _collectVisibleBounds(map) {
+    var bounds = null;
+    map.eachLayer(function (layer) {
+      // Lewati tile layers, controls, dan marker cluster
+      if (layer._url || layer._mutant) return;
+
+      try {
+        if (
+          (layer instanceof L.Polygon) ||
+          (layer instanceof L.Polyline) ||
+          (layer instanceof L.GeoJSON && typeof layer.getBounds === 'function')
+        ) {
+          var layerBounds = layer.getBounds();
+          if (layerBounds && layerBounds.isValid()) {
+            if (bounds) {
+              bounds.extend(layerBounds);
+            } else {
+              bounds = L.latLngBounds(layerBounds.getSouthWest(), layerBounds.getNorthEast());
+            }
+          }
+        }
+      } catch (err) {
+        // Abaikan layer yang gagal mendapatkan bounds
+      }
+    });
+    return bounds;
+  }
+
+  layerpeta.on("browser-print-start", function (e) {
+    var printMap = e.printMap;
+
+    // Pastikan print map di-invalidate ukurannya agar full container
+    setTimeout(function () {
+      printMap.invalidateSize({ reset: true, animate: false, pan: false });
+
+      // Kumpulkan bounds dari layer polygon/wilayah yang aktif di peta ASLI
+      var wilayahBounds = _collectVisibleBounds(layerpeta);
+
+      if (wilayahBounds && wilayahBounds.isValid()) {
+        // FitBounds pada print map agar polygon pas di cetakan
+        // Selalu auto-zoom agar polygon mengisi halaman secara optimal
+        // Tidak peduli level zoom saat ini di peta asli
+        printMap.fitBounds(wilayahBounds, {
+          padding: [30, 30],
+          animate: false
+        });
+      } else {
+        // Jika tidak ada polygon, gunakan view yang sama dengan peta asli
+        printMap.setView(layerpeta.getCenter(), layerpeta.getZoom());
+      }
+
+      // Invalidate lagi setelah fitBounds untuk memastikan tiles dimuat
+      setTimeout(function () {
+        printMap.invalidateSize({ reset: true, animate: false, pan: false });
+      }, 200);
+    }, 100);
+
+    // Pastikan label jalan (text path) ikut tercetak
     try {
-      // Make sure text path labels remain visible in print
-      e.printMap.eachLayer(function (layer) {
+      printMap.eachLayer(function (layer) {
         if (
           layer &&
           layer._text &&
@@ -2025,29 +2127,18 @@ function cetakPeta(layerpeta) {
           typeof layer.setText === "function"
         ) {
           try {
-            // Re-apply text path to ensure it appears in print
             setTimeout(function () {
               if (layer._path && layer._map) {
                 layer.setText(layer._text, layer._textOptions);
               }
-            }, 50);
+            }, 300);
           } catch (err) {
             console.warn("Error re-applying text path on print:", err);
           }
         }
       });
-    } catch (e) {
-      console.warn("Error during browser print start:", e);
-    }
-  });
-
-  // Event listener setelah proses cetak selesai untuk mengembalikan tampilan peta
-  layerpeta.on("browser-print-end", function (e) {
-    // Kembalikan ke zoom dan posisi tengah semula jika sebelumnya diubah
-    if (initialCenter && initialZoom) {
-      layerpeta.setView(initialCenter, initialZoom);
-      initialZoom = null;
-      initialCenter = null;
+    } catch (ex) {
+      console.warn("Error during browser print start:", ex);
     }
   });
 
