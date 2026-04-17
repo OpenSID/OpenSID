@@ -45,6 +45,7 @@ use App\Enums\GolonganDarahEnum;
 use App\Enums\HamilEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
 use App\Enums\SakitMenahunEnum;
@@ -67,6 +68,47 @@ class LaporanPenduduk
     private $filter;
     private $paramCetak;
     private $tanggal_laporan_sql;
+
+    /**
+     * Filter penduduk yang aktif pada akhir tahun tertentu menggunakan log_penduduk.
+     * Konsisten dengan Penduduk::awalBulan() dan scopePeristiwaSampaiDengan().
+     *
+     * Logika: penduduk dianggap aktif di akhir tahun X jika log terakhir
+     * (berdasarkan tgl_peristiwa <= '{tahun}-12-31') bukan peristiwa
+     * MATI(2), PINDAH_KELUAR(3), atau HILANG(4).
+     */
+    private function filterTahunPenduduk($query, string $tahun, string $alias = 'b')
+    {
+        if (! in_array($alias, ['b', 'p', 'u', 'k'], true)) {
+            throw new \InvalidArgumentException("Alias tabel tidak valid: {$alias}");
+        }
+
+        $akhirTahun    = $tahun . '-12-31 23:59:59';
+        $configId      = identitas('id');
+        $nonAktif      = implode(',', [
+            PeristiwaPendudukEnum::MATI->value,
+            PeristiwaPendudukEnum::PINDAH_KELUAR->value,
+            PeristiwaPendudukEnum::HILANG->value,
+        ]);
+
+        // Penduduk harus punya log entry sampai akhir tahun
+        // dan log terakhirnya bukan peristiwa non-aktif
+        $query->whereRaw("
+            EXISTS (
+                SELECT 1 FROM log_penduduk lp
+                INNER JOIN (
+                    SELECT id_pend, MAX(id) as max_id
+                    FROM log_penduduk
+                    WHERE config_id = ? AND tgl_peristiwa <= ?
+                    GROUP BY id_pend
+                ) lp_max ON lp.id = lp_max.max_id
+                WHERE lp.id_pend = {$alias}.id
+                AND lp.kode_peristiwa NOT IN ({$nonAktif})
+            )
+        ", [$configId, $akhirTahun]);
+
+        return $query;
+    }
 
     public static function judulStatistik($lap)
     {
@@ -284,8 +326,8 @@ class LaporanPenduduk
             ->when($idCluster, static function ($sq) use ($idCluster) {
                 $sq->whereIn('a.id', $idCluster);
             })
-            ->when($tahun, static function ($sq) use ($tahun) {
-                $sq->whereRaw('YEAR(b.created_at) <= ?', [$tahun]);
+            ->when($tahun, function ($sq) use ($tahun) {
+                $this->filterTahunPenduduk($sq, $tahun, 'b');
             })
             ->where('b.config_id', identitas('id'))
             ->where('b.status_dasar', $status_dasar);
@@ -317,6 +359,11 @@ class LaporanPenduduk
     {
         $lap   = $this->lap;
         $tahun = $this->filter['tahun'] ?? null;
+
+        // Validasi input
+        if ($tahun && !preg_match('/^\d{4}$/', $tahun)) {
+            throw new \InvalidArgumentException('Invalid year format');
+        }
 
         $statistik_penduduk = [];
 
@@ -528,17 +575,44 @@ class LaporanPenduduk
                     ->join('tweb_penduduk as p', 'p.id', '=', 'u.nik_kepala')
                     ->where('u.terdaftar_dtks', '!=', '0')
                     ->where('u.config_id', identitas('id'))
+                    ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.tgl_daftar) = ?', [$tahun]))
                     ->groupBy('u.id')
                     ->get();
                 break;
 
                 // BANTUAN
             case 'bantuan_penduduk':
+                $tahunFilter = $this->filter['tahun'] ?? null;
+                $configId = identitas('id');
+                $tahunWhere = '';
+                $tahunParam = [];
+                if ($tahunFilter) {
+                    $akhirTahun = $tahunFilter . '-12-31 23:59:59';
+                    $nonAktif   = implode(',', [
+                        PeristiwaPendudukEnum::MATI->value,
+                        PeristiwaPendudukEnum::PINDAH_KELUAR->value,
+                        PeristiwaPendudukEnum::HILANG->value,
+                    ]);
+                    $tahunWhere = 'AND EXISTS (
+                        SELECT 1 FROM log_penduduk lp
+                        INNER JOIN (
+                            SELECT id_pend, MAX(id) as max_id
+                            FROM log_penduduk
+                            WHERE config_id = ' . $configId . ' AND tgl_peristiwa <= ?
+                            GROUP BY id_pend
+                        ) lp_max ON lp.id = lp_max.max_id
+                        WHERE lp.id_pend = p.id
+                        AND lp.kode_peristiwa NOT IN (' . $nonAktif . ')
+                    )';
+                    $tahunParam = [$akhirTahun];
+                }
+                
                 $sql = 'SELECT u.*,
-                    (SELECT COUNT(kartu_nik) FROM program_peserta WHERE program_id = u.id AND config_id = u.config_id) AS jumlah,
-                    (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1 AND config_id = u.config_id) AS laki,
-                    (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2 AND config_id = u.config_id) AS perempuan
-                    FROM program u WHERE (u.config_id = ' . identitas('id') . ' OR u.config_id IS NULL)';
+                    (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND config_id = u.config_id ' . $tahunWhere . ') AS jumlah,
+                    (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1 AND config_id = u.config_id ' . $tahunWhere . ') AS laki,
+                    (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2 AND config_id = u.config_id ' . $tahunWhere . ') AS perempuan
+                    FROM program u WHERE (u.config_id = ' . $configId . ' OR u.config_id IS NULL)';
+                return DB::select(DB::raw($sql), array_merge($tahunParam, $tahunParam, $tahunParam));
                 break;
 
             // PENDUDUK
@@ -577,7 +651,7 @@ class LaporanPenduduk
                         $join->on('k.status_covid', '=', 'u.id')
                             ->where('k.config_id', '=', identitas('id'));
                         if ($tahun) {
-                            $join->whereRaw('YEAR(k.created_at) = ?', [$tahun]);
+                            $join->whereRaw('YEAR(k.tanggal_datang) = ?', [$tahun]);
                         }
                     })
                     ->leftJoin('tweb_penduduk as p', 'p.id', '=', 'k.id_terdata')
@@ -603,7 +677,7 @@ class LaporanPenduduk
                         ->when($idCluster, static function ($sq) use ($idCluster) {
                             $sq->whereIn('a.id', $idCluster);
                         })
-                        ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.created_at) = ?', [$tahun]))
+                        ->when($tahun, fn ($sq) => $this->filterTahunPenduduk($sq, $tahun, 'u'))
                         ->get();
 
                     return $query;
@@ -627,7 +701,7 @@ class LaporanPenduduk
                     ->when($idCluster, static function ($sq) use ($idCluster) {
                         $sq->whereIn('a.id', $idCluster);
                     })
-                    ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.created_at) = ?', [$tahun]))
+                    ->when($tahun, fn ($sq) => $this->filterTahunPenduduk($sq, $tahun, 'u'))
                     ->get();
 
                 return $query;
@@ -652,7 +726,7 @@ class LaporanPenduduk
                     ->when($idCluster, static function ($sq) use ($idCluster) {
                         $sq->whereIn('a.id', $idCluster);
                     })
-                    ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.created_at) = ?', [$tahun]))
+                    ->when($tahun, fn ($sq) => $this->filterTahunPenduduk($sq, $tahun, 'u'))
                     ->get();
 
                 return $query;
@@ -676,7 +750,7 @@ class LaporanPenduduk
                     ->when($idCluster, static function ($sq) use ($idCluster) {
                         $sq->whereIn('a.id', $idCluster);
                     })
-                    ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.created_at) = ?', [$tahun]))
+                    ->when($tahun, fn ($sq) => $this->filterTahunPenduduk($sq, $tahun, 'u'))
                     ->get();
 
                 return $query;
@@ -714,6 +788,7 @@ class LaporanPenduduk
                     ->when($idCluster, static function ($sq) use ($idCluster) {
                         $sq->whereIn('a.id', $idCluster);
                     })
+                    ->when($tahun, fn ($sq) => $this->filterTahunPenduduk($sq, $tahun, 'u'))
                     ->groupBy('u.status_asuransi')
                     ->get();
 
@@ -812,6 +887,11 @@ class LaporanPenduduk
             $sq->whereIn('a.id', $idCluster);
         });
 
+        $tahun = $this->filter['tahun'] ?? null;
+        $query->when($tahun, function ($sq) use ($tahun) {
+            $this->filterTahunPenduduk($sq, $tahun, 'b');
+        });
+
         return $query
             ->where('b.status_dasar', $status_dasar)
             ->where('b.config_id', identitas('id'))
@@ -845,8 +925,8 @@ class LaporanPenduduk
                 $join->on('u.id', '=', "p.{$id_referensi}")
                     ->where('p.config_id', '=', identitas('id'));
             })
-            ->when($tahun, static function ($sq) use ($tahun) {
-                $sq->whereRaw('YEAR(p.created_at) = ?', [$tahun]);
+            ->when($tahun, function ($sq) use ($tahun) {
+                $this->filterTahunPenduduk($sq, $tahun, 'p');
             })
             ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id');
 
@@ -886,7 +966,7 @@ class LaporanPenduduk
         }
 
         if ($tahun) {
-            $query->whereRaw('YEAR(p.created_at) = ?', [$tahun]);
+            $this->filterTahunPenduduk($query, $tahun, 'p');
         }
 
         $rows = $query->groupBy("p.{$id_referensi}")->get()->keyBy($id_referensi);

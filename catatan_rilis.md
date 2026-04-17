@@ -16,6 +16,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 12. [#11026](https://github.com/OpenSID/OpenSID/issues/11026) Perbaikan tombol enter pada keyboard pada saat isi "HAPUS" pada modal alert konfirmasi hapus tidak berfungsi.
 13. [#11028](https://github.com/OpenSID/OpenSID/issues/11028) Perbaikan label tombol "Kembali ke Daftar Kelompok Di Desa" pada form tambah/ubah dokumen kelompok tidak sesuai dengan aksi.
 14. [#11015](https://github.com/OpenSID/OpenSID/issues/11015) Perbaikan beberapa bug pada fitur dtsen yang harus disesuaikan.
+15. [#11021](https://github.com/OpenSID/OpenSID/issues/11021) Perbaikan filter pada menu statistik kependudukan tidak sesuai.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.
