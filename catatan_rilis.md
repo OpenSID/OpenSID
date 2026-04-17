@@ -20,6 +20,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 16. [#11036](https://github.com/OpenSID/OpenSID/issues/11036) Perbaikan peta desa ketika dicetak tampil kecil.
 17. [#11038](https://github.com/OpenSID/OpenSID/issues/11038) Perbaikan tombol kembalikan penduduk tidak tampil di riwayat mutasi penduduk.
 18. [#11052](https://github.com/OpenSID/OpenSID/issues/11052) Perbaikan info mohon tunggu pada tombol simpan terus muncul setelah data berhasil disimpan.
+19. [#11053](https://github.com/OpenSID/OpenSID/issues/11053) Perbaikan tidak ada keterangan/validasi maksimal karakter saat input di pengaturan peta.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.

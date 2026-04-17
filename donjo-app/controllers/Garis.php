@@ -270,6 +270,11 @@ class Garis extends Admin_Controller
 
         try {
             $data = $this->input->post();
+
+            if (isset($data['nama']) && mb_strlen((string) $data['nama']) > PEMETAAN_NAMA_MAX_LENGTH) {
+                redirect_with('error', 'Nama tidak boleh lebih dari ' . PEMETAAN_NAMA_MAX_LENGTH . ' karakter', ci_route('garis.index', $parent));
+            }
+
             if ($data['path'] !== '[[]]') {
                 GarisModel::whereId($id)->update($data);
                 redirect_with('success', 'Pengaturan garis berhasil disimpan', ci_route('garis.index', $parent));
@@ -298,9 +303,11 @@ class Garis extends Admin_Controller
     public function insert($parent): void
     {
         isCan('u');
-        if ($this->validation()) {
-            $data = $this->validasi($this->input->post());
+        if ($this->validation() === false) {
+            redirect_with('error', trim(validation_errors()), ci_route('garis.form', $parent));
         }
+
+        $data = $this->validasi($this->input->post());
 
         try {
             GarisModel::create($data);
@@ -315,9 +322,11 @@ class Garis extends Admin_Controller
     {
         isCan('u');
 
-        if ($this->validation()) {
-            $data = $this->validasi($this->input->post());
+        if ($this->validation() === false) {
+            redirect_with('error', trim(validation_errors()), ci_route('garis.form', implode('/', [$parent, $id])));
         }
+
+        $data = $this->validasi($this->input->post());
 
         try {
             $obj = GarisModel::findOrFail($id);
@@ -366,7 +375,8 @@ class Garis extends Admin_Controller
 
     private function validation()
     {
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_error_delimiters('', '');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim|max_length[' . PEMETAAN_NAMA_MAX_LENGTH . ']');
         $this->form_validation->set_rules('ref_line', 'Kategori', 'required');
         $this->form_validation->set_rules('desk', 'Keterangan', 'required|trim');
         $this->form_validation->set_rules('enabled', 'Status', 'required');
