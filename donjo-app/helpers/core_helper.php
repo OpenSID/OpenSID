@@ -102,7 +102,7 @@ define('MODUL_BAWAAN', [
 define('TEMA_PREMIUM_FREE', [
     'wira',
     'lestari',
-    'seruit-lite'
+    'seruit-lite',
 ]);
 
 if (! function_exists('cek_anjungan')) {

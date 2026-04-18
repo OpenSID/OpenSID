@@ -33,6 +33,8 @@ class DriveFile extends \Google\Collection
   public $appProperties;
   protected $capabilitiesType = DriveFileCapabilities::class;
   protected $capabilitiesDataType = '';
+  protected $clientEncryptionDetailsType = ClientEncryptionDetails::class;
+  protected $clientEncryptionDetailsDataType = '';
   protected $contentHintsType = DriveFileContentHints::class;
   protected $contentHintsDataType = '';
   protected $contentRestrictionsType = ContentRestriction::class;
@@ -353,8 +355,8 @@ class DriveFile extends \Google\Collection
   public $thumbnailVersion;
   /**
    * Whether the file has been trashed, either explicitly or from a trashed
-   * parent folder. Only the owner may trash a file, and other users cannot see
-   * files in the owner's trash.
+   * parent folder. Only the owner may trash a file, but other users can still
+   * access the file in the owner's trash until it's permanently deleted.
    *
    * @var bool
    */
@@ -458,6 +460,25 @@ class DriveFile extends \Google\Collection
   public function getCapabilities()
   {
     return $this->capabilities;
+  }
+  /**
+   * Client Side Encryption related details. Contains details about the
+   * encryption state of the file and details regarding the encryption mechanism
+   * that clients need to use when decrypting the contents of this item. This
+   * will only be present on files and not on folders or shortcuts.
+   *
+   * @param ClientEncryptionDetails $clientEncryptionDetails
+   */
+  public function setClientEncryptionDetails(ClientEncryptionDetails $clientEncryptionDetails)
+  {
+    $this->clientEncryptionDetails = $clientEncryptionDetails;
+  }
+  /**
+   * @return ClientEncryptionDetails
+   */
+  public function getClientEncryptionDetails()
+  {
+    return $this->clientEncryptionDetails;
   }
   /**
    * Additional information about the content of the file. These fields are
@@ -1344,8 +1365,8 @@ class DriveFile extends \Google\Collection
   }
   /**
    * Whether the file has been trashed, either explicitly or from a trashed
-   * parent folder. Only the owner may trash a file, and other users cannot see
-   * files in the owner's trash.
+   * parent folder. Only the owner may trash a file, but other users can still
+   * access the file in the owner's trash until it's permanently deleted.
    *
    * @param bool $trashed
    */

@@ -45,9 +45,9 @@ use App\Enums\GolonganDarahEnum;
 use App\Enums\HamilEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
-use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\Statistik\StatistikJenisBantuanEnum;
@@ -61,6 +61,7 @@ use App\Enums\WargaNegaraEnum;
 use App\Models\Bantuan;
 use Closure;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 
 class LaporanPenduduk
 {
@@ -68,47 +69,6 @@ class LaporanPenduduk
     private $filter;
     private $paramCetak;
     private $tanggal_laporan_sql;
-
-    /**
-     * Filter penduduk yang aktif pada akhir tahun tertentu menggunakan log_penduduk.
-     * Konsisten dengan Penduduk::awalBulan() dan scopePeristiwaSampaiDengan().
-     *
-     * Logika: penduduk dianggap aktif di akhir tahun X jika log terakhir
-     * (berdasarkan tgl_peristiwa <= '{tahun}-12-31') bukan peristiwa
-     * MATI(2), PINDAH_KELUAR(3), atau HILANG(4).
-     */
-    private function filterTahunPenduduk($query, string $tahun, string $alias = 'b')
-    {
-        if (! in_array($alias, ['b', 'p', 'u', 'k'], true)) {
-            throw new \InvalidArgumentException("Alias tabel tidak valid: {$alias}");
-        }
-
-        $akhirTahun    = $tahun . '-12-31 23:59:59';
-        $configId      = identitas('id');
-        $nonAktif      = implode(',', [
-            PeristiwaPendudukEnum::MATI->value,
-            PeristiwaPendudukEnum::PINDAH_KELUAR->value,
-            PeristiwaPendudukEnum::HILANG->value,
-        ]);
-
-        // Penduduk harus punya log entry sampai akhir tahun
-        // dan log terakhirnya bukan peristiwa non-aktif
-        $query->whereRaw("
-            EXISTS (
-                SELECT 1 FROM log_penduduk lp
-                INNER JOIN (
-                    SELECT id_pend, MAX(id) as max_id
-                    FROM log_penduduk
-                    WHERE config_id = ? AND tgl_peristiwa <= ?
-                    GROUP BY id_pend
-                ) lp_max ON lp.id = lp_max.max_id
-                WHERE lp.id_pend = {$alias}.id
-                AND lp.kode_peristiwa NOT IN ({$nonAktif})
-            )
-        ", [$configId, $akhirTahun]);
-
-        return $query;
-    }
 
     public static function judulStatistik($lap)
     {
@@ -361,8 +321,8 @@ class LaporanPenduduk
         $tahun = $this->filter['tahun'] ?? null;
 
         // Validasi input
-        if ($tahun && !preg_match('/^\d{4}$/', $tahun)) {
-            throw new \InvalidArgumentException('Invalid year format');
+        if ($tahun && ! preg_match('/^\d{4}$/', $tahun)) {
+            throw new InvalidArgumentException('Invalid year format');
         }
 
         $statistik_penduduk = [];
@@ -583,9 +543,9 @@ class LaporanPenduduk
                 // BANTUAN
             case 'bantuan_penduduk':
                 $tahunFilter = $this->filter['tahun'] ?? null;
-                $configId = identitas('id');
-                $tahunWhere = '';
-                $tahunParam = [];
+                $configId    = identitas('id');
+                $tahunWhere  = '';
+                $tahunParam  = [];
                 if ($tahunFilter) {
                     $akhirTahun = $tahunFilter . '-12-31 23:59:59';
                     $nonAktif   = implode(',', [
@@ -606,12 +566,13 @@ class LaporanPenduduk
                     )';
                     $tahunParam = [$akhirTahun];
                 }
-                
+
                 $sql = 'SELECT u.*,
                     (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND config_id = u.config_id ' . $tahunWhere . ') AS jumlah,
                     (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1 AND config_id = u.config_id ' . $tahunWhere . ') AS laki,
                     (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2 AND config_id = u.config_id ' . $tahunWhere . ') AS perempuan
                     FROM program u WHERE (u.config_id = ' . $configId . ' OR u.config_id IS NULL)';
+
                 return DB::select(DB::raw($sql), array_merge($tahunParam, $tahunParam, $tahunParam));
                 break;
 
@@ -865,6 +826,49 @@ class LaporanPenduduk
         }
 
         return true;
+    }
+
+    /**
+     * Filter penduduk yang aktif pada akhir tahun tertentu menggunakan log_penduduk.
+     * Konsisten dengan Penduduk::awalBulan() dan scopePeristiwaSampaiDengan().
+     *
+     * Logika: penduduk dianggap aktif di akhir tahun X jika log terakhir
+     * (berdasarkan tgl_peristiwa <= '{tahun}-12-31') bukan peristiwa
+     * MATI(2), PINDAH_KELUAR(3), atau HILANG(4).
+     *
+     * @param mixed $query
+     */
+    private function filterTahunPenduduk($query, string $tahun, string $alias = 'b')
+    {
+        if (! in_array($alias, ['b', 'p', 'u', 'k'], true)) {
+            throw new InvalidArgumentException("Alias tabel tidak valid: {$alias}");
+        }
+
+        $akhirTahun = $tahun . '-12-31 23:59:59';
+        $configId   = identitas('id');
+        $nonAktif   = implode(',', [
+            PeristiwaPendudukEnum::MATI->value,
+            PeristiwaPendudukEnum::PINDAH_KELUAR->value,
+            PeristiwaPendudukEnum::HILANG->value,
+        ]);
+
+        // Penduduk harus punya log entry sampai akhir tahun
+        // dan log terakhirnya bukan peristiwa non-aktif
+        $query->whereRaw("
+            EXISTS (
+                SELECT 1 FROM log_penduduk lp
+                INNER JOIN (
+                    SELECT id_pend, MAX(id) as max_id
+                    FROM log_penduduk
+                    WHERE config_id = ? AND tgl_peristiwa <= ?
+                    GROUP BY id_pend
+                ) lp_max ON lp.id = lp_max.max_id
+                WHERE lp.id_pend = {$alias}.id
+                AND lp.kode_peristiwa NOT IN ({$nonAktif})
+            )
+        ", [$configId, $akhirTahun]);
+
+        return $query;
     }
 
     private function str_jml_penduduk(string $where, string $sex = '', string $status_dasar = '1')

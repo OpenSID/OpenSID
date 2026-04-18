@@ -408,7 +408,7 @@ class MultiDB extends Admin_Controller
             if ($tableName === 'config') {
                 // Validasi type casting untuk $rand
                 $rand = (int) $rand;
-                
+
                 DB::table($tableName)
                     ->where('id', $config_id)
                     ->update(['id' => DB::raw("`id` + {$rand}")]);
@@ -494,11 +494,12 @@ class MultiDB extends Admin_Controller
     {
         // Validasi type casting untuk $rand
         $rand = (int) $rand;
-        
+
         // Validasi format nama kolom (hanya alphanumeric dan underscore)
         if (! preg_match('/^[a-zA-Z0-9_]+$/', $primary_key)) {
             Log::error("Invalid column name: {$primary_key}");
-            throw new \InvalidArgumentException("Invalid column name format");
+
+            throw new InvalidArgumentException('Invalid column name format');
         }
 
         $oldRows = DB::table($tableName)
@@ -546,13 +547,14 @@ class MultiDB extends Admin_Controller
 
         if (in_array($tableName, array_keys($this->tabelKhusus))) {
             $child = $this->tabelKhusus[$tableName][1];
-            
+
             // Validasi format nama kolom child
             if (! preg_match('/^[a-zA-Z0-9_]+$/', $child)) {
                 Log::error("Invalid column name: {$child}");
-                throw new \InvalidArgumentException("Invalid column name format");
+
+                throw new InvalidArgumentException('Invalid column name format');
             }
-            
+
             DB::table($tableName)->where('config_id', $config_id)->where($child, '!=', 0)->update([$child => DB::raw("`{$child}` + {$rand}")]);
         }
     }

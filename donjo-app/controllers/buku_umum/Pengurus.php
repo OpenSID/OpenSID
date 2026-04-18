@@ -491,20 +491,20 @@ class Pengurus extends Admin_Controller
         isCan('u');
         $post    = $this->input->post();
         $list_id = $post['list_id'];
-        
+
         // Validasi dan sanitasi input list_id
         if (empty($list_id)) {
             redirect_with('error', 'Data ID tidak boleh kosong');
         }
-        
+
         // Konversi list_id ke array dan sanitasi setiap nilai menjadi integer
         $list_id_array = array_map('intval', array_filter(array_map('trim', explode(',', $list_id))));
-        
+
         // Validasi bahwa list_id_array tidak kosong setelah sanitasi
         if (empty($list_id_array)) {
             redirect_with('error', 'Data ID tidak valid');
         }
-        
+
         $data = [];
         if ($post['atasan']) {
             $data['atasan'] = ($post['atasan'] <= 0) ? null : $post['atasan'];

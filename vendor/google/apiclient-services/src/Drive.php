@@ -778,6 +778,19 @@ class Drive extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'generateCseToken' => [
+              'path' => 'files/generateCseToken',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'fileId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'parent' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'generateIds' => [
               'path' => 'files/generateIds',
               'httpMethod' => 'GET',

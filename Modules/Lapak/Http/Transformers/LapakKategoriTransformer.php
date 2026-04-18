@@ -45,9 +45,9 @@ class LapakKategoriTransformer extends TransformerAbstract
     public function transform(ProdukKategori $produkKategori)
     {
         return [
-            'id' => $produkKategori->id,
-            'kategori' => $produkKategori->kategori,
-            'slug' => $produkKategori->slug,
+            'id'           => $produkKategori->id,
+            'kategori'     => $produkKategori->kategori,
+            'slug'         => $produkKategori->slug,
             'produk_count' => $produkKategori->produk_count,
         ];
     }
