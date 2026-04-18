@@ -157,12 +157,6 @@ return new class () extends Migration {
             // Drop FK lama sebelum menambahkan yang baru
             $this->hapusForeignKey('artikel_kategori_fk', 'artikel', 'kategori');
 
-            if (! $this->foreignKeyExists('artikel', 'artikel_kategori_2026_fk')) {
-                Schema::table('artikel', static function (Blueprint $table) {
-                    $table->foreign(['id_kategori'], 'artikel_kategori_2026_fk')->references(['id'])->on('kategori')->onUpdate('cascade')->onDelete('cascade');
-                });
-            }
-
             // Drop FK lama sebelum mengubah tipe kolom id_user
             $this->hapusForeignKey('artikel_kategori_id_user_fk', 'artikel', 'user');
 
