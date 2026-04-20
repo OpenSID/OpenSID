@@ -22,6 +22,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 18. [#11052](https://github.com/OpenSID/OpenSID/issues/11052) Perbaikan info mohon tunggu pada tombol simpan terus muncul setelah data berhasil disimpan.
 19. [#11053](https://github.com/OpenSID/OpenSID/issues/11053) Perbaikan tidak ada keterangan/validasi maksimal karakter saat input di pengaturan peta.
 20. [#11042](https://github.com/OpenSID/OpenSID/issues/11042) Perbaikan menampilkan '0' untuk nomor KK dan NIK sementara di halaman hasil unduh F109.
+21. [#11045](https://github.com/OpenSID/OpenSID/issues/11045) Perbaikan menampilkan data berelasi pada layanan mandiri.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.

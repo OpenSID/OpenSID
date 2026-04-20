@@ -37,7 +37,6 @@
 
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class() extends Migration {
@@ -48,10 +47,39 @@ return new class() extends Migration {
      */
     public function up(): void
     {
+        $this->normalisasiRelasiPendudukMandiri();
     }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void {}
+
+    /**
+     * Normalisasi relasi tweb_penduduk_mandiri.id_pend ke tweb_penduduk.id.
+     * - Data id_pend yang tidak punya pasangan di tweb_penduduk akan di-set null.
+     * - Foreign key ditambahkan jika belum ada menggunakan helper Migrator.
+     */
+    private function normalisasiRelasiPendudukMandiri(): void
+    {
+        if (! Schema::hasTable('tweb_penduduk_mandiri') || ! Schema::hasTable('tweb_penduduk')) {
+            return;
+        }
+
+        if (! Schema::hasColumn('tweb_penduduk_mandiri', 'id_pend')) {
+            return;
+        }
+
+        $this->tambahForeignKey(
+            'tweb_penduduk_mandiri_id_pend_fk_2026',
+            'tweb_penduduk_mandiri',
+            'id_pend',
+            'tweb_penduduk',
+            'id',
+            true,
+            false,
+            'SET NULL',
+            'CASCADE'
+        );
+    }
 };
