@@ -204,8 +204,8 @@ class Kelompok extends Admin_Controller
 
     public function daftar($aksi = 'cetak'): void
     {
-        $status                 = $this->input->get('status_dasar');
-        $filter                 = $this->input->get('filter');
+        $status                 = $this->input->post_get('status_dasar');
+        $filter                 = $this->input->post_get('filter');
         $post                   = $this->input->post();
         $data['aksi']           = $aksi;
         $data['tipe']           = ucwords((string) $this->tipe);

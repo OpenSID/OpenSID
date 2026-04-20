@@ -246,7 +246,7 @@ Route::group('penduduk', static function (): void {
     Route::post('proses_impor', 'Penduduk@proses_impor')->name('penduduk.proses_impor');
     Route::get('impor_bip', 'Penduduk@impor_bip')->name('penduduk.impor_bip');
     Route::post('proses_impor_bip', 'Penduduk@proses_impor_bip')->name('penduduk.proses_impor_bip');
-    Route::get('ekspor/{huruf?}', 'Penduduk@ekspor')->name('penduduk.ekspor');
+    Route::match(['GET', 'POST'], 'ekspor/{huruf?}', 'Penduduk@ekspor')->name('penduduk.ekspor');
     Route::get('foto_bawaan/{id}', 'Penduduk@foto_bawaan')->name('penduduk.foto_bawaan');
 });
 
