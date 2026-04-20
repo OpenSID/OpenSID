@@ -438,6 +438,12 @@ define('PENOLONG_MATI', serialize([
 ]));
 
 // ======================================================================
+// PEMETAAN - Batas panjang kolom nama pada tabel pemetaan
+// (garis, line, area, polygon, point, lokasi) yang di DB = VARCHAR(50)
+// ======================================================================
+defined('PEMETAAN_NAMA_MAX_LENGTH') || define('PEMETAAN_NAMA_MAX_LENGTH', 50);
+
+// ======================================================================
 // TABLE HEADERS - Untuk menghindari typo pada header tabel
 // ======================================================================
 

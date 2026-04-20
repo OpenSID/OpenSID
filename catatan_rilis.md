@@ -22,6 +22,10 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 18. [#11052](https://github.com/OpenSID/OpenSID/issues/11052) Perbaikan info mohon tunggu pada tombol simpan terus muncul setelah data berhasil disimpan.
 19. [#11057](https://github.com/OpenSID/OpenSID/issues/11057) Perbaikan struktur tabel artikel agar saat kategori artikel dihapus maka artikel tidak ikut terhapus.
 20. [#11058](https://github.com/OpenSID/OpenSID/issues/110580) Perbaikan dataTables gagal load (net::ERR_EMPTY_RESPONSE) karena URL GET terlalu panjang di-drop WAF/edge di modul penduduk dan keluarga.
+21. [#11053](https://github.com/OpenSID/OpenSID/issues/11053) Perbaikan tidak ada keterangan/validasi maksimal karakter saat input di pengaturan peta.
+22. [#11042](https://github.com/OpenSID/OpenSID/issues/11042) Perbaikan menampilkan '0' untuk nomor KK dan NIK sementara di halaman hasil unduh F109.
+23. [#11045](https://github.com/OpenSID/OpenSID/issues/11045) Perbaikan menampilkan data berelasi pada layanan mandiri.
+24. [#11047](https://github.com/OpenSID/OpenSID/issues/11047) Perbaikan lihat password pada halaman pengaturan aplikasi tidak berfungsi.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.

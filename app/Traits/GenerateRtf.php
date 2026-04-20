@@ -54,10 +54,11 @@ trait GenerateRtf
 
         foreach ($data['main'] as $ranggota) {
             $i++;
-            $nama            .= $ranggota['nama'] . '\\line ';
             $no              .= $i . '\\line ';
+            $nama            .= $ranggota['nama'] . '\\line ';
             $hubungan        .= $ranggota['penduduk_hubungan'] . '\\line ';
-            $nik             .= $ranggota['nik'] . '\\line ';
+            // Jika NIK sementara (dimulai dengan '0' dan bukan '0' saja), tampilkan '0'
+            $nik             .= get_nik($ranggota['nik']) . '\\line ';
             $sex             .= ($ranggota['jenis_kelamin']) . '\\line ';
             $tempatlahir     .= $ranggota['tempatlahir'] . '\\line ';
             $tanggallahir    .= tgl_indo(tgl: $ranggota['tanggallahir'], format: 'd-m-Y') . '\\line ';
@@ -144,7 +145,9 @@ trait GenerateRtf
         $buffer         = str_replace('*rt', "{$k['keluarga']['wilayah']['rt']}", $buffer);
         $buffer         = str_replace('*rw', "{$k['keluarga']['wilayah']['rw']}", $buffer);
         $buffer         = str_replace('*kk', "\\caps {$k['nama']}", $buffer);
-        $buffer         = str_replace('no_kk', "{$k['keluarga']['no_kk']}", $buffer);
+        // Jika nomor KK sementara (dimulai dengan '0' dan bukan '0' saja), tampilkan '0'
+        $noKK           = get_nokk($k['keluarga']['no_kk']);
+        $buffer         = str_replace('no_kk', "{$noKK}", $buffer);
         $buffer         = str_replace('pos', "{$h['kode_pos']}", $buffer);
         $buffer         = str_replace('*tertanda', "\\caps {$tertanda}", $buffer);
         $buffer         = str_replace('*nip_camat', "{$h['nip_kepala_camat']}", $buffer);
