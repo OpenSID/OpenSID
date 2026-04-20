@@ -359,8 +359,8 @@ class Kelompok extends Admin_Controller
     public function datatablesDokumen()
     {
         if ($this->input->is_ajax_request()) {
-            $status      = $this->input->get('status') ?? null;
-            $id_kelompok = $this->input->get('id_kelompok');
+            $status      = $this->input->post_get('status') ?? null;
+            $id_kelompok = $this->input->post_get('id_kelompok');
             $tipe        = $this->tipe;
             $canDelete   = can('h');
 

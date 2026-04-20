@@ -56,7 +56,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('bumindes_tanah_desa.datatables') }}"
+                    url: "{{ ci_route('bumindes_tanah_desa.datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

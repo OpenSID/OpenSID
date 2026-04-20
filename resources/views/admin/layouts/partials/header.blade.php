@@ -143,7 +143,7 @@ $(document).ready(function() {
         
         $.ajax({
             url: `{{ ci_route("notifikasi.mark-as-read") }}/${notifId}`,
-            type: 'GET',
+            method: 'POST',
             dataType: 'json',
             success: function(response) {
                 // Remove background color to indicate read

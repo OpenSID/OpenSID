@@ -72,10 +72,10 @@ class Garis extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status  = $this->input->get('status');
-            $subline = $this->input->get('subline') ?? null;
-            $line    = $this->input->get('line') ?? null;
-            $parent  = $this->input->get('parent') ?? 0;
+            $status  = $this->input->post_get('status');
+            $subline = $this->input->post_get('subline') ?? null;
+            $line    = $this->input->post_get('line') ?? null;
+            $parent  = $this->input->post_get('parent') ?? 0;
 
             // Tidak filter data invalid, tampilkan semua
             $query = GarisModel::status($status)

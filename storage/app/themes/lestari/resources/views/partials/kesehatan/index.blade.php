@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 @include('theme::commons.asset_highcharts')
 
 @section('content')
@@ -79,7 +79,7 @@
                         'kuartal': kuartal,
                         'idPosyandu': idPosyandu
                     },
-                    type: "GET",
+                    type: 'POST',
                     beforeSend: function() {
                         stuntingList.innerHTML = `@include('theme::commons.loading')`
                     },

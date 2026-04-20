@@ -55,7 +55,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('pemilihan.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('pemilihan.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

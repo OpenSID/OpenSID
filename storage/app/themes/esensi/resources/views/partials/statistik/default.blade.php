@@ -1,4 +1,4 @@
-<div class="breadcrumb">
+﻿<div class="breadcrumb">
     <ol>
         <li><a href="{{ ci_route('') }}">Beranda</a></li>
         <li>Data Statistik</li>
@@ -102,7 +102,7 @@
         $(function() {
             $.ajax({
                 url: `{{ ci_route('internal_api.statistik', $key) }}?tahun={{ $selected_tahun ?? '' }}`,
-                method: 'get',
+                method: 'POST',
                 data: {},
                 beforeSend: function() {
                     $('#showData').hide()

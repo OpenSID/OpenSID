@@ -50,7 +50,7 @@
                 'pageLength': 10,
                 'ajax': {
                     'url': "{{ ci_route('database.desa_inkremental') }}",
-                    'method': 'get',
+                    'method': 'POST',
                     'data': function(d) {
                         d.tahun = $('#tahun').val();
                     }

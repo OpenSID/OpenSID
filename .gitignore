@@ -133,3 +133,5 @@ tests/vendor/
 .phpunit.cache/
 tests/.phpunit.cache/
 /storage/app/temp
+/plans
+tests/e2e/.env

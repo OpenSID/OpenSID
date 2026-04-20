@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+﻿@extends('theme::layouts.right-sidebar')
 @include('theme::commons.asset_sweetalert')
 
 @section('content')
@@ -92,7 +92,7 @@
                 searching: false,
                 ajax: {
                     url: routeApiIndikator,
-                    method: 'GET',
+                    method: 'POST',
                     data: row => ({
                         "filter[id_master]": $('#master').val(),
                         "page[size]": row.length,

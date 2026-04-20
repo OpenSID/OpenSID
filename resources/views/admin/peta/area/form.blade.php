@@ -132,7 +132,7 @@
                 // AJAX untuk mengambil kategori
                 $.ajax({
                     url: "{{ ci_route('area.ajax_get_kategori') }}",
-                    type: 'GET',
+                    method: 'POST',
                     data: {
                         jenis_id: jenisId
                     },

@@ -81,14 +81,14 @@ class Man_user extends Admin_Controller
 
         if ($this->input->is_ajax_request()) {
             $input     = $this->input;
-            $status    = $input->get('status');
+            $status    = $input->post('status') ?: $input->get('status');
             $isDeleted = $status === 'deleted';
 
             if ($isDeleted && (! is_super_admin() || ! User::isSoftDeleteReady())) {
                 return datatables()->of(collect())->make();
             }
 
-            $group = $input->get('group');
+            $group = $input->post('group') ?: $input->get('group');
             $query = User::with('pamong', 'userGrup')
                 ->when($isDeleted, static fn ($q) => $q->onlyTrashed())
                 ->when(! $isDeleted && $status === '' && is_super_admin(), static fn ($q) => $q->withTrashed())

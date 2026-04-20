@@ -61,7 +61,7 @@
           order: [],
           ajax: {
             url: bantuanUrl,
-            type: 'GET',
+            type: 'POST',
             data: function(row) {
               return {
                   "page[size]": row.length,

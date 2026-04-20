@@ -47,6 +47,7 @@ Route::group('buku-tamu', ['namespace' => 'BukuTamu/FrontEnd'], static function 
 // Tamu
 Route::group('buku_tamu', ['namespace' => 'BukuTamu/BackEnd'], static function (): void {
     Route::get('/', 'TamuController@index')->name('buku_tamu.index');
+    Route::post('/', 'TamuController@index')->name('buku_tamu.datatables');
     Route::get('/edit/{id}', 'TamuController@edit')->name('buku_tamu.edit');
     Route::get('/detail/{id}', 'TamuController@detail')->name('buku_tamu.detail');
     Route::post('/update/{id}', 'TamuController@update')->name('buku_tamu.update');
@@ -59,8 +60,9 @@ Route::group('buku_tamu', ['namespace' => 'BukuTamu/BackEnd'], static function (
 // Kepuasan
 Route::group('buku_kepuasan', ['namespace' => 'BukuTamu/BackEnd'], static function (): void {
     Route::get('/', 'KepuasanController@index')->name('buku_kepuasan.index');
+    Route::post('/', 'KepuasanController@index')->name('buku_kepuasan.datatables');
     Route::get('/show/{id}', 'KepuasanController@show')->name('buku_kepuasan.show');
-    Route::get('/datatables_show/{id}', 'KepuasanController@datatablesShow')->name('buku_kepuasan.datatables-show');
+    Route::post('/datatables_show/{id}', 'KepuasanController@datatablesShow')->name('buku_kepuasan.datatables-show');
     Route::get('/delete/{id?}', 'KepuasanController@delete')->name('buku_kepuasan.delete');
     Route::post('/deleteAll', 'KepuasanController@deleteAll')->name('buku_kepuasan.delete-all');
 });
@@ -68,6 +70,7 @@ Route::group('buku_kepuasan', ['namespace' => 'BukuTamu/BackEnd'], static functi
 // Pertanyaan
 Route::group('buku_pertanyaan', ['namespace' => 'BukuTamu/BackEnd'], static function (): void {
     Route::get('/', 'PertanyaanController@index')->name('buku_pertanyaan.index');
+    Route::post('/', 'PertanyaanController@index')->name('buku_pertanyaan.datatables');
     Route::get('/form/{id?}', 'PertanyaanController@form')->name('buku_pertanyaan.form');
     Route::post('/insert', 'PertanyaanController@insert')->name('buku_pertanyaan.insert');
     Route::post('/update/{id?}', 'PertanyaanController@update')->name('buku_pertanyaan.update');
@@ -78,6 +81,7 @@ Route::group('buku_pertanyaan', ['namespace' => 'BukuTamu/BackEnd'], static func
 // Keperluan
 Route::group('buku_keperluan', ['namespace' => 'BukuTamu/BackEnd'], static function (): void {
     Route::get('/', 'KeperluanController@index')->name('buku_keperluan.index');
+    Route::post('/', 'KeperluanController@index')->name('buku_keperluan.datatables');
     Route::get('/form/{id?}', 'KeperluanController@form')->name('buku_keperluan.form');
     Route::post('/insert', 'KeperluanController@insert')->name('buku_keperluan.insert');
     Route::post('/update/{id?}', 'KeperluanController@update')->name('buku_keperluan.update');

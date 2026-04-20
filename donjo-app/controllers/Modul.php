@@ -72,8 +72,8 @@ class Modul extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $parent     = $this->input->get('parent') ?? 0;
-            $order      = $this->input->get('order') ?? false;
+            $parent     = $this->input->post_get('parent') ?? 0;
+            $order      = $this->input->post_get('order') ?? false;
             $canUpdate  = can('u');
             $lockParent = false;
             if ($parent) {

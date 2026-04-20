@@ -54,7 +54,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: `{{ ci_route('buku_kepuasan/datatables_show/' . $id_pertanyaan) }}`,
+                ajax: {
+                    url: `{{ ci_route('buku_kepuasan/datatables_show/' . $id_pertanyaan) }}`,
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

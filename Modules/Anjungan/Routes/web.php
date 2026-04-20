@@ -39,7 +39,7 @@
 // Anjungan > Daftar Anjungan
 Route::group('anjungan', ['namespace' => 'Anjungan/BackEnd'], static function (): void {
     Route::get('/', 'AnjunganController@index')->name('admin.anjungan.index');
-    Route::get('/datatables', 'AnjunganController@datatables')->name('admin.anjungan.datatables');
+    Route::post('/datatables', 'AnjunganController@datatables')->name('admin.anjungan.datatables');
     Route::get('/form/{id?}', 'AnjunganController@form')->name('admin.anjungan.form');
     Route::post('/insert', 'AnjunganController@insert')->name('admin.anjungan.insert');
     Route::post('/update/{id?}', 'AnjunganController@update')->name('admin.anjungan.update');
@@ -53,7 +53,7 @@ Route::group('anjungan', ['namespace' => 'Anjungan/BackEnd'], static function ()
 // Anjungan > Menu
 Route::group('anjungan_menu', ['namespace' => 'Anjungan/BackEnd'], static function (): void {
     Route::get('/', 'AnjunganMenuController@index')->name('anjungan_menu.index');
-    Route::get('/datatables', 'AnjunganMenuController@datatables')->name('anjungan_menu.datatables');
+    Route::post('/datatables', 'AnjunganMenuController@datatables')->name('anjungan_menu.datatables');
     Route::get('/form/{id?}', 'AnjunganMenuController@form')->name('anjungan_menu.form');
     Route::post('/insert', 'AnjunganMenuController@insert')->name('anjungan_menu.insert');
     Route::post('/update/{id?}', 'AnjunganMenuController@update')->name('anjungan_menu.update');
@@ -76,7 +76,7 @@ Route::group('anjungan-mandiri', ['namespace' => 'Anjungan/FrontEnd'], static fu
     Route::get('/surat/{id?}', 'AnjunganSuratController@buat')->name('anjungan.surat');
     Route::get('/surat/form/{id?}', 'AnjunganSuratController@form')->name('anjungan.surat.form');
     Route::post('/surat/kirim', 'AnjunganSuratController@kirim')->name('anjungan.surat.kirim');
-    Route::get('/permohonan', 'AnjunganSuratController@permohonan')->name('anjungan.permohonan');
+    Route::match(['GET', 'POST'], '/permohonan', 'AnjunganSuratController@permohonan')->name('anjungan.permohonan');
     Route::get('penduduk-guest', 'PendudukGuestController@create')->name('anjungan.penduduk_guest.create');
     Route::post('penduduk-guest', 'PendudukGuestController@store')->name('anjungan.penduduk_guest.store');
     Route::delete('penduduk-guest', 'PendudukGuestController@destroy')->name('anjungan.penduduk_guest.destroy');

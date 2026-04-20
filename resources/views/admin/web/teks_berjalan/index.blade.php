@@ -78,7 +78,7 @@
             serverSide: true,
             ajax: {
                 url: "{{ site_url('teks_berjalan/datatables') }}",
-                type: "GET",
+                method: 'POST',
                 data: function(req) {
                     req.status = $('#status').val();
                 }

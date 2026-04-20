@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+﻿@extends('theme::layouts.right-sidebar')
 
 @section('content')
     @include('theme::commons.asset_sweetalert')
@@ -20,7 +20,7 @@
             var route = "{{ route('api.' . $tipe . '.detail', ['slug' => $slug]) }}";
             $.ajax({
                 url: route,
-                method: 'GET',
+                method: 'POST',
                 beforeSend: function() {
                     const kelompokList = document.getElementById('kelompok-wrapper');
                     kelompokList.innerHTML = `@include('theme::commons.loading')`;
@@ -134,7 +134,7 @@
                     ordering: true,
                     ajax: {
                         url: `{{ route('api.' . $tipe . '.anggota', ['slug' => $slug]) }}`,
-                        method: 'GET',
+                        method: 'POST',
                         data: row => ({
                             "page[size]": row.length,
                             "page[number]": (row.start / row.length) + 1,

@@ -83,10 +83,10 @@ class Keuangan_manual extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $query = Keuangan::with('template')
                 ->whereRaw('length(template_uuid) <= 5')
-                ->when($this->input->get('jenis_anggaran'), static function ($query, $jenis) {
+                ->when($this->input->post_get('jenis_anggaran'), static function ($query, $jenis) {
                     $query->where('template_uuid', 'like', "{$jenis}%");
                 })
-                ->when($this->input->get('tahun_anggaran'), static function ($query, $tahun) {
+                ->when($this->input->post_get('tahun_anggaran'), static function ($query, $tahun) {
                     $query->where('tahun', $tahun);
                 }, static function ($query) {
                     $query->where('tahun', date('Y'));

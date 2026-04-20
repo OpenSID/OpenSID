@@ -117,8 +117,8 @@ class LaporanController extends AdminModulController
                 ->join($wilayah . ' AS wil_kk', 'kk.id_cluster', '=', 'wil_kk.id')
                 ->where('dtsen.config_id', identitas('id'));
 
-            $status_kesejahteraan    = $this->input->get('kd_status_kesejahteraan');
-            $peringkat_kesejahteraan = $this->input->get('kd_peringkat_kesejahteraan_keluarga');
+            $status_kesejahteraan    = $this->input->post_get('kd_status_kesejahteraan');
+            $peringkat_kesejahteraan = $this->input->post_get('kd_peringkat_kesejahteraan_keluarga');
 
             // Filter Status Kesejahteraan
             if (! empty($status_kesejahteraan)) {

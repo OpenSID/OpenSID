@@ -61,7 +61,7 @@ class Komentar extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status') ?? null;
+            $status = $this->input->post_get('status') ?? null;
 
             return datatables()->of(ModelsKomentar::with('artikel')->whereNull('parent_id')
                 ->when(in_array($status, [ModelsKomentar::ACTIVE, ModelsKomentar::NONACTIVE]), static fn ($q) => $q->where('status', $status))

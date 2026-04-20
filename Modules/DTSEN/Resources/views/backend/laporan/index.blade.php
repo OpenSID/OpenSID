@@ -278,6 +278,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('dtsen/laporan/datatables') }}",
+                    method: 'POST',
                     data: function (d) {
                         d.kd_status_kesejahteraan =
                             $('#filter_status_kesejahteraan').val();

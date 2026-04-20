@@ -75,6 +75,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('menu.datatables') }}?parent={{ $parent }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                     }

@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 
 @push('styles')
 <style>
@@ -149,7 +149,7 @@
             serverSide: true,
             ajax: {
                 url: '{{ route('api.produk-hukum') }}',
-                method: 'GET',
+                method: 'POST',
                 data: function(d) {
                     d['filter[tahun]'] = $('#filter-tahun').val();
                     d['filter[kategori]'] = $('#filter-kategori').val();

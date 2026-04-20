@@ -72,10 +72,10 @@ class Area extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status     = $this->input->get('status');
-            $subpolygon = $this->input->get('subpolygon') ?? null;
-            $polygon    = $this->input->get('polygon') ?? null;
-            $parent     = $this->input->get('parent') ?? 0;
+            $status     = $this->input->post_get('status');
+            $subpolygon = $this->input->post_get('subpolygon') ?? null;
+            $polygon    = $this->input->post_get('polygon') ?? null;
+            $parent     = $this->input->post_get('parent') ?? 0;
 
             return datatables()->of(AreaModel::status($status)
                 ->when($polygon, static fn ($q) => $q->whereIn('ref_polygon', static fn ($q) => $q->select('id')->from('polygon')->whereParrent($polygon)))

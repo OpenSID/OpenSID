@@ -61,7 +61,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('bumindes_kader.datatables') }}"
+                    url: "{{ ci_route('bumindes_kader.datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'ceklist',

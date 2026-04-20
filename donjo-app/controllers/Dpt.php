@@ -79,7 +79,7 @@ class Dpt extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $tglPemilihan = $this->input->get('tgl_pemilihan') ?? date('d-m-Y');
+            $tglPemilihan = $this->input->post_get('tgl_pemilihan') ?? date('d-m-Y');
 
             return datatables()->of(
                 $this->sumberData()
@@ -131,7 +131,7 @@ class Dpt extends Admin_Controller
 
     private function sumberData()
     {
-        $tglPemilihan = $this->input->get('tgl_pemilihan') ?? date('d-m-Y');
+        $tglPemilihan = $this->input->post_get('tgl_pemilihan') ?? date('d-m-Y');
 
         // Validate date format d-m-Y
         if (! preg_match('/^\d{2}-\d{2}-\d{4}$/', $tglPemilihan)) {
@@ -144,11 +144,11 @@ class Dpt extends Admin_Controller
             $tglPemilihan = date('d-m-Y');
         }
 
-        $sex            = $this->input->get('sex');
-        $dusun          = $this->input->get('dusun');
-        $rw             = $this->input->get('rw');
-        $rt             = $this->input->get('rt');
-        $advanceSearch  = $this->input->get('advanced');
+        $sex            = $this->input->post_get('sex');
+        $dusun          = $this->input->post_get('dusun');
+        $rw             = $this->input->post_get('rw');
+        $rt             = $this->input->post_get('rt');
+        $advanceSearch  = $this->input->post_get('advanced');
         $umurFilter     = $advanceSearch['umur'];
         $filterKategori = [];
         $tagIdFilter    = null;

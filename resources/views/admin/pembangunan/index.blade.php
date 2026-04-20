@@ -66,6 +66,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('admin_pembangunan.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.tahun = $('#tahun').val();
                     }

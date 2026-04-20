@@ -72,7 +72,7 @@ class Admin_pembangunan extends Admin_Controller
 
     public function datatables()
     {
-        $tahun = $this->input->get('tahun') ?? null;
+        $tahun = $this->input->post_get('tahun') ?? null;
 
         if ($this->input->is_ajax_request()) {
             return datatables()->of(Pembangunan::with(['pembangunanDokumentasi', 'wilayah', 'pamong.penduduk'])->when($tahun, static fn ($q) => $q->where('tahun_anggaran', $tahun)))

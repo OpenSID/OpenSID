@@ -92,7 +92,7 @@
                 ],
                 'ajax': {
                     'url': "{{ site_url('lapak_admin/pelapak') }}",
-                    'method': 'get',
+                    'method': 'POST',
                     'data': function(d) {
                         d.status = $('#status').val();
                     }

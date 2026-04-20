@@ -328,6 +328,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('penduduk.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status_penduduk = $('#status_penduduk').val();
                         req.status_dasar = $('#status_dasar').val();

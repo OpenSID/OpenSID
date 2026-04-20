@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 
 @push('styles')
 <style>
@@ -98,7 +98,7 @@
             serverSide: true,
             ajax: {
                 url: "{{ ci_route('internal_api.arsip') }}",
-                type: "GET",
+                type: 'POST',
                 dataSrc: function (json) {
                     json.recordsTotal = json.meta.pagination.total;
                     json.recordsFiltered = json.meta.pagination.total;

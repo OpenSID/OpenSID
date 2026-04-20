@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -126,7 +126,7 @@
             serverSide: true,
             ajax: {
                 url: `{{ route('api.informasi-publik') }}`,
-                method: 'GET',
+                method: 'POST',
                 data: d => ({
                     "page[size]": d.length,
                     "page[number]": (d.start / d.length) + 1,

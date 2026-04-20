@@ -1,4 +1,4 @@
-@extends('theme::template')
+﻿@extends('theme::template')
 
 @push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
@@ -896,7 +896,7 @@
                 return new Promise((resolve, reject) => {
                     $.ajax({
                         url: this.config.apiUrl,
-                        type: 'GET',
+                        type: 'POST',
                         dataType: 'json',
                         timeout: 30000,
                         success: function(response) {

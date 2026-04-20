@@ -127,8 +127,8 @@ class Surat_master extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $kunci = $this->input->get('status');
-            $jenis = $this->input->get('jenis');
+            $kunci = $this->input->post_get('status');
+            $jenis = $this->input->post_get('jenis');
 
             return datatables((new FormatSurat())->jenis($jenis)->kunci($kunci))
                 ->addIndexColumn()

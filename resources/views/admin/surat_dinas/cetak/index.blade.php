@@ -72,6 +72,7 @@
             var TableData = $('#tabeldata').DataTable({
                 ajax: {
                     url: "{{ ci_route('surat_dinas_cetak.datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

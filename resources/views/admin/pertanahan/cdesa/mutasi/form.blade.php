@@ -572,7 +572,7 @@
                 var id_peta = $(this).val();
                 $.ajax({
                         url: '{{ ci_route('data_persil.area_map') }}',
-                        type: 'GET',
+                        method: 'POST',
                         data: {
                             id: id_peta
                         },

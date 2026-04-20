@@ -88,6 +88,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('kehadiran_rekapitulasi.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.daterange = $('#date-range').val();
                         req.status = $('#status').val();
@@ -173,7 +174,7 @@
             $(document).on('click', '#excel', function(e) {
                 $.ajax({
                     url: "{{ ci_route('kehadiran_rekapitulasi.ekspor') }}",
-                    type: "GET",
+                    method: 'POST',
                     data: {
                         daterange: $('#date-range').val(),
                         status: $('#status').val(),

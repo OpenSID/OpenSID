@@ -73,7 +73,7 @@ class AnjunganMenuController extends AnjunganBaseController
     public function datatables()
     {
         if (request()->ajax()) {
-            $order = $this->input->get('order') ?? false;
+            $order = $this->input->post_get('order') ?? false;
 
             return datatables()->of(Menu::when(! $order, static fn ($q) => $q->orderBy('urut')))
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')

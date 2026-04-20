@@ -615,7 +615,7 @@
                                 "Authorization": `Bearer ${token}`,
                                 "X-Requested-With": `XMLHttpRequest`,
                             },
-                            method: 'post',
+                            method: 'GET',
                         })
                         .then(response => {
                             if (!response.ok) {
@@ -696,7 +696,7 @@
                         "Authorization": `Bearer ` + token_layanan,
                         "X-Requested-With": `XMLHttpRequest`,
                     },
-                    type: 'Post',
+                    type: 'GET',
                 })
                 .done(function(response) {
                     let data = {

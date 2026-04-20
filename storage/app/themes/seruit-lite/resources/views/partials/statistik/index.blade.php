@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 
 @push('styles')
     <style>
@@ -271,7 +271,7 @@
                 $('#peserta_program').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: { url: `{{ ci_route('internal_api.peserta_bantuan', $key) }}?filter[tahun]={{ $selected_tahun ?? '' }}`, method: 'GET', dataSrc: json => {
+                    ajax: { url: `{{ ci_route('internal_api.peserta_bantuan', $key) }}?filter[tahun]={{ $selected_tahun ?? '' }}`, method: 'POST', dataSrc: json => {
                         json.recordsTotal = json.meta.pagination.total;
                         json.recordsFiltered = json.meta.pagination.total;
                         return json.data;

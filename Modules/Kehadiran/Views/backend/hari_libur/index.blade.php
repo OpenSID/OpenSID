@@ -53,7 +53,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('kehadiran_hari_libur.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('kehadiran_hari_libur.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

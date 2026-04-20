@@ -60,7 +60,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ site_url('sinergi_program/datatables') }}",
-                    type: "GET",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                     }

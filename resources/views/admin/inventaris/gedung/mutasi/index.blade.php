@@ -66,6 +66,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('inventaris_gedung_mutasi.datatables') }}",
+                    method: 'POST',
                     data: function(req) {}
                 },
                 columns: [{

@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 @push('styles')
 <style>
     .dataTables_wrapper .dataTables_length,
@@ -70,7 +70,7 @@
             searching: false,
             ajax: {
                 url: '{{ route('api.analisis.jawaban') }}',
-                method: 'GET',
+                method: 'POST',
                 data: d => ({
                     ...@json($params),
                     "page[size]": d.length,

@@ -448,7 +448,7 @@ class Penduduk extends Admin_Controller
     public function dokumen_datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $idPend = $this->input->get('id_pend');
+            $idPend = $this->input->post_get('id_pend');
 
             return datatables()->of(Dokumen::with(['jenisDokumen'])->whereIdPend($idPend))
                 ->addColumn('ceklist', static function ($row) {
@@ -1813,17 +1813,17 @@ class Penduduk extends Admin_Controller
 
     private function sumberData()
     {
-        $statusDasar     = $this->input->get('status_dasar') ?? null;
-        $statusPenduduk  = $this->input->get('status_penduduk') ?? null;
-        $sex             = $this->input->get('jenis_kelamin') ?? null;
-        $dusun           = $this->input->get('dusun') ?? null;
-        $rw              = $this->input->get('rw') ?? null;
-        $rt              = $this->input->get('rt') ?? null;
-        $nikSementara    = $this->input->get('nik_sementara') ?? null;
-        $kumpulanNIK     = $this->input->get('kumpulan_nik') ?? null;
-        $bantuan         = $this->input->get('bantuan') ?? null;
-        $statistikFilter = $this->input->get('statistikfilter') ?? null;
-        $advanceSearch   = $this->input->get('advancesearch') ?? null;
+        $statusDasar     = $this->input->post_get('status_dasar') ?? null;
+        $statusPenduduk  = $this->input->post_get('status_penduduk') ?? null;
+        $sex             = $this->input->post_get('jenis_kelamin') ?? null;
+        $dusun           = $this->input->post_get('dusun') ?? null;
+        $rw              = $this->input->post_get('rw') ?? null;
+        $rt              = $this->input->post_get('rt') ?? null;
+        $nikSementara    = $this->input->post_get('nik_sementara') ?? null;
+        $kumpulanNIK     = $this->input->post_get('kumpulan_nik') ?? null;
+        $bantuan         = $this->input->post_get('bantuan') ?? null;
+        $statistikFilter = $this->input->post_get('statistikfilter') ?? null;
+        $advanceSearch   = $this->input->post_get('advancesearch') ?? null;
 
         $idCluster = $rt ? [$rt] : [];
 

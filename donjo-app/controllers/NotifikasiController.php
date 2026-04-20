@@ -57,14 +57,14 @@ class NotifikasiController extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $query = auth('admin')->user()->notifications()
-                ->when($this->input->get('status') === 'read', static function ($q) {
+                ->when($this->input->post_get('status') === 'read', static function ($q) {
                     $q->whereNotNull('read_at');
                 })
-                ->when($this->input->get('status') === 'unread', static function ($q) {
+                ->when($this->input->post_get('status') === 'unread', static function ($q) {
                     $q->whereNull('read_at');
                 })
-                ->when($this->input->get('kategori'), function ($q) {
-                    $q->where('data->category', $this->input->get('kategori'));
+                ->when($this->input->post_get('kategori'), function ($q) {
+                    $q->where('data->category', $this->input->post_get('kategori'));
                 })
                 ->orderBy('created_at', 'desc');
 

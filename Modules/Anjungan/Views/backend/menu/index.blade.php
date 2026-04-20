@@ -55,7 +55,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('anjungan_menu.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('anjungan_menu.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'drag-handle',
                         class: 'padat',

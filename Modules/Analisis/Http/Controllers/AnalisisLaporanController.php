@@ -210,11 +210,11 @@ class AnalisisLaporanController extends AdminModulController
 
     private function sumberData()
     {
-        $dusun       = $this->input->get('dusun') ?? null;
-        $rw          = $this->input->get('rw') ?? null;
-        $rt          = $this->input->get('rt') ?? null;
-        $klasifikasi = $this->input->get('klasifikasi') ?? null;
-        $filters     = $this->input->get('filters') ?? null;
+        $dusun       = $this->input->post_get('dusun') ?? null;
+        $rw          = $this->input->post_get('rw') ?? null;
+        $rt          = $this->input->post_get('rt') ?? null;
+        $klasifikasi = $this->input->post_get('klasifikasi') ?? null;
+        $filters     = $this->input->post_get('filters') ?? null;
 
         $idCluster = $rt ? [$rt] : [];
 

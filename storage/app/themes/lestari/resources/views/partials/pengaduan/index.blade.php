@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 
 @section('content')
 	@include('theme::partials.header')
@@ -46,7 +46,7 @@
             <div class="modal-dialog">
                 <div class="modal-content brd-10">
                     <div class="modal-header bg-blue" style="border-radius:10px 10px 0 0;">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
                         <h4 class="modal-title"><i class="fa fa-file"></i> <span id="pengaduan-judul"></span></h4>
                     </div>
                     <div class="modal-body">
@@ -65,7 +65,7 @@
             <div class="modal-dialog">
                 <div class="modal-content brd-10">
                     <div class="modal-header bg-blue" style="border-radius:10px 10px 0 0;">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
                         <h4 class="modal-title"><i class="fa fa-pencil"></i> Buat Pengaduan Baru</h4>
                     </div>
                     <form action="{{ $form_action }}" method="POST" enctype="multipart/form-data">
@@ -183,7 +183,7 @@
                 let _filterString = _filter.length ? _filter.join('&') : ''
                 $.ajax({
                     url: `{{ ci_route('internal_api.pengaduan') }}?sort=-created_at&page[number]=${pageNumber}&page[size]=${pageSize}&${_filterString}`,
-                    type: "GET",
+                    type: 'POST',
                     beforeSend: function() {
                         const pengaduanList = document.getElementById('pengaduan-list');
                         pengaduanList.innerHTML = `<div class="fa fa-circle-o-notch fa-spin fa-4x" role="status">

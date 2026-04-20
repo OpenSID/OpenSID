@@ -66,7 +66,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('sms.pending.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('sms.pending.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

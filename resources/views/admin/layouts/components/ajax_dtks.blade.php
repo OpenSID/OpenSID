@@ -1,7 +1,7 @@
 <script>
     function ajax_save_dtks(url, data_form, callback_success = null, callback_fail = null, custom_config = {}) {
         let final_config = {
-            type: 'POST',
+            method: 'POST',
             url: url,
             data: data_form,
             ...custom_config

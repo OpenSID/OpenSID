@@ -76,11 +76,11 @@ class Polygon extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status');
+            $status = $this->input->post_get('status');
 
-            $parent = $this->input->get('parent') ?? $this->parent;
+            $parent = $this->input->post_get('parent') ?? $this->parent;
 
-            $tipe = $this->input->get('tipe') ?? $this->tipe;
+            $tipe = $this->input->post_get('tipe') ?? $this->tipe;
 
             return datatables()->of(PolygonModel::status($status)->whereParrent($parent)->whereTipe($tipe))
                 ->addColumn('ceklist', static function ($row) {

@@ -136,6 +136,7 @@
             serverSide: true,
             ajax: {
                 url: urlDatatables,
+                method: 'POST',
                 data: function(req) {
                     req.tahun = $('#tahun').val();
                     req.bulan = $('#bulan').val();
@@ -244,6 +245,7 @@
             serverSide: true,
             ajax: {
                 url: "{{ ci_route('bumindes_penduduk_mutasi.datatablesHapus') }}",
+                method: 'POST',
                 data: function(req) {
                     req.tahun = $('#tahun').val();
                     req.bulan = $('#bulan').val();

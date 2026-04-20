@@ -196,6 +196,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('penduduk_log.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.kode_peristiwa = $('#kode_peristiwa').val();
                         req.tahun = $('#tahun').val();

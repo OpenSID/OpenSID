@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 
 @push('styles')
 <style>
@@ -47,7 +47,7 @@
                     <th rowspan="2" class="p-3 text-left text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Kode / Reg.</th>
                     <th rowspan="2" class="p-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Kondisi (B,KB,RB)</th>
                     <th rowspan="2" class="p-3 text-left text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Konstruksi</th>
-                    <th rowspan="2" class="p-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Luas (M²)</th>
+                    <th rowspan="2" class="p-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Luas (MÂ²)</th>
                     <th colspan="2" class="p-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Dokumen</th>
                     <th rowspan="2" class="p-3 text-left text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Status Tanah</th>
                     <th rowspan="2" class="p-3 text-left text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Asal</th>
@@ -88,7 +88,7 @@
             serverSide: true,
             ajax: {
                 url: `{{ ci_route('internal_api.inventaris-jalan') }}`,
-                method: 'GET',
+                method: 'POST',
                 dataSrc: function(json) {
                     json.recordsTotal = json.meta.pagination.total;
                     json.recordsFiltered = json.meta.pagination.total;

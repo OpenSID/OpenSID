@@ -74,6 +74,7 @@
                 info: false,
                 ajax: {
                     url: `{{ ci_route('rtm.datables_anggota') }}/${e.params.data.id}`,
+                    method: 'POST',
                     dataSrc: function(data) {
                         if (data.data == null) {
                             $('#keluarga').hide();

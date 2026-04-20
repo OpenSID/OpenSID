@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+﻿@extends('theme::layouts.right-sidebar')
 @include('theme::commons.asset_highcharts')
 
 @section('content')
@@ -114,7 +114,7 @@
 								order: [],
 								ajax: {
 									url: bantuanUrl,
-									type: 'GET',
+									type: 'POST',
 									data: function(row) {
 										return {
 											"page[size]": row.length,
@@ -303,7 +303,7 @@
 
 					$.ajax({
 						url: `{{ ci_route('internal_api.statistik', $key) }}?tahun={{ $selected_tahun ?? '' }}`,
-						method: 'get',
+						method: 'POST',
 						data: {},
 						beforeSend: function() {
 							$('#showData').hide()

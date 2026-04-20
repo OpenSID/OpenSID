@@ -112,7 +112,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('laporan_inventaris.datatables') }}"
+                    url: "{{ ci_route('laporan_inventaris.datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

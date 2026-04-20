@@ -283,7 +283,7 @@
 
             $.ajax({
                 url: `{{ route('anjungan.surat.kirim', $permohonan['id']) }}?preview=cetak`,
-                type: 'POST',
+                method: 'POST',
                 data: $("#validasi").serialize(),
                 xhrFields: {
                     responseType: 'blob'

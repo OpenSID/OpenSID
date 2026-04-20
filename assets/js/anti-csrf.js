@@ -156,6 +156,10 @@ $.ajaxPrefilter(function (opts) {
 
     if (opts.data instanceof FormData) {
         opts.data.append(csrfParam, token);
+    } else if (opts.data !== null && typeof opts.data === 'object') {
+        // DataTables (dan jQuery AJAX lain) mengirim data sebagai object —
+        // jangan di-stringify, tambahkan property langsung
+        opts.data[csrfParam] = token;
     } else {
         const existing = opts.data ? `${opts.data}&` : "";
         opts.data = `${existing}${csrfParam}=${encodeURIComponent(token)}`;

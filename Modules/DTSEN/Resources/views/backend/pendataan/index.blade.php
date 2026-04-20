@@ -247,7 +247,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('dtsen/pendataan/datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('dtsen/pendataan/datatables') }}",
+                    method: 'POST',
+                },
                 columns: [
                     { data: 'ceklist', orderable: false, searchable: false },
                     { data: 'DT_RowIndex', orderable: false, searchable: false },

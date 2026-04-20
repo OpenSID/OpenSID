@@ -50,7 +50,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('surat_mohon.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('surat_mohon.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+﻿@extends('theme::layouts.right-sidebar')
 
 @section('content')
 	@include('theme::partials.header')
@@ -48,7 +48,7 @@
                 ordering: true,
                 ajax: {
                     url: `{{ ci_route('internal_api.arsip') }}`,
-                    method: 'get',
+                    method: 'POST',
                     data: function(row) {
                         return {
                             "page[size]": row.length,

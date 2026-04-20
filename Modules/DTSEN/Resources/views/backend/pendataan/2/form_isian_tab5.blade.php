@@ -563,7 +563,7 @@
                 let selajutnya = $(this).text().includes("Selanjutnya");
                 
                 $.ajax({
-                    type: 'POST',
+                    method: 'POST',
                     url: "{{ route('dtsen_pendataan.save', $dtsen->id) }}",
                     data: form,
                     dataType: 'json'

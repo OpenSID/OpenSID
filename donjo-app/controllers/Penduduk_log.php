@@ -438,15 +438,15 @@ class Penduduk_log extends Admin_Controller
 
     private function sumberData()
     {
-        $kodePeristiwa   = $this->input->get('kode_peristiwa') ?? null;
-        $bulan           = $this->input->get('bulan') ?? null;
-        $tahun           = $this->input->get('tahun') ?? null;
-        $sex             = $this->input->get('jenis_kelamin') ?? null;
-        $dusun           = $this->input->get('dusun') ?? null;
-        $rw              = $this->input->get('rw') ?? null;
-        $rt              = $this->input->get('rt') ?? null;
-        $agama           = $this->input->get('agama') ?? null;
-        $statistikFilter = $this->input->get('statistikfilter') ?? null;
+        $kodePeristiwa   = $this->input->post_get('kode_peristiwa') ?? null;
+        $bulan           = $this->input->post_get('bulan') ?? null;
+        $tahun           = $this->input->post_get('tahun') ?? null;
+        $sex             = $this->input->post_get('jenis_kelamin') ?? null;
+        $dusun           = $this->input->post_get('dusun') ?? null;
+        $rw              = $this->input->post_get('rw') ?? null;
+        $rt              = $this->input->post_get('rt') ?? null;
+        $agama           = $this->input->post_get('agama') ?? null;
+        $statistikFilter = $this->input->post_get('statistikfilter') ?? null;
 
         if ($statistikFilter) {
             $dusun  = $statistikFilter['dusun'];

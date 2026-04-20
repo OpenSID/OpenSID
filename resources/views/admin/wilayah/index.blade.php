@@ -91,6 +91,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('wilayah.datatables') }}?parent={{ $parent }}&level={{ $level }}",
+                    method: 'POST',
                     data: function(req) {}
                 },
                 columns: [{

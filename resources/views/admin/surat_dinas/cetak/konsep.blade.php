@@ -90,7 +90,7 @@
             })
             $.ajax({
                     url: `{{ $aksi_cetak }}`,
-                    type: 'POST',
+                    method: 'POST',
                     xhrFields: {
                         responseType: 'blob'
                     },
@@ -185,7 +185,7 @@
 
                 $.ajax({
                     url: `{{ $aksi_cetak . '/true' }}`,
-                    type: 'POST',
+                    method: 'POST',
                     xhrFields: {
                         responseType: 'blob'
                     },

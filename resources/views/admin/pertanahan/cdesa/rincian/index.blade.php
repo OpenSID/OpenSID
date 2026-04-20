@@ -105,7 +105,10 @@
                 serverSide: true,
                 paging: false,
                 searching: false,
-                ajax: "{{ route('cdesa.datatables_rincian', $rincian->id) }}",
+                ajax: {
+                    url: "{{ route('cdesa.datatables_rincian', $rincian->id) }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',

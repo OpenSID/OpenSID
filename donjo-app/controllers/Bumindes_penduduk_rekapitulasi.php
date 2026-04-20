@@ -156,8 +156,8 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
     private function sumberData()
     {
         $filters = [
-            'tahun' => empty($this->input->get('tahun')) ? null : $this->input->get('tahun'),
-            'bulan' => empty($this->input->get('bulan')) ? null : $this->input->get('bulan'),
+            'tahun' => empty($this->input->post_get('tahun')) ? null : $this->input->post_get('tahun'),
+            'bulan' => empty($this->input->post_get('bulan')) ? null : $this->input->post_get('bulan'),
         ];
 
         return LogPenduduk::rekapitulasiList($filters)->get()->toArray();

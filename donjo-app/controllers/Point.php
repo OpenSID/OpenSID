@@ -60,9 +60,9 @@ class Point extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status   = $this->input->get('status');
-            $root     = $this->input->get('root') ?? null;
-            $subpoint = $this->input->get('subpoint') ?? null;
+            $status   = $this->input->post_get('status');
+            $root     = $this->input->post_get('root') ?? null;
+            $subpoint = $this->input->post_get('subpoint') ?? null;
 
             return datatables()->of(
                 ModelsPoint::when(

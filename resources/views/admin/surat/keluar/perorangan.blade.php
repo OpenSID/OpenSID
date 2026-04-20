@@ -110,6 +110,7 @@
             var TableData = $('#tabeldata').DataTable({
                 ajax: {
                     url: "{{ ci_route('keluar.perorangan_datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

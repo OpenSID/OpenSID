@@ -65,7 +65,7 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
 
     public function datatables()
     {
-        $tahun        = $this->input->get('tahun') ?? null;
+        $tahun        = $this->input->post_get('tahun') ?? null;
         $satuan_waktu = SatuanWaktuEnum::all();
 
         if ($this->input->is_ajax_request()) {
