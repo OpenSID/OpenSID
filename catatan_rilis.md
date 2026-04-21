@@ -32,3 +32,4 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 
 ### TEKNIS
 1. [#10908](https://github.com/OpenSID/OpenSID/issues/10908) Tema wira menjadi tema default pada instalasi baru aplikasi OpenSID Premium dan juga penambahan tema Lestari dan Seruit Lite selama berstatus pelanggan premium.
+2. [#11076](https://github.com/OpenSID/OpenSID/issues/11076) Penambahan halaman peringatan ketika ionCube loader belum terpasang.
