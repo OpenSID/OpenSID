@@ -168,7 +168,7 @@ class DTSENRegsosEk2022k
             ->where('id_dtsen', $dtsen->id)
             ->delete();
 
-        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(SHDKEnum::all());
+        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(SHDKEnum::getData());
         $ref_eloquent_collection['kia']                = KIA::whereIn('ibu_id', $ids_anggota)
             ->orWhereIn('anak_id', $ids_anggota)->get();
 
@@ -421,7 +421,7 @@ class DTSENRegsosEk2022k
 
         $this->saveRelatedAttribute($dtsen);
 
-        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(SHDKEnum::all());
+        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(SHDKEnum::getData());
         $daftar_sakit_menahun                          = $this->cacheTemporaryModelGet(SakitMenahunEnum::all());
         $daftar_pendidikan                             = $this->cacheTemporaryModelGet(Pendidikan::class);
         $ref_eloquent_collection['kia']                = KIA::whereIn('ibu_id', $dtsen->keluarga->anggota->pluck('id'))
@@ -2262,6 +2262,9 @@ class DTSENRegsosEk2022k
     protected function getIndexPilihan(array $daftar_pilihan, $search_value)
     {
         return collect($daftar_pilihan)->search(static function ($item, $key) use ($search_value): bool {
+            if (empty($search_value)) {
+                return false;
+            }
             $first   = strtolower($item);
             $second  = strtolower($search_value);
             $similar = similar_text($first, $second);
