@@ -41,6 +41,7 @@ use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusRekamEnum;
+use App\Enums\UmurEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\KIA;
@@ -557,15 +558,16 @@ class DTSENRegsosEk2022k
         // }
         // 0:tidak punya, 1:akta lahir, 2:kia, 4:ktp
         $total = 0;
-        if ($agt->akta_lahir) {
-            $total++;
+        if ($agt->akta_lahir || $agt->umur < UmurEnum::WAJIB_KTP) {
+            $total += 1;
         }
+
         $is_ibu_anak_punya_data_kia = $ref_eloquent_collection['kia']->filter(static fn ($item): bool => $item->ibu_id == $agt->id || $item->anak_id == $agt->id);
-        $ref_ktp_el                 = StatusRekamEnum::all();
-        if ($is_ibu_anak_punya_data_kia->count() > 0 || $agt->ktp_el == $ref_ktp_el['kia']) {
+        if ($is_ibu_anak_punya_data_kia->count() > 0 || $agt->ktp_el == StatusRekamEnum::KIA || $agt->umur < UmurEnum::WAJIB_KTP) {
             $total += 2;
         }
-        if ($agt->ktp_el == $ref_ktp_el['ktp-el']) {
+
+        if ($agt->ktp_el == StatusRekamEnum::KTP_EL || $agt->umur >= UmurEnum::WAJIB_KTP) {
             $total += 4;
         }
         $dtsen_anggota->kd_punya_kartuid = $total; // 411
