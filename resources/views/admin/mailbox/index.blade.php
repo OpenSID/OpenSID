@@ -94,6 +94,7 @@
                     serverSide: true,
                     ajax: {
                         url: "{{ ci_route('mailbox.datatables') }}?tipe={{ $kategori }}",
+                        method: 'POST',
                         data: function(req) {
                             req.status = $('#status').val();
                             req.nik = $('#nik').val();

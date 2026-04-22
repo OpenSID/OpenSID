@@ -39,7 +39,7 @@ Route::group('dtsen', static function (): void {
     Route::get('/', 'DTSEN/BackEnd/PendataanController@index');
     Route::group('/pendataan', ['namespace' => 'DTSEN/BackEnd'], static function (): void {
         Route::get('/', 'PendataanController@index')->name('dtsen_pendataan.index');
-        Route::get('/datatables', 'PendataanController@datatables')->name('dtsen_pendataan.datatables');
+        Route::post('/datatables', 'PendataanController@datatables')->name('dtsen_pendataan.datatables');
         Route::get('/listAnggota/{id_dtsen}', 'PendataanController@listAnggota')->name('dtsen_pendataan.listAnggota');
         Route::get('/loadRecentInfo', 'PendataanController@loadRecentInfo')->name('dtsen_pendataan.loadRecentInfo');
         Route::get('/loadRecentImpor', 'PendataanController@loadRecentImpor')->name('dtsen_pendataan.loadRecentImpor');
@@ -56,6 +56,6 @@ Route::group('dtsen', static function (): void {
 
     Route::group('/laporan', ['namespace' => 'DTSEN/BackEnd'], static function (): void {
         Route::get('/', 'LaporanController@index')->name('dtsen_laporan.index');
-        Route::get('/datatables', 'LaporanController@datatables')->name('dtsen_laporan.datatables');
+        Route::post('/datatables', 'LaporanController@datatables')->name('dtsen_laporan.datatables');
     });
 });

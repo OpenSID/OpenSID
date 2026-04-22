@@ -73,6 +73,7 @@
             var TableData = $('#tabeldata').DataTable({
                 ajax: {
                     url: "{{ ci_route('surat.datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

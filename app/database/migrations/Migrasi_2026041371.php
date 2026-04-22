@@ -35,11 +35,9 @@
  *
  */
 
+use App\Models\Theme;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-use App\Models\Theme;
 
 return new class () extends Migration {
     use Migrator;
@@ -79,13 +77,13 @@ return new class () extends Migration {
     {
         if ($theme = Theme::where('slug', 'natra')->first()) {
             $theme->delete();
-            
+
             // HIGH: Wrap theme_scan dengan error handling
             try {
                 theme_scan();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // Log error tapi jangan crash migration
-                \Log::error('Theme scan failed after deleting natra: ' . $e->getMessage());
+                Log::error('Theme scan failed after deleting natra: ' . $e->getMessage());
                 // Atau re-throw jika critical
                 // throw new \Exception('Gagal update theme cache: ' . $e->getMessage());
             }

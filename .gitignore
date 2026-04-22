@@ -12,7 +12,6 @@ sftp-config.json
 *.sql.gz
 mitra
 generate-route.php
-index.php
 
 # Abaikan file cache milik phpintel (plugin sublime text)
 .phpintel/*
@@ -133,3 +132,5 @@ tests/vendor/
 .phpunit.cache/
 tests/.phpunit.cache/
 /storage/app/temp
+/plans
+tests/e2e/.env

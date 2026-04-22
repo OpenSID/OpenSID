@@ -63,7 +63,7 @@ class PemerintahTransformer extends TransformerAbstract
         $isHariLiburNasional = HariLibur::liburNasional()->exists();
         $isJamLibur          = JamKerja::libur()->exists();
 
-        $tampilkanStatusKehadiran = (!$isJamLibur && !$isHariLiburNasional)
+        $tampilkanStatusKehadiran = (! $isJamLibur && ! $isHariLiburNasional)
             || setting('tampilkan_status_kehadiran_pada_hari_libur');
 
         return [
@@ -73,7 +73,7 @@ class PemerintahTransformer extends TransformerAbstract
             'nama_jabatan' => $pemerintah->status_pejabat == StatusEnum::YA
                 ? setting('sebutan_pj_kepala_desa') . ' ' . $pemerintah->jabatan->nama
                 : $pemerintah->jabatan->nama,
-            'tupoksi'      => $pemerintah->jabatan->tupoksi ?? null,
+            'tupoksi' => $pemerintah->jabatan->tupoksi ?? null,
 
             // Bagan untuk organisasi charts
             'atasan'        => $pemerintah->atasan ? (int) $pemerintah->atasan : null,
@@ -87,7 +87,7 @@ class PemerintahTransformer extends TransformerAbstract
             'media_sosial' => $pemerintah->media_sosial,
 
             // Data kehadiran
-            'status_kehadiran' => !$isHariLiburNasional
+            'status_kehadiran' => ! $isHariLiburNasional
                 ? ucwords($kehadiran->status_kehadiran ?? 'Belum Rekam Kehadiran')
                 : 'Hari Libur',
 
@@ -106,7 +106,7 @@ class PemerintahTransformer extends TransformerAbstract
     private function urlAsset(?string $foto = null, ?string $defaultFoto = null)
     {
         return URL::signedRoute('storage.desa', [
-            'path'        => (string) Str::of(LOKASI_USER_PICT)
+            'path' => (string) Str::of(LOKASI_USER_PICT)
                 ->remove('desa/')
                 ->append($foto),
             'default'     => "images/pengguna/{$defaultFoto}",

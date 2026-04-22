@@ -64,7 +64,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('anjungan.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('anjungan.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

@@ -91,7 +91,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('analisis_periode.' . $analisis_master['id'] . '.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('analisis_periode.' . $analisis_master['id'] . '.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

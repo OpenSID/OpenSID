@@ -278,6 +278,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('dtsen/laporan/datatables') }}",
+                    method: 'POST',
                     data: function (d) {
                         d.kd_status_kesejahteraan =
                             $('#filter_status_kesejahteraan').val();
@@ -303,7 +304,7 @@
                     { data: 'rw', name: 'wil_kk.rw' },
                     { data: 'rt', name: 'wil_kk.rt' },
 
-                    { data: 'petugas', name: 'dtsen.nama_petugas_pencacahan' },
+                    { data: 'petugas', name: 'dtsen.nama_ppl' },
                     { data: 'updated_at', name: 'dtsen.updated_at' }
                 ],
                 order: [

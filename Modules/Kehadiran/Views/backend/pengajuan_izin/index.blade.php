@@ -77,6 +77,7 @@ $(document).ready(function() {
         serverSide: true,
         ajax: {
             url: "{{ ci_route('kehadiran_pengajuan_izin.datatables') }}",
+            method: 'POST',
             data: function(d) {
                 d.status = $('#filter_status').val();
                 d.jenis_izin = $('#filter_jenis').val();

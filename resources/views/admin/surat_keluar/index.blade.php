@@ -74,6 +74,7 @@
                 ],
                 ajax: {
                     url: "{{ ci_route('surat_keluar.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.tahun = $('#tahun').val();
                     }

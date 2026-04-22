@@ -139,7 +139,7 @@
 
                 $.ajax({
                     url: `${url}?${queryString}`,
-                    type: "GET",
+                    method: 'POST',
                     data: {
                         status: $('#status').val(),
                         tanggal: $('#date-range').val(),
@@ -156,6 +156,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('buku_tamu') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.tanggal = $('#date-range').val();
                         // selalu kirimkan nilai status dari select ('' berarti semua)

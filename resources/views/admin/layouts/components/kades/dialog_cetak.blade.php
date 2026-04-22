@@ -68,16 +68,16 @@
     });
 
     function cetak() {
-        // Retrieve DataTable parameters
         let params = $('#tabeldata').DataTable().ajax.params();
 
-        // Convert params object to query string
-        let queryString = $.param(params);
+        // Pindahkan params ke POST body (hindari URL panjang → WAF)
+        $('#validasi').find('.dt-param').remove();
+        new URLSearchParams($.param(params)).forEach(function(value, key) {
+            $('#validasi').append($('<input>', { type: 'hidden', name: key, value: value, class: 'dt-param' }));
+        });
 
-        // Set form action with query parameters
-        $("#validasi").attr("action", `{{ $form_action }}?${queryString}`);
-
-        // Hide modal
+        $("#validasi").attr("action", `{{ $form_action }}`);
+        addCsrfField($('#validasi')[0]);  // tambah CSRF token
         $('#modalBox').modal('hide');
     }
 </script>

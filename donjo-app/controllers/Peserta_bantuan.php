@@ -146,8 +146,8 @@ class Peserta_bantuan extends Admin_Controller
     public function datatable_peserta()
     {
         if ($this->input->is_ajax_request()) {
-            $cat  = $this->input->get('cat');
-            $id   = $this->input->get('id');
+            $cat  = $this->input->post_get('cat');
+            $id   = $this->input->post_get('id');
             $data = BantuanPeserta::getPesertaProgram($cat, $id)['programkerja'];
 
             return datatables()->of($data)

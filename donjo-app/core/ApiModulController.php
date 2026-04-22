@@ -35,8 +35,6 @@
  *
  */
 
-use App\Traits\ModulTrait;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 abstract class ApiModulController extends Api_Controller

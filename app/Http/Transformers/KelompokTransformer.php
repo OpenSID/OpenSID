@@ -38,7 +38,6 @@
 namespace App\Http\Transformers;
 
 use App\Models\Kelompok;
-use App\Http\Transformers\KelompokAnggotaTransformer;
 use League\Fractal\TransformerAbstract;
 
 class KelompokTransformer extends TransformerAbstract
@@ -56,9 +55,7 @@ class KelompokTransformer extends TransformerAbstract
             'logo'            => $kelompok->url_logo,
             'nama_ketua'      => $kelompok->nama_ketua,
             'slug'            => $kelompok->slug,
-            'pengurus'        => $kelompok->pengurus->map(function ($item) {
-                return (new KelompokAnggotaTransformer())->transform($item);
-            })->toArray(),
+            'pengurus'        => $kelompok->pengurus->map(static fn ($item) => (new KelompokAnggotaTransformer())->transform($item))->toArray(),
         ];
     }
 }

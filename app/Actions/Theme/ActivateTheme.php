@@ -39,34 +39,34 @@ namespace App\Actions\Theme;
 
 use App\Enums\AktifEnum;
 use App\Models\Theme;
+use Exception;
 
 class ActivateTheme
 {
     /**
      * Mengaktifkan tema dan menonaktifkan tema lainnya.
      *
-     * @param  int|string  $idOrSlug  ID atau slug tema
-     * @return Theme
+     * @param int|string $idOrSlug ID atau slug tema
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function handle(int|string $idOrSlug): Theme
     {
-        $theme = Theme::where(function ($q) use ($idOrSlug) {
+        $theme = Theme::where(static function ($q) use ($idOrSlug) {
                 $q->where('id', $idOrSlug)
-                  ->orWhere('slug', $idOrSlug);
+                    ->orWhere('slug', $idOrSlug);
             })
             ->first();
-    
-        if (!$theme) {
-            throw new \Exception("Theme tidak ditemukan: {$idOrSlug}");
+
+        if (! $theme) {
+            throw new Exception("Theme tidak ditemukan: {$idOrSlug}");
         }
-    
+
         $theme->update(['status' => AktifEnum::AKTIF]);
-    
+
         Theme::where('id', '!=', $theme->id)
             ->update(['status' => AktifEnum::TIDAK_AKTIF]);
-    
+
         return $theme;
     }
 }

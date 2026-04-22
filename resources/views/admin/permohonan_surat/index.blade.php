@@ -60,6 +60,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('permohonan_surat_admin.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                         console.log(req.status);

@@ -241,7 +241,7 @@ class Klasifikasi extends Admin_Controller
 
     private function sumberData()
     {
-        $enable = $this->input->get('enable');
+        $enable = $this->input->post_get('enable');
 
         return KlasifikasiSurat::filter($enable);
     }

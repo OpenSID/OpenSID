@@ -328,6 +328,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('penduduk.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status_penduduk = $('#status_penduduk').val();
                         req.status_dasar = $('#status_dasar').val();
@@ -556,10 +557,16 @@
                 }
             }
 
-            $('.btn-ekspor').click(function() {
+            $('.btn-ekspor').click(function(e) {
+                e.preventDefault()
                 let _href = $(this).attr('href')
-                let _newHref = _href + '?params=' + JSON.stringify($('#tabeldata').DataTable().ajax.params())
-                location.href = _newHref
+                let _params = JSON.stringify($('#tabeldata').DataTable().ajax.params())
+                let $form = $('<form>', { method: 'post', action: _href, target: '_blank' })
+                $form.append($('<input>', { type: 'hidden', name: 'params', value: _params }))
+                $('body').append($form)
+                addCsrfField($form[0])  // tambah CSRF token
+                $form.submit()
+                $form.remove()
             })
         });
     </script>

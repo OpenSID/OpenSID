@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 
 @section('content')
     <nav role="navigation" aria-label="navigation" class="breadcrumb">
@@ -43,7 +43,7 @@
             const loadGaleri = function(pageNumber) {
                 $.ajax({
                     url: routeGaleri + `?sort=-tgl_upload&page[number]=${pageNumber}&page[size]=${pageSizes}`, // Gunakan pageSizes
-                    type: "GET",
+                    type: 'POST',
                     beforeSend: function() {
                         const galeriList = document.getElementById('galeri-list');
                     },

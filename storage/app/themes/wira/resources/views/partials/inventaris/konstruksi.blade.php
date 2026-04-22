@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+﻿@extends('theme::layouts.right-sidebar')
 @include('core::admin.layouts.components.asset_numeral')
 
 @section('content')
@@ -58,7 +58,7 @@
                 const _tfoot = document.getElementById('inventaris-tfoot')
                 $.ajax({
                     url: _url,
-                    type: 'GET',
+                    type: 'POST',
                     beforeSend: () => _tbody.innerHTML = `@include('theme::commons.loading')`,
                     success: (response) => {
                         let _trString = []

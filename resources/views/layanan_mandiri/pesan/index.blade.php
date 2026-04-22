@@ -41,6 +41,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('layanan-mandiri.pesan.datatables', ['kat' => $kat]) }}",
+                    method: 'POST',
                     dataSrc: function(json) {
                         console.log(json); // Log the response from server
                         return json.data;

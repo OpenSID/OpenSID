@@ -77,7 +77,7 @@ class Grup extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status');
+            $status = $this->input->post_get('status');
 
             $superAdmin = super_admin();
 

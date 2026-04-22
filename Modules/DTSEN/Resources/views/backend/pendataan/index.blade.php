@@ -247,7 +247,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('dtsen/pendataan/datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('dtsen/pendataan/datatables') }}",
+                    method: 'POST',
+                },
                 columns: [
                     { data: 'ceklist', orderable: false, searchable: false },
                     { data: 'DT_RowIndex', orderable: false, searchable: false },
@@ -265,7 +268,7 @@
                     { data: 'rw', name: 'wil_kk.rw' },
                     { data: 'rt', name: 'wil_kk.rt' },
 
-                    { data: 'petugas', name: 'dtsen.nama_petugas_pencacahan' },
+                    { data: 'petugas', name: 'dtsen.nama_ppl' },
                     { data: 'updated_at', name: 'dtsen.updated_at' }
                 ],
                 order: [

@@ -122,6 +122,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ $ci->controller }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status_dasar = $('#status_dasar').val();
                         req.filter = $('#filter').val();

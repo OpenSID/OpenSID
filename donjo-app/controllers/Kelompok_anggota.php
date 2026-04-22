@@ -84,8 +84,8 @@ class Kelompok_anggota extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $id_kelompok  = $this->input->get('id_kelompok');
-            $status_dasar = $this->input->get('status_dasar'); // TAMBAHKAN INI
+            $id_kelompok  = $this->input->post_get('id_kelompok');
+            $status_dasar = $this->input->post_get('status_dasar'); // TAMBAHKAN INI
             $controller   = $this->controller;
             $tipe         = $this->tipe;
 

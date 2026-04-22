@@ -77,7 +77,7 @@
             if (id) {
                 $.ajax({
                     url: '{{ ci_route("rtm.list_anggota_kk") }}/' + id,
-                    type: 'GET',
+                    method: 'POST',
                     dataType: 'json',
                     success: function(response) {
                         var html =

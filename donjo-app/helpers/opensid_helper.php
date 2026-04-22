@@ -93,7 +93,7 @@ define('VERSION', '2604.0.1');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2026040171');
+define('VERSI_DATABASE', '2026041571');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -258,60 +258,196 @@ function session_success(): void
     ]);
 }
 
-// Untuk mengirim data ke OpenSID tracker
+/**
+ * Cek apakah pantau server sedang down berdasarkan circuit breaker cache
+ *
+ * @return bool true jika pantau sedang down (skip sending), false jika pantau ok
+ */
+function pantau_is_down(): bool
+{
+    $cache_key = 'pantau_server_down';
+    
+    return cache()->has($cache_key);
+}
+
+/**
+ * Tandai pantau server sebagai down dengan exponential backoff
+ *
+ * Implementasi circuit breaker sederhana:
+ * - Attempt 1-3: wait 1 minute
+ * - Attempt 4-6: wait 5 minutes
+ * - Attempt 7+: wait 30 minutes
+ *
+ * @param int $attempt_count Jumlah percobaan gagal (default: 1)
+ */
+function mark_pantau_down(int $attempt_count = 1): void
+{
+    $cache_key = 'pantau_server_down';
+    $cache_attempt = 'pantau_server_attempts';
+    
+    // Hitung backoff time based on attempt count
+    if ($attempt_count <= 3) {
+        $backoff_minutes = 1;
+    } elseif ($attempt_count <= 6) {
+        $backoff_minutes = 5;
+    } else {
+        $backoff_minutes = 30;
+    }
+    
+    cache()->put($cache_key, true, $backoff_minutes * 60);
+    // Counter attempts disimpan 24 jam agar escalation (1→5→30 menit)
+    // tidak ter-reset saat flag down expired.
+    cache()->put($cache_attempt, $attempt_count, 24 * 60 * 60);
+
+    log_message('warning', "Pantau server marked as down. Attempt: {$attempt_count}, Backoff: {$backoff_minutes} minutes");
+}
+
+/**
+ * Reset status pantau server (ketika berhasil kirim)
+ */
+function reset_pantau_status(): void
+{
+    cache()->forget('pantau_server_down');
+    cache()->forget('pantau_server_attempts');
+}
+
+/**
+ * Ambil jumlah attempt gagal pantau
+ *
+ * @return int
+ */
+function get_pantau_attempt_count(): int
+{
+    return (int) cache()->get('pantau_server_attempts', 0);
+}
+
+/**
+ * Untuk mengirim data ke OpenSID tracker.
+ *
+ * Timeout sengaja dibuat pendek (2 detik + 1 detik connect) karena
+ * fungsi ini dipanggil sinkron pada request web (mis. Tracker::kirimData),
+ * sehingga user tidak ikut menunggu lama ketika pantau lambat/mati.
+ *
+ * Retry juga dibatasi (2 attempts, jeda 200ms) agar worst case user pertama
+ * tidak melebihi timeout lama (< 5 detik). Setelah itu circuit breaker aktif
+ * dan request berikutnya langsung di-skip.
+ */
 function httpPost($url, $params): ?string
 {
-    try {
-        $response = (new Client())->post($url, [
-            'headers' => [
-                'X-Requested-With' => 'XMLHttpRequest',
-                'Authorization'    => 'Bearer ' . config_item('token_pantau'),
-            ],
-            'form_params'     => $params,
-            'timeout'         => 5,
-            'connect_timeout' => 4,
-        ]);
-    } catch (ClientException $cx) {
-        log_message('error', $cx);
-
-        return null;
-    } catch (Exception $e) {
-        log_message('error', $e);
+    // Cek apakah pantau sedang down, skip jika masih dalam backoff period
+    if (pantau_is_down()) {
+        log_message('info', 'Skipping pantau request - server marked as down (circuit breaker active)');
 
         return null;
     }
 
-    return $response->getBody()->getContents();
+    $max_retries = 2;
+    $attempt     = 0;
+
+    while ($attempt < $max_retries) {
+        try {
+            $response = (new Client())->post($url, [
+                'headers' => [
+                    'X-Requested-With' => 'XMLHttpRequest',
+                    'Authorization'    => 'Bearer ' . config_item('token_pantau'),
+                ],
+                'form_params'     => $params,
+                'timeout'         => 2,
+                'connect_timeout' => 1,
+            ]);
+
+            // Success! Reset pantau status dan return response
+            reset_pantau_status();
+
+            return $response->getBody()->getContents();
+        } catch (ClientException $cx) {
+            logger()->error('Pantau request ClientException (attempt ' . ($attempt + 1) . '): ' . $cx->getMessage());
+            $attempt++;
+
+            if ($attempt < $max_retries) {
+                // Jeda singkat antar retry (200ms) — hindari blocking sleep panjang
+                usleep(200000);
+            }
+        } catch (Exception $e) {
+            logger()->error('Pantau request Exception (attempt ' . ($attempt + 1) . '): ' . $e->getMessage());
+            $attempt++;
+
+            if ($attempt < $max_retries) {
+                usleep(200000);
+            }
+        }
+    }
+
+    // Semua retry gagal, tandai pantau sebagai down
+    $current_attempts = get_pantau_attempt_count() + 1;
+    mark_pantau_down($current_attempts);
+
+    log_message('error', 'Pantau request failed after ' . $max_retries . ' attempts');
+
+    return null;
 }
 
 /**
- * Ambil data desa dari pantau.opensid.my.id berdasarkan config_item('kode_desa')
+ * Ambil data desa dari pantau.opensid.my.id berdasarkan config_item('kode_desa').
+ *
+ * Timeout dibuat pendek (2 detik + 1 detik connect) dan retry dibatasi
+ * (2 attempts, jeda 200ms) agar user tidak menunggu lama saat pantau down.
+ * Circuit breaker akan aktif setelah seluruh retry gagal.
  *
  * @return object|null
  */
 function get_data_desa(string $kode_desa)
 {
-    try {
-        $response = (new Client())->get(config_item('server_pantau') . '/index.php/api/wilayah/kodedesa?kode=' . $kode_desa, [
-            'headers' => [
-                'X-Requested-With' => 'XMLHttpRequest',
-                'Authorization'    => 'Bearer ' . config_item('token_pantau'),
-            ],
-            'timeout'         => 5,
-            'connect_timeout' => 4,
-            // 'verify'          => false,
-        ]);
-    } catch (ClientException $cx) {
-        log_message('error', $cx);
-
-        return null;
-    } catch (Exception $e) {
-        log_message('error', $e);
+    // Check if pantau is down (circuit breaker)
+    if (pantau_is_down()) {
+        log_message('info', 'Skipping get_data_desa() - pantau server marked as down');
 
         return null;
     }
 
-    return json_decode($response->getBody()->getContents(), null);
+    $max_retries = 2;
+    $attempt     = 0;
+    $url         = config_item('server_pantau') . '/index.php/api/wilayah/kodedesa?kode=' . $kode_desa;
+
+    while ($attempt < $max_retries) {
+        try {
+            $response = (new Client())->get($url, [
+                'headers' => [
+                    'X-Requested-With' => 'XMLHttpRequest',
+                    'Authorization'    => 'Bearer ' . config_item('token_pantau'),
+                ],
+                'timeout'         => 2,
+                'connect_timeout' => 1,
+            ]);
+
+            // Success! Reset pantau status
+            reset_pantau_status();
+
+            return json_decode($response->getBody()->getContents(), null);
+        } catch (ClientException $cx) {
+            log_message('error', 'get_data_desa ClientException (attempt ' . ($attempt + 1) . '): ' . $cx->getMessage());
+            $attempt++;
+
+            if ($attempt < $max_retries) {
+                usleep(200000);
+            }
+        } catch (Exception $e) {
+            log_message('error', 'get_data_desa Exception (attempt ' . ($attempt + 1) . '): ' . $e->getMessage());
+            $attempt++;
+
+            if ($attempt < $max_retries) {
+                usleep(200000);
+            }
+        }
+    }
+
+    // Semua retry gagal, tandai pantau sebagai down
+    $current_attempts = get_pantau_attempt_count() + 1;
+    mark_pantau_down($current_attempts);
+
+    log_message('error', 'get_data_desa failed after ' . $max_retries . ' attempts');
+
+    return null;
 }
 
 /**

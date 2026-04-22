@@ -142,7 +142,7 @@
                 });
                 $.ajax({
                         url: '{{ ci_route('pengguna.kirim_otp_telegram') }}',
-                        type: 'get',
+                        method: 'POST',
                         data: {
                             'sidcsrf': getCsrfToken(),
                             'id_telegram': $('#id_telegram').val()

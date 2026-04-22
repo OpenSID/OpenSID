@@ -70,7 +70,7 @@
                 id="nama"
                 name="nama"
                 class="form-control input-sm nomor_sk required"
-                maxlength="100"
+                maxlength="{{ PEMETAAN_NAMA_MAX_LENGTH }}"
                 type="text"
                 placeholder="Nama Kategori Lokasi"
                 value="{{ $point['nama'] }}"

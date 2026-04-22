@@ -209,12 +209,12 @@ if (! function_exists('theme_scan')) {
             ->filter(static fn ($tema): bool => is_file(FCPATH . $tema . '/composer.json') && is_file(FCPATH . $tema . '/' . $templateBlade))
             ->map(static function (string $tema) use ($premiumFree): array {
                 $isStoragePath = (bool) preg_match('/storage/', $tema);
-                $sistem     = $isStoragePath && ! in_array(basename($tema), $premiumFree) ? 1 : 0;
-                $composer   = json_decode(file_get_contents(FCPATH . $tema . '/composer.json'), true);
-                $versi      = $composer['version'] ?? VERSION;
-                $nama       = str_replace('-', ' ', explode('/', $composer['name'])[1]);
-                $slug       = Str::slug(($isStoragePath ? '' : 'desa ') . $nama);
-                $keterangan = $composer['description'];
+                $sistem        = $isStoragePath && ! in_array(basename($tema), $premiumFree) ? 1 : 0;
+                $composer      = json_decode(file_get_contents(FCPATH . $tema . '/composer.json'), true);
+                $versi         = $composer['version'] ?? VERSION;
+                $nama          = str_replace('-', ' ', explode('/', $composer['name'])[1]);
+                $slug          = Str::slug(($isStoragePath ? '' : 'desa ') . $nama);
+                $keterangan    = $composer['description'];
 
                 return [
                     'config_id'  => identitas('id'),

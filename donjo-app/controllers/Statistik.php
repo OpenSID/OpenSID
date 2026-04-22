@@ -74,9 +74,9 @@ class Statistik extends Admin_Controller
     {
         $tautan_data = $this->tautan_data($lap);
 
-        $dusun = $this->input->get('dusun') ?? null;
-        $rw    = $this->input->get('rw') ?? null;
-        $rt    = $this->input->get('rt') ?? null;
+        $dusun = $this->input->post_get('dusun') ?? null;
+        $rw    = $this->input->post_get('rw') ?? null;
+        $rt    = $this->input->post_get('rt') ?? null;
 
         if ($rt) {
             [$namaDusun, $namaRw] = explode('__', $rw);
@@ -95,8 +95,8 @@ class Statistik extends Admin_Controller
         }
 
         $filter = [
-            'tahun'     => $this->input->get('tahun'),
-            'status'    => $this->input->get('status'),
+            'tahun'     => $this->input->post_get('tahun'),
+            'status'    => $this->input->post_get('status'),
             'dusun'     => $namaDusun,
             'rw'        => $namaRw,
             'rt'        => $rt,
@@ -104,8 +104,8 @@ class Statistik extends Admin_Controller
         ];
 
         $filterGlobal = [
-            'tahun'  => $this->input->get('tahun'),
-            'status' => $this->input->get('status'),
+            'tahun'  => $this->input->post_get('tahun'),
+            'status' => $this->input->post_get('status'),
             'dusun'  => $dusun,
             'rw'     => $namaRw,
             'rt'     => $rt,

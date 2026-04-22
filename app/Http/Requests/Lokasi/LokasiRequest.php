@@ -60,7 +60,7 @@ class LokasiRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama'      => 'required|string|max:255',
+            'nama'      => 'required|string|max:' . PEMETAAN_NAMA_MAX_LENGTH,
             'jenis'     => 'required|integer',
             'ref_point' => 'required|integer',
             'desk'      => 'required|string',

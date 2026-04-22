@@ -126,7 +126,7 @@ class Keluar extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $canUpdate       = can('u');
-            $state           = $this->input->get('state') ?? 'arsip';
+            $state           = $this->input->post_get('state') ?? 'arsip';
             $idJabatanKades  = kades()->id;
             $idJabatanSekdes = sekdes()->id;
             $jabatanId       = $this->isAdmin->jabatan_id;
@@ -1038,10 +1038,10 @@ class Keluar extends Admin_Controller
 
     protected function sumberData()
     {
-        $state           = $this->input->get('state') ?? 'arsip';
-        $tahun           = $this->input->get('tahun');
-        $bulan           = $this->input->get('bulan');
-        $jenis           = $this->input->get('jenis');
+        $state           = $this->input->post_get('state') ?? 'arsip';
+        $tahun           = $this->input->post_get('tahun');
+        $bulan           = $this->input->post_get('bulan');
+        $jenis           = $this->input->post_get('jenis');
         $idJabatanKades  = kades()->id;
         $idJabatanSekdes = sekdes()->id;
         $jabatanId       = $this->isAdmin->jabatan_id;

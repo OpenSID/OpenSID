@@ -785,16 +785,16 @@ class Keluarga extends Admin_Controller
 
     private function sumberData()
     {
-        $status          = $this->input->get('status') ?? null;
-        $sex             = $this->input->get('jenis_kelamin') ?? null;
-        $dusun           = $this->input->get('dusun') ?? null;
-        $rw              = $this->input->get('rw') ?? null;
-        $rt              = $this->input->get('rt') ?? null;
-        $kumpulanKK      = $this->input->get('kumpulanKK');
-        $bantuan         = $this->input->get('bantuan');
-        $kkSementara     = $this->input->get('kk_sementara') ?? null;
-        $kelasSosial     = $this->input->get('kelas_sosial') ?? null;
-        $statistikFilter = $this->input->get('statistikfilter') ?? null;
+        $status          = $this->input->post_get('status') ?? null;
+        $sex             = $this->input->post_get('jenis_kelamin') ?? null;
+        $dusun           = $this->input->post_get('dusun') ?? null;
+        $rw              = $this->input->post_get('rw') ?? null;
+        $rt              = $this->input->post_get('rt') ?? null;
+        $kumpulanKK      = $this->input->post_get('kumpulanKK');
+        $bantuan         = $this->input->post_get('bantuan');
+        $kkSementara     = $this->input->post_get('kk_sementara') ?? null;
+        $kelasSosial     = $this->input->post_get('kelas_sosial') ?? null;
+        $statistikFilter = $this->input->post_get('statistikfilter') ?? null;
 
         if ($statistikFilter) {
             switch ($statistikFilter['tipe']) {

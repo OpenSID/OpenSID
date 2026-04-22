@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 
 @push('styles')
     <style type="text/css">
@@ -254,7 +254,7 @@
                 let _filterString = _filter.length ? _filter.join('&') : ''
                 $.ajax({
                     url: `{{ ci_route('internal_api.pengaduan') }}?sort=-created_at&page[number]=${pageNumber}&page[size]=${pageSize}&${_filterString}`,
-                    type: "GET",
+                    type: 'POST',
                     beforeSend: function() {
                         const pengaduanList = document.getElementById('pengaduan-list');
                         pengaduanList.innerHTML = `@include('theme::commons.loading')`;

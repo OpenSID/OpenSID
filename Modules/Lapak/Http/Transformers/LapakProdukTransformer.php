@@ -54,30 +54,30 @@ class LapakProdukTransformer extends TransformerAbstract
         $foto = collect($foto)->map(fn ($item) => $this->urlAsset($item))->all();
 
         return [
-            'id' => $produk->id,
-            'nama' => $produk->nama,
-            'harga' => $produk->harga,
-            'satuan' => $produk->satuan,
+            'id'            => $produk->id,
+            'nama'          => $produk->nama,
+            'harga'         => $produk->harga,
+            'satuan'        => $produk->satuan,
             'tipe_potongan' => $produk->tipe_potongan,
-            'potongan' => $produk->potongan,
-            'deskripsi' => $produk->deskripsi,
-            'foto' => $foto,
-            'harga_diskon' => $produk->harga_diskon,
-            'pesan_wa' => $produk->pesan_wa,
-            'kategori' => [
-                'id' => $produk->kategori->id,
+            'potongan'      => $produk->potongan,
+            'deskripsi'     => $produk->deskripsi,
+            'foto'          => $foto,
+            'harga_diskon'  => $produk->harga_diskon,
+            'pesan_wa'      => $produk->pesan_wa,
+            'kategori'      => [
+                'id'   => $produk->kategori->id,
                 'nama' => $produk->kategori->nama,
                 'slug' => $produk->kategori->slug,
             ],
             'pelapak' => [
-                'id' => $produk->pelapak->id,
-                'telepon' => $produk->pelapak->telepon ?: '-',
-                'lat' => $produk->pelapak->lat ?? $kantor->lat,
-                'lng' => $produk->pelapak->lng ?? $kantor->lng,
-                'zoom' => $produk->pelapak->zoom ?? 15,
+                'id'       => $produk->pelapak->id,
+                'telepon'  => $produk->pelapak->telepon ?: '-',
+                'lat'      => $produk->pelapak->lat ?? $kantor->lat,
+                'lng'      => $produk->pelapak->lng ?? $kantor->lng,
+                'zoom'     => $produk->pelapak->zoom ?? 15,
                 'penduduk' => [
                     'nama' => $produk->pelapak->penduduk->nama,
-                ]
+                ],
             ],
         ];
     }

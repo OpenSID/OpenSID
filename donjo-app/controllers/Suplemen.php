@@ -106,7 +106,7 @@ class Suplemen extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $sasaran = $this->input->get('sasaran');
+            $sasaran = $this->input->post_get('sasaran');
 
             return datatables()->of(
                 ModelSuplemen::withCount('terdata')->where('status', 1)
@@ -224,13 +224,13 @@ class Suplemen extends Admin_Controller
     public function datatables_terdata()
     {
         if ($this->input->is_ajax_request()) {
-            $id      = $this->input->get('id');
-            $sasaran = $this->input->get('sasaran');
+            $id      = $this->input->post_get('id');
+            $sasaran = $this->input->post_get('sasaran');
             $filters = [
-                'sex'   => $this->input->get('sex'),
-                'dusun' => $this->input->get('dusun'),
-                'rw'    => $this->input->get('rw'),
-                'rt'    => $this->input->get('rt'),
+                'sex'   => $this->input->post_get('sex'),
+                'dusun' => $this->input->post_get('dusun'),
+                'rw'    => $this->input->post_get('rw'),
+                'rt'    => $this->input->post_get('rt'),
             ];
             $user          = ci_auth();
             $aksesWilayah  = [];

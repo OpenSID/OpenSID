@@ -45,7 +45,6 @@ use App\Enums\StatusDasarEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -293,12 +292,9 @@ class LogPenduduk extends BaseModel
         return $this->hasOne(LogPenduduk::class, 'id_pend', 'id_pend')->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value])->orderByDesc('id');
     }
 
-    public function isKembaliDatang()
+    public function isKembaliDatang(): bool
     {
-        $tgl_lapor    = Carbon::parse($this->tgl_lapor)->format('m-Y');
-        $tgl_sekarang = Carbon::now()->format('m-Y');
-
-        return $tgl_lapor < $tgl_sekarang;
+        return $this->tgl_lapor?->endOfMonth()?->isPast() ?? false;
     }
 
     public function isLogPergiTerakhir()
@@ -389,10 +385,8 @@ class LogPenduduk extends BaseModel
     public function kembalikan_status_pergi($data = []): void
     {
         // Cek tgl lapor
-        // tampilkan hanya jika beda tanggal lapor
-        $tgl_lapor    = Carbon::parse($this->tgl_lapor)->format('m-Y');
-        $tgl_sekarang = Carbon::now()->format('m-Y');
-        if ($tgl_lapor >= $tgl_sekarang) {
+        // tampilkan hanya jika beda tanggal lapor (bulan telah berganti)
+        if (! ($this->tgl_lapor?->endOfMonth()->isPast() ?? false)) {
             throw new Exception('Tidak dapat mengubah status dasar penduduk, karena tanggal lapor masih sama dengan tanggal sekarang.');
         }
 

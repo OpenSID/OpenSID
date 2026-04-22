@@ -281,13 +281,13 @@ class Info_sistem extends Admin_Controller
                     ]);
                 },
             ])
-                ->when($this->input->get('log_name'), static function ($query, $log_name) {
+                ->when($this->input->post_get('log_name'), static function ($query, $log_name) {
                     $query->where('log_name', $log_name);
                 })
-                ->when($this->input->get('log_event'), static function ($query, $event) {
+                ->when($this->input->post_get('log_event'), static function ($query, $event) {
                     $query->where('event', $event);
                 })
-                ->when($this->input->get('username'), static function ($query, $username) {
+                ->when($this->input->post_get('username'), static function ($query, $username) {
                     $query->where('causer_id', $username);
                 });
 

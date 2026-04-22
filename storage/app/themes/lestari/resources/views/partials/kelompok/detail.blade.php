@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+﻿@extends('theme::layouts.right-sidebar')
 @include('theme::commons.asset_sweetalert')
 
 @section('content')
@@ -24,7 +24,7 @@
             var route = "{{ route('api.' . $tipe . '.detail', ['slug' => $slug]) }}";
             $.ajax({
                 url: route,
-                method: 'GET',
+                method: 'POST',
                 beforeSend: function() {
                     $('#kelompok-wrapper').html(`<div class="fa fa-circle-o-notch fa-spin fa-4x" role="status">
                     <span class="sr-only">Loading...</span>
@@ -144,7 +144,7 @@
                     ordering: true,
                     ajax: {
                         url: `{{ route('api.' . $tipe . '.anggota', ['slug' => $slug]) }}`,
-                        method: 'GET',
+                        method: 'POST',
                         data: row => ({
                             "page[size]": row.length,
                             "page[number]": (row.start / row.length) + 1,

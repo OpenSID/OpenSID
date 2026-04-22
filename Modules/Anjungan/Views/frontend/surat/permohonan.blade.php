@@ -56,7 +56,10 @@
                 'processing': true,
                 'serverSide': true,
                 // 'paging' : false,
-                'ajax': '{{ route('anjungan.permohonan') }}',
+                'ajax': {
+                    url: '{{ route('anjungan.permohonan') }}',
+                    method: 'POST',
+                },
                 'scrollCollapse': true,
                 'scrollY': '317px',
                 'order': [

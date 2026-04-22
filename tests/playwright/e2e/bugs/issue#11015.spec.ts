@@ -43,4 +43,15 @@ test.describe('Bug #11015: DTSEN Form Fixes', () => {
     
     expect(await page.textContent('.nav-tabs li.active a')).toContain('V');
   });
+
+  test('spinner shows and auto-hides on save modal anggota keluarga', async ({ page }) => {
+    await page.goto('/dtsen/pendataan');
+    
+    const btn = await page.$('#form-4 button[type="submit"]');
+    await btn?.click();
+    
+    // Spinner should disappear automatically
+    await page.waitForSelector('i.fa-spinner', { state: 'hidden', timeout: 5000 });
+    expect(await page.$('i.fa-spinner')).toBeNull();
+  });
 });

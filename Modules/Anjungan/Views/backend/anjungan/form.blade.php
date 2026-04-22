@@ -221,7 +221,7 @@
                 // Cek ke server apakah UUID ini ada di database
                 $.ajax({
                     url: `{{ ci_route('anjungan.verify') }}?uuid=${anjunganUuid}`,
-                    type: 'GET',
+                    method: 'POST',
                     dataType: 'json',
                     success: function(response) {
                         if (response.status == 'valid') {

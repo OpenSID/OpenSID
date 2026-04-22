@@ -37,19 +37,41 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\PathTraversalDetected;
 
 class Asset extends CI_Controller
 {
-    private const ALLOWED_DISKS    = ['assets', 'desa', 'public'];
+    private const ALLOWED_DISKS = ['assets', 'desa', 'public'];
+
     private const SECURITY_HEADERS = [
-        'Cache-Control'           => 'no-store, no-cache, must-revalidate, max-age=0',
         'Content-Security-Policy' => "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+    ];
+
+    // CSS/JS tanpa content hash — bisa berubah saat update tema.
+    // Parameter ?v= di URL sudah menjadi cache buster alami,
+    // sehingga max-age bisa cukup panjang.
+    private const CACHE_REVALIDATE = [
+        'Cache-Control' => 'public, max-age=604800, must-revalidate',
+    ];
+
+    // Font, gambar, dan CSS/JS dengan content hash di nama file.
+    // Tidak pernah berubah untuk URL yang sama.
+    private const CACHE_IMMUTABLE = [
+        'Cache-Control' => 'public, max-age=31536000, immutable',
     ];
 
     public function __construct()
     {
+        // Matikan session_cache_limiter sebelum parent::__construct()
+        // agar CI3 tidak inject Expires, Pragma, dan Cache-Control: no-store
+        // yang akan konflik dengan cache header milik controller ini.
+        session_cache_limiter('');
+
         parent::__construct();
+
+        // Hapus header Set-Cookie yang mungkin sudah di-set oleh session CI3
+        header_remove('Set-Cookie');
 
         $this->load->helper('theme');
 
@@ -83,34 +105,102 @@ class Asset extends CI_Controller
                 'links'  => false,
             ]);
 
+            /**
+             * @var \Illuminate\Filesystem\FilesystemAdapter $disk
+             * @var string                                   $finalPath
+             */
             [$disk, $finalPath] = $this->resolveDiskAndPath($primaryDisk, $path, $request);
 
+            $checksum     = $disk->checksum($finalPath);
+            $etag         = "\"$checksum\"";
+            $lastModified = $disk->lastModified($finalPath);
+
+            // Cek If-None-Match (ETag revalidation)
+            if ($request->headers->get('If-None-Match') === $etag) {
+                return response('', 304)->send();
+            }
+
+            // Cek If-Modified-Since
+            $ifModifiedSince = $request->headers->get('If-Modified-Since');
+            if ($ifModifiedSince && $lastModified <= strtotime($ifModifiedSince)) {
+                return response('', 304)->send();
+            }
+
+            $extraHeaders = [
+                'ETag'          => $etag,
+                'Last-Modified' => gmdate('D, d M Y H:i:s', $lastModified) . ' GMT',
+            ];
+
             return tap(
-                $disk->response(path: $finalPath, headers: self::SECURITY_HEADERS),
+                $disk->response(path: $finalPath, headers: $this->resolveHeaders($finalPath) + $extraHeaders),
                 static function ($response) {
+                    $response->headers->remove('Pragma');
+                    $response->headers->remove('Expires');
+                    $response->headers->remove('Set-Cookie');
+
                     if (! $response->headers->has('Content-Security-Policy')) {
-                        $response->headers->replace(self::SECURITY_HEADERS);
+                        $response->headers->set(
+                            'Content-Security-Policy',
+                            self::SECURITY_HEADERS['Content-Security-Policy']
+                        );
                     }
                 }
             )->send();
         } catch (PathTraversalDetected $e) {
             logger()->error($e);
             show_404();
+        } catch (FilesystemException $e) {
+            logger()->error($e);
+            show_404();
         }
+    }
+
+    /**
+     * Tentukan cache headers berdasarkan tipe dan nama file.
+     *
+     * ETag dan Last-Modified sudah di-handle otomatis oleh $disk->response(),
+     * sehingga browser tetap bisa revalidasi via 304 Not Modified meski
+     * max-age belum habis — misalnya saat tema diupdate.
+     *
+     * Parameter ?v= dan ?themeVersion= di URL juga sudah menjadi cache buster
+     * alami: kalau versi berubah, URL berubah, browser otomatis fetch ulang.
+     */
+    private function resolveHeaders(string $path): array
+    {
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        // Font dan gambar tidak pernah berubah isi-nya untuk path yang sama
+        $immutableExtensions = ['woff', 'woff2', 'ttf', 'eot', 'png', 'jpg', 'jpeg', 'gif', 'webp', 'ico', 'svg'];
+
+        if (in_array($ext, $immutableExtensions, true)) {
+            return self::CACHE_IMMUTABLE + self::SECURITY_HEADERS;
+        }
+
+        // CSS/JS dengan content hash di nama file: app.a3f9c1.css, chunk.8b2d44.js
+        if (preg_match('/\.[a-f0-9]{6,}\.(css|js)$/i', $path)) {
+            return self::CACHE_IMMUTABLE + self::SECURITY_HEADERS;
+        }
+
+        // CSS/JS biasa — browser revalidasi via ETag/Last-Modified setelah 7 hari
+        return self::CACHE_REVALIDATE + self::SECURITY_HEADERS;
     }
 
     private function resolveDiskAndPath($primaryDisk, $path, Request $request)
     {
-        // Gunakan file utama jika ada
-        if ($primaryDisk->exists($path)) {
+        if (! empty($path) && $path !== '.' && $primaryDisk->exists($path)) {
             return [$primaryDisk, $path];
         }
 
-        // Fallback ke file default
         $defaultPath = $request->query('default');
         $diskName    = $request->query('defaultDisk', 'desa');
 
-        if (! in_array($diskName, self::ALLOWED_DISKS) || ! $defaultPath) {
+        // Validasi defaultPath lebih awal, sebelum operasi lain
+        if (empty($defaultPath) || $defaultPath === '.') {
+            show_404();
+        }
+
+        // Validasi diskName
+        if (! in_array($diskName, self::ALLOWED_DISKS)) {
             show_404();
         }
 
@@ -144,18 +234,10 @@ class Asset extends CI_Controller
 
     private function getOriginalModule($moduleName)
     {
-        $originalModule = ucfirst($moduleName);
-
-        switch($moduleName) {
-            case 'bukutamu':
-                $originalModule = 'BukuTamu';
-                break;
-
-            case 'ppid':
-                $originalModule = 'PPID';
-                break;
-        }
-
-        return $originalModule;
+        return match ($moduleName) {
+            'bukutamu' => 'BukuTamu',
+            'ppid'     => 'PPID',
+            default    => ucfirst($moduleName),
+        };
     }
 }

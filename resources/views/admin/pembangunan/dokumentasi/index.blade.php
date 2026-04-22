@@ -104,7 +104,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('pembangunan_dokumentasi.datatables-dokumentasi') }}/{{ $pembangunan->id }}",
+                ajax: {
+                    url: "{{ ci_route('pembangunan_dokumentasi.datatables-dokumentasi') }}/{{ $pembangunan->id }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',

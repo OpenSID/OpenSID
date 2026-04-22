@@ -7,7 +7,7 @@
                     if (dusun) {
                         $.ajax({
                             url: "{{ ci_route('internal_api.wilayah.get_rw') }}",
-                            type: "GET",
+                            method: 'POST',
                             data: {
                                 dusun: dusun,
                             },
@@ -47,7 +47,7 @@
                     if (rw) {
                         $.ajax({
                             url: "{{ ci_route('internal_api.wilayah.get_rt') }}",
-                            type: "GET",
+                            method: 'POST',
                             data: {
                                 dusun: dusun,
                                 rw: rw,

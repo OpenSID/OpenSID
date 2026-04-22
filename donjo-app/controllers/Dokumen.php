@@ -81,7 +81,7 @@ class Dokumen extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-        $status    = $this->input->get('status') ?? null;
+        $status    = $this->input->post_get('status') ?? null;
         $canUpdate = can('u');
         $canDelete = can('h');
 
@@ -134,7 +134,7 @@ class Dokumen extends Admin_Controller
                 return '<span class="label ' . $badgeClass . '">' . $statusLabel . '</span>';
             })
             ->editColumn('keterangan', static fn ($row) => empty($row->keterangan) ? '-' : $row->keterangan)
-            ->addColumn('tanggal_terbit', static fn ($row) => Carbon::createFromFormat('Y-m-d', $row->published_at)->translatedFormat('d F Y'))
+            ->addColumn('tanggal_terbit', static fn ($row) => $row->published_at ? Carbon::parse($row->published_at)->translatedFormat('d F Y') : '-')
             ->addColumn('retensi', static fn ($row) => $row->expired_at_formatted)
             ->rawColumns(['ceklist', 'aksi', 'status'])
             ->make();

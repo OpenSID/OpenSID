@@ -130,12 +130,13 @@ class Pembangunan_dokumentasi extends Admin_Controller
     {
         isCan('u');
 
-        $post                   = $this->input->post();
+        $post = $this->input->post();
 
         // Validasi persentase: hanya boleh angka dan karakter %
         $persentase = $post['persentase'] ?: $post['id_persentase'];
         if (! preg_match('/^\d{1,3}%?$/', $persentase)) {
             redirect_with('error', 'Format persentase tidak valid', ci_route('pembangunan_dokumentasi.dokumentasi', $post['id_pembangunan']));
+
             return;
         }
 
@@ -164,12 +165,13 @@ class Pembangunan_dokumentasi extends Admin_Controller
     {
         isCan('u');
 
-        $post                   = $this->input->post();
+        $post = $this->input->post();
 
         // Validasi persentase: hanya boleh angka dan karakter %
         $persentase = $post['persentase'] ?: $post['id_persentase'];
         if (! preg_match('/^\d{1,3}%?$/', $persentase)) {
             redirect_with('error', 'Format persentase tidak valid', ci_route('pembangunan_dokumentasi.dokumentasi', $post['id_pembangunan']));
+
             return;
         }
 

@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Models\Keuangan;
 use App\Enums\StatusEnum;
 use App\Models\Galery as Galeri;
 use App\Traits\ConfigId;

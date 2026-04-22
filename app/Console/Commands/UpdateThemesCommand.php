@@ -1,10 +1,45 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class UpdateThemesCommand extends Command
 {
@@ -28,9 +63,9 @@ class UpdateThemesCommand extends Command
      * @var array
      */
     protected $themesToClone = [
-        'wira' => 'https://github.com/OpenSID/tema-wira.git',
+        'wira'        => 'https://github.com/OpenSID/tema-wira.git',
         'seruit-lite' => 'https://github.com/OpenSID/tema-seruit-lite.git',
-        'lestari' => 'https://github.com/OpenSID/tema-lestari.git',
+        'lestari'     => 'https://github.com/OpenSID/tema-lestari.git',
     ];
 
     /**
@@ -47,7 +82,7 @@ class UpdateThemesCommand extends Command
 
         // Langkah 1: Hapus semua folder tema kecuali esensi
         $this->info('Langkah 1: Menghapus folder tema lama (menjaga esensi)...');
-        if (!$this->deleteOldThemes($themesPath)) {
+        if (! $this->deleteOldThemes($themesPath)) {
             return Command::FAILURE;
         }
 
@@ -55,7 +90,7 @@ class UpdateThemesCommand extends Command
 
         // Langkah 2: Clone repository dan checkout ke branch rilis
         $this->info('Langkah 2: Clone repository dan checkout ke branch rilis...');
-        if (!$this->cloneThemes($themesPath)) {
+        if (! $this->cloneThemes($themesPath)) {
             return Command::FAILURE;
         }
 
@@ -70,12 +105,14 @@ class UpdateThemesCommand extends Command
      * Hapus semua folder tema kecuali esensi
      *
      * @param string $themesPath
+     *
      * @return bool
      */
     protected function deleteOldThemes($themesPath)
     {
-        if (!is_dir($themesPath)) {
+        if (! is_dir($themesPath)) {
             $this->error("Direktori tema tidak ditemukan: {$themesPath}");
+
             return false;
         }
 
@@ -97,6 +134,7 @@ class UpdateThemesCommand extends Command
      * Clone tema dan checkout ke branch rilis
      *
      * @param string $themesPath
+     *
      * @return bool
      */
     protected function cloneThemes($themesPath)
@@ -111,9 +149,10 @@ class UpdateThemesCommand extends Command
 
             try {
                 $cloneProcess->mustRun();
-                $this->line("    ✓ Berhasil di-clone");
+                $this->line('    ✓ Berhasil di-clone');
             } catch (ProcessFailedException $e) {
-                $this->error("    ✗ Gagal mengclone: " . $e->getProcess()->getErrorOutput());
+                $this->error('    ✗ Gagal mengclone: ' . $e->getProcess()->getErrorOutput());
+
                 return false;
             }
 
@@ -124,10 +163,10 @@ class UpdateThemesCommand extends Command
 
             try {
                 $checkoutProcess->mustRun();
-                $this->line("    ✓ Berhasil checkout ke branch rilis");
+                $this->line('    ✓ Berhasil checkout ke branch rilis');
             } catch (ProcessFailedException $e) {
                 // Coba fetch dan checkout jika percobaan pertama gagal
-                $this->warn("    ! Mencoba mengambil branch remote terlebih dahulu...");
+                $this->warn('    ! Mencoba mengambil branch remote terlebih dahulu...');
                 $fetchProcess = new Process(['git', 'fetch', 'origin'], $themeDir);
                 $fetchProcess->setTimeout(null);
 
@@ -135,13 +174,15 @@ class UpdateThemesCommand extends Command
                     $fetchProcess->mustRun();
                     $checkoutProcess->run();
                     if ($checkoutProcess->isSuccessful()) {
-                        $this->line("    ✓ Berhasil checkout ke branch rilis");
+                        $this->line('    ✓ Berhasil checkout ke branch rilis');
                     } else {
-                        $this->error("    ✗ Gagal checkout ke branch rilis: " . $checkoutProcess->getErrorOutput());
+                        $this->error('    ✗ Gagal checkout ke branch rilis: ' . $checkoutProcess->getErrorOutput());
+
                         return false;
                     }
                 } catch (ProcessFailedException $fe) {
-                    $this->error("    ✗ Gagal mengambil: " . $fe->getProcess()->getErrorOutput());
+                    $this->error('    ✗ Gagal mengambil: ' . $fe->getProcess()->getErrorOutput());
+
                     return false;
                 }
             }
@@ -154,6 +195,7 @@ class UpdateThemesCommand extends Command
      * Hapus direktori secara rekursif
      *
      * @param string $path
+     *
      * @return void
      */
     protected function deleteDirectory($path)
@@ -179,6 +221,7 @@ class UpdateThemesCommand extends Command
      * Dapatkan informasi summary tema
      *
      * @param string $themesPath
+     *
      * @return array
      */
     protected function getThemeSummary($themesPath)
@@ -187,7 +230,7 @@ class UpdateThemesCommand extends Command
 
         foreach ($this->themesToClone as $themeName => $repoUrl) {
             $themeDir = $themesPath . DIRECTORY_SEPARATOR . $themeName;
-            $status = is_dir($themeDir) ? 'Terpasang' : 'Gagal';
+            $status   = is_dir($themeDir) ? 'Terpasang' : 'Gagal';
 
             $summary[] = [
                 $themeName,

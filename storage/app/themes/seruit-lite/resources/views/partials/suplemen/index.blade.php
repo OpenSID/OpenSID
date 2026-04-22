@@ -1,4 +1,4 @@
-@extends('theme::layouts.full-content')
+﻿@extends('theme::layouts.full-content')
 
 @push('styles')
 <style>
@@ -166,7 +166,7 @@
                     serverSide: true,
                     ajax: {
                         url: `{{ route('api.suplemen') }}/${suplemenId}`,
-                        method: 'GET',
+                        method: 'POST',
                         data: d => ({
                             "page[size]": d.length,
                             "page[number]": (d.start / d.length) + 1,

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -38,7 +38,7 @@
                     </div>`
         document.getElementById('message').innerHTML = _html
         fetch("{{ route('api.verifikasi-surat-dinas') }}?filter[id]={{ $id }}", {
-            method: 'get',
+            method: 'POST',
         }).then(response => {
             if (response.ok) {
                 return response.json();

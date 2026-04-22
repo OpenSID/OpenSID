@@ -68,6 +68,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route('bumindes_tanah_kas_desa.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
 
                     }

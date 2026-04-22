@@ -41,6 +41,7 @@ use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusRekamEnum;
+use App\Enums\UmurEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\KIA;
@@ -168,7 +169,7 @@ class DTSENRegsosEk2022k
             ->where('id_dtsen', $dtsen->id)
             ->delete();
 
-        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(SHDKEnum::all());
+        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(SHDKEnum::getData());
         $ref_eloquent_collection['kia']                = KIA::whereIn('ibu_id', $ids_anggota)
             ->orWhereIn('anak_id', $ids_anggota)->get();
 
@@ -421,7 +422,7 @@ class DTSENRegsosEk2022k
 
         $this->saveRelatedAttribute($dtsen);
 
-        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(SHDKEnum::all());
+        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(SHDKEnum::getData());
         $daftar_sakit_menahun                          = $this->cacheTemporaryModelGet(SakitMenahunEnum::all());
         $daftar_pendidikan                             = $this->cacheTemporaryModelGet(Pendidikan::class);
         $ref_eloquent_collection['kia']                = KIA::whereIn('ibu_id', $dtsen->keluarga->anggota->pluck('id'))
@@ -557,15 +558,16 @@ class DTSENRegsosEk2022k
         // }
         // 0:tidak punya, 1:akta lahir, 2:kia, 4:ktp
         $total = 0;
-        if ($agt->akta_lahir) {
-            $total++;
+        if ($agt->akta_lahir || $agt->umur < UmurEnum::WAJIB_KTP) {
+            $total += 1;
         }
+
         $is_ibu_anak_punya_data_kia = $ref_eloquent_collection['kia']->filter(static fn ($item): bool => $item->ibu_id == $agt->id || $item->anak_id == $agt->id);
-        $ref_ktp_el                 = StatusRekamEnum::all();
-        if ($is_ibu_anak_punya_data_kia->count() > 0 || $agt->ktp_el == $ref_ktp_el['kia']) {
+        if ($is_ibu_anak_punya_data_kia->count() > 0 || $agt->ktp_el == StatusRekamEnum::KIA || $agt->umur < UmurEnum::WAJIB_KTP) {
             $total += 2;
         }
-        if ($agt->ktp_el == $ref_ktp_el['ktp-el']) {
+
+        if ($agt->ktp_el == StatusRekamEnum::KTP_EL || $agt->umur >= UmurEnum::WAJIB_KTP) {
             $total += 4;
         }
         $dtsen_anggota->kd_punya_kartuid = $total; // 411
@@ -2262,6 +2264,9 @@ class DTSENRegsosEk2022k
     protected function getIndexPilihan(array $daftar_pilihan, $search_value)
     {
         return collect($daftar_pilihan)->search(static function ($item, $key) use ($search_value): bool {
+            if (empty($search_value)) {
+                return false;
+            }
             $first   = strtolower($item);
             $second  = strtolower($search_value);
             $similar = similar_text($first, $second);

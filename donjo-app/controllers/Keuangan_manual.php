@@ -49,8 +49,8 @@ class Keuangan_manual extends Admin_Controller
     use ApiResponseHelpers;
     use Upload;
 
-    public $modul_ini     = 'keuangan';
-    public $sub_modul_ini = 'input-data';
+    public $modul_ini           = 'keuangan';
+    public $sub_modul_ini       = 'input-data';
     public $kategori_pengaturan = 'Keuangan';
     private $tahun;
     private $nama_file;
@@ -83,10 +83,10 @@ class Keuangan_manual extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $query = Keuangan::with('template')
                 ->whereRaw('length(template_uuid) <= 5')
-                ->when($this->input->get('jenis_anggaran'), static function ($query, $jenis) {
+                ->when($this->input->post_get('jenis_anggaran'), static function ($query, $jenis) {
                     $query->where('template_uuid', 'like', "{$jenis}%");
                 })
-                ->when($this->input->get('tahun_anggaran'), static function ($query, $tahun) {
+                ->when($this->input->post_get('tahun_anggaran'), static function ($query, $tahun) {
                     $query->where('tahun', $tahun);
                 }, static function ($query) {
                     $query->where('tahun', date('Y'));
@@ -125,8 +125,8 @@ class Keuangan_manual extends Admin_Controller
                         default => $item->template->uraian,
                     };
                 })
-                ->editColumn('anggaran', static fn($item) => Rupiah2($item->anggaran))
-                ->editColumn('realisasi', static fn($item) => Rupiah2($item->realisasi))
+                ->editColumn('anggaran', static fn ($item) => Rupiah2($item->anggaran))
+                ->editColumn('realisasi', static fn ($item) => Rupiah2($item->realisasi))
                 ->rawColumns(['aksi', 'kode_menjorok', 'uraian_menjorok'])
                 ->skipPaging()
                 ->make();
@@ -213,7 +213,7 @@ class Keuangan_manual extends Admin_Controller
 
         // Ubah semua child lainnya agar anggaran dan realisasi menjadi 0
         $childrens->each(
-            static fn($child) => Keuangan::where([
+            static fn ($child) => Keuangan::where([
                 'tahun'         => $keuangan->tahun,
                 'template_uuid' => $child->uuid,
             ])->update([
@@ -251,7 +251,7 @@ class Keuangan_manual extends Admin_Controller
     // data tahun anggaran untuk keperluan dropdown pada plugin keuangan di text editor
     public function cek_tahun_manual(): void
     {
-        $list_tahun = Keuangan::tahunAnggaran()->get()->map(static fn($item) => [
+        $list_tahun = Keuangan::tahunAnggaran()->get()->map(static fn ($item) => [
             'text'  => (string) $item->tahun,
             'value' => (string) $item->tahun,
         ])->toArray();

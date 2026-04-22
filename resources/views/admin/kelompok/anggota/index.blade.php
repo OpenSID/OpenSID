@@ -199,6 +199,7 @@
                 serverSide: true,
                 ajax: {
                     url: `{{ route($controller . '.datatables') }}`,
+                    method: 'POST',
                     data: function(req) {
                         req.id_kelompok = '{{ $kelompok['id'] }}';
                         req.status_dasar = $('#status_dasar').val();

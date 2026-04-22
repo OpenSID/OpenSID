@@ -110,7 +110,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('mandiri.datatables') }}",
-                    type: "GET",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                     }

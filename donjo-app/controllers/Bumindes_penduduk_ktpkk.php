@@ -139,8 +139,8 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
     private function sumberData()
     {
         $filters = [
-            'tahun' => $this->input->get('tahun') ?? null,
-            'bulan' => $this->input->get('bulan') ?? null,
+            'tahun' => $this->input->post_get('tahun') ?? null,
+            'bulan' => $this->input->post_get('bulan') ?? null,
         ];
 
         return Penduduk::with(['log_latest', 'keluarga'])

@@ -151,7 +151,7 @@
                 searching: false,
                 ajax: {
                     url: "{{ route('cdesa.datatables_mutasi', ['id_cdesa' => $cdesa['id'], 'id_persil' => $persil['id']]) }}",
-                    type: 'GET'
+                    type: 'POST'
                 },
                 columns: [{
                         data: 'DT_RowIndex',

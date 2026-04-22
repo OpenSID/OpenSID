@@ -35,7 +35,6 @@
  *
  */
 
-
 Route::group('internal_api/lapak', ['namespace' => 'Lapak/API'], static function (): void {
     Route::get('produk', 'LapakController@produk')->name('api.lapak.produk');
     Route::get('kategori', 'LapakController@kategori')->name('api.lapak.kategori');

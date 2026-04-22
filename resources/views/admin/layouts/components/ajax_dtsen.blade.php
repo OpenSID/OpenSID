@@ -1,7 +1,7 @@
 <script>
     function ajax_save_dtsen(url, data, callback_success = null, callback_fail = null, custom_config = {}) {
         let default_config = {
-            type: 'POST',
+            method: 'POST',
             url: url,
             data: data,
             dataType: 'json',

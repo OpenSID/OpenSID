@@ -71,9 +71,9 @@ class RekapitulasiController extends AdminModulController
     {
         if ($this->input->is_ajax_request()) {
             $filters = [
-                'tanggal' => $this->input->get('daterange'),
-                'status'  => $this->input->get('status'),
-                'pamong'  => $this->input->get('pamong'),
+                'tanggal' => $this->input->post_get('daterange'),
+                'status'  => $this->input->post_get('status'),
+                'pamong'  => $this->input->post_get('pamong'),
             ];
 
             return datatables()->of(Kehadiran::with(['pamong', 'pamong.penduduk', 'pamong.jabatan'])

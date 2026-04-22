@@ -72,7 +72,9 @@ class Mandiri extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? null;
-            $query  = PendudukMandiri::with('penduduk')->status($status);
+            $query  = PendudukMandiri::with('penduduk')
+                ->whereHas('penduduk')
+                ->status($status);
 
             return datatables()->of($query)
                 ->addIndexColumn()
@@ -91,11 +93,11 @@ class Mandiri extends Admin_Controller
                     $aksi .= View::make('admin.layouts.components.buttons.btn', [
                         'url'        => ci_route('mandiri.ajax_hp', $row->id_pend),
                         'icon'       => 'fa fa-phone',
-                        'judul'      => ($row->penduduk->telepon ? 'Ubah' : 'Tambah') . ' Telepon',
-                        'type'       => $row->penduduk->telepon ? 'bg-teal' : 'bg-green',
+                        'judul'      => ($row->penduduk?->telepon ? 'Ubah' : 'Tambah') . ' Telepon',
+                        'type'       => $row->penduduk?->telepon ? 'bg-teal' : 'bg-green',
                         'buttonOnly' => true,
                         'modal'      => true,
-                        'attribut'   => 'data-telpon="' . e($row->penduduk->telepon) . '"',
+                        'attribut'   => 'data-telpon="' . e($row->penduduk?->telepon ?? '') . '"',
                     ])->render();
 
                     if (! $row->aktif) {

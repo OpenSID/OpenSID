@@ -204,8 +204,8 @@ class Kelompok extends Admin_Controller
 
     public function daftar($aksi = 'cetak'): void
     {
-        $status                 = $this->input->get('status_dasar');
-        $filter                 = $this->input->get('filter');
+        $status                 = $this->input->post_get('status_dasar');
+        $filter                 = $this->input->post_get('filter');
         $post                   = $this->input->post();
         $data['aksi']           = $aksi;
         $data['tipe']           = ucwords((string) $this->tipe);
@@ -348,7 +348,7 @@ class Kelompok extends Admin_Controller
     public function indexDokumen($id_kelompok): void
     {
         $data['status']      = [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'];
-        $data['kat_nama']    = 'Dokumen ' .  DokumenEnum::valueOf(DokumenEnum::KELOMPOK);
+        $data['kat_nama']    = 'Dokumen ' . DokumenEnum::valueOf(DokumenEnum::KELOMPOK);
         $data['id_kelompok'] = $id_kelompok;
         $data['tipe']        = $this->tipe; // tambahkan ini
         $data['module_name'] = ucfirst($this->tipe); // tambahkan ini
@@ -359,8 +359,8 @@ class Kelompok extends Admin_Controller
     public function datatablesDokumen()
     {
         if ($this->input->is_ajax_request()) {
-            $status      = $this->input->get('status') ?? null;
-            $id_kelompok = $this->input->get('id_kelompok');
+            $status      = $this->input->post_get('status') ?? null;
+            $id_kelompok = $this->input->post_get('id_kelompok');
             $tipe        = $this->tipe;
             $canDelete   = can('h');
 

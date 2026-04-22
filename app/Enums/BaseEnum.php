@@ -279,4 +279,15 @@ abstract class BaseEnum
 
         return $result;
     }
+
+    /**
+     * Dapatkan data dengan format id dan nama
+     */
+    public static function getData(): array
+    {
+        return collect(static::all())->map(static fn ($value, $key): array => [
+            'id'   => $key,
+            'nama' => $value,
+        ])->values()->toArray();
+    }
 }

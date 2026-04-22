@@ -50,8 +50,16 @@ class StatistikKeluargaEnum extends BaseEnum
         'url'   => 'statistik/kelas-sosial',
     ];
 
+    /**
+     * Inline array (hindari self::KELAS_SOSIAL di sini)
+     */
     public static $data = [
-        self::KELAS_SOSIAL,
+        [
+            'key'   => 'kelas_sosial',
+            'slug'  => 'kelas-sosial',
+            'label' => 'Kelas Sosial',
+            'url'   => 'statistik/kelas-sosial',
+        ],
     ];
 
     /**

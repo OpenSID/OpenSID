@@ -88,7 +88,7 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_410">
-                                    <td>410. Apakah saat ini (nama) sedang hamil (Untuk Wanita Usia 10-54 Tahun)</td>
+                                    <td class="ganti-nama">410. Apakah saat ini (nama) sedang hamil (Untuk Wanita Usia 10-54 Tahun)</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
                                             'class' => 'select2',
@@ -98,11 +98,11 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_411">
-                                    <td>411. Apakah (nama) memiliki kartu Identitas (*dapat dipilih lebih dari 1)</td>
+                                    <td class="ganti-nama">411. Apakah (nama) memiliki kartu Identitas (*dapat dipilih lebih dari 1)</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
                                             'class' => 'select2',
-                                            'attribut' => 'disabled multiple id="pilihan_4_411" name="pilihan[4][411]"',
+                                            'attribut' => 'multiple id="pilihan_4_411" name="pilihan[4][411]"',
                                             'pilihan' => $pilihan4['411'],
                                         ])
                                     </td>
@@ -203,7 +203,7 @@
                                     <td><span class="pekerjaan_saat_ini"></span></td>
                                 </tr>
                                 <tr id="tr_4_416a">
-                                    <td>416.a. Apakah (nama) bekerja/membantu bekerja selama seminggu yang lalu?</td>
+                                    <td class="ganti-nama">416.a. Apakah (nama) bekerja/membantu bekerja selama seminggu yang lalu?</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
                                             'class' => 'select2',
@@ -213,7 +213,7 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_416b">
-                                    <td>416.b. Berapa Jam (nama) bekerja/membantu bekerja selama seminggu yang lalu</td>
+                                    <td class="ganti-nama">416.b. Berapa Jam (nama) bekerja/membantu bekerja selama seminggu yang lalu</td>
                                     <td>
                                         <input maxlength="2" class="form-control input-sm angka" name="input[4][416b]" id="input_4_416b" type="text" value="" />
                                     </td>
@@ -245,7 +245,7 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_419">
-                                    <td>419. Apakah (nama) memiliki NPWP?</td>
+                                    <td class="ganti-nama">419. Apakah (nama) memiliki NPWP?</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
                                             'class' => 'select2',
@@ -301,7 +301,7 @@
                                     <td><span class="pekerjaan_saat_ini"></span></td>
                                 </tr>
                                 <tr id="tr_4_420a">
-                                    <td>420a. Apakah (nama) memiliki usaha sendiri/bersama?</td>
+                                    <td class="ganti-nama">420a. Apakah (nama) memiliki usaha sendiri/bersama?</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
                                             'class' => 'select2',
@@ -502,7 +502,7 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_428i">
-                                    <td>428.i. Apakah (nama) mengalami Kesulitan/Gangguan Mengingat/Berkonsentrasi?</td>
+                                    <td class="ganti-nama">428.i. Apakah (nama) mengalami Kesulitan/Gangguan Mengingat/Berkonsentrasi?</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
                                             'class' => 'select2',
@@ -512,7 +512,7 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_428j">
-                                    <td>428.j. Seberapa sering (nama) mengalami gangguan kesedihan depresi?</td>
+                                    <td class="ganti-nama">428.j. Seberapa sering (nama) mengalami gangguan kesedihan depresi?</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
                                             'class' => 'select2',
@@ -532,7 +532,7 @@
                                     </td>
                                 </tr> --}}
                                 <tr id="tr_4_430">
-                                    <td>430. Apakah (nama) memiliki keluhan kesehatan kronis/menahun?</td>
+                                    <td class="ganti-nama">430. Apakah (nama) memiliki keluhan kesehatan kronis/menahun?</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
                                             'class' => 'select2',
@@ -562,7 +562,7 @@
                             </thead>
                             <tbody>
                                 <tr id="tr_4_431a">
-                                    <td>431a. Dalam satu tahun terakhir, apakah (Nama) memiliki jaminan kesehatan?
+                                    <td class="ganti-nama">431a. Dalam satu tahun terakhir, apakah (Nama) memiliki jaminan kesehatan?
                                         (*dapat dipilih lebih dari 1)</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
@@ -573,7 +573,7 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_431b">
-                                    <td>431b. Dalam satu tahun terakhir, apakah (Nama) ikut serta dalam Program
+                                    <td class="ganti-nama">431b. Dalam satu tahun terakhir, apakah (Nama) ikut serta dalam Program
                                         Pra-Kerja?</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
@@ -584,7 +584,7 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_431c">
-                                    <td>431c. Dalam satu tahun terakhir, apakah (Nama) ikut serta dalam Program Kredit
+                                    <td class="ganti-nama">431c. Dalam satu tahun terakhir, apakah (Nama) ikut serta dalam Program Kredit
                                         Usaha Rakyat (KUR)?</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
@@ -595,7 +595,7 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_431d">
-                                    <td>431d. Dalam satu tahun terakhir, apakah (Nama) ikut serta dalam Program
+                                    <td class="ganti-nama">431d. Dalam satu tahun terakhir, apakah (Nama) ikut serta dalam Program
                                         Pembiayaan Ultra Mikro (UM)?</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
@@ -606,7 +606,7 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_431e">
-                                    <td>431e. Dalam satu tahun terakhir, apakah (Nama) ikut serta dalam Program
+                                    <td class="ganti-nama">431e. Dalam satu tahun terakhir, apakah (Nama) ikut serta dalam Program
                                         Indonesia Pintar (PIP)?</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
@@ -617,7 +617,7 @@
                                     </td>
                                 </tr>
                                 <tr id="tr_4_431f">
-                                    <td>431e. Dalam satu tahun terakhir, apakah (Nama) memiliki jaminan ketenagakerjaan?
+                                    <td class="ganti-nama">431e. Dalam satu tahun terakhir, apakah (Nama) memiliki jaminan ketenagakerjaan?
                                         (*dapat dipilih lebih dari 1)</td>
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtsen', [
@@ -751,8 +751,111 @@
                     };
                     setJumlahTerisi(index_anggota);
                 };
-                ajax_save_dtsen("{{  ci_route('dtsen/pendataan/save') . '/' . $dtsen->id }}", form, callback_success);
+
+                let btn = $(this).find('button[type=submit]');
+                let originalContent = btn.html();
+                btn.prop('disabled', true).html('<i class=\"fa fa-spinner fa-spin\"></i> Menyimpan...');
+                
+                ajax_save_dtsen(
+                    "{{ route('dtsen_pendataan.save', $dtsen->id) }}",
+                    form,
+                    function(data) {
+                        btn.prop('disabled', false).html(originalContent);
+
+                        let index_anggota = global_data_anggota.findIndex(function(item) {
+                            return item.id == data.new_data.id;
+                        });
+                        // combine data
+                        global_data_anggota[index_anggota] = {
+                            ...global_data_anggota[index_anggota],
+                            ...data.new_data
+                        };
+                        setJumlahTerisi(index_anggota);
+                    },
+                    function() {
+                        btn.prop('disabled', false).html(originalContent);
+                    }
+                );
             });
+
+            // -- Fungsi untuk mengganti (nama) dengan nama yang sebenarnya (BOLD)
+            let original_texts = {}; // Simpan teks original
+            let current_index_anggota = null; // Simpan index anggota saat ini
+
+            function updateNamaPlaceholder() {
+                // Ambil nama dari global_data_anggota
+                let nama = '';
+                
+                if (current_index_anggota !== null && global_data_anggota[current_index_anggota]) {
+                    nama = global_data_anggota[current_index_anggota].nama || '';
+                }
+
+                // Update semua elemen dengan class ganti-nama
+                $('.ganti-nama').each(function() {
+                    let el = $(this);
+                    let text = el.text();
+                    
+                    // Simpan teks original jika belum ada
+                    let id = el.attr('id') || el.closest('tr').attr('id');
+                    if (!original_texts[id]) {
+                        original_texts[id] = text;
+                    }
+
+                    // Gunakan teks original untuk replace
+                    let original_text = original_texts[id];
+                    
+                    if (nama) {
+                        // SECURITY FIX: Escape nama untuk mencegah XSS injection
+                        // Gunakan DOM manipulation approach untuk safe HTML rendering
+                        let parts = original_text.split(/(\(nama\)|\(Nama\))/g);
+                        el.empty();
+                        
+                        parts.forEach(function(part) {
+                            if (part === '(nama)' || part === '(Nama)') {
+                                // Tambahkan <b> tag dengan nama yang ter-escape otomatis
+                                el.append($('<b>').text(nama));
+                            } else {
+                                // Append teks biasa (auto-escaped oleh DOM)
+                                el.append(document.createTextNode(part));
+                            }
+                        });
+                    } else {
+                        // Kembalikan ke original jika tidak ada nama
+                        el.text(original_text);
+                    }
+                });
+            }
+
+            // Panggil saat modal dibuka dan set index_anggota
+            $('#modal-tab4').on('show.bs.modal', function (e) {
+                let button = $(e.relatedTarget);
+                let id_anggota = button.parentsUntil('tr').parent().data('id');
+                
+                // Set index anggota berdasarkan id_anggota
+                current_index_anggota = global_data_anggota.findIndex(function(item) {
+                    return item.id == id_anggota;
+                });
+
+                setTimeout(function() {
+                    updateNamaPlaceholder();
+                }, 100);
+            });
+
+            // Monitor perubahan pada title_art (jika berubah secara dinamis)
+            if (document.getElementById('title_art')) {
+                let observer = new MutationObserver(function(mutations) {
+                    updateNamaPlaceholder();
+                });
+
+                observer.observe(document.getElementById('title_art'), {
+                    childList: true,
+                    subtree: true,
+                    characterData: true
+                });
+            }
+
+            // Panggil fungsi saat document ready
+            updateNamaPlaceholder();
         });
     </script>
 @endpush

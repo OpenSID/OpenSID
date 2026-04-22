@@ -92,6 +92,15 @@ class Tracker
             return;
         }
 
+        /**
+         * Jangan kirim data ke pantau jika server pantau sedang down (circuit breaker)
+         * Ini mencegah endless timeout requests yang menyebabkan website lambat
+         */
+        if (pantau_is_down()) {
+            logger()->info('Skipping Tracker.kirimData() - pantau server marked as down');
+            return;
+        }
+
         if (defined('ENVIRONMENT')) {
             switch (ENVIRONMENT) {
                 case 'development':

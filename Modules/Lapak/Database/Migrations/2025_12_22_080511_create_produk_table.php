@@ -59,7 +59,7 @@ return new class () extends Migration {
                     $table->boolean('tipe_potongan')->default(true);
                     $table->integer('potongan')->default(0);
                     $table->text('deskripsi')->nullable();
-                    $table->string('foto', 225)->nullable();
+                    $table->longText('foto')->nullable();
                     $table->boolean('status')->default(true);
                     $table->timestamps();
 

@@ -99,8 +99,8 @@ class Wilayah extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $parent = $this->input->get('parent');
-            $level  = $this->input->get('level');
+            $parent = $this->input->post_get('parent');
+            $level  = $this->input->post_get('level');
 
             $subOrdinat = $this->subordinatLevel[$level] ?? '';
 
