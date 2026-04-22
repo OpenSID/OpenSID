@@ -29,6 +29,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 25. [#11046](https://github.com/OpenSID/OpenSID/issues/11046) Perbaikan saat aplikasi patau down, website desa dengan data lengkap atau stabil ikut menjadi lambat diakses.
 26. [#11063](https://github.com/OpenSID/OpenSID/issues/11063) Perbaikan sebutan nama di soal DTSEN pada tab anggota keluarga tidak mencantumkan nama sesuai data yang dipilih.
 27. [#11074](https://github.com/OpenSID/OpenSID/issues/11074) Perbaikan SHDK pada isian 409 DTSEN tidak otomatis terisi berdasarkan data penduduk.
+28. [#11071](https://github.com/OpenSID/OpenSID/issues/11071) Perbaikan pada hasil pemantauan dtsen, nama petugas tidak tampil, padahal sudah di isi manual.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.

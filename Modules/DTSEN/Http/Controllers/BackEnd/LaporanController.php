@@ -105,7 +105,7 @@ class LaporanController extends AdminModulController
                     'dtsen.id_keluarga',
                     'dtsen.kd_hasil_pendataan_keluarga',
                     'dtsen.kd_peringkat_kesejahteraan_keluarga',
-                    'dtsen.nama_petugas_pencacahan',
+                    'dtsen.nama_ppl',
                     'dtsen.updated_at'
                 )
                 ->addSelect('kk.nik as nik_kk', 'kk.nama as nama_kk')
@@ -215,8 +215,8 @@ class LaporanController extends AdminModulController
                 ->filterColumn('rt', static fn ($query, $keyword) => $query->where('wil_kk.rt', 'LIKE', "%{$keyword}%"))
                 ->addColumn('rw', static fn ($row) => $row->rw_kk ?? '-')
                 ->filterColumn('rw', static fn ($query, $keyword) => $query->where('wil_kk.rw', 'LIKE', "%{$keyword}%"))
-                ->addColumn('petugas', static fn ($row) => $row->nama_petugas_pencacahan ?? '-')
-                ->filterColumn('petugas', static fn ($query, $keyword) => $query->where('dtsen.nama_petugas_pencacahan', 'LIKE', "%{$keyword}%"))
+                ->addColumn('petugas', static fn ($row) => $row->nama_ppl ?? '-')
+                ->filterColumn('petugas', static fn ($query, $keyword) => $query->where('dtsen.nama_ppl', 'LIKE', "%{$keyword}%"))
                 ->rawColumns(['ceklist', 'aksi', 'jumlah_anggota', 'kd_hasil_pendataan_keluarga', 'kd_peringkat_kesejahteraan_keluarga'])
                 ->toJson();
         }

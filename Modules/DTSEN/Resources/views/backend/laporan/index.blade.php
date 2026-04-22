@@ -304,7 +304,7 @@
                     { data: 'rw', name: 'wil_kk.rw' },
                     { data: 'rt', name: 'wil_kk.rt' },
 
-                    { data: 'petugas', name: 'dtsen.nama_petugas_pencacahan' },
+                    { data: 'petugas', name: 'dtsen.nama_ppl' },
                     { data: 'updated_at', name: 'dtsen.updated_at' }
                 ],
                 order: [
