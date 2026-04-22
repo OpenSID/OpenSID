@@ -1,6 +1,5 @@
 {
   "private": true,
-  "type": "module",
   "scripts": {
     "prettier-blade": "prettier \"{resources/views,Modules/**/Views/,storage/**/resources/views}/{**,**/**,**/**/**}.blade.php\" --write"
   },

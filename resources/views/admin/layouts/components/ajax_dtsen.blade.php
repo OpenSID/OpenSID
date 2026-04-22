@@ -27,7 +27,9 @@
                     timer: 2000,
                     showConfirmButton: false
                 });
-                
+
+                $('.modal.in, .modal.show').modal('hide');
+
                 if (callback_success) {
                     callback_success(data);
                 }

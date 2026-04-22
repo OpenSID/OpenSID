@@ -31,6 +31,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 27. [#11074](https://github.com/OpenSID/OpenSID/issues/11074) Perbaikan SHDK pada isian 409 DTSEN tidak otomatis terisi berdasarkan data penduduk.
 28. [#11071](https://github.com/OpenSID/OpenSID/issues/11071) Perbaikan pada hasil pemantauan dtsen, nama petugas tidak tampil, padahal sudah di isi manual.
 29. [#11073](https://github.com/OpenSID/OpenSID/issues/11073) Perbaikan isian memiliki kartu Identitas pada isian 411 di DTSEN tidak sesuai.
+30. [#11068](https://github.com/OpenSID/OpenSID/issues/11068) Perbaikan tutup modal anggota keluarga setelah berhasil simpan di menu DTSEN.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.
