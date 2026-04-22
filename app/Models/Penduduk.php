@@ -443,8 +443,17 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $data['tanggal_cetak_ktp'] = date('Y-m-d');
         }
 
+        // Validasi otomatis Jenis Kelamin berdasarkan Hubungan Keluarga
+        // SUAMI = 2, ISTRI = 3
+        // LAKI-LAKI = 1, PEREMPUAN = 2
+        if ($data['kk_level'] == SHDKEnum::SUAMI && $data['sex'] != JenisKelaminEnum::LAKI_LAKI) {
+            $data['sex'] = JenisKelaminEnum::LAKI_LAKI;
+        } elseif ($data['kk_level'] == SHDKEnum::ISTRI && $data['sex'] != JenisKelaminEnum::PEREMPUAN) {
+            $data['sex'] = JenisKelaminEnum::PEREMPUAN;
+        }
+
         switch ($data['status_kawin']) {
-            case 1:
+            case StatusKawinEnum::BELUMKAWIN:
                 // Status 'belum kawin' tidak berlaku akta perkawinan dan perceraian
                 $data['akta_perkawinan']   = '';
                 $data['akta_perceraian']   = '';
@@ -452,14 +461,16 @@ class Penduduk extends BaseModel implements AuthenticatableContract
                 $data['tanggalperceraian'] = null;
                 break;
 
-            case 2:
+            case StatusKawinEnum::KAWIN:
                 // Status 'kawin' tidak berlaku akta perceraian
                 $data['akta_perceraian']   = '';
                 $data['tanggalperceraian'] = null;
                 break;
 
-            case 3:
-            case 4:
+            case StatusKawinEnum::CERAIHIDUP:
+            case StatusKawinEnum::CERAIMATI:
+                // Sesuai permintaan: jika status kawin ≠ kawin → tanggal kawin otomatis kosong/null
+                $data['tanggalperkawinan'] = null;
                 break;
         }
 
