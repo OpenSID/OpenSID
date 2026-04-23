@@ -852,6 +852,7 @@ function get_pesan_opendk(): void
     try {
         $client   = new GuzzleHttp\Client();
         $response = $client->post("{$ci->setting->api_opendk_server}/api/v1/pesan/getpesan", [
+            'allow_redirects' => false,
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
                 'Authorization'    => "Bearer {$ci->setting->api_opendk_key}",
@@ -928,6 +929,7 @@ if (! function_exists('opendk_api')) {
                 $client   = new GuzzleHttp\Client();
                 $response = $client->{$method}("{$ci->setting->api_opendk_server}{$path_url}", array_merge(
                     [
+                        'allow_redirects' => false,
                         'headers' => [
                             'X-Requested-With' => 'XMLHttpRequest',
                             'Authorization'    => "Bearer {$ci->setting->api_opendk_key}",

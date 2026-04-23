@@ -43,6 +43,19 @@ use Illuminate\Contracts\Validation\ValidationRule;
 class SecureCloudUrl implements ValidationRule
 {
     /**
+     * Indicates whether to enforce cloud domain whitelist.
+     */
+    protected bool $requireCloudWhitelist;
+
+    /**
+     * @param bool $requireCloudWhitelist Jika true, URL harus dari cloud storage yang didukung.
+     */
+    public function __construct(bool $requireCloudWhitelist = true)
+    {
+        $this->requireCloudWhitelist = $requireCloudWhitelist;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
@@ -83,8 +96,8 @@ class SecureCloudUrl implements ValidationRule
             }
         }
 
-        // 4. Cek domain whitelist
-        if (! ($this->isCurrentAppDomain($host) || $this->isTrustedCloudDomain($host))) {
+        // 4. Cek domain whitelist (hanya jika cloud whitelist diaktifkan)
+        if ($this->requireCloudWhitelist && ! ($this->isCurrentAppDomain($host) || $this->isTrustedCloudDomain($host))) {
             $fail("Domain '{$host}' tidak diizinkan. Gunakan layanan cloud storage yang didukung.");
 
             return;

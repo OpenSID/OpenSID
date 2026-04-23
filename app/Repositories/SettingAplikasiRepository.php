@@ -41,6 +41,7 @@ use App\Libraries\TinyMCE;
 use App\Models\Config;
 use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
+use App\Rules\Traits\ValidateCloudDomainTrait;
 use App\Services\OtpService;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\Cache;
@@ -48,7 +49,7 @@ use Spatie\Activitylog\Facades\LogBatch;
 
 class SettingAplikasiRepository
 {
-    use Upload;
+    use Upload, ValidateCloudDomainTrait;
 
     protected $setting;
 
@@ -294,6 +295,16 @@ class SettingAplikasiRepository
                         $hasil = false;
                         set_session('flash_error_msg', 'Untuk mengaktifkan Google reCAPTCHA, Site Key dan Secret Key harus diisi');
                     }
+                }
+
+                // Terapkan perlindungan SSRF lokal untuk api_opendk_server via trait
+                if ($key == 'api_opendk_server' && ! empty($value)) {
+                    $this->validateDomain(
+                        data: [$key => $value],
+                        requireCloudWhitelist: false,
+                        attribute: $key,
+                        redirectUrl: base_url('sinkronisasi#tab_buat_key')
+                    );
                 }
 
                 if ($key == 'ip_adress_kehadiran' || $key == 'mac_adress_kehadiran') {
