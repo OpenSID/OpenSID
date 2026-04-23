@@ -34,6 +34,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 30. [#11068](https://github.com/OpenSID/OpenSID/issues/11068) Perbaikan tutup modal anggota keluarga setelah berhasil simpan di menu DTSEN.
 31. [#11073](https://github.com/OpenSID/OpenSID/issues/11073) Perbaikan status perkawinan pada isian 408 DTSEN tidak otomatis terisi berdasarkan data penduduk.
 
+
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.
 
@@ -41,3 +42,4 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 1. [#10908](https://github.com/OpenSID/OpenSID/issues/10908) Tema wira menjadi tema default pada instalasi baru aplikasi OpenSID Premium dan juga penambahan tema Lestari dan Seruit Lite selama berstatus pelanggan premium.
 2. [#11076](https://github.com/OpenSID/OpenSID/issues/11076) Penambahan halaman peringatan ketika ionCube loader belum terpasang.
 3. [#10953](https://github.com/OpenSID/OpenSID/issues/10953) Optimasi browser cache untuk static asset tema & module.
+4. [#11070](https://github.com/OpenSID/OpenSID/issues/11070) Perbaikan pilihan desil pada form pemantauan dtsen.
