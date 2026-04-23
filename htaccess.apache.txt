@@ -39,7 +39,12 @@ RewriteEngine On
 # BLOCK SENSITIVE DIRECTORIES (WAJIB DI ATAS)
 # =====================================================
 # Prevent access to sensitive folders
-RewriteRule ^(\.git|\.github|bin|vendor|storage|Modules)(/|$) - [F,L]
+RewriteRule ^(\.git|\.github|bin|vendor|Modules)(/|$) - [F,L]
+
+# Block storage - KECUALI file gambar thumbnail tema (jpg/jpeg/png/gif/webp/svg)
+# Pola tanpa leading slash agar tetap jalan di instalasi root domain maupun subfolder.
+RewriteCond %{REQUEST_URI} !storage/app/themes/[^/]+/assets/thumbnail/[^/]+\.(jpe?g|png|gif|webp|svg)$ [NC]
+RewriteRule ^storage(/|$) - [F,L]
 
 # Block dotfiles (.htaccess, .env, .gitignore, etc.)
 <FilesMatch "^\.">

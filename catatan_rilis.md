@@ -33,6 +33,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 29. [#11075](https://github.com/OpenSID/OpenSID/issues/11075) Perbaikan isian memiliki kartu Identitas pada isian 411 di DTSEN tidak sesuai.
 30. [#11068](https://github.com/OpenSID/OpenSID/issues/11068) Perbaikan tutup modal anggota keluarga setelah berhasil simpan di menu DTSEN.
 31. [#11073](https://github.com/OpenSID/OpenSID/issues/11073) Perbaikan status perkawinan pada isian 408 DTSEN tidak otomatis terisi berdasarkan data penduduk.
+32. [#11043](https://github.com/OpenSID/OpenSID/issues/11043) Perbaikan gambar Thema Bawaan tidak tampil atau menampilkan gambar rusak.
 
 
 ### KEAMANAN
