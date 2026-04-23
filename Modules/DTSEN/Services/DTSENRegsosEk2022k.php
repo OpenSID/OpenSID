@@ -252,7 +252,7 @@ class DTSENRegsosEk2022k
                 $item->kd_jenis_kelamin    = $tmp_anggota->sex;
                 $item->tgl_lahir           = $tmp_anggota->tanggallahir;
                 $item->umur                = $tmp_anggota->umur;
-                $item->kd_stat_perkawinan  = $tmp_anggota->status_perkawinan;
+                $item->kd_stat_perkawinan  = in_array($tmp_anggota->status_kawin, [2, 21]) ? 2 : (in_array($tmp_anggota->status_kawin, [3, 31]) ? 3 : $tmp_anggota->status_kawin);
                 $item->kd_status_kehamilan = $tmp_anggota->hamil ?? '2';
 
                 $item->pekerjaan_saat_ini     = $tmp_anggota->pekerjaan;
