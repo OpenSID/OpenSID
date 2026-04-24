@@ -33,11 +33,12 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 29. [#11075](https://github.com/OpenSID/OpenSID/issues/11075) Perbaikan isian memiliki kartu Identitas pada isian 411 di DTSEN tidak sesuai.
 30. [#11068](https://github.com/OpenSID/OpenSID/issues/11068) Perbaikan tutup modal anggota keluarga setelah berhasil simpan di menu DTSEN.
 31. [#11073](https://github.com/OpenSID/OpenSID/issues/11073) Perbaikan status perkawinan pada isian 408 DTSEN tidak otomatis terisi berdasarkan data penduduk.
-32. [#11043](https://github.com/OpenSID/OpenSID/issues/11043) Perbaikan gambar Thema Bawaan tidak tampil atau menampilkan gambar rusak.
+32. [#11043](https://github.com/OpenSID/OpenSID/issues/11043) Perbaikan gambar tema bawaan tidak tampil atau menampilkan gambar rusak.
 33. [#11048](https://github.com/OpenSID/OpenSID/issues/11048) Perbaikan saat verifikasi telegram berhasil, tombol verifikasi masih tampil jika tidak direfresh.
 34. [#11014](https://github.com/OpenSID/OpenSID/issues/11014) Perbaikan terdapat perbedaan hasil rekapitulasi desa rejasa.
 35. [#11066](https://github.com/OpenSID/OpenSID/issues/11066) Perbaikan sebutan desa berubah menjadi desa saat ubah indentitas desa.
-36. [#11080](https://github.com/OpenSID/OpenSID/issues/11080) Perbaikan Pemanggilan Foto Default jika tidak ada foto pada inputan Area di Pemetaan.
+36. [#11080](https://github.com/OpenSID/OpenSID/issues/11080) Perbaikan pemanggilan foto default jika tidak ada foto pada inputan area di Pemetaan.
+37. [#11059](https://github.com/OpenSID/OpenSID/issues/11059) Perbaikan data kesukuan data yang tampil tidak konsisten.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.
