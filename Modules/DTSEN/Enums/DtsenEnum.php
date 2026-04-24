@@ -50,6 +50,8 @@ class DtsenEnum extends BaseEnum
         self::REGSOS_EK2022_K  => 'REGSOSEK2022.K',
     ];
 
+    public const HASIL_PENDATAAN_TERISI_LENGKAP = '1';
+
     final public static function GET_CLEAN_NAME_VERSION($code = self::VERSION_CODE): string
     {
         // remove char (-) and (.)

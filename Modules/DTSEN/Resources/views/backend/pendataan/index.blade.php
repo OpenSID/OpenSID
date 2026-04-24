@@ -45,6 +45,7 @@
                             <th colspan="6" class="padat" kolom="5,6,7,8,9,10">Kepala Keluarga</th>
                             <th rowspan="2">Petugas</th>
                             <th rowspan="2">Terakhir diubah</th>
+                            <th rowspan="2">Status Kelengkapan</th>
                         </tr>
                         <tr>
                             <th>Pengisian</th>
@@ -269,7 +270,8 @@
                     { data: 'rt', name: 'wil_kk.rt' },
 
                     { data: 'petugas', name: 'dtsen.nama_ppl' },
-                    { data: 'updated_at', name: 'dtsen.updated_at' }
+                    { data: 'updated_at', name: 'dtsen.updated_at' },
+                    { data: 'status_lengkap', orderable: false, searchable: false },
                 ],
                 order: [
                     [3, 'asc']
