@@ -163,7 +163,10 @@ class Config extends BaseModel
         });
 
         static::updating(static function ($model): void {
-            static::updateOtomatisKelurahan($model);
+            // Only update sebutan_desa otomatis jika kode_desa berubah
+            if ($model->isDirty('kode_desa')) {
+                static::updateOtomatisKelurahan($model);
+            }
             static::deleteFile($model, 'logo');
             static::deleteFile($model, 'kantor_desa');
             static::clearCache();
