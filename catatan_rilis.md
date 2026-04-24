@@ -37,7 +37,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 33. [#11048](https://github.com/OpenSID/OpenSID/issues/11048) Perbaikan saat verifikasi telegram berhasil, tombol verifikasi masih tampil jika tidak direfresh.
 34. [#11014](https://github.com/OpenSID/OpenSID/issues/11014) Perbaikan terdapat perbedaan hasil rekapitulasi desa rejasa.
 35. [#11066](https://github.com/OpenSID/OpenSID/issues/11066) Perbaikan sebutan desa berubah menjadi desa saat ubah indentitas desa.
-
+36. [#11080](https://github.com/OpenSID/OpenSID/issues/11080) Perbaikan Pemanggilan Foto Default jika tidak ada foto pada inputan Area di Pemetaan.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.
