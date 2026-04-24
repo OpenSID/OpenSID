@@ -1924,7 +1924,7 @@ style="font-family: Arial, Helvetica, sans-serif; font-size: 8pt">
                 <b>2.</b> Berusaha dibantu buruh tidak tetap/tidak dibayar<?=str_repeat('&nbsp;', 6)?>
                 <b>3.</b> Berusaha dibantu buruh tetap/dibayar<?=str_repeat('&nbsp;', 6)?>
                 <b>4.</b> Buruh/karyawan/pegawai swasta<?=str_repeat('&nbsp;', 6)?>
-                <br><b>5.</b> PNS/TNI/ Polri/BUMN/BUMD/pejabat negara<?=str_repeat('&nbsp;', 6)?>
+                <br><b>5.</b> ASN/TNI/ Polri/BUMN/BUMD/pejabat negara<?=str_repeat('&nbsp;', 6)?>
                 <b>6.</b> Pekerja bebas pertanian<?=str_repeat('&nbsp;', 6)?>
                 <b>7.</b> Pekerja bebas non-pertanian<?=str_repeat('&nbsp;', 6)?>
                 <b>8.</b> Pekerja keluarga/tidak dibayar

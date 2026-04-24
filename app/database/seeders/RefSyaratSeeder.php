@@ -54,7 +54,7 @@ class RefSyaratSeeder extends Seeder
             ['ref_syarat_nama' => 'Surat Keterangan Kematian dari Rumah Sakit, Rumah Bersalin Puskesmas, atau visum Dokter'],
             ['ref_syarat_nama' => 'Surat Keterangan Cerai'],
             ['ref_syarat_nama' => 'Fotokopi Ijasah Terakhir'],
-            ['ref_syarat_nama' => 'SK. PNS/KARIP/SK. TNI – POLRI'],
+            ['ref_syarat_nama' => 'SK. ASN/KARIP/SK. TNI - POLRI'],
             ['ref_syarat_nama' => 'Surat Keterangan Kematian dari Kepala Desa/Kelurahan'],
             ['ref_syarat_nama' => 'Surat imigrasi / STMD (Surat Tanda Melapor Diri)'],
         ];

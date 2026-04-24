@@ -36,8 +36,12 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
+use App\Enums\PekerjaanEnum;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class () extends Migration {
     use Migrator;
@@ -47,13 +51,27 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        // Drop FK lama sebelum menambahkan yang baru
-        $this->hapusForeignKey('artikel_kategori_2026_fk', 'artikel', 'kategori');
+        $this->updatePekerjaan();
+        $this->updateSyaratSurat();
+        $this->refreshArtikelKategoriForeignKey();
 
-        if (! $this->foreignKeyExists('artikel', 'artikel_kategori_2026_04_15_fk')) {
-            Schema::table('artikel', static function (Blueprint $table) {
-                $table->foreign(['id_kategori'], 'artikel_kategori_2026_04_15_fk')->references(['id'])->on('kategori')->onUpdate('cascade')->onDelete('set null');
-            });
+    }
+
+    private function updatePekerjaan(): void
+    {
+        if (Schema::hasTable('tweb_penduduk_pekerjaan')) {
+            DB::table('tweb_penduduk_pekerjaan')
+                ->where('id', 5)
+                ->update(['nama' => PekerjaanEnum::APARATUR_SIPIL_NEGARA_ASN]);
+        }
+    }
+
+    private function updateSyaratSurat(): void
+    {
+        if (Schema::hasTable('ref_syarat_surat')) {
+            DB::table('ref_syarat_surat')
+                ->where('ref_syarat_nama', 'LIKE', 'SK. PNS/KARIP/SK. TNI%POLRI')
+                ->update(['ref_syarat_nama' => 'SK. ASN/KARIP/SK. TNI - POLRI']);
         }
     }
 

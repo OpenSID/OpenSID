@@ -495,7 +495,7 @@ class Regsosek2022kEnum extends BaseEnum
                 '2' => '2. Berusaha dibantu buruh tidak tetap/tidak dibayar',
                 '3' => '3. Berusaha dibantu buruh tetap/dibayar',
                 '4' => '4. Buruh/karyawan/pegawai swasta',
-                '5' => '5. PNS/TNI/ Polri/BUMN/BUMD/pejabat negara  ',
+                '5' => '5. ASN/TNI/ Polri/BUMN/BUMD/pejabat negara  ',
                 '6' => '6. Pekerja bebas pertanian',
                 '7' => '7. Pekerja bebas non-pertanian',
                 '8' => '8. Pekerja keluarga/tidak dibayar',

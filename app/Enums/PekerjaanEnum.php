@@ -45,7 +45,7 @@ class PekerjaanEnum extends BaseEnum
     public const MENGURUS_RUMAH_TANGGA          = 2;
     public const PELAJAR_MAHASISWA              = 3;
     public const PENSIUNAN                      = 4;
-    public const PEGAWAI_NEGERI_SIPIL_PNS       = 5;
+    public const APARATUR_SIPIL_NEGARA_ASN       = 5;
     public const TENTARA_NASIONAL_INDONESIA_TNI = 6;
     public const KEPOLISIAN_RI_POLRI            = 7;
     public const PERDAGANGAN                    = 8;
@@ -141,7 +141,7 @@ class PekerjaanEnum extends BaseEnum
             self::MENGURUS_RUMAH_TANGGA          => 'MENGURUS RUMAH TANGGA',
             self::PELAJAR_MAHASISWA              => 'PELAJAR/MAHASISWA',
             self::PENSIUNAN                      => 'PENSIUNAN',
-            self::PEGAWAI_NEGERI_SIPIL_PNS       => 'PEGAWAI NEGERI SIPIL (PNS)',
+            self::APARATUR_SIPIL_NEGARA_ASN      => 'APARATUR SIPIL NEGARA (ASN)',
             self::TENTARA_NASIONAL_INDONESIA_TNI => 'TENTARA NASIONAL INDONESIA (TNI)',
             self::KEPOLISIAN_RI_POLRI            => 'KEPOLISIAN RI (POLRI)',
             self::PERDAGANGAN                    => 'PERDAGANGAN',
