@@ -1750,8 +1750,8 @@
                 if (id_kk && kk_level == 4) {
                     // Jika data ayah ada, set readonly dan tampilkan datanya
                     if (data_ayah_nik || data_ayah_nama) {
-                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', true);
-                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', true);
+                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', false);
+                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', false);
                     } else {
                         // Jika data ayah tidak ada, biarkan input manual
                         $('#ayah_nik').val('').prop('readonly', false);
@@ -1759,8 +1759,8 @@
                     }
                     // Jika data ibu ada, set readonly dan tampilkan datanya
                     if (data_ibu_nik || data_ibu_nama) {
-                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', true);
-                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', true);
+                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', false);
+                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', false);
                     } else {
                         // Jika data ibu tidak ada, biarkan input manual
                         $('#ibu_nik').val('').prop('readonly', false);
@@ -1774,21 +1774,23 @@
                     $('#nama_ibu').val('').prop('readonly', false);
                 }
             } else {
-                // Untuk bukan bayi baru lahir, gunakan logika lama
+                // Untuk bukan bayi baru lahir (misal: pindah masuk, dll)
                 if (id_kk && kk_level == 4) {
-                    // Jika data ayah ada, set readonly dan tampilkan datanya
+                    // Jika data ayah ada, isi otomatis sebagai saran tapi tetap bisa diubah
+                    // Karena ada kemungkinan orang tua berbeda dengan kepala keluarga
+                    // Contoh: anak dari suami terdahulu yang masuk KK baru
                     if (data_ayah_nik || data_ayah_nama) {
-                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', true);
-                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', true);
+                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', false);
+                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', false);
                     } else {
                         // Jika data ayah tidak ada, biarkan input manual
                         $('#ayah_nik').val('').prop('readonly', false);
                         $('#nama_ayah').val('').prop('readonly', false);
                     }
-                    // Jika data ibu ada, set readonly dan tampilkan datanya
+                    // Jika data ibu ada, isi otomatis sebagai saran tapi tetap bisa diubah
                     if (data_ibu_nik || data_ibu_nama) {
-                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', true);
-                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', true);
+                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', false);
+                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', false);
                     } else {
                         // Jika data ibu tidak ada, biarkan input manual
                         $('#ibu_nik').val('').prop('readonly', false);

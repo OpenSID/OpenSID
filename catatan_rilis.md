@@ -4,6 +4,8 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 1. [#11040](https://github.com/OpenSID/OpenSID/issues/11040) Penambahan fitur animasi skeleton wave (shimmer loading) pada modal AJAX global.
 2. [#589](https://github.com/OpenSID/pantau/issues/589) Penambahan fitur tracking layanan aktif dan sebutan desa ke sistem pantau.
 3. [#11051](https://github.com/OpenSID/OpenSID/issues/11051) Penambahan fitur penyesuaian input jenis kelamin berdasarkan shdk dan tanggal kawin berdasarkan status kawin.
+4. [#11017](https://github.com/OpenSID/OpenSID/issues/11017) Penambahan fitur agar data orang tua bisa diubah dengan shdk anak.
+
 
 ### BUG
 
