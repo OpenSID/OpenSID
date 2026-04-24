@@ -280,7 +280,7 @@ class Keluarga extends Admin_Controller
         $query = datatables($this->sumberData())
             ->filter(function ($query) {
                 $query->when($this->input->post('id_cb'), static function ($query, $ids) {
-                    $query->whereIn('id', json_decode($ids));
+                    $query->whereIn('tweb_keluarga.id', json_decode($ids));
                 });
             });
 
