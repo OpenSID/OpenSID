@@ -75,6 +75,18 @@ return new class () extends Migration {
         }
     }
 
+    private function refreshArtikelKategoriForeignKey(): void
+    {
+        // Drop FK lama sebelum menambahkan yang baru
+        $this->hapusForeignKey('artikel_kategori_2026_fk', 'artikel', 'kategori');
+
+        if (! $this->foreignKeyExists('artikel', 'artikel_kategori_2026_04_15_fk')) {
+            Schema::table('artikel', static function (Blueprint $table): void {
+                $table->foreign(['id_kategori'], 'artikel_kategori_2026_04_15_fk')->references(['id'])->on('kategori')->onUpdate('cascade')->onDelete('set null');
+            });
+        }
+    }
+
     /**
      * Reverse the migrations.
      */

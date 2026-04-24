@@ -8,7 +8,7 @@
         "sistem-informasi-desa"
     ],
     "require": {
-        "php": "^8.1",
+        "php": ">=8.2.0 <8.4.0",
         "codeigniter/framework": "^3.1",
         "cviebrock/eloquent-sluggable": "^10.0",
         "dg/mysql-dump": "^1.6",

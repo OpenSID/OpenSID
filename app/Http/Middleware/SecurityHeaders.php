@@ -41,7 +41,7 @@ use Throwable;
 
 class SecurityHeaders
 {
-    public static function handle()
+    public static function handle(): void
     {
         if (! config('security.enabled')) {
             return;
@@ -57,7 +57,7 @@ class SecurityHeaders
             }
 
             // Skip Permissions-Policy untuk halaman buku-tamu agar kamera dapat diakses
-            if ($key === 'Permissions-Policy' && strpos($request->path(), 'buku-tamu') !== false) {
+            if ($key === 'Permissions-Policy' && str_contains($request->path(), 'buku-tamu')) {
                 continue;
             }
 

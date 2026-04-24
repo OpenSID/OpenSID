@@ -61,3 +61,5 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 3. [#10953](https://github.com/OpenSID/OpenSID/issues/10953) Optimasi browser cache untuk static asset tema & module.
 4. [#11070](https://github.com/OpenSID/OpenSID/issues/11070) Perbaikan pilihan desil pada form pemantauan dtsen.
 5. [#11085](https://github.com/OpenSID/OpenSID/issues/11085) Pada DTSEN ketika tombol simpan diklik maka halaman form tertutup, trigernya adalah kolom pertanyaan nomor 205.
+6. [#11082](https://github.com/OpenSID/OpenSID/issues/11082) Penyesuaian opensid ke PHP versi 8.2 dan ioncube bundle.
+7. [#11088](https://github.com/OpenSID/OpenSID/issues/11088) penyesuaian OpenSID API Tema.postman_collection.json ke method post.

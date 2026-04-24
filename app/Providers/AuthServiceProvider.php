@@ -219,8 +219,8 @@ class AuthServiceProvider extends ServiceProvider
 
             // If called from native Laravel method (empty arguments)
             // Extract ability name: 'dashboard:baca' → slugModul='dashboard', akses='baca'
-            if (! is_array($arguments) || empty($arguments)) {
-                if (strpos($ability, ':') !== false) {
+            if (! is_array($arguments) || $arguments === []) {
+                if (str_contains($ability, ':')) {
                     [$slugModul, $akses] = explode(':', $ability, 2);
                 } else {
                     return null; // Invalid ability format

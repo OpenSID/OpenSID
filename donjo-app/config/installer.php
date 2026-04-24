@@ -263,8 +263,8 @@ $config = [
     'server' => [
         'php' => [
             'name'    => 'PHP Version',
-            'version' => '>= 8.1.0 | <= 8.3.0',
-            'check'   => static fn (): bool => version_compare(PHP_VERSION, '8.1', '>=') && version_compare(PHP_VERSION, '8.3', '<='),
+            'version' => '>= 8.2.x | <= 8.3.x',
+            'check'   => static fn (): bool => version_compare(PHP_VERSION, '8.2', '>=') && version_compare(PHP_VERSION, '8.4', '<'),
         ],
         'pdo' => [
             'name'  => 'PDO',
@@ -313,6 +313,10 @@ $config = [
         'exif' => [
             'name'  => 'Exif extension',
             'check' => static fn (): bool => extension_loaded('exif'),
+        ],
+        'ioncube' => [
+            'name'  => 'IonCube Loader',
+            'check' => static fn (): bool => extension_loaded('ionCube Loader'),
         ],
     ],
 ];

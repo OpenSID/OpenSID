@@ -39,7 +39,7 @@ namespace App\Libraries\BIP;
 
 class Bip
 {
-    private $formatBip;
+    private readonly \App\Libraries\BIP\Siak|\App\Libraries\BIP\Bip2016|\App\Libraries\BIP\Bip2016Luwutimur|\App\Libraries\BIP\BipEktp|\App\Libraries\BIP\Bip2012 $formatBip;
     private $data;
 
     public function __construct($data)
@@ -58,7 +58,7 @@ class Bip
      *
      * @param mixed $data Data excel berisi bip
      */
-    private function cariFormatBip($data): Siak|Bip2016|Bip2016Luwutimur|BipEktp|Bip2012
+    private function cariFormatBip(mixed $data): Siak|Bip2016|Bip2016Luwutimur|BipEktp|Bip2012
     {
         $dataSheet = $data->sheets[0]['cells'];
 
@@ -70,11 +70,11 @@ class Bip
             return new Bip2016();
         }
 
-        if (strpos((string) $dataSheet[1][2], 'BUKU INDUK KEPENDUDUKAN') !== false && strpos((string) $dataSheet[1][2], '(DAFTAR  KELUARGA)') !== false) {
+        if (str_contains((string) $dataSheet[1][2], 'BUKU INDUK KEPENDUDUKAN') && str_contains((string) $dataSheet[1][2], '(DAFTAR  KELUARGA)')) {
             return new Bip2016Luwutimur();
         }
 
-        if (strpos((string) $dataSheet[1][16], 'Wjb KTP') !== false && strpos((string) $dataSheet[1][17], 'KTP-eL') !== false) {
+        if (str_contains((string) $dataSheet[1][16], 'Wjb KTP') && str_contains((string) $dataSheet[1][17], 'KTP-eL')) {
             return new BipEktp();
         }
 

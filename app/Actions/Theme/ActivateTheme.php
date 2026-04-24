@@ -52,7 +52,7 @@ class ActivateTheme
      */
     public function handle(int|string $idOrSlug): Theme
     {
-        $theme = Theme::where(static function ($q) use ($idOrSlug) {
+        $theme = Theme::where(static function ($q) use ($idOrSlug): void {
                 $q->where('id', $idOrSlug)
                     ->orWhere('slug', $idOrSlug);
             })

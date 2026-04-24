@@ -42,7 +42,7 @@ use Modules\BukuTamu\Models\TamuModel;
 
 class TamuBaru extends BaseNotification
 {
-    public function __construct(private TamuModel $tamu)
+    public function __construct(private readonly TamuModel $tamu)
     {
     }
 

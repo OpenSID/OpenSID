@@ -47,6 +47,9 @@ class MasaAktifAkunMail extends Mailable
     use Queueable;
     use SerializesModels;
 
+    /**
+     * @var \App\Models\User
+     */
     public $user;
 
     /**
@@ -68,7 +71,7 @@ class MasaAktifAkunMail extends Mailable
     {
         $status     = $this->user->active == 1 ? 'Diaktifkan' : 'Dinonaktifkan';
         $dapatLogin = $this->user->active == 1 ? 'dapat' : 'tidak dapat';
-        $appName    = ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
+        $appName    = ucwords((string) setting('sebutan_desa')) . ' ' . identitas('nama_desa');
         $subject    = "Akun Anda Telah {$status} - {$appName}";
 
         return $this->subject($subject)

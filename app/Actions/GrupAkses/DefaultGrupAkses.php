@@ -49,10 +49,8 @@ class DefaultGrupAkses
      * Create hak akses.
      *
      * @param int $configId
-     *
-     * @return void
      */
-    public function handle($configId = null)
+    public function handle($configId = null): bool
     {
         $hakAksesBawaan = [
             'administrator' => [
@@ -223,8 +221,8 @@ class DefaultGrupAkses
             }
 
             if (count($akses) == 1) {
-                if (array_keys($akses)[0] == '*') {
-                    $modul->each(static function ($q) use ($idGrup, $configId, $akses) {
+                if (array_keys($akses)[0] === '*') {
+                    $modul->each(static function ($q) use ($idGrup, $configId, $akses): void {
                         $dataInsert = [
                             'config_id' => $configId,
                             'id_grup'   => $idGrup,

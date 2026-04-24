@@ -432,13 +432,13 @@ class HeuristicDetectorDefaultService
         ];
 
         foreach ($suspicious as $pattern) {
-            if (strpos($filename, $pattern) !== false) {
+            if (str_contains($filename, $pattern)) {
                 return true;
             }
         }
 
         // Hidden files (starts with dot)
-        return (bool) (strpos($filename, '.') === 0 && $filename !== '.htaccess');
+        return str_starts_with($filename, '.') && $filename !== '.htaccess';
     }
 
     /**
@@ -483,7 +483,7 @@ class HeuristicDetectorDefaultService
             foreach ($excludeDirs as $excludeDir) {
                 $normalizedExclude = str_replace('\\', '/', $excludeDir);
                 // Check if path contains the excluded directory
-                if (strpos($normalizedPath, $normalizedExclude) !== false) {
+                if (str_contains($normalizedPath, $normalizedExclude)) {
                     $excluded = true;
                     break;
                 }
@@ -515,7 +515,7 @@ class HeuristicDetectorDefaultService
         }
 
         // Sort by risk score (highest first)
-        uasort($results['files'], static fn ($a, $b) => $b['risk_score'] <=> $a['risk_score']);
+        uasort($results['files'], static fn ($a, $b): int => $b['risk_score'] <=> $a['risk_score']);
 
         return $results;
     }
@@ -526,7 +526,10 @@ class HeuristicDetectorDefaultService
      */
     public function shouldScanFile(string $filepath): bool
     {
-        return $this->isPhpFile($filepath) || $this->isSuspiciousNonPhpFile($filepath);
+        if ($this->isPhpFile($filepath)) {
+            return true;
+        }
+        return $this->isSuspiciousNonPhpFile($filepath);
     }
 
     /**
@@ -568,10 +571,8 @@ class HeuristicDetectorDefaultService
         }
 
         // Check untuk encoded PHP tags
-        return (bool) (
-            preg_match('/\\\\x3c\\\\x3f/i', $header)
-            || preg_match('/chr\s*\(\s*60\s*\).*chr\s*\(\s*63\s*\)/i', $header)
-        );
+        return preg_match('/\\\\x3c\\\\x3f/i', $header)
+        || preg_match('/chr\s*\(\s*60\s*\).*chr\s*\(\s*63\s*\)/i', $header);
               // Suspicious: Encoded PHP tags
     }
 
@@ -610,7 +611,7 @@ class HeuristicDetectorDefaultService
 
                 foreach ($result['matched_patterns'] as $match) {
                     $report[] = "│   - [{$match['category']}] Weight: {$match['weight']}";
-                    $report[] = '│     Match: ' . substr($match['match'], 0, 80);
+                    $report[] = '│     Match: ' . substr((string) $match['match'], 0, 80);
                 }
 
                 $report[] = '└─────────────────────────────────────────────────────';

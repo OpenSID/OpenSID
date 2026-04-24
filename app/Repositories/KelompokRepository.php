@@ -59,13 +59,13 @@ class KelompokRepository
         return QueryBuilder::for(KelompokAnggota::with('anggota')->anggota()->slugKelompok($slug))
             ->allowedFields('*')
             ->allowedFilters([
-                AllowedFilter::callback('search', static function ($query, $value) {
-                    $query->where(static function ($subQuery) use ($value) {
+                AllowedFilter::callback('search', static function ($query, $value): void {
+                    $query->where(static function ($subQuery) use ($value): void {
                         $subQuery->where('no_anggota', 'LIKE', '%' . $value . '%')
-                            ->orWhereHas('anggota', static function ($anggotaQuery) use ($value) {
+                            ->orWhereHas('anggota', static function ($anggotaQuery) use ($value): void {
                                 $anggotaQuery->where('nama', 'LIKE', "%{$value}%")
-                                    ->orWhere(static function ($q) use ($value) {
-                                        $v   = strtolower($value);
+                                    ->orWhere(static function ($q) use ($value): void {
+                                        $v   = strtolower((string) $value);
                                         $sex = null;
 
                                         if (strpbrk($v, 'laki')) {
@@ -79,7 +79,7 @@ class KelompokRepository
                                         }
                                     })
 
-                                    ->orWhereHas('wilayah', static function ($wilayahQuery) use ($value) {
+                                    ->orWhereHas('wilayah', static function ($wilayahQuery) use ($value): void {
                                         $wilayahQuery->where('dusun', 'LIKE', "%{$value}%")
                                             ->orWhere('rw', 'LIKE', "%{$value}%")
                                             ->orWhere('rt', 'LIKE', "%{$value}%");
@@ -92,7 +92,7 @@ class KelompokRepository
                 'id',
                 'no_anggota',
                 AllowedSort::custom('jenis_kelamin', new class () implements \Spatie\QueryBuilder\Sorts\Sort {
-                    public function __invoke($query, $descending, string $property)
+                    public function __invoke($query, $descending, string $property): void
                     {
                         $direction = $descending ? 'desc' : 'asc';
                         $query->join('tweb_penduduk', 'kelompok_anggota.id_penduduk', '=', 'tweb_penduduk.id')
@@ -100,7 +100,7 @@ class KelompokRepository
                     }
                 }),
                 AllowedSort::custom('alamat', new class () implements \Spatie\QueryBuilder\Sorts\Sort {
-                    public function __invoke($query, $descending, string $property)
+                    public function __invoke($query, $descending, string $property): void
                     {
                         $direction = $descending ? 'desc' : 'asc';
                         $query->join('tweb_penduduk', 'kelompok_anggota.id_penduduk', '=', 'tweb_penduduk.id')
@@ -109,7 +109,7 @@ class KelompokRepository
                     }
                 }),
                 AllowedSort::custom('nama', new class () implements \Spatie\QueryBuilder\Sorts\Sort {
-                    public function __invoke($query, $descending, string $property)
+                    public function __invoke($query, $descending, string $property): void
                     {
                         $direction = $descending ? 'desc' : 'asc';
                         $query->join('tweb_penduduk', 'kelompok_anggota.id_penduduk', '=', 'tweb_penduduk.id')
@@ -117,7 +117,7 @@ class KelompokRepository
                     }
                 }),
                 AllowedSort::custom('nama_penduduk', new class () implements \Spatie\QueryBuilder\Sorts\Sort {
-                    public function __invoke($query, $descending, string $property)
+                    public function __invoke($query, $descending, string $property): void
                     {
                         $direction = $descending ? 'desc' : 'asc';
                         $query->join('tweb_penduduk', 'kelompok_anggota.id_penduduk', '=', 'tweb_penduduk.id')

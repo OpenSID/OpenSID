@@ -91,21 +91,20 @@ trait ValidateCloudDomainTrait
      * Jika URL berasal dari Google Drive, akan dikonversi ke format thumbnail.
      * Jika bukan URL Google Drive, URL akan dikembalikan apa adanya.
      *
-     * @param mixed $url
      *
      * @return string|null
      */
-    protected function googleDriveDirectUrl($url)
+    protected function googleDriveDirectUrl(mixed $url)
     {
         if (empty($url)) {
             return null;
         }
 
-        if (strpos($url, 'drive.google.com') === false) {
+        if (!str_contains((string) $url, 'drive.google.com')) {
             return $url;
         }
 
-        preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $url, $matches);
+        preg_match('/\/d\/([a-zA-Z0-9_-]+)/', (string) $url, $matches);
         $fileId = $matches[1] ?? null;
 
         if (! $fileId) {

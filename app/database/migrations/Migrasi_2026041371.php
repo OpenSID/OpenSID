@@ -58,7 +58,7 @@ return new class () extends Migration {
     {
     }
 
-    public function tambahPengaturanTahunApbdes()
+    public function tambahPengaturanTahunApbdes(): void
     {
         $this->createSetting([
             'judul'      => 'Tahun APBDes',

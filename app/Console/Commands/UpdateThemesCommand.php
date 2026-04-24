@@ -70,10 +70,8 @@ class UpdateThemesCommand extends Command
 
     /**
      * Jalankan console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $themesPath = storage_path('app/themes');
 
@@ -104,11 +102,9 @@ class UpdateThemesCommand extends Command
     /**
      * Hapus semua folder tema kecuali esensi
      *
-     * @param string $themesPath
      *
-     * @return bool
      */
-    protected function deleteOldThemes($themesPath)
+    protected function deleteOldThemes(string $themesPath): bool
     {
         if (! is_dir($themesPath)) {
             $this->error("Direktori tema tidak ditemukan: {$themesPath}");
@@ -133,11 +129,9 @@ class UpdateThemesCommand extends Command
     /**
      * Clone tema dan checkout ke branch rilis
      *
-     * @param string $themesPath
      *
-     * @return bool
      */
-    protected function cloneThemes($themesPath)
+    protected function cloneThemes(string $themesPath): bool
     {
         foreach ($this->themesToClone as $themeName => $repoUrl) {
             $themeDir = $themesPath . DIRECTORY_SEPARATOR . $themeName;
@@ -164,7 +158,7 @@ class UpdateThemesCommand extends Command
             try {
                 $checkoutProcess->mustRun();
                 $this->line('    ✓ Berhasil checkout ke branch rilis');
-            } catch (ProcessFailedException $e) {
+            } catch (ProcessFailedException) {
                 // Coba fetch dan checkout jika percobaan pertama gagal
                 $this->warn('    ! Mencoba mengambil branch remote terlebih dahulu...');
                 $fetchProcess = new Process(['git', 'fetch', 'origin'], $themeDir);
@@ -194,11 +188,10 @@ class UpdateThemesCommand extends Command
     /**
      * Hapus direktori secara rekursif
      *
-     * @param string $path
      *
      * @return void
      */
-    protected function deleteDirectory($path)
+    protected function deleteDirectory(string $path)
     {
         if (is_dir($path)) {
             $files = array_diff(scandir($path), ['.', '..']);
@@ -220,11 +213,9 @@ class UpdateThemesCommand extends Command
     /**
      * Dapatkan informasi summary tema
      *
-     * @param string $themesPath
      *
-     * @return array
      */
-    protected function getThemeSummary($themesPath)
+    protected function getThemeSummary(string $themesPath): array
     {
         $summary = [];
 

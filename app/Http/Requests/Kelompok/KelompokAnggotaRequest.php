@@ -124,7 +124,7 @@ class KelompokAnggotaRequest extends FormRequest
 
         // Konversi format tanggal d-m-Y (datepicker) → Y-m-d (MySQL)
         foreach ($dateFields as $field) {
-            if (! empty($data[$field]) && preg_match('/^\d{2}-\d{2}-\d{4}$/', $data[$field])) {
+            if (! empty($data[$field]) && preg_match('/^\d{2}-\d{2}-\d{4}$/', (string) $data[$field])) {
                 $data[$field] = \Carbon\Carbon::createFromFormat('d-m-Y', $data[$field])->format('Y-m-d');
             }
         }

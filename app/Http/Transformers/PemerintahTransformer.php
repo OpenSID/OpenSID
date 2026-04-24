@@ -49,7 +49,7 @@ use Modules\Kehadiran\Models\Kehadiran;
 
 class PemerintahTransformer extends TransformerAbstract
 {
-    public function transform(Pamong $pemerintah)
+    public function transform(Pamong $pemerintah): array
     {
         $today = Carbon::now()->format('Y-m-d');
 
@@ -87,9 +87,9 @@ class PemerintahTransformer extends TransformerAbstract
             'media_sosial' => $pemerintah->media_sosial,
 
             // Data kehadiran
-            'status_kehadiran' => ! $isHariLiburNasional
-                ? ucwords($kehadiran->status_kehadiran ?? 'Belum Rekam Kehadiran')
-                : 'Hari Libur',
+            'status_kehadiran' => $isHariLiburNasional
+                ? 'Hari Libur'
+                : ucwords($kehadiran->status_kehadiran ?? 'Belum Rekam Kehadiran'),
 
             'kehadiran' => $tampilkanStatusKehadiran && $kehadiran ? [
                 'status_kehadiran' => ucwords($kehadiran->status_kehadiran),

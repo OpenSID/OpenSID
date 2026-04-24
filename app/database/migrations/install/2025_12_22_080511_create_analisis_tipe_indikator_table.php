@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('analisis_tipe_indikator', static function (Blueprint $table) {
+        Schema::create('analisis_tipe_indikator', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->string('tipe', 20);
         });

@@ -302,7 +302,7 @@ class Artikel extends BaseModel
      */
     public function scopeArsip($query)
     {
-        $kategori = json_decode(preg_replace('/\\\\/', '', (string) setting('anjungan_artikel')), null);
+        $kategori = json_decode((string) preg_replace('/\\\\/', '', (string) setting('anjungan_artikel')), null);
 
         $artikel = $query->select(Artikel::raw('*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri'))
             ->where([['enabled', 1], ['tgl_upload', '<', date('Y-m-d H:i:s')]]);
@@ -327,7 +327,7 @@ class Artikel extends BaseModel
     public function author()
     {
         return $this->belongsTo(User::class, 'id_user')
-            ->withDefault(static fn () => new User(['nama' => 'ADMIN']));
+            ->withDefault(static fn (): \App\Models\User => new User(['nama' => 'ADMIN']));
     }
 
     /**

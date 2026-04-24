@@ -82,11 +82,11 @@ return new class () extends Migration {
         $this->tambahForeignKey('sinergi_program_config_fk', 'sinergi_program', 'config_id', 'config', 'id', 'CASCADE', 'CASCADE');
     }
 
-    public function tambahTanggalPeriksa()
+    public function tambahTanggalPeriksa(): void
     {
         // tambahkan kolom jika belum ada
         if (! Schema::hasColumn('bulanan_anak', 'tanggal_periksa')) {
-            Schema::table('bulanan_anak', static function (Blueprint $table) {
+            Schema::table('bulanan_anak', static function (Blueprint $table): void {
                 $table->date('tanggal_periksa')->nullable()->after('keterangan');
             });
         }
@@ -122,7 +122,7 @@ return new class () extends Migration {
 
                 // Step 5: Tambahkan kolom id sebagai primary key baru (jika belum ada)
                 if (! Schema::hasColumn('tweb_penduduk_mandiri', 'id')) {
-                    Schema::table('tweb_penduduk_mandiri', static function (Blueprint $table) {
+                    Schema::table('tweb_penduduk_mandiri', static function (Blueprint $table): void {
                         $table->bigIncrements('id')->first();
                     });
                 }
@@ -143,13 +143,13 @@ return new class () extends Migration {
             $this->hapusForeignKey('fcm_token_config_fk', 'fcm_token', 'config');
 
             if (! $this->foreignKeyExists('fcm_token', 'fcm_token_config_2026_fk')) {
-                Schema::table('fcm_token', static function (Blueprint $table) {
+                Schema::table('fcm_token', static function (Blueprint $table): void {
                     $table->foreign(['config_id'], 'fcm_token_config_2026_fk')->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
                 });
             }
 
             if (! $this->foreignKeyExists('artikel', 'artikel_config_2026_fk')) {
-                Schema::table('artikel', static function (Blueprint $table) {
+                Schema::table('artikel', static function (Blueprint $table): void {
                     $table->foreign(['config_id'], 'artikel_config_2026_fk')->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
                 });
             }
@@ -160,12 +160,12 @@ return new class () extends Migration {
             // Drop FK lama sebelum mengubah tipe kolom id_user
             $this->hapusForeignKey('artikel_kategori_id_user_fk', 'artikel', 'user');
 
-            Schema::table('artikel', static function (Blueprint $table) {
+            Schema::table('artikel', static function (Blueprint $table): void {
                 $table->integer('id_user')->nullable()->change();
             });
 
             if (! $this->foreignKeyExists('artikel', 'artikel_kategori_id_user_2026_fk')) {
-                Schema::table('artikel', static function (Blueprint $table) {
+                Schema::table('artikel', static function (Blueprint $table): void {
                     $table->foreign(['id_user'], 'artikel_kategori_id_user_2026_fk')->references(['id'])->on('user')->onUpdate('cascade')->onDelete('set null');
                 });
             }
@@ -175,7 +175,7 @@ return new class () extends Migration {
         }
     }
 
-    public function tambahPengaturanNoRtm()
+    public function tambahPengaturanNoRtm(): void
     {
         $this->createSetting([
             'judul'      => 'Format Nomor Rumah Tangga',
@@ -221,7 +221,7 @@ return new class () extends Migration {
      * Tambahkan unique constraint pada artikel (slug + config_id)
      * dengan pengecekan duplikat dan index existing
      */
-    public function tambahUniqueSlugConfigArtikel()
+    public function tambahUniqueSlugConfigArtikel(): void
     {
         // Cek duplikat data dulu
         $duplikat = DB::table('artikel')
@@ -259,12 +259,12 @@ return new class () extends Migration {
         }
 
         // Tambahkan unique index
-        Schema::table('artikel', static function (Blueprint $table) {
+        Schema::table('artikel', static function (Blueprint $table): void {
             $table->unique(['slug', 'config_id'], 'artikel_unique_slug_config');
         });
     }
 
-    public function tanggal_invalid()
+    public function tanggal_invalid(): void
     {
         // update tanggal '0000-00-00' menjadi null pada tabel tweb_penduduk kolom tanggallahir
         DB::table('tweb_penduduk')->where('tanggallahir', '0000-00-00')->update(['tanggallahir' => null]);
@@ -297,10 +297,10 @@ return new class () extends Migration {
 
     }
 
-    public function orientasi_layar()
+    public function orientasi_layar(): void
     {
         if (! Schema::hasColumn('anjungan', 'orientasi_layar')) {
-            Schema::table('anjungan', static function (Blueprint $table) {
+            Schema::table('anjungan', static function (Blueprint $table): void {
                 $table->boolean('orientasi_layar')->default(1)->after('permohonan_surat_tanpa_akun');
             });
 
@@ -314,7 +314,7 @@ return new class () extends Migration {
         }
     }
 
-    public function foreign_key_grup_akses()
+    public function foreign_key_grup_akses(): void
     {
         try {
             // Hapus data grup_akses yang tidak valid berdasarkan config_id, id_grup, dan id_modul
@@ -336,7 +336,7 @@ return new class () extends Migration {
 
                 $this->hapusForeignKey('grup_akses_config_fk', 'grup_akses', 'config');
 
-                Schema::table('grup_akses', static function (Blueprint $table) {
+                Schema::table('grup_akses', static function (Blueprint $table): void {
                     $table->foreign(['config_id'], 'grup_akses_config_2026_fk')
                         ->references(['id'])
                         ->on('config')
@@ -350,7 +350,7 @@ return new class () extends Migration {
 
                 $this->hapusForeignKey('fk_id_grup', 'grup_akses', 'user_grup');
 
-                Schema::table('grup_akses', static function (Blueprint $table) {
+                Schema::table('grup_akses', static function (Blueprint $table): void {
                     $table->foreign(['id_grup'], 'grup_akses_user_grup_2026_fk')
                         ->references(['id'])
                         ->on('user_grup')
@@ -364,7 +364,7 @@ return new class () extends Migration {
 
                 $this->hapusForeignKey('fk_id_modul', 'grup_akses', 'setting_modul');
 
-                Schema::table('grup_akses', static function (Blueprint $table) {
+                Schema::table('grup_akses', static function (Blueprint $table): void {
                     $table->foreign(['id_modul'], 'grup_akses_modul_2026_fk')
                         ->references(['id'])
                         ->on('setting_modul')
@@ -377,7 +377,7 @@ return new class () extends Migration {
         }
     }
 
-    public function fixBackupRestoreSid()
+    public function fixBackupRestoreSid(): void
     {
         // tambahkan dan sesuaikan tanggal 0000-00-00 pada tabel tweb_penduduk
         $this->tanggal_invalid();
@@ -396,42 +396,36 @@ return new class () extends Migration {
     {
         try {
             // Re-create foreign keys untuk tweb_penduduk_mandiri
-            if (Schema::hasTable('tweb_penduduk_mandiri') && Schema::hasTable('config')) {
-                if (! $this->foreignKeyExists('tweb_penduduk_mandiri', 'tweb_penduduk_mandiri_config_2026_fk')) {
-                    Schema::table('tweb_penduduk_mandiri', static function (Blueprint $table) {
-                        $table->foreign(['config_id'], 'tweb_penduduk_mandiri_config_2026_fk')
-                            ->references(['id'])
-                            ->on('config')
-                            ->onUpdate('cascade')
-                            ->onDelete('cascade');
-                    });
-                }
+            if (Schema::hasTable('tweb_penduduk_mandiri') && Schema::hasTable('config') && ! $this->foreignKeyExists('tweb_penduduk_mandiri', 'tweb_penduduk_mandiri_config_2026_fk')) {
+                Schema::table('tweb_penduduk_mandiri', static function (Blueprint $table): void {
+                    $table->foreign(['config_id'], 'tweb_penduduk_mandiri_config_2026_fk')
+                        ->references(['id'])
+                        ->on('config')
+                        ->onUpdate('cascade')
+                        ->onDelete('cascade');
+                });
             }
 
             // Re-create foreign key untuk id_pend
-            if (Schema::hasTable('tweb_penduduk_mandiri') && Schema::hasTable('tweb_penduduk')) {
-                if (! $this->foreignKeyExists('tweb_penduduk_mandiri', 'tweb_penduduk_mandiri_penduduk_2026_fk')) {
-                    Schema::table('tweb_penduduk_mandiri', static function (Blueprint $table) {
-                        $table->foreign(['id_pend'], 'tweb_penduduk_mandiri_penduduk_2026_fk')
-                            ->references(['id'])
-                            ->on('tweb_penduduk')
-                            ->onUpdate('cascade')
-                            ->onDelete('cascade');
-                    });
-                }
+            if (Schema::hasTable('tweb_penduduk_mandiri') && Schema::hasTable('tweb_penduduk') && ! $this->foreignKeyExists('tweb_penduduk_mandiri', 'tweb_penduduk_mandiri_penduduk_2026_fk')) {
+                Schema::table('tweb_penduduk_mandiri', static function (Blueprint $table): void {
+                    $table->foreign(['id_pend'], 'tweb_penduduk_mandiri_penduduk_2026_fk')
+                        ->references(['id'])
+                        ->on('tweb_penduduk')
+                        ->onUpdate('cascade')
+                        ->onDelete('cascade');
+                });
             }
 
             // Re-create foreign key dari log_notifikasi_mandiri
-            if (Schema::hasTable('log_notifikasi_mandiri') && Schema::hasTable('tweb_penduduk_mandiri')) {
-                if (! $this->foreignKeyExists('log_notifikasi_mandiri', 'log_notifikasi_mandiri_user_mandiri_2026_fk')) {
-                    Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
-                        $table->foreign(['id_user_mandiri'], 'log_notifikasi_mandiri_user_mandiri_2026_fk')
-                            ->references(['id_pend'])
-                            ->on('tweb_penduduk_mandiri')
-                            ->onUpdate('cascade')
-                            ->onDelete('cascade');
-                    });
-                }
+            if (Schema::hasTable('log_notifikasi_mandiri') && Schema::hasTable('tweb_penduduk_mandiri') && ! $this->foreignKeyExists('log_notifikasi_mandiri', 'log_notifikasi_mandiri_user_mandiri_2026_fk')) {
+                Schema::table('log_notifikasi_mandiri', static function (Blueprint $table): void {
+                    $table->foreign(['id_user_mandiri'], 'log_notifikasi_mandiri_user_mandiri_2026_fk')
+                        ->references(['id_pend'])
+                        ->on('tweb_penduduk_mandiri')
+                        ->onUpdate('cascade')
+                        ->onDelete('cascade');
+                });
             }
         } catch (Exception $e) {
             logger()->error('Gagal merecreate foreign keys: ' . $e->getMessage());

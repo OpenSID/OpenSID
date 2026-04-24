@@ -42,7 +42,7 @@ use App\Notifications\BaseNotification;
 
 class PesanMasuk extends BaseNotification
 {
-    public function __construct(private PesanMandiri $pesan)
+    public function __construct(private readonly PesanMandiri $pesan)
     {
     }
 

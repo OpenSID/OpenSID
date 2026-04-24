@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('keuangan_template', static function (Blueprint $table) {
+        Schema::create('keuangan_template', static function (Blueprint $table): void {
             $table->char('uuid', 36)->primary();
             $table->char('parent_uuid', 36)->nullable()->index();
             $table->string('uraian');

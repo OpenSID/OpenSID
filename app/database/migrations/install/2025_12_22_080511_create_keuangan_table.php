@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('keuangan', static function (Blueprint $table) {
+        Schema::create('keuangan', static function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->integer('config_id')->index('keuangan_config_id_foreign');
             $table->char('template_uuid', 36)->index('keuangan_template_uuid_foreign');

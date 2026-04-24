@@ -87,10 +87,8 @@ class StatistikJenisBantuanEnum extends BaseEnum
 
     /**
      * Get key form slug
-     *
-     * @param mixed $publikasi
      */
-    public static function keyFromSlug(mixed $slug, $publikasi = 1): ?string
+    public static function keyFromSlug(mixed $slug, mixed $publikasi = 1): ?string
     {
         $item = collect(self::$data)
             ->when($publikasi == 1, static fn ($collection) => $collection->where('publikasi', 1))

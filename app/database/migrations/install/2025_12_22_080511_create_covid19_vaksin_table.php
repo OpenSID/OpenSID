@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('covid19_vaksin', static function (Blueprint $table) {
+        Schema::create('covid19_vaksin', static function (Blueprint $table): void {
             $table->integer('id_penduduk')->primary();
             $table->integer('config_id')->index('covid19_vaksin_config_fk');
             $table->integer('vaksin_1')->nullable();

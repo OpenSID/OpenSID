@@ -66,20 +66,16 @@ trait ProvidesConvenienceMethods
 
     /**
      * Set the response builder callback.
-     *
-     * @return void
      */
-    public static function buildResponseUsing(BaseClosure $callback)
+    public static function buildResponseUsing(BaseClosure $callback): void
     {
         static::$responseBuilder = $callback;
     }
 
     /**
      * Set the error formatter callback.
-     *
-     * @return void
      */
-    public static function formatErrorsUsing(BaseClosure $callback)
+    public static function formatErrorsUsing(BaseClosure $callback): void
     {
         static::$errorFormatter = $callback;
     }
@@ -105,24 +101,21 @@ trait ProvidesConvenienceMethods
     /**
      * Dispatch a job to its appropriate handler.
      *
-     * @param mixed $job
      *
      * @return mixed
      */
-    public function dispatch($job)
+    public function dispatch(mixed $job)
     {
-        return app(Dispatcher::class)->dispatch($job);
+        return app(Dispatcher::class)->dispatch();
     }
 
     /**
      * Dispatch a command to its appropriate handler in the current process.
      *
-     * @param mixed $job
-     * @param mixed $handler
      *
      * @return mixed
      */
-    public function dispatchNow($job, $handler = null)
+    public function dispatchNow(mixed $job, mixed $handler = null)
     {
         return app(Dispatcher::class)->dispatchNow($job, $handler);
     }
@@ -134,7 +127,7 @@ trait ProvidesConvenienceMethods
      */
     protected function extractInputFromRules(Request $request, array $rules)
     {
-        return $request->only(collect($rules)->keys()->map(static fn ($rule) => Str::contains($rule, '.') ? explode('.', $rule)[0] : $rule)->unique()->toArray());
+        return $request->only(collect($rules)->keys()->map(static fn ($rule): int|string => Str::contains($rule, '.') ? explode('.', (string) $rule)[0] : $rule)->unique()->toArray());
     }
 
     /**
@@ -188,16 +181,14 @@ trait ProvidesConvenienceMethods
     protected function withInput(?array $input = null)
     {
         $this->session->set_flashdata('_old_input', $this->removeFilesFromInput(
-            null !== $input ? $input : app('request')->input()
+            $input ?? app('request')->input()
         ));
     }
 
     /**
      * Remove all uploaded files form the given input array.
-     *
-     * @return array
      */
-    protected function removeFilesFromInput(array $input)
+    protected function removeFilesFromInput(array $input): array
     {
         foreach ($input as $key => $value) {
             if (is_array($value)) {

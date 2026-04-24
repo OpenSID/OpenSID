@@ -146,7 +146,7 @@ class AnalisisImport
             logger()->info("Redirect ke Google OAuth: {$authUrl}");
             header("Location: {$authUrl}");
 
-            return;
+            return null;
         }
 
         // STEP 4: Jika sudah ada token valid, eksekusi API
@@ -182,26 +182,26 @@ class AnalisisImport
             logger()->error('Google API Error: ' . $e->getMessage());
             $errorMessage = $e->getMessage();
 
-            if (strpos($errorMessage, 'Invalid code') !== false) {
+            if (str_contains($errorMessage, 'Invalid code')) {
                 return redirect_with('error', 'Kode verifikasi tidak valid.', 'analisis_master', true);
             }
-            if (strpos($errorMessage, 'invalid_grant') !== false) {
+            if (str_contains($errorMessage, 'invalid_grant')) {
                 $this->session->unset_userdata('upload_token');
 
                 return redirect_with('error', 'Sesi verifikasi telah berakhir. Silakan verifikasi ulang.', 'analisis_master', true);
             }
-            if (strpos($errorMessage, '"code": 401') !== false) {
+            if (str_contains($errorMessage, '"code": 401')) {
                 $this->session->unset_userdata('upload_token');
 
                 return redirect_with('error', 'Token tidak valid. Silakan autentikasi ulang.', 'analisis_master', true);
             }
-            if (strpos($errorMessage, '"code": 404') !== false) {
+            if (str_contains($errorMessage, '"code": 404')) {
                 $currentScriptId = $scriptId ?? 'Tidak diatur';
                 $currentFormId   = $formId ?? 'Tidak diatur';
 
                 return redirect_with('error', "Sumber daya tidak ditemukan.<br>Script ID: {$currentScriptId}<br>Form ID: {$currentFormId}", 'analisis_master', true);
             }
-            if (strpos($errorMessage, '"code": 403') !== false) {
+            if (str_contains($errorMessage, '"code": 403')) {
                 return redirect_with('error', 'Akses tidak diizinkan. Periksa permission Anda.', 'analisis_master', true);
             }
 

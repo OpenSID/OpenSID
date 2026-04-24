@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('alias_kodeisian', static function (Blueprint $table) {
+        Schema::create('alias_kodeisian', static function (Blueprint $table): void {
             $table->increments('id');
             $table->integer('config_id');
             $table->string('judul', 20);

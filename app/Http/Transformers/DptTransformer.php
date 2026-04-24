@@ -42,7 +42,7 @@ use League\Fractal\TransformerAbstract;
 
 class DptTransformer extends TransformerAbstract
 {
-    public function transform(Penduduk $dpt)
+    public function transform(Penduduk $dpt): array
     {
         return [
             'id'    => $dpt->id ?? 1,

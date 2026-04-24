@@ -122,6 +122,7 @@ trait ModulTrait
 
             return redirect_with('warning', $message, ci_route('plugin'), true);
         }
+        return null;
     }
 
     /**
@@ -154,8 +155,8 @@ trait ModulTrait
                 ->filter(static fn ($data): bool => $data->status_pemesanan === 'aktif')
                 ->map(
                     static fn ($data) => collect($data->layanan)
-                        ->filter(static fn ($layanan) => $layanan->nama_kategori === 'Modul')
-                        ->map(static fn ($layanan) => trim(str_replace('Modul', '', $layanan->nama)))
+                        ->filter(static fn ($layanan): bool => $layanan->nama_kategori === 'Modul')
+                        ->map(static fn ($layanan): string => trim(str_replace('Modul', '', $layanan->nama)))
                         ->toArray()
                 )
                 ->flatten()
@@ -182,7 +183,7 @@ trait ModulTrait
      */
     private function loadConfig(): void
     {
-        $this->loadFilesFromDirectory('Config', function ($file) {
+        $this->loadFilesFromDirectory('Config', function ($file): void {
             $this->mergeConfigFrom($file, pathinfo($file, PATHINFO_FILENAME));
         });
     }
@@ -196,7 +197,7 @@ trait ModulTrait
      * @param string        $subDirectory The subdirectory from which to load files.
      * @param callable|null $callback     Optional callback to execute on each file.
      */
-    private function loadFilesFromDirectory($subDirectory, ?callable $callback = null): void
+    private function loadFilesFromDirectory(string $subDirectory, ?callable $callback = null): void
     {
         foreach (glob($this->getModuleDirectory() . DIRECTORY_SEPARATOR . $subDirectory . DIRECTORY_SEPARATOR . '*.php') as $file) {
             if ($callback) {

@@ -17,7 +17,7 @@ permissions:
 # ════════════════════════════════════════════════════════════════════
 # JOB 1 — prepare
 #   Validasi versi & tentukan routing push (dev/main).
-#   Hasilnya dipakai oleh job build dan publish.
+#   Hasilnya dipakai oleh job build-and-publish.
 # ════════════════════════════════════════════════════════════════════
 jobs:
   prepare:
@@ -48,12 +48,14 @@ jobs:
           echo "### 🎯 Informasi Versi" >> $GITHUB_STEP_SUMMARY
           echo "- **Tag:** \`$TAG\` (Minor: $MINOR, Patch: $PATCH)" >> $GITHUB_STEP_SUMMARY
 
-      # ── 2. Validasi format + kesesuaian branch vs tag ───────────
-      - name: Validasi tag vs branch
+      # ── 2. Validasi format tag ───────────────────────────────────
+      #   Hanya memvalidasi FORMAT tag — tidak mengunci nama branch.
+      #   Tim bebas membuat branch apapun (misal dari commit pembekuan)
+      #   dan menjalankan workflow dari sana. Routing ditentukan murni
+      #   dari format tag di langkah berikutnya.
+      - name: Validasi format tag
         run: |
           TAG="${{ steps.version.outputs.tag }}"
-          MINOR="${{ steps.version.outputs.minor }}"
-          PATCH="${{ steps.version.outputs.patch }}"
           BRANCH="${{ github.ref_name }}"
 
           if ! echo "$TAG" | grep -qE '^v[0-9]{4}\.[0-9]+\.[0-9]+$'; then
@@ -62,28 +64,15 @@ jobs:
             exit 1
           fi
 
-          if [ "$BRANCH" = "bug-fix" ]; then
-            if [ "$MINOR" != "0" ]; then
-              echo "❌ Dari branch bug-fix, minor harus 0. Dapat: $MINOR"
-              exit 1
-            fi
-            if [ "$PATCH" = "0" ]; then
-              echo "❌ Dari branch bug-fix, patch harus > 0."
-              exit 1
-            fi
-          elif [ "$BRANCH" = "rilis-dev" ]; then
-            if [ "$MINOR" = "0" ] && [ "$PATCH" != "0" ]; then
-              echo "❌ Tag vYYMM.0.x (patch>0) harus dari branch bug-fix, bukan rilis-dev."
-              exit 1
-            fi
-          else
-            echo "❌ Workflow hanya boleh dijalankan dari branch bug-fix atau rilis-dev."
-            exit 1
-          fi
-
-          echo "✅ Validasi berhasil: $TAG dari branch $BRANCH"
+          echo "✅ Format tag valid: $TAG (dari branch: $BRANCH)"
 
       # ── 3. Tentukan routing push ────────────────────────────────
+      #   Routing ditentukan murni dari format tag, bukan nama branch:
+      #
+      #   prerelease=true               → beta only  (override semua skenario)
+      #   vYYMM.0.0  (minor=patch=0)    → beta + master  (rilis perdana awal bulan)
+      #   vYYMM.0.x  (minor=0, patch>0) → master only  (hotfix/bug-fix)
+      #   vYYMM.x.y  (minor>0)          → beta only  (fitur baru / minor update)
       - name: Tentukan routing push
         id: routing
         run: |
@@ -102,168 +91,146 @@ jobs:
           echo "| 📌 **Commit SHA** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
 
           if [ "$PRERELEASE" = "true" ]; then
-            echo "push_dev=true"   >> $GITHUB_OUTPUT
-            echo "push_main=false" >> $GITHUB_OUTPUT
-            echo "create_release=true" >> $GITHUB_OUTPUT
+            echo "push_dev=true"        >> $GITHUB_OUTPUT
+            echo "push_main=false"      >> $GITHUB_OUTPUT
+            echo "create_release=true"  >> $GITHUB_OUTPUT
             echo "| 🎯 **Branch Tujuan** | \`beta\` (Repo: \`rilis-premium\`) |" >> $GITHUB_STEP_SUMMARY
             echo "| 🚦 **Skenario** | Uji Coba Lapangan (Pra-rilis) |" >> $GITHUB_STEP_SUMMARY
-          elif [ "$BRANCH" = "bug-fix" ]; then
-            echo "push_dev=false" >> $GITHUB_OUTPUT
-            echo "push_main=true" >> $GITHUB_OUTPUT
-            echo "create_release=true" >> $GITHUB_OUTPUT
+          elif [ "$MINOR" = "0" ] && [ "$PATCH" = "0" ]; then
+            echo "push_dev=true"        >> $GITHUB_OUTPUT
+            echo "push_main=true"       >> $GITHUB_OUTPUT
+            echo "create_release=true"  >> $GITHUB_OUTPUT
+            echo "| 🎯 **Branch Tujuan** | \`beta\` & \`master\` (Repo: \`rilis-premium\`) |" >> $GITHUB_STEP_SUMMARY
+            echo "| 🚦 **Skenario** | Rilis Perdana Awal Bulan |" >> $GITHUB_STEP_SUMMARY
+          elif [ "$MINOR" = "0" ] && [ "$PATCH" != "0" ]; then
+            echo "push_dev=false"       >> $GITHUB_OUTPUT
+            echo "push_main=true"       >> $GITHUB_OUTPUT
+            echo "create_release=true"  >> $GITHUB_OUTPUT
             echo "| 🎯 **Branch Tujuan** | \`master\` (Repo: \`rilis-premium\`) |" >> $GITHUB_STEP_SUMMARY
             echo "| 🚦 **Skenario** | Hotfix (Perbaikan Bug) |" >> $GITHUB_STEP_SUMMARY
-          elif [ "$BRANCH" = "rilis-dev" ]; then
-            echo "push_dev=true" >> $GITHUB_OUTPUT
-            echo "create_release=true" >> $GITHUB_OUTPUT
-            if [ "$MINOR" = "0" ]; then
-              echo "push_main=true" >> $GITHUB_OUTPUT
-              echo "| 🎯 **Branch Tujuan** | \`beta\` & \`master\` (Repo: \`rilis-premium\`) |" >> $GITHUB_STEP_SUMMARY
-              echo "| 🚦 **Skenario** | Rilis Perdana Awal Bulan |" >> $GITHUB_STEP_SUMMARY
-            else
-              echo "push_main=false" >> $GITHUB_OUTPUT
-              echo "| 🎯 **Branch Tujuan** | \`beta\` (Repo: \`rilis-premium\`) |" >> $GITHUB_STEP_SUMMARY
-              echo "| 🚦 **Skenario** | Minor/Patch Update (Fitur Baru) |" >> $GITHUB_STEP_SUMMARY
-            fi
+          else
+            echo "push_dev=true"        >> $GITHUB_OUTPUT
+            echo "push_main=false"      >> $GITHUB_OUTPUT
+            echo "create_release=true"  >> $GITHUB_OUTPUT
+            echo "| 🎯 **Branch Tujuan** | \`beta\` (Repo: \`rilis-premium\`) |" >> $GITHUB_STEP_SUMMARY
+            echo "| 🚦 **Skenario** | Minor/Patch Update (Fitur Baru) |" >> $GITHUB_STEP_SUMMARY
           fi
 
 
 # ════════════════════════════════════════════════════════════════════
-# JOB 2 — build  (matrix: php 8.1 / 8.2 / 8.3)
-#   Encode paralel per versi PHP.
-#   Output disimpan sebagai Actions artifact:
-#     zip-php81 / zip-php82 / zip-php83  → dilampirkan ke 1 release
-#     output-php81                       → untuk push branch beta/master
+# JOB 2 — build-and-publish
+#   Encode PHP 8.2 Legacy dengan --bundle menggunakan ioncube_encoder.sh
+#   secara manual (tanpa GitHub Action wrapper).
+#
+#   Strategi perakitan output (tanpa perlu restore views):
+#     1. cp -r source/    → output/   ← semua file termasuk views ada di sini
+#     2. Encode source/X  → encoded/X (views di-ignore, tidak masuk encoded/)
+#     3. cp -r encoded/X/ → output/X/  ← merge: PHP terenkripsi menimpa
+#        yang lama, views dari langkah 1 tetap utuh
+#
+#   Tidak ada ZIP, tidak ada artifact Actions — push langsung ke branch.
 # ════════════════════════════════════════════════════════════════════
-  build:
+  build-and-publish:
     needs: prepare
     runs-on: ubuntu-22.04
-    strategy:
-      fail-fast: false        # versi lain tetap jalan walau satu gagal
-      max-parallel: 1         # Mencegah tabrakan lisensi / rate-limit IonCube Pro CI
-      matrix:
-        php_version: ['8.1', '8.2', '8.3']
 
     steps:
 
-      # ── 4. Set label PHP ────────────────────────────────────────
-      - name: Set PHP label
-        id: php
-        run: |
-          LABEL="php$(echo '${{ matrix.php_version }}' | tr -d '.')"
-          TAG="${{ needs.prepare.outputs.tag }}"
-          echo "label=$LABEL"                                  >> $GITHUB_OUTPUT
-          echo "zip_name=opensid-premium-${TAG}-${LABEL}.zip" >> $GITHUB_OUTPUT
-
-      # ── 5. Checkout source ──────────────────────────────────────
+      # ── 1. Checkout Premium Source ───────────────────────────────
       - name: Checkout Premium Source
         uses: actions/checkout@v4
 
-      # ── 6. Export clean source via git archive ──────────────────
+      # ── 2. Export clean source via git archive ───────────────────
       - name: Export clean source
         run: |
           git archive HEAD --format=zip -o clean-source.zip
           unzip -q clean-source.zip -d source/
 
-      # ── 7. Copy clean source sebagai base output ────────────────
-      - name: Copy source ke output
+      # ── 3. Setup IonCube Encoder ─────────────────────────────────
+      - name: Setup IonCube Encoder
         run: |
-          mkdir -p output/
-          cp -r source/. output/
+          curl -fsSL "${{ secrets.IONCUBE_DOWNLOAD_URL }}" -o ioncube.tar.gz
+          tar -xzf ioncube.tar.gz
+          ENCODER_DIR=$(find . -maxdepth 1 -type d -name "ioncube*" | head -1)
+          ENCODER_SH="$PWD/$ENCODER_DIR/ioncube_encoder.sh"
+          chmod +x "$ENCODER_SH"
+          echo "ENCODER=$ENCODER_SH" >> $GITHUB_ENV
+          echo "✅ IonCube Encoder siap: $ENCODER_SH"
 
-      # ─────────────────────────────────────────────────────────────
-      # ENCODE — php-target-version dari matrix
-      # ─────────────────────────────────────────────────────────────
+      # ── 4. Aktivasi lisensi ──────────────────────────────────────
+      - name: Aktivasi IonCube License
+        run: ${{ env.ENCODER }} --activate
 
-      - name: Encode app/ (PHP ${{ matrix.php_version }})
+      # ── 5–9. Encode dengan --bundle PHP 8.2 Legacy ───────────────
+      #   PHP 8.2 (legacy/v14) mencakup runtime PHP 8.2, 8.3, dan 8.4.
+      #   Hasil encode disimpan di encoded/ yang terpisah dari source/,
+      #   sehingga --replace-target tidak diperlukan (lihat docs 3.14.3).
+      #   Folder views di-ignore di sini dan dipertahankan dari langkah
+      #   perakitan output (tidak perlu restore manual).
+
+      - name: Encode app/ (bundle PHP 8.2 Legacy)
         id: encode_app
         continue-on-error: true
-        uses: MuriloChianfa/ioncube-encoder-action@v3.0.1
-        env:
-          IONCUBE_DOWNLOAD_URL: ${{ secrets.IONCUBE_DOWNLOAD_URL || '' }}
-        with:
-          source: 'source/app'
-          output: 'output/app'
-          php-target-version: ${{ matrix.php_version }}
-          encoder-version: 'legacy'
-          optimize: 'more'
-          replace-target: true
-          trial: false
-          ignore: 'View/Components/'
+        run: |
+          ${{ env.ENCODER }} -L -82 -x86-64 \
+            source/app -o encoded/app \
+            --create-target \
+            --no-doc-comments \
+            --ignore 'View/Components/' \
+            --optimize more --license-check auto
 
-      - name: Encode bootstrap/ (PHP ${{ matrix.php_version }})
+      - name: Encode bootstrap/ (bundle PHP 8.2 Legacy)
         id: encode_bootstrap
         continue-on-error: true
-        uses: MuriloChianfa/ioncube-encoder-action@v3.0.1
-        env:
-          IONCUBE_DOWNLOAD_URL: ${{ secrets.IONCUBE_DOWNLOAD_URL || '' }}
-        with:
-          source: 'source/bootstrap'
-          output: 'output/bootstrap'
-          php-target-version: ${{ matrix.php_version }}
-          encoder-version: 'legacy'
-          optimize: 'more'
-          replace-target: true
-          trial: false
+        run: |
+          ${{ env.ENCODER }} -L -82 -x86-64 \
+            source/bootstrap -o encoded/bootstrap \
+            --create-target \
+            --no-doc-comments \
+            --optimize more --license-check auto
 
-      - name: Encode config/ (PHP ${{ matrix.php_version }})
+      - name: Encode config/ (bundle PHP 8.2 Legacy)
         id: encode_config
         continue-on-error: true
-        uses: MuriloChianfa/ioncube-encoder-action@v3.0.1
-        env:
-          IONCUBE_DOWNLOAD_URL: ${{ secrets.IONCUBE_DOWNLOAD_URL || '' }}
-        with:
-          source: 'source/config'
-          output: 'output/config'
-          php-target-version: ${{ matrix.php_version }}
-          encoder-version: 'legacy'
-          optimize: 'more'
-          replace-target: true
-          trial: false
+        run: |
+          ${{ env.ENCODER }} -L -82 -x86-64 \
+            source/config -o encoded/config \
+            --create-target \
+            --no-doc-comments \
+            --optimize more --license-check auto
 
-      - name: Encode donjo-app/ (PHP ${{ matrix.php_version }})
+      - name: Encode donjo-app/ (bundle PHP 8.2 Legacy)
         id: encode_donjo_app
         continue-on-error: true
-        uses: MuriloChianfa/ioncube-encoder-action@v3.0.1
-        env:
-          IONCUBE_DOWNLOAD_URL: ${{ secrets.IONCUBE_DOWNLOAD_URL || '' }}
-        with:
-          source: 'source/donjo-app'
-          output: 'output/donjo-app'
-          php-target-version: ${{ matrix.php_version }}
-          encoder-version: 'legacy'
-          optimize: 'more'
-          replace-target: true
-          trial: false
-          ignore: 'views/'
+        run: |
+          ${{ env.ENCODER }} -L -82 -x86-64 \
+            source/donjo-app -o encoded/donjo-app \
+            --create-target \
+            --no-doc-comments \
+            --ignore 'views/' \
+            --optimize more --license-check auto
 
-      - name: Encode Modules/ (PHP ${{ matrix.php_version }})
+      - name: Encode Modules/ (bundle PHP 8.2 Legacy)
         id: encode_modules
         continue-on-error: true
-        uses: MuriloChianfa/ioncube-encoder-action@v3.0.1
-        env:
-          IONCUBE_DOWNLOAD_URL: ${{ secrets.IONCUBE_DOWNLOAD_URL || '' }}
-        with:
-          source: 'source/Modules'
-          output: 'output/Modules'
-          php-target-version: ${{ matrix.php_version }}
-          encoder-version: 'legacy'
-          optimize: 'more'
-          replace-target: true
-          trial: false
-          ignore: |
-            Views/
-            views/
-            Resources/views/
-
-      - name: Pulihkan folder Views yang di-ignore
         run: |
-          cd source
-          find donjo-app Modules -type d -iname "views" -exec cp --parents -a {} ../output/ \;
-          cp --parents -a app/View/Components ../output/ || true
+          ${{ env.ENCODER }} -L -82 -x86-64 \
+            source/Modules -o encoded/Modules \
+            --create-target \
+            --no-doc-comments \
+            --ignore 'Views/' --ignore 'views/' --ignore 'Resources/views/' \
+            --optimize more --license-check auto
 
-      # ── 8. Verifikasi semua encode berhasil ─────────────────────
-      - name: Verifikasi encode (PHP ${{ matrix.php_version }})
+      # ── 10. Deaktivasi lisensi (selalu dijalankan) ───────────────
+      #   Menggunakan if: always() agar lisensi pasti dilepas meski
+      #   salah satu encode gagal.
+      - name: Deaktivasi IonCube License
+        if: always()
+        run: ${{ env.ENCODER }} --deactivate
+
+      # ── 11. Verifikasi semua encode berhasil ─────────────────────
+      #   Baru gagalkan job di sini, setelah deaktivasi selesai.
+      - name: Verifikasi encoding
         run: |
           FAILED=""
           [ "${{ steps.encode_app.outcome }}"       != "success" ] && FAILED="$FAILED encode_app"
@@ -273,110 +240,52 @@ jobs:
           [ "${{ steps.encode_modules.outcome }}"   != "success" ] && FAILED="$FAILED encode_modules"
 
           if [ -n "$FAILED" ]; then
-            echo "❌ [PHP ${{ matrix.php_version }}] Encode gagal:$FAILED"
-            echo "### ❌ Build Gagal (PHP ${{ matrix.php_version }})" >> $GITHUB_STEP_SUMMARY
+            echo "❌ Encode gagal pada modul: $FAILED"
+            echo "### ❌ Build Gagal" >> $GITHUB_STEP_SUMMARY
             echo "- Modul gagal: **$FAILED**" >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
-          echo "✅ [PHP ${{ matrix.php_version }}] Semua encode berhasil."
-          echo "### 🛠️ Status Build (PHP ${{ matrix.php_version }})" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ **Semua modul berhasil di-encode (IonCube Legacy)**" >> $GITHUB_STEP_SUMMARY
 
-      # ── 9. Tambahkan VERSION ────────────────────────────────────
+          echo "✅ Semua modul berhasil di-encode (IonCube Legacy PHP 8.2, Bundle)."
+          echo "### 🛠️ Status Build" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ **Semua modul berhasil di-encode (IonCube Legacy PHP 8.2, Bundle)**" >> $GITHUB_STEP_SUMMARY
+
+      # ── 12. Rakit output ─────────────────────────────────────────
+      #   Salin seluruh source → output terlebih dahulu agar semua
+      #   file non-PHP (views, aset, dll.) sudah ada di output.
+      #   Kemudian timpa dengan hasil encode — file PHP terenkripsi
+      #   menimpa yang lama, sedangkan views yang di-ignore saat
+      #   encode TIDAK ada di encoded/ sehingga tetap utuh dari
+      #   langkah copy di atas. Tidak perlu restore manual.
+      - name: Rakit output
+        run: |
+          mkdir -p output/
+          cp -r source/. output/
+          cp -r encoded/app/.       output/app/
+          cp -r encoded/bootstrap/. output/bootstrap/
+          cp -r encoded/config/.    output/config/
+          cp -r encoded/donjo-app/. output/donjo-app/
+          cp -r encoded/Modules/.   output/Modules/
+
+      # ── 13. Tambahkan VERSION ────────────────────────────────────
       - name: Tambahkan VERSION
-        run: |
-          echo "${{ needs.prepare.outputs.tag }}-${{ steps.php.outputs.label }}" > output/VERSION
+        run: echo "${{ needs.prepare.outputs.tag }}" > output/VERSION
 
-      # ── 10. Buat ZIP ────────────────────────────────────────────
-      - name: Buat ZIP (PHP ${{ matrix.php_version }})
-        run: |
-          cd output
-          zip -r "../${{ steps.php.outputs.zip_name }}" .
-          echo "✅ ZIP: ${{ steps.php.outputs.zip_name }}"
-          echo "- 📦 **File ZIP Output:** \`${{ steps.php.outputs.zip_name }}\` berhasil dibuat." >> $GITHUB_STEP_SUMMARY
-
-      # ── 11. Upload ZIP sebagai Actions artifact ─────────────────
-      #    Dikumpulkan di job publish untuk dilampirkan ke 1 release.
-      - name: Upload ZIP artifact (PHP ${{ matrix.php_version }})
-        uses: actions/upload-artifact@v4
-        with:
-          name: zip-${{ steps.php.outputs.label }}
-          path: ${{ steps.php.outputs.zip_name }}
-          retention-days: 1
-
-      # ── 12. Upload raw output PHP 8.1 untuk push branch ─────────
-      #    Hanya PHP 8.1 — branch beta/master diisi encode versi ini.
-      #    PHP 8.2/8.3 tidak push branch; desa download ZIP-nya.
-      - name: Upload output PHP 8.1 untuk branch push
-        if: matrix.php_version == '8.1'
-        uses: actions/upload-artifact@v4
-        with:
-          name: output-php81
-          path: output/
-          include-hidden-files: true
-          retention-days: 1
-
-
-# ════════════════════════════════════════════════════════════════════
-# JOB 3 — publish
-#   Berjalan setelah SEMUA matrix build selesai.
-#   • Push branch beta/master dengan encode PHP 8.1
-#   • Buat 1 release (tag tanpa suffix PHP) di premium & rilis-premium
-#     yang menyertakan 3 ZIP asset sekaligus (php81, php82, php83)
-# ════════════════════════════════════════════════════════════════════
-  publish:
-    needs: [prepare, build]
-    runs-on: ubuntu-22.04
-
-    steps:
-
-      # ── 13. Download semua ZIP artifact ─────────────────────────
-      - name: Download ZIP php81
-        uses: actions/download-artifact@v4
-        with:
-          name: zip-php81
-          path: zips/
-
-      - name: Download ZIP php82
-        uses: actions/download-artifact@v4
-        with:
-          name: zip-php82
-          path: zips/
-
-      - name: Download ZIP php83
-        uses: actions/download-artifact@v4
-        with:
-          name: zip-php83
-          path: zips/
-
-      # ── 14. Download output PHP 8.1 untuk push branch ───────────
-      - name: Download output PHP 8.1
-        uses: actions/download-artifact@v4
-        with:
-          name: output-php81
-          path: output-php81/
-
-      # ── 15. Checkout source (untuk catatan_rilis.md) ─────────────
-      - name: Checkout Premium Source
-        uses: actions/checkout@v4
-        with:
-          path: source-repo
-
-      # ── 16. Buat GitHub Release di repo premium ──────────────────
-      #    Repo premium menyimpan referensi rilis untuk clean-source.
-      #    Tidak perlu menyertakan file zip hasil encode.
+      # ── 14. Buat GitHub Release di repo premium ──────────────────
+      #   Repo premium menyimpan referensi rilis clean-source.
+      #   Tidak ada file lampiran — desa update via branch, bukan ZIP.
       - name: Buat GitHub Release di premium
         if: needs.prepare.outputs.create_release == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name:         ${{ needs.prepare.outputs.tag }}
           name:             Rilis ${{ needs.prepare.outputs.tag }}
-          body_path:        source-repo/catatan_rilis.md
+          body_path:        catatan_rilis.md
           prerelease:       true
           target_commitish: ${{ github.ref_name }}
           token:            ${{ secrets.GITHUB_TOKEN }}
 
-      # ── 17. Checkout rilis-premium ───────────────────────────────
+      # ── 15. Checkout rilis-premium ───────────────────────────────
       - name: Checkout rilis-premium
         uses: actions/checkout@v4
         with:
@@ -385,9 +294,7 @@ jobs:
           path:       rilis-premium
           fetch-depth: 0
 
-      # ── 18. Push ke rilis-premium/beta ────────────────────────────
-      #    Konten: encode PHP 8.1 (versi kanonik di branch).
-      #    PHP 8.2/8.3 tersedia via ZIP asset di halaman release.
+      # ── 16. Push ke rilis-premium/beta ───────────────────────────
       - name: Push ke rilis-premium/beta
         if: needs.prepare.outputs.push_dev == 'true'
         run: |
@@ -395,7 +302,7 @@ jobs:
           git checkout beta
 
           find . -mindepth 1 -not -path './.git' -not -path './.git/*' -delete
-          cp -r ../output-php81/. .
+          cp -r ../output/. .
 
           git config user.name  "OpenDesa Bot"
           git config user.email "bot@opendesa.id"
@@ -405,7 +312,7 @@ jobs:
 
           git push origin beta
 
-      # ── 19. Push ke rilis-premium/master ───────────────────────────
+      # ── 17. Push ke rilis-premium/master ─────────────────────────
       - name: Push ke rilis-premium/master
         if: needs.prepare.outputs.push_main == 'true'
         run: |
@@ -413,7 +320,7 @@ jobs:
           git checkout master
 
           find . -mindepth 1 -not -path './.git' -not -path './.git/*' -delete
-          cp -r ../output-php81/. .
+          cp -r ../output/. .
 
           git config user.name  "OpenDesa Bot"
           git config user.email "bot@opendesa.id"
@@ -423,49 +330,39 @@ jobs:
 
           git push origin master
 
-      # ── 20. Buat GitHub Release di rilis-premium ─────────────────
-      #    Identik dengan release di repo premium.
-      #    Desa bisa download 3 pilihan ZIP dari halaman release.
+      # ── 18. Buat GitHub Release di rilis-premium ─────────────────
+      #   Identik dengan release di repo premium — tanpa file lampiran.
+      #   Desa mendapatkan update lewat mekanisme pull dari branch,
+      #   bukan dengan mengunduh ZIP dari halaman release.
       - name: Buat GitHub Release di rilis-premium
         if: needs.prepare.outputs.create_release == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name:         ${{ needs.prepare.outputs.tag }}
           name:             Rilis ${{ needs.prepare.outputs.tag }}
-          body_path:        source-repo/catatan_rilis.md
+          body_path:        catatan_rilis.md
           prerelease:       true
           target_commitish: ${{ needs.prepare.outputs.push_dev == 'true' && 'beta' || 'master' }}
           token:            ${{ secrets.RILIS_PREMIUM_TOKEN }}
           repository:       OpenSID/rilis-premium
-          files: |
-            zips/opensid-premium-${{ needs.prepare.outputs.tag }}-php81.zip
-            zips/opensid-premium-${{ needs.prepare.outputs.tag }}-php82.zip
-            zips/opensid-premium-${{ needs.prepare.outputs.tag }}-php83.zip
 
-      # ── 21. Ringkasan Publikasi ──────────────────────────────────
+      # ── 19. Ringkasan Publikasi ──────────────────────────────────
       - name: Ringkasan Publikasi
         run: |
           echo "### 🚀 Laporan Publikasi Distribusi Akhir" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Sinkronisasi kode (*clean source*, PHP 8.1) ke branch tujuan telah berhasil!" >> $GITHUB_STEP_SUMMARY
-          if [ "${{ needs.prepare.outputs.create_release }}" = "true" ]; then
-            echo "✅ **3 File ZIP Terenkripsi** telah dilampirkan ke rilis GitHub." >> $GITHUB_STEP_SUMMARY
-          else
-            echo "ℹ️ **Tanpa Rilis GitHub** (Hanya update branch \`beta\` untuk uji coba lapangan)." >> $GITHUB_STEP_SUMMARY
-          fi
+          echo "✅ Encode PHP 8.2 Legacy (Bundle) & sinkronisasi branch selesai." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
           echo "| Repo Tujuan | Branch Tujuan | Status PUSH Source |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :--- | :--- |" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "${{ needs.prepare.outputs.push_main }}" = "true" ]; then
             echo "| \`rilis-premium\` | \`master\` | ✅ Berhasil di-Push |" >> $GITHUB_STEP_SUMMARY
           else
             echo "| \`rilis-premium\` | \`master\` | ❌ Diabaikan |" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           if [ "${{ needs.prepare.outputs.push_dev }}" = "true" ]; then
             echo "| \`rilis-premium\` | \`beta\` | ✅ Berhasil di-Push |" >> $GITHUB_STEP_SUMMARY
           else
             echo "| \`rilis-premium\` | \`beta\` | ❌ Diabaikan |" >> $GITHUB_STEP_SUMMARY
           fi
-

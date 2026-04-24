@@ -375,25 +375,14 @@ class OtpService
      */
     private function formatTelegramMessage(int $otp, string $purpose): string
     {
-        $appName = ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
+        $appName = ucwords((string) setting('sebutan_desa')) . ' ' . identitas('nama_desa');
 
-        switch ($purpose) {
-            case 'activation':
-                $purposeText = 'Aktivasi OTP';
-                break;
-
-            case '2fa_activation':
-                $purposeText = 'Aktivasi 2FA';
-                break;
-
-            case '2fa_login':
-                $purposeText = 'Login 2FA';
-                break;
-
-            default:
-                $purposeText = 'Login';
-                break;
-        }
+        $purposeText = match ($purpose) {
+            'activation' => 'Aktivasi OTP',
+            '2fa_activation' => 'Aktivasi 2FA',
+            '2fa_login' => 'Login 2FA',
+            default => 'Login',
+        };
 
         return "🔐 <b>{$appName} - {$purposeText}</b>\n\n" .
             "Kode OTP Anda: <code>{$otp}</code>\n\n" .

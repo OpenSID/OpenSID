@@ -56,11 +56,11 @@ class ImportSetting
 
         $data = json_decode(file_get_contents($path), true);
 
-        if (! is_array($data) || empty($data)) {
+        if (! is_array($data) || $data === []) {
             return false;
         }
 
-        DB::transaction(static function () use ($data) {
+        DB::transaction(static function () use ($data): void {
             foreach ($data as $item) {
                 unset($item['id'], $item['config_id']);
 

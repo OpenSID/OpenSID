@@ -48,8 +48,8 @@ class InformasiPublikRepository
         return QueryBuilder::for(DokumenHidup::query())
             ->allowedFields('*')
             ->allowedFilters([
-                AllowedFilter::callback('search', static function ($query, $value) {
-                    $query->where(static function ($subQuery) use ($value) {
+                AllowedFilter::callback('search', static function ($query, $value): void {
+                    $query->where(static function ($subQuery) use ($value): void {
                         $subQuery->where('nama', 'LIKE', '%' . $value . '%')
                             ->orWhere('tahun', 'LIKE', '%' . $value . '%')
                             ->orWhere('kategori', 'LIKE', '%' . $value . '%');
@@ -57,7 +57,7 @@ class InformasiPublikRepository
                 }),
             ])
             ->allowedSorts(['id', 'nama', 'tahun', 'kategori', 'tgl_upload'])
-            ->tap(static function ($query) {
+            ->tap(static function ($query): void {
                 $query->informasiPublik()->active();
             })
             ->jsonPaginate();

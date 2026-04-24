@@ -277,7 +277,7 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
         return strrev(random_int(100000, 999999));
     }
 
-    public function gantiPin($id_pend, $nama, $data): array
+    public function gantiPin($id_pend, $nama, array $data): array
     {
         $pin_lama      = $data['pin_lama'];
         $pin_baru1     = $data['pin_baru1'];
@@ -330,8 +330,6 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
                     return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Telegram, silakan hubungi operator');
                 }
 
-                    return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Telegram, silakan hubungi operator');
-
             case 'kirim_email':
                 try {
                     $otp->driver('email')->kirimPinBaru($pengguna->email, $pin_baru2, $nama);
@@ -343,8 +341,6 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
 
                     return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Email, silakan hubungi operator');
                 }
-
-                    return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Email, silakan hubungi operator');
 
             default:
                 PendudukMandiri::where('id_pend', $id_pend)->update($updateData);

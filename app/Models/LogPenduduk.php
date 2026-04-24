@@ -489,10 +489,8 @@ class LogPenduduk extends BaseModel
      * Kembalikan status dasar penduduk ke hidup
      *
      * @param $id_log id log penduduk
-     *
-     * @return void
      */
-    public function kembalikan_status()
+    public function kembalikan_status(): void
     {
         // Kembalikan status selain lahir dan masuk
         if (! in_array($this->kode_peristiwa, [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value])) {
@@ -538,7 +536,7 @@ class LogPenduduk extends BaseModel
                         }
                     }
                 } catch (Exception $e) {
-                    throw new Exception($e->getMessage());
+                    throw new Exception($e->getMessage(), $e->getCode(), $e);
                 }
             } else {
                 // Hapus log_keluarga, jika terkait
@@ -559,9 +557,8 @@ class LogPenduduk extends BaseModel
      * Kembalikan status dasar penduduk dari PERGI ke HIDUP
      *
      * @param       $id_log id log penduduk
-     * @param mixed $data
      */
-    public function kembalikan_status_pergi($data = []): void
+    public function kembalikan_status_pergi(mixed $data = []): void
     {
         // Cek tgl lapor
         // tampilkan hanya jika beda tanggal lapor (bulan telah berganti)

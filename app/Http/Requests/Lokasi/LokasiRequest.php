@@ -54,10 +54,8 @@ class LokasiRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'nama'      => 'required|string|max:' . PEMETAAN_NAMA_MAX_LENGTH,
@@ -71,10 +69,8 @@ class LokasiRequest extends FormRequest
 
     /**
      * Get custom attributes for validator errors.
-     *
-     * @return array
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'nama'      => 'Nama Lokasi / Properti',
@@ -87,10 +83,8 @@ class LokasiRequest extends FormRequest
 
     /**
      * Get custom messages for validator errors.
-     *
-     * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'foto.mimes' => 'Format file foto harus: gif, jpg, jpeg, png, atau webp.',

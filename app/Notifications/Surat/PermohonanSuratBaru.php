@@ -42,7 +42,7 @@ use App\Notifications\BaseNotification;
 
 class PermohonanSuratBaru extends BaseNotification
 {
-    public function __construct(private PermohonanSurat $permohonan)
+    public function __construct(private readonly PermohonanSurat $permohonan)
     {
         $this->permohonan->load('surat');
     }

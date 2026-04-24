@@ -43,7 +43,7 @@ use League\Fractal\TransformerAbstract;
 
 class KelompokAnggotaTransformer extends TransformerAbstract
 {
-    public function transform(KelompokAnggota $kelompok)
+    public function transform(KelompokAnggota $kelompok): array
     {
         return [
             'id'             => $kelompok->id,

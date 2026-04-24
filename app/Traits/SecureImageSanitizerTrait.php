@@ -90,7 +90,7 @@ trait SecureImageSanitizerTrait
 
         // --- 3. Cek ekstensi file (dari nama asli) ---
         $originalName = $file['name'];
-        $ext          = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        $ext          = strtolower(pathinfo((string) $originalName, PATHINFO_EXTENSION));
 
         if (! in_array($ext, $this->allowedExtensions, true)) {
             return $this->fail("Ekstensi file tidak diizinkan: .{$ext}");
@@ -152,7 +152,7 @@ trait SecureImageSanitizerTrait
 
         $offset    = $this->magicBytes[$ext]['offset'];
         $signature = $this->magicBytes[$ext]['bytes'];
-        $length    = strlen($signature);
+        $length    = strlen((string) $signature);
 
         fseek($handle, $offset);
         $fileBytes = fread($handle, $length);
@@ -244,7 +244,7 @@ trait SecureImageSanitizerTrait
         $data = ob_get_clean();
         imagedestroy($image);
 
-        if (! $outputSuccess || empty($data)) {
+        if (! $outputSuccess || ($data === '' || $data === '0' || $data === false)) {
             return ['success' => false, 'error' => 'Gagal melakukan re-encoding gambar.'];
         }
 

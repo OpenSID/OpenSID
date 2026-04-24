@@ -51,10 +51,7 @@ class QueryDetector
 {
     public Collection $queries;
 
-    /**
-     * @var array
-     */
-    private $excepts = [
+    private array $excepts = [
         \App\Models\Pamong::class   => ['penduduk'],
         \App\Models\Keluarga::class => ['wilayah'],
     ];
@@ -64,13 +61,13 @@ class QueryDetector
         $this->resetQueries();
     }
 
-    public function boot()
+    public function boot(): void
     {
         if (! $this->isEnabled()) {
             return;
         }
 
-        DB::listen(function ($query) {
+        DB::listen(function ($query): void {
             $backtrace = collect(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 30));
 
             $this->logQuery($query, $backtrace);
@@ -118,15 +115,15 @@ class QueryDetector
         return $this;
     }
 
-    private function resetQueries()
+    private function resetQueries(): void
     {
         $this->queries = Collection::make();
     }
 
-    private function logQuery(QueryExecuted $query, Collection $backtrace)
+    private function logQuery(QueryExecuted $query, Collection $backtrace): void
     {
         try {
-            $modelTrace = $backtrace->first(static fn ($trace) => Arr::get($trace, 'object') instanceof Builder);
+            $modelTrace = $backtrace->first(static fn ($trace): bool => Arr::get($trace, 'object') instanceof Builder);
 
             // The query is coming from an Eloquent model
             if (null !== $modelTrace) {
@@ -134,7 +131,7 @@ class QueryDetector
                  * Relations get resolved by either calling the "getRelationValue" method on the model,
                  * or if the class itself is a Relation.
                  */
-                $relation = $backtrace->first(static fn ($trace) => Arr::get($trace, 'function') === 'getRelationValue' || Arr::get($trace, 'class') === Relation::class);
+                $relation = $backtrace->first(static fn ($trace): bool => Arr::get($trace, 'function') === 'getRelationValue' || Arr::get($trace, 'class') === Relation::class);
 
                 // We try to access a relation
                 if (is_array($relation) && isset($relation['object'])) {
@@ -143,14 +140,14 @@ class QueryDetector
                     $relatedModel = '';
 
                     if ($relation['class'] === Relation::class) {
-                        $model        = get_class($relation['object']->getParent());
-                        $relatedModel = get_class($relation['object']->getRelated());
-                        $relationType = class_basename(get_class($relation['object']));
+                        $model        = $relation['object']->getParent()::class;
+                        $relatedModel = $relation['object']->getRelated()::class;
+                        $relationType = class_basename($relation['object']::class);
 
                         // Simplified relation name detection
                         $relationName = $this->getSimpleRelationName($relation['object']);
                     } else {
-                        $model        = get_class($relation['object']);
+                        $model        = $relation['object']::class;
                         $relationName = $relation['args'][0] ?? 'unknown';
 
                         // Simplified relation type detection
@@ -181,11 +178,11 @@ class QueryDetector
                     ];
                 }
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
     }
 
-    private function findSource($stack)
+    private function findSource(\Illuminate\Support\Collection $stack): array
     {
         $sources = [];
 
@@ -200,10 +197,8 @@ class QueryDetector
      * Check if the given file is to be excluded from analysis
      *
      * @param string $file
-     *
-     * @return bool
      */
-    private function fileIsInExcludedPath($file)
+    private function fileIsInExcludedPath($file): bool
     {
         $excludedPaths = [
             '/vendor/illuminate/database',
@@ -213,7 +208,7 @@ class QueryDetector
         $normalizedPath = str_replace('\\', '/', $file);
 
         foreach ($excludedPaths as $excludedPath) {
-            if (strpos($normalizedPath, $excludedPath) !== false) {
+            if (str_contains($normalizedPath, $excludedPath)) {
                 return true;
             }
         }
@@ -241,16 +236,14 @@ class QueryDetector
 
         foreach ($this->excepts as $parentModel => $relations) {
             foreach ($relations as $relation) {
-                $queries = $queries->reject(static fn ($query) => $query['model'] === $parentModel && $query['relation'] === $relation);
+                $queries = $queries->reject(static fn ($query): bool => $query['model'] === $parentModel && $query['relation'] === $relation);
             }
         }
 
-        $queries = $queries->where('count', '>', 1)->values();
-
-        return $queries;
+        return $queries->where('count', '>', 1)->values();
     }
 
-    private function output()
+    private function output(): void
     {
         $detectedQueries = $this->getDetectedQueries();
 
@@ -273,10 +266,8 @@ class QueryDetector
 
     /**
      * Log a single N+1 query issue with detailed information
-     *
-     * @param mixed $detectedQuery
      */
-    private function logSingleQuery($detectedQuery)
+    private function logSingleQuery(mixed $detectedQuery): void
     {
         $modelName        = class_basename($detectedQuery['model']);
         $relatedModelName = class_basename($detectedQuery['relatedModel']);
@@ -329,17 +320,15 @@ class QueryDetector
 
     /**
      * Get relation name safely without invoking methods
-     *
-     * @param mixed $relationObject
      */
-    private function getSimpleRelationName($relationObject): string
+    private function getSimpleRelationName(mixed $relationObject): string
     {
         try {
             // Directly get relation name from related model class
-            $relatedClass = get_class($relationObject->getRelated());
+            $relatedClass = $relationObject->getRelated()::class;
 
             return strtolower(class_basename($relatedClass));
-        } catch (Exception $e) {
+        } catch (Exception) {
             return 'unknown';
         }
     }

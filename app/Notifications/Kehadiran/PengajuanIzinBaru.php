@@ -42,7 +42,7 @@ use Modules\Kehadiran\Models\PengajuanIzin;
 
 class PengajuanIzinBaru extends BaseNotification
 {
-    public function __construct(private PengajuanIzin $pengajuanIzin)
+    public function __construct(private readonly PengajuanIzin $pengajuanIzin)
     {
         $this->pengajuanIzin->load('pamong');
     }

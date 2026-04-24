@@ -69,14 +69,14 @@ return new class () extends Migration {
     {
     }
 
-    public function hapusDuplikatSurat()
+    public function hapusDuplikatSurat(): void
     {
         // Hapus surat TinyMCE lama dengan url_surat format 'surat-*'
         // yang dihasilkan oleh tambah_surat_tinymce() versi lama (sebelum fix).
         // Daftar url_surat legacy dibangun dari nama surat di JSON (getSuratBawaanTinyMCE),
         // sehingga hanya menghapus yang memang punya padanan bawaan, bukan semua 'surat-*'.
         $legacyUrls = getSuratBawaanTinyMCE()
-            ->map(static fn ($surat) => 'surat-' . url_title($surat['nama'], '-', true))
+            ->map(static fn ($surat): string => 'surat-' . url_title($surat['nama'], '-', true))
             ->values()
             ->all();
 
@@ -106,7 +106,7 @@ return new class () extends Migration {
         // Drop FK id_penduduk agar bisa diubah menjadi nullable
         $this->hapusForeignKey('kelompok_anggota_penduduk_fk', 'kelompok_anggota', 'tweb_penduduk');
 
-        Schema::table('kelompok_anggota', static function (Blueprint $table) {
+        Schema::table('kelompok_anggota', static function (Blueprint $table): void {
             $table->integer('id_penduduk')->nullable()->change();
             $table->string('nama_luar', 100)->nullable()->after('id_penduduk');
             $table->string('nik_luar', 20)->nullable()->after('nama_luar');
@@ -120,7 +120,7 @@ return new class () extends Migration {
 
         // Re-add FK dengan nullable support
         if (! $this->foreignKeyExists('kelompok_anggota', 'kelompok_anggota_penduduk_fk')) {
-            Schema::table('kelompok_anggota', static function (Blueprint $table) {
+            Schema::table('kelompok_anggota', static function (Blueprint $table): void {
                 $table->foreign(['id_penduduk'], 'kelompok_anggota_penduduk_fk')
                     ->references(['id'])
                     ->on('tweb_penduduk')
@@ -136,7 +136,7 @@ return new class () extends Migration {
     public function tambahSoftDeleteUser(): void
     {
         if (! Schema::hasColumn('user', 'deleted_at')) {
-            Schema::table('user', static function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table): void {
                 $table->softDeletes();
             });
         }
@@ -158,45 +158,45 @@ return new class () extends Migration {
 
         // Drop unique constraints lama yang tidak include deleted_at
         if ($this->cek_indeks('user', 'username_config')) {
-            Schema::table('user', static function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table): void {
                 $table->dropUnique('username_config');
             });
         }
 
         if ($this->cek_indeks('user', 'email_config')) {
-            Schema::table('user', static function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table): void {
                 $table->dropUnique('email_config');
             });
         }
 
         if ($this->cek_indeks('user', 'pamong_id_config')) {
-            Schema::table('user', static function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table): void {
                 $table->dropUnique('pamong_id_config');
             });
         }
 
         // Buat unique constraint baru yang include deleted_at
         if (! $this->cek_indeks('user', 'username_config_deleted')) {
-            Schema::table('user', static function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table): void {
                 $table->unique(['config_id', 'username', 'deleted_at'], 'username_config_deleted');
             });
         }
 
         if (! $this->cek_indeks('user', 'email_config_deleted')) {
-            Schema::table('user', static function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table): void {
                 $table->unique(['config_id', 'email', 'deleted_at'], 'email_config_deleted');
             });
         }
 
         if (! $this->cek_indeks('user', 'pamong_id_config_deleted')) {
-            Schema::table('user', static function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table): void {
                 $table->unique(['config_id', 'pamong_id', 'deleted_at'], 'pamong_id_config_deleted');
             });
         }
 
         // Recreate semua foreign key yang tadi di-drop
         if (! $this->foreignKeyExists('user', 'user_config_fk')) {
-            Schema::table('user', static function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table): void {
                 $table->foreign(['config_id'], 'user_config_fk')
                     ->references(['id'])->on('config')
                     ->onUpdate('cascade')->onDelete('cascade');
@@ -204,7 +204,7 @@ return new class () extends Migration {
         }
 
         if (! $this->foreignKeyExists('user', 'user_grup_fk')) {
-            Schema::table('user', static function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table): void {
                 $table->foreign(['id_grup'], 'user_grup_fk')
                     ->references(['id'])->on('user_grup')
                     ->onUpdate('cascade')->onDelete('cascade');
@@ -212,7 +212,7 @@ return new class () extends Migration {
         }
 
         if (! $this->foreignKeyExists('user', 'user_pamong_fk')) {
-            Schema::table('user', static function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table): void {
                 $table->foreign(['pamong_id'], 'user_pamong_fk')
                     ->references(['pamong_id'])->on('tweb_desa_pamong')
                     ->onUpdate('cascade')->onDelete('cascade');
@@ -230,7 +230,7 @@ return new class () extends Migration {
         $this->hapusForeignKey('log_surat_user_fk', 'log_surat', 'user');
 
         if (! $this->foreignKeyExists('log_surat', 'log_surat_user_2026_fk')) {
-            Schema::table('log_surat', static function (Blueprint $table) {
+            Schema::table('log_surat', static function (Blueprint $table): void {
                 $table->foreign(['id_user'], 'log_surat_user_2026_fk')
                     ->references(['id'])->on('user')
                     ->onUpdate('cascade')->onDelete('set null');
@@ -241,7 +241,7 @@ return new class () extends Migration {
         $this->hapusForeignKey('log_surat_dinas_user_fk', 'log_surat_dinas', 'user');
 
         if (! $this->foreignKeyExists('log_surat_dinas', 'log_surat_dinas_user_2026_fk')) {
-            Schema::table('log_surat_dinas', static function (Blueprint $table) {
+            Schema::table('log_surat_dinas', static function (Blueprint $table): void {
                 $table->integer('id_user')->nullable()->change();
                 $table->foreign(['id_user'], 'log_surat_dinas_user_2026_fk')
                     ->references(['id'])->on('user')
@@ -253,7 +253,7 @@ return new class () extends Migration {
         $this->hapusForeignKey('log_surat_dinas_created_by_fk', 'log_surat_dinas', 'user');
 
         if (! $this->foreignKeyExists('log_surat_dinas', 'log_surat_dinas_created_by_2026_fk')) {
-            Schema::table('log_surat_dinas', static function (Blueprint $table) {
+            Schema::table('log_surat_dinas', static function (Blueprint $table): void {
                 $table->foreign(['created_by'], 'log_surat_dinas_created_by_2026_fk')
                     ->references(['id'])->on('user')
                     ->onUpdate('cascade')->onDelete('set null');
@@ -264,7 +264,7 @@ return new class () extends Migration {
         $this->hapusForeignKey('log_surat_dinas_updated_by_fk', 'log_surat_dinas', 'user');
 
         if (! $this->foreignKeyExists('log_surat_dinas', 'log_surat_dinas_updated_by_2026_fk')) {
-            Schema::table('log_surat_dinas', static function (Blueprint $table) {
+            Schema::table('log_surat_dinas', static function (Blueprint $table): void {
                 $table->foreign(['updated_by'], 'log_surat_dinas_updated_by_2026_fk')
                     ->references(['id'])->on('user')
                     ->onUpdate('cascade')->onDelete('set null');
@@ -275,7 +275,7 @@ return new class () extends Migration {
         $this->hapusForeignKey('log_notifikasi_admin_user_fk', 'log_notifikasi_admin', 'user');
 
         if (! $this->foreignKeyExists('log_notifikasi_admin', 'log_notifikasi_admin_user_2026_fk')) {
-            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table): void {
                 $table->foreign(['id_user'], 'log_notifikasi_admin_user_2026_fk')
                     ->references(['id'])->on('user')
                     ->onUpdate('cascade')->onDelete('set null');
@@ -286,7 +286,7 @@ return new class () extends Migration {
     public function tambahPamongIdPadaPembangunan(): void
     {
         if (! Schema::hasColumn('pembangunan', 'pamong_id')) {
-            Schema::table('pembangunan', static function (Blueprint $table) {
+            Schema::table('pembangunan', static function (Blueprint $table): void {
                 $table->integer('pamong_id')
                     ->nullable()
                     ->after('pelaksana_kegiatan');
