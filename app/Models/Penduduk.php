@@ -651,8 +651,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $logPenduduk['tgl_peristiwa'] = Carbon::parse($tgl_mentah)->format('Y-m-d') . ' 00:00:00';
             $logPenduduk['tgl_lapor']     = Carbon::parse($data['tgl_lapor'])->format('Y-m-d');
 
-            // Upload file jika ada
-            if (! empty($data['file_akta_mati'])) {
+            // Upload file akta kematian jika dipilih pada form.
+            if (! empty($_FILES['nama_file']['name'])) {
                 $logPenduduk['file_akta_mati'] = (new self())->uploadAktaMati($penduduk->id);
             }
         }
@@ -660,6 +660,17 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         LogPenduduk::create($logPenduduk);
 
         return $penduduk;
+    }
+
+    private function uploadAktaMati($idPenduduk)
+    {
+        $config['upload_path']   = LOKASI_DOKUMEN;
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['max_size']      = 1024 * 10;
+        $config['file_name']     = 'akta_mati_' . $idPenduduk . '_' . time();
+        $config['overwrite']     = true;
+
+        return $this->upload('nama_file', $config);
     }
 
     public static function awalBulan($tahun, $bulan)

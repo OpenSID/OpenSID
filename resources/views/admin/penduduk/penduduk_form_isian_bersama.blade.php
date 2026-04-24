@@ -273,7 +273,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right" id="jammenit_1" name="waktu_lahir" type="text"
+                <input class="form-control input-sm pull-right" id="waktu_lahir" name="waktu_lahir" type="text"
                     value="{{ $penduduk['waktu_lahir'] }}">
             </div>
         </div>
@@ -954,7 +954,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
                             </div>
-                            <input name="jam_mati" id="jammenit_1" class="form-control input-sm" type="text" maxlength="50" placeholder="Jam Kematian">
+                            <input name="jam_mati" id="jam_mati" class="form-control input-sm" type="text" maxlength="50" placeholder="Jam Kematian">
                         </div>
                     </div>
                 </div>
@@ -993,12 +993,12 @@
         
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="file">File Akta Kematian : <code>(.jpg, .jpeg, .png, .pdf)</code></label>
+                        <label for="akta_mati_file">File Akta Kematian : <code>(.jpg, .jpeg, .png, .pdf)</code></label>
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="file_path" name="satuan">
-                            <input type="file" class="hidden" id="file" name="nama_file" accept=".jpg,.jpeg,.png,.pdf">
+                            <input type="text" class="form-control" id="akta_mati_file_path" name="satuan" readonly>
+                            <input type="file" class="hidden" id="akta_mati_file" name="nama_file" accept=".jpg,.jpeg,.png,.pdf">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Cari</button>
+                                <button type="button" class="btn btn-info" id="akta_mati_file_browser"><i class="fa fa-search"></i> Cari</button>
                             </span>
                         </div>
                         <span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong>{{ max_upload(true) }}</strong>.</code></span>
@@ -1501,6 +1501,22 @@
             show_hide_penduduk_tidak_tetap($('#status_penduduk').val());
             show_hide_status_warga_negara($('#warganegara_id').val());
             show_hide_ktp_el($('#ktp_el').val());
+
+            @if ($jenis_peristiwa == 2)
+                // Gunakan ID khusus agar tidak bentrok dengan komponen unggah foto penduduk.
+                $('#akta_mati_file_browser').on('click', function(e) {
+                    e.preventDefault();
+                    $('#akta_mati_file').trigger('click');
+                });
+
+                $('#akta_mati_file_path').on('click', function() {
+                    $('#akta_mati_file').trigger('click');
+                });
+
+                $('#akta_mati_file').on('change', function() {
+                    $('#akta_mati_file_path').val($(this).val());
+                });
+            @endif
 
         // Handler untuk perubahan Dusun
         $('#mainform #dusun').change(function() {

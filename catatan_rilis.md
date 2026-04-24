@@ -40,6 +40,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 36. [#11080](https://github.com/OpenSID/OpenSID/issues/11080) Perbaikan pemanggilan foto default jika tidak ada foto pada inputan area di Pemetaan.
 37. [#11059](https://github.com/OpenSID/OpenSID/issues/11059) Perbaikan data kesukuan data yang tampil tidak konsisten.
 38. [#11069](https://github.com/OpenSID/OpenSID/issues/11069) Perbaikan tidak ada border pada preview cetak menu statistik.
+39. [#11083](https://github.com/OpenSID/OpenSID/issues/11083) Perbaikan tidak bisa upload file kematian lewat form tambah penduduk meninggal.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.
