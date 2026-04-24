@@ -44,10 +44,9 @@ trait StatusTrait
     /**
      * Ubah status data berdasarkan ID.
      *
-     * @param mixed $id
      * @param bool  $onlyOne Jika true, hanya satu data boleh aktif.
      */
-    public static function updateStatus($id, bool $onlyOne = false): bool
+    public static function updateStatus(mixed $id, bool $onlyOne = false): bool
     {
         $model = static::findOrFail($id);
         $kolom = (new static())->getStatusColumn();
@@ -68,7 +67,7 @@ trait StatusTrait
     /**
      * Menambahkan status_label ke appends saat model di-inisialisasi.
      */
-    public function initializeStatusTrait()
+    public function initializeStatusTrait(): void
     {
         if (! in_array('status_label', $this->appends)) {
             $this->appends[] = 'status_label';
@@ -86,10 +85,9 @@ trait StatusTrait
     /**
      * Scope untuk filter berdasarkan status tertentu.
      *
-     * @param mixed    $query
      * @param int|null $status
      */
-    public function scopeStatus($query, $status = null)
+    public function scopeStatus(mixed $query, $status = null)
     {
         return $query->when(
             in_array($status, AktifEnum::keys()),
@@ -99,25 +97,21 @@ trait StatusTrait
 
     /**
      * Scope untuk data dengan status aktif.
-     *
-     * @param mixed $query
      */
-    public function scopeActive($query)
+    public function scopeActive(mixed $query)
     {
         return $query->where($this->getStatusColumn(), AktifEnum::AKTIF);
     }
 
     /**
      * Scope untuk data dengan status tidak aktif.
-     *
-     * @param mixed $query
      */
-    public function scopeInactive($query)
+    public function scopeInactive(mixed $query)
     {
         return $query->where($this->getStatusColumn(), AktifEnum::TIDAK_AKTIF);
     }
 
-    public function getStatusLabelAttribute()
+    public function getStatusLabelAttribute(): string
     {
         return AktifEnum::getLabel($this->{$this->getStatusColumn()});
     }

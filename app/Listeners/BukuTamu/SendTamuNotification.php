@@ -47,20 +47,13 @@ use NotificationChannels\Telegram\Telegram;
 class SendTamuNotification
 {
     /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Handle the event.
      */
     public function handle(TamuSubmitted $event): void
     {
         // Send database notifications to users with data-tamu access
         User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'data-tamu', user: $user))
-            ->each(static function (User $user) use ($event) {
+            ->each(static function (User $user) use ($event): void {
                 $user->notify(new TamuBaru(tamu: $event->tamu));
             });
 

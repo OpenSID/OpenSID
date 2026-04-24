@@ -47,10 +47,8 @@ trait UploadFotoUser
     /**
      * - success: nama berkas yang diunggah
      * - fail: nama berkas lama, kalau ada
-     *
-     * @param mixed $idUser
      */
-    public function urusFoto($idUser = '')
+    public function urusFoto(mixed $idUser = '')
     {
         $this->uploadConfig = [
             'upload_path'   => LOKASI_USER_PICT,
@@ -110,7 +108,7 @@ trait UploadFotoUser
             return null;
         }
 
-        if ((strlen($_FILES[$lokasi]['name']) + 20) >= 100) {
+        if ((strlen((string) $_FILES[$lokasi]['name']) + 20) >= 100) {
             set_session('error', 'Nama berkas foto terlalu panjang, maksimal 80 karakter. ' . session('flash_error_msg'));
             redirect($redirect);
         }
@@ -128,7 +126,7 @@ trait UploadFotoUser
         if ($this->upload->do_upload($lokasi)) {
             $uploadData = $this->upload->data();
             // Buat nama file unik agar url file susah ditebak dari browser
-            $namaClean    = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
+            $namaClean    = preg_replace('/[^A-Za-z0-9.]/', '_', (string) $uploadData['file_name']);
             $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
             // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
             $fileRenamed = rename(

@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('fcm_token_mandiri', static function (Blueprint $table) {
+        Schema::create('fcm_token_mandiri', static function (Blueprint $table): void {
             $table->integer('id_user_mandiri')->nullable()->index('fcm_token_mandiri_user_mandiri_fk');
             $table->integer('config_id')->index('fcm_token_mandiri_config_fk');
             $table->string('device')->unique()->comment('id device dari android pemohon');

@@ -43,7 +43,7 @@ use Modules\Kehadiran\Models\PengajuanIzin;
 
 class PengajuanIzinApproval extends BaseNotification
 {
-    public function __construct(private PengajuanIzin $pengajuanIzin)
+    public function __construct(private readonly PengajuanIzin $pengajuanIzin)
     {
     }
 

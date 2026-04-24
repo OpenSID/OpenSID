@@ -145,7 +145,7 @@ class DokumenHidup extends BaseModel
 
     public function scopeStatus($query, $status)
     {
-        return $query->when(! empty($status), static function ($q) use ($status) {
+        return $query->when(! empty($status), static function ($q) use ($status): void {
             $q->where('enabled', $status);
         });
     }

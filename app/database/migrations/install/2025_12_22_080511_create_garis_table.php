@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('garis', static function (Blueprint $table) {
+        Schema::create('garis', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id')->index('garis_config_fk');
             $table->string('nama', 50);

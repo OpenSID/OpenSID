@@ -66,20 +66,16 @@ abstract class BaseNotification extends Notification
 
     /**
      * Get the notification's delivery channels.
-     *
-     * @param mixed $notifiable
      */
-    public function via($notifiable): array
+    public function via(mixed $notifiable): array
     {
         return ['database'];
     }
 
     /**
      * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
      */
-    public function toArray($notifiable): array
+    public function toArray(mixed $notifiable): array
     {
         $slug   = $this->getNotificationSlug();
         $config = config("notifications.categories.{$slug}", []);

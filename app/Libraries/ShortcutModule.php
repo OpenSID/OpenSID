@@ -43,7 +43,7 @@ class ShortcutModule
     {
         $lokasiModules = FCPATH . 'Modules';
 
-        return cache('shortcut_modules', function () use ($lokasiModules) {
+        return cache('shortcut_modules', function () use ($lokasiModules): array {
             $modules = [];
 
             if (is_dir($lokasiModules)) {

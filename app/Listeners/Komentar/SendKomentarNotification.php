@@ -44,20 +44,13 @@ use App\Notifications\Komentar\KomentarBaru;
 class SendKomentarNotification
 {
     /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Handle the event.
      */
     public function handle(KomentarSubmitted $event): void
     {
         // Send notifications to users with komentar access
         User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'komentar', user: $user))
-            ->each(static function (User $user) use ($event) {
+            ->each(static function (User $user) use ($event): void {
                 $user->notify(new KomentarBaru(komentar: $event->komentar));
             });
     }

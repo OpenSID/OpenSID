@@ -56,8 +56,8 @@ trait Upload
                 'max_size'      => max_upload() * 1024,
                 'overwrite'     => true,
             ],
-            callback: static function ($uploadData) {
-                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+            callback: static function (array $uploadData): string {
+                $extension = strtolower(pathinfo((string) $uploadData['full_path'], PATHINFO_EXTENSION));
                 $filePath  = $uploadData['file_path'];
                 $rawName   = $uploadData['raw_name'];
 
@@ -102,7 +102,7 @@ trait Upload
         );
     }
 
-    public function uploadImgSetting(&$data)
+    public function uploadImgSetting(array &$data): void
     {
         // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
         if ($data['latar_website']) {
@@ -111,11 +111,7 @@ trait Upload
             $data['latar_website'] = setting('latar_website');
         }
 
-        if ($data['latar_login']) {
-            $data['latar_login'] = $this->uploadGambar('latar_login', LATAR_LOGIN);
-        } else {
-            $data['latar_login'] = setting('latar_login');
-        }
+        $data['latar_login'] = $data['latar_login'] ? $this->uploadGambar('latar_login', LATAR_LOGIN) : setting('latar_login');
 
         if ($data['latar_login_mandiri']) {
             $data['latar_login_mandiri'] = $this->uploadGambar('latar_login_mandiri', LATAR_LOGIN);
@@ -162,8 +158,8 @@ trait Upload
         return $this->upload(
             file: $file,
             config: $config,
-            callback: static function ($uploadData) use ($size, $favicon, $webp, $lokasi, $old_filename) {
-                $ext      = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+            callback: static function (array $uploadData) use ($size, $favicon, $webp, $lokasi, $old_filename): string {
+                $ext      = strtolower(pathinfo((string) $uploadData['full_path'], PATHINFO_EXTENSION));
                 $filePath = $uploadData['file_path'];
                 $rawName  = $uploadData['raw_name'];
                 $fullPath = $uploadData['full_path'];
@@ -283,8 +279,8 @@ trait Upload
                 'max_size'      => max_upload() * 1024,
                 'overwrite'     => true,
             ],
-            callback: static function ($uploadData) use ($old_foto, $dimensi) {
-                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+            callback: static function (array $uploadData) use ($old_foto, $dimensi): string {
+                $extension = strtolower(pathinfo((string) $uploadData['full_path'], PATHINFO_EXTENSION));
                 $filePath  = $uploadData['file_path'];
                 // $rawName   = $fupload_name;
                 $rawName = $uploadData['raw_name'];
@@ -323,7 +319,7 @@ trait Upload
      *
      * @return array|string|null Mengembalikan nama file yang diunggah jika berhasil, array dengan pesan kesalahan jika gagal, atau null.
      */
-    protected function upload($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
+    protected function upload($file, array $config = [], $redirectUrl = null, ?Closure $callback = null)
     {
         $isAjax = request()->ajax();
         $CI     = &get_instance();
@@ -369,7 +365,7 @@ trait Upload
         return null;
     }
 
-    protected function uploadAll($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
+    protected function uploadAll($file, array $config = [], $redirectUrl = null, ?Closure $callback = null)
     {
         $isAjax = request()->ajax();
         $CI     = &get_instance();

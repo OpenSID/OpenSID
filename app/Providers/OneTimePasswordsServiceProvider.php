@@ -44,13 +44,13 @@ use Spatie\OneTimePasswords\Support\PasswordGenerators\OneTimePasswordGenerator;
 
 class OneTimePasswordsServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->configure('one-time-passwords');
 
         $this->app->bind(OriginEnforcer::class, $this->app['config']['one-time-passwords.origin_enforcer']);
 
-        $this->app->bind(OneTimePasswordGenerator::class, function () {
+        $this->app->bind(OneTimePasswordGenerator::class, function (): \Spatie\OneTimePasswords\Support\PasswordGenerators\OneTimePasswordGenerator {
             $generator = Config::getPasswordGenerator();
 
             $generator->numberOfCharacters($this->app['config']['one-time-passwords.password_length']);
@@ -59,7 +59,7 @@ class OneTimePasswordsServiceProvider extends ServiceProvider
         });
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../../vendor/spatie/laravel-one-time-passwords/resources/views', 'one-time-passwords');
         $this->loadTranslationsFrom(__DIR__ . '/../../vendor/spatie/laravel-one-time-passwords/resources/lang', 'one-time-passwords');

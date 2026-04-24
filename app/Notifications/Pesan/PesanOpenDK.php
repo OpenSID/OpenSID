@@ -42,7 +42,7 @@ use App\Notifications\BaseNotification;
 
 class PesanOpenDK extends BaseNotification
 {
-    public function __construct(private Pesan $pesan)
+    public function __construct(private readonly Pesan $pesan)
     {
     }
 

@@ -43,7 +43,7 @@ use App\Models\IbuHamil;
 
 class StuntingRepository
 {
-    public function list($tahun, $kuartal, $idPosyandu)
+    public function list($tahun, $kuartal, $idPosyandu): array
     {
         $stunting  = new Stunting(['idPosyandu' => $idPosyandu, 'kuartal' => $kuartal, 'tahun' => $tahun]);
         $scoreCard = $stunting->scoreCard();
@@ -74,8 +74,8 @@ class StuntingRepository
         [$start, $end] = $this->rangeKuartal($tahun, $kuartal);
 
         $ibuHamil = IbuHamil::whereBetween('created_at', [$start, $end]);
-        $anak     = Anak::whereMonth('created_at', '>=', substr($start, 5, 2))
-            ->whereMonth('created_at', '<=', substr($end, 5, 2))
+        $anak     = Anak::whereMonth('created_at', '>=', substr((string) $start, 5, 2))
+            ->whereMonth('created_at', '<=', substr((string) $end, 5, 2))
             ->whereYear('created_at', $tahun);
 
         if ($idPosyandu) {
@@ -126,12 +126,8 @@ class StuntingRepository
     /**
      * Chart untuk menampilkan jumlah anak per kelompok umur
      * FITUR BARU: Issue #10805
-     *
-     * @param mixed $tahun
-     * @param mixed $kuartal
-     * @param mixed $idPosyandu
      */
-    private function chartKelompokUmurData($tahun, $kuartal, $idPosyandu): array
+    private function chartKelompokUmurData(mixed $tahun, mixed $kuartal, mixed $idPosyandu): array
     {
         [$start, $end] = $this->rangeKuartal($tahun, $kuartal);
 
@@ -139,8 +135,8 @@ class StuntingRepository
         $stuntingObj = Anak::selectRaw('sum(case when umur_bulan between 0 and 5 then 1 else 0 end) as range_1')
             ->selectRaw('sum(case when umur_bulan between 6 and 11 then 1 else 0 end) as range_2')
             ->selectRaw('sum(case when umur_bulan between 12 and 23 then 1 else 0 end) as range_3')
-            ->whereMonth('created_at', '>=', substr($start, 5, 2))
-            ->whereMonth('created_at', '<=', substr($end, 5, 2))
+            ->whereMonth('created_at', '>=', substr((string) $start, 5, 2))
+            ->whereMonth('created_at', '<=', substr((string) $end, 5, 2))
             ->whereYear('created_at', $tahun);
 
         if ($idPosyandu) {
@@ -183,12 +179,8 @@ class StuntingRepository
     /**
      * Chart untuk menampilkan status stunting per kelompok umur
      * FITUR BARU: Issue #10805 - Alternatif
-     *
-     * @param mixed $tahun
-     * @param mixed $kuartal
-     * @param mixed $idPosyandu
      */
-    private function chartStatusPerUmurData($tahun, $kuartal, $idPosyandu): array
+    private function chartStatusPerUmurData(mixed $tahun, mixed $kuartal, mixed $idPosyandu): array
     {
         [$start, $end] = $this->rangeKuartal($tahun, $kuartal);
 
@@ -197,8 +189,8 @@ class StuntingRepository
             ->selectRaw('sum(case when umur_bulan between 0 and 5 then 1 else 0 end) as range_1')
             ->selectRaw('sum(case when umur_bulan between 6 and 11 then 1 else 0 end) as range_2')
             ->selectRaw('sum(case when umur_bulan between 12 and 23 then 1 else 0 end) as range_3')
-            ->whereMonth('created_at', '>=', substr($start, 5, 2))
-            ->whereMonth('created_at', '<=', substr($end, 5, 2))
+            ->whereMonth('created_at', '>=', substr((string) $start, 5, 2))
+            ->whereMonth('created_at', '<=', substr((string) $end, 5, 2))
             ->whereYear('created_at', $tahun)
             ->groupBy('status_gizi');
 

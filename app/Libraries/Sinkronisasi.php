@@ -43,11 +43,11 @@ class Sinkronisasi
 {
     private string $zip_file = '';
 
-    public function sinkronkan($file = null)
+    public function sinkronkan(?string $file = null)
     {
         $hasil = true;
 
-        // Kolom server berisi daftar jenis penggunaan server, misalanya: '4,5,6'
+        // Kolom server berisi daftar jenis penggunaan server, misalnya: '4,5,6'
         // Tidak gunakan kolom jenis json, karena penerapan json berbeda antara MySQL dan MariaDB.
         $server       = setting('penggunaan_server');
         $server_regex = "^{$server}$|,{$server}$|,{$server},|^{$server},";
@@ -65,7 +65,7 @@ class Sinkronisasi
 
             // Hanya ambil data yg telah berubah
             foreach ($data_tabel as $k => $v) {
-                if (strtotime($v['updated_at']) <= $update_dari_waktu) {
+                if (strtotime((string) $v['updated_at']) <= $update_dari_waktu) {
                     unset($data_tabel[$k]);
                 } else {
                     // Data CSV berisi string 'NULL' untuk kolom dengan nilai NULL

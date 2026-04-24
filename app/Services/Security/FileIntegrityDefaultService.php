@@ -47,7 +47,7 @@ use Symfony\Component\Finder\Finder;
 
 class FileIntegrityDefaultService
 {
-    private HeuristicDetectorDefaultService $detector;
+    private readonly HeuristicDetectorDefaultService $detector;
 
     /**
      * Excluded directories (relative to desa/)
@@ -85,7 +85,7 @@ class FileIntegrityDefaultService
         }
 
         // Collect files with Laravel Collection
-        $files = collect($finder)->map(function ($file) use ($desaPath) {
+        $files = collect($finder)->map(function ($file) use ($desaPath): array {
             $filepath     = $file->getRealPath();
             $relativePath = str_replace($desaPath, '', $filepath);
 
@@ -121,9 +121,9 @@ class FileIntegrityDefaultService
         $stats = [
             'total_files'      => $files->count(),
             'total_size'       => $files->sum('size'),
-            'php_files'        => $files->filter(static fn ($f) => isset($f['risk_score']) || isset($f['scan_error']))->count(),
+            'php_files'        => $files->filter(static fn ($f): bool => isset($f['risk_score']) || isset($f['scan_error']))->count(),
             'suspicious_files' => $files->where('suspicious', true)->count(),
-            'errors'           => $files->filter(static fn ($f) => isset($f['scan_error']))->count(),
+            'errors'           => $files->filter(static fn ($f): bool => isset($f['scan_error']))->count(),
         ];
 
         // Update jika ada, create jika belum ada berdasarkan kondisi
@@ -160,7 +160,7 @@ class FileIntegrityDefaultService
         // Sebelum proses panjang, pastikan koneksi DB aktif untuk menghindari timeout
         try {
             \Illuminate\Support\Facades\DB::connection()->getPdo();
-        } catch (Exception $e) {
+        } catch (Exception) {
             \Illuminate\Support\Facades\DB::reconnect();
         }
 
@@ -344,7 +344,7 @@ class FileIntegrityDefaultService
         }
 
         // Process current files using Collection
-        $currentFiles = collect($finder)->map(static function ($file) use ($desaPath) {
+        $currentFiles = collect($finder)->map(static function ($file) use ($desaPath): array {
             $filepath     = $file->getRealPath();
             $relativePath = str_replace($desaPath, '', $filepath);
 
@@ -358,7 +358,7 @@ class FileIntegrityDefaultService
         })->keyBy('path');
 
         // Find new files
-        $newFiles = $currentFiles->diffKeys($baselineIndex)->map(function ($file) {
+        $newFiles = $currentFiles->diffKeys($baselineIndex)->map(function (array $file): array {
             $fileInfo = [
                 'path'     => $file['path'],
                 'size'     => $file['size'],
@@ -386,12 +386,12 @@ class FileIntegrityDefaultService
 
         // Find modified files
         $modifiedFiles = $currentFiles->intersectByKeys($baselineIndex)
-            ->filter(static function ($current) use ($baselineIndex) {
+            ->filter(static function (array $current) use ($baselineIndex): bool {
                 $baseline = $baselineIndex[$current['path']];
 
                 return $current['hash'] !== $baseline['hash'];
             })
-            ->map(function ($file) use ($baselineIndex) {
+            ->map(function (array $file) use ($baselineIndex): array {
                 $baseline = $baselineIndex[$file['path']];
 
                 $fileInfo = [
@@ -423,7 +423,7 @@ class FileIntegrityDefaultService
 
         // Find deleted files
         $deletedFiles = $baselineIndex->diffKeys($currentFiles)
-            ->map(static fn ($baseline) => [
+            ->map(static fn ($baseline): array => [
                 'path'          => $baseline['path'],
                 'baseline_hash' => $baseline['hash'],
                 'baseline_size' => $baseline['size'],
@@ -431,7 +431,7 @@ class FileIntegrityDefaultService
 
         // Collect suspicious files
         $suspiciousFiles = $newFiles->concat($modifiedFiles)
-            ->filter(static fn ($f) => isset($f['suspicious']) && $f['suspicious']);
+            ->filter(static fn ($f): bool => isset($f['suspicious']) && $f['suspicious']);
 
         return [
             'checked_at'       => Carbon::now()->format('Y-m-d H:i:s'),
@@ -572,6 +572,6 @@ class FileIntegrityDefaultService
     private function getExcludedPaths(): Collection
     {
         return collect($this->excludedDirs)
-            ->map(fn ($dir) => rtrim($this->getDesaPath(), '/') . '/' . ltrim($dir, '/'));
+            ->map(fn ($dir): string => rtrim($this->getDesaPath(), '/') . '/' . ltrim((string) $dir, '/'));
     }
 }

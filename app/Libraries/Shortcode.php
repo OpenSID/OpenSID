@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\Blade;
 class Shortcode
 {
     // Shortcode untuk isi artikel
-    public function shortcode($str = '')
+    public function shortcode($str = ''): string|array|null
     {
         $regex = '/\\[\\[(.*?)\\]\\]/';
 
@@ -52,11 +52,11 @@ class Shortcode
             $params_explode = explode(',', $matches[1]);
 
             return $this->extract_shortcode($params_explode[0], $params_explode[1] ?? '');
-        }, $str);
+        }, (string) $str);
     }
 
     // Shortcode untuk list artikel
-    public function convert_sc_list($str = '')
+    public function convert_sc_list($str = ''): string|array|null
     {
         $regex = '/\\[\\[(.*?)\\]\\]/';
 
@@ -64,7 +64,7 @@ class Shortcode
             $params_explode = explode(',', $matches[1]);
 
             return $this->converted_sc_list($params_explode[0] ?? '', $params_explode[1] ?? '');
-        }, $str);
+        }, (string) $str);
     }
 
     private function extract_shortcode(?string $type = '', ?string $thn = '')
@@ -170,7 +170,7 @@ class Shortcode
         return $this->sotk($adaBpd);
     }
 
-    private function sotk($adaBpd = false)
+    private function sotk(bool $adaBpd = false)
     {
         $data['ada_bpd'] = $adaBpd;
         $atasan          = Pamong::select('atasan', 'pamong_id')
@@ -187,7 +187,7 @@ class Shortcode
         return Blade::render('admin.pengurus.bagan_sisip', $data);
     }
 
-    private function converted_sc_list(?string $type = '', ?string $thn = '')
+    private function converted_sc_list(?string $type = '', ?string $thn = ''): ?string
     {
         if ($type == 'lap-RP-APBD-sm1') {
             return "<i class='fa fa-table'></i> Tabel Laporan APBDes Smt. 1 TA. " . $thn . ', ';
@@ -243,5 +243,6 @@ class Shortcode
         if ($type == 'grafik-RP-APBD-DD') {
             return "<i class='fa fa-bar-chart'></i> Grafik Dana Desa TA. " . $thn . ', ';
         }
+        return null;
     }
 }

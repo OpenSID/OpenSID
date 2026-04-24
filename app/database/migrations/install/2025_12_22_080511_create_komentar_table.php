@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('komentar', static function (Blueprint $table) {
+        Schema::create('komentar', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id')->index('komentar_config_fk');
             $table->integer('id_artikel')->nullable()->index('komentar_artikel_fk');

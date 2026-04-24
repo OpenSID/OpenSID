@@ -58,11 +58,8 @@ class SecurityReport extends Model
 
     /**
      * Scope untuk tipe tertentu
-     *
-     * @param mixed $query
-     * @param mixed $type
      */
-    public function scopeOfType($query, $type)
+    public function scopeOfType(mixed $query, mixed $type)
     {
         return $query->where('type', $type);
     }
@@ -128,10 +125,8 @@ class SecurityReport extends Model
 
     /**
      * Get maximum risk level from report data
-     *
-     * @param mixed $reportData
      */
-    private function getMaxRiskLevel($reportData)
+    private function getMaxRiskLevel(mixed $reportData): string
     {
         // Handle different JSON formats
         $files = $reportData['quarantined']

@@ -487,10 +487,9 @@ class LogSurat extends BaseModel
                         ->orWhere(static function ($verifikasi): void {
                             $verifikasi->whereNull('verifikasi_operator');
                         });
-                } else {
-                    // Verifikasi kades TIDAK aktif: ambil surat dengan verifikasi_operator = 1
-                    return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
                 }
+                // Verifikasi kades TIDAK aktif: ambil surat dengan verifikasi_operator = 1
+                return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
             })
             ->when($jabatanId == $jabatanSekdesId, static function ($q) {
                 if (setting('verifikasi_sekdes') == 1) {

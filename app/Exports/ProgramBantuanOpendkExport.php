@@ -74,7 +74,7 @@ class ProgramBantuanOpendkExport
             $data = collect($item->toArray());
             $data->prepend(kode_wilayah($kodeDesa), 'desa_id');
 
-            $status = ! ($item->sdate?->isFuture() || $item->edate?->endOfDay()->isPast());
+            $status = !$item->sdate?->isFuture() && !$item->edate?->endOfDay()?->isPast();
             $data->put('status', $status ? 1 : 0);
 
             return $data->toArray();

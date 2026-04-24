@@ -42,7 +42,7 @@ use League\Fractal\TransformerAbstract;
 
 class SuplemenTerdataTransformer extends TransformerAbstract
 {
-    public function transform($suplemenTerdata)
+    public function transform($suplemenTerdata): array
     {
         return [
             'id'           => (string) $suplemenTerdata->id,

@@ -46,20 +46,13 @@ use NotificationChannels\Telegram\Telegram;
 class SendPermohonanSuratNotification
 {
     /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Handle the event.
      */
     public function handle(PermohonanSuratSubmitted $event): void
     {
         // Send notifications to users with permohonan-surat access
         User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'permohonan-surat', user: $user))
-            ->each(static function (User $user) use ($event) {
+            ->each(static function (User $user) use ($event): void {
                 $user->notify(new PermohonanSuratBaru(permohonan: $event->permohonan));
             });
 

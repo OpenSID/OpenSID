@@ -46,20 +46,13 @@ use NotificationChannels\Telegram\Telegram;
 class SendPesanMasukNotification
 {
     /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Handle the event.
      */
     public function handle(PesanMasukSubmitted $event): void
     {
         // Send notifications to users with kotak-pesan access
         User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'kotak-pesan', user: $user))
-            ->each(static function (User $user) use ($event) {
+            ->each(static function (User $user) use ($event): void {
                 $user->notify(new PesanMasuk(pesan: $event->pesan));
             });
 

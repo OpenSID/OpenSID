@@ -51,7 +51,7 @@ class SettingAplikasiRepository
 {
     use Upload, ValidateCloudDomainTrait;
 
-    protected $setting;
+    protected \App\Models\SettingAplikasi $setting;
 
     public function __construct()
     {
@@ -236,12 +236,10 @@ class SettingAplikasiRepository
      * Memperbarui pengaturan berdasarkan key.
      *
      * @param string $key
-     * @param mixed  $value
      * @param string $column
      *
-     * @return bool
      */
-    public function updateWithKey($key, $value)
+    public function updateWithKey($key, mixed $value): bool
     {
         $data        = $this->setting->where('key', $key)->first();
         $data->value = $value;
@@ -254,10 +252,8 @@ class SettingAplikasiRepository
 
     /**
      * Membersihkan cache query.
-     *
-     * @return void
      */
-    public function flushCache()
+    public function flushCache(): void
     {
         $this->setting->flushQueryCache();
     }
@@ -275,26 +271,22 @@ class SettingAplikasiRepository
                     continue;
                 }
 
-                $value = is_array($value) ? $value : strip_tags($value);
+                $value = is_array($value) ? $value : strip_tags((string) $value);
                 // update password jika terisi saja
                 if ($key == 'email_smtp_pass' && $value === '') {
                     continue;
                 }
 
-                if ($key == 'tampilkan_pendaftaran' && $value == 1) {
-                    if (setting('email_notifikasi') == 0 || setting('telegram_notifikasi') == 0) {
-                        $value = 0;
-                        $hasil = false;
-                        set_session('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
-                    }
+                if ($key == 'tampilkan_pendaftaran' && $value == 1 && (setting('email_notifikasi') == 0 || setting('telegram_notifikasi') == 0)) {
+                    $value = 0;
+                    $hasil = false;
+                    set_session('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
                 }
 
-                if ($key == 'google_recaptcha' && $value == 1) {
-                    if (empty($data['google_recaptcha_site_key']) || empty($data['google_recaptcha_secret_key'])) {
-                        $value = 0;
-                        $hasil = false;
-                        set_session('flash_error_msg', 'Untuk mengaktifkan Google reCAPTCHA, Site Key dan Secret Key harus diisi');
-                    }
+                if ($key == 'google_recaptcha' && $value == 1 && (empty($data['google_recaptcha_site_key']) || empty($data['google_recaptcha_secret_key']))) {
+                    $value = 0;
+                    $hasil = false;
+                    set_session('flash_error_msg', 'Untuk mengaktifkan Google reCAPTCHA, Site Key dan Secret Key harus diisi');
                 }
 
                 // Terapkan perlindungan SSRF lokal untuk api_opendk_server via trait
@@ -346,7 +338,7 @@ class SettingAplikasiRepository
         return $hasil;
     }
 
-    private function notifikasiTracker($value): bool
+    private function notifikasiTracker(string|array|int|null|bool $value): bool
     {
         if ($value == 0) {
             // Notifikasi tracker dimatikan

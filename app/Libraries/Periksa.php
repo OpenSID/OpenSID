@@ -510,13 +510,6 @@ class Periksa
         return Penduduk::withOnly(['keluarga'])->whereIn('id', static fn ($q) => $q->select(['nik_kepala'])->from('tweb_keluarga'))->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->get();
     }
 
-    private function deteksiKeluargaTanpaNikKepala()
-    {
-        $configId = identitas('id');
-
-        return Keluarga::selectRaw('tweb_keluarga.*, log_keluarga.id_peristiwa')->logTerakhir($configId, date('Y-m-d'))->with(['wilayah'])->whereNull('nik_kepala')->get();
-    }
-
     private function deteksiKlasifikasiSuratGanda()
     {
         $configId = identitas('id');
@@ -526,16 +519,18 @@ class Periksa
 
     private function deteksiKepalaRtmGanda()
     {
-        $rtmGandaTidakSinkron = Rtm::with('kepalaKeluarga')
-            ->whereIn('nik_kepala', static function ($q) {
+        return Rtm::with('kepalaKeluarga')
+            ->whereIn('nik_kepala', static function ($q): void {
                 $q->select('nik_kepala')
                     ->from('tweb_rtm')
                     ->groupBy('nik_kepala')
                     ->havingRaw('COUNT(*) > 1');
             })
             ->get()
-            ->filter(static function ($rtm) {
-                if (! $rtm->kepalaKeluarga) return true;
+            ->filter(static function ($rtm): bool {
+                if (! $rtm->kepalaKeluarga) {
+                    return true;
+                }
 
                 return $rtm->kepalaKeluarga->id_rtm != $rtm->no_kk;
             })
@@ -544,8 +539,6 @@ class Periksa
 
                 return $rtm;
             });
-
-        return $rtmGandaTidakSinkron;
 
     }
 
@@ -598,7 +591,7 @@ class Periksa
     {
         return Artikel::whereIn(
             DB::raw('(slug, config_id)'),
-            static function ($query) {
+            static function ($query): void {
                     $query->select('slug', 'config_id')
                         ->from('artikel')
                         ->groupBy('slug', 'config_id')
@@ -615,8 +608,8 @@ class Periksa
         return DB::table('tweb_wil_clusterdesa')
             ->where('config_id', identitas('id'))
             ->pluck('dusun')
-            ->groupBy(static fn ($dusun) => strtolower(trim($dusun)))
-            ->filter(static fn ($group) => $group->unique()->count() > 1)
+            ->groupBy(static fn ($dusun) => strtolower(trim((string) $dusun)))
+            ->filter(static fn ($group): bool => $group->unique()->count() > 1)
             ->map(static fn ($group) => $group->unique()->sort()->values()->toArray())
             ->values();
     }
@@ -809,14 +802,6 @@ class Periksa
         }
     }
 
-    private function perbaikiKeluargaTanpaNikKepala(): void
-    {
-        $keluarga = $this->periksa['keluarga_tanpa_nik_kepala'];
-        if ($keluarga) {
-            Keluarga::whereIn('id', array_column($keluarga, 'id'))->delete();
-        }
-    }
-
     private function perbaikiLogPendudukTidakSinkron(): void
     {
         $logPenduduk = $this->periksa['log_penduduk_tidak_sinkron'];
@@ -969,7 +954,7 @@ class Periksa
         // Bersihkan orphan (seluruh konfigurasi) termasuk update kolom tipe sebagai safety net,
         // karena tambahForeignKey() tidak mengetahui kolom tipe milik artikel.
         DB::table('artikel')
-            ->where(static function ($q) {
+            ->where(static function ($q): void {
                 $q->whereNotNull('id_kategori')
                     ->whereNotIn('id_kategori', static fn ($sub) => $sub->select('id')->from('kategori'));
             })

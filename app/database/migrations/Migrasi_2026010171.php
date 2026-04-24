@@ -72,18 +72,18 @@ return new class () extends Migration {
 
     }
 
-    public function ubahKolomTipeTableAnjungan()
+    public function ubahKolomTipeTableAnjungan(): void
     {
         if (Schema::hasTable('anjungan') && Schema::hasColumn('anjungan', 'tipe')) {
             DB::statement('ALTER TABLE anjungan MODIFY tipe TEXT NULL');
         }
     }
 
-    public function tambahUuidTableAnjungan()
+    public function tambahUuidTableAnjungan(): void
     {
         try {
             if (Schema::hasTable('anjungan') && ! Schema::hasColumn('anjungan', 'uuid')) {
-                Schema::table('anjungan', static function ($table) {
+                Schema::table('anjungan', static function ($table): void {
                     $table->string('uuid')->unique()->nullable()->after('id');
                     $table->text('user_agent')->nullable()->after('uuid');
                 });
@@ -95,11 +95,11 @@ return new class () extends Migration {
         }
     }
 
-    public function notifikasiTable()
+    public function notifikasiTable(): void
     {
         // Buat tabel notifications untuk Laravel Notification Database
         if (! Schema::hasTable('notifications')) {
-            Schema::create('notifications', static function (Blueprint $table) {
+            Schema::create('notifications', static function (Blueprint $table): void {
                 $table->uuid('id')->primary();
                 $table->configId();
                 $table->string('type');
@@ -112,7 +112,7 @@ return new class () extends Migration {
 
         // Pastikan index ada jika belum buat index
         if (Schema::hasTable('notifications') && ! Schema::hasIndex('notifications', 'notifications_notifiable_type_notifiable_id_index')) {
-            Schema::table('notifications', static function (Blueprint $table) {
+            Schema::table('notifications', static function (Blueprint $table): void {
                 $table->index(['notifiable_type', 'notifiable_id']);
             });
         }
@@ -125,8 +125,8 @@ return new class () extends Migration {
             'jabatan_sekdes_id' => sekdes()?->id,
         ];
 
-        LogSurat::whereNull('deleted_at')->masuk($isAdmin, $listJabatan)->each(function (LogSurat $logSurat) {
-            $this->getUserAccessNotifications(modul: 'arsip-layanan')->each(function (User $user) use ($logSurat) {
+        LogSurat::whereNull('deleted_at')->masuk($isAdmin, $listJabatan)->each(function (LogSurat $logSurat): void {
+            $this->getUserAccessNotifications(modul: 'arsip-layanan')->each(function (User $user) use ($logSurat): void {
                 $this->notifyIfNotExists(
                     user: $user,
                     notification: new PermohonanSuratMasuk(logSurat: $logSurat),
@@ -138,8 +138,8 @@ return new class () extends Migration {
         });
 
         // Permohonan Surat Masuk
-        PermohonanSurat::baru()->get()->each(function (PermohonanSurat $surat) {
-            $this->getUserAccessNotifications(modul: 'permohonan-surat')->each(function (User $user) use ($surat) {
+        PermohonanSurat::baru()->get()->each(function (PermohonanSurat $surat): void {
+            $this->getUserAccessNotifications(modul: 'permohonan-surat')->each(function (User $user) use ($surat): void {
                 $this->notifyIfNotExists(
                     user: $user,
                     notification: new PermohonanSuratBaru(permohonan: $surat),
@@ -151,8 +151,8 @@ return new class () extends Migration {
         });
 
         // Komentar
-        Komentar::unread()->whereNull('parent_id')->each(function (Komentar $komentar) {
-            $this->getUserAccessNotifications(modul: 'komentar')->each(function (User $user) use ($komentar) {
+        Komentar::unread()->whereNull('parent_id')->each(function (Komentar $komentar): void {
+            $this->getUserAccessNotifications(modul: 'komentar')->each(function (User $user) use ($komentar): void {
                 $this->notifyIfNotExists(
                     user: $user,
                     notification: new KomentarBaru(komentar: $komentar),
@@ -167,8 +167,8 @@ return new class () extends Migration {
         PesanMandiri::where('status', PesanMandiri::UNREAD)
             ->where('tipe', 1)
             ->where('is_archived', 0)
-            ->each(function (PesanMandiri $pesan) {
-                $this->getUserAccessNotifications(modul: 'kotak-pesan')->each(function (User $user) use ($pesan) {
+            ->each(function (PesanMandiri $pesan): void {
+                $this->getUserAccessNotifications(modul: 'kotak-pesan')->each(function (User $user) use ($pesan): void {
                     $this->notifyIfNotExists(
                         user: $user,
                         notification: new PesanMasuk(pesan: $pesan),
@@ -180,7 +180,7 @@ return new class () extends Migration {
             });
     }
 
-    public function addNullableConfigIdArtikel()
+    public function addNullableConfigIdArtikel(): void
     {
         if (Schema::hasTable('artikel') && ! Schema::hasIndex('artikel', 'artikel_config_fk')) {
             Schema::table('artikel', static function ($table): void {
@@ -207,10 +207,10 @@ return new class () extends Migration {
      */
     private function notifyIfNotExists(
         User $user,
-        $notification,
+        mixed $notification,
         string $notificationClass,
         string $dataKey,
-        $uniqueId
+        mixed $uniqueId
     ): void {
         $exists = $user->notifications()
             ->where('type', $notificationClass)

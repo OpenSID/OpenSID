@@ -213,16 +213,13 @@ class Siak extends Import
     // =========================================================================
     // Private — Helper
     // =========================================================================
-
     /**
      * Temukan nomor baris pertama yang mengandung data.
      *
      * Baris header (baris 1) dan baris kosong dilewati. Mengembalikan 0
      * jika sheet tidak memiliki data sama sekali.
-     *
-     * @param mixed $data
      */
-    private function cariBarisPertama($data, int $baris): int
+    private function cariBarisPertama(mixed $data, int $baris): int
     {
         if ($baris <= 1) {
             return 0;
@@ -262,7 +259,7 @@ class Siak extends Import
 
         if (preg_match($pattern, $alamat, $matches)) {
             $dusun        = trim($matches[1]);
-            $alamatBersih = rtrim(trim(preg_replace($pattern, '', $alamat)), ' ,/-');
+            $alamatBersih = rtrim(trim((string) preg_replace($pattern, '', $alamat)), ' ,/-');
 
             return [
                 'alamat' => $alamatBersih !== '' ? $alamatBersih : $alamat,
@@ -303,7 +300,7 @@ class Siak extends Import
      *
      * @return array Array asosiatif field penduduk siap pakai
      */
-    private function getIsiBaris($data, int $i): array
+    private function getIsiBaris(mixed $data, int $i): array
     {
         $k        = $this->kolomSiak;
         $isiBaris = [];

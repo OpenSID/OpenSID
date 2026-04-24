@@ -53,10 +53,8 @@ class GrupImportRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'userfile' => 'required|file|mimes:json|max:' . (max_upload() * 1024),
@@ -65,10 +63,8 @@ class GrupImportRequest extends FormRequest
 
     /**
      * Get custom attributes for validator errors.
-     *
-     * @return array
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'userfile' => 'File Impor',

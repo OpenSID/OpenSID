@@ -39,7 +39,7 @@ namespace App\Traits;
 
 trait GenerateRtf
 {
-    private function buat_berkas_kk($data = [], $format = null): ?string
+    private function buat_berkas_kk(array $data = [], $format = null): ?string
     {
         $path_arsip = LOKASI_ARSIP;
         $file       = DEFAULT_LOKASI_EKSPOR . ($format === 'F1.09' ? 'kk-f1.09.rtf' : 'kk.rtf');
@@ -80,9 +80,9 @@ trait GenerateRtf
                 // Untuk F1.09: kolom TANGGAL PERKAWINAN/PERCERAIAN
                 // Tampilkan tanggal perkawinan jika status KAWIN
                 // Tampilkan tanggal perceraian jika status CERAI (Cerai Hidup/Cerai Mati)
-                if (str_contains($statusPerkawinan, 'KAWIN')) {
+                if (str_contains((string) $statusPerkawinan, 'KAWIN')) {
                     $tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo(tgl: $ranggota['tanggalperkawinan'], format: 'd-m-Y') . '\\line ' : '- \\line ';
-                } elseif (str_contains($statusPerkawinan, 'CERAI')) {
+                } elseif (str_contains((string) $statusPerkawinan, 'CERAI')) {
                     $tanggalperkawinan .= isset($ranggota['tanggalperceraian']) ? tgl_indo(tgl: $ranggota['tanggalperceraian'], format: 'd-m-Y') . '\\line ' : '- \\line ';
                 } else {
                     $tanggalperkawinan .= '- \\line ';
@@ -92,7 +92,7 @@ trait GenerateRtf
             } else {
                 // Untuk KK biasa: ada 2 kolom terpisah
                 // Kolom TANGGAL PERKAWINAN
-                if (str_contains($statusPerkawinan, 'KAWIN')) {
+                if (str_contains((string) $statusPerkawinan, 'KAWIN')) {
                     $tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo(tgl: $ranggota['tanggalperkawinan'], format: 'd-m-Y') . '\\line ' : '- \\line ';
                 } else {
                     // Jika bukan status kawin, jangan tampilkan tanggal perkawinan
@@ -100,7 +100,7 @@ trait GenerateRtf
                 }
 
                 // Kolom TANGGAL PERCERAIAN
-                if (str_contains($statusPerkawinan, 'CERAI')) {
+                if (str_contains((string) $statusPerkawinan, 'CERAI')) {
                     $tanggalperceraian .= isset($ranggota['tanggalperceraian']) ? tgl_indo(tgl: $ranggota['tanggalperceraian'], format: 'd-m-Y') . '\\line ' : '- \\line ';
                 } else {
                     // Jika bukan status cerai, jangan tampilkan tanggal perceraian

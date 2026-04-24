@@ -154,11 +154,11 @@ class Setting extends BaseModel
     {
         static::boot();
 
-        static::saved(static function () {
+        static::saved(static function (): void {
             Cache::forget('settings_modules');
         });
 
-        static::deleted(static function () {
+        static::deleted(static function (): void {
             Cache::forget('settings_modules');
         });
     }

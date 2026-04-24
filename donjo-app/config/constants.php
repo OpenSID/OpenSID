@@ -257,12 +257,14 @@ define('EKSTENSI_WAJIB', serialize([
     'tidy',
     'zip',
     'exif',
+    'ionCube Loader',
 ]));
 define('minPhpVersion', '8.1.0');
-define('maxPhpVersion', '8.3.0');
+define('maxPhpVersion', '8.3.99');
 define('minMySqlVersion', '5.6.0');
-define('maxMySqlVersion', '8.0.0');
-define('minMariaDBVersion', '10.3.0');
+define('maxMySqlVersion', '8.4.0');
+define('minMariaDBVersion','10.3.0');
+define('maxMariaDBVersion','11.99.99');
 
 // Pindahan dari referensi_model.php
 define('JENIS_PERATURAN_DESA', serialize([

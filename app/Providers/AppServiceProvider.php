@@ -263,12 +263,10 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Register Blueprint macro: createIfNotExist
-     *
-     * @return void
      */
     protected function registerMacrosCreateIfNotExist(): void
     {
-        Blueprint::macro('createIfNotExist', function (string $table, \Closure $callback) {
+        Blueprint::macro('createIfNotExist', function (string $table, \Closure $callback): void {
             if (! Schema::hasTable($table)) {
                 Schema::create($table, $callback);
             }
