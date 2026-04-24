@@ -174,7 +174,7 @@ jobs:
         run: |
           ${{ env.ENCODER }} -L -82 -x86-64 \
             source/app -o encoded/app \
-            --bundle --create-target \
+            --create-target \
             --no-doc-comments \
             --ignore 'View/Components/' \
             --optimize more --license-check auto
@@ -185,7 +185,7 @@ jobs:
         run: |
           ${{ env.ENCODER }} -L -82 -x86-64 \
             source/bootstrap -o encoded/bootstrap \
-            --bundle --create-target \
+            --create-target \
             --no-doc-comments \
             --optimize more --license-check auto
 
@@ -195,7 +195,7 @@ jobs:
         run: |
           ${{ env.ENCODER }} -L -82 -x86-64 \
             source/config -o encoded/config \
-            --bundle --create-target \
+            --create-target \
             --no-doc-comments \
             --optimize more --license-check auto
 
@@ -205,7 +205,7 @@ jobs:
         run: |
           ${{ env.ENCODER }} -L -82 -x86-64 \
             source/donjo-app -o encoded/donjo-app \
-            --bundle --create-target \
+            --create-target \
             --no-doc-comments \
             --ignore 'views/' \
             --optimize more --license-check auto
@@ -216,7 +216,7 @@ jobs:
         run: |
           ${{ env.ENCODER }} -L -82 -x86-64 \
             source/Modules -o encoded/Modules \
-            --bundle --create-target \
+            --create-target \
             --no-doc-comments \
             --ignore 'Views/' --ignore 'views/' --ignore 'Resources/views/' \
             --optimize more --license-check auto
