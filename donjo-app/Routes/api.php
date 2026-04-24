@@ -39,96 +39,96 @@
 Route::group('internal_api', ['namespace' => 'internal_api'], static function (): void {
     // Wilayah
     Route::group('wilayah', static function (): void {
-        Route::get('get_rw', 'Wilayah@get_rw');
-        Route::get('get_rt', 'Wilayah@get_rt');
-        Route::get('administratif', 'Wilayah@administratif')->name('api.wilayah.administratif');
+        Route::match(['GET', 'POST'], 'get_rw', 'Wilayah@get_rw');
+        Route::match(['GET', 'POST'], 'get_rt', 'Wilayah@get_rt');
+        Route::match(['GET', 'POST'], 'administratif', 'Wilayah@administratif')->name('api.wilayah.administratif');
     });
 
-    Route::get('apipenduduksuplemen', 'Suplemen@apipenduduksuplemen');
+    Route::match(['GET', 'POST'], 'apipenduduksuplemen', 'Suplemen@apipenduduksuplemen');
 
     // Pengaduan
-    Route::get('pengaduan', 'Pengaduan@index');
+    Route::match(['GET', 'POST'], 'pengaduan', 'Pengaduan@index');
 
     // Pembangunan
-    Route::get('pembangunan', 'Pembangunan@index')->name('api.pembangunan');
+    Route::match(['GET', 'POST'], 'pembangunan', 'Pembangunan@index')->name('api.pembangunan');
 
     // Arsip Artikel
-    Route::get('arsip', 'Artikel@index');
+    Route::match(['GET', 'POST'], 'arsip', 'Artikel@index');
 
     // Bantuan
-    Route::get('peserta_bantuan/{key}', 'BantuanPeserta@index');
+    Route::match(['GET', 'POST'], 'peserta_bantuan/{key}', 'BantuanPeserta@index');
 
     // Status Desa
-    Route::get('sdgs', 'Sdgs@index')->name('api.sdgs');
-    Route::get('idm/{tahun}', 'Idm@index')->name('api.idm');
+    Route::match(['GET', 'POST'], 'sdgs', 'Sdgs@index')->name('api.sdgs');
+    Route::match(['GET', 'POST'], 'idm/{tahun}', 'Idm@index')->name('api.idm');
 
     // Inventaris
-    Route::get('inventaris', 'Inventaris@index')->name('api.inventaris');
-    Route::get('inventaris-tanah', 'InventarisTanah@index')->name('api.inventaris-tanah');
-    Route::get('inventaris-asset', 'InventarisAsset@index')->name('api.inventaris-asset');
-    Route::get('inventaris-gedung', 'InventarisGedung@index')->name('api.inventaris-gedung');
-    Route::get('inventaris-jalan', 'InventarisJalan@index')->name('api.inventaris-jalan');
-    Route::get('inventaris-peralatan', 'InventarisPeralatan@index')->name('api.inventaris-peralatan');
-    Route::get('inventaris-kontruksi', 'InventarisKontruksi@index')->name('api.inventaris-kontruksi');
+    Route::match(['GET', 'POST'], 'inventaris', 'Inventaris@index')->name('api.inventaris');
+    Route::match(['GET', 'POST'], 'inventaris-tanah', 'InventarisTanah@index')->name('api.inventaris-tanah');
+    Route::match(['GET', 'POST'], 'inventaris-asset', 'InventarisAsset@index')->name('api.inventaris-asset');
+    Route::match(['GET', 'POST'], 'inventaris-gedung', 'InventarisGedung@index')->name('api.inventaris-gedung');
+    Route::match(['GET', 'POST'], 'inventaris-jalan', 'InventarisJalan@index')->name('api.inventaris-jalan');
+    Route::match(['GET', 'POST'], 'inventaris-peralatan', 'InventarisPeralatan@index')->name('api.inventaris-peralatan');
+    Route::match(['GET', 'POST'], 'inventaris-kontruksi', 'InventarisKontruksi@index')->name('api.inventaris-kontruksi');
 
     // Stunting
-    Route::get('stunting', 'Stunting@index')->name('api.stunting');
+    Route::match(['GET', 'POST'], 'stunting', 'Stunting@index')->name('api.stunting');
 
     // DPT
-    Route::get('dpt', 'Dpt@index')->name('api.dpt');
+    Route::match(['GET', 'POST'], 'dpt', 'Dpt@index')->name('api.dpt');
 
     // Kelompok
-    Route::get('/kelompok/{slug}', 'Kelompok@detail')->name('api.kelompok.detail');
-    Route::get('/kelompok/anggota/{slug}', 'Kelompok@anggota')->name('api.kelompok.anggota');
+    Route::match(['GET', 'POST'], '/kelompok/{slug}', 'Kelompok@detail')->name('api.kelompok.detail');
+    Route::match(['GET', 'POST'], '/kelompok/anggota/{slug}', 'Kelompok@anggota')->name('api.kelompok.anggota');
 
     // Lembaga
-    Route::get('/lembaga/{slug}', 'Lembaga@detail')->name('api.lembaga.detail');
-    Route::get('/lembaga/anggota/{slug}', 'Lembaga@anggota')->name('api.lembaga.anggota');
+    Route::match(['GET', 'POST'], '/lembaga/{slug}', 'Lembaga@detail')->name('api.lembaga.detail');
+    Route::match(['GET', 'POST'], '/lembaga/anggota/{slug}', 'Lembaga@anggota')->name('api.lembaga.anggota');
 
     // Informasi Publik
-    Route::get('informasi-publik', 'InformasiPublik@index')->name('api.informasi-publik');
+    Route::match(['GET', 'POST'], 'informasi-publik', 'InformasiPublik@index')->name('api.informasi-publik');
 
     // Produk Hukum
     Route::group('produk-hukum', static function (): void {
-        Route::get('/', 'ProdukHukum@index')->name('api.produk-hukum');
-        Route::get('tahun', 'ProdukHukum@tahun')->name('api.tahun-produk-hukum');
-        Route::get('kategori', 'ProdukHukum@kategori')->name('api.kategori-produk-hukum');
+        Route::match(['GET', 'POST'], '/', 'ProdukHukum@index')->name('api.produk-hukum');
+        Route::match(['GET', 'POST'], 'tahun', 'ProdukHukum@tahun')->name('api.tahun-produk-hukum');
+        Route::match(['GET', 'POST'], 'kategori', 'ProdukHukum@kategori')->name('api.kategori-produk-hukum');
     });
 
     // Peta
-    Route::get('peta', 'Peta@index')->name('api.peta');
+    Route::match(['GET', 'POST'], 'peta', 'Peta@index')->name('api.peta');
 
     // Statistik
-    Route::get('statistik/{key}', 'Statistik@index');
+    Route::match(['GET', 'POST'], 'statistik/{key}', 'Statistik@index');
 
     // Pemerintah
-    Route::get('pemerintah', 'Pemerintah@index')->name('api.pemerintah');
+    Route::match(['GET', 'POST'], 'pemerintah', 'Pemerintah@index')->name('api.pemerintah');
 
     // Verifikasi surat
-    Route::get('verifikasi-surat', 'LogSurat@verifikasi')->name('api.verifikasi-surat');
-    Route::get('verifikasi-surat-dinas', 'LogSuratDinas@verifikasi')->name('api.verifikasi-surat-dinas');
+    Route::match(['GET', 'POST'], 'verifikasi-surat', 'LogSurat@verifikasi')->name('api.verifikasi-surat');
+    Route::match(['GET', 'POST'], 'verifikasi-surat-dinas', 'LogSuratDinas@verifikasi')->name('api.verifikasi-surat-dinas');
 
     // Galeri
     Route::group('galeri', static function (): void {
-        Route::get('/', 'Galeri@index')->name('api.galeri');
-        Route::get('/{parent}', 'Galeri@detail')->name('api.galeri.detail');
+        Route::match(['GET', 'POST'], '/', 'Galeri@index')->name('api.galeri');
+        Route::match(['GET', 'POST'], '/{parent}', 'Galeri@detail')->name('api.galeri.detail');
     });
 
     // Suplemen
     Route::group('suplemen', static function (): void {
-        Route::get('/', 'Suplemen@list')->name('api.suplemen');
-        Route::get('{suplemen}', 'Suplemen@anggota')->name('api.suplemen.anggota');
+        Route::match(['GET', 'POST'], '/', 'Suplemen@list')->name('api.suplemen');
+        Route::match(['GET', 'POST'], '{suplemen}', 'Suplemen@anggota')->name('api.suplemen.anggota');
     });
 
     // Analisis
     Route::group('analisis', static function (): void {
         Route::get('master', 'Analisis@master')->name('api.analisis.master');
-        Route::get('indikator', 'Analisis@indikator')->name('api.analisis.indikator');
-        Route::get('jawaban', 'Analisis@jawaban')->name('api.analisis.jawaban');
+        Route::match(['GET', 'POST'], 'indikator', 'Analisis@indikator')->name('api.analisis.indikator');
+        Route::match(['GET', 'POST'], 'jawaban', 'Analisis@jawaban')->name('api.analisis.jawaban');
     });
 
     // Rute untuk PPID
-    Route::get('ppid', 'Api_informasi_publik@ppid');
+    Route::match(['GET', 'POST'], 'ppid', 'Api_informasi_publik@ppid');
 });
 
 // Eksternal API
@@ -152,6 +152,6 @@ Route::group('external_api', ['namespace' => 'external_api'], static function ()
 // API Publik
 Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::group('api/v1', static function (): void {
-        Route::get('sdgs', 'Sdgs@api_sdgs');
+        Route::match(['GET', 'POST'], 'sdgs', 'Sdgs@api_sdgs');
     });
 });
