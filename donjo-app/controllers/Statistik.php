@@ -195,10 +195,9 @@ class Statistik extends Admin_Controller
         $data['aksi']       = $aksi;
         $data['config']     = $this->header['desa'];
         $data['file']       = 'Statistik penduduk';
-        $data['isi']        = 'admin.statistik.cetak';
         $data['letak_ttd']  = ['2', '2', '9'];
 
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.statistik.cetak', $data);
     }
 
     private function tautan_data(?string $lap = '0')
