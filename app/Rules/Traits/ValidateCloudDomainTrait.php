@@ -47,26 +47,39 @@ trait ValidateCloudDomainTrait
      *
      * @return mixed
      */
-    protected function validateDomain(array $data, bool $redirect = false, string $redirectUrl = '')
-    {
-        // Jika tipe adalah cloud (2), lakukan validasi URL
-        if ($data['tipe'] == 2) {
-            $secureCloudUrl = new SecureCloudUrl();
+    protected function validateDomain(
+        array $data,
+        bool $redirect = false,
+        string $redirectUrl = '',
+        bool $requireCloudWhitelist = true,
+        string $attribute = 'url'
+    ) {
+        // Jika tipe adalah cloud (2) atau tipe tidak didefinisikan secara spesifik (agar bisa dinamis), lakukan validasi URL
+        // Jika parameter tipe = 2 ada dan kita sedang validasi whitelist, baru lanjutkan.
+        // Tapi kita juga bisa menggunakan method ini untuk SSRF umum (bukan tipe 2) dengan menset requireCloudWhitelist = false.
+        $isCloudTipe = (isset($data['tipe']) && $data['tipe'] == 2);
+        
+        if ($isCloudTipe || ! $requireCloudWhitelist || ! isset($data['tipe'])) {
+            $secureUrlRule = new SecureCloudUrl($requireCloudWhitelist);
 
             $validator = Validator::make($data, [
-                'url' => ['required', 'url', $secureCloudUrl],
+                $attribute => ['required', 'url', $secureUrlRule],
             ]);
 
             if ($validator->fails()) {
-                $allowed = implode(', ', $secureCloudUrl->getTrustedDomains());
-                $message = "{$validator->errors()->first()} <br>Domain yang diperbolehkan: {$allowed}";
+                $message = $validator->errors()->first($attribute);
+                
+                if ($requireCloudWhitelist) {
+                    $allowed = implode(', ', $secureUrlRule->getTrustedDomains());
+                    $message .= " <br>Domain yang diperbolehkan: {$allowed}";
+                }
 
-                redirect_with('error', $message, $redirectUrl, true);
+                return redirect_with('error', $message, $redirectUrl, true);
             }
 
             if ($redirect) {
-                // Jika valid, redirect ke URL cloud storage
-                return redirect($data['url']);
+                // Jika valid, redirect ke URL
+                return redirect($data[$attribute]);
             }
         }
 

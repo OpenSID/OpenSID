@@ -249,7 +249,12 @@ class Regsosek2022kEnum extends BaseEnum
                 '2' => '2. Desil 2',
                 '3' => '3. Desil 3',
                 '4' => '4. Desil 4',
-                '5' => '5. Desil 5 S/d Desil 10',
+                '5' => '5. Desil 5',
+                '6' => '6. Desil 6',
+                '7' => '7. Desil 7',
+                '8' => '8. Desil 8',
+                '9' => '9. Desil 9',
+                '10' => '10. Desil 10',
             ],
         ];
     }

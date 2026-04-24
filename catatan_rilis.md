@@ -38,12 +38,26 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 26. [#11063](https://github.com/OpenSID/OpenSID/issues/11063) Perbaikan sebutan nama di soal DTSEN pada tab anggota keluarga tidak mencantumkan nama sesuai data yang dipilih.
 27. [#11074](https://github.com/OpenSID/OpenSID/issues/11074) Perbaikan SHDK pada isian 409 DTSEN tidak otomatis terisi berdasarkan data penduduk.
 28. [#11071](https://github.com/OpenSID/OpenSID/issues/11071) Perbaikan pada hasil pemantauan dtsen, nama petugas tidak tampil, padahal sudah di isi manual.
-29. [#11073](https://github.com/OpenSID/OpenSID/issues/11073) Perbaikan isian memiliki kartu Identitas pada isian 411 di DTSEN tidak sesuai.
+29. [#11075](https://github.com/OpenSID/OpenSID/issues/11075) Perbaikan isian memiliki kartu Identitas pada isian 411 di DTSEN tidak sesuai.
+30. [#11068](https://github.com/OpenSID/OpenSID/issues/11068) Perbaikan tutup modal anggota keluarga setelah berhasil simpan di menu DTSEN.
+31. [#11073](https://github.com/OpenSID/OpenSID/issues/11073) Perbaikan status perkawinan pada isian 408 DTSEN tidak otomatis terisi berdasarkan data penduduk.
+32. [#11043](https://github.com/OpenSID/OpenSID/issues/11043) Perbaikan gambar tema bawaan tidak tampil atau menampilkan gambar rusak.
+33. [#11048](https://github.com/OpenSID/OpenSID/issues/11048) Perbaikan saat verifikasi telegram berhasil, tombol verifikasi masih tampil jika tidak direfresh.
+34. [#11014](https://github.com/OpenSID/OpenSID/issues/11014) Perbaikan terdapat perbedaan hasil rekapitulasi desa rejasa.
+35. [#11066](https://github.com/OpenSID/OpenSID/issues/11066) Perbaikan sebutan desa berubah menjadi desa saat ubah indentitas desa.
+36. [#11080](https://github.com/OpenSID/OpenSID/issues/11080) Perbaikan pemanggilan foto default jika tidak ada foto pada inputan area di Pemetaan.
+37. [#11059](https://github.com/OpenSID/OpenSID/issues/11059) Perbaikan data kesukuan data yang tampil tidak konsisten.
+38. [#11069](https://github.com/OpenSID/OpenSID/issues/11069) Perbaikan tidak ada border pada preview cetak menu statistik.
+39. [#11083](https://github.com/OpenSID/OpenSID/issues/11083) Perbaikan tidak bisa upload file kematian lewat form tambah penduduk meninggal.
+40. [#11079](https://github.com/OpenSID/OpenSID/issues/11079) Perbaikan gagal cetak atau unduh kartu keluarga.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.
+2. [#6174](https://github.com/OpenSID/premium/issues/6174) Perbaikan celah SSRF pada modul Sinkronisasi OpenDK (api_opendk_server).
 
 ### TEKNIS
 1. [#10908](https://github.com/OpenSID/OpenSID/issues/10908) Tema wira menjadi tema default pada instalasi baru aplikasi OpenSID Premium dan juga penambahan tema Lestari dan Seruit Lite selama berstatus pelanggan premium.
 2. [#11076](https://github.com/OpenSID/OpenSID/issues/11076) Penambahan halaman peringatan ketika ionCube loader belum terpasang.
 3. [#10953](https://github.com/OpenSID/OpenSID/issues/10953) Optimasi browser cache untuk static asset tema & module.
+4. [#11070](https://github.com/OpenSID/OpenSID/issues/11070) Perbaikan pilihan desil pada form pemantauan dtsen.
+5. [#11085](https://github.com/OpenSID/OpenSID/issues/11085) Pada DTSEN ketika tombol simpan diklik maka halaman form tertutup, trigernya adalah kolom pertanyaan nomor 205.

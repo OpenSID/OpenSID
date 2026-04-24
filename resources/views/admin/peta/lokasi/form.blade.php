@@ -59,11 +59,11 @@
                     </div>
                 </div>
 
-                <?php if ($plan && $plan->url_foto) : ?>
+                <?php if ($plan?->foto_lokasi) : ?>
                     <div class="form-group">
-                        <label class="control-label col-sm-3">Foto Saat Ini</label>
+                        <label class="control-label col-sm-3"></label>
                         <div class="col-sm-7">
-                            <img class="attachment-img img-responsive img-circle" src="{{ $plan->url_foto }}" alt="Foto" style="max-width: 150px; max-height: 150px;">
+                            <img class="attachment-img img-responsive img-circle" src="{{ $plan->foto_lokasi }}" alt="Foto">
                         </div>
                     </div>
                 <?php endif; ?>

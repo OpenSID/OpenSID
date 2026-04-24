@@ -5,57 +5,51 @@ test.use({
     storageState: path.resolve(__dirname, '../../storage/auth/admin.json'),
 });
 
-test.describe('Bug/error: Isian memiliki kartu Identitas pada isian 411 di DTSEN tidak sesuai #11075', () => {
-    test('fix: perbaiki Isian memiliki kartu Identitas pada isian 411 di DTSEN tidak sesuai', {
+test.describe('Bug/error: Status perkawinan pada isian 408 DTSEN tidak otomatis terisi berdasarkan data penduduk #11073', () => {
+    test('fix: perbaiki Status perkawinan pada isian 408 DTSEN tidak otomatis terisi berdasarkan data penduduk #11073', {
         annotation: {
             type: 'issue',
-            description: 'https://github.com/OpenSID/OpenSID/issues/11075',
+            description: 'https://github.com/OpenSID/OpenSID/issues/11073',
         },
     }, async ({ page }) => {
+        // Open DTSEN form tab 4
         await page.goto('/dtsen/pendataan/form/4');
 
-        // Tunggu tabel dimuat
-        await expect(page.locator('#tabel_art_dtsen')).toBeVisible();
+        // Wait for family members table to be visible
+        const table = page.locator('#tabel_art_dtsen');
+        await expect(table).toBeVisible();
 
-        // Ambil semua baris anggota keluarga
-        const rows = page.locator('#tabel_art_dtsen tbody tr');
-        const rowCount = await rows.count();
+        // Get first member row and its name
+        const firstRow = table.locator('tbody tr').first();
+        const nameCell = firstRow.locator('td').nth(1); // assuming name is in second column
+        const memberName = (await nameCell.innerText()).trim();
 
-        // Kita tes maksimal 2 anggota untuk memastikan variasi umur jika ada
-        for (let i = 0; i < Math.min(rowCount, 2); i++) {
-            const row = rows.nth(i);
-            await row.locator('text=Lihat').click();
+        // Open modal for this member
+        await firstRow.locator('text=Lihat').click();
+        const modal = page.locator('#modal-tab4');
+        await expect(modal).toBeVisible();
 
-            // Verifikasi modal terbuka
-            await expect(page.locator('#modal-tab4')).toBeVisible();
-
-            // Verifikasi field 411 TIDAK disabled (Ini inti perbaikannya)
-            const pilihan411 = page.locator('#pilihan_4_411');
-            await expect(pilihan411).not.toHaveAttribute('disabled');
-
-            // Cek konsistensi data berdasarkan umur di title
-            const titleText = await page.locator('#title_art').innerText();
-            const ageMatch = titleText.match(/(\d+)\s+Tahun/);
-
-            if (ageMatch) {
-                const age = parseInt(ageMatch[1]);
-                const selectedValues = await pilihan411.evaluate((el: HTMLSelectElement) => {
-                    return Array.from(el.selectedOptions).map(opt => opt.value);
-                });
-
-                if (age < 17) {
-                    // Untuk anak-anak (< 17), harus otomatis terpilih Akta (1) dan KIA (2)
-                    expect(selectedValues).toContain('1');
-                    expect(selectedValues).toContain('2');
-                } else {
-                    // Untuk dewasa (>= 17), harus otomatis terpilih KTP (4)
-                    expect(selectedValues).toContain('4');
-                }
-            }
-
-            // Tutup modal untuk lanjut ke anggota berikutnya
-            await page.locator('#modal-tab4 .close').click();
-            await page.waitForTimeout(500); // Tunggu animasi tutup modal
+        // Verify dynamic name replacement in placeholders
+        const namePlaceholders = modal.locator('.ganti-nama');
+        const count = await namePlaceholders.count();
+        for (let i = 0; i < count; i++) {
+            const txt = await namePlaceholders.nth(i).innerText();
+            expect(txt).toContain(memberName);
         }
+
+        // Verify marital status (field 408) is auto‑filled and enabled
+        const statusSelect = modal.locator('#pilihan_4_408');
+        await expect(statusSelect).not.toBeDisabled();
+        const selectedValue = await statusSelect.evaluate((el: HTMLSelectElement) => el.value);
+        expect(selectedValue).not.toBe('');
+        // Optional: compare with master data stored in row attribute
+        const masterStatus = await firstRow.getAttribute('data-status');
+        if (masterStatus) {
+            expect(selectedValue).toBe(masterStatus);
+        }
+
+        // Close modal
+        await modal.locator('.close').click();
+        await page.waitForTimeout(300);
     });
 });

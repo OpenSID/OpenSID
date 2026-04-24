@@ -212,10 +212,9 @@ class Statistik_bantuan extends Admin_Controller
         $data['stat']       = LaporanPenduduk::judulStatistik($id);
         $data['aksi']       = $aksi;
         $data['file']       = 'Statistik penduduk';
-        $data['isi']        = 'admin.statistik.cetak';
         $data['letak_ttd']  = ['2', '2', '9'];
 
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.statistik.cetak', $data);
     }
 
     private function dataMenu($id)

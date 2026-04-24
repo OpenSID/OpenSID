@@ -189,11 +189,11 @@ class Area extends BaseModel
         }
 
         $foto = LOKASI_FOTO_AREA . $this->attributes['foto'];
-        if (file_exists(FCPATH . $foto)) {
+        if (!empty($this->attributes['foto']) && file_exists(FCPATH . $foto)) {
             return base_url($foto);
         }
 
-        return null;
+        return base_url('assets/images/404-image-not-found.jpg');
     }
 
     /**

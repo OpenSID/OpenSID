@@ -133,6 +133,7 @@
                     $('#form-2 select').trigger('change');
                 }, 200);
             });
+            
             $('#form-2').on('submit', function(ev) {
                 ev.preventDefault();
                 let is_valid = is_form_valid($(this).attr('id'));
@@ -152,11 +153,67 @@
                 let originalContent = btn.html();
                 btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...');
                 
-                ajax_save_dtsen("{{ route('dtsen_pendataan.save', $dtsen->id) }}", form, function() {
-                    btn.prop('disabled', false).html(originalContent);
-                }, function() {
-                    btn.prop('disabled', false).html(originalContent);
-                });
+                // ↓ UBAH BAGIAN INI
+                ajax_save_dtsen("{{ route('dtsen_pendataan.save', $dtsen->id) }}", form, 
+                    function() {
+                        btn.prop('disabled', false).html(originalContent);
+                        
+                        // Ambil nilai field 205 yang baru dipilih
+                        var nilai205 = $('#pilihan_2_205').val();
+                        var urlKembali = "{{ ci_route('dtsen/pendataan') }}";
+                        var HASIL_LENGKAP = "{{ \Modules\DTSEN\Enums\DtsenEnum::HASIL_PENDATAAN_TERISI_LENGKAP }}";
+
+                        @php
+                            $mapLabelHasilPendataan = collect(Modules\DTSEN\Enums\Regsosek2022kEnum::pilihanBagian2()['205'])
+                                ->mapWithKeys(static fn($label, $key) => [
+                                    (string) $key => preg_replace('/^\d+\.\s*/', '', $label)
+                                ])
+                                ->prepend('Hasil pendataan belum dipilih', '')
+                                ->toArray();
+                        @endphp
+
+                        var mapLabelHasilPendataan  = {!! json_encode($mapLabelHasilPendataan) !!};
+
+                        var statusLabel = mapLabelHasilPendataan[nilai205] || 'Belum diketahui';
+
+                        if (nilai205 == HASIL_LENGKAP) {
+                            // Terisi lengkap → redirect langsung
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil Disimpan!',
+                                text: 'Data lengkap. Kembali ke halaman daftar.',
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(function() {
+                                window.location.href = urlKembali;
+                            });
+
+                        } else {
+
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Data Belum Lengkap',
+                                html: '<p>Status: <strong>' + statusLabel + '</strong></p>'
+                                    + '<p>Apakah ingin melanjutkan pengisian?</p>',
+                                showCancelButton: true,
+                                confirmButtonText: '<i class="fa fa-edit"></i> Lanjut Pengisian',
+                                cancelButtonText:  '<i class="fa fa-sign-out"></i> Kembali ke Daftar',
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor:  '#f39c12',
+                            }).then(function(result) {
+                                if (!result.isConfirmed) {
+                                    // Pilih "Kembali ke Daftar"
+                                    window.location.href = urlKembali;
+                                }
+                                // Pilih "Lanjut Pengisian" → tidak melakukan apa-apa
+                            });
+                        }
+                    }, 
+                    function() {
+                        // callback gagal
+                        btn.prop('disabled', false).html(originalContent);
+                    }
+                );
             });
         })
     </script>

@@ -197,8 +197,18 @@ class PendataanController extends AdminModulController
                 ->addColumn('rw', static fn ($row) => $row->rw_kk ?? '-')
                 ->filterColumn('rw', static fn ($query, $keyword) => $query->where('wil_kk.rw', 'LIKE', "%{$keyword}%"))
                 ->addColumn('petugas', static fn ($row) => $row->nama_ppl ?? '-')
+                ->addColumn('status_lengkap', static function ($row) {
+                    if ($row->kd_hasil_pendataan_keluarga == DtsenEnum::HASIL_PENDATAAN_TERISI_LENGKAP) {
+                        return '<span class="label label-success">
+                                    <i class="fa fa-check"></i> LENGKAP
+                                </span>';
+                    }
+                    return '<span class="label label-warning">
+                                <i class="fa fa-exclamation-triangle"></i> BELUM LENGKAP
+                            </span>';
+                })
                 ->filterColumn('petugas', static fn ($query, $keyword) => $query->where('dtsen.nama_ppl', 'LIKE', "%{$keyword}%"))
-                ->rawColumns(['ceklist', 'aksi', 'jumlah_anggota', 'kd_hasil_pendataan_keluarga', 'kd_peringkat_kesejahteraan_keluarga'])
+                ->rawColumns(['ceklist', 'aksi', 'jumlah_anggota', 'kd_hasil_pendataan_keluarga', 'kd_peringkat_kesejahteraan_keluarga', 'status_lengkap'])
                 ->toJson();
         }
 

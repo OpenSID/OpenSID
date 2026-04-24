@@ -24,7 +24,7 @@
                         </div>
                         <input
                             name="jam_mati"
-                            id="jammenit_1"
+                            id="jam_mati"
                             class="form-control input-sm"
                             type="text"
                             maxlength="50"

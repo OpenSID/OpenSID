@@ -55,7 +55,7 @@
         });
 
         if ($.fn.datetimepicker) {
-            $('#modalBox .fetched-data').find('#jammenit_1').datetimepicker({
+            $('#modalBox .fetched-data').find('#jam_mati').datetimepicker({
                 format: 'HH:mm',
                 locale: 'id'
             });

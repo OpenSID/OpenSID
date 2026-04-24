@@ -143,21 +143,21 @@ $(document).ready(function()
 		locale:'id'
 	});
 
-	$('#jammenit_1').datetimepicker(
-	{
-		format: 'HH:mm',
-		locale:'id'
-	});
-	$('#jammenit_2').datetimepicker(
+	$('#waktu_lahir, #jam_mati, #jammenit_2, #jammenit_3').datetimepicker(
 	{
 		format: 'HH:mm',
 		locale:'id'
 	});
 
-	$('#jammenit_3').datetimepicker(
-	{
-		format: 'HH:mm',
-		locale:'id'
+	$('#waktu_lahir, #jam_mati, #jammenit_2, #jammenit_3').each(function() {
+		var $input = $(this);
+		var $addon = $input.closest('.input-group').find('.input-group-addon');
+
+		$addon.off('click.datetimepicker-open').on('click.datetimepicker-open', function() {
+			if ($input.data('DateTimePicker')) {
+				$input.data('DateTimePicker').show();
+			}
+		});
 	});
 	$('#tanggal_cetak_ktp').datetimepicker(
 	{
