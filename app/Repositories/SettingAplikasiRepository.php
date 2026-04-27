@@ -49,9 +49,10 @@ use Spatie\Activitylog\Facades\LogBatch;
 
 class SettingAplikasiRepository
 {
-    use Upload, ValidateCloudDomainTrait;
+    use Upload;
+ use ValidateCloudDomainTrait;
 
-    protected \App\Models\SettingAplikasi $setting;
+    protected SettingAplikasi $setting;
 
     public function __construct()
     {
@@ -237,7 +238,6 @@ class SettingAplikasiRepository
      *
      * @param string $key
      * @param string $column
-     *
      */
     public function updateWithKey($key, mixed $value): bool
     {

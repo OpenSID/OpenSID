@@ -673,17 +673,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return $penduduk;
     }
 
-    private function uploadAktaMati($idPenduduk)
-    {
-        $config['upload_path']   = LOKASI_DOKUMEN;
-        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-        $config['max_size']      = 1024 * 10;
-        $config['file_name']     = 'akta_mati_' . $idPenduduk . '_' . time();
-        $config['overwrite']     = true;
-
-        return $this->upload('nama_file', $config);
-    }
-
     public static function awalBulan($tahun, $bulan)
     {
         // Tentukan akhir bulan (contoh: 31 Agustus 23:59:59)
@@ -1526,6 +1515,17 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     protected function scopeWajibKtp($query)
     {
         return $query->batasiUmur(date('d-m-Y'), ['satuan' => 'tahun', 'min' => 17, 'max' => 9999])->orwhereIn('status_kawin', [StatusKawinEnum::KAWIN, StatusKawinEnum::CERAIHIDUP, StatusKawinEnum::CERAIMATI]);
+    }
+
+    private function uploadAktaMati($idPenduduk)
+    {
+        $config['upload_path']   = LOKASI_DOKUMEN;
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['max_size']      = 1024 * 10;
+        $config['file_name']     = 'akta_mati_' . $idPenduduk . '_' . time();
+        $config['overwrite']     = true;
+
+        return $this->upload('nama_file', $config);
     }
 
     private function isBelumTercatat($akta, $tanggal): bool

@@ -58,7 +58,7 @@ trait ValidateCloudDomainTrait
         // Jika parameter tipe = 2 ada dan kita sedang validasi whitelist, baru lanjutkan.
         // Tapi kita juga bisa menggunakan method ini untuk SSRF umum (bukan tipe 2) dengan menset requireCloudWhitelist = false.
         $isCloudTipe = (isset($data['tipe']) && $data['tipe'] == 2);
-        
+
         if ($isCloudTipe || ! $requireCloudWhitelist || ! isset($data['tipe'])) {
             $secureUrlRule = new SecureCloudUrl($requireCloudWhitelist);
 
@@ -68,7 +68,7 @@ trait ValidateCloudDomainTrait
 
             if ($validator->fails()) {
                 $message = $validator->errors()->first($attribute);
-                
+
                 if ($requireCloudWhitelist) {
                     $allowed = implode(', ', $secureUrlRule->getTrustedDomains());
                     $message .= " <br>Domain yang diperbolehkan: {$allowed}";
@@ -91,7 +91,6 @@ trait ValidateCloudDomainTrait
      * Jika URL berasal dari Google Drive, akan dikonversi ke format thumbnail.
      * Jika bukan URL Google Drive, URL akan dikembalikan apa adanya.
      *
-     *
      * @return string|null
      */
     protected function googleDriveDirectUrl(mixed $url)
@@ -100,7 +99,7 @@ trait ValidateCloudDomainTrait
             return null;
         }
 
-        if (!str_contains((string) $url, 'drive.google.com')) {
+        if (! str_contains((string) $url, 'drive.google.com')) {
             return $url;
         }
 

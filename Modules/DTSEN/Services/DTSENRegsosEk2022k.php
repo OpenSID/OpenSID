@@ -559,7 +559,7 @@ class DTSENRegsosEk2022k
         // 0:tidak punya, 1:akta lahir, 2:kia, 4:ktp
         $total = 0;
         if ($agt->akta_lahir || $agt->umur < UmurEnum::WAJIB_KTP) {
-            $total += 1;
+            $total++;
         }
 
         $is_ibu_anak_punya_data_kia = $ref_eloquent_collection['kia']->filter(static fn ($item): bool => $item->ibu_id == $agt->id || $item->anak_id == $agt->id);

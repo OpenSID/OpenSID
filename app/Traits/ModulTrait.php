@@ -122,6 +122,7 @@ trait ModulTrait
 
             return redirect_with('warning', $message, ci_route('plugin'), true);
         }
+
         return null;
     }
 

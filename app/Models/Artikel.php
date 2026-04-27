@@ -327,7 +327,7 @@ class Artikel extends BaseModel
     public function author()
     {
         return $this->belongsTo(User::class, 'id_user')
-            ->withDefault(static fn (): \App\Models\User => new User(['nama' => 'ADMIN']));
+            ->withDefault(static fn (): User => new User(['nama' => 'ADMIN']));
     }
 
     /**

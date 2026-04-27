@@ -42,8 +42,7 @@ use League\Flysystem\PathTraversalDetected;
 
 class Asset extends CI_Controller
 {
-    private const ALLOWED_DISKS = ['assets', 'desa', 'public'];
-
+    private const ALLOWED_DISKS    = ['assets', 'desa', 'public'];
     private const SECURITY_HEADERS = [
         'Content-Security-Policy' => "default-src 'none'; style-src 'unsafe-inline'; sandbox",
     ];
@@ -106,13 +105,13 @@ class Asset extends CI_Controller
             ]);
 
             /**
-             * @var \Illuminate\Filesystem\FilesystemAdapter $disk
-             * @var string                                   $finalPath
+             * @var Illuminate\Filesystem\FilesystemAdapter $disk
+             * @var string                                  $finalPath
              */
             [$disk, $finalPath] = $this->resolveDiskAndPath($primaryDisk, $path, $request);
 
             $checksum     = $disk->checksum($finalPath);
-            $etag         = "\"$checksum\"";
+            $etag         = "\"{$checksum}\"";
             $lastModified = $disk->lastModified($finalPath);
 
             // Cek If-None-Match (ETag revalidation)

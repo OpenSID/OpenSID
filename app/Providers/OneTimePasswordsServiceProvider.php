@@ -50,7 +50,7 @@ class OneTimePasswordsServiceProvider extends ServiceProvider
 
         $this->app->bind(OriginEnforcer::class, $this->app['config']['one-time-passwords.origin_enforcer']);
 
-        $this->app->bind(OneTimePasswordGenerator::class, function (): \Spatie\OneTimePasswords\Support\PasswordGenerators\OneTimePasswordGenerator {
+        $this->app->bind(OneTimePasswordGenerator::class, function (): OneTimePasswordGenerator {
             $generator = Config::getPasswordGenerator();
 
             $generator->numberOfCharacters($this->app['config']['one-time-passwords.password_length']);

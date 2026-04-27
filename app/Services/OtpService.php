@@ -378,10 +378,10 @@ class OtpService
         $appName = ucwords((string) setting('sebutan_desa')) . ' ' . identitas('nama_desa');
 
         $purposeText = match ($purpose) {
-            'activation' => 'Aktivasi OTP',
+            'activation'     => 'Aktivasi OTP',
             '2fa_activation' => 'Aktivasi 2FA',
-            '2fa_login' => 'Login 2FA',
-            default => 'Login',
+            '2fa_login'      => 'Login 2FA',
+            default          => 'Login',
         };
 
         return "🔐 <b>{$appName} - {$purposeText}</b>\n\n" .

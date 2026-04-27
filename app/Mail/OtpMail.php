@@ -50,10 +50,12 @@ class OtpMail extends Mailable
      * @var int
      */
     public $otp;
+
     /**
      * @var string
      */
     public $purpose;
+
     public $expiryMinutes;
 
     /**
@@ -76,9 +78,9 @@ class OtpMail extends Mailable
     public function build()
     {
         $subject = match ($this->purpose) {
-            'activation' => 'Kode OTP Aktivasi - ' . ucwords((string) setting('sebutan_desa')) . ' ' . identitas('nama_desa'),
+            'activation'     => 'Kode OTP Aktivasi - ' . ucwords((string) setting('sebutan_desa')) . ' ' . identitas('nama_desa'),
             '2fa_activation' => 'Kode OTP Aktivasi 2FA - ' . ucwords((string) setting('sebutan_desa')) . ' ' . identitas('nama_desa'),
-            default => 'Kode OTP Login - ' . ucwords((string) setting('sebutan_desa')) . ' ' . identitas('nama_desa'),
+            default          => 'Kode OTP Login - ' . ucwords((string) setting('sebutan_desa')) . ' ' . identitas('nama_desa'),
         };
 
         return $this->subject($subject)

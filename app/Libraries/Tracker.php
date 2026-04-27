@@ -59,11 +59,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Tracker
 {
     protected $pelangganService;
-    
+
     public function __construct(?PelangganService $pelangganService = null)
     {
         $this->pelangganService = $pelangganService ?? new PelangganService();
     }
+
     public function trackDesa(): void
     {
         // harus dikonversi ke boolean dulu, karena enable_track berupa string
@@ -98,6 +99,7 @@ class Tracker
          */
         if (pantau_is_down()) {
             logger()->info('Skipping Tracker.kirimData() - pantau server marked as down');
+
             return;
         }
 
@@ -162,7 +164,7 @@ class Tracker
             'tema'                => theme_active()->nama,
             'layanan'             => $this->pelangganService->getLayananAktifTier(),
         ];
-            
+
         if ($this->abaikan($desa)) {
             return;
         }
@@ -232,5 +234,5 @@ class Tracker
     private function jmlUnsurPeta(): float|int|array
     {
         return Area::count() + Garis::count() + Lokasi::count();
-    }    
+    }
 }

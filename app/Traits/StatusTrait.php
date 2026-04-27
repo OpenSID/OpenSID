@@ -44,7 +44,7 @@ trait StatusTrait
     /**
      * Ubah status data berdasarkan ID.
      *
-     * @param bool  $onlyOne Jika true, hanya satu data boleh aktif.
+     * @param bool $onlyOne Jika true, hanya satu data boleh aktif.
      */
     public static function updateStatus(mixed $id, bool $onlyOne = false): bool
     {

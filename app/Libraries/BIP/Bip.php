@@ -39,7 +39,7 @@ namespace App\Libraries\BIP;
 
 class Bip
 {
-    private readonly \App\Libraries\BIP\Siak|\App\Libraries\BIP\Bip2016|\App\Libraries\BIP\Bip2016Luwutimur|\App\Libraries\BIP\BipEktp|\App\Libraries\BIP\Bip2012 $formatBip;
+    private readonly \App\Libraries\BIP\Siak|\App\Libraries\BIP\Bip2016|\App\Libraries\BIP\Bip2016Luwutimur|\App\Libraries\BIP\BipEktp|Bip2012 $formatBip;
     private $data;
 
     public function __construct($data)

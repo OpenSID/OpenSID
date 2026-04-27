@@ -203,6 +203,7 @@ class PendataanController extends AdminModulController
                                     <i class="fa fa-check"></i> LENGKAP
                                 </span>';
                     }
+
                     return '<span class="label label-warning">
                                 <i class="fa fa-exclamation-triangle"></i> BELUM LENGKAP
                             </span>';

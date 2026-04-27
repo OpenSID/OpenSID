@@ -82,7 +82,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2604.0.1');
+define('VERSION', '2604.1.0');
 
 /**
  * VERSI_DATABASE
@@ -266,7 +266,7 @@ function session_success(): void
 function pantau_is_down(): bool
 {
     $cache_key = 'pantau_server_down';
-    
+
     return cache()->has($cache_key);
 }
 
@@ -282,9 +282,9 @@ function pantau_is_down(): bool
  */
 function mark_pantau_down(int $attempt_count = 1): void
 {
-    $cache_key = 'pantau_server_down';
+    $cache_key     = 'pantau_server_down';
     $cache_attempt = 'pantau_server_attempts';
-    
+
     // Hitung backoff time based on attempt count
     if ($attempt_count <= 3) {
         $backoff_minutes = 1;
@@ -293,7 +293,7 @@ function mark_pantau_down(int $attempt_count = 1): void
     } else {
         $backoff_minutes = 30;
     }
-    
+
     cache()->put($cache_key, true, $backoff_minutes * 60);
     // Counter attempts disimpan 24 jam agar escalation (1→5→30 menit)
     // tidak ter-reset saat flag down expired.
@@ -313,8 +313,6 @@ function reset_pantau_status(): void
 
 /**
  * Ambil jumlah attempt gagal pantau
- *
- * @return int
  */
 function get_pantau_attempt_count(): int
 {
@@ -331,6 +329,9 @@ function get_pantau_attempt_count(): int
  * Retry juga dibatasi (2 attempts, jeda 200ms) agar worst case user pertama
  * tidak melebihi timeout lama (< 5 detik). Setelah itu circuit breaker aktif
  * dan request berikutnya langsung di-skip.
+ *
+ * @param mixed $url
+ * @param mixed $params
  */
 function httpPost($url, $params): ?string
 {

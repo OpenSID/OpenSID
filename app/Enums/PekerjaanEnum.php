@@ -45,7 +45,7 @@ class PekerjaanEnum extends BaseEnum
     public const MENGURUS_RUMAH_TANGGA          = 2;
     public const PELAJAR_MAHASISWA              = 3;
     public const PENSIUNAN                      = 4;
-    public const APARATUR_SIPIL_NEGARA_ASN       = 5;
+    public const APARATUR_SIPIL_NEGARA_ASN      = 5;
     public const TENTARA_NASIONAL_INDONESIA_TNI = 6;
     public const KEPOLISIAN_RI_POLRI            = 7;
     public const PERDAGANGAN                    = 8;

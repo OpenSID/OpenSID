@@ -101,7 +101,6 @@ trait ProvidesConvenienceMethods
     /**
      * Dispatch a job to its appropriate handler.
      *
-     *
      * @return mixed
      */
     public function dispatch(mixed $job)
@@ -111,7 +110,6 @@ trait ProvidesConvenienceMethods
 
     /**
      * Dispatch a command to its appropriate handler in the current process.
-     *
      *
      * @return mixed
      */

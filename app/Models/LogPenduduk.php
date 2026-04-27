@@ -47,6 +47,7 @@ use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -186,11 +187,12 @@ class LogPenduduk extends BaseModel
      * - Ekspresi CASE WHEN dibangun secara programatik melalui closure $buildSelect
      *   untuk menghindari duplikasi dan risiko ketidakkonsistenan antar kolom.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder              $query
-     * @param  array{bulan?: int|string, tahun?: int|string}      $filters
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param \Illuminate\Database\Eloquent\Builder         $query
+     * @param array{bulan?: int|string, tahun?: int|string} $filters
      *
-     * @throws \InvalidArgumentException Jika tanggal yang dibangun dari filter tidak valid.
+     * @throws InvalidArgumentException Jika tanggal yang dibangun dari filter tidak valid.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeRekapitulasiList($query, $filters = [])
     {
@@ -199,29 +201,29 @@ class LogPenduduk extends BaseModel
         // Range check memastikan hanya nilai yang masuk akal secara kalender yang diteruskan.
         $bln = (int) ($filters['bulan'] ?? date('m'));
         $thn = (int) ($filters['tahun'] ?? date('Y'));
-    
+
         if ($bln < 1 || $bln > 12) {
             $bln = (int) date('m');
         }
-    
+
         if ($thn < 1000 || $thn > 9999) {
             $thn = (int) date('Y');
         }
-    
+
         $configId = (int) identitas('id');
         $pad_bln  = str_pad($bln, 2, '0', STR_PAD_LEFT);
-    
+
         // Batas tanggal dibangun dari integer yang sudah tervalidasi.
         // Format yang dihasilkan selalu 'YYYY-MM-DD' sehingga tidak dapat diinjeksi.
         $bulanMulai = "{$thn}-{$pad_bln}-01";
         $bulanAkhir = date('Y-m-d', strtotime('+1 month', strtotime($bulanMulai)));
-    
+
         if (! $bulanAkhir) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Tanggal tidak valid: bulan={$bln}, tahun={$thn}"
             );
         }
-    
+
         // Derived table untuk menghitung jumlah KK di awal bulan per dusun.
         //
         // KK yang dihitung adalah KK yang sudah ada sebelum awal bulan ini,
@@ -269,7 +271,7 @@ class LogPenduduk extends BaseModel
             )
             GROUP BY COALESCE(w2.dusun, '__NULL__')
         ";
-    
+
         // Derived table untuk menghitung net change KK dalam bulan berjalan per dusun.
         //
         // Dihitung sebagai selisih antara KK masuk (id_peristiwa 1 dan 5) dengan
@@ -298,7 +300,7 @@ class LogPenduduk extends BaseModel
             AND p3.is_historical  = 0
             GROUP BY COALESCE(w3.dusun, '__NULL__')
         ";
-    
+
         /**
          * Membangun ekspresi SELECT COUNT(DISTINCT CASE WHEN ...) untuk satu kombinasi
          * jenis kelamin, status kewarganegaraan, dan kode peristiwa.
@@ -314,14 +316,15 @@ class LogPenduduk extends BaseModel
          * sebagai pengganti CONCAT agar deduplication berbasis operasi numerik
          * yang lebih ringan daripada komparasi string.
          *
-         * @param  int             $sex           Jenis kelamin: 1 = laki-laki, 2 = perempuan.
-         * @param  bool            $wna           True untuk WNA (warganegara_id = 2), false untuk WNI.
-         * @param  null|int|int[]  $kodePeristiwa Kode peristiwa yang dihitung. Diabaikan saat $isAwal true.
-         * @param  string          $alias         Nama alias kolom pada hasil SELECT.
-         * @param  bool            $isAwal        True untuk menghitung saldo sebelum bulan berjalan.
-         * @return string                         Ekspresi SQL siap pakai untuk selectRaw().
+         * @param int            $sex           Jenis kelamin: 1 = laki-laki, 2 = perempuan.
+         * @param bool           $wna           True untuk WNA (warganegara_id = 2), false untuk WNI.
+         * @param int|int[]|null $kodePeristiwa Kode peristiwa yang dihitung. Diabaikan saat $isAwal true.
+         * @param string         $alias         Nama alias kolom pada hasil SELECT.
+         * @param bool           $isAwal        True untuk menghitung saldo sebelum bulan berjalan.
+         *
+         * @return string Ekspresi SQL siap pakai untuk selectRaw().
          */
-        $buildSelect = function (
+        $buildSelect = static function (
             int $sex,
             bool $wna,
             $kodePeristiwa,
@@ -331,7 +334,7 @@ class LogPenduduk extends BaseModel
             $wnaExpr = $wna
                 ? 'tweb_penduduk.warganegara_id = 2'
                 : 'tweb_penduduk.warganegara_id <> 2';
-    
+
             if ($isAwal) {
                 return "(
                     COUNT(DISTINCT CASE
@@ -350,13 +353,14 @@ class LogPenduduk extends BaseModel
                     END)
                 ) AS {$alias}";
             }
-    
+
             // Setiap elemen di-cast ke int untuk memastikan tidak ada karakter SQL
             // yang bisa masuk, meskipun nilai ini berasal dari kode PHP sendiri.
-            $kodeIn = implode(', ', array_map('intval',
+            $kodeIn = implode(', ', array_map(
+                'intval',
                 is_array($kodePeristiwa) ? $kodePeristiwa : [$kodePeristiwa]
             ));
-    
+
             return "COUNT(DISTINCT CASE
                 WHEN tweb_penduduk.sex = {$sex}
                 AND {$wnaExpr}
@@ -366,42 +370,42 @@ class LogPenduduk extends BaseModel
                 THEN log_penduduk.id_pend
             END) AS {$alias}";
         };
-    
+
         $query
             // Dusun NULL dinormalisasi agar tidak menghasilkan baris tanpa identitas
             // pada hasil GROUP BY. Nilai '__NULL__' digunakan sebagai sentinel string.
             ->selectRaw("COALESCE(tweb_wil_clusterdesa.dusun, '__NULL__') AS DUSUN")
-    
+
             // Saldo penduduk di awal bulan, dihitung dari semua log sebelum bulan berjalan.
             ->selectRaw($buildSelect(1, false, null, 'WNI_L_AWAL', true))
             ->selectRaw($buildSelect(2, false, null, 'WNI_P_AWAL', true))
-            ->selectRaw($buildSelect(1, true,  null, 'WNA_L_AWAL', true))
-            ->selectRaw($buildSelect(2, true,  null, 'WNA_P_AWAL', true))
-    
+            ->selectRaw($buildSelect(1, true, null, 'WNA_L_AWAL', true))
+            ->selectRaw($buildSelect(2, true, null, 'WNA_P_AWAL', true))
+
             // Penambahan penduduk karena kelahiran (kode peristiwa 1).
             ->selectRaw($buildSelect(1, false, 1, 'WNI_L_TAMBAH_LAHIR'))
             ->selectRaw($buildSelect(2, false, 1, 'WNI_P_TAMBAH_LAHIR'))
-            ->selectRaw($buildSelect(1, true,  1, 'WNA_L_TAMBAH_LAHIR'))
-            ->selectRaw($buildSelect(2, true,  1, 'WNA_P_TAMBAH_LAHIR'))
-    
+            ->selectRaw($buildSelect(1, true, 1, 'WNA_L_TAMBAH_LAHIR'))
+            ->selectRaw($buildSelect(2, true, 1, 'WNA_P_TAMBAH_LAHIR'))
+
             // Penambahan penduduk karena datang/pindah masuk (kode peristiwa 5).
             ->selectRaw($buildSelect(1, false, 5, 'WNI_L_TAMBAH_MASUK'))
             ->selectRaw($buildSelect(2, false, 5, 'WNI_P_TAMBAH_MASUK'))
-            ->selectRaw($buildSelect(1, true,  5, 'WNA_L_TAMBAH_MASUK'))
-            ->selectRaw($buildSelect(2, true,  5, 'WNA_P_TAMBAH_MASUK'))
-    
+            ->selectRaw($buildSelect(1, true, 5, 'WNA_L_TAMBAH_MASUK'))
+            ->selectRaw($buildSelect(2, true, 5, 'WNA_P_TAMBAH_MASUK'))
+
             // Pengurangan penduduk karena kematian (kode peristiwa 2).
             ->selectRaw($buildSelect(1, false, 2, 'WNI_L_KURANG_MATI'))
             ->selectRaw($buildSelect(2, false, 2, 'WNI_P_KURANG_MATI'))
-            ->selectRaw($buildSelect(1, true,  2, 'WNA_L_KURANG_MATI'))
-            ->selectRaw($buildSelect(2, true,  2, 'WNA_P_KURANG_MATI'))
-    
+            ->selectRaw($buildSelect(1, true, 2, 'WNA_L_KURANG_MATI'))
+            ->selectRaw($buildSelect(2, true, 2, 'WNA_P_KURANG_MATI'))
+
             // Pengurangan penduduk karena pindah/keluar (kode peristiwa 3 dan 4).
             ->selectRaw($buildSelect(1, false, [3, 4], 'WNI_L_KURANG_KELUAR'))
             ->selectRaw($buildSelect(2, false, [3, 4], 'WNI_P_KURANG_KELUAR'))
-            ->selectRaw($buildSelect(1, true,  [3, 4], 'WNA_L_KURANG_KELUAR'))
-            ->selectRaw($buildSelect(2, true,  [3, 4], 'WNA_P_KURANG_KELUAR'))
-    
+            ->selectRaw($buildSelect(1, true, [3, 4], 'WNA_L_KURANG_KELUAR'))
+            ->selectRaw($buildSelect(2, true, [3, 4], 'WNA_P_KURANG_KELUAR'))
+
             // Jumlah dan mutasi KK diambil dari derived table yang sudah di-GROUP BY dusun.
             // ANY_VALUE() diperlukan untuk mematuhi sql_mode=only_full_group_by karena
             // kolom ini berasal dari JOIN, bukan dari aggregate query utama.
@@ -409,20 +413,20 @@ class LogPenduduk extends BaseModel
             // tepat satu nilai per dusun.
             ->selectRaw('ANY_VALUE(COALESCE(kk_jlh_dt.KK_JLH, 0)) AS KK_JLH')
             ->selectRaw('ANY_VALUE(COALESCE(kk_masuk_dt.KK_MASUK_JLH, 0)) AS KK_MASUK_JLH')
-    
+
             ->join('tweb_penduduk', 'log_penduduk.id_pend', '=', 'tweb_penduduk.id')
             ->leftJoin('tweb_wil_clusterdesa', 'tweb_penduduk.id_cluster', '=', 'tweb_wil_clusterdesa.id')
-    
+
             // Derived table KK dihitung sekali dan di-JOIN berdasarkan kecocokan dusun,
             // menggantikan correlated subquery yang sebelumnya dieksekusi per baris hasil GROUP BY.
-            ->leftJoinSub($kkJlhSql, 'kk_jlh_dt', function ($join) {
+            ->leftJoinSub($kkJlhSql, 'kk_jlh_dt', static function ($join) {
                 $join->on(
                     DB::raw("COALESCE(tweb_wil_clusterdesa.dusun, '__NULL__')"),
                     '=',
                     'kk_jlh_dt.dusun'
                 );
             })
-            ->leftJoinSub($kkMasukSql, 'kk_masuk_dt', function ($join) {
+            ->leftJoinSub($kkMasukSql, 'kk_masuk_dt', static function ($join) {
                 $join->on(
                     DB::raw("COALESCE(tweb_wil_clusterdesa.dusun, '__NULL__')"),
                     '=',
@@ -432,7 +436,7 @@ class LogPenduduk extends BaseModel
             ->where('tweb_penduduk.config_id', $configId)
             ->where('log_penduduk.config_id', $configId)
             ->groupBy(DB::raw("COALESCE(tweb_wil_clusterdesa.dusun, '__NULL__')"));
-    
+
         return $query;
     }
 
@@ -556,7 +560,7 @@ class LogPenduduk extends BaseModel
     /**
      * Kembalikan status dasar penduduk dari PERGI ke HIDUP
      *
-     * @param       $id_log id log penduduk
+     * @param $id_log id log penduduk
      */
     public function kembalikan_status_pergi(mixed $data = []): void
     {

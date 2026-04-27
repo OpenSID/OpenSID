@@ -35,13 +35,13 @@
  *
  */
 
-use App\Traits\Migrator;
-use Illuminate\Database\Schema\Blueprint;
 use App\Enums\PekerjaanEnum;
-
+use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\Schema;
+
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
     use Migrator;
@@ -55,6 +55,13 @@ return new class () extends Migration {
         $this->updateSyaratSurat();
         $this->refreshArtikelKategoriForeignKey();
 
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
     }
 
     private function updatePekerjaan(): void
@@ -86,11 +93,6 @@ return new class () extends Migration {
             });
         }
     }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void {}
 
     /**
      * Normalisasi relasi tweb_penduduk_mandiri.id_pend ke tweb_penduduk.id.

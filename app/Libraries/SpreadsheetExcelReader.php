@@ -76,6 +76,8 @@ function gmgetdate($ts = null): array
 
 // Added for PHP4 compatibility
 /**
+ * @param mixed $array1
+ *
  * @return mixed[]
  */
 function array_comb($array1, array $array2): array
@@ -187,6 +189,7 @@ class OLERead
         $block       = $this->rootStartBlock;
         $this->entry = $this->__readData($block);
         $this->__readPropertySets();
+
         return null;
     }
 
@@ -197,7 +200,7 @@ class OLERead
         $data  = '';
 
         while ($block != -2) {
-            $pos   = ($block + 1) * BIG_BLOCK_SIZE;
+            $pos = ($block + 1) * BIG_BLOCK_SIZE;
             $data .= substr((string) $this->data, $pos, BIG_BLOCK_SIZE);
             $block = $this->bigBlockChain[$block];
         }
@@ -341,10 +344,12 @@ class SpreadsheetExcelReader
     public $sst           = [];
     public $sheets        = [];
     public $data;
+
     /**
-     * @var \App\Libraries\OLERead
+     * @var OLERead
      */
     public $_ole;
+
     public $_defaultEncoding = 'UTF-8';
     public $_defaultFormat   = SPREADSHEET_EXCEL_READER_DEF_NUM_FORMAT;
     public $_columnsFormat   = [];
@@ -1284,7 +1289,7 @@ class SpreadsheetExcelReader
                 case SPREADSHEET_EXCEL_READER_TYPE_FORMAT:
                     $indexCode = v($data, $pos + 4);
                     if ($version == SPREADSHEET_EXCEL_READER_BIFF8) {
-                        $numchars = v($data, $pos + 6);
+                        $numchars     = v($data, $pos + 6);
                         $formatString = ord($data[$pos + 8]) == 0 ? substr((string) $data, $pos + 9, $numchars) : substr((string) $data, $pos + 9, $numchars * 2);
                     } else {
                         $numchars     = ord($data[$pos + 6]);
@@ -1512,7 +1517,7 @@ class SpreadsheetExcelReader
 
             switch ($code) {
                 case SPREADSHEET_EXCEL_READER_TYPE_DIMENSION:
-                    if (!property_exists($this, 'numRows') || $this->numRows === null) {
+                    if (! property_exists($this, 'numRows') || $this->numRows === null) {
                         if (($length == 10) || ($version == SPREADSHEET_EXCEL_READER_BIFF7)) {
                             $this->sheets[$this->sn]['numRows'] = ord($data[$spos + 2]) | ord($data[$spos + 3]) << 8;
                             $this->sheets[$this->sn]['numCols'] = ord($data[$spos + 6]) | ord($data[$spos + 7]) << 8;
@@ -1574,11 +1579,11 @@ class SpreadsheetExcelReader
                     break;
 
                 case SPREADSHEET_EXCEL_READER_TYPE_NUMBER:
-                    $row    = ord($data[$spos]) | ord($data[$spos + 1]) << 8;
-                    $column = ord($data[$spos + 2]) | ord($data[$spos + 3]) << 8;
-                    $tmp    = unpack('ddouble', substr((string) $data, $spos + 6, 8)); // It machine machine dependent
+                    $row      = ord($data[$spos]) | ord($data[$spos + 1]) << 8;
+                    $column   = ord($data[$spos + 2]) | ord($data[$spos + 3]) << 8;
+                    $tmp      = unpack('ddouble', substr((string) $data, $spos + 6, 8)); // It machine machine dependent
                     $numValue = $this->isDate($spos) ? $tmp['double'] : $this->createNumber($spos);
-                    $info = $this->_getCellDetails($spos, $numValue, $column);
+                    $info     = $this->_getCellDetails($spos, $numValue, $column);
                     $this->addcell($row, $column, $info['string'], $info);
                     break;
 
@@ -1607,9 +1612,9 @@ class SpreadsheetExcelReader
                         $this->addcell($row, $column, '');
                     } else {
                         // result is a number, so first 14 bytes are just like a _NUMBER record
-                        $tmp = unpack('ddouble', substr((string) $data, $spos + 6, 8)); // It machine machine dependent
+                        $tmp      = unpack('ddouble', substr((string) $data, $spos + 6, 8)); // It machine machine dependent
                         $numValue = $this->isDate($spos) ? $tmp['double'] : $this->createNumber($spos);
-                        $info = $this->_getCellDetails($spos, $numValue, $column);
+                        $info     = $this->_getCellDetails($spos, $numValue, $column);
                         $this->addcell($row, $column, $info['string'], $info);
                     }
                     break;
@@ -1659,9 +1664,9 @@ class SpreadsheetExcelReader
                     break;
 
                 case SPREADSHEET_EXCEL_READER_TYPE_ROW:
-                    $row     = ord($data[$spos]) | ord($data[$spos + 1]) << 8;
-                    $rowInfo = ord($data[$spos + 6]) | ((ord($data[$spos + 7]) << 8) & 0x7FFF);
-                    $rowHeight = ($rowInfo & 0x8000) > 0 ? -1 : $rowInfo & 0x7FFF;
+                    $row                                = ord($data[$spos]) | ord($data[$spos + 1]) << 8;
+                    $rowInfo                            = ord($data[$spos + 6]) | ((ord($data[$spos + 7]) << 8) & 0x7FFF);
+                    $rowHeight                          = ($rowInfo & 0x8000) > 0 ? -1 : $rowInfo & 0x7FFF;
                     $rowHidden                          = (ord($data[$spos + 12]) & 0x20) >> 5;
                     $this->rowInfo[$this->sn][$row + 1] = ['height' => $rowHeight / 20, 'hidden' => $rowHidden];
                     break;
@@ -1755,6 +1760,7 @@ class SpreadsheetExcelReader
         if (! isset($this->sheets[$this->sn]['numCols'])) {
             $this->sheets[$this->sn]['numCols'] = $this->sheets[$this->sn]['maxcol'];
         }
+
         return null;
     }
 

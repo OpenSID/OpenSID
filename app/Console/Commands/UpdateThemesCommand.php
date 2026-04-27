@@ -101,8 +101,6 @@ class UpdateThemesCommand extends Command
 
     /**
      * Hapus semua folder tema kecuali esensi
-     *
-     *
      */
     protected function deleteOldThemes(string $themesPath): bool
     {
@@ -128,8 +126,6 @@ class UpdateThemesCommand extends Command
 
     /**
      * Clone tema dan checkout ke branch rilis
-     *
-     *
      */
     protected function cloneThemes(string $themesPath): bool
     {
@@ -188,7 +184,6 @@ class UpdateThemesCommand extends Command
     /**
      * Hapus direktori secara rekursif
      *
-     *
      * @return void
      */
     protected function deleteDirectory(string $path)
@@ -212,8 +207,6 @@ class UpdateThemesCommand extends Command
 
     /**
      * Dapatkan informasi summary tema
-     *
-     *
      */
     protected function getThemeSummary(string $themesPath): array
     {

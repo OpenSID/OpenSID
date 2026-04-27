@@ -853,7 +853,7 @@ function get_pesan_opendk(): void
         $client   = new GuzzleHttp\Client();
         $response = $client->post("{$ci->setting->api_opendk_server}/api/v1/pesan/getpesan", [
             'allow_redirects' => false,
-            'headers' => [
+            'headers'         => [
                 'X-Requested-With' => 'XMLHttpRequest',
                 'Authorization'    => "Bearer {$ci->setting->api_opendk_key}",
             ],
@@ -919,9 +919,9 @@ if (! function_exists('opendk_api')) {
      */
     function opendk_api($path_url = '', $options = [], $method = 'get')
     {
-        $ci = &get_instance();
-        $max_retries = 3;
-        $attempt = 0;
+        $ci                 = &get_instance();
+        $max_retries        = 3;
+        $attempt            = 0;
         $last_error_message = 'Unknown error';
 
         while ($attempt < $max_retries) {
@@ -930,7 +930,7 @@ if (! function_exists('opendk_api')) {
                 $response = $client->{$method}("{$ci->setting->api_opendk_server}{$path_url}", array_merge(
                     [
                         'allow_redirects' => false,
-                        'headers' => [
+                        'headers'         => [
                             'X-Requested-With' => 'XMLHttpRequest',
                             'Authorization'    => "Bearer {$ci->setting->api_opendk_key}",
                         ],
@@ -943,24 +943,24 @@ if (! function_exists('opendk_api')) {
                     'status' => $data_respon->status,
                     'pesan'  => $data_respon->message,
                 ];
-                
+
                 // Success! Return immediately
                 return $notif;
             } catch (GuzzleHttp\Exception\ConnectException $e) {
                 $last_error_message = $e->getHandlerContext()['error'] ?? 'Connection error';
                 logger()->error('OpenDK ConnectException (attempt ' . ($attempt + 1) . '): ' . $last_error_message);
                 $attempt++;
-                
+
                 if ($attempt < $max_retries) {
                     // Exponential backoff: 1s, 2s, 4s
                     usleep(1000000 * (2 ** ($attempt - 1)));
                 }
             } catch (GuzzleHttp\Exception\ClientException $e) {
-                $response_body = $e->getResponse()->getBody()->getContents();
+                $response_body      = $e->getResponse()->getBody()->getContents();
                 $last_error_message = $response_body;
                 logger()->error('OpenDK ClientException (attempt ' . ($attempt + 1) . '): ' . $response_body);
                 $attempt++;
-                
+
                 if ($attempt < $max_retries) {
                     // Exponential backoff: 1s, 2s, 4s
                     usleep(1000000 * (2 ** ($attempt - 1)));
@@ -969,7 +969,7 @@ if (! function_exists('opendk_api')) {
                 $last_error_message = $e->getMessage();
                 logger()->error('OpenDK Exception (attempt ' . ($attempt + 1) . '): ' . $last_error_message);
                 $attempt++;
-                
+
                 if ($attempt < $max_retries) {
                     // Exponential backoff: 1s, 2s, 4s
                     usleep(1000000 * (2 ** ($attempt - 1)));
@@ -979,7 +979,7 @@ if (! function_exists('opendk_api')) {
 
         // Semua retry gagal
         logger()->error('OpenDK request failed after ' . $max_retries . ' attempts: ' . $last_error_message);
-        
+
         $notif = [
             'status' => 'danger',
             'pesan'  => messageResponseHTML($last_error_message),

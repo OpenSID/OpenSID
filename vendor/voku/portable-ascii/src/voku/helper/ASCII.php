@@ -825,6 +825,7 @@ final class ASCII
             $str = self::to_ascii_replace($str, $language, $replace_extra_symbols, $replace_single_chars_only, $isValidUtf8);
 
             if ($isValidUtf8) {
+                self::prepareAsciiMaps();
                 if (!isset(self::$ASCII_MAPS[$language])) {
                     $use_transliterate = true;
                 }
@@ -890,6 +891,7 @@ final class ASCII
             return $str;
         }
 
+        self::prepareAsciiMaps();
         if (!isset(self::$ASCII_MAPS[$language])) {
             $use_transliterate = true;
         }

@@ -50,13 +50,14 @@ use Modules\Anjungan\Models\Anjungan;
 
 class PelangganService
 {
+    // Konstanta untuk kategori layanan
+    public const KATEGORI_SIAPPAKAI = 9;
+    public const KATEGORI_PREMIUM   = 4;
+
     /**
      * @var Client HTTP Client
      */
     protected Client $client;
-    // Konstanta untuk kategori layanan
-    public const KATEGORI_SIAPPAKAI = 9;
-    public const KATEGORI_PREMIUM = 4;
 
     public function __construct()
     {
@@ -101,7 +102,7 @@ class PelangganService
                                 && $layanan->tanggal_akhir !== '9999-12-31'
                             ) {
                                 // Parse tanggal akhir layanan SiapPakai
-                                $tanggalAkhirSiapPakai = \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
+                                $tanggalAkhirSiapPakai = Carbon::parse($layanan->tanggal_akhir);
 
                                 // Cek apakah tanggal akhir SiapPakai belum lewat (masih aktif)
                                 if ($tanggalAkhirSiapPakai->isFuture()) {
@@ -139,10 +140,10 @@ class PelangganService
                             ) {
                                 try {
                                     // Ambil tanggal hari ini
-                                    $today = \Illuminate\Support\Carbon::now();
+                                    $today = Carbon::now();
 
                                     // Parse tanggal akhir layanan hosting
-                                    $tanggalAkhir = \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
+                                    $tanggalAkhir = Carbon::parse($layanan->tanggal_akhir);
 
                                     // Hitung selisih hari antara hari ini dan tanggal akhir.
                                     // Hasilnya negatif jika sudah lewat, positif jika belum lewat.
@@ -355,7 +356,7 @@ class PelangganService
         if (config_item('token_layanan')) {
             $config  = file($configPath);
             $updated = array_map(
-                static fn($line) => stristr($line, 'token_layanan')
+                static fn ($line) => stristr($line, 'token_layanan')
                     ? "\$config['token_layanan']  = '{$token}';\n"
                     : $line,
                 $config
@@ -367,7 +368,7 @@ class PelangganService
         (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $token);
 
         // Simpan cache baru
-        $ci->cache->pakai_cache(static fn() => $data, 'status_langganan', 60 * 60 * 24 * 365 * 30); // 30 tahun (forever)
+        $ci->cache->pakai_cache(static fn () => $data, 'status_langganan', 60 * 60 * 24 * 365 * 30); // 30 tahun (forever)
 
         // Update status Anjungan
         Anjungan::where('tipe', '1')

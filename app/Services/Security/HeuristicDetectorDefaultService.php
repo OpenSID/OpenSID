@@ -529,6 +529,7 @@ class HeuristicDetectorDefaultService
         if ($this->isPhpFile($filepath)) {
             return true;
         }
+
         return $this->isSuspiciousNonPhpFile($filepath);
     }
 

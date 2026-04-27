@@ -38,6 +38,7 @@
 namespace App\Libraries;
 
 use Exception;
+use XMLParser;
 
 /**
  * PHP Univarsel Feed Parser class
@@ -50,9 +51,9 @@ use Exception;
  */
 class FeedParser
 {
-    private readonly \XMLParser $xmlParser;  // List of tag names which have sub tags
-    private array $channels    = [];
-    private array $items       = [];
+    private readonly XMLParser $xmlParser;  // List of tag names which have sub tags
+    private array $channels = [];
+    private array $items    = [];
     private string $url;                     // The parsed url
     private string $version = '';                     // Detected feed version
 
@@ -139,7 +140,7 @@ class FeedParser
      */
     public function getParsedUrl(): string
     {
-        if (!isset($this->url) || ($this->url === '' || $this->url === '0')) {
+        if (! isset($this->url) || ($this->url === '' || $this->url === '0')) {
             throw new Exception('Feed URL is not set yet.');
         }
 
@@ -158,7 +159,6 @@ class FeedParser
      * Parses a feed url
      *
      * @param srting  teh feed url
-     *
      */
     public function parse(mixed $url): ?bool
     {
@@ -193,6 +193,7 @@ class FeedParser
 
             return false;
         }
+
         return null;
     }
 
@@ -209,7 +210,7 @@ class FeedParser
      */
     private function getUrlContent(): string|bool
     {
-        if (!isset($this->url) || ($this->url === '' || $this->url === '0')) {
+        if (! isset($this->url) || ($this->url === '' || $this->url === '0')) {
             throw new Exception('URL to parse is empty!.');
         }
 

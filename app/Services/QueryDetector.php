@@ -50,7 +50,6 @@ use Illuminate\Support\Str;
 class QueryDetector
 {
     public Collection $queries;
-
     private array $excepts = [
         \App\Models\Pamong::class   => ['penduduk'],
         \App\Models\Keluarga::class => ['wilayah'],
@@ -182,7 +181,7 @@ class QueryDetector
         }
     }
 
-    private function findSource(\Illuminate\Support\Collection $stack): array
+    private function findSource(Collection $stack): array
     {
         $sources = [];
 

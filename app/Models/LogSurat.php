@@ -488,6 +488,7 @@ class LogSurat extends BaseModel
                             $verifikasi->whereNull('verifikasi_operator');
                         });
                 }
+
                 // Verifikasi kades TIDAK aktif: ambil surat dengan verifikasi_operator = 1
                 return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
             })
