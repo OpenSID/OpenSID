@@ -279,6 +279,10 @@ class Man_user extends Admin_Controller
         } else {
             $data = $this->validate($this->input->post(), $id);
 
+            if ($id == super_admin()) {
+                $data['pamong_id'] = null;
+            }
+
             // Untuk demo jangan ubah username atau password
             if ($id == UserGrup::where('slug', UserGrup::ADMINISTRATOR)->first()->id && (config_item('demo_mode') || ENVIRONMENT === 'development')) {
                 unset($data['username'], $data['password']);
