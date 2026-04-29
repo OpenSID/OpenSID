@@ -42,6 +42,7 @@ Rilis versi 2604.0.1 ini berisi [untuk diisi]  dan perbaikan lainnya yang dimint
 38. [#11069](https://github.com/OpenSID/OpenSID/issues/11069) Perbaikan tidak ada border pada preview cetak menu statistik.
 39. [#11083](https://github.com/OpenSID/OpenSID/issues/11083) Perbaikan tidak bisa upload file kematian lewat form tambah penduduk meninggal.
 40. [#11079](https://github.com/OpenSID/OpenSID/issues/11079) Perbaikan gagal cetak atau unduh kartu keluarga.
+41. [#11103](https://github.com/OpenSID/OpenSID/issues/11103) Perbaikan tombol backup database  tidak muncul saat klik tombol aksi.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.
