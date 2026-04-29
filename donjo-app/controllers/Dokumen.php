@@ -70,11 +70,6 @@ class Dokumen extends Admin_Controller
         }
     }
 
-    private function isPPIDInstalled(): bool
-    {
-        return file_exists($this->modulesDirectory . '/PPID');
-    }
-
     public function index(): void
     {
         $data['status']   = [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'];
@@ -357,5 +352,10 @@ class Dokumen extends Admin_Controller
         header('Content-disposition: attachment; filename=informasi_publik_' . $data['kode_desa'] . '_' . date('d-m-Y') . '.zip');
         header('Content-type: application/zip');
         readfile($berkas_zip);
+    }
+
+    private function isPPIDInstalled(): bool
+    {
+        return file_exists($this->modulesDirectory . '/PPID');
     }
 }

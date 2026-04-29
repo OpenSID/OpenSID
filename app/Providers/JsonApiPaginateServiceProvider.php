@@ -47,12 +47,12 @@ use Illuminate\Support\ServiceProvider;
 
 class JsonApiPaginateServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->registerMacro();
     }
 
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '../../../config/json-api-paginate.php', 'json-api-paginate');
     }

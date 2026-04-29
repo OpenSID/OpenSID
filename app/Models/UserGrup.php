@@ -91,6 +91,11 @@ class UserGrup extends BaseModel
         return $id_grup == self::getGrupId(self::ADMINISTRATOR);
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+    }
+
     /**
      * Get all of the user for the UserGrup
      */
@@ -111,10 +116,5 @@ class UserGrup extends BaseModel
         }
 
         return $query->where('status', $status);
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
     }
 }

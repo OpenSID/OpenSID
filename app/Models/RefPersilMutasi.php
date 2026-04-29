@@ -42,16 +42,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class RefPersilMutasi extends BaseModel
 {
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'ref_persil_mutasi';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ref_persil_mutasi';
 }

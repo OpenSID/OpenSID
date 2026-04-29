@@ -38,7 +38,7 @@
                         <div class="col-sm-2">
                             <select id="status" class="form-control input-sm select2" name="status">
                                 <option value="">Pilih Status</option>
-                                @foreach ($status as $key => $item)
+                                @foreach (\App\Enums\AktifEnum::all() as $key => $item)
                                     <option value="{{ $key }}">{{ $item }}</option>
                                 @endforeach
                             </select>
@@ -78,12 +78,19 @@
     <script src="{{ asset('bootstrap/js/bootstrap-colorpicker.min.js') }}"></script>
     <script>
         $(document).ready(function() {
+            $('#status').val(1).trigger('change');
+            
             var parent = '{{ $parent_jenis }}';
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('polygon.datatables') }}?parent={{ $parent }}&tipe={{ $tipe }}",
+                ajax: {
+                    url: "{{ ci_route('polygon.datatables') }}?parent={{ $parent }}&tipe={{ $tipe }}",
+                    data: function(req) {
+                        req.status = $('#status').val();
+                    }
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -127,7 +134,7 @@
             });
 
             $('#status').change(function() {
-                TableData.column(4).search($(this).val()).draw()
+                TableData.draw()
             })
 
 
@@ -139,5 +146,7 @@
                 TableData.column(2).visible(false);
             }
         });
+
+        @include('admin.layouts.components.lock_button')
     </script>
 @endpush

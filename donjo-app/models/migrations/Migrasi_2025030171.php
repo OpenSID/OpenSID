@@ -80,15 +80,6 @@ class Migrasi_2025030171
         $this->updateKeteranganRecaptcha();
     }
 
-    protected function tambahKolomSumberPadaTabelPoint()
-    {
-        if (! Schema::hasColumn('point', 'sumber')) {
-            Schema::table('point', static function (Blueprint $table) {
-                $table->enum('sumber', ['OpenSID', 'OpenKab'])->default('OpenSID');
-            });
-        }
-    }
-
     public function updateSumberDanaPembangunana()
     {
         $enumValues = SumberDanaEnum::all();
@@ -263,7 +254,36 @@ class Migrasi_2025030171
             ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
     }
 
-    private function tambahKodeDesaBps()
+    public function hapusWidgetDinamis()
+    {
+        DB::table('widget')
+            ->where('jenis_widget', 3)
+            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
+    }
+
+    public function tambahKolomSumberPadaTabelPoint()
+    {
+        if (! Schema::hasColumn('point', 'sumber')) {
+            Schema::table('point', static function (Blueprint $table) {
+                $table->enum('sumber', ['OpenSID', 'OpenKab'])->default('OpenSID');
+            });
+        }
+    }
+
+    public function bersihkanTablePembangunanDokumentasi()
+    {
+        PembangunanDokumentasi::whereDoesntHave('pembangunan')->delete();
+    }
+
+    public function updateKeteranganRecaptcha()
+    {
+        DB::table('setting_aplikasi')
+            ->where('key', 'google_recaptcha')
+            ->where('keterangan', '!=', 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.')
+            ->update(['keterangan' => 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.']);
+    }
+
+    public function tambahKodeDesaBps()
     {
         if (! Schema::hasColumn('config', 'kode_desa_bps')) {
             Schema::table('config', static function (Blueprint $table) {
@@ -279,19 +299,7 @@ class Migrasi_2025030171
         }
     }
 
-    public function hapusWidgetDinamis()
-    {
-        DB::table('widget')
-            ->where('jenis_widget', 3)
-            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
-    }
-
-    protected function bersihkanTablePembangunanDokumentasi()
-    {
-        PembangunanDokumentasi::whereDoesntHave('pembangunan')->delete();
-    }
-
-    private function tambahPengaturanSSL()
+    public function tambahPengaturanSSL()
     {
         $this->createSetting([
             'judul'      => 'SSL TTE',
@@ -303,13 +311,5 @@ class Migrasi_2025030171
             'attribute'  => null,
             'kategori'   => 'tte',
         ]);
-    }
-
-    protected function updateKeteranganRecaptcha()
-    {
-        DB::table('setting_aplikasi')
-            ->where('key', 'google_recaptcha')
-            ->where('keterangan', '!=', 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.')
-            ->update(['keterangan' => 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.']);
     }
 }

@@ -48,18 +48,18 @@ class Suplemen extends BaseModel
     use Sluggable;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'suplemen';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'suplemen';
 
     /**
      * The attributes that are mass assignable.
@@ -85,10 +85,10 @@ class Suplemen extends BaseModel
     public function terdata()
     {
         return $this->hasMany(SuplemenTerdata::class, 'id_suplemen')
-            ->where(static function ($query) {
-                $query->where(static function ($query) {
+            ->where(static function ($query): void {
+                $query->where(static function ($query): void {
                     $query->whereNotNull('penduduk_id');
-                })->orWhere(static function ($query) {
+                })->orWhere(static function ($query): void {
                     $query->whereNotNull('keluarga_id');
                 });
             });

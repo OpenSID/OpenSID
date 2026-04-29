@@ -42,6 +42,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class CovidVaksin extends BaseModel
 {
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -49,13 +56,6 @@ class CovidVaksin extends BaseModel
     protected $table = 'covid19_vaksin';
 
     protected $primaryKey = 'id_penduduk';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * The guarded with the model.

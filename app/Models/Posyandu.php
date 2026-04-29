@@ -46,18 +46,18 @@ class Posyandu extends BaseModel
     use ConfigId;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'posyandu';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'posyandu';
 
     /**
      * The guarded with the model.

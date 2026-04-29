@@ -20,6 +20,13 @@
             overflow-y: auto;
         }
 
+        /* Scroll only inside Statistik Penduduk & Bantuan cards when list is long */
+        .leaflet-popup-content #collapseStatPenduduk .card.card-body,
+        .leaflet-popup-content #collapseStatBantuan .card.card-body {
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
         table {
             table-layout: fixed;
             white-space: normal !important;
@@ -230,15 +237,15 @@
                         _contentHTML = ``
                         switch (_wilayah['key']) {
                             case 'dusun':
-                                _params = underscore(gis[_key]['dusun'])
+                                _params = (gis[_key]['dusun'] || '').replace(/\s+/g, '_')
                                 _newTitle = `${_title} ${capitalizeFirstCharacterOfEachWord(gis[_key]['dusun'])}`
                                 break;
                             case 'rw':
-                                _params = `${underscore(gis[_key]['dusun'])}/${underscore(gis[_key]['rw'])}`
+                                _params = `${(gis[_key]['dusun'] || '').replace(/\s+/g, '_')}/${(gis[_key]['rw'] || '').replace(/\s+/g, '_')}`
                                 _newTitle = `RW ${capitalizeFirstCharacterOfEachWord(gis[_key]['rw'])} ${_title} ${capitalizeFirstCharacterOfEachWord(gis[_key]['dusun'])}`
                                 break;
                             case 'rt':
-                                _params = `${underscore(gis[_key]['dusun'])}/${underscore(gis[_key]['rw'])}/${underscore(gis[_key]['rt'])}`
+                                _params = `${(gis[_key]['dusun'] || '').replace(/\s+/g, '_')}/${(gis[_key]['rw'] || '').replace(/\s+/g, '_')}/${(gis[_key]['rt'] || '').replace(/\s+/g, '_')}`
                                 _newTitle = `RT ${capitalizeFirstCharacterOfEachWord(gis[_key]['rt'])} RW ${capitalizeFirstCharacterOfEachWord(gis[_key]['rw'])} ${_title} ${capitalizeFirstCharacterOfEachWord(gis[_key]['dusun'])}`
                                 break;
                         }

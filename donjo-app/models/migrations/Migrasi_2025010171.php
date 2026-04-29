@@ -43,14 +43,17 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Services\Install\CreateGrupAksesService;
+use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2025010171 extends MY_Model
+class Migrasi_2025010171
 {
+    use Migrator;
+
     public function up()
     {
         $this->migrasi_2024112671();
@@ -70,15 +73,6 @@ class Migrasi_2025010171 extends MY_Model
     public function migrasi_2024121752()
     {
         DB::statement("update tweb_surat_format set syarat_surat = NULL where syarat_surat = 'null'");
-    }
-
-    protected function migrasi_2024110151()
-    {
-        GrupAkses::whereIn('id_modul', static function ($q) {
-            $q->select('id')->from('setting_modul')->whereIn('slug', ['laporan-manual', 'impor-data']);
-        })->delete();
-
-        Setting::whereIn('slug', ['laporan-manual', 'impor-data'])->delete();
     }
 
     public function migrasi_2024071251()
@@ -342,12 +336,44 @@ class Migrasi_2025010171 extends MY_Model
         });
     }
 
-    protected function migrasi_2024102351()
+    public function migrasi_2024122451()
+    {
+        if (! Schema::hasColumn('migrasi', 'config_id')) {
+            Schema::table('migrasi', static function ($table) {
+                $table->configId();
+                $table->unique(['config_id', 'versi_database'], 'versi_database_config');
+            });
+            // ini hanya dijalankan jika tabel migrasi belum memiliki config_id
+            DB::statement('create table if not exists migrasi_temp as select * from migrasi');
+            DB::statement('truncate migrasi');
+            $sql = 'INSERT INTO migrasi (config_id, versi_database, premium) select config.id, versi_database, premium from migrasi_temp cross join config';
+            DB::statement($sql);
+            DB::statement('drop table if exists migrasi_temp');
+        }
+    }
+
+    public function migrasi_2024123151()
+    {
+        if (GrupAkses::where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->count() === 0) {
+            (new CreateGrupAksesService())->handle();
+        }
+    }
+
+    public function migrasi_2024110151()
+    {
+        GrupAkses::whereIn('id_modul', static function ($q) {
+            $q->select('id')->from('setting_modul')->whereIn('slug', ['laporan-manual', 'impor-data']);
+        })->delete();
+
+        Setting::whereIn('slug', ['laporan-manual', 'impor-data'])->delete();
+    }
+
+    public function migrasi_2024102351()
     {
         Modul::where('slug', 'input-data')->update(['url' => 'keuangan_manual']);
     }
 
-    protected function migrasi_2024102551()
+    public function migrasi_2024102551()
     {
         if (! Schema::hasTable('keuangan_manual_rinci')) {
             return;
@@ -458,7 +484,7 @@ class Migrasi_2025010171 extends MY_Model
         }
     }
 
-    protected function migrasi_2024112671()
+    public function migrasi_2024112671()
     {
         $this->tambah_setting([
             'judul'      => 'Tampilkan C-desa di Peta Website',
@@ -472,7 +498,7 @@ class Migrasi_2025010171 extends MY_Model
         ]);
     }
 
-    protected function migrasi_2024112672()
+    public function migrasi_2024112672()
     {
         if (! Schema::hasColumn('persil', 'is_publik')) {
             Schema::table('persil', static function (Blueprint $table) {
@@ -481,23 +507,7 @@ class Migrasi_2025010171 extends MY_Model
         }
     }
 
-    public function migrasi_2024122451()
-    {
-        if (! Schema::hasColumn('migrasi', 'config_id')) {
-            Schema::table('migrasi', static function ($table) {
-                $table->configId();
-                $table->unique(['config_id', 'versi_database'], 'versi_database_config');
-            });
-            // ini hanya dijalankan jika tabel migrasi belum memiliki config_id
-            DB::statement('create table if not exists migrasi_temp as select * from migrasi');
-            DB::statement('truncate migrasi');
-            $sql = 'INSERT INTO migrasi (config_id, versi_database, premium) select config.id, versi_database, premium from migrasi_temp cross join config';
-            DB::statement($sql);
-            DB::statement('drop table if exists migrasi_temp');
-        }
-    }
-
-    protected function migrasi_2024120171()
+    public function migrasi_2024120171()
     {
         if (! Schema::hasColumn('cdesa', 'nik_pemilik_luar')) {
             Schema::table('cdesa', static function (Blueprint $table) {
@@ -506,7 +516,7 @@ class Migrasi_2025010171 extends MY_Model
         }
     }
 
-    protected function migrasi_2024123171()
+    public function migrasi_2024123171()
     {
         if (! Schema::hasColumn('cdesa', 'nik_pemilik_luar')) {
             Schema::table('cdesa', static function (Blueprint $table) {
@@ -515,19 +525,12 @@ class Migrasi_2025010171 extends MY_Model
         }
     }
 
-    protected function migrasi_2024121971()
+    public function migrasi_2024121971()
     {
         if (! Schema::hasColumn('tweb_penduduk', 'status_asuransi')) {
             Schema::table('tweb_penduduk', static function (Blueprint $table) {
                 $table->tinyInteger('status_asuransi')->nullable()->default(null)->after('no_asuransi');
             });
-        }
-    }
-
-    public function migrasi_2024123151()
-    {
-        if (GrupAkses::where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->count() === 0) {
-            (new CreateGrupAksesService())->handle();
         }
     }
 }

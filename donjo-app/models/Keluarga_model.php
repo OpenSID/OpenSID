@@ -37,6 +37,7 @@
 
 use App\Enums\SHDKEnum;
 use App\Models\LogKeluarga;
+use App\Traits\Upload;
 use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -44,6 +45,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 // TODO: dihapus setelah Penduduk_model dihapus
 class Keluarga_model extends MY_Model
 {
+    use Upload;
+
     public function __construct()
     {
         parent::__construct();
@@ -65,189 +68,6 @@ class Keluarga_model extends MY_Model
             ->result_array();
 
         return autocomplete_data_ke_str($data);
-    }
-
-    /*
-        1 - tampilkan keluarga di mana KK mempunyai status dasar 'hidup'
-        2 - tampilkan keluarga di mana KK mempunyai status dasar 'hilang/pindah/mati'
-        3 - tampilkan keluarga di mana KK tidak ada
-        4 - tampilkan keluarga dengan nomor KK sementara
-    */
-    private function status_dasar_sql(): void
-    {
-        if (empty($value = $this->session->status_dasar)) {
-            return;
-        }
-
-        if ($value == '1') {
-            $this->db
-                ->where('t.status_dasar', 1)
-                ->where('t.kk_level', SHDKEnum::KEPALA_KELUARGA);
-        } elseif ($value == '2') {
-            $this->db->where('t.status_dasar <>', 1);
-        } elseif ($value == '3') {
-            $this->db
-                ->group_start()
-                ->where('t.status_dasar IS NULL')
-                ->or_where(' t.kk_level <>', SHDKEnum::KEPALA_KELUARGA)
-                ->group_end();
-        } elseif ($value == '4') {
-            $this->db
-                ->like('u.no_kk', '0', 'after');
-        }
-    }
-
-    private function search_sql(): void
-    {
-        if (empty($value = $this->session->cari)) {
-            return;
-        }
-
-        $this->db
-            ->group_start()
-            ->like('t.nama', $value)
-            ->or_like('u.no_kk ', $value)
-            ->or_like('t.tag_id_card', $value)
-            ->group_end();
-    }
-
-    private function kumpulan_kk_sql(): void
-    {
-        if (empty($this->session->kumpulan_kk)) {
-            return;
-        }
-
-        $kumpulan_kk = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_kk);
-        if (! is_array($kumpulan_kk)) {
-            $kumpulan_kk                = explode(',', $kumpulan_kk);
-            $this->session->kumpulan_kk = $kumpulan_kk;
-        }
-        $this->db->where_in('u.no_kk ', $kumpulan_kk);
-    }
-
-    private function filter_bantuan(): void
-    {
-        $status = (string) $this->session->filter_global['status'];
-        if ($status != '') {
-            $this->db->where('rcb.status', $status);
-        }
-
-        $tahun = $this->session->filter_global['tahun'];
-        if ($tahun != '') {
-            $this->db
-                ->group_start()
-                ->where('YEAR(rcb.sdate) <=', $tahun)
-                ->where('YEAR(rcb.edate) >=', $tahun)
-                ->group_end();
-        }
-    }
-
-    private function bantuan_keluarga_sql(): void
-    {
-        // Yg berikut hanya untuk menampilkan peserta bantuan
-        $bantuan_keluarga = $this->session->bantuan_keluarga;
-        if (! in_array($bantuan_keluarga, [JUMLAH, BELUM_MENGISI, TOTAL])) {
-            // Salin program_id
-            $this->session->program_bantuan = $bantuan_keluarga;
-        }
-        if ($bantuan_keluarga && $bantuan_keluarga != BELUM_MENGISI && ($bantuan_keluarga != JUMLAH && $this->session->program_bantuan)) {
-            $this->db
-                ->join('program_peserta bt', 'bt.peserta = u.no_kk')
-                ->join('program rcb', 'bt.program_id = rcb.id', 'left');
-            $this->filter_bantuan();
-        }
-        // Untuk BUKAN PESERTA program bantuan tertentu
-        if ($bantuan_keluarga == BELUM_MENGISI) {
-            if ($this->session->program_bantuan) {
-                // Program bantuan tertentu
-                $program_id = $this->session->program_bantuan;
-                $this->db
-                    ->join('program_peserta bt', "bt.peserta = u.no_kk and bt.program_id = {$program_id}", 'left')
-                    ->where('bt.id is null');
-            } else {
-                if (isset($this->session->status)) {
-                    $status = $this->session->status;
-                    $this->db->join('program_peserta bt', "bt.peserta = u.no_kk AND bt.program_id in (SELECT pro.id from program AS pro WHERE pro.`status` = {$status} and pro.sasaran = 2)", 'left');
-                } else {
-                    $this->db->join('program_peserta bt', 'bt.peserta = u.no_kk', 'left');
-                }
-
-                // Bukan penerima bantuan apa pun
-                $this->db->where('bt.id is null');
-            }
-        } elseif ($bantuan_keluarga == JUMLAH && ! $this->session->program_bantuan) {
-            if (isset($this->session->status)) {
-                $status = $this->session->status;
-                $this->db->join('program_peserta bt', "bt.peserta = u.no_kk AND bt.program_id in (SELECT pro.id from program AS pro WHERE pro.`status` = {$status} and pro.sasaran = 2)", 'left')->where('bt.id is not null');
-            } else {
-                // Penerima bantuan mana pun
-                $this->db->where('u.no_kk IN (select peserta from program_peserta)');
-            }
-        }
-    }
-
-    private function filter_id(): void
-    {
-        if ($id = $this->input->get('id_cb')) {
-            $this->db->where_in('u.id', explode(',', $id));
-        }
-    }
-
-    private function list_data_sql(): void
-    {
-        $this->config_id('u')
-            ->from('tweb_keluarga u')
-            ->join('tweb_penduduk t', 'u.nik_kepala = t.id', 'left')
-            ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
-
-        if ($this->session->bantuan_keluarga) {
-            $this->bantuan_keluarga_sql();
-        }
-
-        $this->filter_id();
-        $this->search_sql();
-        $this->kumpulan_kk_sql();
-        $this->status_dasar_sql();
-
-        $kolom_kode = [
-            ['dusun', 'c.dusun'],
-            ['rw', 'c.rw'],
-            ['rt', 'c.rt'],
-            ['sex', 't.sex'],
-            ['kelas', 'u.kelas_sosial'],
-            ['id_bos', 'id_bos'],
-        ];
-
-        if ($this->session->bantuan_keluarga && $this->session->bantuan_keluarga != BELUM_MENGISI && ($this->session->bantuan_keluarga != JUMLAH && $this->session->program_bantuan)) {
-            $kolom_kode[] = ['bantuan_keluarga', 'rcb.id'];
-        }
-
-        foreach ($kolom_kode as $kolom) {
-            $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
-        }
-    }
-
-    protected function get_sql_kolom_kode($session, $kolom)
-    {
-        if (empty($kf = $this->session->{$session})) {
-            return;
-        }
-
-        if ($kf == JUMLAH) {
-            $this->db
-                ->group_start()
-                ->where("{$kolom} IS NOT NULL")
-                ->or_where("{$kolom} <>", '')
-                ->group_end();
-        } elseif ($kf == BELUM_MENGISI) {
-            $this->db
-                ->group_start()
-                ->where("{$kolom} IS NULL")
-                ->or_where($kolom, '')
-                ->group_end();
-        } else {
-            $this->db->where($kolom, $kf);
-        }
     }
 
     // $page = -1 mengambil semua
@@ -392,45 +212,6 @@ class Keluarga_model extends MY_Model
         $this->log_keluarga($kk_id, LogKeluarga::KELUARGA_BARU);
 
         status_sukses($outp); //Tampilkan Pesan
-    }
-
-    private function validasi_data_keluarga(&$data)
-    {
-        // Sterilkan data
-        $data['alamat'] = strip_tags($data['alamat']);
-
-        if (! empty($data['id'])) {
-            $nokk_lama = $this->get_nokk($data['id']);
-            if ($data['no_kk'] == $nokk_lama) {
-                return true;
-            } // Tidak berubah
-        }
-        $valid = [];
-        if (isset($data['no_kk'])) {
-            if (! ctype_digit($data['no_kk'])) {
-                $valid[] = 'Nomor KK hanya berisi angka';
-            }
-            if (strlen($data['no_kk']) != 16 && $data['no_kk'] != '0') {
-                $valid[] = 'Nomor KK panjangnya harus 16 atau 0';
-            }
-            if ($this->config_id()->select('no_kk')->from('tweb_keluarga')->where(['no_kk' => $data['no_kk']])->limit(1)->get()->row()->no_kk) {
-                $valid[] = "Nomor KK {$data['no_kk']} sudah digunakan";
-            }
-        }
-
-        if ($valid !== []) {
-            $_SESSION['validation_error'] = true;
-
-            foreach ($valid as $error) {
-                $_SESSION['error_msg'] .= ': ' . $error . '\n';
-            }
-            $_SESSION['post']    = $_POST;
-            $_SESSION['success'] = -1;
-
-            return false;
-        }
-
-        return true;
     }
 
     // Tambah KK dengan mengisi form penduduk kepala keluarga baru pindah datang
@@ -857,15 +638,12 @@ class Keluarga_model extends MY_Model
             ->from('tweb_penduduk u')
             ->join('tweb_penduduk_pekerjaan j', 'u.pekerjaan_id = j.id', 'left')
             ->join('tweb_golongan_darah g', 'u.golongan_darah_id = g.id', 'left')
-            ->join('tweb_penduduk_pendidikan_kk d', 'u.pendidikan_kk_id = d.id', 'left')
-            ->join('tweb_penduduk_warganegara f', 'u.warganegara_id = f.id', 'left')
             ->join('tweb_penduduk_agama a', 'u.agama_id = a.id', 'left')
             ->join('tweb_penduduk_kawin w', 'u.status_kawin = w.id', 'left')
             ->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
             ->join('tweb_penduduk_hubungan h', 'u.kk_level = h.id', 'left')
             ->join('tweb_wil_clusterdesa c', '(' . $id_cluster . ') = c.id', 'left')
             ->where('u.id = (' . $nik_kepala . ')');
-
         $data = $this->db->get()->row_array();
 
         // Untuk keluarga kosong
@@ -982,7 +760,7 @@ class Keluarga_model extends MY_Model
 
             $id_pend = $this->db->insert_id();
 
-            if ($foto = upload_foto_penduduk(time() . '-' . $id_pend . '-' . random_int(10000, 999999))) {
+            if ($foto = $this->uploadGambar('foto', LOKASI_USER_PICT, time() . '-' . $id_pend . '-' . random_int(10000, 999999))) {
                 $this->config_id()->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
             }
 
@@ -1059,28 +837,6 @@ class Keluarga_model extends MY_Model
     {
         $this->config_id()->where('id', $id_kk)->update('tweb_keluarga', ['id_cluster' => $id_cluster, 'updated_by' => $this->session->user]);
         $this->pindah_anggota_keluarga($id_kk, $id_cluster);
-    }
-
-    private function pindah_anggota_keluarga($id_kk, $id_cluster): void
-    {
-        // Ubah dusun/rw/rt untuk semua anggota keluarga
-        if (! empty($id_cluster)) {
-            $data['id_cluster'] = $id_cluster;
-            $data['updated_at'] = date('Y-m-d H:i:s');
-            $data['updated_by'] = $this->session->user;
-            $outp               = $this->config_id()->where('id_kk', $id_kk)->update('tweb_penduduk', $data);
-
-            // Tulis log pindah untuk setiap anggota keluarga
-            $data2 = $this->config_id()
-                ->select('id')
-                ->where('id_kk', $id_kk)
-                ->get('tweb_penduduk')
-                ->result_array();
-
-            foreach ($data2 as $datanya) {
-                $this->penduduk_model->tulis_log_penduduk($datanya['id'], '6', date('m'), date('Y'));
-            }
-        }
     }
 
     public function get_alamat_wilayah($id_kk)
@@ -1171,6 +927,278 @@ class Keluarga_model extends MY_Model
         }
     }
 
+    public function get_keluarga_by_no_kk($no_kk)
+    {
+        return $this->config_id()
+            ->where('no_kk', $no_kk)
+            ->get('tweb_keluarga')
+            ->row_array();
+    }
+
+    public function nokk_sementara()
+    {
+        $digit = $this->config_id()
+            ->select('RIGHT(no_kk, 5) as digit')
+            ->order_by('RIGHT(no_kk, 5) DESC')
+            ->like('no_kk', '0', 'after')
+            ->where('no_kk !=', '0')
+            ->get('tweb_keluarga')
+            ->row()->digit ?? 0;
+
+        // No_kk Sementara menggunakan format 0[kode-desa][nomor-urut]
+        return '0' . identitas()->kode_desa . sprintf('%05d', $digit + 1);
+    }
+
+    public function proses_pindah($post)
+    {
+        $id_kk = explode(',', $post['id_kk']);
+
+        $data = ['id_cluster' => $post['id_cluster']];
+
+        $outp_keluarga = $this->db
+            ->where_in('id', $id_kk)
+            ->update('tweb_keluarga', $data);
+
+        $outp_penduduk = $this->db
+            ->where_in('id_kk', $id_kk)
+            ->update('tweb_penduduk', $data);
+
+        status_sukses($outp_keluarga && $outp_penduduk);
+    }
+
+    protected function get_sql_kolom_kode($session, $kolom)
+    {
+        if (empty($kf = $this->session->{$session})) {
+            return;
+        }
+
+        if ($kf == JUMLAH) {
+            $this->db
+                ->group_start()
+                ->where("{$kolom} IS NOT NULL")
+                ->or_where("{$kolom} <>", '')
+                ->group_end();
+        } elseif ($kf == BELUM_MENGISI) {
+            $this->db
+                ->group_start()
+                ->where("{$kolom} IS NULL")
+                ->or_where($kolom, '')
+                ->group_end();
+        } else {
+            $this->db->where($kolom, $kf);
+        }
+    }
+
+    /*
+        1 - tampilkan keluarga di mana KK mempunyai status dasar 'hidup'
+        2 - tampilkan keluarga di mana KK mempunyai status dasar 'hilang/pindah/mati'
+        3 - tampilkan keluarga di mana KK tidak ada
+        4 - tampilkan keluarga dengan nomor KK sementara
+    */
+    private function status_dasar_sql(): void
+    {
+        if (empty($value = $this->session->status_dasar)) {
+            return;
+        }
+
+        if ($value == '1') {
+            $this->db
+                ->where('t.status_dasar', 1)
+                ->where('t.kk_level', SHDKEnum::KEPALA_KELUARGA);
+        } elseif ($value == '2') {
+            $this->db->where('t.status_dasar <>', 1);
+        } elseif ($value == '3') {
+            $this->db
+                ->group_start()
+                ->where('t.status_dasar IS NULL')
+                ->or_where(' t.kk_level <>', SHDKEnum::KEPALA_KELUARGA)
+                ->group_end();
+        } elseif ($value == '4') {
+            $this->db
+                ->like('u.no_kk', '0', 'after');
+        }
+    }
+
+    private function search_sql(): void
+    {
+        if (empty($value = $this->session->cari)) {
+            return;
+        }
+
+        $this->db
+            ->group_start()
+            ->like('t.nama', $value)
+            ->or_like('u.no_kk ', $value)
+            ->or_like('t.tag_id_card', $value)
+            ->group_end();
+    }
+
+    private function kumpulan_kk_sql(): void
+    {
+        if (empty($this->session->kumpulan_kk)) {
+            return;
+        }
+
+        $kumpulan_kk = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_kk);
+        if (! is_array($kumpulan_kk)) {
+            $kumpulan_kk                = explode(',', $kumpulan_kk);
+            $this->session->kumpulan_kk = $kumpulan_kk;
+        }
+        $this->db->where_in('u.no_kk ', $kumpulan_kk);
+    }
+
+    private function filter_bantuan(): void
+    {
+        $status = (string) $this->session->filter_global['status'];
+        if ($status != '') {
+            $this->db->where('rcb.status', $status);
+        }
+
+        $tahun = $this->session->filter_global['tahun'];
+        if ($tahun != '') {
+            $this->db
+                ->group_start()
+                ->where('YEAR(rcb.sdate) <=', $tahun)
+                ->where('YEAR(rcb.edate) >=', $tahun)
+                ->group_end();
+        }
+    }
+
+    private function bantuan_keluarga_sql(): void
+    {
+        // Yg berikut hanya untuk menampilkan peserta bantuan
+        $bantuan_keluarga = $this->session->bantuan_keluarga;
+        if (! in_array($bantuan_keluarga, [JUMLAH, BELUM_MENGISI, TOTAL])) {
+            // Salin program_id
+            $this->session->program_bantuan = $bantuan_keluarga;
+        }
+        if ($bantuan_keluarga && $bantuan_keluarga != BELUM_MENGISI && ($bantuan_keluarga != JUMLAH && $this->session->program_bantuan)) {
+            $this->db
+                ->join('program_peserta bt', 'bt.peserta = u.no_kk')
+                ->join('program rcb', 'bt.program_id = rcb.id', 'left');
+            $this->filter_bantuan();
+        }
+        // Untuk BUKAN PESERTA program bantuan tertentu
+        if ($bantuan_keluarga == BELUM_MENGISI) {
+            if ($this->session->program_bantuan) {
+                // Program bantuan tertentu
+                $program_id = $this->session->program_bantuan;
+                $this->db
+                    ->join('program_peserta bt', "bt.peserta = u.no_kk and bt.program_id = {$program_id}", 'left')
+                    ->where('bt.id is null');
+            } else {
+                if (isset($this->session->status)) {
+                    $status = $this->session->status;
+                    $this->db->join('program_peserta bt', "bt.peserta = u.no_kk AND bt.program_id in (SELECT pro.id from program AS pro WHERE pro.`status` = {$status} and pro.sasaran = 2)", 'left');
+                } else {
+                    $this->db->join('program_peserta bt', 'bt.peserta = u.no_kk', 'left');
+                }
+
+                // Bukan penerima bantuan apa pun
+                $this->db->where('bt.id is null');
+            }
+        } elseif ($bantuan_keluarga == JUMLAH && ! $this->session->program_bantuan) {
+            if (isset($this->session->status)) {
+                $status = $this->session->status;
+                $this->db->join('program_peserta bt', "bt.peserta = u.no_kk AND bt.program_id in (SELECT pro.id from program AS pro WHERE pro.`status` = {$status} and pro.sasaran = 2)", 'left')->where('bt.id is not null');
+            } else {
+                // Penerima bantuan mana pun
+                $this->db->where('u.no_kk IN (select peserta from program_peserta)');
+            }
+        }
+    }
+
+    private function filter_id(): void
+    {
+        if ($id = $this->input->get('id_cb')) {
+            $this->db->where_in('u.id', explode(',', $id));
+        }
+    }
+
+    private function list_data_sql(): void
+    {
+        $this->config_id('u')
+            ->from('tweb_keluarga u')
+            ->join('tweb_penduduk t', 'u.nik_kepala = t.id', 'left')
+            ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
+
+        if ($this->session->bantuan_keluarga) {
+            $this->bantuan_keluarga_sql();
+        }
+
+        $this->filter_id();
+        $this->search_sql();
+        $this->kumpulan_kk_sql();
+        $this->status_dasar_sql();
+
+        $kolom_kode = [
+            ['dusun', 'c.dusun'],
+            ['rw', 'c.rw'],
+            ['rt', 'c.rt'],
+            ['sex', 't.sex'],
+            ['kelas', 'u.kelas_sosial'],
+            ['id_bos', 'id_bos'],
+        ];
+
+        if ($this->session->bantuan_keluarga && $this->session->bantuan_keluarga != BELUM_MENGISI && ($this->session->bantuan_keluarga != JUMLAH && $this->session->program_bantuan)) {
+            $kolom_kode[] = ['bantuan_keluarga', 'rcb.id'];
+        }
+
+        foreach ($kolom_kode as $kolom) {
+            $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
+        }
+    }
+
+    private function validasi_data_keluarga(&$data)
+    {
+        // Sterilkan data
+        $data['alamat'] = strip_tags($data['alamat']);
+
+        if (! empty($data['id'])) {
+            $nokk_lama = $this->get_nokk($data['id']);
+            if ($data['no_kk'] == $nokk_lama) {
+                return true;
+            } // Tidak berubah
+        }
+        $valid = [];
+        if (isset($data['no_kk'])) {
+            if (! ctype_digit($data['no_kk'])) {
+                $valid[] = 'Nomor KK hanya berisi angka';
+            }
+            if (strlen($data['no_kk']) != 16 && $data['no_kk'] != '0') {
+                $valid[] = 'Nomor KK panjangnya harus 16 atau 0';
+            }
+            if ($this->config_id()->select('no_kk')->from('tweb_keluarga')->where(['no_kk' => $data['no_kk']])->limit(1)->get()->row()->no_kk) {
+                $valid[] = "Nomor KK {$data['no_kk']} sudah digunakan";
+            }
+        }
+
+        if ($valid !== []) {
+            $_SESSION['validation_error'] = true;
+
+            foreach ($valid as $error) {
+                $_SESSION['error_msg'] .= ': ' . $error . '\n';
+            }
+            $_SESSION['post']    = $_POST;
+            $_SESSION['success'] = -1;
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private function pindah_anggota_keluarga($id_kk, $id_cluster): void
+    {
+        // Ubah dusun/rw/rt untuk semua anggota keluarga
+        if (! empty($id_cluster)) {
+            $data['id_cluster'] = $id_cluster;
+            $data['updated_at'] = date('Y-m-d H:i:s');
+            $data['updated_by'] = $this->session->user;
+            $outp               = $this->config_id()->where('id_kk', $id_kk)->update('tweb_penduduk', $data);
+        }
+    }
+
     private function buat_berkas_kk($data = '')
     {
         $path_arsip = LOKASI_ARSIP;
@@ -1254,44 +1282,5 @@ class Keluarga_model extends MY_Model
         fclose($handle);
 
         return $berkas_arsip;
-    }
-
-    public function get_keluarga_by_no_kk($no_kk)
-    {
-        return $this->config_id()
-            ->where('no_kk', $no_kk)
-            ->get('tweb_keluarga')
-            ->row_array();
-    }
-
-    public function nokk_sementara()
-    {
-        $digit = $this->config_id()
-            ->select('RIGHT(no_kk, 5) as digit')
-            ->order_by('RIGHT(no_kk, 5) DESC')
-            ->like('no_kk', '0', 'after')
-            ->where('no_kk !=', '0')
-            ->get('tweb_keluarga')
-            ->row()->digit ?? 0;
-
-        // No_kk Sementara menggunakan format 0[kode-desa][nomor-urut]
-        return '0' . identitas()->kode_desa . sprintf('%05d', $digit + 1);
-    }
-
-    public function proses_pindah($post)
-    {
-        $id_kk = explode(',', $post['id_kk']);
-
-        $data = ['id_cluster' => $post['id_cluster']];
-
-        $outp_keluarga = $this->db
-            ->where_in('id', $id_kk)
-            ->update('tweb_keluarga', $data);
-
-        $outp_penduduk = $this->db
-            ->where_in('id_kk', $id_kk)
-            ->update('tweb_penduduk', $data);
-
-        status_sukses($outp_keluarga && $outp_penduduk);
     }
 }

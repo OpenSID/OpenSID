@@ -50,6 +50,13 @@ class GrupAkses extends BaseModel
     public const HAPUS = 7;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -67,13 +74,6 @@ class GrupAkses extends BaseModel
         'id_modul',
         'akses',
     ];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     public function modul()
     {

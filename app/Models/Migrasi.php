@@ -46,18 +46,18 @@ class Migrasi extends BaseModel
     use ConfigId;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'migrasi';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'migrasi';
 
     /**
      * The fillable with the model.

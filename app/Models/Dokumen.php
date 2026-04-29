@@ -149,6 +149,70 @@ class Dokumen extends BaseModel
         }
     }
 
+    public static function validasi(array $post): array
+    {
+        $ci                           = &get_instance();
+        $data                         = [];
+        $data['nama']                 = nomor_surat_keputusan($post['nama']);
+        $data['kategori']             = (int) $post['kategori'] ?: 1;
+        $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
+        $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
+        $data['id_pend']              = (int) $post['id_pend'] ?: null;
+        $data['tipe']                 = (int) $post['tipe'];
+        $data['url']                  = $ci->security->xss_clean($post['url']) ?: null;
+        $data['anggota_kk']           = (array) $post['anggota_kk'] ?? [];
+        $data['dok_warga']            = (int) $post['dok_warga'] ?? 0;
+        $data['retensi_number']       = $post['retensi_number'] ?? null;
+        $data['retensi_unit']         = $post['retensi_unit'] ?? null;
+        $data['status']               = $post['status'] ?? StatusEnum::YA;
+        $data['published_at']         = $post['published_at'] ? tgl_indo_in($post['published_at']) : null;
+        $data['keterangan']           = $ci->security->xss_clean($post['keterangan']) ?? null;
+
+        if ($data['tipe'] == 1) {
+            $data['url'] = null;
+        }
+
+        switch ($data['kategori']) {
+            case 1: //Informsi Publik
+                $data['tahun'] = $post['tahun'];
+                break;
+
+            case 2: //SK Kades
+                $data['tahun']                 = date('Y', strtotime((string) $post['attr']['tgl_kep_kades']));
+                $data['kategori_info_publik']  = '3';
+                $data['attr']['tgl_kep_kades'] = $post['attr']['tgl_kep_kades'];
+                $data['attr']['uraian']        = $ci->security->xss_clean($post['attr']['uraian']);
+                $data['attr']['no_kep_kades']  = nomor_surat_keputusan($post['attr']['no_kep_kades']);
+                $data['attr']['no_lapor']      = nomor_surat_keputusan($post['attr']['no_lapor']);
+                $data['attr']['tgl_lapor']     = $post['attr']['tgl_lapor'];
+                $data['attr']['keterangan']    = $ci->security->xss_clean($post['attr']['keterangan']);
+                break;
+
+            case 3: //Perdes
+                $data['tahun']                     = date('Y', strtotime((string) $post['attr']['tgl_ditetapkan']));
+                $data['kategori_info_publik']      = '3';
+                $data['attr']['tgl_ditetapkan']    = $post['attr']['tgl_ditetapkan'];
+                $data['attr']['tgl_lapor']         = $post['attr']['tgl_lapor'];
+                $data['attr']['tgl_kesepakatan']   = $post['attr']['tgl_kesepakatan'];
+                $data['attr']['uraian']            = $ci->security->xss_clean($post['attr']['uraian']);
+                $data['attr']['jenis_peraturan']   = htmlentities((string) $post['attr']['jenis_peraturan']);
+                $data['attr']['no_ditetapkan']     = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
+                $data['attr']['no_lapor']          = nomor_surat_keputusan($post['attr']['no_lapor']);
+                $data['attr']['no_lembaran_desa']  = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
+                $data['attr']['no_berita_desa']    = nomor_surat_keputusan($post['attr']['no_berita_desa']);
+                $data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
+                $data['attr']['tgl_berita_desa']   = $post['attr']['tgl_berita_desa'];
+                $data['attr']['keterangan']        = htmlentities((string) $post['attr']['keterangan']);
+                break;
+
+            default:
+                $data['tahun'] = date('Y');
+                break;
+        }
+
+        return $data;
+    }
+
     /**
      * Define an inverse one-to-one or many relationship.
      *
@@ -279,70 +343,6 @@ class Dokumen extends BaseModel
         return $this->hasMany(Dokumen::class, 'id_parent', 'id');
     }
 
-    public static function validasi(array $post): array
-    {
-        $ci                           = &get_instance();
-        $data                         = [];
-        $data['nama']                 = nomor_surat_keputusan($post['nama']);
-        $data['kategori']             = (int) $post['kategori'] ?: 1;
-        $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
-        $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
-        $data['id_pend']              = (int) $post['id_pend'] ?: null;
-        $data['tipe']                 = (int) $post['tipe'];
-        $data['url']                  = $ci->security->xss_clean($post['url']) ?: null;
-        $data['anggota_kk']           = (array) $post['anggota_kk'] ?? [];
-        $data['dok_warga']            = (int) $post['dok_warga'] ?? 0;
-        $data['retensi_number']       = $post['retensi_number'] ?? null;
-        $data['retensi_unit']         = $post['retensi_unit'] ?? null;
-        $data['status']               = $post['status'] ?? StatusEnum::YA;
-        $data['published_at']         = $post['published_at'] ? tgl_indo_in($post['published_at']) : null;
-        $data['keterangan']           = $ci->security->xss_clean($post['keterangan']) ?? null;
-
-        if ($data['tipe'] == 1) {
-            $data['url'] = null;
-        }
-
-        switch ($data['kategori']) {
-            case 1: //Informsi Publik
-                $data['tahun'] = $post['tahun'];
-                break;
-
-            case 2: //SK Kades
-                $data['tahun']                 = date('Y', strtotime((string) $post['attr']['tgl_kep_kades']));
-                $data['kategori_info_publik']  = '3';
-                $data['attr']['tgl_kep_kades'] = $post['attr']['tgl_kep_kades'];
-                $data['attr']['uraian']        = $ci->security->xss_clean($post['attr']['uraian']);
-                $data['attr']['no_kep_kades']  = nomor_surat_keputusan($post['attr']['no_kep_kades']);
-                $data['attr']['no_lapor']      = nomor_surat_keputusan($post['attr']['no_lapor']);
-                $data['attr']['tgl_lapor']     = $post['attr']['tgl_lapor'];
-                $data['attr']['keterangan']    = $ci->security->xss_clean($post['attr']['keterangan']);
-                break;
-
-            case 3: //Perdes
-                $data['tahun']                     = date('Y', strtotime((string) $post['attr']['tgl_ditetapkan']));
-                $data['kategori_info_publik']      = '3';
-                $data['attr']['tgl_ditetapkan']    = $post['attr']['tgl_ditetapkan'];
-                $data['attr']['tgl_lapor']         = $post['attr']['tgl_lapor'];
-                $data['attr']['tgl_kesepakatan']   = $post['attr']['tgl_kesepakatan'];
-                $data['attr']['uraian']            = $ci->security->xss_clean($post['attr']['uraian']);
-                $data['attr']['jenis_peraturan']   = htmlentities((string) $post['attr']['jenis_peraturan']);
-                $data['attr']['no_ditetapkan']     = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
-                $data['attr']['no_lapor']          = nomor_surat_keputusan($post['attr']['no_lapor']);
-                $data['attr']['no_lembaran_desa']  = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
-                $data['attr']['no_berita_desa']    = nomor_surat_keputusan($post['attr']['no_berita_desa']);
-                $data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
-                $data['attr']['tgl_berita_desa']   = $post['attr']['tgl_berita_desa'];
-                $data['attr']['keterangan']        = htmlentities((string) $post['attr']['keterangan']);
-                break;
-
-            default:
-                $data['tahun'] = date('Y');
-                break;
-        }
-
-        return $data;
-    }
-
     public function getNamaBerkas($id, $id_pend = 0)
     {
         $query = $this->newQuery();
@@ -399,7 +399,7 @@ class Dokumen extends BaseModel
 
     public function scopeActivePublish($query)
     {
-        return $query->where(static function ($q) {
+        return $query->where(static function ($q): void {
             $q->whereNull('retensi_date')
                 ->orWhere('retensi_date', '>=', Carbon::now());
         })->active()->whereDate('published_at', '<=', Carbon::now()->format('Y-m-d'));
@@ -425,23 +425,13 @@ class Dokumen extends BaseModel
         if ($this->retensi_number > 0 && $this->retensi_unit) {
             $retensiDate = Carbon::parse($createdAt);
 
-            switch ($this->retensi_unit) {
-                case 'hari':
-                    $retensiDate->addDays($this->retensi_number);
-                    break;
-
-                case 'minggu':
-                    $retensiDate->addWeeks($this->retensi_number);
-                    break;
-
-                case 'bulan':
-                    $retensiDate->addMonths($this->retensi_number);
-                    break;
-
-                case 'tahun':
-                    $retensiDate->addYears($this->retensi_number);
-                    break;
-            }
+            match ($this->retensi_unit) {
+                'hari'   => $retensiDate->addDays($this->retensi_number),
+                'minggu' => $retensiDate->addWeeks($this->retensi_number),
+                'bulan'  => $retensiDate->addMonths($this->retensi_number),
+                'tahun'  => $retensiDate->addYears($this->retensi_number),
+                default  => $retensiDate,
+            };
 
             return $retensiDate;
         }

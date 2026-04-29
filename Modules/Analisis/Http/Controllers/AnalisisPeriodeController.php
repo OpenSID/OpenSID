@@ -35,7 +35,7 @@
  *
  */
 
-use Modules\Analisis\Enums\TahapPedataanEnum;
+use Modules\Analisis\Enums\AnalisisRefStateEnum;
 use Modules\Analisis\Models\AnalisisMaster;
 use Modules\Analisis\Models\AnalisisPeriode;
 use Modules\Analisis\Models\AnalisisRespon;
@@ -48,8 +48,8 @@ class AnalisisPeriodeController extends AdminModulController
     public $moduleName    = 'Analisis';
     public $modul_ini     = 'analisis';
     public $sub_modul_ini = 'analisis-periode';
-    private $selectedMenu = 'Data Periode';
     protected $analisisMaster;
+    private $selectedMenu = 'Data Periode';
 
     public function __construct()
     {
@@ -61,6 +61,17 @@ class AnalisisPeriodeController extends AdminModulController
             'selectedMenu'    => $this->selectedMenu,
             'analisis_master' => $this->analisisMaster,
         ]);
+    }
+
+    protected static function validate(array $request = []): array
+    {
+        return [
+            'nama'              => htmlentities($request['nama']),
+            'id_state'          => bilangan($request['id_state']),
+            'aktif'             => bilangan($request['aktif']),
+            'keterangan'        => htmlentities($request['keterangan']),
+            'tahun_pelaksanaan' => bilangan($request['tahun_pelaksanaan']),
+        ];
     }
 
     public function index($master)
@@ -109,7 +120,7 @@ class AnalisisPeriodeController extends AdminModulController
     public function form($master, $id = null)
     {
         isCan('u');
-        $data['tahapan'] = TahapPedataanEnum::all();
+        $data['tahapan'] = AnalisisRefStateEnum::all();
         if ($id) {
             $data['action']           = 'Ubah';
             $data['form_action']      = ci_route('analisis_periode.' . $master . '.update', $id);
@@ -171,17 +182,6 @@ class AnalisisPeriodeController extends AdminModulController
             redirect_with('success', 'Berhasil Hapus Data', ci_route('analisis_periode.' . $master));
         }
         redirect_with('error', 'Gagal Hapus Data', ci_route('analisis_periode.' . $master));
-    }
-
-    protected static function validate(array $request = []): array
-    {
-        return [
-            'nama'              => htmlentities($request['nama']),
-            'id_state'          => bilangan($request['id_state']),
-            'aktif'             => bilangan($request['aktif']),
-            'keterangan'        => htmlentities($request['keterangan']),
-            'tahun_pelaksanaan' => bilangan($request['tahun_pelaksanaan']),
-        ];
     }
 
     private function duplikasi($idMaster, $idPeriode, $request): void

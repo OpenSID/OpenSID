@@ -7,7 +7,7 @@
             <div class="form-group">
                 <label class="control-label">Tahun Anggaran</label>
                 <select class="form-control input-sm jenis_link select2" name="tahun">>
-                    <option value="">Semua Tahun</option>
+                    <option value="">Pilih Tahun</option>
                     @foreach ($tahun as $item)
                         <option>{{ $item->tahun_anggaran }}</option>
                     @endforeach

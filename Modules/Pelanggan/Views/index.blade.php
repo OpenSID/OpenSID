@@ -265,9 +265,11 @@
                                     <td class="padat">{{ $counter }}</td>
                                     <td class="aksi">
                                         @if (($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar') || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi')
+                                            @if($pemesanan->tampilkan_faktur ?? 1)
                                             <a target="_blank" href="{{ "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" }}" class="btn btn-social bg-purple btn-sm" title="Cetak Nota Faktur">
                                                 <i class="fa fa-print"></i> Cetak Nota Faktur
                                             </a>
+                                            @endif
                                         @endif
                                         @if ($notif_langganan['warna'] == 'orange')
                                             <a href="{{ site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) }}" class="btn btn-social bg-green btn-sm" title="Perpanjang Layanan">
@@ -275,17 +277,28 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td>
-                                        @foreach ($pemesanan->layanan as $layanan)
-                                            @if ($layanan->kategori_id == 4)
-                                                <a href="#" data-parent="#layanan" data-target="{{ '#layanan' . $layanan->id }}" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm" title="Klik untuk melihat ketentuan {{ $layanan->nama }}">
-                                                    <i class="fa fa-info"></i> {{ $layanan->nama }}{{ $layanan->number }}
-                                                </a><br>
-                                            @endif
-                                        @endforeach
-                                    </td>
-                                    <td class="padat">{{ tgl_indo($pemesanan->tgl_mulai) }}</td>
-                                    <td class="padat">{{ tgl_indo(date('Y-m-t', strtotime($pemesanan->tgl_akhir))) }}</td>
+                                    @php
+                                        $namaLayanan = '-';
+                                        $tanggalMulaiPremium = '-';
+                                        $tanggalAkhirPremium = '-';
+                                    @endphp
+
+                                    @foreach ($pemesanan->layanan as $layanan)
+                                        @if ($layanan->kategori_id == 4)
+                                            @php
+                                                $namaLayanan = '<a href="#" data-parent="#layanan" data-target="#layanan' . $layanan->id . '" data-toggle="modal"
+                                                    class="mt-5 btn btn-social btn-info btn-sm" title="Klik untuk melihat ketentuan ' . e($layanan->nama) . '">
+                                                    <i class="fa fa-info"></i> ' . e($layanan->nama) . e($layanan->number) . '
+                                                </a><br>';
+                                                $tanggalMulaiPremium = tgl_indo($layanan->tanggal_mulai);
+                                                $tanggalAkhirPremium = tgl_indo($layanan->tanggal_akhir);
+                                            @endphp
+                                        @endif
+                                    @endforeach
+
+                                    <td>{!! $namaLayanan !!}</td>
+                                    <td class="padat">{{ $tanggalMulaiPremium }}</td>
+                                    <td class="padat">{{ $tanggalAkhirPremium }}</td>
                                     <td class="padat">
                                         @if ($notif_langganan['warna'] == 'orange')
                                             <span class="label label-warning">perlu diperpanjang</span>
@@ -344,9 +357,11 @@
                                                 <td rowspan="{{ $totalLayanan }}" class="padat">{{ $index }}</td>
                                                 <td rowspan="{{ $totalLayanan }}" class="aksi">
                                                     @if (($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar') || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi')
+                                                        @if($pemesanan->tampilkan_faktur ?? 1)
                                                         <a target="_blank" href="{{ "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" }}" class="btn btn-social bg-purple btn-sm" title="Cetak Nota Faktur">
                                                             <i class="fa fa-print"></i> Cetak Nota Faktur
                                                         </a>
+                                                        @endif
                                                     @endif
                                                     @if ($notif_langganan['warna'] == 'orange')
                                                         <a href="{{ site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) }}" class="btn btn-social bg-green btn-sm" title="Perpanjang Layanan">
@@ -435,7 +450,7 @@
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
 
     <script type="text/javascript">
-        var token_layanan = "{{ config_item('demo_mode') ? '' : $token }}";
+        var token_layanan = "{{ config_item('demo_mode') ? '' : $list_setting->firstWhere('key', 'layanan_opendesa_token')?->value }}";
         $('#copy').on('click', function() {
             $('#token').select();
             document.execCommand('copy');

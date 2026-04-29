@@ -44,7 +44,7 @@ class WilayahTransformer extends TransformerAbstract
 {
     public function transform(Wilayah $wilayah)
     {
-        $wilayah->sebutan_dusun = ucwords(setting('sebutan_dusun'));
+        $wilayah->sebutan_dusun = ucwords((string) setting('sebutan_dusun'));
         $wilayah->kepala_nama   = $wilayah->kepala->nama ? ', ketua ' . $wilayah->kepala->nama : '';
         $wilayah->rws->transform(static function ($rw) {
             $rw->rts->transform(static function ($rt) {

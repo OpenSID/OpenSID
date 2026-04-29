@@ -46,18 +46,18 @@ class Urls extends BaseModel
     use ConfigId;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'urls';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'urls';
 
     /**
      * The guarded with the model.
@@ -66,12 +66,12 @@ class Urls extends BaseModel
      */
     protected $guarded = [];
 
-    public static function urlPendek($log_surat = [])
+    public static function urlPendek(array $log_surat = []): array
     {
         $url  = ci_route("c1.{$log_surat['id']}");
         $data = [
             'url'     => (string) $url,
-            'alias'   => (string) self::random_code(6),
+            'alias'   => self::random_code(6),
             'created' => date('Y-m-d H:i:s'),
         ];
         $url = self::create($data);
@@ -82,7 +82,7 @@ class Urls extends BaseModel
         ];
     }
 
-    public static function random_code($length)
+    public static function random_code($length): string
     {
         return substr(base_convert(sha1(uniqid(random_int(0, mt_getrandmax()))), 16, 36), 0, $length);
     }

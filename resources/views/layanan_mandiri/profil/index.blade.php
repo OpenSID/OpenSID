@@ -37,7 +37,7 @@
                                         </tr>
                                         <tr>
                                             <td>{{ strtoupper($penduduk->wajib_ktp) }}</td>
-                                            <td>{{ strtoupper(array_flip(unserialize(KTP_EL))[$penduduk->ktp_el]) }}</td>
+                                           <td>{{ strtoupper(App\Enums\StatusRekamEnum::valueOf($penduduk->ktp_el)) }}</td>
                                             <td>{{ strtoupper(App\Enums\StatusKTPEnum::valueOf($penduduk->status_rekam)) }}</td>
                                             <td>{{ $penduduk->tag_id_card }}</td>
                                         </tr>
@@ -63,7 +63,7 @@
                         <tr>
                             <td>Hubungan Dalam Keluarga</td>
                             <td>:</td>
-                            <td>{{ App\Enums\SHDKEnum::valueOf($penduduk->kk_level) }}</td>
+                            <td>{{ $penduduk->penduduk_hubungan }}</td>
                         </tr>
                         <tr>
                             <td>Jenis Kelamin</td>
@@ -134,12 +134,12 @@
                         <tr>
                             <td>Pendidikan sedang ditempuh</td>
                             <td>:</td>
-                            <td>{{ strtoupper($penduduk->pendidikan) }}</td>
+                            <td>{{ $penduduk->pendidikan_sedang }}</td>
                         </tr>
                         <tr>
                             <td>Pekerjaan</td>
                             <td>:</td>
-                            <td>{{ strtoupper($penduduk->pekerjaan->nama) }}</td>
+                            <td>{{ $data->pekerjaan }}</td>
                         </tr>
                         <tr>
                             <th colspan="3" class="judul">Data Kewarganegaraan</th>
@@ -273,7 +273,7 @@
                         <tr>
                             <td>Cacat</td>
                             <td>:</td>
-                            <td>{{ strtoupper($penduduk->cacat->nama) }}</td>
+                            <td>{{ $penduduk->cacat }}</td>
                         </tr>
                         <tr>
                             <td>Sakit Menahun</td>
@@ -297,7 +297,7 @@
                         <tr>
                             <td>Nama/Nomor Asuransi Kesehatan</td>
                             <td>:</td>
-                            <td>{{ $penduduk->asuransi->nama . ' / ' . strtoupper($penduduk->no_asuransi) }}</td>
+                            <td>{{ $penduduk->asuransi . ' / ' . strtoupper($penduduk->no_asuransi) }}</td>
                         </tr>
                         <tr>
                             <td>Nomor BPJS Ketenagakerjaan</td>

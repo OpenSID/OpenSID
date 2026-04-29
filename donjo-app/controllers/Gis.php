@@ -35,6 +35,7 @@
  *
  */
 
+use Admin_Controller;
 use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
@@ -48,7 +49,6 @@ use App\Models\Garis;
 use App\Models\Lokasi;
 use App\Models\Pembangunan;
 use App\Models\Penduduk;
-use App\Models\PendudukStatus;
 use App\Models\Persil;
 use App\Models\Wilayah;
 
@@ -100,7 +100,7 @@ class Gis extends Admin_Controller
         $filterPenduduk['dusun']      = $data['dusun'];
         $filterPenduduk['rw']         = $data['rw'];
         $filterPenduduk['rt']         = $data['rt'];
-        $data['list_status_penduduk'] = PendudukStatus::get()->toArray();
+        $data['list_status_penduduk'] = StatusPendudukEnum::all();
         $data['list_jenis_kelamin']   = JenisKelaminEnum::all();
         $data['wilayah']              = Wilayah::where('zoom', '>', 0)->get()->toArray();
         $data['lokasi']               = Lokasi::activeLocationMap();

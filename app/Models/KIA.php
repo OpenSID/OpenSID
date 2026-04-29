@@ -46,18 +46,18 @@ class KIA extends BaseModel
     use ConfigId;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'kia';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'kia';
 
     /**
      * The attributes that are mass assignable.

@@ -52,18 +52,18 @@ class Rtm extends BaseModel
     use ShortcutCache;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tweb_rtm';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tweb_rtm';
 
     /**
      * The guarded with the model.
@@ -80,6 +80,65 @@ class Rtm extends BaseModel
     protected $appends = [
         'jumlah_kk',
     ];
+
+    public static function boot(): void
+    {
+        parent::boot();
+        static::deleting(static function ($model): void {
+            static::deletePenduduk($model);
+        });
+    }
+
+    public static function deletePenduduk($model): void
+    {
+        $reset['id_rtm']     = 0;
+        $reset['rtm_level']  = 0;
+        $reset['updated_at'] = date('Y-m-d H:i:s');
+        Penduduk::where(['id_rtm' => $model->no_kk])->update($reset);
+
+        BantuanPeserta::where('peserta', $model->no_kk)->whereHas('bantuan', static fn ($q) => $q->where(['sasaran' => SasaranEnum::RUMAH_TANGGA]))->delete();
+    }
+
+    public static function get_kepala_rtm($id, $is_no_kk = false): ?array
+    {
+        if (empty($id)) {
+            return null;
+        }
+
+        $kolom_id = $is_no_kk ? 'r.no_kk' : 'r.id';
+
+        $data = (array) DB::table('tweb_rtm as r')
+            ->select([
+                'u.id',
+                'u.nik',
+                'u.nama',
+                'u.status_dasar',
+                'r.no_kk',
+                'r.bdt',
+                'u.pendidikan_kk_id',
+                'u.tempatlahir',
+                'u.tanggallahir',
+                DB::raw('(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(u.tanggallahir)), "%Y") + 0) AS umur'),
+                'wil.rt',
+                'wil.rw',
+                'wil.dusun',
+            ])
+            ->leftJoin('penduduk_hidup as u', static function ($join): void {
+                $join->on('r.no_kk', '=', 'u.id_rtm')
+                    ->where('u.rtm_level', '=', 1);
+            })
+            ->leftJoin('tweb_wil_clusterdesa as wil', 'wil.id', '=', 'u.id_cluster')
+            ->where('r.config_id', identitas('id'))
+            ->where($kolom_id, $id)
+            ->first();
+
+        if ($data) {
+            $data['pendidikan_kk']  = PendidikanKKEnum::valueOf($data['pendidikan_kk_id']);
+            $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
+        }
+
+        return $data ?? null;
+    }
 
     /**
      * Define a one-to-one relationship.
@@ -133,69 +192,12 @@ class Rtm extends BaseModel
         return $judul;
     }
 
-    public static function boot(): void
-    {
-        parent::boot();
-        static::deleting(static function ($model): void {
-            static::deletePenduduk($model);
-        });
-    }
-
-    public static function deletePenduduk($model): void
-    {
-        $reset['id_rtm']     = 0;
-        $reset['rtm_level']  = 0;
-        $reset['updated_at'] = date('Y-m-d H:i:s');
-        Penduduk::where(['id_rtm' => $model->no_kk])->update($reset);
-
-        BantuanPeserta::where('peserta', $model->no_kk)->whereHas('bantuan', static fn ($q) => $q->where(['sasaran' => SasaranEnum::RUMAH_TANGGA]))->delete();
-    }
-
-    public static function get_kepala_rtm($id, $is_no_kk = false)
-    {
-        if (empty($id)) {
-            return null;
-        }
-
-        $kolom_id = $is_no_kk ? 'r.no_kk' : 'r.id';
-
-        $data = (array) DB::table('tweb_rtm as r')
-            ->select([
-                'u.id',
-                'u.nik',
-                'u.nama',
-                'u.status_dasar',
-                'r.no_kk',
-                'r.bdt',
-                'u.pendidikan_kk_id',
-                'u.tempatlahir',
-                'u.tanggallahir',
-                DB::raw('(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(u.tanggallahir)), "%Y") + 0) AS umur'),
-                'wil.rt',
-                'wil.rw',
-                'wil.dusun',
-            ])
-            ->leftJoin('penduduk_hidup as u', static function ($join) {
-                $join->on('r.no_kk', '=', 'u.id_rtm')
-                    ->where('u.rtm_level', '=', 1);
-            })
-            ->leftJoin('tweb_wil_clusterdesa as wil', 'wil.id', '=', 'u.id_cluster')
-            ->where('r.config_id', identitas('id'))
-            ->where($kolom_id, $id)
-            ->first();
-
-        if ($data) {
-            $data['pendidikan_kk']  = PendidikanKKEnum::valueOf($data['pendidikan_kk_id']);
-            $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
-        }
-
-        return $data ?? null;
-    }
-
     public function getJumlahKkAttribute()
     {
         if ($this->relationLoaded('anggota')) {
             return $this->anggota->unique('id_kk')->count();
         }
+
+        return null;
     }
 }

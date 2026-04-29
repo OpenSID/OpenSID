@@ -68,51 +68,6 @@ class BantuanPeserta extends BaseModel
      */
     protected $with = ['bantuan'];
 
-    public function bantuan()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id');
-    }
-
-    public function bantuanKeluarga()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::KELUARGA]);
-    }
-
-    public function bantuanPenduduk()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::PENDUDUK]);
-    }
-
-    public function penduduk()
-    {
-        return $this->belongsTo(Penduduk::class, 'peserta', 'nik');
-    }
-
-    public function keluarga()
-    {
-        return $this->belongsTo(Keluarga::class, 'peserta', 'no_kk');
-    }
-
-    public function rtm()
-    {
-        return $this->belongsTo(Rtm::class, 'peserta', 'no_kk');
-    }
-
-    public function kelompok()
-    {
-        return $this->belongsTo(Kelompok::class, 'peserta', 'kode');
-    }
-
-    /**
-     * Scope query untuk peserta.
-     *
-     * @param Builder $query
-     */
-    public function scopePeserta($query): void
-    {
-        // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
-    }
-
     public static function peserta_tidak_valid($sasaran)
     {
         $query = DB::table('program_peserta as pp')
@@ -269,8 +224,53 @@ class BantuanPeserta extends BaseModel
         }
     }
 
-    public static function hapusPeserta($peserta, $sasaran)
+    public static function hapusPeserta($peserta, $sasaran): void
     {
         self::whereHas(['bantuan' => static fn ($q) => $q->where('sasaran', $sasaran)])->where('peserta', $peserta)->delete();
+    }
+
+    public function bantuan()
+    {
+        return $this->belongsTo(Bantuan::class, 'program_id');
+    }
+
+    public function bantuanKeluarga()
+    {
+        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::KELUARGA]);
+    }
+
+    public function bantuanPenduduk()
+    {
+        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::PENDUDUK]);
+    }
+
+    public function penduduk()
+    {
+        return $this->belongsTo(Penduduk::class, 'peserta', 'nik');
+    }
+
+    public function keluarga()
+    {
+        return $this->belongsTo(Keluarga::class, 'peserta', 'no_kk');
+    }
+
+    public function rtm()
+    {
+        return $this->belongsTo(Rtm::class, 'peserta', 'no_kk');
+    }
+
+    public function kelompok()
+    {
+        return $this->belongsTo(Kelompok::class, 'peserta', 'kode');
+    }
+
+    /**
+     * Scope query untuk peserta.
+     *
+     * @param Builder $query
+     */
+    public function scopePeserta($query): void
+    {
+        // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
     }
 }

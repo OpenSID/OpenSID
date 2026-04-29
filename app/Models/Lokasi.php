@@ -37,7 +37,9 @@
 
 namespace App\Models;
 
+use App\Enums\AktifEnum;
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,9 +47,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Lokasi extends BaseModel
 {
     use ConfigId;
+    use StatusTrait;
 
-    public const LOCK   = 1;
-    public const UNLOCK = 2;
+    public $timestamps      = false;
+    public $statusColumName = 'enabled';
 
     /**
      * The table associated with the model.
@@ -55,8 +58,6 @@ class Lokasi extends BaseModel
      * @var string
      */
     protected $table = 'lokasi';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -84,6 +85,52 @@ class Lokasi extends BaseModel
         'foto_sedang',
         'foto_lokasi',
     ];
+
+    public static function activeLocationMap()
+    {
+        return self::active()->with(['point' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol'])]),
+        ])->get()->map(function ($item) {
+            $item->jenis    = $item->point->parent->nama ?? '';
+            $item->kategori = $item->point->nama ?? '';
+            $item->simbol   = $item->point->simbol ?? '';
+            unset($item->point);
+
+            return $item;
+        })->toArray();
+    }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $original = LOKASI_FOTO_LOKASI . $model->getOriginal($file);
+            $kecil    = LOKASI_FOTO_LOKASI . 'kecil_' . $model->getOriginal($file);
+            $sedang   = LOKASI_FOTO_LOKASI . 'sedang_' . $model->getOriginal($file);
+
+            if (file_exists($original)) {
+                unlink($original);
+            }
+
+            if (file_exists($kecil)) {
+                unlink($kecil);
+            }
+            if (file_exists($sedang)) {
+                unlink($sedang);
+            }
+        }
+    }
 
     /**
      * Getter untuk foto kecil.
@@ -131,11 +178,6 @@ class Lokasi extends BaseModel
         return null;
     }
 
-    protected function scopeActive($query)
-    {
-        return $query->whereEnabled(1);
-    }
-
     /**
      * Get the point associated with the Lokasi
      */
@@ -146,52 +188,11 @@ class Lokasi extends BaseModel
 
     public function isLock(): bool
     {
-        return $this->enabled == self::LOCK;
+        return $this->enabled == AktifEnum::TIDAK_AKTIF;
     }
 
-    public static function activeLocationMap()
+    protected function scopeActive($query)
     {
-        return self::active()->with(['point' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol'])]),
-        ])->get()->map(function ($item) {
-            $item->jenis    = $item->point->parent->nama ?? '';
-            $item->kategori = $item->point->nama ?? '';
-            $item->simbol   = $item->point->simbol ?? '';
-            unset($item->point);
-
-            return $item;
-        })->toArray();
-    }
-
-    public static function boot(): void
-    {
-        parent::boot();
-
-        static::updating(static function ($model): void {
-            static::deleteFile($model, 'foto');
-        });
-
-        static::deleting(static function ($model): void {
-            static::deleteFile($model, 'foto', true);
-        });
-    }
-
-    public static function deleteFile($model, ?string $file, $deleting = false): void
-    {
-        if ($model->isDirty($file) || $deleting) {
-            $original = LOKASI_FOTO_LOKASI . $model->getOriginal($file);
-            $kecil    = LOKASI_FOTO_LOKASI . 'kecil_' . $model->getOriginal($file);
-            $sedang   = LOKASI_FOTO_LOKASI . 'sedang_' . $model->getOriginal($file);
-
-            if (file_exists($original)) {
-                unlink($original);
-            }
-
-            if (file_exists($kecil)) {
-                unlink($kecil);
-            }
-            if (file_exists($sedang)) {
-                unlink($sedang);
-            }
-        }
+        return $query->whereEnabled(AktifEnum::AKTIF);
     }
 }

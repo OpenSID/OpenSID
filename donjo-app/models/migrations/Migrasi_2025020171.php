@@ -98,11 +98,6 @@ class Migrasi_2025020171
         }
     }
 
-    protected function hapusTabelRefPendudukSuku()
-    {
-        Schema::dropIfExists('ref_penduduk_suku');
-    }
-
     public function tambahKolomBorderDiWilayah()
     {
         if (! Schema::hasColumn('tweb_wil_clusterdesa', 'border')) {
@@ -206,7 +201,26 @@ class Migrasi_2025020171
         DB::statement('ALTER TABLE `log_penduduk` CHANGE COLUMN `config_id` `config_id` INT(11) NOT NULL');
     }
 
-    protected function pengaturanJumlahAduan()
+    public function hapusCredentialOpenDK()
+    {
+        SettingAplikasi::whereIn('key', ['api_opendk_password', 'api_opendk_user'])->delete();
+    }
+
+    public function tambahKolomArsip()
+    {
+        if (! Schema::hasColumn('surat_keluar', 'arsip_id')) {
+            Schema::table('surat_keluar', static function (Blueprint $table) {
+                $table->integer('arsip_id')->nullable();
+            });
+        }
+    }
+
+    public function hapusTabelRefPendudukSuku()
+    {
+        Schema::dropIfExists('ref_penduduk_suku');
+    }
+
+    public function pengaturanJumlahAduan()
     {
         $this->createSetting([
             'judul'      => 'Jumlah Aduan Pengguna',
@@ -225,19 +239,5 @@ class Migrasi_2025020171
             ]),
             'kategori' => 'Pengaduan',
         ]);
-    }
-
-    public function hapusCredentialOpenDK()
-    {
-        SettingAplikasi::whereIn('key', ['api_opendk_password', 'api_opendk_user'])->delete();
-    }
-
-    public function tambahKolomArsip()
-    {
-        if (! Schema::hasColumn('surat_keluar', 'arsip_id')) {
-            Schema::table('surat_keluar', static function (Blueprint $table) {
-                $table->integer('arsip_id')->nullable();
-            });
-        }
     }
 }

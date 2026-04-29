@@ -48,17 +48,17 @@ class KelompokMaster extends BaseModel
     /**
      * {@inheritDoc}
      */
+    public $timestamps = false;
+
+    /**
+     * {@inheritDoc}
+     */
     protected $table = 'kelompok_master';
 
     /**
      * {@inheritDoc}
      */
     protected $guarded = [];
-
-    /**
-     * {@inheritDoc}
-     */
-    public $timestamps = false;
 
     public function kelompok()
     {

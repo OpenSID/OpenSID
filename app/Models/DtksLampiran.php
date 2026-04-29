@@ -71,21 +71,6 @@ class DtksLampiran extends BaseModel
         'id_rtm',
     ];
 
-    public function getFotoKecilAttribute(): string
-    {
-        $path = LOKASI_FOTO_DTKS . 'kecil_' . $this->attributes['foto'];
-        if (! file_exists(FCPATH . $path)) {
-            return '';
-        }
-
-        return base_url($path);
-    }
-
-    public function dtks()
-    {
-        return $this->belongsToMany(Dtks::class, 'dtks_ref_lampiran', 'id_lampiran', 'id_dtks')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
-    }
-
     /**
      * The "booted" method of the model.
      */
@@ -110,5 +95,20 @@ class DtksLampiran extends BaseModel
                 unlink($path_kecil);
             }
         }
+    }
+
+    public function getFotoKecilAttribute(): string
+    {
+        $path = LOKASI_FOTO_DTKS . 'kecil_' . $this->attributes['foto'];
+        if (! file_exists(FCPATH . $path)) {
+            return '';
+        }
+
+        return base_url($path);
+    }
+
+    public function dtks()
+    {
+        return $this->belongsToMany(Dtks::class, 'dtks_ref_lampiran', 'id_lampiran', 'id_dtks')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 }

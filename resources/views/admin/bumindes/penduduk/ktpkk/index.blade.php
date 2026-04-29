@@ -134,8 +134,8 @@
                         orderable: false
                     },
                     {
-                        data: 'sex',
-                        name: 'sex',
+                        data: 'jenis_kelamin_inisial',
+                        name: 'jenis_kelamin_inisial',
                         searchable: false,
                         orderable: false
                     },

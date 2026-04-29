@@ -96,44 +96,6 @@ abstract class AbstractManager
     }
 
     /**
-     * Create a new driver instance.
-     *
-     * @param string $driver
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return mixed
-     */
-    protected function createDriver($driver)
-    {
-        // First, we will determine if a custom driver creator exists for the given driver and
-        // if it does not we will check for a creator method for the driver. Custom creator
-        // callbacks allow developers to build their own "drivers" easily using Closures.
-        if (isset($this->customCreators[$driver])) {
-            return $this->callCustomCreator($driver);
-        }
-        $method = 'create' . ucfirst($driver) . 'Driver';
-
-        if (method_exists($this, $method)) {
-            return $this->{$method}();
-        }
-
-        throw new InvalidArgumentException("Driver [{$driver}] not supported.");
-    }
-
-    /**
-     * Call a custom driver creator.
-     *
-     * @param string $driver
-     *
-     * @return mixed
-     */
-    protected function callCustomCreator($driver)
-    {
-        return $this->customCreators[$driver]($this->container);
-    }
-
-    /**
      * Register a custom driver creator Closure.
      *
      * @param string $driver
@@ -180,5 +142,43 @@ abstract class AbstractManager
     public function __call($method, $parameters)
     {
         return $this->driver()->{$method}(...$parameters);
+    }
+
+    /**
+     * Create a new driver instance.
+     *
+     * @param string $driver
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return mixed
+     */
+    protected function createDriver($driver)
+    {
+        // First, we will determine if a custom driver creator exists for the given driver and
+        // if it does not we will check for a creator method for the driver. Custom creator
+        // callbacks allow developers to build their own "drivers" easily using Closures.
+        if (isset($this->customCreators[$driver])) {
+            return $this->callCustomCreator($driver);
+        }
+        $method = 'create' . ucfirst($driver) . 'Driver';
+
+        if (method_exists($this, $method)) {
+            return $this->{$method}();
+        }
+
+        throw new InvalidArgumentException("Driver [{$driver}] not supported.");
+    }
+
+    /**
+     * Call a custom driver creator.
+     *
+     * @param string $driver
+     *
+     * @return mixed
+     */
+    protected function callCustomCreator($driver)
+    {
+        return $this->customCreators[$driver]($this->container);
     }
 }

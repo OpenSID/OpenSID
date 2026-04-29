@@ -66,7 +66,7 @@
                             <tr>
                                 <td>Subjek Analisis</td>
                                 <td>:</td>
-                                <td>{{ App\Enums\AnalisisRefSubjekEnum::valueOf($analisis_master['subjek_tipe']) }}</td>
+                                <td>{{ Modules\Analisis\Enums\AnalisisRefSubjekEnum::valueOf($analisis_master['subjek_tipe']) }}</td>
                             </tr>
                             <tr>
                                 <td>Periode</td>
@@ -108,13 +108,13 @@
                                                             <th>Aksi</th>
                                                             <th>{{ $nomor }}</th>
                                                             <th>{{ $nama }}</th>
-                                                            @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, App\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
+                                                            @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
                                                                 <th>Jenis Kelamin</th>
                                                             @endif
-                                                            @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, App\Enums\AnalisisRefSubjekEnum::KELOMPOK, App\Enums\AnalisisRefSubjekEnum::RW, App\Enums\AnalisisRefSubjekEnum::RT]))
+                                                            @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELOMPOK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RW, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RT]))
                                                                 <th>{{ ucwords(setting('sebutan_dusun')) }}</th>
                                                                 <th>RW</th>
-                                                                @if ($analisis_master['subjek_tipe'] != App\Enums\AnalisisRefSubjekEnum::RW)
+                                                                @if ($analisis_master['subjek_tipe'] != Modules\Analisis\Enums\AnalisisRefSubjekEnum::RW)
                                                                     <th>RT</th>
                                                                 @endif
                                                             @endif
@@ -167,7 +167,7 @@
                         },
                         {!! json_encode($kolom[0]) !!},
                         {!! json_encode($kolom[1]) !!},
-                        @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, App\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
+                        @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
                             {
                                 data: 'sex',
                                 name: 'sex',
@@ -175,7 +175,7 @@
                                 orderable: false
                             },
                         @endif
-                        @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, App\Enums\AnalisisRefSubjekEnum::KELOMPOK, App\Enums\AnalisisRefSubjekEnum::RW, App\Enums\AnalisisRefSubjekEnum::RT]))
+                        @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELOMPOK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RW, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RT]))
                             {
                                 data: 'dusun',
                                 name: 'dusun',
@@ -187,7 +187,7 @@
                                 searchable: false,
                                 orderable: false
                             },
-                            @if ($analisis_master['subjek_tipe'] != App\Enums\AnalisisRefSubjekEnum::RW)
+                            @if ($analisis_master['subjek_tipe'] != Modules\Analisis\Enums\AnalisisRefSubjekEnum::RW)
                                 {
                                     data: 'rt',
                                     name: 'rt',

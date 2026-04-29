@@ -53,18 +53,26 @@ class Widget extends BaseModel
     public const WIDGET_STATIS = 2;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'widget';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * {@inheritDoc}
+     */
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => true,
+    ];
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'widget';
 
     /**
      * The guarded with the model.
@@ -91,13 +99,44 @@ class Widget extends BaseModel
         'enabled' => AktifEnum::TIDAK_AKTIF,
     ];
 
-    /**
-     * {@inheritDoc}
-     */
-    public $sortable = [
-        'order_column_name'  => 'urut',
-        'sort_when_creating' => true,
-    ];
+    public static function updateUrutan(): void
+    {
+        $all  = Widget::orderBy('urut')->get();
+        $urut = 1;
+
+        foreach ($all as $w) {
+            $w->update(['urut' => $urut++]);
+        }
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $foto = LOKASI_GAMBAR_WIDGET . $model->getOriginal($file);
+            if (file_exists($foto)) {
+                unlink($foto);
+            }
+        }
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(static function ($model): void {
+            if (empty($model->urut)) {
+                $model->urut = self::urutMax();
+            }
+        });
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
+        });
+    }
 
     public function scopeGetWidget($query, $id)
     {
@@ -206,47 +245,14 @@ class Widget extends BaseModel
         return $query->orderByDesc('urut')->first()->urut + 1;
     }
 
-    public static function updateUrutan(): void
-    {
-        $all  = Widget::orderBy('urut')->get();
-        $urut = 1;
-
-        foreach ($all as $w) {
-            $w->update(['urut' => $urut++]);
-        }
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::updating(static function ($model): void {
-            static::deleteFile($model, 'foto');
-        });
-
-        static::deleting(static function ($model): void {
-            static::deleteFile($model, 'foto', true);
-        });
-    }
-
-    public static function deleteFile($model, ?string $file, $deleting = false): void
-    {
-        if ($model->isDirty($file) || $deleting) {
-            $foto = LOKASI_GAMBAR_WIDGET . $model->getOriginal($file);
-            if (file_exists($foto)) {
-                unlink($foto);
-            }
-        }
-    }
-
     public function getIsiAttribute($value): string
     {
-        if ($this->jenis_widget == 2 && strpos($value, '/widgets/') !== false) {
+        if ($this->jenis_widget == 2 && str_contains((string) $value, '/widgets/')) {
             $value = str_replace('/widgets/', '/resources/views/widgets/', $value);
         }
 
-        if (strpos($value, '.php') !== false && strpos($value, 'blade') === false) {
-            $value = preg_replace('/(?<!blade)\.php$/', '.blade.php', $value);
+        if (str_contains((string) $value, '.php') && ! str_contains((string) $value, 'blade')) {
+            $value = preg_replace('/(?<!blade)\.php$/', '.blade.php', (string) $value);
         }
 
         return str_replace('/resources/views/resources/views/', '/resources/views/', $value);

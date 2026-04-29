@@ -12,9 +12,8 @@
 		<div class="box box-info">
 			<?php if (can('u')): ?>
 				<div class="box-header with-border">
-					<?php
-						echo view('admin.layouts.components.tombol_kembali', ['url' => site_url('covid19'), 'label' => 'Daftar Pemudik Saat Covid-19']);
-					?>
+					<?= view('admin.layouts.components.tombol_kembali', ['url' => site_url('covid19'), 'label' => 'Daftar Pemudik Saat Covid-19']);
+                    ?>
 				</div>
 			<?php endif; ?>
 			<div class="box-header with-border">

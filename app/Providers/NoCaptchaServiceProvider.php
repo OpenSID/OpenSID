@@ -52,7 +52,7 @@ class NoCaptchaServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application events.
      */
-    public function boot()
+    public function boot(): void
     {
         $app = $this->app;
 
@@ -62,15 +62,13 @@ class NoCaptchaServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton('captcha', static function ($app) {
-            return new NoCaptcha(
-                $app['config']['captcha.secret'],
-                $app['config']['captcha.sitekey'],
-                $app['config']['captcha.options']
-            );
-        });
+        $this->app->singleton('captcha', static fn ($app): \App\Libraries\NoCaptcha => new NoCaptcha(
+            $app['config']['captcha.secret'],
+            $app['config']['captcha.sitekey'],
+            $app['config']['captcha.options']
+        ));
     }
 
     /**

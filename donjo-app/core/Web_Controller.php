@@ -53,7 +53,9 @@ use App\Models\Widget;
 use App\Services\LaporanPenduduk;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
+use Modules\Kehadiran\Models\HariLibur;
 use Modules\Kehadiran\Models\JamKerja;
+use Modules\Pelanggan\Services\PelangganService;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -111,34 +113,43 @@ class Web_Controller extends MY_Controller
         $sumber     = setting('sumber_gambar_slider');
         $limit      = setting('jumlah_gambar_slider') ?? 10;
         $sharedData = [
-            'statistik_pengunjung' => $statistik_pengunjung,
-            'latar_website'        => default_file((new App\Models\Theme())->lokasiLatarWebsite() . setting('latar_website'), DEFAULT_LATAR_WEBSITE),
-            'menu_kiri'            => Kategori::daftar(),
-            'teks_berjalan'        => $teksBerjalan,
-            'slide_artikel'        => Artikel::withOnly([])->slideShow()->get()->toArray(),
-            'slider_gambar'        => Artikel::slideGambar($sumber, $limit),
-            'cek_anjungan'         => $this->cek_anjungan,
-            'widgetAktif'          => $this->widgetAktif(),
-            'w_gal'                => Galery::widget(),
-            'hari_ini'             => Agenda::show('hari_ini')->get()->toArray(),
-            'yad'                  => Agenda::show('yad')->get()->toArray(),
-            'lama'                 => Agenda::show('lama')->get()->toArray(),
-            'komen'                => Komentar::show()->limit(10)->get()->toArray(),
-            'sosmed'               => media_sosial(),
-            'arsip_terkini'        => ArsipArtikel::show('terkini'),
-            'arsip_populer'        => ArsipArtikel::show('populer'),
-            'arsip_acak'           => ArsipArtikel::show('acak'),
-            'aparatur_desa'        => KehadiranPamong::widget(),
-            'stat_widget'          => (new LaporanPenduduk())->listData(4),
-            'sinergi_program'      => getWidgetSetting('sinergi_program'),
-            'widget_keuangan'      => (new Keuangan())->widget_keuangan(),
-            'jam_kerja'            => JamKerja::orderBy('id')->get(),
+            'statistik_pengunjung'       => $statistik_pengunjung,
+            'latar_website'              => default_file((new App\Models\Theme())->lokasiLatarWebsite() . setting('latar_website'), DEFAULT_LATAR_WEBSITE),
+            'menu_kiri'                  => Kategori::daftar(),
+            'teks_berjalan'              => $teksBerjalan,
+            'slide_artikel'              => Artikel::withOnly([])->slideShow()->get()->toArray(),
+            'slider_gambar'              => Artikel::slideGambar($sumber, $limit),
+            'cek_anjungan'               => $this->cek_anjungan,
+            'widgetAktif'                => $this->widgetAktif(),
+            'w_gal'                      => Galery::widget(),
+            'hari_ini'                   => Agenda::show('hari_ini')->get()->toArray(),
+            'yad'                        => Agenda::show('yad')->get()->toArray(),
+            'lama'                       => Agenda::show('lama')->get()->toArray(),
+            'komen'                      => Komentar::show()->limit(10)->get()->toArray(),
+            'sosmed'                     => media_sosial(),
+            'arsip_terkini'              => ArsipArtikel::show('terkini'),
+            'arsip_populer'              => ArsipArtikel::show('populer'),
+            'arsip_acak'                 => ArsipArtikel::show('acak'),
+            'aparatur_desa'              => KehadiranPamong::widget(),
+            'stat_widget'                => (new LaporanPenduduk())->listData(4),
+            'sinergi_program'            => getWidgetSetting('sinergi_program'),
+            'widget_keuangan'            => (new Keuangan())->widget_keuangan(),
+            'jam_kerja'                  => JamKerja::orderBy('id')->get(),
+            'tampilkan_status_kehadiran' => ! HariLibur::liburNasional()->exists(),
         ];
 
         if (Schema::hasTable('profil_desa')) {
             $sharedData['profil_ekologi']  = ProfilDesa::where('kategori', 'ekologi')->get();
             $sharedData['profil_internet'] = ProfilDesa::where('kategori', 'internet')->get();
-            $sharedData['profil_status']   = ProfilDesa::whereIn('kategori', ['adat', 'lainnya'])->get();
+            $sharedData['profil_status']   = ProfilDesa::whereIn('kategori', ['adat', 'lainnya'])
+                ->get()
+                ->map(static function ($item) {
+                    if (($item->key ?? null) === 'status_desa') {
+                        $item->judul = SebutanDesa('Status [Desa]');
+                    }
+
+                    return $item;
+                });
         } else {
             $sharedData['profil_ekologi']  = collect();
             $sharedData['profil_internet'] = collect();
@@ -158,6 +169,73 @@ class Web_Controller extends MY_Controller
         $sharedData['tema_premium'] = $this->pemesanan();
 
         View::share($sharedData);
+    }
+
+    /**
+     * Cek apakah menu aktif
+     *
+     * @param string $link
+     *
+     * @return bool
+     */
+    public function menuAktif($link)
+    {
+        return Menu::active()->whereLink($link)->exists();
+    }
+
+    public function pemesanan()
+    {
+        $expired = 60 * 60 * 24 * 7; // 7 hari
+
+        return cache()->remember('tema_premium', $expired, static function () use ($expired) {
+            $data = app('ci')->cache->file->get('status_langganan');
+
+            // safety check kalau data kosong
+            if (empty($data->body->pemesanan)) {
+                app('ci')->header['desa']                 = collect(identitas())->toArray();
+                app('ci')->header['perbaharui_langganan'] = true;
+                PelangganService::perbaruiLangganan();
+                $data = app('ci')->cache->file->get('status_langganan');
+            }
+
+            $pemesanan = collect($data->body->pemesanan)
+                ->pluck('layanan')
+                ->flatten(1)
+                ->filter(static fn ($layanan) => isset($layanan->nama_kategori) && $layanan->nama_kategori === 'Tema')
+                ->pluck('product_key')
+                ->filter()
+                ->values()
+                ->toArray();
+
+            setcookie(
+                'pemesanan-tema',
+                json_encode($pemesanan),
+                time() + $expired,
+                '/',
+                '',
+                false,
+                false
+            );
+
+            return $pemesanan;
+        });
+    }
+
+    /**
+     * Cek hak akses menu
+     *
+     * @param string $link
+     *
+     * @return void
+     */
+    protected function hak_akses_menu($link)
+    {
+        $menuAktif = $this->menuAktif($link);
+        if (! $menuAktif) {
+            view('theme::menu_not_active');
+
+            exit;
+        }
     }
 
     /**
@@ -191,54 +269,5 @@ class Web_Controller extends MY_Controller
     private function maintenance()
     {
         return view('theme::partials.maintenance.index');
-    }
-
-    /**
-     * Cek apakah menu aktif
-     *
-     * @param string $link
-     *
-     * @return bool
-     */
-    public function menuAktif($link)
-    {
-        return Menu::active()->whereLink($link)->exists();
-    }
-
-    /**
-     * Cek hak akses menu
-     *
-     * @param string $link
-     *
-     * @return void
-     */
-    protected function hak_akses_menu($link)
-    {
-        $menuAktif = $this->menuAktif($link);
-        if (! $menuAktif) {
-            view('theme::menu_not_active');
-
-            exit;
-        }
-    }
-
-    public function pemesanan()
-    {
-        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
-            return true;
-        }
-
-        return cache()->remember('tema_premium', 604800, static function () {
-            $data = app('ci')->cache->file->get('status_langganan');
-
-            return collect($data->body->pemesanan)
-                ->pluck('layanan')
-                ->flatten(1)
-                ->filter(static fn ($layanan) => $layanan->nama_kategori === 'Tema')
-                ->pluck('product_key')
-                ->filter()
-                ->values()
-                ->toArray();
-        });
     }
 }

@@ -7,6 +7,12 @@
         "opensid",
         "sistem-informasi-desa"
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/agungsugiarto/laravel-one-time-passwords"
+        }
+    ],
     "require": {
         "php": "^8.1",
         "codeigniter/framework": "^3.1",
@@ -58,6 +64,7 @@
         "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-fractal": "^6.2",
         "spatie/laravel-json-api-paginate": "^1.15",
+        "spatie/laravel-one-time-passwords": "dev-main",
         "spatie/laravel-query-builder": "^5.7",
         "spipu/html2pdf": "^5.2",
         "stechstudio/laravel-zipstream": "^5.0",
@@ -109,8 +116,8 @@
             "vendor/tinymce/tinymce": "assets/js/tinymce-72"
         },
         "google/apiclient-services": [
-            "Script",
-            "Drive"
+            "Drive",
+            "Script"
         ]
     },
     "scripts": {

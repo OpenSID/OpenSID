@@ -50,11 +50,9 @@ class VerifyNotification extends Notification
     /**
      * Get the notification's channels.
      *
-     * @param mixed $notifiable
-     *
      * @return array|string
      */
-    public function via($notifiable)
+    public function via(mixed $notifiable): array
     {
         return [$this->via];
     }
@@ -62,11 +60,9 @@ class VerifyNotification extends Notification
     /**
      * Build the mail representation of the notification.
      *
-     * @param mixed $notifiable
-     *
      * @return MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable)
     {
         return (new MailMessage())
             ->subject('Verifikasi Alamat Email')
@@ -76,7 +72,7 @@ class VerifyNotification extends Notification
             ]);
     }
 
-    public function toTelegram($notifiable)
+    public function toTelegram($notifiable): \NotificationChannels\Telegram\TelegramBase
     {
         return TelegramMessage::create()
             ->to($notifiable->getTelegramForVerification())
@@ -95,14 +91,12 @@ class VerifyNotification extends Notification
     /**
      * Get the verification URL for the given notifiable.
      *
-     * @param mixed $notifiable
-     *
      * @return string
      */
-    protected function verificationUrl($notifiable)
+    protected function verificationUrl(mixed $notifiable)
     {
-        $hash      = sha1($for = $this->via == 'mail' ? $notifiable->getEmailForVerification() : $notifiable->getTelegramForVerification());
-        $signature = hash_hmac('sha256', $for, config_item('encryption_key'));
+        $hash      = sha1((string) ($for = $this->via == 'mail' ? $notifiable->getEmailForVerification() : $notifiable->getTelegramForVerification()));
+        $signature = hash_hmac('sha256', (string) $for, config_item('encryption_key'));
         $expire    = strtotime(date('Y-m-d H:i:s') . ' +60 minutes');
         $via       = $this->via === 'mail' ? 'email' : 'telegram';
 

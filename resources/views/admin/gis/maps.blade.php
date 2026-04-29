@@ -42,9 +42,9 @@
                                         <label>Status Penduduk</label>
                                         <select class="form-control input-sm " name="filter" onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
                                             <option value="">Pilih Status Penduduk </option>
-                                            @foreach ($list_status_penduduk as $data)
-                                                <option value="{{ $data['id'] }}" @selected($filter == $data['id'])>
-                                                    {{ $data['nama'] }}</option>
+                                            @foreach ($list_status_penduduk as $key => $data)
+                                                <option value="{{ $key }}" @selected($filter == $key)>
+                                                    {{ $data }}</option>
                                             @endforeach
                                         </select>
                                     </div>

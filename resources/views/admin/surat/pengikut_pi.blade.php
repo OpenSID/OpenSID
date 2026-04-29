@@ -27,7 +27,7 @@
                             <td nowrap>{{ $data->nama }}</td>
                             <td nowrap>{{ $data->jenis_kelamin }}</td>
                             <td nowrap>{{ $data->tempatlahir }}, {{ tgl_indo($data->tanggallahir) }}</td>
-                            <td nowrap>{{ $data->pendudukHubungan->nama }}</td>
+                            <td nowrap>{{ $data->penduduk_hubungan }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -66,8 +66,8 @@
                         <tr data-row="{{ $data->id }}">
                             <td style="text-align: center;" class="padat">{{ $i }}</td>
                             <td>
-                                {{ $data?->pendidikan_k_k }}
-                                <input name="pi[{{ $data->nik }}][pendidikan_semula]" type="hidden" class="form-control input-sm" value="{{ $data?->pendidikan_k_k }}" />
+                                {{ $data?->pendidikan_kk }}
+                                <input name="pi[{{ $data->nik }}][pendidikan_semula]" type="hidden" class="form-control input-sm" value="{{ $data?->pendidikan_kk }}" />
                             </td>
                             <td>
                                 <input name="pi[{{ $data->nik }}][pendidikan_menjadi]" type="text" class="form-control input-sm" disabled />
@@ -125,7 +125,7 @@
                             <td nowrap>{{ $data->nama }}</td>
                             <td nowrap>{{ $data->jenisKelamin->nama }}</td>
                             <td nowrap>{{ $data->tempatlahir }}, {{ tgl_indo($data->tanggallahir) }}</td>
-                            <td nowrap>{{ $data->pendudukHubungan->nama }}</td>
+                            <td nowrap>{{ $data->penduduk_hubungan }}</td>
                         </tr>
                     @endforeach
                 </tbody>

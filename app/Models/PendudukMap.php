@@ -46,6 +46,8 @@ class PendudukMap extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
@@ -53,7 +55,6 @@ class PendudukMap extends BaseModel
      */
     protected $table = 'tweb_penduduk_map';
 
-    public $timestamps = false;
     protected $guarded = [];
 
     /**

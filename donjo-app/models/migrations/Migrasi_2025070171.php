@@ -323,15 +323,6 @@ class Migrasi_2025070171
         }
     }
 
-    protected function addIsPublikField()
-    {
-        if (! Schema::hasColumn('persil', 'is_publik')) {
-            Schema::table('persil', static function (Blueprint $table) {
-                $table->tinyInteger('is_publik')->default(1)->comment('1 = tampilkan di web publik, 0 = tidak ditampilkan di web publik');
-            });
-        }
-    }
-
     public function tambahPengaturanDTKS()
     {
         $this->createSetting([
@@ -421,39 +412,6 @@ class Migrasi_2025070171
         }
     }
 
-    protected function tambaPengaturanAnjungan()
-    {
-        $this->createSettings([
-            [
-                'judul'      => 'Warna Anjungan',
-                'key'        => 'warna_anjungan',
-                'value'      => 'nature',
-                'keterangan' => 'Pengaturan warna tampilan anjungan',
-                'jenis'      => 'select',
-                'option'     => json_encode([
-                    'nature' => 'Biru & Hijau',
-                    'travel' => 'Ungu & Pink',
-                    'casual' => 'Tosca & Orange',
-                ]),
-                'attribute' => null,
-                'kategori'  => 'anjungan',
-            ],
-            [
-                'judul'      => 'Pencahayaan Anjuangan',
-                'key'        => 'pencahayaan_anjungan',
-                'value'      => 'light',
-                'keterangan' => 'Pengaturan pencahayaan tampilan anjungan',
-                'jenis'      => 'select',
-                'option'     => json_encode([
-                    'light' => 'Terang',
-                    'dark'  => 'Gelap',
-                ]),
-                'attribute' => null,
-                'kategori'  => 'anjungan',
-            ],
-        ]);
-    }
-
     public function tambahKolomAdatPenduduk()
     {
         if (! Schema::hasColumn('tweb_penduduk', 'adat')) {
@@ -491,5 +449,47 @@ class Migrasi_2025070171
                 $table->timesWithUserstamps();
             });
         }
+    }
+
+    public function addIsPublikField()
+    {
+        if (! Schema::hasColumn('persil', 'is_publik')) {
+            Schema::table('persil', static function (Blueprint $table) {
+                $table->tinyInteger('is_publik')->default(1)->comment('1 = tampilkan di web publik, 0 = tidak ditampilkan di web publik');
+            });
+        }
+    }
+
+    public function tambaPengaturanAnjungan()
+    {
+        $this->createSettings([
+            [
+                'judul'      => 'Warna Anjungan',
+                'key'        => 'warna_anjungan',
+                'value'      => 'nature',
+                'keterangan' => 'Pengaturan warna tampilan anjungan',
+                'jenis'      => 'select',
+                'option'     => json_encode([
+                    'nature' => 'Biru & Hijau',
+                    'travel' => 'Ungu & Pink',
+                    'casual' => 'Tosca & Orange',
+                ]),
+                'attribute' => null,
+                'kategori'  => 'anjungan',
+            ],
+            [
+                'judul'      => 'Pencahayaan Anjuangan',
+                'key'        => 'pencahayaan_anjungan',
+                'value'      => 'light',
+                'keterangan' => 'Pengaturan pencahayaan tampilan anjungan',
+                'jenis'      => 'select',
+                'option'     => json_encode([
+                    'light' => 'Terang',
+                    'dark'  => 'Gelap',
+                ]),
+                'attribute' => null,
+                'kategori'  => 'anjungan',
+            ],
+        ]);
     }
 }

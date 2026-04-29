@@ -284,6 +284,58 @@ $(document).ready(function() {
         modal.find(".modal-title").text("");
     });
 
+    // Submit form via AJAX
+    $(document).on('submit', 'form.form-submit', function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var btn = form.find('button[type="submit"]');
+        var btnHtml = btn.html();
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            dataType: 'json',
+            beforeSend: function() {
+                // Hapus pesan error sebelumnya dan disable tombol sebelum request
+                form.find('.form-group').removeClass('has-error');
+                form.find('.help-block').remove();
+                btn.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...');
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, redirect atau reload
+                    if (response.redirect) {
+                        window.location.href = response.redirect;
+                    } else {
+                        location.reload();
+                    }
+                } else {
+                    // Jika validasi gagal, tampilkan pesan error
+                    $.each(response.errors, function(key, value) {
+                        var input = form.find('[name="' + key + '"]');
+                        var formGroup = input.closest('.form-group');
+                        formGroup.addClass('has-error');
+                        // Tambahkan elemen help-block jika belum ada
+                        if (formGroup.find('.help-block').length === 0) {
+                            input.after('<small class="help-block"></small>');
+                        }
+                        formGroup.find('.help-block').text(value[0]);
+                    });
+                    // Kembalikan tombol ke kondisi semula
+                    btn.attr('disabled', false).html(btnHtml);
+                }
+            },
+            error: function(xhr) {
+                // Handle error server yang tidak terduga
+                toastr.error('Terjadi kesalahan internal. Silakan coba lagi atau hubungi administrator.');
+                console.error(xhr.responseText);
+                // Kembalikan tombol ke kondisi semula
+                btn.attr('disabled', false).html(btnHtml);
+            },
+        });
+    });
+
     //Confirm Delete Modal
     $("#confirm-delete").on("show.bs.modal", function(e) {
         var string = document.getElementById("confirm-delete").innerHTML;
@@ -298,6 +350,8 @@ $(document).ready(function() {
         document.getElementById("confirm-delete").innerHTML = hasil2;
         $(this).find(".btn-ok").attr("href", $(e.relatedTarget).data("href"));
     });
+
+   
 
     $("#confirm-status").on("show.bs.modal", function(e) {
         $(this).find(".btn-ok").attr("href", $(e.relatedTarget).data("href"));
@@ -552,6 +606,17 @@ function enableHapusTerpilih() {
 function deleteAllBox(idForm, action) {
     $("#confirm-delete").modal("show");
     $("#ok-delete").click(function() {
+        $("#" + idForm).attr("action", action);
+        // addCsrfField($("#" + idForm)[0]);
+        refreshFormCsrf();
+        $("#" + idForm).submit();
+    });
+    return false;
+}
+
+function tambahRtmAllBox(idForm, action) {
+    $("#tambah-rtm").modal("show");
+    $("#ok-tambah-rtm").click(function() {
         $("#" + idForm).attr("action", action);
         // addCsrfField($("#" + idForm)[0]);
         refreshFormCsrf();
@@ -823,25 +888,19 @@ function ditolak(
         cancelButtonText: "Tutup",
         showLoaderOnConfirm: true,
         preConfirm: (alasan) => {
-            const formData = new FormData();
-            formData.append("sidcsrf", getCsrfToken());
-            formData.append("id", id);
-            formData.append("alasan", alasan);
-
-            return fetch(ajax_url, {
-                    method: "POST",
-                    body: formData,
-                })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(response.statusText);
-                    }
-                    return response.json();
-                })
-                .catch((error) => {
-                    console.log(error);
-                    Swal.showValidationMessage(`Request failed: ${error}`);
-                });
+            return $.ajax({
+                url: ajax_url,
+                type: "POST",
+                data: {
+                    id: id,
+                    alasan: alasan
+                },
+                dataType: 'json'
+            })
+            .fail((error) => {
+                console.log(error);
+                Swal.showValidationMessage(`Request failed: ${error.statusText}`);
+            });
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -926,3 +985,14 @@ function parseJwt(token) {
 
     return JSON.parse(jsonPayload);
 }
+
+// Handler baru untuk tombol dari split button
+$(document).on('click', '.aksi-tambah-rtm', function (e) {
+    e.preventDefault();
+
+    const form = $(this).data('form');
+    const url = $(this).data('url');
+
+    // Panggil fungsi lama yang sudah ada
+    tambahRtmAllBox(form, url);
+});

@@ -65,45 +65,6 @@ class Dtks extends Admin_Controller
         isCan('b');
     }
 
-    /**
-     * proses singkronisasi jumlah anggota dtks dengan anggota keluarga yg berubah
-     *
-     * @param mixed $rtm
-     */
-    protected function syncDtksRtm($rtm)
-    {
-        $semua_anggota = Penduduk::without([
-            'pekerjaan',
-            'cacat',
-            'pendudukStatus',
-            'wilayah',
-        ])
-            ->select('id', 'nama', 'id_rtm', 'rtm_level', 'id_kk', 'kk_level')
-            ->whereIn('id_rtm', $rtm->pluck('no_kk'))
-            ->get();
-        $semua_dtks = ModelDtks::select('id', 'id_rtm', 'id_keluarga', 'versi_kuisioner')
-            ->withCount('dtksAnggota')
-            ->whereIn('id_rtm', $rtm->pluck('id'))
-            ->get();
-
-        foreach ($rtm as $item) {
-            $dtks_rtm = $semua_dtks->where('id_rtm', $item->id);
-
-            if ($dtks_rtm->count() != 0) {
-                $jumlah_dtks_anggota = $dtks_rtm->reduce(static fn ($carry, $item) => $carry + $item->dtks_anggota_count);
-                $jumlah_anggota_rt   = $semua_anggota->where('id_rtm', $item->no_kk)->count();
-
-                if ($jumlah_anggota_rt != $jumlah_dtks_anggota) {
-                    foreach ($dtks_rtm as $dtks) {
-                        if ($dtks->versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {
-                            return (new DTKSRegsosEk2022k())->generateDefaultDtks($dtks);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public function index()
     {
         $rtm = Rtm::with([
@@ -112,7 +73,6 @@ class Dtks extends Admin_Controller
                 $builder->without([
                     'pekerjaan',
                     'cacat',
-                    'pendudukStatus',
                     'wilayah',
                 ]);
             },
@@ -213,7 +173,6 @@ class Dtks extends Admin_Controller
                 $builder->without([
                     'pekerjaan',
                     'cacat',
-                    'pendudukStatus',
                     'wilayah',
                 ]);
             },
@@ -370,20 +329,6 @@ class Dtks extends Admin_Controller
         }
     }
 
-    protected function synchroniseDTKSWithOpenSid(ModelDtks $dtks)
-    {
-        $config = Config::first();
-
-        if (! $config) {
-            session_error(' : Konfigurasi tidak ditemukan');
-            redirect_with('error', 'Konfigurasi tidak ditemukan', ci_route('dtks'));
-        }
-
-        if ($dtks->versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {
-            $dtks = (new DTKSRegsosEk2022k())->syncronizeWithOpenSid($dtks);
-        }
-    }
-
     /**
      * savePengaturan
      *
@@ -483,5 +428,57 @@ class Dtks extends Admin_Controller
         }
 
         return json(['message' => 'Tidak melakukan apapun'], 200);
+    }
+
+    /**
+     * proses singkronisasi jumlah anggota dtks dengan anggota keluarga yg berubah
+     *
+     * @param mixed $rtm
+     */
+    protected function syncDtksRtm($rtm)
+    {
+        $semua_anggota = Penduduk::without([
+            'pekerjaan',
+            'cacat',
+            'wilayah',
+        ])
+            ->select('id', 'nama', 'id_rtm', 'rtm_level', 'id_kk', 'kk_level')
+            ->whereIn('id_rtm', $rtm->pluck('no_kk'))
+            ->get();
+        $semua_dtks = ModelDtks::select('id', 'id_rtm', 'id_keluarga', 'versi_kuisioner')
+            ->withCount('dtksAnggota')
+            ->whereIn('id_rtm', $rtm->pluck('id'))
+            ->get();
+
+        foreach ($rtm as $item) {
+            $dtks_rtm = $semua_dtks->where('id_rtm', $item->id);
+
+            if ($dtks_rtm->count() != 0) {
+                $jumlah_dtks_anggota = $dtks_rtm->reduce(static fn ($carry, $item) => $carry + $item->dtks_anggota_count);
+                $jumlah_anggota_rt   = $semua_anggota->where('id_rtm', $item->no_kk)->count();
+
+                if ($jumlah_anggota_rt != $jumlah_dtks_anggota) {
+                    foreach ($dtks_rtm as $dtks) {
+                        if ($dtks->versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {
+                            return (new DTKSRegsosEk2022k())->generateDefaultDtks($dtks);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    protected function synchroniseDTKSWithOpenSid(ModelDtks $dtks)
+    {
+        $config = Config::first();
+
+        if (! $config) {
+            session_error(' : Konfigurasi tidak ditemukan');
+            redirect_with('error', 'Konfigurasi tidak ditemukan', ci_route('dtks'));
+        }
+
+        if ($dtks->versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {
+            $dtks = (new DTKSRegsosEk2022k())->syncronizeWithOpenSid($dtks);
+        }
     }
 }

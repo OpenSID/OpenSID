@@ -55,7 +55,7 @@ class SecureCloudUrl implements ValidationRule
             return;
         }
 
-        $parsedUrl = parse_url($value);
+        $parsedUrl = parse_url((string) $value);
         $scheme    = strtolower($parsedUrl['scheme'] ?? '');
         $host      = strtolower($parsedUrl['host'] ?? '');
 
@@ -78,6 +78,30 @@ class SecureCloudUrl implements ValidationRule
         }
 
         $fail("Domain '{$host}' tidak diizinkan. Gunakan layanan cloud storage yang didukung.");
+    }
+
+    /**
+     * Get the list of trusted cloud domains.
+     */
+    public function getTrustedDomains(): array
+    {
+        return [
+            'drive.google.com',
+            'onedrive.live.com',
+            '1drv.ms',
+            'dropbox.com',
+            'www.dropbox.com',
+            'dl.dropboxusercontent.com',
+            'box.com',
+            'app.box.com',
+            'mega.nz',
+            'mega.co.nz',
+            'amazonaws.com',
+            's3.amazonaws.com',
+            'mediafire.com',
+            'wetransfer.com',
+            'we.tl',
+        ];
     }
 
     private function isValidScheme(string $scheme): bool
@@ -137,29 +161,5 @@ class SecureCloudUrl implements ValidationRule
         }
 
         return false;
-    }
-
-    /**
-     * Get the list of trusted cloud domains.
-     */
-    public function getTrustedDomains(): array
-    {
-        return [
-            'drive.google.com',
-            'onedrive.live.com',
-            '1drv.ms',
-            'dropbox.com',
-            'www.dropbox.com',
-            'dl.dropboxusercontent.com',
-            'box.com',
-            'app.box.com',
-            'mega.nz',
-            'mega.co.nz',
-            'amazonaws.com',
-            's3.amazonaws.com',
-            'mediafire.com',
-            'wetransfer.com',
-            'we.tl',
-        ];
     }
 }

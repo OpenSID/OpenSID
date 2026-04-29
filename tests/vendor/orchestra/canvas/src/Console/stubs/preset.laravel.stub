@@ -1,7 +1,0 @@
-
-preset: laravel
-
-namespace: DummyNamespace
-
-model:
-  namespace: DummyNamespace

@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\EloquentSortable\SortableTrait;
@@ -49,8 +50,28 @@ class Galery extends BaseModel
 {
     use ConfigId;
     use SortableTrait;
+    use StatusTrait;
 
     public const PARRENT = 0;
+
+    /**
+     * {@inheritDoc}
+     */
+    public $timestamps = false;
+
+    public $statusColumName = 'enabled';
+
+    /**
+     * {@inheritDoc}
+     */
+
+    /**
+     * {@inheritDoc}
+     */
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => false,
+    ];
 
     /**
      * {@inheritDoc}
@@ -67,24 +88,7 @@ class Galery extends BaseModel
     /**
      * {@inheritDoc}
      */
-    public $timestamps = false;
-
-    /**
-     * {@inheritDoc}
-     */
     protected $appends = ['url_gambar'];
-
-    /**
-     * {@inheritDoc}
-     */
-
-    /**
-     * {@inheritDoc}
-     */
-    public $sortable = [
-        'order_column_name'  => 'urut',
-        'sort_when_creating' => false,
-    ];
 
     public static function boot(): void
     {
@@ -118,14 +122,16 @@ class Galery extends BaseModel
         }
     }
 
-    protected function scopeChild($query, int $parent)
+    public static function widget()
     {
-        return $query->whereParrent($parent);
-    }
+        $jumlah = setting('jumlah_album_galeri') ?: 4;
+        $urut   = setting('urutan_gambar_galeri') ?: 'acak';
 
-    protected function scopeActive($query)
-    {
-        return $query->whereEnabled(StatusEnum::YA);
+        return self::where('enabled', 1)
+            ->where('parrent', 0)
+            ->when($urut === 'acak', static fn ($query) => $query->inRandomOrder(), static fn ($query) => $query->orderBy('urut', $urut))
+            ->limit($jumlah)
+            ->get();
     }
 
     public function isActive(): bool
@@ -171,15 +177,13 @@ class Galery extends BaseModel
             ->orderBy('urut', 'ASC');
     }
 
-    public static function widget()
+    protected function scopeChild($query, int $parent)
     {
-        $jumlah = setting('jumlah_album_galeri') ?: 4;
-        $urut   = setting('urutan_gambar_galeri') ?: 'acak';
+        return $query->whereParrent($parent);
+    }
 
-        return self::where('enabled', 1)
-            ->where('parrent', 0)
-            ->when($urut === 'acak', static fn ($query) => $query->inRandomOrder(), static fn ($query) => $query->orderBy('urut', $urut))
-            ->limit($jumlah)
-            ->get();
+    protected function scopeActive($query)
+    {
+        return $query->whereEnabled(StatusEnum::YA);
     }
 }

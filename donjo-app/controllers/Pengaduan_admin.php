@@ -63,20 +63,6 @@ class Pengaduan_admin extends Admin_Controller
         return view('admin.pengaduan_warga.index', $data);
     }
 
-    protected function widget(): array
-    {
-        return [
-            'allstatus'   => Pengaduan::status()->count(),
-            'status1'     => Pengaduan::status(StatusPengaduanEnum::MENUNGGU_DIPROSES)->count(),
-            'status2'     => Pengaduan::status(StatusPengaduanEnum::SEDANG_DIPROSES)->count(),
-            'status3'     => Pengaduan::status(StatusPengaduanEnum::SELESAI_DIPROSES)->count(),
-            'm_allstatus' => Pengaduan::bulanan()->count(),
-            'm_status1'   => Pengaduan::bulanan(StatusPengaduanEnum::MENUNGGU_DIPROSES)->count(),
-            'm_status2'   => Pengaduan::bulanan(StatusPengaduanEnum::SEDANG_DIPROSES)->count(),
-            'm_status3'   => Pengaduan::bulanan(StatusPengaduanEnum::SELESAI_DIPROSES)->count(),
-        ];
-    }
-
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
@@ -185,5 +171,19 @@ class Pengaduan_admin extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    protected function widget(): array
+    {
+        return [
+            'allstatus'   => Pengaduan::status()->count(),
+            'status1'     => Pengaduan::status(StatusPengaduanEnum::MENUNGGU_DIPROSES)->count(),
+            'status2'     => Pengaduan::status(StatusPengaduanEnum::SEDANG_DIPROSES)->count(),
+            'status3'     => Pengaduan::status(StatusPengaduanEnum::SELESAI_DIPROSES)->count(),
+            'm_allstatus' => Pengaduan::bulanan()->count(),
+            'm_status1'   => Pengaduan::bulanan(StatusPengaduanEnum::MENUNGGU_DIPROSES)->count(),
+            'm_status2'   => Pengaduan::bulanan(StatusPengaduanEnum::SEDANG_DIPROSES)->count(),
+            'm_status3'   => Pengaduan::bulanan(StatusPengaduanEnum::SELESAI_DIPROSES)->count(),
+        ];
     }
 }

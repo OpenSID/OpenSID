@@ -42,6 +42,7 @@ class Lapak extends Web_Controller
     public function __construct()
     {
         parent::__construct();
+
         $this->hak_akses_menu('lapak');
     }
 

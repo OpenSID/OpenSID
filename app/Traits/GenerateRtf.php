@@ -56,14 +56,14 @@ trait GenerateRtf
             $i++;
             $nama              .= $ranggota['nama'] . '\\line ';
             $no                .= $i . '\\line ';
-            $hubungan          .= \App\Enums\SHDKEnum::valueOf($ranggota['kk_level']) . '\\line ';
+            $hubungan          .= $ranggota['penduduk_hubungan'] . '\\line ';
             $nik               .= $ranggota['nik'] . '\\line ';
             $sex               .= ($ranggota['jenis_kelamin']) . '\\line ';
             $tempatlahir       .= $ranggota['tempatlahir'] . '\\line ';
             $tanggallahir      .= tgl_indo($ranggota['tanggallahir']) . '\\line ';
             $agama             .= ($ranggota['agama']) . '\\line ';
             $pendidikan        .= ($ranggota['pendidikan_kk'] ?? '') . '\\line ';
-            $pekerjaan         .= ($ranggota['pekerjaan']['nama'] ?? '') . '\\line ';
+            $pekerjaan         .= ($ranggota['pekerjaan'] ?? '') . '\\line ';
             $status_kawin      .= ($ranggota['status_perkawinan'] ?? '') . '\\line ';
             $warganegara       .= ($ranggota['warganegara']) . '\\line ';
             $dokumen_pasport   .= $ranggota['dokumen_pasport'] . '\\line ';

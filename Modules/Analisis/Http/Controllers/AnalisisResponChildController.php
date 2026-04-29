@@ -101,6 +101,13 @@ class AnalisisResponChildController extends AnalisisResponController
         return $data;
     }
 
+    public function getPeriodeChild()
+    {
+        $idChild = $this->analisisMaster->id_child;
+
+        return AnalisisPeriode::select('id')->where('id_master', $idChild)->where('aktif', 1)->first()->id;
+    }
+
     private function listJawab4($id = 0, $in = 0, $per = 0)
     {
         $delik = session('delik');
@@ -123,12 +130,5 @@ class AnalisisResponChildController extends AnalisisResponController
             ->where(['analisis_respon.id_indikator' => $in, 'analisis_respon.id_subjek' => $id, 'analisis_respon.id_periode' => $per])
             ->get()
             ->toArray();
-    }
-
-    public function getPeriodeChild()
-    {
-        $idChild = $this->analisisMaster->id_child;
-
-        return AnalisisPeriode::select('id')->where('id_master', $idChild)->where('aktif', 1)->first()->id;
     }
 }

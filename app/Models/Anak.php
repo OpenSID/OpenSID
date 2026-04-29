@@ -119,18 +119,18 @@ class Anak extends BaseModel
     ];
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'bulanan_anak';
-
-    /**
      * The table update parameter.
      *
      * @var string
      */
     public $primaryKey = 'id_bulanan_anak';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'bulanan_anak';
 
     /**
      * The guarded with the model.
@@ -166,6 +166,21 @@ class Anak extends BaseModel
         return $query;
     }
 
+    public function isNormal()
+    {
+        return $this->attributes['status_gizi'] == self::NORMAL;
+    }
+
+    public function isResikoStunting()
+    {
+        return in_array($this->attributes['status_gizi'], [self::GIZI_BURUK, self::GIZI_KURANG]);
+    }
+
+    public function isStunting()
+    {
+        return $this->attributes['status_gizi'] == self::STUNTING;
+    }
+
     protected function scopeNormal($query)
     {
         return $query->where('status_gizi', self::NORMAL);
@@ -184,20 +199,5 @@ class Anak extends BaseModel
     protected function scopeStuntingPendek($query)
     {
         return $query->stunting()->whereIn('status_tikar', [self::TB_PENDEK, self::TB_SANGAT_PENDEK]);
-    }
-
-    public function isNormal()
-    {
-        return $this->attributes['status_gizi'] == self::NORMAL;
-    }
-
-    public function isResikoStunting()
-    {
-        return in_array($this->attributes['status_gizi'], [self::GIZI_BURUK, self::GIZI_KURANG]);
-    }
-
-    public function isStunting()
-    {
-        return $this->attributes['status_gizi'] == self::STUNTING;
     }
 }

@@ -19,7 +19,7 @@
             </select>
         </div>
         <div class="space-y-2">
-            <label for="email" class="text-xs lg:text-sm">Kategori</label>
+            <label for="email" class="text-xs lg:text-sm">Jenis Peraturan</label>
             <select class="form-control input-sm" id="list_kategori" name="kategori">
                 <option selected="" value="">Semua</option>
             </select>
@@ -32,7 +32,7 @@
                     <tr>
                         <th>No</th>
                         <th>Judul Produk Hukum</th>
-                        <th>Jenis</th>
+                        <th>Jenis Peraturan</th>
                         <th>Tahun</th>
                         <th>Aksi</th>
                     </tr>
@@ -135,9 +135,13 @@
                         searchable: false,
                         orderable: false,
                         render: (data, type, row) => {
-                            return `<button class="btn btn-xs btn-primary lihat-dokumen"
-                                    data-nama="${row.attributes.nama}"
-                                    data-file="${row.attributes.satuan}">Lihat</button>`;
+                            if (row.attributes.satuan || row.attributes.url) {
+                                return `<button class="btn btn-xs btn-primary lihat-dokumen"
+                                        data-nama="${row.attributes.nama}"
+                                        data-url="${row.attributes.url}"
+                                        data-file="${row.attributes.satuan}">Lihat</button>`;
+                            }
+                            return '';
                         }
                     }
                 ],
@@ -188,12 +192,29 @@
                     showConfirmButton: false,
                     showCancelButton: false,
                     didOpen: () => {
-                        $(".unduh-dokumen").on("click", function() {
+                        $(".unduh-dokumen").on("click", function(e) {
+                            e.preventDefault();
                             let pdfUrl = $(this).data("file");
                             let fileName = $(this).data("nama") || "document.pdf";
+
+                            if (pdfUrl.includes("drive.google.com")) {
+                                let fileId = '';
+                                if (pdfUrl.includes('/d/')) {
+                                    fileId = pdfUrl.split('/d/')[1].split('/')[0];
+                                } else if (pdfUrl.includes('id=')) {
+                                    const urlParams = new URLSearchParams(new URL(pdfUrl).search);
+                                    fileId = urlParams.get('id');
+                                }
+
+                                if (fileId) {
+                                    pdfUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+                                }
+                            }
+
                             let link = $("<a>")
                                 .attr("href", pdfUrl)
                                 .attr("download", fileName)
+                                .css("display", "none")
                                 .appendTo("body");
 
                             link[0].click();

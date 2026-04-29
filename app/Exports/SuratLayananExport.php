@@ -47,7 +47,7 @@ class SuratLayananExport
         $this->id = $id;
     }
 
-    public function filename()
+    public function filename(): string
     {
         return 'template-surat-tinymce.json';
     }
@@ -60,15 +60,13 @@ class SuratLayananExport
         $setting_penduduk_luar = json_decode($setting_penduduk_luar, true);
         $setting_penduduk_luar = collect($setting_penduduk_luar)->except([2, 3])->toArray();
 
-        $dataExport = $dataExport->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
-            ->map(static function ($item) use ($setting_penduduk_luar) {
+        return $dataExport->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
+            ->map(static function (array $item) use ($setting_penduduk_luar) {
                 $item['penduduk_luar'] = $setting_penduduk_luar;
 
                 return $item;
             })
             ->toArray();
-
-        return $dataExport;
     }
 
     public function download()

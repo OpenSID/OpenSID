@@ -49,6 +49,15 @@ class SeedMakeCommand extends GeneratorCommand
     protected $signature = 'module:make-seeder {name} {module}';
 
     /**
+     * Execute the console command.
+     */
+    public function handle(): void
+    {
+        parent::handle();
+        $this->info('Seeder has been created successfully!');
+    }
+
+    /**
      * Get the stub file for the generator.
      *
      * @return string
@@ -68,15 +77,6 @@ class SeedMakeCommand extends GeneratorCommand
     protected function getPath($name)
     {
         return base_path('Modules/' . $this->argument('module') . '/Database/Seeders/' . $this->argument('name') . '.php');
-    }
-
-    /**
-     * Execute the console command.
-     */
-    public function handle(): void
-    {
-        parent::handle();
-        $this->info('Seeder has been created successfully!');
     }
 
     /**

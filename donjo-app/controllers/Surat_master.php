@@ -37,6 +37,7 @@
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\StatusEnum;
 use App\Exports\SuratLayananExport;
 use App\Libraries\TinyMCE;
@@ -46,7 +47,6 @@ use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
 use App\Models\SettingAplikasi;
-use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
 use App\Traits\Upload;
@@ -62,8 +62,8 @@ class Surat_master extends Admin_Controller
 
     public $modul_ini     = 'layanan-surat';
     public $sub_modul_ini = 'pengaturan-surat';
-    private $reference;
     protected TinyMCE $tinymce;
+    private $reference;
 
     public function __construct()
     {
@@ -71,6 +71,49 @@ class Surat_master extends Admin_Controller
         isCan('b');
         $this->tinymce = new TinyMCE();
         $this->load->library('upload');
+    }
+
+    protected static function validasi_pengaturan($request)
+    {
+        $validasi = [
+            'tinggi_header'                  => (float) $request['tinggi_header'],
+            'header_surat'                   => $request['header_surat'],
+            'tinggi_footer'                  => (float) $request['tinggi_footer'],
+            'verifikasi_sekdes'              => (int) $request['verifikasi_sekdes'],
+            'verifikasi_kades'               => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
+            'tte'                            => (int) $request['tte'],
+            'font_surat'                     => alfanumerik_spasi($request['font_surat']),
+            'penomoran_surat'                => $request['penomoran_surat'],
+            'panjang_nomor_surat'            => $request['panjang_nomor_surat'],
+            'visual_tte'                     => (int) $request['visual_tte'],
+            'visual_tte_weight'              => (int) $request['visual_tte_weight'],
+            'visual_tte_height'              => (int) $request['visual_tte_height'],
+            'ssl_tte'                        => (int) $request['ssl_tte'],
+            'format_nomor_surat'             => $request['format_nomor_surat'],
+            'ganti_data_kosong'              => $request['ganti_data_kosong'],
+            'format_tanggal_surat'           => $request['format_tanggal_surat'],
+            'surat_margin'                   => json_encode($request['surat_margin'], JSON_THROW_ON_ERROR),
+            'form_penduduk_luar'             => json_encode(updateIndex($request['penduduk_luar']), JSON_THROW_ON_ERROR),
+            'kodeisian_alias'                => $request['alias_kodeisian'] ? ['judul' => $request['judul_kodeisian'], 'alias' => $request['alias_kodeisian'], 'content' => $request['content_kodeisian']] : null,
+            'sumber_penduduk_berulang_surat' => $request['sumber_penduduk_berulang_surat'],
+        ];
+
+        if ($validasi['tte'] == StatusEnum::YA) {
+            $validasi['footer_surat_tte'] = $request['footer_surat_tte'];
+            $validasi['tte_api']          = alamat_web($request['tte_api']);
+            $validasi['tte_username']     = $request['tte_username'];
+            if ($request['tte_password'] != '') {
+                $validasi['tte_password'] = $request['tte_password'];
+            }
+        } else {
+            $validasi['footer_surat'] = $request['footer_surat'];
+        }
+
+        if ($request['visual_tte_gambar'] != null) {
+            $validasi['visual_tte_gambar'] = $request['visual_tte_gambar'];
+        }
+
+        return $validasi;
     }
 
     public function index()
@@ -230,15 +273,6 @@ class Surat_master extends Admin_Controller
         return show_404();
     }
 
-    private function form_isian(): array
-    {
-        return [
-            'daftar_jenis_kelamin' => JenisKelaminEnum::all(),
-            'daftar_status_dasar'  => StatusDasar::pluck('nama', 'id'),
-            'daftar_shdk'          => SHDKEnum::all(),
-        ];
-    }
-
     public function syaratSuratDatatables($id = null)
     {
         if ($this->input->is_ajax_request()) {
@@ -338,6 +372,309 @@ class Surat_master extends Admin_Controller
         }
 
         return json(['success' => false, 'message' => 'Gagal Tambah Data'], 500);
+    }
+
+    public function kodeIsian($id = null)
+    {
+        $suratMaster = FormatSurat::select(['kode_isian'])->first($id) ?? show_404();
+
+        return view('admin.pengaturan_surat.kode_isian', ['suratMaster' => $suratMaster]);
+    }
+
+    public function kunci($id = null): void
+    {
+        isCan('u');
+
+        if (FormatSurat::gantiStatus($id, 'kunci')) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+
+        redirect_with('error', 'Gagal Ubah Data');
+    }
+
+    public function favorit($id = null): void
+    {
+        isCan('u');
+
+        if (FormatSurat::gantiStatus($id, 'favorit')) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+
+        redirect_with('error', 'Gagal Ubah Data');
+    }
+
+    public function delete($id = null): void
+    {
+        isCan('h');
+
+        $suratSistem = FormatSurat::sistem()->whereIn('id', $this->request['id_cb'] ?? [$id])->count();
+
+        if ($suratSistem) {
+            redirect_with('error', 'Gagal Hapus Data, Surat Bawaan Sistem Tidak Dapat Dihapus');
+        }
+
+        $suratLog = LogSurat::whereIn('id_format_surat', $this->request['id_cb'] ?? [$id])->count();
+
+        if ($suratLog) {
+            redirect_with('error', 'Gagal Hapus Data, Surat Sudah Digunakan');
+        }
+
+        if (FormatSurat::destroy($this->request['id_cb'] ?? $id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function pengaturan()
+    {
+        $this->set_hak_akses_rfm();
+        $data['font_option']     = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
+        $data['penomoran_surat'] = SettingAplikasi::where('key', '=', 'penomoran_surat')->first();
+        $data['tte_demo']        = empty(setting('tte_api')) || get_domain(setting('tte_api')) === get_domain(APP_URL);
+        $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
+        $data['sekdes']          = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
+        $data['aksi']            = ci_route('surat_master.update');
+        $data['formAksi']        = ci_route('surat_master.edit_pengaturan');
+        $margin                  = setting('surat_margin');
+        $data['margins']         = json_decode((string) $margin, null) ?? FormatSurat::MARGINS;
+        $data['penduduk_luar']   = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
+        $data['alias']           = AliasKodeIsian::get();
+        $data['p_luar_map']      = KodeIsianPendudukLuar::getLabels();
+
+        return view('admin.pengaturan_surat.pengaturan', $data);
+    }
+
+    public function edit_pengaturan(): void
+    {
+        isCan('u');
+        $data = static::validasi_pengaturan($this->request);
+
+        if (! empty($_FILES['font_custom']['name'])) {
+            $this->upload->initialize([
+                'file_name'     => $_FILES['font_custom']['name'],
+                'upload_path'   => LOKASI_FONT_DESA,
+                'allowed_types' => 'ttf',
+                'max_size'      => 2048,
+                'overwrite'     => true,
+            ]);
+
+            if ($this->upload->do_upload('font_custom')) {
+                $font = TCPDF_FONTS::addTTFfont(
+                    $this->upload->data('full_path'),
+                    '',
+                    '',
+                    32,
+                    realpath(LOKASI_FONT_DESA) . DIRECTORY_SEPARATOR
+                );
+
+                if ($font) {
+                    // Merge font yang sudah di tambahkan ke option setting.
+                    $font_surat         = SettingAplikasi::where('key', 'font_surat')->first();
+                    $font_surat->option = array_unique(array_merge($font_surat->option, [$font]));
+                    $font_surat->save();
+
+                    rename($this->upload->data('full_path'), LOKASI_FONT_DESA . "{$font}.ttf");
+                }
+            } else {
+                redirect_with('error', $this->upload->display_errors());
+            }
+        }
+
+        foreach ($data as $key => $value) {
+            SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
+        }
+
+        // upload gambar visual tte
+        if ($_FILES['visual_tte_gambar'] && $_FILES['visual_tte_gambar']['name'] != '') {
+            $file = $this->uploadGambar('visual_tte_gambar', LOKASI_MEDIA, null, false);
+            $file ? SettingAplikasi::where('key', '=', 'visual_tte_gambar')->update(['value' => $file]) : redirect_with('error', $this->upload->display_errors(null, null));
+        }
+
+        if ($data['kodeisian_alias']) {
+            $judulAlias   = $data['kodeisian_alias']['judul'];
+            $contentAlias = $data['kodeisian_alias']['content'];
+            AliasKodeIsian::whereNotIn('judul', $data['kodeisian_alias']['judul'])->delete();
+
+            foreach ($data['kodeisian_alias']['alias'] as $index => $alias) {
+                // observer gak jalan ketika menggunakan upsert
+                AliasKodeIsian::upsert(['updated_by' => ci_auth()->id, 'config_id' => identitas('id'), 'judul' => $judulAlias[$index], 'alias' => $alias, 'content' => $contentAlias[$index]], ['config_id', 'judul']);
+            }
+        } else {
+            AliasKodeIsian::whereConfigId(identitas('id'))->delete();
+        }
+        (new SettingAplikasi())->flushQueryCache();
+        // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
+        if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
+            LogSurat::where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
+
+            redirect_with('success', 'Berhasil Ubah Data dan Perbaharui Log Surat');
+        }
+
+        redirect_with('success', 'Berhasil Ubah Data');
+    }
+
+    public function pengaturan_sementara()
+    {
+        $data = [
+            'tinggi_header' => (float) $this->input->post('tinggi_header'),
+            'tinggi_footer' => (float) $this->input->post('tinggi_footer'),
+            'font_surat'    => alfanumerik_spasi($this->input->post('font_surat')),
+            'surat_margin'  => json_encode($this->input->post('surat_margin'), JSON_THROW_ON_ERROR),
+        ];
+
+        $this->session->set_userdata('pengaturan_surat', $data);
+
+        return json('Berhasil mengubah data');
+    }
+
+    public function kode_isian($jenis = 'isi', $id = null)
+    {
+        if ($this->input->is_ajax_request()) {
+            $log_surat['surat'] = FormatSurat::find($id);
+            $kode_isian         = $this->tinymce->getFormatedKodeIsian($log_surat);
+
+            return json($kode_isian);
+        }
+
+        return show_404();
+    }
+
+    public function salin_template($jenis = 'isi')
+    {
+        if ($this->input->is_ajax_request()) {
+            $template = $jenis == 'isi' ? $this->tinymce->getTemplateSurat() : $this->tinymce->getTemplate();
+
+            return json($template);
+        }
+
+        return show_404();
+    }
+
+    public function preview()
+    {
+        // konversi request agar formatnya sama
+        $request             = static::validate($this->request);
+        $request['id_surat'] = $this->request['id_surat'] ?? null;
+
+        try {
+            $preview   = $this->tinymce->getPreview(request: $request, redirect: false);
+            $isi_cetak = $preview->getResult();
+
+            // Ubah jadi format pdf
+            $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], $isi_cetak);
+
+            if ($this->request['margin_global'] == 1) {
+                $margins = setting('surat_margin_cm_to_mm');
+            } else {
+                $margins = [
+                    $this->request['kiri'] * 10,
+                    $this->request['atas'] * 10,
+                    $this->request['kanan'] * 10,
+                    $this->request['bawah'] * 10,
+                ];
+            }
+
+            $cetak       = ['surat' => $this->request];
+            $defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
+            $this->tinymce->generateSurat($isi_cetak, $cetak, $margins, $defaultFont);
+
+            $this->tinymce->generateLampiran($preview->getData('id_pend'), $preview->getData(), $preview->getData('input'));
+            $this->tinymce->pdfMerge->merge('document.pdf', 'I');
+        } catch (Html2PdfException $e) {
+            $formatter = new ExceptionFormatter($e);
+            logger()->error($e);
+
+            return $this->output
+                ->set_status_header(404, str_replace("\n", ' ', $formatter->getMessage()))
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'statusText' => $formatter->getMessage(),
+                ], JSON_THROW_ON_ERROR));
+        }
+    }
+
+    public function ekspor()
+    {
+        isCan('u');
+
+        $id = $this->request['id_cb'];
+
+        if (null === $id || count($id) === 0) {
+            redirect_with('error', 'Tidak ada surat yang dipilih.');
+        }
+
+        return (new SuratLayananExport($id))->download();
+    }
+
+    public function impor_filter($data)
+    {
+        set_session('data_impor_surat', $data);
+
+        return view('admin.pengaturan_surat.impor_select', [
+            'data' => $data,
+        ]);
+    }
+
+    public function impor_store(): void
+    {
+        isCan('u');
+
+        $id = $this->request['id_cb'];
+
+        if (null === $id) {
+            redirect_with('error', 'Tidak ada surat yang dipilih.');
+        }
+
+        $proses = $this->prosesImport(session('data_impor_surat'), $id);
+
+        if (isset($proses['error'])) {
+            redirect_with('error', $proses['error']);
+        }
+
+        redirect_with('success', 'Berhasil Impor Data');
+    }
+
+    public function impor(): void
+    {
+        isCan('u');
+        $config['upload_path']   = sys_get_temp_dir();
+        $config['allowed_types'] = 'json';
+        $config['overwrite']     = true;
+        $config['max_size']      = max_upload() * 1024;
+        $config['file_name']     = time() . '_template-surat-tinymce.json';
+
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('userfile')) {
+            $list_data = $this->formatImport(file_get_contents($this->upload->data()['full_path']));
+            if ($list_data) {
+                $this->impor_filter($list_data);
+            }
+        }
+
+        redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
+    }
+
+    public function bawaan(): void
+    {
+        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json');
+
+        $file_name = namafile('Template Surat Layanan') . '.json';
+
+        $this->output
+            ->set_header("Content-Disposition: attachment; filename={$file_name}")
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output($list_data);
+    }
+
+    private function form_isian(): array
+    {
+        return [
+            'daftar_jenis_kelamin' => JenisKelaminEnum::all(),
+            'daftar_status_dasar'  => StatusDasarEnum::all(),
+            'daftar_shdk'          => SHDKEnum::all(),
+        ];
     }
 
     private function checkTags($template_desa, $id = null): void
@@ -538,325 +875,6 @@ class Surat_master extends Admin_Controller
         return $data;
     }
 
-    public function kodeIsian($id = null)
-    {
-        $suratMaster = FormatSurat::select(['kode_isian'])->first($id) ?? show_404();
-
-        return view('admin.pengaturan_surat.kode_isian', ['suratMaster' => $suratMaster]);
-    }
-
-    public function kunci($id = null): void
-    {
-        isCan('u');
-
-        if (FormatSurat::gantiStatus($id, 'kunci')) {
-            redirect_with('success', 'Berhasil Ubah Data');
-        }
-
-        redirect_with('error', 'Gagal Ubah Data');
-    }
-
-    public function favorit($id = null): void
-    {
-        isCan('u');
-
-        if (FormatSurat::gantiStatus($id, 'favorit')) {
-            redirect_with('success', 'Berhasil Ubah Data');
-        }
-
-        redirect_with('error', 'Gagal Ubah Data');
-    }
-
-    public function delete($id = null): void
-    {
-        isCan('h');
-
-        $suratSistem = FormatSurat::sistem()->whereIn('id', $this->request['id_cb'] ?? [$id])->count();
-
-        if ($suratSistem) {
-            redirect_with('error', 'Gagal Hapus Data, Surat Bawaan Sistem Tidak Dapat Dihapus');
-        }
-
-        if (FormatSurat::destroy($this->request['id_cb'] ?? $id)) {
-            redirect_with('success', 'Berhasil Hapus Data');
-        }
-
-        redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    public function pengaturan()
-    {
-        $this->set_hak_akses_rfm();
-        $data['font_option']     = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
-        $data['penomoran_surat'] = SettingAplikasi::where('key', '=', 'penomoran_surat')->first();
-        $data['tte_demo']        = empty(setting('tte_api')) || get_domain(setting('tte_api')) === get_domain(APP_URL);
-        $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
-        $data['sekdes']          = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
-        $data['aksi']            = ci_route('surat_master.update');
-        $data['formAksi']        = ci_route('surat_master.edit_pengaturan');
-        $margin                  = setting('surat_margin');
-        $data['margins']         = json_decode((string) $margin, null) ?? FormatSurat::MARGINS;
-        $data['penduduk_luar']   = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
-        $data['alias']           = AliasKodeIsian::get();
-        $data['p_luar_map']      = KodeIsianPendudukLuar::getLabels();
-
-        return view('admin.pengaturan_surat.pengaturan', $data);
-    }
-
-    public function edit_pengaturan(): void
-    {
-        isCan('u');
-        $data = static::validasi_pengaturan($this->request);
-
-        if (! empty($_FILES['font_custom']['name'])) {
-            $this->upload->initialize([
-                'file_name'     => $_FILES['font_custom']['name'],
-                'upload_path'   => LOKASI_FONT_DESA,
-                'allowed_types' => 'ttf',
-                'max_size'      => 2048,
-                'overwrite'     => true,
-            ]);
-
-            if ($this->upload->do_upload('font_custom')) {
-                $font = TCPDF_FONTS::addTTFfont(
-                    $this->upload->data('full_path'),
-                    '',
-                    '',
-                    32,
-                    realpath(LOKASI_FONT_DESA) . DIRECTORY_SEPARATOR
-                );
-
-                if ($font) {
-                    // Merge font yang sudah di tambahkan ke option setting.
-                    $font_surat         = SettingAplikasi::where('key', 'font_surat')->first();
-                    $font_surat->option = array_unique(array_merge($font_surat->option, [$font]));
-                    $font_surat->save();
-
-                    rename($this->upload->data('full_path'), LOKASI_FONT_DESA . "{$font}.ttf");
-                }
-            } else {
-                redirect_with('error', $this->upload->display_errors());
-            }
-        }
-
-        foreach ($data as $key => $value) {
-            SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
-        }
-
-        // upload gambar visual tte
-        if ($_FILES['visual_tte_gambar'] && $_FILES['visual_tte_gambar']['name'] != '') {
-            $file = $this->uploadGambar('visual_tte_gambar', LOKASI_MEDIA, null, false);
-            $file ? SettingAplikasi::where('key', '=', 'visual_tte_gambar')->update(['value' => $file]) : redirect_with('error', $this->upload->display_errors(null, null));
-        }
-
-        if ($data['kodeisian_alias']) {
-            $judulAlias   = $data['kodeisian_alias']['judul'];
-            $contentAlias = $data['kodeisian_alias']['content'];
-            AliasKodeIsian::whereNotIn('judul', $data['kodeisian_alias']['judul'])->delete();
-
-            foreach ($data['kodeisian_alias']['alias'] as $index => $alias) {
-                // observer gak jalan ketika menggunakan upsert
-                AliasKodeIsian::upsert(['updated_by' => ci_auth()->id, 'config_id' => identitas('id'), 'judul' => $judulAlias[$index], 'alias' => $alias, 'content' => $contentAlias[$index]], ['config_id', 'judul']);
-            }
-        } else {
-            AliasKodeIsian::whereConfigId(identitas('id'))->delete();
-        }
-        (new SettingAplikasi())->flushQueryCache();
-        // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
-        if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
-            LogSurat::where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
-
-            redirect_with('success', 'Berhasil Ubah Data dan Perbaharui Log Surat');
-        }
-
-        redirect_with('success', 'Berhasil Ubah Data');
-    }
-
-    public function pengaturan_sementara()
-    {
-        $data = [
-            'tinggi_header' => (float) $this->input->post('tinggi_header'),
-            'tinggi_footer' => (float) $this->input->post('tinggi_footer'),
-            'font_surat'    => alfanumerik_spasi($this->input->post('font_surat')),
-            'surat_margin'  => json_encode($this->input->post('surat_margin'), JSON_THROW_ON_ERROR),
-        ];
-
-        $this->session->set_userdata('pengaturan_surat', $data);
-
-        return json('Berhasil mengubah data');
-    }
-
-    protected static function validasi_pengaturan($request)
-    {
-        $validasi = [
-            'tinggi_header'                  => (float) $request['tinggi_header'],
-            'header_surat'                   => $request['header_surat'],
-            'tinggi_footer'                  => (float) $request['tinggi_footer'],
-            'verifikasi_sekdes'              => (int) $request['verifikasi_sekdes'],
-            'verifikasi_kades'               => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
-            'tte'                            => (int) $request['tte'],
-            'font_surat'                     => alfanumerik_spasi($request['font_surat']),
-            'penomoran_surat'                => $request['penomoran_surat'],
-            'panjang_nomor_surat'            => $request['panjang_nomor_surat'],
-            'visual_tte'                     => (int) $request['visual_tte'],
-            'visual_tte_weight'              => (int) $request['visual_tte_weight'],
-            'visual_tte_height'              => (int) $request['visual_tte_height'],
-            'ssl_tte'                        => (int) $request['ssl_tte'],
-            'format_nomor_surat'             => $request['format_nomor_surat'],
-            'ganti_data_kosong'              => $request['ganti_data_kosong'],
-            'format_tanggal_surat'           => $request['format_tanggal_surat'],
-            'surat_margin'                   => json_encode($request['surat_margin'], JSON_THROW_ON_ERROR),
-            'form_penduduk_luar'             => json_encode(updateIndex($request['penduduk_luar']), JSON_THROW_ON_ERROR),
-            'kodeisian_alias'                => $request['alias_kodeisian'] ? ['judul' => $request['judul_kodeisian'], 'alias' => $request['alias_kodeisian'], 'content' => $request['content_kodeisian']] : null,
-            'sumber_penduduk_berulang_surat' => $request['sumber_penduduk_berulang_surat'],
-        ];
-
-        if ($validasi['tte'] == StatusEnum::YA) {
-            $validasi['footer_surat_tte'] = $request['footer_surat_tte'];
-            $validasi['tte_api']          = alamat_web($request['tte_api']);
-            $validasi['tte_username']     = $request['tte_username'];
-            if ($request['tte_password'] != '') {
-                $validasi['tte_password'] = $request['tte_password'];
-            }
-        } else {
-            $validasi['footer_surat'] = $request['footer_surat'];
-        }
-
-        if ($request['visual_tte_gambar'] != null) {
-            $validasi['visual_tte_gambar'] = $request['visual_tte_gambar'];
-        }
-
-        return $validasi;
-    }
-
-    public function kode_isian($jenis = 'isi', $id = null)
-    {
-        if ($this->input->is_ajax_request()) {
-            $log_surat['surat'] = FormatSurat::find($id);
-            $kode_isian         = $this->tinymce->getFormatedKodeIsian($log_surat);
-
-            return json($kode_isian);
-        }
-
-        return show_404();
-    }
-
-    public function salin_template($jenis = 'isi')
-    {
-        if ($this->input->is_ajax_request()) {
-            $template = $jenis == 'isi' ? $this->tinymce->getTemplateSurat() : $this->tinymce->getTemplate();
-
-            return json($template);
-        }
-
-        return show_404();
-    }
-
-    public function preview()
-    {
-        // konversi request agar formatnya sama
-        $request             = static::validate($this->request);
-        $request['id_surat'] = $this->request['id_surat'] ?? null;
-
-        try {
-            $preview   = $this->tinymce->getPreview(request: $request, redirect: false);
-            $isi_cetak = $preview->getResult();
-
-            // Ubah jadi format pdf
-            $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], $isi_cetak);
-
-            if ($this->request['margin_global'] == 1) {
-                $margins = setting('surat_margin_cm_to_mm');
-            } else {
-                $margins = [
-                    $this->request['kiri'] * 10,
-                    $this->request['atas'] * 10,
-                    $this->request['kanan'] * 10,
-                    $this->request['bawah'] * 10,
-                ];
-            }
-
-            $cetak       = ['surat' => $this->request];
-            $defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
-            $this->tinymce->generateSurat($isi_cetak, $cetak, $margins, $defaultFont);
-
-            $this->tinymce->generateLampiran($preview->getData('id_pend'), $preview->getData(), $preview->getData('input'));
-            $this->tinymce->pdfMerge->merge('document.pdf', 'I');
-        } catch (Html2PdfException $e) {
-            $formatter = new ExceptionFormatter($e);
-            logger()->error($e);
-
-            return $this->output
-                ->set_status_header(404, str_replace("\n", ' ', $formatter->getMessage()))
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'statusText' => $formatter->getMessage(),
-                ], JSON_THROW_ON_ERROR));
-        }
-    }
-
-    public function ekspor()
-    {
-        isCan('u');
-
-        $id = $this->request['id_cb'];
-
-        if (null === $id || count($id) === 0) {
-            redirect_with('error', 'Tidak ada surat yang dipilih.');
-        }
-
-        return (new SuratLayananExport($id))->download();
-    }
-
-    public function impor_filter($data)
-    {
-        set_session('data_impor_surat', $data);
-
-        return view('admin.pengaturan_surat.impor_select', [
-            'data' => $data,
-        ]);
-    }
-
-    public function impor_store(): void
-    {
-        isCan('u');
-
-        $id = $this->request['id_cb'];
-
-        if (null === $id) {
-            redirect_with('error', 'Tidak ada surat yang dipilih.');
-        }
-
-        $proses = $this->prosesImport(session('data_impor_surat'), $id);
-
-        if (isset($proses['error'])) {
-            redirect_with('error', $proses['error']);
-        }
-
-        redirect_with('success', 'Berhasil Impor Data');
-    }
-
-    public function impor(): void
-    {
-        isCan('u');
-        $config['upload_path']   = sys_get_temp_dir();
-        $config['allowed_types'] = 'json';
-        $config['overwrite']     = true;
-        $config['max_size']      = max_upload() * 1024;
-        $config['file_name']     = time() . '_template-surat-tinymce.json';
-
-        $this->upload->initialize($config);
-
-        if ($this->upload->do_upload('userfile')) {
-            $list_data = $this->formatImport(file_get_contents($this->upload->data()['full_path']));
-            if ($list_data) {
-                $this->impor_filter($list_data);
-            }
-        }
-
-        redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
-    }
-
     private function getTemplate($jenis = FormatSurat::TINYMCE)
     {
         return FormatSurat::jenis($jenis)
@@ -933,17 +951,5 @@ class Surat_master extends Admin_Controller
         }
 
         return false;
-    }
-
-    public function bawaan(): void
-    {
-        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json');
-
-        $file_name = namafile('Template Surat Layanan') . '.json';
-
-        $this->output
-            ->set_header("Content-Disposition: attachment; filename={$file_name}")
-            ->set_content_type('application/json', 'utf-8')
-            ->set_output($list_data);
     }
 }

@@ -43,11 +43,13 @@
 <script>
     $('#tgl_1').datetimepicker({
         format: 'DD-MM-YYYY',
-        locale: 'id'
+        locale: 'id',
+        maxDate: moment().endOf('year')
     });
     $('#tgl_lapor').datetimepicker({
         format: 'DD-MM-YYYY',
-        locale: 'id'
+        locale: 'id',
+        maxDate: moment().endOf('year')
     });
     $('document').ready(function() {
         setTimeout(function() {

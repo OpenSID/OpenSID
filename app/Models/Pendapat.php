@@ -45,8 +45,8 @@ class Pendapat extends BaseModel
 {
     use ConfigId;
 
-    protected $table   = 'pendapat';
     public $timestamps = false;
+    protected $table   = 'pendapat';
     protected $guarded = ['id'];
 
     public function scopePendapat($query, $tipe, $pilih = null): array
@@ -125,13 +125,13 @@ class Pendapat extends BaseModel
         ];
     }
 
-    protected function op_tgl(string $op, string $tgl): string
-    {
-        return date('Y-m-d', strtotime($op, strtotime($tgl)));
-    }
-
     public function penduduk()
     {
         return $this->belongsTo(Penduduk::class, 'pengguna', 'id');
+    }
+
+    protected function op_tgl(string $op, string $tgl): string
+    {
+        return date('Y-m-d', strtotime($op, strtotime($tgl)));
     }
 }

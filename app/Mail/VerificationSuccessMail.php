@@ -44,13 +44,10 @@ use Illuminate\Queue\SerializesModels;
 class VerificationSuccessMail extends Mailable
 {
     use Queueable;
- use SerializesModels;
+    use SerializesModels;
 
-    public $name;
-
-    public function __construct($name)
+    public function __construct(public $name)
     {
-        $this->name = $name;
     }
 
     public function build()

@@ -37,6 +37,7 @@
 
 use App\Models\InventarisJalan;
 use App\Models\MutasiInventarisJalan;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -62,33 +63,33 @@ class Inventaris_jalan_mutasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisJalan::query()->with('mutasi');
+            $data = MutasiInventarisJalan::query()->select('mutasi_inventaris_jalan.*')->with('inventaris');
 
             return datatables()->of($data)
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    $aksi .= '<a href="' . site_url('inventaris_jalan_mutasi/form/' . $row->id . '/1') . '" title="Lihat Data" class="btn bg-info btn-sm"><i class="fa fa-eye"></i></a>';
+                    $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => site_url('inventaris_jalan_mutasi/form/' . $row->id . '/ubah/1'),
+                        'judul' => 'Lihat Data',
+                    ])->render();
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . site_url('inventaris_jalan_mutasi/form/' . $row->id) . '" title="Edit Data" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "inventaris_jalan_mutasi/form/{$row->id}/ubah",
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . site_url('inventaris_jalan_mutasi/delete/' . $row->mutasi->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => site_url('inventaris_jalan_mutasi/delete/' . $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
-                ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
-                ->editColumn('tanggal_dokument', static fn ($row): string => date('d M Y', strtotime($row->tanggal_dokument)))
-                ->editColumn('tanggal_mutasi', static function ($row) {
-                    if ($row->mutasi) {
-                        return date('d M Y', strtotime($row->mutasi->tahun_mutasi));
-                    }
-                })
-                ->editColumn('harga', static fn ($row): string => number_format($row->harga, 0, '.', '.'))
+                ->editColumn('kode_barang_register', static fn ($row): string => $row->inventaris->kode_barang . '<br>' . $row->inventaris->register)
+                ->editColumn('tanggal_dokument', static fn ($row): string => date('d M Y', strtotime($row->inventaris->tanggal_dokument)))
+                ->editColumn('tanggal_mutasi', static fn ($row) => date('d M Y', strtotime($row->tahun_mutasi)))
+                ->editColumn('harga', static fn ($row): string => number_format($row->inventaris->harga, 0, '.', '.'))
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
         }
@@ -106,11 +107,13 @@ class Inventaris_jalan_mutasi extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id, $inventaris_id): void
+    public function update($id): void
     {
         isCan('u');
 
-        if (MutasiInventarisJalan::find($id)->update($this->validate($this->request))) {
+        $mutasi = MutasiInventarisJalan::findOrFail($id);
+
+        if ($mutasi->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'inventaris_jalan_mutasi');
         }
         redirect_with('error', 'Gagal Tambah Data');
@@ -135,26 +138,25 @@ class Inventaris_jalan_mutasi extends Admin_Controller
         return $data;
     }
 
-    public function form($id, $view = false): void
+    public function form($id, $action, $view = false): void
     {
         isCan('u');
 
-        if ($id) {
+        if ($action == 'ubah') {
             $data['action']      = $view ? 'Rincian' : 'Ubah';
-            $data['form_action'] = ci_route('inventaris_kontruksi.update', $id);
-            $data['main']        = InventarisJalan::findOrFail($id);
+            $data['form_action'] = ci_route('inventaris_jalan_mutasi.update', $id);
             $data['view_mark']   = $view ? 1 : 0;
+            $data['main']        = MutasiInventarisJalan::with('inventaris')->find($id) ?? show_404();
         } else {
-            $data['action']      = 'Tambah';
-            $data['form_action'] = ci_route('inventaris_jalan.create');
-            $data['main']        = null;
-            $data['view_mark']   = null;
+            $data['action']           = 'Tambah';
+            $data['form_action']      = ci_route('inventaris_jalan_mutasi.create', $id);
+            $data['view_mark']        = null;
+            $data['main']             = new MutasiInventarisJalan();
+            $data['main']->inventaris = InventarisJalan::find($id) ?? show_404();
         }
 
         $data['tip']        = 2;
         $data['controller'] = str_replace_last('_mutasi', '', $this->controller);
-
-        $data['form_action'] = site_url("inventaris_jalan_mutasi/create/{$id}");
 
         view('admin.inventaris.jalan.mutasi.form', $data);
     }

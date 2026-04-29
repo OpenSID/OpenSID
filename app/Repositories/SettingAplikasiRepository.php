@@ -41,6 +41,7 @@ use App\Libraries\TinyMCE;
 use App\Models\Config;
 use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
+use App\Services\OtpService;
 use App\Traits\Upload;
 use Spatie\Activitylog\Facades\LogBatch;
 
@@ -53,6 +54,105 @@ class SettingAplikasiRepository
     public function __construct()
     {
         $this->setting = new SettingAplikasi();
+    }
+
+    public static function applySettingCI($ci): void
+    {
+        if ($ci->setting) {
+            return;
+        }
+
+        $ci->list_setting = SettingAplikasi::urut()->get();
+        $ci->setting      = (object) $ci->list_setting->pluck('value', 'key')
+            ->map(static fn ($value, $key) => SebutanDesa($value))
+            ->toArray();
+
+        //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
+        date_default_timezone_set($ci->setting?->timezone); // ganti ke timezone lokal
+
+        // Ambil google api key dari desa/config/config.php kalau tidak ada di database
+        if (empty($ci->setting?->mapbox_key) && ! empty(config_item('mapbox_key'))) {
+            $ci->setting->mapbox_key = config_item('mapbox_key');
+        }
+
+        if (empty($ci->setting?->google_api_key) && ! empty(config_item('google_api_key'))) {
+            $ci->setting->google_api_key = config_item('google_api_key');
+        }
+
+        if (empty($ci->setting?->google_recaptcha_site_key) && ! empty(config_item('google_recaptcha_site_key'))) {
+            $ci->setting->google_recaptcha_site_key = config_item('google_recaptcha_site_key');
+        }
+
+        if (empty($ci->setting?->google_recaptcha_secret_key) && ! empty(config_item('google_recaptcha_secret_key'))) {
+            $ci->setting->google_recaptcha_secret_key = config_item('google_recaptcha_secret_key');
+        }
+
+        if (empty($ci->setting?->google_recaptcha) && ! empty(config_item('google_recaptcha'))) {
+            $ci->setting->google_recaptcha = config_item('google_recaptcha');
+        }
+
+        if (empty($ci->setting?->header_surat)) {
+            $ci->setting->header_surat = TinyMCE::HEADER;
+        }
+
+        if (empty($ci->setting?->footer_surat)) {
+            $ci->setting->footer_surat = TinyMCE::FOOTER;
+        }
+
+        if (empty($ci->setting?->footer_surat_tte)) {
+            $ci->setting->footer_surat_tte = TinyMCE::FOOTER_TTE;
+        }
+
+        // Ganti token_layanan sesuai config untuk mempermudah development
+        if ((ENVIRONMENT == 'development') || config_item('token_layanan')) {
+            $ci->setting->layanan_opendesa_token = config_item('token_layanan');
+        }
+
+        $ci->setting->user_admin = config_item('user_admin');
+
+        // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
+        // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
+        $ci->setting->sebutan_kepala_desa = kades()->nama;
+
+        // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
+        $ci->setting->sebutan_sekretaris_desa = sekdes()->nama;
+
+        // Setting Multi Desa untuk OpenKab
+        $ci->setting->multi_desa = Config::count() > 1;
+
+        // Setting Multi Database untuk OpenKab
+        $ci->setting->multi_database = count(config('database.connections')) >= 2;
+
+        // Feeds
+        if (empty($ci->setting?->link_feed)) {
+            $ci->setting->link_feed = 'https://www.covid19.go.id/feed/';
+        }
+
+        if (empty($ci->setting?->anjungan_layar)) {
+            $ci->setting->anjungan_layar = 1;
+        }
+
+        if (empty($ci->setting?->sebutan_anjungan_mandiri)) {
+            $ci->setting->sebutan_anjungan_mandiri = SebutanDesa('Anjungan [desa] Mandiri');
+        }
+
+        // Konversi nilai margin global dari cm ke mm
+        $margins                            = json_decode($ci->setting?->surat_margin, true);
+        $ci->setting->surat_margin_cm_to_mm = [
+            $margins['kiri'] * 10,
+            $margins['atas'] * 10,
+            $margins['kanan'] * 10,
+            $margins['bawah'] * 10,
+        ];
+
+        // Konversi nilai margin surat dinas global dari cm ke mm
+        $margins                                  = json_decode($ci->setting?->surat_dinas_margin, true);
+        $ci->setting->surat_dinas_margin_cm_to_mm = [
+            $margins['kiri'] * 10,
+            $margins['atas'] * 10,
+            $margins['kanan'] * 10,
+            $margins['bawah'] * 10,
+        ];
     }
 
     /**
@@ -165,6 +265,11 @@ class SettingAplikasiRepository
                 if ($key == 'tte' && $value == 1) {
                     $this->updateWithKey('verifikasi_kades', $value); // jika tte aktif, aktifkan juga verifikasi kades
                 }
+                // Jika 'login_otp' diatur ke '0' (Tidak), nonaktifkan OTP untuk semua pengguna.
+                if ($key == 'login_otp' && $value == '0') {
+                    (new OtpService())->deactivateForAllUsers();
+                }
+
                 // $this->setting->{$key} = $value;
                 if ($key == 'enable_track') {
                     $hasil = $hasil && $this->notifikasiTracker($value);
@@ -199,104 +304,5 @@ class SettingAplikasiRepository
         Notifikasi::where('kode', 'tracking_off')->update($notif);
 
         return true;
-    }
-
-    public static function applySettingCI($ci): void
-    {
-        if ($ci->setting) {
-            return;
-        }
-
-        $ci->list_setting = SettingAplikasi::urut()->get();
-        $ci->setting      = (object) $ci->list_setting->pluck('value', 'key')
-            ->map(static fn ($value, $key) => SebutanDesa($value))
-            ->toArray();
-
-        //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
-        date_default_timezone_set($ci->setting?->timezone); // ganti ke timezone lokal
-
-        // Ambil google api key dari desa/config/config.php kalau tidak ada di database
-        if (empty($ci->setting?->mapbox_key) && ! empty(config_item('mapbox_key'))) {
-            $ci->setting->mapbox_key = config_item('mapbox_key');
-        }
-
-        if (empty($ci->setting?->google_api_key) && ! empty(config_item('google_api_key'))) {
-            $ci->setting->google_api_key = config_item('google_api_key');
-        }
-
-        if (empty($ci->setting?->google_recaptcha_site_key) && ! empty(config_item('google_recaptcha_site_key'))) {
-            $ci->setting->google_recaptcha_site_key = config_item('google_recaptcha_site_key');
-        }
-
-        if (empty($ci->setting?->google_recaptcha_secret_key) && ! empty(config_item('google_recaptcha_secret_key'))) {
-            $ci->setting->google_recaptcha_secret_key = config_item('google_recaptcha_secret_key');
-        }
-
-        if (empty($ci->setting?->google_recaptcha) && ! empty(config_item('google_recaptcha'))) {
-            $ci->setting->google_recaptcha = config_item('google_recaptcha');
-        }
-
-        if (empty($ci->setting?->header_surat)) {
-            $ci->setting->header_surat = TinyMCE::HEADER;
-        }
-
-        if (empty($ci->setting?->footer_surat)) {
-            $ci->setting->footer_surat = TinyMCE::FOOTER;
-        }
-
-        if (empty($ci->setting?->footer_surat_tte)) {
-            $ci->setting->footer_surat_tte = TinyMCE::FOOTER_TTE;
-        }
-
-        // Ganti token_layanan sesuai config untuk mempermudah development
-        if ((ENVIRONMENT == 'development') || config_item('token_layanan')) {
-            $ci->setting->layanan_opendesa_token = config_item('token_layanan');
-        }
-
-        $ci->setting->user_admin = config_item('user_admin');
-
-        // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
-        // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
-        $ci->setting->sebutan_kepala_desa = kades()->nama;
-
-        // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
-        $ci->setting->sebutan_sekretaris_desa = sekdes()->nama;
-
-        // Setting Multi Desa untuk OpenKab
-        $ci->setting->multi_desa = Config::count() > 1;
-
-        // Setting Multi Database untuk OpenKab
-        $ci->setting->multi_database = count(config('database.connections')) >= 2;
-
-        // Feeds
-        if (empty($ci->setting?->link_feed)) {
-            $ci->setting->link_feed = 'https://www.covid19.go.id/feed/';
-        }
-
-        if (empty($ci->setting?->anjungan_layar)) {
-            $ci->setting->anjungan_layar = 1;
-        }
-
-        if (empty($ci->setting?->sebutan_anjungan_mandiri)) {
-            $ci->setting->sebutan_anjungan_mandiri = SebutanDesa('Anjungan [desa] Mandiri');
-        }
-
-        // Konversi nilai margin global dari cm ke mm
-        $margins                            = json_decode($ci->setting?->surat_margin, true);
-        $ci->setting->surat_margin_cm_to_mm = [
-            $margins['kiri'] * 10,
-            $margins['atas'] * 10,
-            $margins['kanan'] * 10,
-            $margins['bawah'] * 10,
-        ];
-
-        // Konversi nilai margin surat dinas global dari cm ke mm
-        $margins                                  = json_decode($ci->setting?->surat_dinas_margin, true);
-        $ci->setting->surat_dinas_margin_cm_to_mm = [
-            $margins['kiri'] * 10,
-            $margins['atas'] * 10,
-            $margins['kanan'] * 10,
-            $margins['bawah'] * 10,
-        ];
     }
 }

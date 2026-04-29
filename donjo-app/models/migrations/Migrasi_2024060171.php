@@ -40,29 +40,30 @@ use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024060171 extends MY_Model
+class Migrasi_2024060171
 {
     use Migrator;
 
     public function up()
     {
        $this->migrasi_tabel();
-
        $this->migrasi_data();
     }
 
-    protected function migrasi_tabel()
+    public function migrasi_tabel()
     {
     }
 
     // Migrasi perubahan data
-    protected function migrasi_data()
+    public function migrasi_data()
     {
         $this->migrasi_2024050271();
         $this->migrasi_2024050272();
@@ -79,7 +80,7 @@ class Migrasi_2024060171 extends MY_Model
         $this->migrasi_2024053151();
     }
 
-    protected function migrasi_2024050251()
+    public function migrasi_2024050251()
     {
         $this->ubah_modul(
             ['slug' => 'peristiwa', 'url' => 'penduduk_log/clear'],
@@ -87,12 +88,12 @@ class Migrasi_2024060171 extends MY_Model
         );
     }
 
-    protected function migrasi_2024050751()
+    public function migrasi_2024050751()
     {
         DB::statement('delete from grup_akses where id_modul not in (select id from setting_modul)');
     }
 
-    protected function migrasi_2024050851()
+    public function migrasi_2024050851()
     {
         Modul::where('slug', 'wilayah-administratif')->update(['url' => 'wilayah']);
         Modul::where('slug', 'calon-pemilih')->update(['url' => 'dpt']);
@@ -113,7 +114,7 @@ class Migrasi_2024060171 extends MY_Model
         Modul::where('slug', 'informasi-publik')->update(['url' => 'dokumen']);
     }
 
-    protected function migrasi_2024051251()
+    public function migrasi_2024051251()
     {
         UserGrup::where('slug', null)->get()->each(static function ($user) {
             $user->update([
@@ -122,17 +123,17 @@ class Migrasi_2024060171 extends MY_Model
         });
     }
 
-    protected function migrasi_2024051252()
+    public function migrasi_2024051252()
     {
         DB::table('analisis_master')->where('jenis', 1)->update(['jenis' => 2]);
     }
 
-    protected function migrasi_2024051253()
+    public function migrasi_2024051253()
     {
         DB::table('tweb_penduduk_umur')->where('nama', 'Di Atas 75 Tahun')->update(['nama' => '75 Tahun ke Atas']);
     }
 
-    protected function migrasi_2024052151()
+    public function migrasi_2024052151()
     {
         $media_sosial = DB::table('media_sosial')
             ->where('config_id', identitas('id'))
@@ -163,7 +164,7 @@ class Migrasi_2024060171 extends MY_Model
         }
     }
 
-    protected function migrasi_2024050272()
+    public function migrasi_2024050272()
     {
         $this->createSetting([
             'judul'      => 'Icon Pembangunan Peta',
@@ -177,7 +178,7 @@ class Migrasi_2024060171 extends MY_Model
         ]);
     }
 
-    protected function migrasi_2024050271()
+    public function migrasi_2024050271()
     {
         $this->createSetting([
             'judul'      => 'Jumlah Gambar Galeri',
@@ -214,7 +215,7 @@ class Migrasi_2024060171 extends MY_Model
         ]);
     }
 
-    protected function migrasi_2024051571()
+    public function migrasi_2024051571()
     {
         $option = json_encode([
             '1' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan',
@@ -253,27 +254,18 @@ class Migrasi_2024060171 extends MY_Model
        ]);
     }
 
-    protected function migrasi_2024050551()
+    public function migrasi_2024050551()
     {
-        if (! $this->db->field_exists('status', 'user_grup')) {
-            $this->dbforge->add_column('user_grup', [
-                'status' => [
-                    'type'       => 'TINYINT',
-                    'constraint' => 4,
-                    'null'       => false,
-                    'default'    => 1,
-                    'after'      => 'jenis',
-                ],
-            ]);
+        if (! Schema::hasColumn('user_grup', 'status')) {
+            Schema::table('user_grup', static function (Blueprint $table) {
+                $table->tinyInteger('status')->default(1)->after('jenis');
+            });
         }
 
-        if ($this->db->field_exists('nama', 'user_grup')) {
-            $this->dbforge->modify_column('user_grup', [
-                'nama' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 255,
-                ],
-            ]);
+        if (Schema::hasColumn('user_grup', 'nama')) {
+            Schema::table('user_grup', static function (Blueprint $table) {
+                $table->string('nama', 255)->change();
+            });
         }
 
         $pengguna = [
@@ -1016,7 +1008,7 @@ class Migrasi_2024060171 extends MY_Model
         }
     }
 
-    protected function migrasi_2024052871()
+    public function migrasi_2024052871()
     {
         $this->createSetting([
             'judul'      => 'Jumlah Gambar Galeri',
@@ -1043,7 +1035,7 @@ class Migrasi_2024060171 extends MY_Model
         ]);
     }
 
-    protected function migrasi_2024053151()
+    public function migrasi_2024053151()
     {
         // Hapus data jika kolom 'dusun' kosong
         DB::table('tweb_wil_clusterdesa')->where('dusun', '')->delete();
@@ -1071,7 +1063,7 @@ class Migrasi_2024060171 extends MY_Model
      * @param mixed  $value         Nilai baru yang akan diisi jika kosong
      * @param array  $relatedTables Daftar tabel yang berelasi dengan tweb_wil_clusterdesa
      */
-    private function updateOrDeleteWilayah($field, $value, $relatedTables)
+    public function updateOrDeleteWilayah($field, $value, $relatedTables)
     {
         $query = DB::table('tweb_wil_clusterdesa')->where($field, '');
 

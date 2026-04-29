@@ -46,18 +46,18 @@ class Statistics extends BaseModel
     use ConfigId;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'statistics';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'statistics';
 
     /**
      * The guarded with the model.

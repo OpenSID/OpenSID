@@ -47,18 +47,18 @@ class MediaSosial extends BaseModel
     use ConfigId;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'media_sosial';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'media_sosial';
 
     /**
      * The attributes that are mass assignable.
@@ -82,6 +82,13 @@ class MediaSosial extends BaseModel
         'url_icon',
         'new_link',
     ];
+
+    protected static function booted()
+    {
+        parent::boot();
+
+        cache()->forget('media_sosial');
+    }
 
     public function scopeStatus($query, $status = null)
     {
@@ -152,12 +159,5 @@ class MediaSosial extends BaseModel
         }
 
         return $link;
-    }
-
-    protected static function booted()
-    {
-        parent::boot();
-
-        cache()->forget('media_sosial');
     }
 }

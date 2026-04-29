@@ -84,7 +84,6 @@
                 </div>
 
                 <div id="lama" class="tab-pane fade @if (count($merge ?? []) == 0) in active @endif">
-                    akasih
                     <marquee
                         onmouseover="this.stop()"
                         onmouseout="this.start()"

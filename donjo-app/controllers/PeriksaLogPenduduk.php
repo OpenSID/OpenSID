@@ -35,8 +35,9 @@
  *
  */
 
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\StatusDasarEnum;
-use App\Models\LogPenduduk;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,8 +55,12 @@ class PeriksaLogPenduduk extends CI_Controller
     {
         $penduduk = $this->input->get('penduduk');
 
-        // $logs = LogPenduduk::where('id_pend', $penduduk['id'])->get();
-        $logs          = $this->db->where('id_pend', $penduduk['id'])->get('log_penduduk')->result_array();
+        $logs = DB::table('log_penduduk')
+            ->where('id_pend', $penduduk['id'])
+            ->where('config_id', identitas('id'))
+            ->get()
+            ->toArray();
+
         $nik           = $penduduk['nik'];
         $nama          = $penduduk['nama'];
         $statusDasar   = $penduduk['status_dasar'];
@@ -66,12 +71,20 @@ class PeriksaLogPenduduk extends CI_Controller
 
     public function hapusLog()
     {
-        $idLog    = $this->input->post('id');
-        $idPend   = $this->db->where('id', $idLog)->get('log_penduduk')->row_array()['id_pend'];
-        $penduduk = $this->db->where('id', $idPend)->get('tweb_penduduk')->row_array();
-        $status   = 0;
-        if ($this->db->where('id', $idLog)->delete('log_penduduk')) {
-            log_message('notice', 'Hapus log penduduk NIK : ' . $penduduk['nik']);
+        $idLog = $this->input->post('id');
+
+        $idPend = DB::table('log_penduduk')
+            ->where('id', $idLog)
+            ->where('config_id', identitas('id'))
+            ->value('id_pend');
+
+        $penduduk = DB::table('tweb_penduduk')
+            ->where('id', $idPend)
+            ->first();
+
+        $status = 0;
+        if (DB::table('log_penduduk')->where('id', $idLog)->where('config_id', identitas('id'))->delete()) {
+            log_message('notice', 'Hapus log penduduk NIK : ' . $penduduk->nik);
             $status = 1;
         }
 
@@ -84,16 +97,29 @@ class PeriksaLogPenduduk extends CI_Controller
 
     public function updateStatusDasar()
     {
-        $idLog       = $this->input->post('id');
-        $log         = $this->db->where('id', $idLog)->get('log_penduduk')->row_array();
-        $penduduk    = $this->db->where('id', $log['id_pend'])->get('tweb_penduduk')->row_array();
-        $key         = $log['kode_peristiwa'];
-        $statusDasar = in_array($key, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK]) ? StatusDasarEnum::HIDUP : $key;
-        $this->db->where('id', $log['id_pend'])->update('tweb_penduduk', ['status_dasar' => $statusDasar]);
+        $idLog = $this->input->post('id');
+
+        $log = DB::table('log_penduduk')
+            ->where('id', $idLog)
+            ->where('config_id', identitas('id'))
+            ->first();
+
+        $penduduk = DB::table('tweb_penduduk')
+            ->where('id', $log->id_pend)
+            ->where('config_id', identitas('id'))
+            ->first();
+
+        $key         = $log->kode_peristiwa;
+        $statusDasar = in_array($key, [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value]) ? StatusDasarEnum::HIDUP : $key;
+
+        $affected = DB::table('tweb_penduduk')
+            ->where('id', $log->id_pend)
+            ->where('config_id', identitas('id'))
+            ->update(['status_dasar' => $statusDasar]);
 
         $status = 0;
-        if ($this->db->affected_rows() > 0) {
-            log_message('notice', 'Update status dasar penduduk NIK : ' . $penduduk['nik'] . ' dari ' . $penduduk['status_dasar'] . ' menjadi ' . $statusDasar);
+        if ($affected > 0) {
+            log_message('notice', 'Update status dasar penduduk NIK : ' . $penduduk->nik . ' dari ' . $penduduk->status_dasar . ' menjadi ' . $statusDasar);
             $status = 1;
         }
 

@@ -75,7 +75,7 @@
         <tr>
             <td colspan="10">Nama Kepala Keluarga</td>
             <td style="border-right: 1px solid black;">:</td>
-            <?= kotak($input['nama_ayah'], 37); ?>
+            <?= kotak($individu['kepala_kk'], 37); ?>
         </tr>
         <tr>
             <td colspan="11">&nbsp;</td>

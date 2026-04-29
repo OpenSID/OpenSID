@@ -1,4 +1,4 @@
-Versi Formulir DTKS saat ini : <b id="versi">
+Versi Formulir {{ setting('sebutan_dtks') }} saat ini : <b id="versi">
     {{ \App\Enums\Dtks\DtksEnum::VERSION_LIST[\App\Enums\Dtks\DtksEnum::VERSION_CODE] }}
 </b>
 <br>

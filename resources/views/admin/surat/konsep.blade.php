@@ -3,7 +3,7 @@
 @extends('admin.layouts.index')
 
 @php
-    $label = 'Konsep Surat';
+    $label = 'Tinjau Surat';
     $urlDaftar = ci_route('surat');
     $cetak = 'Cetak';
 
@@ -24,14 +24,14 @@
 
 @section('title')
     <h1>
-        {{ $label }} {{ ucwords($surat->nama) }}
+        {{ $label }} @isset($ubah) {{ ucwords($surat->nama) }} @endisset
     </h1>
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ $urlDaftar }}">Daftar {{ $cetak }} Surat</a></li>
     <li class="active"> Surat {{ ucwords($surat->nama) }}</li>
-    <li class="active"> {{ $label }} {{ ucwords($surat->nama) }}</li>
+    <li class="active"> {{ $label }} @isset($ubah) {{ ucwords($surat->nama) }} @endisset</li>
 @endsection
 
 @section('content')

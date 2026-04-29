@@ -38,7 +38,7 @@
                                     <td nowrap>{{ $data->tempatlahir }},
                                         {{ tgl_indo($data->tanggallahir) }}
                                     </td>
-                                    <td nowrap>{{ $data->pendudukHubungan->nama }}</td>
+                                    <td nowrap>{{ $data->penduduk_hubungan }}</td>
                                     <td nowrap>{{ $data->status_perkawinan }}</td>
                                 </tr>
                             @endforeach

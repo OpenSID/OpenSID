@@ -70,9 +70,13 @@ class MutasiInventarisTanah extends BaseModel
         'config_id',
     ];
 
-    // relasi ke inventaris jalan
     public function inventaris_tanah()
     {
         return $this->belongsTo(InventarisTanah::class, 'id_inventaris_tanah');
+    }
+
+    public function inventaris()
+    {
+        return $this->hasOne(InventarisTanah::class, 'id', 'id_inventaris_tanah');
     }
 }

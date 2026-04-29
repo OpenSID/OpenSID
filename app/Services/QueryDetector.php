@@ -64,11 +64,6 @@ class QueryDetector
         $this->resetQueries();
     }
 
-    private function resetQueries()
-    {
-        $this->queries = Collection::make();
-    }
-
     public function boot()
     {
         if (! $this->isEnabled()) {
@@ -87,6 +82,45 @@ class QueryDetector
     public function isEnabled(): bool
     {
         return ENVIRONMENT === 'development';
+    }
+
+    public function parseTrace($index, array $trace)
+    {
+        $frame = (object) [
+            'index'    => $index,
+            'name'     => null,
+            'fullPath' => null,
+            'line'     => $trace['line'] ?? '?',
+            'class'    => $trace['class'] ?? null,
+            'function' => $trace['function'] ?? null,
+            'type'     => $trace['type'] ?? '->',
+        ];
+
+        if (isset($trace['class'], $trace['file'])
+            && ! $this->fileIsInExcludedPath($trace['file'])
+        ) {
+            $frame->name     = $this->normalizeFilename($trace['file']);
+            $frame->fullPath = str_replace('/', '\\', $trace['file']);
+
+            return $frame;
+        }
+
+        return false;
+    }
+
+    /**
+     * Add exceptions for specific model-relation combinations
+     */
+    public function except(string $model, array $relations): self
+    {
+        $this->excepts[$model] = $relations;
+
+        return $this;
+    }
+
+    private function resetQueries()
+    {
+        $this->queries = Collection::make();
     }
 
     private function logQuery(QueryExecuted $query, Collection $backtrace)
@@ -160,30 +194,6 @@ class QueryDetector
         }
 
         return array_values(array_filter($sources));
-    }
-
-    public function parseTrace($index, array $trace)
-    {
-        $frame = (object) [
-            'index'    => $index,
-            'name'     => null,
-            'fullPath' => null,
-            'line'     => $trace['line'] ?? '?',
-            'class'    => $trace['class'] ?? null,
-            'function' => $trace['function'] ?? null,
-            'type'     => $trace['type'] ?? '->',
-        ];
-
-        if (isset($trace['class'], $trace['file'])
-            && ! $this->fileIsInExcludedPath($trace['file'])
-        ) {
-            $frame->name     = $this->normalizeFilename($trace['file']);
-            $frame->fullPath = str_replace('/', '\\', $trace['file']);
-
-            return $frame;
-        }
-
-        return false;
     }
 
     /**
@@ -332,15 +342,5 @@ class QueryDetector
         } catch (Exception $e) {
             return 'unknown';
         }
-    }
-
-    /**
-     * Add exceptions for specific model-relation combinations
-     */
-    public function except(string $model, array $relations): self
-    {
-        $this->excepts[$model] = $relations;
-
-        return $this;
     }
 }

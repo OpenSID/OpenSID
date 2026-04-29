@@ -46,13 +46,14 @@ class AnalisisKategori extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
+
     /**
      * {@inheritDoc}
      */
     protected $table = 'analisis_kategori_indikator';
 
     protected $guarded = [];
-    public $timestamps = false;
 
     public function indikator()
     {

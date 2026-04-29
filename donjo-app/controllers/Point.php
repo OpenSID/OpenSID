@@ -35,7 +35,9 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Models\Point as ModelsPoint;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,25 +54,24 @@ class Point extends Admin_Controller
 
     public function index()
     {
-        $data['status'] = [
-            ModelsPoint::LOCK   => 'Aktif',
-            ModelsPoint::UNLOCK => 'Tidak Aktif',
-        ];
-
-        return view('admin.peta.point.index', $data);
+        return view('admin.peta.point.index');
     }
 
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status   = $this->input->get('status') ?? null;
+            $status   = $this->input->get('status');
             $root     = $this->input->get('root') ?? null;
             $subpoint = $this->input->get('subpoint') ?? null;
 
-            return datatables()->of(ModelsPoint::query()
-                ->when($root, static fn ($q) => $q->whereTipe(ModelsPoint::ROOT))
-                ->when($status, static fn ($q) => $q->whereEnabled($status))
-                ->when($subpoint, static fn ($q) => $q->whereTipe(ModelsPoint::CHILD)->whereParrent($subpoint)))
+            return datatables()->of(
+                ModelsPoint::when(
+                    $subpoint,
+                    static fn ($q) => $q->whereTipe(ModelsPoint::CHILD)->whereParrent($subpoint),
+                    static fn ($q) => $q->status($status)
+                        ->when($root, static fn ($qq) => $qq->whereTipe(ModelsPoint::ROOT))
+                )
+            )
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         if ($row->sumber != 'OpenKab' && $row->config_id != null) {
@@ -81,6 +82,11 @@ class Point extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($root, $subpoint): string {
                     $aksi = '';
+
+                    if ($root) {
+                        $aksi .= '<a href="' . ci_route('point.sub_point', $row->id) . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
+                    }
+
                     if ($row->sumber != 'OpenKab' && $row->config_id != null) {
 
                         if (can('u')) {
@@ -89,26 +95,21 @@ class Point extends Admin_Controller
                             } else {
                                 $aksi .= '<a href="' . ci_route('point.ajax_add_sub_point', $subpoint) . '/' . $row->id . '" data-toggle="modal" data-target="#modalBox" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                             }
-
-                            if ($row->enabled == ModelsPoint::LOCK) {
-                                $aksi .= '<a href="' . ci_route('point.lock') . '/' . $row->id . '/' . ModelsPoint::UNLOCK . '/' . $subpoint . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                            } else {
-                                $aksi .= '<a href="' . ci_route('point.lock') . '/' . $row->id . '/' . ModelsPoint::LOCK . '/' . $subpoint . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
-                            }
                         }
+
+                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                            'url'    => ci_route('point.lock') . '/' . $row->id . '/' . $subpoint,
+                            'active' => $row->enabled,
+                        ])->render();
 
                         if (can('h')) {
                             $aksi .= '<a href="#" data-href="' . ci_route('point.delete', $row->id) . '/' . $subpoint . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                         }
                     }
 
-                    if ($root) {
-                        $aksi .= '<a href="' . ci_route('point.sub_point', $row->id) . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
-                    }
-
                     return $aksi;
                 })
-                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == AktifEnum::AKTIF ? 'Ya' : 'Tidak')
                 ->editColumn('path_simbol', static fn ($row): string => '<img src="' . base_url() . $row->path_simbol . '" />')
                 ->rawColumns(['ceklist', 'aksi', 'simbol', 'path_simbol'])
                 ->make();
@@ -185,16 +186,6 @@ class Point extends Admin_Controller
         }
     }
 
-    private function validasi(array $post, $parent = 0)
-    {
-        $data['nama']    = nomor_surat_keputusan($post['nama']);
-        $data['simbol']  = $post['simbol'];
-        $data['parrent'] = $parent;
-        $data['tipe']    = $parent ? ModelsPoint::CHILD : ModelsPoint::ROOT;
-
-        return $data;
-    }
-
     public function update($id = '', $subpoint = 0): void
     {
         isCan('u');
@@ -235,6 +226,48 @@ class Point extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data', $subpoint);
     }
 
+    public function lock($id = 0, $subpoint = 0)
+    {
+        isCan('u');
+
+        try {
+            $subpoint = $subpoint ? "point/sub_point/{$subpoint}" : null;
+            $point    = ModelsPoint::findOrFail($id);
+            if ($point->sumber == 'OpenKab' && $point->config_id == null) {
+                return json([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki akses untuk halaman tersebut!',
+                ]);
+            }
+
+            $status  = $point->gantiStatus($id, 'enabled');
+            $success = (bool) $status;
+
+            return json([
+                'success' => $success,
+                'message' => $success ? __('notification.status.success') : __('notification.status.error'),
+            ]);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return json([
+                'success' => false,
+                'message' => __('notification.status.error'),
+            ]);
+        }
+    }
+
+    private function validasi(array $post, $parent = 0)
+    {
+        $data['nama']    = nomor_surat_keputusan($post['nama']);
+        $data['simbol']  = $post['simbol'];
+        $data['parrent'] = $parent;
+        $data['tipe']    = $parent ? ModelsPoint::CHILD : ModelsPoint::ROOT;
+        $data['enabled'] = $post['enabled'] ?? AktifEnum::TIDAK_AKTIF;
+
+        return $data;
+    }
+
     private function hasChild($id): bool
     {
         if (is_array($id)) {
@@ -242,20 +275,5 @@ class Point extends Admin_Controller
         }
 
         return ModelsPoint::where('parrent', $id)->exists();
-    }
-
-    public function lock($id = 0, $val = 1, $subpoint = 0): void
-    {
-        isCan('u');
-        $subpoint = $subpoint ? "point/sub_point/{$subpoint}" : null;
-        $point    = ModelsPoint::findOrFail($id);
-        if ($point->sumber == 'OpenKab' && $point->config_id == null) {
-            redirect_with('error', 'Anda tidak memiliki akses untuk halaman tersebut!');
-        }
-
-        if ($point->update(['enabled' => $val])) {
-            redirect_with('success', 'Berhasil Ubah Status', $subpoint);
-        }
-        redirect_with('error', 'Gagal Ubah Status', $subpoint);
     }
 }

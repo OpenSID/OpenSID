@@ -37,6 +37,7 @@
 
 use App\Models\DaftarKontak;
 use App\Models\Penduduk;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,6 +51,19 @@ class Daftar_kontak extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
+    }
+
+    // Hanya filter inputan
+    protected static function validate(array $request = []): array
+    {
+        return [
+            'nama'         => nama_terbatas($request['nama']),
+            'hubung_warga' => htmlentities((string) $request['hubung_warga']),
+            'telepon'      => bilangan($request['telepon']),
+            'email'        => htmlentities((string) $request['email']),
+            'telegram'     => bilangan($request['telegram']),
+            'keterangan'   => htmlentities((string) $request['keterangan']),
+        ];
     }
 
     public function index()
@@ -72,13 +86,14 @@ class Daftar_kontak extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('daftar_kontak.form', $row->id_kontak) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'daftar_kontak/form/' . $row->id_kontak,
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('daftar_kontak.delete', $row->id_kontak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('daftar_kontak.delete', $row->id_kontak),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
@@ -102,9 +117,9 @@ class Daftar_kontak extends Admin_Controller
             return datatables()->of(Penduduk::hubungWarga())
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
-                    if (can('u')) {
-                        return '<a href="' . ci_route('daftar_kontak.form_penduduk', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                     return View::make('admin.layouts.components.buttons.edit', [
+                         'url' => 'daftar_kontak/form_penduduk/' . $row->id,
+                     ])->render();
                 })
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
@@ -186,18 +201,5 @@ class Daftar_kontak extends Admin_Controller
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    // Hanya filter inputan
-    protected static function validate(array $request = []): array
-    {
-        return [
-            'nama'         => nama_terbatas($request['nama']),
-            'hubung_warga' => htmlentities((string) $request['hubung_warga']),
-            'telepon'      => bilangan($request['telepon']),
-            'email'        => htmlentities((string) $request['email']),
-            'telegram'     => bilangan($request['telegram']),
-            'keterangan'   => htmlentities((string) $request['keterangan']),
-        ];
     }
 }

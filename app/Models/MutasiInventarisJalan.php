@@ -75,4 +75,9 @@ class MutasiInventarisJalan extends BaseModel
     {
         return $this->belongsTo(InventarisJalan::class, 'id_inventaris_jalan');
     }
+
+    public function inventaris()
+    {
+        return $this->hasOne(InventarisJalan::class, 'id', 'id_inventaris_jalan');
+    }
 }

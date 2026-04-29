@@ -37,6 +37,7 @@
 
 use App\Enums\StatusEnum;
 use App\Models\Pamong;
+use App\Traits\Upload;
 use Carbon\Carbon;
 use Modules\Kehadiran\Models\Kehadiran;
 
@@ -45,6 +46,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 // TODO: dihapus setelah modul covid dihapus, lapak dan pelanggan kerjasama dipindahkan
 class Pamong_model extends MY_Model
 {
+    use Upload;
+
     public function __construct()
     {
         parent::__construct();
@@ -111,45 +114,6 @@ class Pamong_model extends MY_Model
         return $data;
     }
 
-    private function list_data_sql(): void
-    {
-        $this->config_id('u')
-            ->from('tweb_desa_pamong u')
-            ->join('tweb_penduduk p', 'u.id_pend = p.id', 'LEFT')
-            ->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
-            ->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
-            ->join('tweb_penduduk_agama g', 'p.agama_id = g.id', 'LEFT')
-            ->join('tweb_penduduk_pendidikan_kk b2', 'u.pamong_pendidikan = b2.id', 'LEFT')
-            ->join('tweb_penduduk_sex x2', 'u.pamong_sex = x2.id', 'LEFT')
-            ->join('tweb_penduduk_agama g2', 'u.pamong_agama = g2.id', 'LEFT')
-            ->join('ref_jabatan rj', 'rj.id = u.jabatan_id', 'left');
-        $this->search_sql();
-        $this->filter_sql();
-    }
-
-    private function search_sql(): void
-    {
-        if ($this->session->has_userdata('cari')) {
-            $cari = $this->session->cari;
-            $this->db
-                ->group_start()
-                ->like('p.nama', $cari)
-                ->or_like('u.pamong_nama', $cari)
-                ->or_like('u.pamong_niap', $cari)
-                ->or_like('u.pamong_nip', $cari)
-                ->or_like('u.pamong_nik', $cari)
-                ->or_like('p.nik', $cari)
-                ->group_end();
-        }
-    }
-
-    private function filter_sql(): void
-    {
-        if ($this->session->has_userdata('status')) {
-            $this->db->where('u.pamong_status', $this->session->status);
-        }
-    }
-
     public function get_data($id = 0)
     {
         $pejabat = setting('sebutan_pj_kepala_desa');
@@ -182,27 +146,6 @@ class Pamong_model extends MY_Model
         }
 
         return $data;
-    }
-
-    protected function foto($post)
-    {
-        if ($post['id_pend']) {
-            // Penduduk Dalam Desa
-            $id    = $post['id_pend'];
-            $field = 'id';
-            $tabel = 'tweb_penduduk';
-            $foto  = time() . '-' . $id . '-' . random_int(10000, 999999);
-        } else {
-            // Penduduk Luar Desa
-            $id    = $post['id'];
-            $field = 'pamong_id';
-            $tabel = 'tweb_desa_pamong';
-            $foto  = 'pamong_' . time() . '-' . $id . '-' . random_int(10000, 999999);
-        }
-        $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
-        if ($foto = upload_foto_penduduk($foto, $dimensi)) {
-            $this->config_id()->where($field, $id)->update($tabel, ['foto' => $foto]);
-        }
     }
 
     // Ambil data untuk widget aparatur desa
@@ -277,5 +220,65 @@ class Pamong_model extends MY_Model
             ->toArray();
 
         return $data;
+    }
+
+    protected function foto($post)
+    {
+        if ($post['id_pend']) {
+            // Penduduk Dalam Desa
+            $id    = $post['id_pend'];
+            $field = 'id';
+            $tabel = 'tweb_penduduk';
+            $foto  = time() . '-' . $id . '-' . random_int(10000, 999999);
+        } else {
+            // Penduduk Luar Desa
+            $id    = $post['id'];
+            $field = 'pamong_id';
+            $tabel = 'tweb_desa_pamong';
+            $foto  = 'pamong_' . time() . '-' . $id . '-' . random_int(10000, 999999);
+        }
+        $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
+        if ($foto = $this->uploadGambar('foto', LOKASI_USER_PICT, $foto, $dimensi)) {
+            $this->config_id()->where($field, $id)->update($tabel, ['foto' => $foto]);
+        }
+    }
+
+    private function list_data_sql(): void
+    {
+        $this->config_id('u')
+            ->from('tweb_desa_pamong u')
+            ->join('tweb_penduduk p', 'u.id_pend = p.id', 'LEFT')
+            ->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
+            ->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
+            ->join('tweb_penduduk_agama g', 'p.agama_id = g.id', 'LEFT')
+            ->join('tweb_penduduk_pendidikan_kk b2', 'u.pamong_pendidikan = b2.id', 'LEFT')
+            ->join('tweb_penduduk_sex x2', 'u.pamong_sex = x2.id', 'LEFT')
+            ->join('tweb_penduduk_agama g2', 'u.pamong_agama = g2.id', 'LEFT')
+            ->join('ref_jabatan rj', 'rj.id = u.jabatan_id', 'left');
+        $this->search_sql();
+        $this->filter_sql();
+    }
+
+    private function search_sql(): void
+    {
+        if ($this->session->has_userdata('cari')) {
+            $cari = $this->session->cari;
+            $this->db
+                ->group_start()
+                ->like('p.nama', $cari)
+                ->or_like('u.pamong_nama', $cari)
+                ->or_like('u.pamong_niap', $cari)
+                ->or_like('u.pamong_nip', $cari)
+                ->or_like('u.pamong_nik', $cari)
+                ->or_like('p.nik', $cari)
+                ->group_end();
+        }
+    }
+
+    private function filter_sql(): void
+    {
+        if ($this->session->has_userdata('status')) {
+            $this->db->where('u.pamong_status', $this->session->status);
+        }
     }
 }

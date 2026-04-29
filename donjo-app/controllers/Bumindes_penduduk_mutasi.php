@@ -36,6 +36,7 @@
  */
 
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Models\LogHapusPenduduk;
 use App\Models\LogPenduduk;
@@ -73,12 +74,12 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
                 ->editColumn('sex', static fn ($row): string => strtoupper((string) JenisKelaminEnum::valueOf($row->penduduk->sex)))
                 ->editColumn('tanggallahir', static fn ($row) => tgl_indo_out($row->penduduk->tanggallahir))
                 ->editColumn('warganegara', static fn ($row): string => $row->penduduk->warganegara)
-                ->editColumn('alamat_sebelumnya', static fn ($row) => $row->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK ? $row->penduduk->alamat_sebelumnya : '-')
-                ->editColumn('tanggal_sebelumnya', static fn ($row) => $row->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK ? tgl_indo_out($row->penduduk->created_at) : '-')
-                ->editColumn('alamat_tujuan', static fn ($row) => $row->kode_peristiwa == LogPenduduk::PINDAH_KELUAR ? $row->alamat_tujuan : '-')
-                ->editColumn('tanggal_tujuan', static fn ($row) => $row->kode_peristiwa == LogPenduduk::PINDAH_KELUAR ? tgl_indo_out($row->tgl_peristiwa) : '-')
-                ->editColumn('meninggal_di', static fn ($row) => $row->kode_peristiwa == LogPenduduk::MATI ? $row->meninggal_di : '-')
-                ->editColumn('tanggal_meninggal', static fn ($row) => $row->kode_peristiwa == LogPenduduk::MATI ? tgl_indo_out($row->tgl_peristiwa) : '-')
+                ->editColumn('alamat_sebelumnya', static fn ($row) => $row->kode_peristiwa == PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value ? $row->penduduk->alamat_sebelumnya : '-')
+                ->editColumn('tanggal_sebelumnya', static fn ($row) => $row->kode_peristiwa == PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value ? tgl_indo_out($row->penduduk->created_at) : '-')
+                ->editColumn('alamat_tujuan', static fn ($row) => $row->kode_peristiwa == PeristiwaPendudukEnum::PINDAH_KELUAR->value ? $row->alamat_tujuan : '-')
+                ->editColumn('tanggal_tujuan', static fn ($row) => $row->kode_peristiwa == PeristiwaPendudukEnum::PINDAH_KELUAR->value ? tgl_indo_out($row->tgl_peristiwa) : '-')
+                ->editColumn('meninggal_di', static fn ($row) => $row->kode_peristiwa == PeristiwaPendudukEnum::MATI->value ? $row->meninggal_di : '-')
+                ->editColumn('tanggal_meninggal', static fn ($row) => $row->kode_peristiwa == PeristiwaPendudukEnum::MATI->value ? tgl_indo_out($row->tgl_peristiwa) : '-')
                 ->editColumn('ket', static fn ($row): string => $row->penduduk->created_at ? ($row->catatan ? strtoupper($row->catatan) : '-') : ('Penduduk sudah dihapus.'))
                 ->make();
         }
@@ -98,21 +99,6 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
         }
 
         return show_404();
-    }
-
-    private function sumberData()
-    {
-        $tahun = $this->input->get('tahun') ?? null;
-        $bulan = $this->input->get('bulan') ?? null;
-
-        return LogPenduduk::with(['penduduk'])
-            ->whereIn('kode_peristiwa', [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::BARU_PINDAH_MASUK])
-            ->whereHas('penduduk', static function ($query): void {
-                $query->where('status', StatusPendudukEnum::TETAP);
-            })
-            ->orderByDesc('tgl_lapor')
-            ->when($tahun, static fn ($q) => $q->whereYear('tgl_lapor', $tahun))
-            ->when($bulan, static fn ($q) => $q->whereMonth('tgl_lapor', $bulan));
     }
 
     public function dialog($aksi = 'cetak')
@@ -142,5 +128,20 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
         $data['letak_ttd'] = ['1', '2', '8'];
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        $tahun = $this->input->get('tahun') ?? null;
+        $bulan = $this->input->get('bulan') ?? null;
+
+        return LogPenduduk::with(['penduduk'])
+            ->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value])
+            ->whereHas('penduduk', static function ($query): void {
+                $query->where('status', StatusPendudukEnum::TETAP);
+            })
+            ->orderByDesc('tgl_lapor')
+            ->when($tahun, static fn ($q) => $q->whereYear('tgl_lapor', $tahun))
+            ->when($bulan, static fn ($q) => $q->whereMonth('tgl_lapor', $bulan));
     }
 }

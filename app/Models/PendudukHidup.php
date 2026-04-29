@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Enums\BahasaEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
+use App\Enums\StatusKTPEnum;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Wilayah;
@@ -54,12 +58,12 @@ class PendudukHidup extends BaseModel
     /**
      * {@inheritDoc}
      */
-    protected $table = 'penduduk_hidup';
+    public $incrementing = false;
 
     /**
      * {@inheritDoc}
      */
-    public $incrementing = false;
+    protected $table = 'penduduk_hidup';
 
     /**
      * {@inheritDoc}
@@ -75,9 +79,8 @@ class PendudukHidup extends BaseModel
         'namaAsuransi',
         'umur',
         'tanggalLahirId',
-        'urlFoto',
         'sakit_menahun',
-        'jenis_kelamin',
+        'status_rekam_ktp',
     ];
 
     /**
@@ -102,115 +105,12 @@ class PendudukHidup extends BaseModel
         return $this->belongsTo(PendudukMap::class, 'id', 'id');
     }
 
-    protected function scopeLepas($query, $shdk = false)
-    {
-        $query->whereNull('id_kk')->where('status', 1);
-
-        if ($shdk) {
-            $query->where(static fn ($q) => $q->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->orWhereNull('kk_level'));
-        } else {
-            $query->where(static fn ($q) => $q->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->orWhereNull('kk_level'));
-        }
-
-        return $query;
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function bahasa()
-    {
-        return $this->belongsTo(Bahasa::class, 'bahasa_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendidikan()
-    {
-        return $this->belongsTo(Pendidikan::class, 'pendidikan_sedang_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pekerjaan()
-    {
-        return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function cacat()
-    {
-        return $this->belongsTo(Cacat::class, 'cacat_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function kb()
-    {
-        return $this->belongsTo(KB::class, 'cara_kb_id')->withDefault();
-    }
-
     /**
      * Get the phone associated with the config.
      */
     public function config()
     {
         return $this->hasOne(Config::class, 'id', 'config_id');
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function statusRekamKtp()
-    {
-        return $this->belongsTo(StatusKtp::class, 'status_rekam')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendudukHubungan()
-    {
-        return $this->belongsTo(PendudukHubungan::class, 'kk_level')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendudukStatus()
-    {
-        return $this->belongsTo(PendudukStatus::class, 'status')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendudukStatusDasar()
-    {
-        return $this->belongsTo(StatusDasar::class, 'status_dasar')->withDefault();
     }
 
     /**
@@ -382,6 +282,31 @@ class PendudukHidup extends BaseModel
         return $this->tanggallahir?->format('d F Y');
     }
 
+    public function getPekerjaanAttribute(): string
+    {
+        return PekerjaanEnum::valueOf($this->pekerjaan_id) ?: '';
+    }
+
+    public function getStatusRekamKtpAttribute()
+    {
+        return StatusKTPEnum::valueOf($this->status_rekam) ?: '';
+    }
+
+    public function getJenisKelaminAttribute(): string
+    {
+        return JenisKelaminEnum::valueOf($this->sex) ?: '';
+    }
+
+    public function getBahasaAttribute(): string
+    {
+        return BahasaEnum::valueOf($this->bahasa_id) ?: '';
+    }
+
+    public function getPendudukStatusDasarAttribute(): string
+    {
+        return StatusDasarEnum::valueOf($this->status_dasar) ?: '';
+    }
+
     /**
      * Scope query untuk status penduduk.
      *
@@ -442,17 +367,7 @@ class PendudukHidup extends BaseModel
     public function scopeWithRef(mixed $query)
     {
         return $query->with([
-            'bahasa',
             'config',
-            'pendidikan',
-            'pekerjaan',
-            'cacat',
-            'kb',
-            'statusKawin',
-            'statusRekamKtp',
-            'pendudukHubungan',
-            'pendudukStatus',
-            'pendudukStatusDasar',
             'keluarga',
             'rtm',
             'clusterDesa',
@@ -461,15 +376,16 @@ class PendudukHidup extends BaseModel
         ]);
     }
 
-    /**
-     * Getter url foto attribute.
-     */
-    public function getUrlFotoAttribute(): void
+    protected function scopeLepas($query, $shdk = false)
     {
-    }
+        $query->whereNull('id_kk')->where('status', 1);
 
-    public function getJenisKelaminAttribute(): string
-    {
-        return JenisKelaminEnum::valueOf($this->sex) ?: '';
+        if ($shdk) {
+            $query->where(static fn ($q) => $q->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->orWhereNull('kk_level'));
+        } else {
+            $query->where(static fn ($q) => $q->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->orWhereNull('kk_level'));
+        }
+
+        return $query;
     }
 }

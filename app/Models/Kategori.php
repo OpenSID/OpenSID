@@ -55,18 +55,23 @@ class Kategori extends BaseModel
     public const UNLOCK = 1;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'kategori';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => false,
+    ];
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'kategori';
 
     /**
      * The attributes that are mass assignable.
@@ -83,11 +88,6 @@ class Kategori extends BaseModel
         'tipe',
     ];
 
-    public $sortable = [
-        'order_column_name'  => 'urut',
-        'sort_when_creating' => false,
-    ];
-
     public static function boot(): void
     {
         parent::boot();
@@ -96,6 +96,25 @@ class Kategori extends BaseModel
             $urutTerakhir = Kategori::select(['urut'])->where(['config_id' => $model->config_id])->whereParrent($model->parrent)->orderBy('urut', 'desc')->first();
             $model->urut  = $urutTerakhir ? (int) ($urutTerakhir->urut) + 1 : 1;
         });
+    }
+
+    public static function isUniqueKategori($kategori, $config_id, $id = null)
+    {
+        $query = Kategori::where(['kategori' => $kategori, 'config_id' => $config_id]);
+        if ($id) {
+            $query->where('id', '!=', $id);
+        }
+
+        return $query->count();
+    }
+
+    public static function daftar()
+    {
+        return self::with(['children' => static fn ($q) => $q->active()->orderBy('urut')])->active()->orderBy('urut')->get()->map(static function ($item) {
+            $item->submenu = $item->children->toArray();
+
+            return $item;
+        })->toArray();
     }
 
     /**
@@ -118,16 +137,6 @@ class Kategori extends BaseModel
     public function scopeConfigId(mixed $query)
     {
         return $query->where('config_id', identitas('id'))->orWhereNull('config_id');
-    }
-
-    protected function scopeChild($query, int $parent)
-    {
-        return $query->whereParrent($parent);
-    }
-
-    protected function scopeActive($query)
-    {
-        return $query->whereEnabled(self::UNLOCK);
     }
 
     public function isActive(): bool
@@ -153,22 +162,13 @@ class Kategori extends BaseModel
         return $this->hasMany(Artikel::class, 'id_kategori');
     }
 
-    public static function isUniqueKategori($kategori, $config_id, $id = null)
+    protected function scopeChild($query, int $parent)
     {
-        $query = Kategori::where(['kategori' => $kategori, 'config_id' => $config_id]);
-        if ($id) {
-            $query->where('id', '!=', $id);
-        }
-
-        return $query->count();
+        return $query->whereParrent($parent);
     }
 
-    public static function daftar()
+    protected function scopeActive($query)
     {
-        return self::with(['children' => static fn ($q) => $q->active()->orderBy('urut')])->active()->orderBy('urut')->get()->map(static function ($item) {
-            $item->submenu = $item->children->toArray();
-
-            return $item;
-        })->toArray();
+        return $query->whereEnabled(self::UNLOCK);
     }
 }

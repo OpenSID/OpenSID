@@ -74,12 +74,35 @@
         <div class="col-md-9">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#profil" data-toggle="tab">Profil</a></li>
-                    <li><a href="#sandi" data-toggle="tab">Sandi</a></li>
+                    <li class="active"><a href="#profil" data-toggle="tab"><i class="fa fa-user"></i> &nbsp; Profil</a></li>
+                    <li><a href="#sandi" data-toggle="tab"><i class="fa fa-gear"></i> &nbsp; Pengaturan Sandi</a></li>
+                    <li><a href="#2fa" data-toggle="tab">Keamanan</a></li>
+                    @if(setting('login_otp'))
+                    <li class='{{ jecho($tab_ini, 12, 'active') }}'>
+                        <a href="#otp" data-toggle="tab" title="Pengaturan Aktivasi OTP">
+                            <i class="fa fa-key"></i> &nbsp; Pengaturan Aktivasi OTP  &nbsp;
+                            @if(auth()->user()->otp_enabled)
+                                {{-- Tampilan untuk layar besar (md, lg) --}}
+                                <span class="pull-right hidden-xs hidden-sm"><small class="label pull-right bg-green">Aktif</small></span>
+                                {{-- Tampilan ikon untuk layar kecil (xs, sm) --}}
+                                <span class="pull-right visible-xs visible-sm"><i class="fa fa-check-circle text-green"></i></span>
+                            @else
+                                {{-- Tampilan untuk layar besar (md, lg) --}}
+                                <span class="pull-right hidden-xs hidden-sm"><small class="label pull-right bg-yellow">Tidak Aktif</small></span>
+                                {{-- Tampilan ikon untuk layar kecil (xs, sm) --}}
+                                <span class="pull-right visible-xs visible-sm"><i class="fa fa-warning text-yellow"></i></span>
+                            @endif
+                        </a>
+                    </li>
+                    @endif
                 </ul>
                 <div class="tab-content">
                     @include('admin.pengguna.tab-profil')
                     @include('admin.pengguna.tab-sandi')
+                    @include('admin.pengguna.tab-2fa')
+                    @if(setting('login_otp'))
+                    @include('admin.pengguna.tab-otp')
+                    @endif
                 </div>
             </div>
         </div>
@@ -87,11 +110,25 @@
 @endsection
 @push('scripts')
     <script>
+        // Hapus localStorage untuk timer OTP aktivasi saat halaman ini dimuat.
+        // Ini untuk memastikan timer tidak muncul lagi setelah proses selesai/dibatalkan.
+        localStorage.removeItem('otpActivationExpiry');
+
         $(document).ready(function() {
             let _hash = window.location.hash.substring(1)
             if (_hash) {
                 $('ul.nav.nav-tabs a[href="#' + _hash + '"]').click()
             }
+
+            // Menyimpan hash tab saat tab diubah
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                let hash = $(e.target).attr("href");
+                if (hash.substr(0, 1) == "#") {
+                    let pos = $(document).scrollTop();
+                    window.location.hash = hash;
+                    $(document).scrollTop(pos); // Mencegah halaman melompat ke atas
+                }
+            });
 
             $('#verif_telegram').click(function() {
                 Swal.fire({

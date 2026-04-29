@@ -42,18 +42,18 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Bahasa extends BaseModel
 {
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'ref_penduduk_bahasa';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ref_penduduk_bahasa';
 
     /**
      * The guarded with the model.

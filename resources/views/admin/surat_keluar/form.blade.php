@@ -42,7 +42,6 @@
                             <i class="fa fa-picture-o pop-up-images" style="font-size: 60px;" aria-hidden="true" data-title="Berkas {{ $surat_keluar->nomor_surat }}" data-url="{{ site_url("surat_keluar/berkas/{$surat_keluar->id}") }}"
                                 src="{{ site_url("'surat_keluar/berkas/{$surat_keluar->id}") }}"></i>
                         @endif
-                        <p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="{{ $surat_keluar->berkas_scan }}" /> Hapus Berkas Lama</label></p>
                     </div>
                 </div>
             @endif
@@ -56,7 +55,9 @@
                             <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                         </span>
                     </div>
-                    <span class="help-block"><code>(Kosongkan jika tidak ingin mengubah berkas)</code></span>
+                    @if (null !== $surat_keluar['berkas_scan'] && $surat_keluar['berkas_scan'] != '.')
+                        <span class="help-block"><code>(Kosongkan jika tidak ingin mengubah berkas)</code></span>
+                    @endif
                 </div>
             </div>
             <div class="form-group">

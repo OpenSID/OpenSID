@@ -268,6 +268,19 @@ class Sms extends Admin_Controller
         redirect('sms/arsip');
     }
 
+    public function hubungDelete($id = null): void
+    {
+        isCan('h');
+
+        if (HubungWarga::destroy($this->request['id_cb'] ?? $id)) {
+            set_session('success', 'Berhasil Hapus Data');
+        } else {
+            set_session('error', 'Gagal Hapus Data');
+        }
+
+        redirect('sms/arsip');
+    }
+
     // Hanya filter inputan
     protected function hubungWargaValidate($request = [])
     {
@@ -365,18 +378,5 @@ class Sms extends Admin_Controller
         $result['jumlahData'] = count($daftarAnggota);
 
         return $result;
-    }
-
-    public function hubungDelete($id = null): void
-    {
-        isCan('h');
-
-        if (HubungWarga::destroy($this->request['id_cb'] ?? $id)) {
-            set_session('success', 'Berhasil Hapus Data');
-        } else {
-            set_session('error', 'Gagal Hapus Data');
-        }
-
-        redirect('sms/arsip');
     }
 }

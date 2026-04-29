@@ -37,9 +37,11 @@
 
 use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
 use App\Enums\StatusDasarEnum;
 use App\Models\LogPenduduk;
+use App\Models\Modul;
 use App\Models\RentangUmur;
 use App\Models\Wilayah;
 use App\Traits\Upload;
@@ -53,10 +55,10 @@ class Penduduk_log extends Admin_Controller
 {
     use Upload;
 
-    public $modul_ini           = 'kependudukan';
-    public $sub_modul_ini       = 'peristiwa';
-    public $kategori_pengaturan = 'Catatan Peristiwa';
-    private $pertanyaan         = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'peristiwa';
+    public $kategori_pengaturan;
+    private $pertanyaan = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
     private $judulStatistik;
     private $statistikFilter = [];
 
@@ -64,6 +66,7 @@ class Penduduk_log extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
+        $this->kategori_pengaturan = Modul::where('slug', $this->sub_modul_ini)->first()->modul ?? 'Riwayat Mutasi Penduduk';
     }
 
     public function index(): void
@@ -103,7 +106,7 @@ class Penduduk_log extends Admin_Controller
                             'url'   => 'penduduk_log/edit/' . $row->id,
                             'modal' => true,
                         ])->render();
-                        if (! in_array($row->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK, LogPenduduk::TIDAK_TETAP_PERGI])) {
+                        if (! in_array($row->kode_peristiwa, [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value])) {
                             if ($dataLengkap) {
                                 $aksi .= ' <a href="#" data-href="' . ci_route("penduduk_log.kembalikan_status.{$row->id}") . '" class="btn bg-olive btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-body="' . $pertanyaan . '" data-target="#confirm-status"><i class="fa fa-undo"></i></a> ';
                                 if ($row->isKembaliDatang() && $row->isLogPergiTerakhir() && in_array($row->penduduk->status_dasar, [StatusDasarEnum::PINDAH, StatusDasarEnum::PERGI])) {
@@ -113,7 +116,7 @@ class Penduduk_log extends Admin_Controller
                         }
                     }
 
-                    if ($row->kode_peristiwa == LogPenduduk::MATI) {
+                    if ($row->kode_peristiwa == PeristiwaPendudukEnum::MATI->value) {
                         $aksi .= View::make('admin.layouts.components.buttons.lihat', [
                             'url'   => ci_route("penduduk_log.dokumen.{$row->id}"),
                             'blank' => true,
@@ -123,27 +126,27 @@ class Penduduk_log extends Admin_Controller
 
                     if ($ubah) {
                         switch ($row->kode_peristiwa) {
-                            case LogPenduduk::BARU_LAHIR:
+                            case PeristiwaPendudukEnum::BARU_LAHIR->value:
                                 $suratTerkait = json_decode(setting('surat_kelahiran_terkait_penduduk'), 1);
                                 break;
 
-                            case LogPenduduk::MATI:
+                            case PeristiwaPendudukEnum::MATI->value:
                                 $suratTerkait = json_decode(setting('surat_kematian_terkait_penduduk'), 1);
                                 break;
 
-                            case LogPenduduk::PINDAH_KELUAR:
+                            case PeristiwaPendudukEnum::PINDAH_KELUAR->value:
                                 $suratTerkait = json_decode(setting('surat_pindah_keluar_terkait_penduduk'), 1);
                                 break;
 
-                            case LogPenduduk::HILANG:
+                            case PeristiwaPendudukEnum::HILANG->value:
                                 $suratTerkait = json_decode(setting('surat_hilang_terkait_penduduk'), 1);
                                 break;
 
-                            case LogPenduduk::BARU_PINDAH_MASUK:
+                            case PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value:
                                 $suratTerkait = json_decode(setting('surat_pindah_masuk_terkait_penduduk'), 1);
                                 break;
 
-                            case LogPenduduk::TIDAK_TETAP_PERGI:
+                            case PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value:
                                 $suratTerkait = json_decode(setting('surat_pergi_terkait_penduduk'), 1);
                                 break;
                         }
@@ -166,6 +169,240 @@ class Penduduk_log extends Admin_Controller
         }
 
         return show_404();
+    }
+
+    public function dokumen($id): void
+    {
+        $log = LogPenduduk::findOrFail($id);
+
+        // download file
+        $this->load->helper('download');
+        $file = $log->file_akta_mati;
+        if ($file != '') {
+            $path = LOKASI_DOKUMEN . $file;
+            force_download($path, null);
+        } else {
+            show_404();
+        }
+    }
+
+    public function edit($id): void
+    {
+        isCan('u');
+        $data['log_status_dasar'] = LogPenduduk::with('penduduk')->findOrFail($id);
+        $data['list_ref_pindah']  = PindahEnum::all();
+        $data['sebab']            = unserialize(SEBAB);
+        $data['penolong_mati']    = unserialize(PENOLONG_MATI);
+        $data['form_action']      = ci_route("penduduk_log.update.{$id}");
+
+        view('admin.penduduk_log.ajax_edit', $data);
+    }
+
+    public function update($id): void
+    {
+        isCan('u');
+        $log             = LogPenduduk::findOrFail($id);
+        $data['catatan'] = htmlentities($this->input->post('catatan'));
+        if ($this->input->post('alamat_tujuan')) {
+            $data['alamat_tujuan'] = htmlentities($this->input->post('alamat_tujuan'));
+        }
+
+        if ($this->input->post('ref_pindah')) {
+            $data['ref_pindah'] = (int) $this->input->post('ref_pindah');
+        }
+
+        if ($this->input->post('meninggal_di')) {
+            $data['meninggal_di'] = htmlentities($this->input->post('meninggal_di'));
+        }
+
+        if ($this->input->post('jam_mati')) {
+            $data['jam_mati'] = htmlentities($this->input->post('jam_mati'));
+        }
+
+        if ($this->input->post('sebab')) {
+            $data['sebab'] = (int) $this->input->post('sebab');
+        }
+
+        if ($this->input->post('penolong_mati')) {
+            $data['penolong_mati'] = (int) $this->input->post('penolong_mati');
+        }
+
+        if ($this->input->post('akta_mati')) {
+            $data['akta_mati'] = $this->input->post('akta_mati');
+            if (! empty($_FILES['nama_file']['name'])) {
+                $data['file_akta_mati'] = $this->uploadAktaMati($id);
+            }
+        }
+
+        $penduduk = [];
+        if ($this->input->post('anak_ke')) {
+            $penduduk['kelahiran_anak_ke'] = (int) $this->input->post('anak_ke');
+        }
+
+        if ($this->input->post('alamat_sebelumnya')) {
+            $penduduk['alamat_sebelumnya'] = htmlentities($this->input->post('alamat_sebelumnya'));
+        }
+
+        if ($penduduk) {
+            $log->penduduk()->update($penduduk);
+        }
+        $data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
+        $data['tgl_lapor']     = rev_tgl($this->input->post('tgl_lapor'), null);
+        $data['updated_at']    = date('Y-m-d H:i:s');
+        $data['updated_by']    = ci_auth()->id;
+
+        $log->update($data);
+
+        redirect_with('success', 'Berhasil ubah data catatan peristiwa');
+    }
+
+    public function kembalikan_status($id): void
+    {
+        isCan('u');
+
+        if (! data_lengkap()) {
+            show_404();
+        }
+        $log = LogPenduduk::findOrFail($id);
+        DB::beginTransaction();
+
+        try {
+            $log->kembalikan_status();
+            DB::commit();
+            redirect_with('success', 'Berhasil mengembalikan status');
+        } catch (Exception $e) {
+            DB::rollBack();
+            redirect_with('error', $e->getMessage());
+        }
+    }
+
+    public function ajax_kembalikan_status_pergi($id): void
+    {
+        isCan('u');
+        $data['log_status_dasar'] = LogPenduduk::findOrFail($id);
+        $data['form_action']      = ci_route("penduduk_log.kembalikan_status_pergi.{$id}");
+
+        view('admin.penduduk_log.ajax_edit_status_dasar_pergi', $data);
+    }
+
+    public function kembalikan_status_pergi($id): void
+    {
+        isCan('u');
+
+        if (! data_lengkap()) {
+            show_404();
+        }
+        $data = [
+            'tgl_lapor'     => $this->input->post('tgl_lapor'),
+            'tgl_peristiwa' => $this->input->post('tgl_peristiwa'),
+            'maksud_tujuan' => $this->input->post('maksud_tujuan'),
+        ];
+        $log = LogPenduduk::findOrFail($id);
+
+        try {
+            $log->kembalikan_status_pergi($data);
+            redirect_with('success', 'Berhasil mengembalikan status pergi');
+        } catch (Exception $e) {
+            redirect_with('error', $e->getMessage());
+        }
+    }
+
+    public function kembalikan_status_all(): void
+    {
+        isCan('u');
+
+        if (! data_lengkap()) {
+            show_404();
+        }
+        $ids  = $this->input->post('id_cb') ?? [];
+        $logs = LogPenduduk::whereIn('id', $ids)->get();
+        DB::beginTransaction();
+
+        try {
+            foreach ($logs as $log) {
+                $log->kembalikan_status();
+            }
+            DB::commit();
+            redirect_with('success', 'Berhasil mengembalikan status');
+        } catch (Exception $e) {
+            DB::rollBack();
+            redirect_with('error', $e->getMessage());
+        }
+    }
+
+    public function cetak($aksi = 'cetak', $privasi_nik = 0): void
+    {
+        $query = datatables($this->sumberData())
+            ->filter(function ($query) {
+                $query->when($this->input->post('id_cb'), static function ($query, $ids) {
+                    $query->whereIn('id', json_decode($ids));
+                });
+            });
+
+        $data = [
+            'main'  => $query->prepareQuery()->results(),
+            'judul' => $this->input->post('judul'),
+            'aksi'  => $aksi,
+        ];
+        if ($privasi_nik == 1) {
+            $data['privasi_nik'] = true;
+        }
+        if ($aksi == 'unduh') {
+            header('Content-type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=Log_Penduduk_' . date('Ymd') . '.xls');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+        }
+        view('admin.penduduk_log.cetak', $data);
+    }
+
+    public function ajax_cetak(string $aksi = 'cetak'): void
+    {
+        $data['aksi']   = $aksi;
+        $data['action'] = ci_route('penduduk_log.cetak', $aksi);
+
+        view('admin.penduduk.ajax_cetak_bersama', $data);
+    }
+
+    public function statistik($tipe = '0', $nomor = 0, $sex = null): void
+    {
+        $dusun                          = $this->input->get('dusun');
+        $rw                             = $this->input->get('rw');
+        $rt                             = $this->input->get('rt');
+        $this->statistikFilter['sex']   = ($sex == 0) ? null : $sex;
+        $judulJenisKelamin              = $sex ? ' - ' . JenisKelaminEnum::valueToUpper($sex) : '';
+        $this->statistikFilter['dusun'] = $dusun;
+        $this->statistikFilter['rw']    = $rw;
+        $this->statistikFilter['rt']    = $rt;
+        $this->statistikFilter['value'] = $nomor;
+        if ((string) $tipe === 'akta-kematian') {
+            $kategori                                = 'AKTA KEMATIAN : ';
+            $this->statistikFilter['status_dasar']   = StatusDasarEnum::MATI;
+            $this->statistikFilter['kode_peristiwa'] = PeristiwaPendudukEnum::MATI->value;
+        }
+
+        switch ($nomor) {
+            case BELUM_MENGISI:
+                $this->judulStatistik = $kategori . 'BELUM MENGISI';
+                break;
+
+            case TOTAL:
+                $this->judulStatistik = $kategori . 'TOTAL';
+                break;
+
+            case JUMLAH:
+                $this->judulStatistik = $kategori . 'JUMLAH';
+                break;
+
+            default:
+                $judul = RentangUmur::find($nomor);
+                if ($judul['nama']) {
+                    $this->judulStatistik = $kategori . $judul['nama'];
+                }
+                break;
+        }
+        $this->judulStatistik .= $judulJenisKelamin;
+        $this->index();
     }
 
     private function sumberData()
@@ -256,87 +493,6 @@ class Penduduk_log extends Admin_Controller
             );
     }
 
-    public function dokumen($id): void
-    {
-        $log = LogPenduduk::findOrFail($id);
-
-        // download file
-        $this->load->helper('download');
-        $file = $log->file_akta_mati;
-        if ($file != '') {
-            $path = LOKASI_DOKUMEN . $file;
-            force_download($path, null);
-        } else {
-            show_404();
-        }
-    }
-
-    public function edit($id): void
-    {
-        isCan('u');
-        $data['log_status_dasar'] = LogPenduduk::with('penduduk')->findOrFail($id);
-        $data['list_ref_pindah']  = PindahEnum::all();
-        $data['sebab']            = unserialize(SEBAB);
-        $data['penolong_mati']    = unserialize(PENOLONG_MATI);
-        $data['form_action']      = ci_route("penduduk_log.update.{$id}");
-
-        view('admin.penduduk_log.ajax_edit', $data);
-    }
-
-    public function update($id): void
-    {
-        isCan('u');
-        $log             = LogPenduduk::findOrFail($id);
-        $data['catatan'] = htmlentities($this->input->post('catatan'));
-        if ($this->input->post('alamat_tujuan')) {
-            $data['alamat_tujuan'] = htmlentities($this->input->post('alamat_tujuan'));
-        }
-
-        if ($this->input->post('meninggal_di')) {
-            $data['meninggal_di'] = htmlentities($this->input->post('meninggal_di'));
-        }
-
-        if ($this->input->post('jam_mati')) {
-            $data['jam_mati'] = htmlentities($this->input->post('jam_mati'));
-        }
-
-        if ($this->input->post('sebab')) {
-            $data['sebab'] = (int) $this->input->post('sebab');
-        }
-
-        if ($this->input->post('penolong_mati')) {
-            $data['penolong_mati'] = (int) $this->input->post('penolong_mati');
-        }
-
-        if ($this->input->post('akta_mati')) {
-            $data['akta_mati'] = $this->input->post('akta_mati');
-            if (! empty($_FILES['nama_file']['name'])) {
-                $data['file_akta_mati'] = $this->uploadAktaMati($id);
-            }
-        }
-
-        $penduduk = [];
-        if ($this->input->post('anak_ke')) {
-            $penduduk['kelahiran_anak_ke'] = (int) $this->input->post('anak_ke');
-        }
-
-        if ($this->input->post('alamat_sebelumnya')) {
-            $penduduk['alamat_sebelumnya'] = htmlentities($this->input->post('alamat_sebelumnya'));
-        }
-
-        if ($penduduk) {
-            $log->penduduk()->update($penduduk);
-        }
-        $data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
-        $data['tgl_lapor']     = rev_tgl($this->input->post('tgl_lapor'), null);
-        $data['updated_at']    = date('Y-m-d H:i:s');
-        $data['updated_by']    = ci_auth()->id;
-
-        $log->update($data);
-
-        redirect_with('success', 'Berhasil ubah data catatan peristiwa');
-    }
-
     private function uploadAktaMati($idLog)
     {
         $config['upload_path']   = LOKASI_DOKUMEN;
@@ -346,153 +502,5 @@ class Penduduk_log extends Admin_Controller
         $config['overwrite']     = true;
 
         return $this->upload('nama_file', $config);
-    }
-
-    public function kembalikan_status($id): void
-    {
-        isCan('u');
-
-        if (! data_lengkap()) {
-            show_404();
-        }
-        $log = LogPenduduk::findOrFail($id);
-        DB::beginTransaction();
-
-        try {
-            $log->kembalikan_status();
-            DB::commit();
-            redirect_with('success', 'Berhasil mengembalikan status');
-        } catch (Exception $e) {
-            DB::rollBack();
-            redirect_with('error', $e->getMessage());
-        }
-    }
-
-    public function ajax_kembalikan_status_pergi($id): void
-    {
-        isCan('u');
-        $data['log_status_dasar'] = LogPenduduk::findOrFail($id);
-        $data['form_action']      = ci_route("penduduk_log.kembalikan_status_pergi.{$id}");
-
-        view('admin.penduduk_log.ajax_edit_status_dasar_pergi', $data);
-    }
-
-    public function kembalikan_status_pergi($id): void
-    {
-        isCan('u');
-
-        if (! data_lengkap()) {
-            show_404();
-        }
-        $data = [
-            'tgl_lapor'     => $this->input->post('tgl_lapor'),
-            'tgl_peristiwa' => $this->input->post('tgl_peristiwa'),
-            'maksud_tujuan' => $this->input->post('maksud_tujuan'),
-        ];
-        $log = LogPenduduk::findOrFail($id);
-
-        try {
-            $log->kembalikan_status_pergi($data);
-            redirect_with('success', 'Berhasil mengembalikan status pergi');
-        } catch (Exception $e) {
-            redirect_with('error', $e->getMessage());
-        }
-    }
-
-    public function kembalikan_status_all(): void
-    {
-        isCan('u');
-
-        if (! data_lengkap()) {
-            show_404();
-        }
-        $ids  = $this->input->post('id_cb') ?? [];
-        $logs = LogPenduduk::whereIn('id', $ids)->get();
-        DB::beginTransaction();
-
-        try {
-            foreach ($logs as $log) {
-                $log->kembalikan_status();
-            }
-            DB::commit();
-            redirect_with('success', 'Berhasil mengembalikan status');
-        } catch (Exception $e) {
-            DB::rollBack();
-            redirect_with('error', $e->getMessage());
-        }
-    }
-
-    public function cetak($aksi = 'cetak', $privasi_nik = 0): void
-    {
-        $query = datatables($this->sumberData())
-            ->filter(function ($query) {
-                $query->when($this->input->post('id_cb'), static function ($query, $id) {
-                    $query->whereIn('id', $id);
-                });
-            });
-
-        $data = [
-            'main'  => $query->prepareQuery()->results(),
-            'judul' => $this->input->post('judul'),
-        ];
-        if ($privasi_nik == 1) {
-            $data['privasi_nik'] = true;
-        }
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=Log_Penduduk_' . date('Ymd') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
-        view('admin.penduduk_log.cetak', $data);
-    }
-
-    public function ajax_cetak(string $aksi = 'cetak'): void
-    {
-        $data['aksi']   = $aksi;
-        $data['action'] = ci_route('penduduk_log.cetak', $aksi);
-
-        view('admin.penduduk.ajax_cetak_bersama', $data);
-    }
-
-    public function statistik($tipe = '0', $nomor = 0, $sex = null): void
-    {
-        $dusun                          = $this->input->get('dusun');
-        $rw                             = $this->input->get('rw');
-        $rt                             = $this->input->get('rt');
-        $this->statistikFilter['sex']   = ($sex == 0) ? null : $sex;
-        $judulJenisKelamin              = $sex ? ' - ' . JenisKelaminEnum::valueToUpper($sex) : '';
-        $this->statistikFilter['dusun'] = $dusun;
-        $this->statistikFilter['rw']    = $rw;
-        $this->statistikFilter['rt']    = $rt;
-        $this->statistikFilter['value'] = $nomor;
-        if ((string) $tipe === 'akta-kematian') {
-            $kategori                                = 'AKTA KEMATIAN : ';
-            $this->statistikFilter['status_dasar']   = StatusDasarEnum::MATI;
-            $this->statistikFilter['kode_peristiwa'] = LogPenduduk::MATI;
-        }
-
-        switch ($nomor) {
-            case BELUM_MENGISI:
-                $this->judulStatistik = $kategori . 'BELUM MENGISI';
-                break;
-
-            case TOTAL:
-                $this->judulStatistik = $kategori . 'TOTAL';
-                break;
-
-            case JUMLAH:
-                $this->judulStatistik = $kategori . 'JUMLAH';
-                break;
-
-            default:
-                $judul = RentangUmur::find($nomor);
-                if ($judul['nama']) {
-                    $this->judulStatistik = $kategori . $judul['nama'];
-                }
-                break;
-        }
-        $this->judulStatistik .= $judulJenisKelamin;
-        $this->index();
     }
 }

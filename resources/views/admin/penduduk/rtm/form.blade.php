@@ -3,7 +3,7 @@
         <div class='modal-body'>
             <div class="form-group">
                 <label for="no_rtm">Nomor Rumah Tangga</label>
-                <input id="no_rtm" name="no_rtm" class="form-control input-sm digits" type="text" placeholder="Nomor Rumah Tangga" maxlength="30" />
+                <input id="no_rtm" name="no_rtm" class="form-control input-sm nama_terbatas" type="text" placeholder="Nomor Rumah Tangga" maxlength="30" />
                 <code>Kosongkan untuk melanjutkan nomor rumah tangga terakhir</code>
             </div>
             <div class="form-group">
@@ -16,6 +16,8 @@
                 Silakan cari nama / NIK dari data penduduk yang sudah terinput.
                 Penduduk yang dipilih otomatis berstatus sebagai Kepala Rumah Tangga baru tersebut.
             </p>
+
+            <div id="anggota_rtm"></div>
 
             <div class="form-group">
                 <label for="bdt">BDT</label>
@@ -46,8 +48,9 @@
 @endif
 
 <script>
-    $('document').ready(function() {
+    $(document).ready(function() {
         $('#nik').select2({
+            dropdownParent: $('#modalBox'),
             ajax: {
                 url: '{{ ci_route('rtm.apipendudukrtm') }}',
                 dataType: 'json',
@@ -67,6 +70,46 @@
             escapeMarkup: function(markup) {
                 return markup;
             },
+        });
+
+        $('#nik').on('change', function() {
+            var id = $(this).val();
+            if (id) {
+                $.ajax({
+                    url: '{{ ci_route("rtm.list_anggota_kk") }}/' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        var html =
+                            '<div class="form-group"><label for="anggota">Anggota Rumah Tangga</label><table class="table table-bordered table-striped table-hover"><thead><tr><th><input type="checkbox" id="check-all"></th><th>No</th><th>NIK</th><th>Nama</th><th>Hubungan</th></tr></thead><tbody>';
+                        if (response.data && response.data.length > 0) {
+                            response.data.forEach(function(item, index) {
+                                html += '<tr>';
+                                html +=
+                                    '<td class="padat"><input type="checkbox" name="anggota_kk[]" value="' +
+                                    item.id + '"></td>';
+                                html += '<td class="padat">' + (index + 1) + '</td>';
+                                html += '<td>' + item.nik + '</td>';
+                                html += '<td>' + item.nama + '</td>';
+                                html += '<td>' + item.hubungan + '</td>';
+                                html += '</tr>';
+                            });
+                        } else {
+                            html +=
+                                '<tr><td colspan="5" class="text-center">Tidak ada data</td></tr>';
+                        }
+                        html += '</div></tbody></table>';
+                        $('#anggota_rtm').html(html);
+
+                        $('#check-all').on('click', function() {
+                            $('input[name^="anggota_kk"]').prop('checked', $(this)
+                                .prop('checked'));
+                        });
+                    }
+                });
+            } else {
+                $('#anggota_rtm').html('');
+            }
         });
     });
 </script>

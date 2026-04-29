@@ -79,60 +79,6 @@ class Migrasi_2025040171
             ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
     }
 
-    protected function bersihkanTablePembangunanDokumentasi()
-    {
-        PembangunanDokumentasi::whereDoesntHave('pembangunan')->delete();
-    }
-
-    protected function ubahUrlSlider()
-    {
-        ModulModel::whereUrl('web/slider')->update([
-            'url' => 'slider',
-        ]);
-    }
-
-    protected function hapusDanUbahConfigIdMenjadiWajib(): void
-    {
-        // Daftar tabel untuk kebutuhan OpenKAB
-        $tabelTerkecuali = ['kategori', 'program', 'suplemen', 'point', 'log_activity'];
-
-        // Ambil semua tabel di database aktif yang memiliki kolom config_id masih bisa NULL
-        $tabels = DB::table('INFORMATION_SCHEMA.COLUMNS')
-            ->select('TABLE_NAME')
-            ->where('COLUMN_NAME', 'config_id')
-            ->where('IS_NULLABLE', 'YES')
-            ->where('TABLE_SCHEMA', DB::getDatabaseName())
-            ->whereNotIn('TABLE_NAME', static function ($query) {
-                $query->select('TABLE_NAME')
-                    ->from('INFORMATION_SCHEMA.VIEWS');
-            })
-            ->whereNotIn('TABLE_NAME', $tabelTerkecuali)
-            ->pluck('TABLE_NAME');
-
-        foreach ($tabels as $tabel) {
-            // Hapus semua data yang config_id nya NULL
-            DB::table($tabel)->whereNull('config_id')->delete();
-
-            // Ubah config_id menjadi NOT NULL
-            Schema::table($tabel, static function (Blueprint $table) {
-                $table->integer('config_id')->nullable(false)->change();
-            });
-        }
-    }
-
-    protected function ubahNilaiKolomAktifModul()
-    {
-        ModulModel::where('aktif', 2)->update(['aktif' => StatusEnum::TIDAK]);
-    }
-
-    protected function ubahDefaultSlider()
-    {
-        $settings = new SettingAplikasiRepository();
-        if ($settings->firstByKey('sumber_gambar_slider')->value == 3) {
-            $settings->updateWithKey('sumber_gambar_slider', 1);
-        }
-    }
-
     public function sesuaikanStatusMediaSosial()
     {
         DB::table('media_sosial')
@@ -240,21 +186,6 @@ class Migrasi_2025040171
         }
     }
 
-    protected function sesuaikanKbbi()
-    {
-        DB::table('setting_aplikasi')
-            ->where('key', 'tampilkan_pendaftaran')
-            ->update(['keterangan' => 'Aktifkan / Nonaktifkan Pendaftaran Layanan Mandiri']);
-    }
-
-    protected function updateMaxZoomPeta()
-    {
-        DB::table('setting_aplikasi')
-            ->where('key', 'max_zoom_peta')
-            ->whereRaw('CAST(value AS UNSIGNED) > 30')
-            ->update(['value' => '30']);
-    }
-
     public function updateTahunIDM()
     {
         $tahun = SettingAplikasi::where('key', 'tahun_idm')
@@ -282,5 +213,74 @@ class Migrasi_2025040171
 
         // Dokumen Hidup
         DB::statement('CREATE OR REPLACE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`config_id` AS `config_id`,`dokumen`.`satuan` AS `satuan`,`dokumen`.`nama` AS `nama`,`dokumen`.`enabled` AS `enabled`,`dokumen`.`tgl_upload` AS `tgl_upload`,`dokumen`.`id_pend` AS `id_pend`,`dokumen`.`kategori` AS `kategori`,`dokumen`.`attr` AS `attr`,`dokumen`.`tipe` AS `tipe`,`dokumen`.`url` AS `url`,`dokumen`.`tahun` AS `tahun`,`dokumen`.`kategori_info_publik` AS `kategori_info_publik`,`dokumen`.`updated_at` AS `updated_at`,`dokumen`.`deleted` AS `deleted`,`dokumen`.`id_syarat` AS `id_syarat`,`dokumen`.`id_parent` AS `id_parent`,`dokumen`.`created_at` AS `created_at`,`dokumen`.`created_by` AS `created_by`,`dokumen`.`updated_by` AS `updated_by`,`dokumen`.`dok_warga` AS `dok_warga`,`dokumen`.`lokasi_arsip` AS `lokasi_arsip`, `dokumen`.`keterangan` AS `keterangan`, `dokumen`.`status` AS `status`, `dokumen`.`retensi_date` AS `retensi_date`, `dokumen`.`retensi_number` AS `retensi_number`, `dokumen`.`retensi_unit` AS `retensi_unit`, `dokumen`.`published_at` AS `published_at` from `dokumen` where (`dokumen`.`deleted` <> 1)');
+    }
+
+    public function bersihkanTablePembangunanDokumentasi()
+    {
+        PembangunanDokumentasi::whereDoesntHave('pembangunan')->delete();
+    }
+
+    public function ubahUrlSlider()
+    {
+        ModulModel::whereUrl('web/slider')->update([
+            'url' => 'slider',
+        ]);
+    }
+
+    public function hapusDanUbahConfigIdMenjadiWajib(): void
+    {
+        // Daftar tabel untuk kebutuhan OpenKAB
+        $tabelTerkecuali = ['kategori', 'program', 'suplemen', 'point', 'log_activity'];
+
+        // Ambil semua tabel di database aktif yang memiliki kolom config_id masih bisa NULL
+        $tabels = DB::table('INFORMATION_SCHEMA.COLUMNS')
+            ->select('TABLE_NAME')
+            ->where('COLUMN_NAME', 'config_id')
+            ->where('IS_NULLABLE', 'YES')
+            ->where('TABLE_SCHEMA', DB::getDatabaseName())
+            ->whereNotIn('TABLE_NAME', static function ($query) {
+                $query->select('TABLE_NAME')
+                    ->from('INFORMATION_SCHEMA.VIEWS');
+            })
+            ->whereNotIn('TABLE_NAME', $tabelTerkecuali)
+            ->pluck('TABLE_NAME');
+
+        foreach ($tabels as $tabel) {
+            // Hapus semua data yang config_id nya NULL
+            DB::table($tabel)->whereNull('config_id')->delete();
+
+            // Ubah config_id menjadi NOT NULL
+            Schema::table($tabel, static function (Blueprint $table) {
+                $table->integer('config_id')->nullable(false)->change();
+            });
+        }
+    }
+
+    public function ubahNilaiKolomAktifModul()
+    {
+        ModulModel::where('aktif', 2)->update(['aktif' => StatusEnum::TIDAK]);
+    }
+
+    public function ubahDefaultSlider()
+    {
+        $settings = new SettingAplikasiRepository();
+        if ($settings->firstByKey('sumber_gambar_slider')->value == 3) {
+            $settings->updateWithKey('sumber_gambar_slider', 1);
+        }
+    }
+
+    public function sesuaikanKbbi()
+    {
+        DB::table('setting_aplikasi')
+            ->where('key', 'tampilkan_pendaftaran')
+            ->update(['keterangan' => 'Aktifkan / Nonaktifkan Pendaftaran Layanan Mandiri']);
+    }
+
+    public function updateMaxZoomPeta()
+    {
+        DB::table('setting_aplikasi')
+            ->where('key', 'max_zoom_peta')
+            ->whereRaw('CAST(value AS UNSIGNED) > 30')
+            ->update(['value' => '30']);
     }
 }

@@ -152,62 +152,6 @@ class Lembaran_desa extends Admin_Controller
         }
     }
 
-    private function upload_dokumen()
-    {
-        $old_file                = $this->input->post('old_file', true);
-        $config['upload_path']   = LOKASI_DOKUMEN;
-        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-        $config['file_name']     = namafile($this->input->post('nama', true));
-
-        $this->load->library('upload');
-        $this->upload->initialize($config);
-
-        if (! $this->upload->do_upload('satuan')) {
-            session_error($this->upload->display_errors(null, null));
-
-            return false;
-        }
-
-        if (empty($old_file)) {
-            unlink(LOKASI_DOKUMEN . $old_file);
-        }
-
-        return $this->upload->data()['file_name'];
-    }
-
-    private function validasi(array $post): array
-    {
-        $data                         = [];
-        $data['nama']                 = nomor_surat_keputusan($post['nama']);
-        $data['kategori']             = (int) $post['kategori'] ?: 1;
-        $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
-        $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
-        $data['id_pend']              = (int) $post['id_pend'] ?: null;
-        $data['tipe']                 = (int) $post['tipe'];
-        $data['url']                  = $this->security->xss_clean($post['url']) ?: null;
-
-        if ($data['tipe'] == 1) {
-            $data['url'] = null;
-        }
-
-        $data['tahun']                     = date('Y', strtotime((string) $post['attr']['tgl_ditetapkan']));
-        $data['kategori_info_publik']      = '3';
-        $data['attr']['tgl_ditetapkan']    = $post['attr']['tgl_ditetapkan'];
-        $data['attr']['tgl_lapor']         = $post['attr']['tgl_lapor'];
-        $data['attr']['tgl_kesepakatan']   = $post['attr']['tgl_kesepakatan'];
-        $data['attr']['uraian']            = $this->security->xss_clean($post['attr']['uraian']);
-        $data['attr']['jenis_peraturan']   = htmlentities((string) $post['attr']['jenis_peraturan']);
-        $data['attr']['no_ditetapkan']     = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
-        $data['attr']['no_lapor']          = nomor_surat_keputusan($post['attr']['no_lapor']);
-        $data['attr']['no_lembaran_desa']  = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
-        $data['attr']['no_berita_desa']    = nomor_surat_keputusan($post['attr']['no_berita_desa']);
-        $data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
-        $data['attr']['tgl_berita_desa']   = $post['attr']['tgl_berita_desa'];
-        $data['attr']['keterangan']        = htmlentities((string) $post['attr']['keterangan']);
-
-        return $data;
-    }
-
     public function lock($id = ''): void
     {
         isCan('u');
@@ -264,5 +208,61 @@ class Lembaran_desa extends Admin_Controller
         // Ambil nama berkas dari database
         $data = DokumenHidup::GetDokumen($id_dokumen);
         ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN);
+    }
+
+    private function upload_dokumen()
+    {
+        $old_file                = $this->input->post('old_file', true);
+        $config['upload_path']   = LOKASI_DOKUMEN;
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['file_name']     = namafile($this->input->post('nama', true));
+
+        $this->load->library('upload');
+        $this->upload->initialize($config);
+
+        if (! $this->upload->do_upload('satuan')) {
+            session_error($this->upload->display_errors(null, null));
+
+            return false;
+        }
+
+        if (empty($old_file)) {
+            unlink(LOKASI_DOKUMEN . $old_file);
+        }
+
+        return $this->upload->data()['file_name'];
+    }
+
+    private function validasi(array $post): array
+    {
+        $data                         = [];
+        $data['nama']                 = nomor_surat_keputusan($post['nama']);
+        $data['kategori']             = (int) $post['kategori'] ?: 1;
+        $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
+        $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
+        $data['id_pend']              = (int) $post['id_pend'] ?: null;
+        $data['tipe']                 = (int) $post['tipe'];
+        $data['url']                  = $this->security->xss_clean($post['url']) ?: null;
+
+        if ($data['tipe'] == 1) {
+            $data['url'] = null;
+        }
+
+        $data['tahun']                     = date('Y', strtotime((string) $post['attr']['tgl_ditetapkan']));
+        $data['kategori_info_publik']      = '3';
+        $data['attr']['tgl_ditetapkan']    = $post['attr']['tgl_ditetapkan'];
+        $data['attr']['tgl_lapor']         = $post['attr']['tgl_lapor'];
+        $data['attr']['tgl_kesepakatan']   = $post['attr']['tgl_kesepakatan'];
+        $data['attr']['uraian']            = $this->security->xss_clean($post['attr']['uraian']);
+        $data['attr']['jenis_peraturan']   = htmlentities((string) $post['attr']['jenis_peraturan']);
+        $data['attr']['no_ditetapkan']     = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
+        $data['attr']['no_lapor']          = nomor_surat_keputusan($post['attr']['no_lapor']);
+        $data['attr']['no_lembaran_desa']  = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
+        $data['attr']['no_berita_desa']    = nomor_surat_keputusan($post['attr']['no_berita_desa']);
+        $data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
+        $data['attr']['tgl_berita_desa']   = $post['attr']['tgl_berita_desa'];
+        $data['attr']['keterangan']        = htmlentities((string) $post['attr']['keterangan']);
+
+        return $data;
     }
 }

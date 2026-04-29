@@ -52,18 +52,18 @@ class Kelompok extends BaseModel
     use Sluggable;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'kelompok';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'kelompok';
 
     /**
      * The guarded with the model.
@@ -73,6 +73,64 @@ class Kelompok extends BaseModel
     protected $guarded = ['id'];
 
     protected $append = ['kategori', 'nama_ketua'];
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'logo');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'logo', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $logo = LOKASI_LOGO_DESA . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
+            }
+        }
+    }
+
+    public static function get_ketua_kelompok($id)
+    {
+        $data = DB::table('kelompok as k')
+            ->select([
+                'u.id',
+                'u.nik',
+                'u.nama',
+                'u.sex',
+                'u.sex as jenis_kelamin_id',
+                'k.id as id_kelompok',
+                'k.nama as nama_kelompok',
+                'u.tempatlahir',
+                'u.tanggallahir',
+                DB::raw("DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`u.tanggallahir`)), '%Y') + 0 AS umur"),
+                'wil.rt',
+                'wil.rw',
+                'wil.dusun',
+            ])
+            ->leftJoin('tweb_penduduk as u', 'u.id', '=', 'k.id_ketua')
+            ->leftJoin('tweb_wil_clusterdesa as wil', 'wil.id', '=', 'u.id_cluster')
+            ->where('k.id', $id)
+            ->first()->toArray();
+
+            if ($data) {
+                $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
+            }
+
+        return $data ?? null;
+    }
+
+    public static function slugCheck($nama, $type)
+    {
+        return self::whereSlug($nama)->whereTipe($type)->exists();
+    }
 
     public function getKategoriAttribute()
     {
@@ -261,59 +319,6 @@ class Kelompok extends BaseModel
         return $query->whereRaw('jabatan', 'REGEXP', '[a-zA-Z]+')->where('id_kelompok', $id_kelompok)->orderBy('jabatan')->get()->toArray();
     }
 
-    public static function boot(): void
-    {
-        parent::boot();
-
-        static::updating(static function ($model): void {
-            static::deleteFile($model, 'logo');
-        });
-
-        static::deleting(static function ($model): void {
-            static::deleteFile($model, 'logo', true);
-        });
-    }
-
-    public static function deleteFile($model, ?string $file, $deleting = false): void
-    {
-        if ($model->isDirty($file) || $deleting) {
-            $logo = LOKASI_LOGO_DESA . $model->getOriginal($file);
-            if (file_exists($logo)) {
-                unlink($logo);
-            }
-        }
-    }
-
-    public static function get_ketua_kelompok($id)
-    {
-        $data = DB::table('kelompok as k')
-            ->select([
-                'u.id',
-                'u.nik',
-                'u.nama',
-                'u.sex',
-                'u.sex as jenis_kelamin_id',
-                'k.id as id_kelompok',
-                'k.nama as nama_kelompok',
-                'u.tempatlahir',
-                'u.tanggallahir',
-                DB::raw("DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`u.tanggallahir`)), '%Y') + 0 AS umur"),
-                'wil.rt',
-                'wil.rw',
-                'wil.dusun',
-            ])
-            ->leftJoin('tweb_penduduk as u', 'u.id', '=', 'k.id_ketua')
-            ->leftJoin('tweb_wil_clusterdesa as wil', 'wil.id', '=', 'u.id_cluster')
-            ->where('k.id', $id)
-            ->first()->toArray();
-
-            if ($data) {
-                $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
-            }
-
-        return $data ?? null;
-    }
-
     /**
      * Return the sluggable configuration array for this model.
      */
@@ -327,11 +332,6 @@ class Kelompok extends BaseModel
         ];
     }
 
-    public static function slugCheck($nama, $type)
-    {
-        return self::whereSlug($nama)->whereTipe($type)->exists();
-    }
-
     public function judulStatistik($tipe = 0, $nomor = 0, $sex = 0)
     {
         if ($nomor == JUMLAH) {
@@ -341,16 +341,10 @@ class Kelompok extends BaseModel
         } elseif ($nomor == TOTAL) {
             $judul = ['nama' => ' : TOTAL'];
         } else {
-            switch ($tipe) {
-                case 'penerima_bantuan':
-                    $table = 'program';
-                    break;
-
-                default:
-                    $table = 'kelompok';
-                    break;
-            }
-
+            $table = match ($tipe) {
+                'penerima_bantuan' => 'program',
+                default            => 'kelompok',
+            };
             $judul = $this->where(['id' => $nomor])->first()->toArray();
         }
 

@@ -52,6 +52,14 @@ class AnjunganMenu extends BaseModel
     use SortableTrait;
 
     /**
+     * {@inheritDoc}
+     */
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => true,
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -87,34 +95,6 @@ class AnjunganMenu extends BaseModel
     protected $appends = ['link_url'];
 
     /**
-     * {@inheritDoc}
-     */
-    public $sortable = [
-        'order_column_name'  => 'urut',
-        'sort_when_creating' => true,
-    ];
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function createdBy()
-    {
-        return $this->hasOne(User::class, 'id', 'created_by');
-    }
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function updatedBy()
-    {
-        return $this->hasOne(User::class, 'id', 'updated_by');
-    }
-
-    /**
      * The "booted" method of the model.
      */
     public static function boot(): void
@@ -138,6 +118,26 @@ class AnjunganMenu extends BaseModel
                 unlink($logo);
             }
         }
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function createdBy()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function updatedBy()
+    {
+        return $this->hasOne(User::class, 'id', 'updated_by');
     }
 
     public function getLinkUrlAttribute()

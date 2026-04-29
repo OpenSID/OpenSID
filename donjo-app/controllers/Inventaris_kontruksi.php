@@ -35,8 +35,10 @@
  *
  */
 
+use App\Enums\InventarisSubMenuEnum;
 use App\Models\InventarisKontruksi;
 use App\Models\Pamong;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,7 +56,9 @@ class Inventaris_kontruksi extends Admin_Controller
 
     public function index()
     {
-        $data['tip'] = 1;
+        $data['tip']    = 1;
+        $data['action'] = 'Daftar';
+        $data['header'] = InventarisSubMenuEnum::KONSTRUKSI['header'];
 
         return view('admin.inventaris.kontruksi.index', $data);
     }
@@ -67,15 +71,19 @@ class Inventaris_kontruksi extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    $aksi .= '<a href="' . ci_route('inventaris_kontruksi.form') . '/' . $row->id . '/' . 1 . '" class="btn btn-info btn-sm"  title="Lihat Data"><i class="fa fa-eye"></i></a> ';
+                    $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => ci_route('inventaris_kontruksi.form') . '/' . $row->id . '/' . 1,
+                        'judul' => 'Lihat Data',
+                    ])->render();
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('inventaris_kontruksi.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "inventaris_kontruksi/form/{$row->id}",
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('inventaris_kontruksi.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('inventaris_kontruksi.delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
@@ -85,11 +93,6 @@ class Inventaris_kontruksi extends Admin_Controller
         }
 
         return show_404();
-    }
-
-    private function sumberData()
-    {
-        return InventarisKontruksi::query();
     }
 
     public function form($id = '', $view = false)
@@ -107,9 +110,8 @@ class Inventaris_kontruksi extends Admin_Controller
             $data['main']        = null;
             $data['view_mark']   = null;
         }
-        $data['tip'] = 1;
-
-        $data['tip'] = 1;
+        $data['tip']    = 1;
+        $data['header'] = InventarisSubMenuEnum::KONSTRUKSI['header'];
 
         return view('admin.inventaris.kontruksi.form', $data);
     }
@@ -151,27 +153,6 @@ class Inventaris_kontruksi extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate(array $data): array
-    {
-        $data['nama_barang']          = strip_tags((string) $data['nama_barang']);
-        $data['kondisi_bangunan']     = strip_tags((string) $data['fisik_bangunan']);
-        $data['kontruksi_bertingkat'] = strip_tags((string) $data['tingkat']);
-        $data['kontruksi_beton']      = bilangan($data['bahan']);
-        $data['luas_bangunan']        = bilangan($data['luas_bangunan']);
-        $data['letak']                = strip_tags((string) $data['alamat']);
-        $data['no_dokument']          = strip_tags((string) $data['no_bangunan']);
-        $data['tanggal_dokument']     = date('Y-m-d', strtotime((string) $data['tanggal_bangunan']));
-        $data['tanggal']              = date('Y-m-d', strtotime((string) $data['tanggal_mulai']));
-        $data['status_tanah']         = strip_tags((string) $data['status_tanah']);
-        $data['kode_tanah']           = strip_tags((string) $data['kode_tanah']);
-        $data['asal']                 = strip_tags((string) $data['asal']);
-        $data['harga']                = bilangan($data['harga']);
-        $data['keterangan']           = strip_tags((string) $data['keterangan']);
-        $data['visible']              = 1;
-
-        return $data;
-    }
-
     public function dialog($aksi = 'cetak')
     {
         $data               = $this->modal_penandatangan();
@@ -194,13 +175,34 @@ class Inventaris_kontruksi extends Admin_Controller
 
         $data['total'] = total_jumlah($data['main'], 'harga');
 
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=inventaris_kontruksi_' . date('Y-m-d') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
+        $data['file'] = 'inventaris_kontruksi_' . date('Y-m-d');
 
-        return view('admin.inventaris.kontruksi.cetak', $data);
+        view('admin.inventaris.kontruksi.cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        return InventarisKontruksi::query();
+    }
+
+    private function validate(array $data): array
+    {
+        $data['nama_barang']          = strip_tags((string) $data['nama_barang']);
+        $data['kondisi_bangunan']     = strip_tags((string) $data['fisik_bangunan']);
+        $data['kontruksi_bertingkat'] = strip_tags((string) $data['tingkat']);
+        $data['kontruksi_beton']      = bilangan($data['bahan']);
+        $data['luas_bangunan']        = bilangan($data['luas_bangunan']);
+        $data['letak']                = strip_tags((string) $data['alamat']);
+        $data['no_dokument']          = strip_tags((string) $data['no_bangunan']);
+        $data['tanggal_dokument']     = date('Y-m-d', strtotime((string) $data['tanggal_bangunan']));
+        $data['tanggal']              = date('Y-m-d', strtotime((string) $data['tanggal_mulai']));
+        $data['status_tanah']         = strip_tags((string) $data['status_tanah']);
+        $data['kode_tanah']           = strip_tags((string) $data['kode_tanah']);
+        $data['asal']                 = strip_tags((string) $data['asal']);
+        $data['harga']                = bilangan($data['harga']);
+        $data['keterangan']           = strip_tags((string) $data['keterangan']);
+        $data['visible']              = 1;
+
+        return $data;
     }
 }

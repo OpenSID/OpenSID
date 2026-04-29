@@ -58,7 +58,10 @@ class BtnButton extends Component
         public bool $buttonOnly = false,
         public bool $file = false,
         public bool $slug = false,
+        public bool $disabled = false,
         public string $attribut = '',
+        public string $tooltip = '',
+        public string $formAction = '',
     ) {
     }
 

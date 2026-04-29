@@ -87,7 +87,7 @@
                                 <tr>
                                     <td>Pendidikan {{ $individu['judul'] }}</td>
                                     <td> : </td>
-                                    <td>{{ $individu['pendidikan'] }}</td>
+                                    <td>{{ $individu['pendidikan_kk'] }}</td>
                                 </tr>
                                 <tr>
                                     <td>Warganegara / Agama {{ $individu['judul'] }}</td>

@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
 defined('BASEPATH') || exit('No direct script access allowed');
-// require_once('donjo-app/core/MY_Model.php');
+
 class Install_modul extends CI_Controller
 {
     use Migrator;

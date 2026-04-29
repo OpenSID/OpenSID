@@ -52,8 +52,8 @@ class Identitas_desa extends Admin_Controller
 
     public $modul_ini     = 'info-desa';
     public $sub_modul_ini = 'identitas-desa';
-    private $cek_kades;
     protected $identitas_desa;
+    private $cek_kades;
 
     public function __construct()
     {
@@ -187,53 +187,6 @@ class Identitas_desa extends Admin_Controller
         return json(['status' => false, 'message' => $cek['message']]);
     }
 
-    private function upload_dokumen(string $field, ?string $oldFile = null): ?string
-    {
-        $file = request()->file($field);
-
-        if (! $file || ! $file->isValid()) {
-            return $oldFile;
-        }
-
-        $isImage = $field === 'struktur_adat';
-
-        return $this->upload(
-            file: $field,
-            config: [
-                'upload_path'   => LOKASI_DOKUMEN,
-                'allowed_types' => $isImage ? 'jpg|jpeg|png|webp' : 'pdf',
-                'max_size'      => 2048, // 2 MB
-                'overwrite'     => true,
-            ],
-            callback: static function ($uploadData) use ($isImage, $oldFile) {
-                $newFilename = '';
-
-                if ($isImage) {
-                    // Konversi ke .webp
-                    $newFilename = "{$uploadData['raw_name']}.webp";
-                    Image::load($uploadData['full_path'])
-                        ->format(Manipulations::FORMAT_WEBP)
-                        ->save("{$uploadData['file_path']}{$newFilename}");
-
-                    // Hapus file asli (non-webp)
-                    @unlink($uploadData['full_path']);
-                } else {
-                    $newFilename = $uploadData['file_name'];
-                }
-
-                // Hapus file lama (jika ada dan berbeda dari file baru)
-                if (! empty($oldFile)) {
-                    $oldPath = LOKASI_DOKUMEN . $oldFile;
-                    if (file_exists($oldPath) && basename($oldPath) !== $newFilename) {
-                        @unlink($oldPath);
-                    }
-                }
-
-                return $newFilename;
-            }
-        );
-    }
-
     /**
      * View Form Ubah Peta
      *
@@ -249,8 +202,7 @@ class Identitas_desa extends Admin_Controller
         $data['dusun_gis']    = Wilayah::dusun()->get();
         $data['rw_gis']       = Wilayah::rw()->get();
         $data['rt_gis']       = Wilayah::rt()->get();
-        $data['nama_wilayah'] = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
-        $data['wilayah']      = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
+        $data['nama_wilayah'] = ucwords(setting('sebutan_desa') . ' ' . $data_desa['nama_desa']);
         $data['breadcrumb']   = [
             ['link' => ci_route('identitas_desa'), 'judul' => 'Identitas ' . ucwords((string) setting('sebutan_desa'))],
         ];
@@ -344,6 +296,67 @@ class Identitas_desa extends Admin_Controller
         return $validate;
     }
 
+    public function reset(): void
+    {
+        isCan('u');
+
+        if (null === $this->identitas_desa) {
+            unlink(DESAPATH . 'app_key');
+            cache()->forget('identitas_desa');
+
+            set_session('error', 'Berhasil Reset AppKey, Silakan Tentukan Identitas Desa');
+        }
+
+        redirect('identitas_desa');
+    }
+
+    private function upload_dokumen(string $field, ?string $oldFile = null): ?string
+    {
+        $file = request()->file($field);
+
+        if (! $file || ! $file->isValid()) {
+            return $oldFile;
+        }
+
+        $isImage = $field === 'struktur_adat';
+
+        return $this->upload(
+            file: $field,
+            config: [
+                'upload_path'   => LOKASI_DOKUMEN,
+                'allowed_types' => $isImage ? 'jpg|jpeg|png|webp' : 'pdf',
+                'max_size'      => 2048, // 2 MB
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) use ($isImage, $oldFile) {
+                $newFilename = '';
+
+                if ($isImage) {
+                    // Konversi ke .webp
+                    $newFilename = "{$uploadData['raw_name']}.webp";
+                    Image::load($uploadData['full_path'])
+                        ->format(Manipulations::FORMAT_WEBP)
+                        ->save("{$uploadData['file_path']}{$newFilename}");
+
+                    // Hapus file asli (non-webp)
+                    @unlink($uploadData['full_path']);
+                } else {
+                    $newFilename = $uploadData['file_name'];
+                }
+
+                // Hapus file lama (jika ada dan berbeda dari file baru)
+                if (! empty($oldFile)) {
+                    $oldPath = LOKASI_DOKUMEN . $oldFile;
+                    if (file_exists($oldPath) && basename($oldPath) !== $newFilename) {
+                        @unlink($oldPath);
+                    }
+                }
+
+                return $newFilename;
+            }
+        );
+    }
+
     private function cek_kode_wilayah(array $request = []): array
     {
         $status    = false;
@@ -379,19 +392,5 @@ class Identitas_desa extends Admin_Controller
         }
 
         return ['status' => $status, 'message' => $message];
-    }
-
-    public function reset(): void
-    {
-        isCan('u');
-
-        if (null === $this->identitas_desa) {
-            unlink(DESAPATH . 'app_key');
-            cache()->forget('identitas_desa');
-
-            set_session('error', 'Berhasil Reset AppKey, Silakan Tentukan Identitas Desa');
-        }
-
-        redirect('identitas_desa');
     }
 }

@@ -140,8 +140,8 @@
                         orderable: false
                     },
                     {
-                        data: 'pekerjaan.nama',
-                        name: 'pekerjaan.nama',
+                        data: 'pekerjaan',
+                        name: 'pekerjaan',
                         searchable: false,
                         orderable: false
                     },

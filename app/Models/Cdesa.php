@@ -50,6 +50,13 @@ class Cdesa extends BaseModel
     use Author;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -58,131 +65,6 @@ class Cdesa extends BaseModel
 
     protected $guarded = [];
     protected $appends = ['nama_pemilik', 'nik_pemilik', 'id_pemilik', 'alamat'];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    public function cdesaPenduduk()
-    {
-        return $this->hasOne(CdesaPenduduk::class, 'id_cdesa', 'id');
-    }
-
-    public function penduduk()
-    {
-        return $this->hasOneThrough(PendudukSaja::class, CdesaPenduduk::class, 'id_cdesa', 'id', 'id', 'id_pend')->withoutGlobalScope(AccessWilayahScope::class);
-    }
-
-    public function cdesaMutasi()
-    {
-        return $this->hasMany(CdesaMutasi::class, 'id_cdesa_masuk', 'id');
-    }
-
-    public function scopeJumlahPersil($query, string $alias = 'jumlah')
-    {
-        $sql = <<<SQL
-                    (select count(distinct persil.id)
-                    from mutasi_cdesa
-                    left join persil on  persil.id = mutasi_cdesa.id_persil
-                    where (mutasi_cdesa.id_cdesa_masuk = cdesa.id or mutasi_cdesa.cdesa_keluar = cdesa.id or persil.cdesa_awal = cdesa.id)
-                    )
-                    as {$alias}
-            SQL;
-
-        return $query->selectRaw($sql);
-    }
-
-    public function scopeListCdesa($query, $kecuali = [])
-    {
-        $query->with(['penduduk']);
-
-        if ($kecuali) {
-            $query->whereNotIn('cdesa.id', $kecuali);
-        }
-
-        return $query->get()->map(function ($item) {
-            // Mengisi nilai luas persil untuk setiap data
-            $luas_persil  = $this->jumlah_luas($item->id);
-            $item->basah  = $luas_persil['BASAH'];
-            $item->kering = $luas_persil['KERING'];
-
-            return $item;
-        })->toArray();
-    }
-
-    // Untuk cetak daftar C-Desa, menghitung jumlah luas per kelas persil
-    // Perhitungkan kasus suatu C-Desa adalah pemilik awal keseluruhan persil
-    /**
-     * @param mixed $id_cdesa
-     *
-     * @return float[]|int[]
-     */
-    public function jumlah_luas($id_cdesa): array
-    {
-        // Mengambil data persil awal
-        $persil_awal = DB::table('persil as p')
-            ->select('p.id', 'p.luas_persil', 'k.tipe')
-            ->join('ref_persil_kelas as k', 'p.kelas', '=', 'k.id')
-            ->where('p.cdesa_awal', $id_cdesa)
-            ->get();
-
-        // Membuat array untuk menyimpan luas persil berdasarkan tipe
-        $persil_awal->groupBy('tipe')->mapWithKeys(static fn ($items): array => [$items->first()->tipe => $items->pluck('luas_persil', 'id')->toArray()])->toArray();
-
-        // Mengambil data mutasi persil
-        $list_mutasi = DB::table('mutasi_cdesa as m')
-            ->select('m.id_persil', 'm.luas', 'm.cdesa_keluar', 'k.tipe')
-            ->join('persil as p', 'p.id', '=', 'm.id_persil')
-            ->join('ref_persil_kelas as k', 'p.kelas', '=', 'k.id')
-            ->where('m.id_cdesa_masuk', $id_cdesa)
-            ->orWhere('m.cdesa_keluar', $id_cdesa)
-            ->get();
-
-        // Menghitung luas persil dari mutasi
-        $luas_persil_mutasi = [];
-
-        foreach ($list_mutasi as $mutasi) {
-            if ($mutasi->cdesa_keluar == $id_cdesa) {
-                $luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] = ($luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] ?? 0) - $mutasi->luas;
-            } else {
-                $luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] = ($luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] ?? 0) + $mutasi->luas;
-            }
-        }
-
-        // Menjumlahkan luas total per tipe persil
-        $luas_total = [];
-
-        foreach ($luas_persil_mutasi as $tipe => $luas) {
-            $luas_total[$tipe] = array_sum($luas);
-        }
-
-        return $luas_total;
-    }
-
-    public function scopeListPersil($query, $id_cdesa)
-    {
-        return DB::table('persil as p')
-            ->select('p.*', 'rk.kode as kelas_tanah')
-            ->selectRaw("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
-        (CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
-        (CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
-        w.dusun
-    ) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat")
-            ->selectRaw('COUNT(m.id) as jml_mutasi')
-            ->leftJoin('mutasi_cdesa as m', 'p.id', '=', 'm.id_persil')
-            ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
-            ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_wilayah')
-            ->where(static function ($query) use ($id_cdesa): void {
-                $query->where('m.id_cdesa_masuk', $id_cdesa)
-                    ->orWhere('m.cdesa_keluar', $id_cdesa)
-                    ->orWhere('p.cdesa_awal', $id_cdesa);
-            })
-            ->groupBy('p.id')
-            ->orderByRaw('CAST(p.nomor AS UNSIGNED), nomor_urut_bidang');
-    }
 
     public static function cetakMutasi($id_cdesa, $tipe = '')
     {
@@ -255,6 +137,122 @@ class Cdesa extends BaseModel
         $hasil .= empty($mutasi['keterangan']) ? null : $mutasi['keterangan'];
 
         return $hasil . '</p>';
+    }
+
+    public function cdesaPenduduk()
+    {
+        return $this->hasOne(CdesaPenduduk::class, 'id_cdesa', 'id');
+    }
+
+    public function penduduk()
+    {
+        return $this->hasOneThrough(PendudukSaja::class, CdesaPenduduk::class, 'id_cdesa', 'id', 'id', 'id_pend')->withoutGlobalScope(AccessWilayahScope::class);
+    }
+
+    public function cdesaMutasi()
+    {
+        return $this->hasMany(CdesaMutasi::class, 'id_cdesa_masuk', 'id');
+    }
+
+    public function scopeJumlahPersil($query, string $alias = 'jumlah')
+    {
+        $sql = <<<SQL
+                    (select count(distinct persil.id)
+                    from mutasi_cdesa
+                    left join persil on  persil.id = mutasi_cdesa.id_persil
+                    where (mutasi_cdesa.id_cdesa_masuk = cdesa.id or mutasi_cdesa.cdesa_keluar = cdesa.id or persil.cdesa_awal = cdesa.id)
+                    )
+                    as {$alias}
+            SQL;
+
+        return $query->selectRaw($sql);
+    }
+
+    public function scopeListCdesa($query, $kecuali = [])
+    {
+        $query->with(['penduduk']);
+
+        if ($kecuali) {
+            $query->whereNotIn('cdesa.id', $kecuali);
+        }
+
+        return $query->get()->map(function ($item) {
+            // Mengisi nilai luas persil untuk setiap data
+            $luas_persil  = $this->jumlah_luas($item->id);
+            $item->basah  = $luas_persil['BASAH'];
+            $item->kering = $luas_persil['KERING'];
+
+            return $item;
+        })->toArray();
+    }
+
+    // Untuk cetak daftar C-Desa, menghitung jumlah luas per kelas persil
+    // Perhitungkan kasus suatu C-Desa adalah pemilik awal keseluruhan persil
+    /**
+     * @return float[]|int[]
+     */
+    public function jumlah_luas(mixed $id_cdesa): array
+    {
+        // Mengambil data persil awal
+        $persil_awal = DB::table('persil as p')
+            ->select('p.id', 'p.luas_persil', 'k.tipe')
+            ->join('ref_persil_kelas as k', 'p.kelas', '=', 'k.id')
+            ->where('p.cdesa_awal', $id_cdesa)
+            ->get();
+
+        // Membuat array untuk menyimpan luas persil berdasarkan tipe
+        $persil_awal->groupBy('tipe')->mapWithKeys(static fn ($items): array => [$items->first()->tipe => $items->pluck('luas_persil', 'id')->toArray()])->toArray();
+
+        // Mengambil data mutasi persil
+        $list_mutasi = DB::table('mutasi_cdesa as m')
+            ->select('m.id_persil', 'm.luas', 'm.cdesa_keluar', 'k.tipe')
+            ->join('persil as p', 'p.id', '=', 'm.id_persil')
+            ->join('ref_persil_kelas as k', 'p.kelas', '=', 'k.id')
+            ->where('m.id_cdesa_masuk', $id_cdesa)
+            ->orWhere('m.cdesa_keluar', $id_cdesa)
+            ->get();
+
+        // Menghitung luas persil dari mutasi
+        $luas_persil_mutasi = [];
+
+        foreach ($list_mutasi as $mutasi) {
+            if ($mutasi->cdesa_keluar == $id_cdesa) {
+                $luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] = ($luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] ?? 0) - $mutasi->luas;
+            } else {
+                $luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] = ($luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] ?? 0) + $mutasi->luas;
+            }
+        }
+
+        // Menjumlahkan luas total per tipe persil
+        $luas_total = [];
+
+        foreach ($luas_persil_mutasi as $tipe => $luas) {
+            $luas_total[$tipe] = array_sum($luas);
+        }
+
+        return $luas_total;
+    }
+
+    public function scopeListPersil($query, $id_cdesa)
+    {
+        return DB::table('persil as p')
+            ->select('p.*', 'rk.kode as kelas_tanah')
+            ->selectRaw("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
+        (CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
+        (CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
+        w.dusun
+    ) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat")
+            ->selectRaw('COUNT(m.id) as jml_mutasi')
+            ->leftJoin('mutasi_cdesa as m', 'p.id', '=', 'm.id_persil')
+            ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
+            ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_wilayah')
+            ->where(static function ($query) use ($id_cdesa): void {
+                $query->where('m.id_cdesa_masuk', $id_cdesa)
+                    ->orWhere('m.cdesa_keluar', $id_cdesa)
+                    ->orWhere('p.cdesa_awal', $id_cdesa);
+            })
+            ->groupBy('p.id')
+            ->orderByRaw('CAST(p.nomor AS UNSIGNED), nomor_urut_bidang');
     }
 
     protected function getNamaPemilikAttribute()

@@ -61,7 +61,9 @@ use App\Models\Point;
 use App\Models\Simbol;
 use App\Models\SinergiProgram;
 use App\Models\Widget;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use League\Flysystem\PathTraversalDetected;
 use Modules\Analisis\Models\AnalisisResponBukti;
 use Modules\Anjungan\Models\AnjunganMenu;
 use Modules\BukuTamu\Models\TamuModel;
@@ -146,27 +148,55 @@ class Info_sistem extends Admin_Controller
         redirect_with('success', 'Berhasil Hapus Cache', ci_route('info_sistem#optimasi'));
     }
 
-    public function set_permission_desa(): void
+    public function set_permission_desa()
     {
         isCan('u');
 
-        $dirs   = $_POST['folders'];
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return $this->output
+                ->set_status_header(400)
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status'  => 0,
+                    'message' => 'Fungsi ubah permission folder tidak tersedia di Windows',
+                ], JSON_THROW_ON_ERROR));
+        }
+
+        $disk   = Storage::disk('desa');
+        $dirs   = $this->input->post('folders');
         $error  = [];
         $result = ['status' => 1, 'message' => 'Berhasil ubah permission folder desa'];
 
         foreach ($dirs as $dir) {
-            if (! chmod($dir, DESAPATHPERMISSION)) {
-                $error[] = 'Gagal mengubah hak akses folder ' . $dir;
+            $check = str_replace('\\', '/', trim($dir));
+            $check = preg_replace('/^desa\//', '', $check);
+
+            try {
+                if (! $disk->exists($check)) {
+                    $error[] = "Folder tidak ditemukan: {$check}";
+
+                    continue;
+                }
+
+                if (! chmod($dir, DESAPATHPERMISSION)) {
+                    $error[] = "Gagal mengubah hak akses folder: {$dir}";
+                }
+
+            } catch (PathTraversalDetected $e) {
+                logger()->error($e);
+                $error[] = "Path tidak valid: {$dir}";
+
+                continue;
             }
         }
 
-        if ($error !== []) {
+        if (! empty($error)) {
             $result['status']  = 0;
-            $result['message'] = implode('<br />', $error);
+            $result['message'] = implode('<br>', $error);
         }
 
-        status_sukses(true);
-        $this->output
+        return $this->output
+            ->set_status_header($result['status'] ? 200 : 400)
             ->set_content_type('application/json')
             ->set_output(json_encode($result, JSON_THROW_ON_ERROR));
     }
@@ -246,52 +276,6 @@ class Info_sistem extends Admin_Controller
     public function fileDesa()
     {
         view('admin.setting.info_sistem.file_desa', ['files' => $this->listInvalidFile()]);
-    }
-
-    private function listInvalidFile()
-    {
-        $appKey             = get_app_key();
-        $excludeFilePattern = '/\.(php|htaccess|html|css)|app_key|favicon.ico|latar_login.jpg|latar_login_mandiri.jpg$/'; // Pattern: ends with .php, .htaccess, or .html
-        $excludeDirectory   = [LOKASI_FONT_DESA];
-        // Define the directory to scan
-        $directoryList = [DESAPATH . 'logo', DESAPATH . 'upload', DESAPATH . 'pengaturan'];
-        // Initialize an associative array to hold matching files grouped by directory
-        $groupedFiles = [];
-
-        foreach ($directoryList as $directory) {
-            // Create a recursive directory iterator
-            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
-
-            // Loop through each file in the directory and subdirectories
-            foreach ($iterator as $file) {
-                // Get the directory path
-                $dirPath = $file->getPath();
-                if ($excludeDirectory) {
-                    // Skip if dirPath starts with any of the excluded directories
-                    foreach ($excludeDirectory as $excludedDir) {
-                        if (Str::contains($dirPath . '/', $excludedDir)) {
-                            continue 2; // Skip to the next iteration of the outer loop
-                        }
-                    }
-                }
-                // Check if the current item is a file (not a directory)
-                if ($file->isFile()) {
-                    // Get the filename
-                    $filename = $file->getFilename();
-                    if (preg_match($excludeFilePattern, $filename)) continue;
-
-                    if (! (new Checker($appKey, $filename))->isValid()) {
-                        // Group files by directory
-                        if (! isset($groupedFiles[$dirPath])) {
-                            $groupedFiles[$dirPath] = []; // Initialize an array for this directory
-                        }
-                        $groupedFiles[$dirPath][] = $filename; // Add the matching file to the directory's array
-                    }
-                }
-            }
-        }
-
-        return $groupedFiles;
     }
 
     public function perbaikiFileDesa()
@@ -391,5 +375,51 @@ class Info_sistem extends Admin_Controller
             }
         cache()->flush();
         redirect_with('success', 'File tidak valid telah diperbaiki');
+    }
+
+    private function listInvalidFile()
+    {
+        $appKey             = get_app_key();
+        $excludeFilePattern = '/\.(php|htaccess|html|css)|app_key|favicon.ico|latar_login.jpg|latar_login_mandiri.jpg$/'; // Pattern: ends with .php, .htaccess, or .html
+        $excludeDirectory   = [LOKASI_FONT_DESA];
+        // Define the directory to scan
+        $directoryList = [DESAPATH . 'logo', DESAPATH . 'upload', DESAPATH . 'pengaturan'];
+        // Initialize an associative array to hold matching files grouped by directory
+        $groupedFiles = [];
+
+        foreach ($directoryList as $directory) {
+            // Create a recursive directory iterator
+            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+
+            // Loop through each file in the directory and subdirectories
+            foreach ($iterator as $file) {
+                // Get the directory path
+                $dirPath = $file->getPath();
+                if ($excludeDirectory) {
+                    // Skip if dirPath starts with any of the excluded directories
+                    foreach ($excludeDirectory as $excludedDir) {
+                        if (Str::contains($dirPath . '/', $excludedDir)) {
+                            continue 2; // Skip to the next iteration of the outer loop
+                        }
+                    }
+                }
+                // Check if the current item is a file (not a directory)
+                if ($file->isFile()) {
+                    // Get the filename
+                    $filename = $file->getFilename();
+                    if (preg_match($excludeFilePattern, $filename)) continue;
+
+                    if (! (new Checker($appKey, $filename))->isValid()) {
+                        // Group files by directory
+                        if (! isset($groupedFiles[$dirPath])) {
+                            $groupedFiles[$dirPath] = []; // Initialize an array for this directory
+                        }
+                        $groupedFiles[$dirPath][] = $filename; // Add the matching file to the directory's array
+                    }
+                }
+            }
+        }
+
+        return $groupedFiles;
     }
 }

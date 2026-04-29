@@ -52,14 +52,15 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKTPEnum;
 use App\Enums\StatusPendudukEnum;
+use App\Enums\StatusRekamEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\BantuanPeserta;
 use App\Models\Keluarga as KeluargaModel;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
-use App\Models\PendudukHubungan;
 use App\Models\Wilayah;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -110,7 +111,7 @@ class AnggotaKeluarga extends Admin_Controller
         $keluarga            = KeluargaModel::with(['anggota'])->findOrFail($id);
         $kk                  = $keluarga->anggota->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->first();
         $data['kepala_kk']   = $kk ?: null;
-        $data['hubungan']    = PendudukHubungan::kawin($kk->status_kawin_id, $kk->sex_id)->get();
+        $data['hubungan']    = SHDKEnum::filterByKawin($kk->status_kawin_id, $kk->sex_id);
         $data['main']        = $keluarga->anggota;
         $data['penduduk']    = PendudukHidup::lepas(true)->get();
         $data['form_action'] = ci_route("keluarga.add_anggota.{$id}");
@@ -124,8 +125,9 @@ class AnggotaKeluarga extends Admin_Controller
     {
         isCan('u');
         $keluarga         = KeluargaModel::with(['anggota'])->findOrFail($id_kk);
-        $data['hubungan'] = SHDKEnum::all();
-        $data['main']     = $keluarga->anggota->where('id', $id)->first();
+        $data['hubungan'] = Arr::except(SHDKEnum::all(), [SHDKEnum::KEPALA_KELUARGA]);
+
+        $data['main'] = $keluarga->anggota->where('id', $id)->first();
 
         $kk                  = $keluarga->kepalaKeluarga;
         $data['kepala_kk']   = $kk ?: null;
@@ -150,7 +152,7 @@ class AnggotaKeluarga extends Admin_Controller
         }
         Penduduk::where(['id' => $data['nik']])->update(['kk_level' => $data['kk_level'], 'id_kk' => $id]);
 
-        redirect(ci_route("keluarga.anggota.{$id}"));
+        redirect_with('success', 'Berhasil menambahkan anggota keluarga', ci_route("keluarga.anggota.{$id}"));
     }
 
     public function update_anggota($id_kk = 0, $id = 0): void
@@ -162,13 +164,9 @@ class AnggotaKeluarga extends Admin_Controller
         }
 
         $data = $this->input->post();
-        if ($data['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
-            Penduduk::where(['id_kk' => $id_kk, 'kk_level' => SHDKEnum::KEPALA_KELUARGA])->update(['kk_level' => SHDKEnum::LAINNYA]);
-            $keluarga->update(['nik_kepala' => $id, 'updated_at' => date('Y-m-d H:i:s'), 'updated_by' => ci_auth()->id]);
-        }
         Penduduk::where(['id' => $id])->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->update(['kk_level' => $data['kk_level']]);
 
-        redirect(ci_route("keluarga.anggota.{$id_kk}"));
+        redirect_with('success', 'Berhasil ubah SDHK anggota keluarga', ci_route("keluarga.anggota.{$id_kk}"));
     }
 
     // Pecah keluarga
@@ -253,7 +251,7 @@ class AnggotaKeluarga extends Admin_Controller
         $data['cacat']              = CacatEnum::all();
         $data['sakit_menahun']      = SakitMenahunEnum::all();
         $data['cara_kb']            = CaraKBEnum::all();
-        $data['ktp_el']             = array_flip(unserialize(KTP_EL));
+        $data['ktp_el']             = StatusRekamEnum::all();
         $data['status_rekam']       = StatusKTPEnum::all();
         $data['tempat_dilahirkan']  = array_flip(unserialize(TEMPAT_DILAHIRKAN));
         $data['jenis_kelahiran']    = array_flip(unserialize(JENIS_KELAHIRAN));

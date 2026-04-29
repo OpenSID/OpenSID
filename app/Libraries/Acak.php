@@ -45,13 +45,13 @@ use App\Models\PendudukSaja;
 
 class Acak
 {
-    private $namaWanita = ['Yuni', 'Fatima', 'Sarah', 'Dewi', 'Hasnah'];
-    private $namaPria   = ['Bambang', 'Abdul', 'Setiyadi', 'Dadang', 'Herman'];
+    private array $namaWanita = ['Yuni', 'Fatima', 'Sarah', 'Dewi', 'Hasnah'];
+    private array $namaPria   = ['Bambang', 'Abdul', 'Setiyadi', 'Dadang', 'Herman'];
 
     /**
      * Acak data penduduk
      */
-    public function acakPenduduk()
+    public function acakPenduduk(): ?array
     {
         $data = PendudukSaja::select(['id', 'nik', 'nama'])->where('sex', JenisKelaminEnum::LAKI_LAKI)->get()->toArray();
         $this->acakUntukGender($data);
@@ -60,10 +60,47 @@ class Acak
         return $this->acakUntukGender($data);
     }
 
-    private function acakUntukGender($data)
+    /**
+     * @return array<mixed, array<'id'|'no_kk'|'no_kk_acak', mixed>>
+     */
+    public function acakKeluarga(): array
+    {
+        $data = Keluarga::withOnly(['kepalaKeluarga'])->select(['id', 'no_kk'])->get()->toArray();
+        // , p.nama as nama_kk')->
+        $i     = 1;
+        $datas = [];
+
+        foreach ($data as $keluarga) {
+            if ($keluarga['no_kk'] == 0) {
+                continue;
+            }
+
+            $no_kk      = $keluarga['no_kk'];
+            $urut       = $this->acakAngka(substr((string) $no_kk, 12));
+            $no_kk_acak = substr_replace($no_kk, $urut, 12);
+
+            $cek = Keluarga::where('no_kk', $no_kk_acak)->exists();
+            if ($cek) {
+                continue;
+            }
+            $namaKK  = $keluarga['kepalaKeluarga']['nama'] ?? '';
+            $datas[] = ['id' => $keluarga['id'], 'no_kk' => $no_kk, 'no_kk_acak' => $no_kk_acak];
+            Keluarga::where('id', $keluarga['id'])->update(['no_kk' => $no_kk_acak]);
+            // Juga ganti no_kk dan nama_kk di log_penduduk
+            LogPenduduk::where('no_kk', $no_kk)->update(['no_kk' => $no_kk_acak, 'nama_kk' => $namaKK]);
+            // Dan ganti no_kk_sebelumnya di tweb_penduduk
+            PendudukSaja::where('no_kk_sebelumnya', $no_kk)->update(['no_kk_sebelumnya' => $no_kk_acak]);
+            BantuanPeserta::where('peserta', $no_kk)->update(['peserta' => $no_kk_acak]);
+            $i++;
+        }
+
+        return $datas;
+    }
+
+    private function acakUntukGender($data): ?array
     {
         if (count($data) <= 1) {
-            return;
+            return null;
         }
 
         $i     = 1;
@@ -74,7 +111,7 @@ class Acak
                 continue;
             }
             $nik       = $penduduk['nik'];
-            $urut      = $this->acakAngka(substr($nik, 12));
+            $urut      = $this->acakAngka(substr((string) $nik, 12));
             $nik_acak  = substr_replace($nik, $urut, 12);
             $nama_acak = $this->acak_nama($i - 1, $data);
             $datas[]   = ['id' => $penduduk['id'], 'nik' => $nik, 'nik_acak' => $nik_acak, 'nama' => $penduduk['nama'], 'nama_acak' => $nama_acak];
@@ -87,10 +124,10 @@ class Acak
         return $datas;
     }
 
-    private function acak_nama(int $urut_penduduk, $data)
+    private function acak_nama(int $urut_penduduk, array $data): string
     {
         $nama      = $data[$urut_penduduk]['nama'];
-        $kata      = preg_split('/\s+/', $nama);
+        $kata      = preg_split('/\s+/', (string) $nama);
         $nama_acak = '';
         $counter   = count($kata);
 
@@ -101,12 +138,12 @@ class Acak
             while ($urut_acak === $urut_penduduk) {
                 $urut_acak = random_int(0, count($data) - 1);
             }
-            $kata_penduduk_acak = preg_split('/\s+/', $data[$urut_acak]['nama']);
+            $kata_penduduk_acak = preg_split('/\s+/', (string) $data[$urut_acak]['nama']);
 
             // Jangan gunakan gelar berisi '.' atau nama kurang dari 3 karakter
             $kata_acak = '.';
 
-            while (strpos($kata_acak, '.') !== false || strlen($kata_acak) < 3) {
+            while (str_contains((string) $kata_acak, '.') || strlen((string) $kata_acak) < 3) {
                 // Kalau nama penduduk acak hanya terdiri dari satu kata, gunakan itu
                 if (count($kata_penduduk_acak) == 1) {
                     $kata_acak = $kata_penduduk_acak[0];
@@ -142,41 +179,7 @@ class Acak
         return $this->namaWanita[random_int(0, count($this->namaWanita) - 1)];
     }
 
-    public function acakKeluarga()
-    {
-        $data = Keluarga::withOnly(['kepalaKeluarga'])->select(['id', 'no_kk'])->get()->toArray();
-        // , p.nama as nama_kk')->
-        $i     = 1;
-        $datas = [];
-
-        foreach ($data as $keluarga) {
-            if ($keluarga['no_kk'] == 0) {
-                continue;
-            }
-
-            $no_kk      = $keluarga['no_kk'];
-            $urut       = $this->acakAngka(substr($no_kk, 12));
-            $no_kk_acak = substr_replace($no_kk, $urut, 12);
-
-            $cek = Keluarga::where('no_kk', $no_kk_acak)->exists();
-            if ($cek) {
-                continue;
-            }
-            $namaKK  = $keluarga['kepalaKeluarga']['nama'] ?? '';
-            $datas[] = ['id' => $keluarga['id'], 'no_kk' => $no_kk, 'no_kk_acak' => $no_kk_acak];
-            Keluarga::where('id', $keluarga['id'])->update(['no_kk' => $no_kk_acak]);
-            // Juga ganti no_kk dan nama_kk di log_penduduk
-            LogPenduduk::where('no_kk', $no_kk)->update(['no_kk' => $no_kk_acak, 'nama_kk' => $namaKK]);
-            // Dan ganti no_kk_sebelumnya di tweb_penduduk
-            PendudukSaja::where('no_kk_sebelumnya', $no_kk)->update(['no_kk_sebelumnya' => $no_kk_acak]);
-            BantuanPeserta::where('peserta', $no_kk)->update(['peserta' => $no_kk_acak]);
-            $i++;
-        }
-
-        return $datas;
-    }
-
-    private function acakAngka(string $str)
+    private function acakAngka(string $str): string
     {
         $jangan = str_pad('', strlen($str), '0');
         $baru   = $jangan;

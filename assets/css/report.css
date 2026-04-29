@@ -9,7 +9,7 @@ body {
 	background:#fff;
 	color:#000;
 	font-size:12px;
-	font-family:arial,"times new roman",cambria;
+	font-family:arial,"times new roman",cambria !important;
 }
 
 h1 {

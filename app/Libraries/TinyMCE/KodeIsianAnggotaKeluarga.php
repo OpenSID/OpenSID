@@ -55,7 +55,9 @@ class KodeIsianAnggotaKeluarga
     public function kodeIsian(): array
     {
         $id_kk   = Penduduk::where('kk_level', SHDKEnum::KEPALA_KELUARGA)->find($this->idPenduduk)->id_kk;
-        $anggota = Keluarga::find($id_kk)->anggota;
+        $anggota = Keluarga::with([
+            'anggota',
+        ])->find($id_kk)->anggota;
 
         return [
             [
@@ -123,7 +125,7 @@ class KodeIsianAnggotaKeluarga
             [
                 'judul' => 'Pendidikan Sedang',
                 'isian' => 'klgx_pendidikan_sedang',
-                'data'  => $anggota ? $anggota->pluck('pendidikan.nama')->toArray() : '',
+                'data'  => $anggota ? $anggota->map(static fn ($a) => $a->pendidikan_sedang)->toArray() : '',
             ],
             [
                 'judul' => 'Pendidikan Dalam KK',
@@ -133,7 +135,9 @@ class KodeIsianAnggotaKeluarga
             [
                 'judul' => 'Pekerjaan',
                 'isian' => 'klgx_pekerjaan',
-                'data'  => $anggota ? $anggota->pluck('pekerjaan.nama')->toArray() : '',
+                'data'  => $anggota
+    ? $anggota->map(static fn ($a) => $a->pekerjaan)->toArray()
+    : '',
             ],
             [
                 'judul' => 'Status Perkawinan',
@@ -143,7 +147,7 @@ class KodeIsianAnggotaKeluarga
             [
                 'judul' => 'Hubungan Dalam KK',
                 'isian' => 'klgx_hubungan_kk',
-                'data'  => $anggota ? $anggota->pluck('pendudukHubungan.nama')->toArray() : '',
+                'data'  => $anggota ? $anggota->map(static fn ($a) => $a->penduduk_hubungan)->toArray() : '',
             ],
             [
                 'judul' => 'Warga Negara',

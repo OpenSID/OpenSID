@@ -27,7 +27,7 @@
                                 <td nowrap>{{ $data->nama }}</td>
                                 <td nowrap>{{ $data->jenis_kelamin }}</td>
                                 <td nowrap>{{ $data->tempatlahir }}, {{ tgl_indo($data->tanggallahir) }}</td>
-                                <td nowrap>{{ $data->pendudukHubungan->nama }}</td>
+                                <td nowrap>{{ $data->penduduk_hubungan }}</td>
                             </tr>
                         @endforeach
                     </tbody>

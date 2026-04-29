@@ -57,7 +57,7 @@ class FakeDataIsian
         $this->tinymce = new TinyMCE();
     }
 
-    public static function set($request, $jenis = null, $redirect = true)
+    public static function set($request, $jenis = null, $redirect = true): static
     {
         return (new self($request, $jenis, $redirect))->replaceData();
     }
@@ -72,7 +72,7 @@ class FakeDataIsian
         return $key ? data_get($this->data, $key, $default) : $this->data;
     }
 
-    private function replaceData()
+    private function replaceData(): static
     {
         $this->templat();
         $this->formDinamis();
@@ -90,7 +90,7 @@ class FakeDataIsian
     {
         $setting_header = $this->request['header'] == StatusEnum::TIDAK ? '' : setting("header_surat{$this->jenis}");
         $setting_footer = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting("footer_surat{$this->jenis}_tte") : setting("footer_surat{$this->jenis}")) : '';
-        $this->result   = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
+        $this->result   = preg_replace('/\\\\/', '', (string) $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', (string) $setting_footer);
     }
 
     private function sumberData(): void
@@ -104,9 +104,8 @@ class FakeDataIsian
                 if ($value) {
                     if (in_array(1, ($value['data'] ?? []))) {
                         $this->data['input']['id_pend_' . $key] = Penduduk::filters([
-                            'sex'          => $value['sex'],
-                            'status_dasar' => $value['status_dasar'],
-                            'kk_level'     => $value['kk_level'],
+                            'sex'      => $value['sex'],
+                            'kk_level' => $value['kk_level'],
                         ])->orderBy(DB::raw('RAND()'))->first('id')->id;
 
                         if (! $this->data['input']['id_pend_' . $key]) {
@@ -164,6 +163,10 @@ class FakeDataIsian
                     break;
 
                 case 'date':
+                case 'time':
+                    $nilai_isian = date('H:i');
+                    break;
+
                 case 'hari':
                 case 'hari-tanggal':
                     $nilai_isian = $tanggal;
@@ -232,7 +235,7 @@ class FakeDataIsian
     {
         // Pengikut Pindah
         if (preg_match('/pengikut_pindah/i', (string) $this->request['template_desa'])) {
-            $pengikutPindah                = Penduduk::with('pendudukHubungan')->orderBy(DB::raw('RAND()'))->take(3)->get();
+            $pengikutPindah                = Penduduk::orderBy(DB::raw('RAND()'))->take(3)->get();
             $this->data['pengikut_pindah'] = generatePengikutPindah($pengikutPindah);
         }
 

@@ -67,6 +67,26 @@ class Produk extends BaseModel
      */
     protected $list_satuan = ['lusin', 'gross', 'rim', 'lembar', 'pcs', 'gram', 'kg', 'paket'];
 
+    public static function navigasi(): array
+    {
+        return [
+            'jml_produk' => [
+                'aktif' => Produk::listProduk()->where('produk.status', 1)->count(),
+                'total' => Produk::listProduk()->count(),
+            ],
+
+            'jml_pelapak' => [
+                'aktif' => Pelapak::listPelapak()->where('pelapak.status', 1)->count(),
+                'total' => Pelapak::listPelapak()->count(),
+            ],
+
+            'jml_kategori' => [
+                'aktif' => ProdukKategori::listKategori()->where('produk_kategori.status', 1)->count(),
+                'total' => ProdukKategori::listKategori()->count(),
+            ],
+        ];
+    }
+
     public function kategori()
     {
         return $this->belongsTo(ProdukKategori::class, 'id_produk_kategori', 'id');
@@ -119,26 +139,6 @@ class Produk extends BaseModel
         return $this->list_satuan;
     }
 
-    public static function navigasi(): array
-    {
-        return [
-            'jml_produk' => [
-                'aktif' => Produk::listProduk()->where('produk.status', 1)->count(),
-                'total' => Produk::listProduk()->count(),
-            ],
-
-            'jml_pelapak' => [
-                'aktif' => Pelapak::listPelapak()->where('pelapak.status', 1)->count(),
-                'total' => Pelapak::listPelapak()->count(),
-            ],
-
-            'jml_kategori' => [
-                'aktif' => ProdukKategori::listKategori()->where('produk_kategori.status', 1)->count(),
-                'total' => ProdukKategori::listKategori()->count(),
-            ],
-        ];
-    }
-
     public function produkInsert(array $post = [])
     {
         $data = $this->produkValidasi($post);
@@ -170,6 +170,40 @@ class Produk extends BaseModel
         }
 
         return $result;
+    }
+
+    protected function scopeActive($query)
+    {
+        return $query->whereHas('kategori', static fn ($query) => $query->active())
+            ->whereHas('pelapak', static fn ($query) => $query->active())
+            ->whereStatus(StatusEnum::YA);
+    }
+
+    protected function getHargaDiskonAttribute()
+    {
+        if ($this->potongan == 0) {
+            return $this->harga;
+        }
+
+        return $this->tipe_potongan == 1
+            ? $this->harga - ($this->harga * $this->potongan / 100)
+            : $this->harga - $this->potongan;
+    }
+
+    protected function getPesanWaAttribute()
+    {
+        $pesan = strReplaceArrayRecursive(
+            [
+                '[nama_produk]' => $this->nama,
+                '[link_web]'    => base_url('lapak'),
+                '<br />'        => '%0A',
+            ],
+            nl2br(setting('pesan_singkat_wa'))
+        );
+
+        $telepon = $this->pelapak->telepon ? format_telpon($this->pelapak->telepon) : null;
+
+        return $telepon ? "https://api.whatsapp.com/send?phone={$telepon}&text={$pesan}" : null;
     }
 
     private function produkValidasi(array $post = []): array
@@ -278,39 +312,5 @@ class Produk extends BaseModel
                 }
             }
         }
-    }
-
-    protected function scopeActive($query)
-    {
-        return $query->whereHas('kategori', static fn ($query) => $query->active())
-            ->whereHas('pelapak', static fn ($query) => $query->active())
-            ->whereStatus(StatusEnum::YA);
-    }
-
-    protected function getHargaDiskonAttribute()
-    {
-        if ($this->potongan == 0) {
-            return $this->harga;
-        }
-
-        return $this->tipe_potongan == 1
-            ? $this->harga - ($this->harga * $this->potongan / 100)
-            : $this->harga - $this->potongan;
-    }
-
-    protected function getPesanWaAttribute()
-    {
-        $pesan = strReplaceArrayRecursive(
-            [
-                '[nama_produk]' => $this->nama,
-                '[link_web]'    => base_url('lapak'),
-                '<br />'        => '%0A',
-            ],
-            nl2br(setting('pesan_singkat_wa'))
-        );
-
-        $telepon = $this->pelapak->telepon ? format_telpon($this->pelapak->telepon) : null;
-
-        return $telepon ? "https://api.whatsapp.com/send?phone={$telepon}&text={$pesan}" : null;
     }
 }

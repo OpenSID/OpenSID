@@ -48,18 +48,18 @@ class Ekspedisi extends BaseModel
     use Author;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'surat_keluar';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = true;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'surat_keluar';
 
     /**
      * The guarded with the model.
@@ -75,6 +75,13 @@ class Ekspedisi extends BaseModel
      */
     protected $casts = [];
 
+    protected static function booted()
+    {
+        static::addGlobalScope('custom_where', static function ($builder): void {
+            $builder->where('ekspedisi', 1);
+        });
+    }
+
     public function scopeGetTahun($query)
     {
         return $query
@@ -87,7 +94,12 @@ class Ekspedisi extends BaseModel
 
     public function scopeUntukEkspedisi($query, $id, $masuk = 0)
     {
-        return $query->where('id', $id)->update(['ekspedisi' => $masuk]);
+        return $query->where('id', $id)->update([
+            'ekspedisi'          => $masuk,
+            'tanggal_pengiriman' => null,
+            'tanda_terima'       => null,
+            'keterangan'         => null,
+        ]);
     }
 
     public function scopeGetTandaTerima($query, $id)
@@ -96,12 +108,5 @@ class Ekspedisi extends BaseModel
             ->select('tanda_terima')
             ->where('id', $id)
             ->first();
-    }
-
-    protected static function booted()
-    {
-        static::addGlobalScope('custom_where', static function ($builder): void {
-            $builder->where('ekspedisi', 1);
-        });
     }
 }

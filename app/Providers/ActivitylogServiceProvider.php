@@ -46,7 +46,7 @@ use Spatie\Activitylog\LogBatch;
 
 class ActivitylogServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->configure('activitylog');
 
@@ -56,7 +56,7 @@ class ActivitylogServiceProvider extends ServiceProvider
         $this->app->scoped(ActivityLogStatus::class);
     }
 
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->commands([

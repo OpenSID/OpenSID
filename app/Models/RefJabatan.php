@@ -54,6 +54,9 @@ class RefJabatan extends BaseModel
     public const KADES  = 1;
     public const SEKDES = 2;
 
+    // forever remember cache
+    public $cacheFor = -1;
+
     /**
      * Invalidate the cache automatically
      * upon update in the database.
@@ -61,9 +64,6 @@ class RefJabatan extends BaseModel
      * @var bool
      */
     protected static $flushCacheOnUpdate = true;
-
-    // forever remember cache
-    public $cacheFor = -1;
 
     /**
      * The table associated with the model.
@@ -116,12 +116,6 @@ class RefJabatan extends BaseModel
         ];
     }
 
-    // scope
-    public function scopeUrut($query, $order = 'ASC')
-    {
-        return $query->orderBy(DB::raw('CASE WHEN jenis = 0 THEN 9999 ELSE jenis END'), $order);
-    }
-
     public static function scopeNonAktif()
     {
         return self::select('id')->whereNotExists(static function ($query): void {
@@ -130,5 +124,11 @@ class RefJabatan extends BaseModel
                 ->where('tweb_desa_pamong.pamong_status', StatusEnum::YA)
                 ->whereRaw('ref_jabatan.id = tweb_desa_pamong.jabatan_id');
         })->get();
+    }
+
+    // scope
+    public function scopeUrut($query, $order = 'ASC')
+    {
+        return $query->orderBy(DB::raw('CASE WHEN jenis = 0 THEN 9999 ELSE jenis END'), $order);
     }
 }

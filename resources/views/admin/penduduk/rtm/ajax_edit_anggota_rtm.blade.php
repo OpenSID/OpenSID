@@ -5,8 +5,8 @@
             <div class="form-group">
                 <label for="rtm_level">Hubungan</label>
                 <select name="rtm_level" class="form-control input-sm required">
-                    @foreach ($hubungan as $key => $data)
-                        <option value="{{ $key }}" @selected($key == $main['rtm_level'])>{{ $data }}</option>
+                    @foreach (\App\Enums\HubunganRTMEnum::valuesToUpper() as $key => $label)
+                        <option value="{{ $key }}" @selected($key == $main['rtm_level'])>{{ $label }}</option>
                     @endforeach
                 </select>
             </div>

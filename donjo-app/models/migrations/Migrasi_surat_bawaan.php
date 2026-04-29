@@ -35,16 +35,20 @@
  *
  */
 
+use App\Traits\Migrator;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_surat_bawaan extends MY_Model
+class Migrasi_surat_bawaan
 {
+    use Migrator;
+
     public function up()
     {
         $this->tambah_ubah_surat_bawaan();
     }
 
-    protected function tambah_ubah_surat_bawaan()
+    public function tambah_ubah_surat_bawaan()
     {
         $id = identitas('id');
         restoreSuratBawaanTinyMCE($id);

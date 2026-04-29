@@ -45,9 +45,9 @@ class AnalisisResponHasil extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
     protected $table   = 'analisis_respon_hasil';
     protected $guarded = [];
-    public $timestamps = false;
 
     public static function preUpdate($idMaster, $pr)
     {

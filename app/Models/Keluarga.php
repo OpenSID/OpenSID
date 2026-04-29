@@ -38,11 +38,13 @@
 namespace App\Models;
 
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use App\Traits\Upload;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -55,13 +57,7 @@ class Keluarga extends BaseModel
 {
     use ConfigId;
     use ShortcutCache;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tweb_keluarga';
+    use Upload;
 
     /**
      * The timestamps for the model.
@@ -69,6 +65,13 @@ class Keluarga extends BaseModel
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tweb_keluarga';
 
     /**
      * The guarded with the model.
@@ -87,6 +90,235 @@ class Keluarga extends BaseModel
     protected $casts = [
         'tgl_cetak_kk' => 'date:Y-m-d',
     ];
+
+    /**
+     * @return array<mixed, array<'desa'|'id_kk'|'kepala_kk'|'main', mixed>>
+     */
+    public static function dataCetak(mixed $id): array
+    {
+        $result        = [];
+        $ids           = is_array($id) ? $id : [$id];
+        $identitasDesa = identitas();
+        $keluarga      = self::with(['kepalaKeluarga', 'anggota' => static fn ($q) => $q->orderBy('kk_level')])->whereIn('id', $ids)->get()->keyBy('id');
+
+        foreach ($ids as $id) {
+            $data = $keluarga->get($id);
+            $item = [
+                'id_kk'     => $id,
+                'main'      => $data->anggota,
+                'kepala_kk' => $data->kepalaKeluarga->toArray(),
+                'desa'      => $identitasDesa,
+            ];
+            $result[] = $item;
+        }
+
+        return $result;
+    }
+
+    public static function tambahKeluargaDariPenduduk(array $data): void
+    {
+        $pend = Penduduk::where('id', $data['nik_kepala'])->first();
+
+        // Gunakan alamat penduduk sebagai alamat keluarga
+        $data['alamat']     = $pend->alamat_sekarang;
+        $data['id_cluster'] = $pend->id_cluster;
+        $data['updated_by'] = ci_auth()->id;
+
+        $keluarga = Keluarga::create($data);
+
+        $pend->id_kk    = $keluarga->id;
+        $pend->kk_level = SHDKEnum::KEPALA_KELUARGA;
+        $pend->status   = 1; // statusnya menjadi tetap
+        $pend->save();
+
+        $log['id_pend']    = $data['nik_kepala'];
+        $log['id_cluster'] = $pend->id_cluster;
+        $log['tanggal']    = date('Y-m-d H:i:s');
+        LogPerubahanPenduduk::create($log);
+
+        $log_keluarga = [
+            'id_kk'           => $keluarga->id,
+            'id_peristiwa'    => LogKeluarga::KELUARGA_BARU,
+            'tgl_peristiwa'   => date('Y-m-d H:i:s'),
+            'id_pend'         => null,
+            'id_log_penduduk' => null,
+            'updated_by'      => ci_auth()->id,
+        ];
+        // Untuk statistik perkembangan keluarga
+        LogKeluarga::create($log_keluarga);
+    }
+
+    public static function baru(array $data): void
+    {
+        $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
+        unset($data['maksud_tujuan_kedatangan']);
+
+        $tgl_lapor     = rev_tgl($data['tgl_lapor'], null);
+        $tgl_peristiwa = $data['tgl_peristiwa'] ? rev_tgl($data['tgl_peristiwa'], null) : rev_tgl($data['tanggallahir'], null);
+        unset($data['tgl_lapor'], $data['tgl_peristiwa']);
+
+        // Simpan alamat keluarga sebelum menulis penduduk
+        $data2['alamat'] = $data['alamat'];
+        unset($data['alamat']);
+
+        // Tulis penduduk baru sebagai kepala keluarga
+        $data['kk_level']   = SHDKEnum::KEPALA_KELUARGA;
+        $data['created_by'] = ci_auth()->id;
+        $kepalaKeluarga     = Penduduk::create($data);
+
+        if ($foto = (new self())->uploadGambar('foto', LOKASI_USER_PICT, null)) {
+            $default['foto'] = $foto;
+        }
+
+        // Tulis keluarga baru
+        $data2['nik_kepala'] = $kepalaKeluarga->id;
+        $data2['no_kk']      = $data['no_kk'];
+        $data2['id_cluster'] = $data['id_cluster'];
+        $data2['updated_by'] = ci_auth()->id;
+        $keluarga            = self::create($data2);
+
+        // Update penduduk kaitkan dengan KK dan RTM
+        $default['updated_at'] = date('Y-m-d H:i:s');
+        $default['updated_by'] = ci_auth()->id;
+        $default['id_kk']      = $keluarga->id;
+        $kepalaKeluarga->update($default);
+
+        // Jenis peristiwa didapat dari form yang berbeda
+        // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
+        $x = [
+            'tgl_peristiwa'            => $tgl_peristiwa,
+            'kode_peristiwa'           => PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
+            'tgl_lapor'                => $tgl_lapor,
+            'created_by'               => ci_auth()->id,
+            'maksud_tujuan_kedatangan' => $maksud_tujuan,
+        ];
+        $kepalaKeluarga->log()->create($x);
+
+        $log['id_pend']    = $kepalaKeluarga->id;
+        $log['id_cluster'] = $kepalaKeluarga->id_cluster;
+        $log['tanggal']    = date('Y-m-d H:i:s');
+        LogPerubahanPenduduk::create($log);
+
+        // Untuk statistik perkembangan keluarga
+        $keluarga->log_keluarga($keluarga->id, LogKeluarga::KELUARGA_BARU_DATANG);
+    }
+
+    public static function tambahAnggota(array $data): void
+    {
+
+        $penduduk = Penduduk::create($data);
+
+        if ($foto = (new self())->uploadGambar('foto', LOKASI_USER_PICT, null)) {
+            $penduduk->foto = $foto;
+            $penduduk->save();
+        }
+        $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
+        unset($data['maksud_tujuan_kedatangan']);
+        // Jika anggota yang ditambah adalah kepala keluarga untuk kk kosong
+        if ($penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) {
+            self::where(['id' => $data['id_kk']])->whereNull('nik_kepala')->update(['nik_kepala' => $penduduk->id]);
+        }
+        // Jenis peristiwa didapat dari form yang berbeda
+        // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
+        $x = [
+            'tgl_peristiwa'            => $data['tgl_peristiwa'] . ' 00:00:00',
+            'kode_peristiwa'           => $data['jenis_peristiwa'],
+            'tgl_lapor'                => $data['tgl_lapor'],
+            'created_by'               => ci_auth()->id,
+            'maksud_tujuan_kedatangan' => $maksud_tujuan,
+        ];
+
+        $penduduk->log()->create($x);
+    }
+
+    public static function pecahKK($id, array $data): void
+    {
+        // Buat keluarga baru
+        $lama             = self::find($id);
+        $baru             = $lama->replicate();
+        $baru->nik_kepala = bilangan($data['nik_kepala']);
+        $baru->no_kk      = bilangan($data['no_kk']);
+        $baru->updated_at = date('Y-m-d H:i:s');
+        $baru->updated_by = ci_auth()->id;
+        $baru->save();
+
+        // Untuk statistik perkembangan keluarga
+        $log_keluarga = [
+            'id_kk'           => $baru->id,
+            'id_peristiwa'    => LogKeluarga::KELUARGA_BARU,
+            'tgl_peristiwa'   => date('Y-m-d H:i:s'),
+            'id_pend'         => null,
+            'id_log_penduduk' => null,
+            'updated_by'      => ci_auth()->id,
+        ];
+        LogKeluarga::create($log_keluarga);
+
+        foreach ($lama->anggota as $anggota) {
+            if ($anggota->id == $data['nik_kepala']) {
+                $anggota->kk_level = SHDKEnum::KEPALA_KELUARGA;
+            }
+            $anggota->id_kk            = $baru->id;
+            $anggota->no_kk_sebelumnya = $lama->no_kk;
+            $anggota->update();
+        }
+
+        // hapus dokumen bersama dengan kepala KK sebelumnya
+        Dokumen::where('id_pend', $lama->nik_kepala)->where('id_parent', '>', 0)->delete();
+    }
+
+    public static function validasi_data_keluarga(array $data): array
+    {
+        $result = ['status' => true, 'messages' => []];
+        // Sterilkan data
+        $data['alamat'] = strip_tags((string) $data['alamat']);
+        if (! empty($data['id'])) {
+            $kkLama = self::findOrFail($data['id']);
+            if ($data['no_kk'] == $kkLama->no_kk) {
+                return $result;
+            } // Tidak berubah
+        }
+        $invalid = [];
+        if (isset($data['no_kk'])) {
+            if (! ctype_digit((string) $data['no_kk'])) {
+                $invalid[] = 'Nomor KK hanya berisi angka';
+            }
+            if (strlen((string) $data['no_kk']) != 16 && $data['no_kk'] != '0') {
+                $invalid[] = 'Nomor KK panjangnya harus 16 atau 0';
+            }
+            if ($exists = self::where(['no_kk' => $data['no_kk']])->exists()) {
+                set_session('autodismiss', true);
+                $url       = base_url("keluarga?status=all&kumpulanKK={$data['no_kk']}");
+                $invalid[] = "Nomor KK <a href='{$url}'>{$data['no_kk']}</a> sudah digunakan";
+            }
+        }
+
+        if ($invalid !== []) {
+            $result['status']   = false;
+            $result['messages'] = implode(PHP_EOL, $invalid);
+
+            return $result;
+        }
+
+        return $result;
+    }
+
+    protected static function nomerKKSementara(): int
+    {
+        // buat jadi orm laravel
+        return self::selectRaw('RIGHT(no_kk, 5) as digit')
+            ->where('no_kk', 'like', '0' . identitas('kode_desa') . '%')
+            ->where('no_kk', '!=', '0')
+            ->orderByRaw('RIGHT(no_kk, 5) DESC')
+            ->first()->digit ?? 0;
+    }
+
+    protected static function formatNomerKKSementara(): string
+    {
+        // buat jadi orm laravel
+        $digit = self::nomerKKSementara();
+
+        return '0' . identitas()->kode_desa . sprintf('%05d', $digit + 1);
+    }
 
     /**
      * Define a one-to-one relationship.
@@ -163,24 +395,6 @@ class Keluarga extends BaseModel
         })->join(DB::raw("({$sqlRaw}) as log"), 'log.id', '=', 'log_keluarga.id');
     }
 
-    protected static function nomerKKSementara(): int
-    {
-        // buat jadi orm laravel
-        return self::selectRaw('RIGHT(no_kk, 5) as digit')
-            ->where('no_kk', 'like', '0' . identitas('kode_desa') . '%')
-            ->where('no_kk', '!=', '0')
-            ->orderByRaw('RIGHT(no_kk, 5) DESC')
-            ->first()->digit ?? 0;
-    }
-
-    protected static function formatNomerKKSementara(): string
-    {
-        // buat jadi orm laravel
-        $digit = self::nomerKKSementara();
-
-        return '0' . identitas()->kode_desa . sprintf('%05d', $digit + 1);
-    }
-
     /**
      * Get all of the bantuan for the Keluarga
      */
@@ -207,7 +421,7 @@ class Keluarga extends BaseModel
 
     public function scopeAktif($query)
     {
-        return $query->whereHas('kepalaKeluarga', static function ($q) {
+        return $query->whereHas('kepalaKeluarga', static function ($q): void {
             $q->where('status_dasar', StatusDasarEnum::HIDUP);
         });
     }
@@ -230,30 +444,6 @@ class Keluarga extends BaseModel
         return $this->relationLoaded('analisis') ? $this->analisis->count() <= 0 : true;
     }
 
-    /**
-     * @return array<mixed, array<'desa'|'id_kk'|'kepala_kk'|'main', mixed>>
-     */
-    public static function dataCetak(mixed $id): array
-    {
-        $result        = [];
-        $ids           = is_array($id) ? $id : [$id];
-        $identitasDesa = identitas();
-        $keluarga      = Keluarga::with(['kepalaKeluarga', 'anggota' => static fn ($q) => $q->orderBy('kk_level')])->whereIn('id', $ids)->get()->keyBy('id');
-
-        foreach ($ids as $id) {
-            $data = $keluarga->get($id);
-            $item = [
-                'id_kk'     => $id,
-                'main'      => $data->anggota,
-                'kepala_kk' => $data->kepalaKeluarga->toArray(),
-                'desa'      => $identitasDesa,
-            ];
-            $result[] = $item;
-        }
-
-        return $result;
-    }
-
     public function hapusAnggota($idPend = 0, $no_kk_sebelumnya = null): void
     {
         $pend = Penduduk::find($idPend);
@@ -266,7 +456,7 @@ class Keluarga extends BaseModel
 
         $pend->no_kk_sebelumnya = $no_kk_sebelumnya; // Tidak simpan no kk kalau keluar dari keluarga
         $pend->id_kk            = null;
-        $pend->kk_level         = null;
+        $pend->kk_level         = SHDKEnum::LAINNYA;
         $pend->updated_at       = date('Y-m-d H:i:s');
         $pend->updated_by       = ci_auth()->id;
         $pend->save();
@@ -300,153 +490,6 @@ class Keluarga extends BaseModel
         LogKeluarga::create($log_keluarga);
     }
 
-    public static function tambahKeluargaDariPenduduk(array $data): void
-    {
-        $pend = Penduduk::where('id', $data['nik_kepala'])->first();
-
-        // Gunakan alamat penduduk sebagai alamat keluarga
-        $data['alamat']     = $pend->alamat_sekarang;
-        $data['id_cluster'] = $pend->id_cluster;
-        $data['updated_by'] = ci_auth()->id;
-
-        $keluarga = Keluarga::create($data);
-
-        $pend->id_kk    = $keluarga->id;
-        $pend->kk_level = SHDKEnum::KEPALA_KELUARGA;
-        $pend->status   = 1; // statusnya menjadi tetap
-        $pend->save();
-
-        $log['id_pend']    = $data['nik_kepala'];
-        $log['id_cluster'] = $pend->id_cluster;
-        $log['tanggal']    = date('Y-m-d H:i:s');
-        LogPerubahanPenduduk::create($log);
-
-        $log_keluarga = [
-            'id_kk'           => $keluarga->id,
-            'id_peristiwa'    => LogKeluarga::KELUARGA_BARU,
-            'tgl_peristiwa'   => date('Y-m-d H:i:s'),
-            'id_pend'         => null,
-            'id_log_penduduk' => null,
-            'updated_by'      => ci_auth()->id,
-        ];
-        // Untuk statistik perkembangan keluarga
-        LogKeluarga::create($log_keluarga);
-    }
-
-    public static function baru(array $data): void
-    {
-        $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
-        unset($data['maksud_tujuan_kedatangan']);
-
-        $tgl_lapor     = rev_tgl($data['tgl_lapor'], null);
-        $tgl_peristiwa = $data['tgl_peristiwa'] ? rev_tgl($data['tgl_peristiwa'], null) : rev_tgl($data['tanggallahir'], null);
-        unset($data['tgl_lapor'], $data['tgl_peristiwa']);
-
-        // Simpan alamat keluarga sebelum menulis penduduk
-        $data2['alamat'] = $data['alamat'];
-        unset($data['alamat']);
-
-        // Tulis penduduk baru sebagai kepala keluarga
-        $data['kk_level']   = SHDKEnum::KEPALA_KELUARGA;
-        $data['created_by'] = ci_auth()->id;
-        $kepalaKeluarga     = Penduduk::create($data);
-
-        // Tulis keluarga baru
-        $data2['nik_kepala'] = $kepalaKeluarga->id;
-        $data2['no_kk']      = $data['no_kk'];
-        $data2['id_cluster'] = $data['id_cluster'];
-        $data2['updated_by'] = ci_auth()->id;
-        $keluarga            = self::create($data2);
-
-        // Update penduduk kaitkan dengan KK
-        $default['updated_at'] = date('Y-m-d H:i:s');
-        $default['updated_by'] = ci_auth()->id;
-        $default['id_kk']      = $keluarga->id;
-        $kepalaKeluarga->update($default);
-
-        // Jenis peristiwa didapat dari form yang berbeda
-        // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
-        $x = [
-            'tgl_peristiwa'            => $tgl_peristiwa,
-            'kode_peristiwa'           => LogPenduduk::BARU_PINDAH_MASUK,
-            'tgl_lapor'                => $tgl_lapor,
-            'created_by'               => ci_auth()->id,
-            'maksud_tujuan_kedatangan' => $maksud_tujuan,
-        ];
-        $kepalaKeluarga->log()->create($x);
-
-        $log['id_pend']    = $kepalaKeluarga->id;
-        $log['id_cluster'] = $kepalaKeluarga->id_cluster;
-        $log['tanggal']    = date('Y-m-d H:i:s');
-        LogPerubahanPenduduk::create($log);
-
-        // Untuk statistik perkembangan keluarga
-        $keluarga->log_keluarga($keluarga->id, LogKeluarga::KELUARGA_BARU_DATANG);
-    }
-
-    public static function tambahAnggota(array $data): void
-    {
-
-        $penduduk = Penduduk::create($data);
-
-        if ($foto = upload_foto_penduduk(time() . '-' . $penduduk->id . '-' . random_int(10000, 999999))) {
-            $penduduk->foto = $foto;
-            $penduduk->save();
-        }
-        $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
-        unset($data['maksud_tujuan_kedatangan']);
-        // Jika anggota yang ditambah adalah kepala keluarga untuk kk kosong
-        if ($penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) {
-            self::where(['id' => $data['id_kk']])->whereNull('nik_kepala')->update(['nik_kepala' => $penduduk->id]);
-        }
-        // Jenis peristiwa didapat dari form yang berbeda
-        // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
-        $x = [
-            'tgl_peristiwa'            => $data['tgl_peristiwa'] . ' 00:00:00',
-            'kode_peristiwa'           => $data['jenis_peristiwa'],
-            'tgl_lapor'                => $data['tgl_lapor'],
-            'created_by'               => ci_auth()->id,
-            'maksud_tujuan_kedatangan' => $maksud_tujuan,
-        ];
-
-        $penduduk->log()->create($x);
-    }
-
-    public static function pecahKK($id, array $data): void
-    {
-        // Buat keluarga baru
-        $lama             = self::find($id);
-        $baru             = $lama->replicate();
-        $baru->nik_kepala = bilangan($data['nik_kepala']);
-        $baru->no_kk      = bilangan($data['no_kk']);
-        $baru->updated_at = date('Y-m-d H:i:s');
-        $baru->updated_by = ci_auth()->id;
-        $baru->save();
-
-        // Untuk statistik perkembangan keluarga
-        $log_keluarga = [
-            'id_kk'           => $baru->id,
-            'id_peristiwa'    => LogKeluarga::KELUARGA_BARU,
-            'tgl_peristiwa'   => date('Y-m-d H:i:s'),
-            'id_pend'         => null,
-            'id_log_penduduk' => null,
-            'updated_by'      => ci_auth()->id,
-        ];
-        LogKeluarga::create($log_keluarga);
-
-        foreach ($lama->anggota as $anggota) {
-            if ($anggota->id == $data['nik_kepala']) {
-                $anggota->kk_level = SHDKEnum::KEPALA_KELUARGA;
-            }
-            $anggota->id_kk            = $baru->id;
-            $anggota->no_kk_sebelumnya = $lama->no_kk;
-            $anggota->update();
-        }
-
-        // hapus dokumen bersama dengan kepala KK sebelumnya
-        Dokumen::where('id_pend', $lama->nik_kepala)->where('id_parent', '>', 0)->delete();
-    }
-
     public function delete(): void
     {
         if (! $this->bolehHapus()) {
@@ -475,15 +518,10 @@ class Keluarga extends BaseModel
         } elseif ($nomor == TOTAL) {
             $judul = ['nama' => 'TOTAL'];
         } else {
-            switch ($tipe) {
-                case 'kelas_sosial':
-                    $judul = KelasSosial::find($nomor)->toArray();
-                    break;
-
-                default:
-                    $judul = Bantuan::find($nomor)->toArray();
-                    break;
-            }
+            $judul = match ($tipe) {
+                'kelas_sosial' => KelasSosial::find($nomor)->toArray(),
+                default        => Bantuan::find($nomor)->toArray(),
+            };
         }
 
         if (in_array($sex, [1, 2])) {
@@ -491,42 +529,6 @@ class Keluarga extends BaseModel
         }
 
         return $judul;
-    }
-
-    public static function validasi_data_keluarga(array $data): array
-    {
-        $result = ['status' => true, 'messages' => []];
-        // Sterilkan data
-        $data['alamat'] = strip_tags((string) $data['alamat']);
-        if (! empty($data['id'])) {
-            $kkLama = self::findOrFail($data['id']);
-            if ($data['no_kk'] == $kkLama->no_kk) {
-                return $result;
-            } // Tidak berubah
-        }
-        $invalid = [];
-        if (isset($data['no_kk'])) {
-            if (! ctype_digit((string) $data['no_kk'])) {
-                $invalid[] = 'Nomor KK hanya berisi angka';
-            }
-            if (strlen((string) $data['no_kk']) != 16 && $data['no_kk'] != '0') {
-                $invalid[] = 'Nomor KK panjangnya harus 16 atau 0';
-            }
-            if ($exists = self::where(['no_kk' => $data['no_kk']])->exists()) {
-                set_session('autodismiss', true);
-                $url       = base_url("keluarga?status=all&kumpulanKK={$data['no_kk']}");
-                $invalid[] = "Nomor KK <a href='{$url}'>{$data['no_kk']}</a> sudah digunakan";
-            }
-        }
-
-        if ($invalid !== []) {
-            $result['status']   = false;
-            $result['messages'] = implode(PHP_EOL, $invalid);
-
-            return $result;
-        }
-
-        return $result;
     }
 
     public function pindah($idCluster): void
@@ -545,13 +547,6 @@ class Keluarga extends BaseModel
 
             foreach ($this->anggota as $anggota) {
                 $anggota->update($data);
-                $log = [
-                    'id_pend'        => $anggota->id,
-                    'config_id'      => identitas('id'),
-                    'kode_peristiwa' => 6,
-                    'tgl_peristiwa'  => date('Y-m-d H:i:s'),
-                ];
-                $anggota->log()->upsert($log, ['kode_peristiwa', 'tgl_peristiwa', 'id_pend']);
             }
         }
     }

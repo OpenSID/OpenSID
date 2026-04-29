@@ -55,18 +55,31 @@ class SinergiProgram extends BaseModel
     public const INACTIVE = 0;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'sinergi_program';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * {@inheritDoc}
+     */
+    public $statusColumName = 'status';
+
+    /**
+     * {@inheritDoc}
+     */
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => true,
+    ];
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'sinergi_program';
 
     /**
      * The attributes that are mass assignable.
@@ -85,26 +98,14 @@ class SinergiProgram extends BaseModel
         'gambar_url',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
-    public $statusColumName = 'status';
-
-    /**
-     * {@inheritDoc}
-     */
-    public $sortable = [
-        'order_column_name'  => 'urut',
-        'sort_when_creating' => true,
-    ];
-
-    public function getGambarUrlAttribute()
+    public static function deleteFile($model, ?string $file, $deleting = false): void
     {
-        if (file_exists(FCPATH . LOKASI_SINERGI_PROGRAM . $this->gambar)) {
-            return base_url(LOKASI_SINERGI_PROGRAM . $this->gambar);
+        if ($model->isDirty($file) || $deleting) {
+            $gambar = LOKASI_SINERGI_PROGRAM . $model->getOriginal($file);
+            if (file_exists($gambar)) {
+                unlink($gambar);
+            }
         }
-
-        return asset('images/404-image-not-found.jpg');
     }
 
     protected static function boot()
@@ -122,13 +123,12 @@ class SinergiProgram extends BaseModel
         });
     }
 
-    public static function deleteFile($model, ?string $file, $deleting = false): void
+    public function getGambarUrlAttribute()
     {
-        if ($model->isDirty($file) || $deleting) {
-            $gambar = LOKASI_SINERGI_PROGRAM . $model->getOriginal($file);
-            if (file_exists($gambar)) {
-                unlink($gambar);
-            }
+        if (file_exists(FCPATH . LOKASI_SINERGI_PROGRAM . $this->gambar)) {
+            return base_url(LOKASI_SINERGI_PROGRAM . $this->gambar);
         }
+
+        return asset('images/404-image-not-found.jpg');
     }
 }

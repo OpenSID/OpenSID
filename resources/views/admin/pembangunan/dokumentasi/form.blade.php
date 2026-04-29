@@ -20,7 +20,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('pembangunan_dokumentasi.dokumentasi', $pembangunan->id), 'label' => 'Dokumentasi Pembangunan'])
+                    <x-kembali-button judul="Kembali Ke Daftar Dokumentasi Pembangunan" url="pembangunan_dokumentasi/dokumentasi/{{ $pembangunan->id }}" />
                 </div>
                 <div class="box-body">
                     <div class="row">

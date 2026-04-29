@@ -35,15 +35,9 @@
  *
  */
 
-use App\Enums\AgamaEnum;
-use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
-use App\Enums\PekerjaanEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusPendudukEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 
@@ -91,9 +85,9 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 ->editColumn('tanggallahir', static fn ($row): string => strtoupper($row->tempatlahir) . ', ' . tgl_indo_out($row->tanggallahir))
                 ->editColumn('agama', static fn ($row): string => strtoupper((string) $row->agama))
                 ->editColumn('pendidikan', static fn ($row): string => (string) $row->pendidikan_kk)
-                ->editColumn('pekerjaan', static fn ($row): string => strtoupper($row->pekerjaan->nama ?? '-'))
+                ->editColumn('pekerjaan', static fn ($row): string => $row->pekerjaan)
                 ->editColumn('warganegara', static fn ($row): string => (string) $row->warganegara)
-                ->editColumn('kk_level', static fn ($row): string => strtoupper((string) SHDKEnum::valueOf($row->kk_level)))
+                ->editColumn('kk_level', static fn ($row): string => strtoupper((string) $row->penduduk_hubungan))
                 ->editColumn('golongan_darah', static fn ($row): string => $row->golongan_darah)
                 ->editColumn('kk', static fn ($row) => $row->keluarga->no_kk)
                 ->editColumn('tgl_keluar', static fn ($row): string => $row->tempat_cetak_ktp ? strtoupper($row->tempat_cetak_ktp) . ', ' . tgl_indo_out($row->tanggal_cetak_ktp) : '-')
@@ -113,20 +107,6 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
         return view('admin.bumindes.penduduk.induk.dialog', $data);
     }
 
-    private function sumberData()
-    {
-        $filters = [
-            'tahun' => $this->input->get('tahun') ?? null,
-            'bulan' => $this->input->get('bulan') ?? null,
-        ];
-
-        return Penduduk::with(['log_latest', 'keluarga'])
-            ->urut()
-            ->statusPenduduk(StatusPendudukEnum::TETAP)
-            ->statusDasar([StatusDasarEnum::HIDUP])
-            ->filterLog($filters);
-    }
-
     public function cetak($aksi = '')
     {
 
@@ -140,15 +120,8 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
 
         $collected = collect($query->take($paramDatatable['length'])->get()->toArray())
             ->map(static function ($row): array {
-                $row['sex']            = strtoupper(substr((string) JenisKelaminEnum::valueOf($row['sex']), 0, 1));
                 $row['status_kawin']   = strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')));
                 $row['tanggallahir']   = tgl_indo_out($row['tanggallahir']);
-                $row['agama']          = AgamaEnum::valueToUpper($row['agama_id']);
-                $row['pendidikan']     = PendidikanKKEnum::valueToUpper($row['pendidikan_kk_id']);
-                $row['pekerjaan']      = PekerjaanEnum::valueToUpper($row['pekerjaan_id']);
-                $row['warganegara']    = WargaNegaraEnum::valueToUpper($row['warganegara_id']);
-                $row['kk_level']       = strtoupper((string) SHDKEnum::valueOf($row['kk_level']));
-                $row['golongan_darah'] = GolonganDarahEnum::valueToUpper($row['golongan_darah_id']);
                 $row['alamat_wilayah'] = strtoupper($row['alamat_wilayah_kartu_keluarga'] ?? ($row->alamat . ' RT ' . $row->rt . ' / RW ' . $row->rw . ' ' . setting('sebutan_dusun') . ' ' . $row['dusun']));
                 $row['kk']             = $row['keluarga']['no_kk'];
                 $row['tgl_keluar']     = $row['tempat_cetak_ktp'] ? strtoupper($row['tempat_cetak_ktp']) . ', ' . tgl_indo_out($row['tanggal_cetak_ktp']) : '-';
@@ -169,5 +142,19 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
         $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        $filters = [
+            'tahun' => $this->input->get('tahun') ?? null,
+            'bulan' => $this->input->get('bulan') ?? null,
+        ];
+
+        return Penduduk::with(['log_latest', 'keluarga'])
+            ->urut()
+            ->statusPenduduk(StatusPendudukEnum::TETAP)
+            ->statusDasar([StatusDasarEnum::HIDUP])
+            ->filterLog($filters);
     }
 }

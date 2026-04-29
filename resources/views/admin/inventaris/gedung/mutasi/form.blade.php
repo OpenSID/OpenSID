@@ -23,7 +23,7 @@
         <div class="col-md-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('inventaris_gedung_mutasi'), 'label' => 'Daftar Mutasi Gedung Dan Bangunan'])
+                    <x-kembali-button judul="Kembali Ke Daftar Mutasi Gedung Dan Bangunan" url="inventaris_gedung_mutasi" />
                 </div>
                 <form class="form-horizontal" id="validasi" name="form_gedung" method="post" action="{{ $form_action }}">
                     <div class="box-body">
@@ -33,7 +33,7 @@
                                 <input type="hidden" name="id_inventaris_gedung" id="id_inventaris_gedung" value="{{ $main->id }}">
                                 <input
                                     maxlength="50"
-                                    value="{{ $main->nama_barang }}"
+                                    value="{{ $main->inventaris->nama_barang }}"
                                     class="form-control input-sm required"
                                     name="nama_barang"
                                     id="nama_barang"
@@ -48,7 +48,7 @@
                             <div class="col-sm-8">
                                 <input
                                     maxlength="50"
-                                    value="{{ $main->kode_barang }}"
+                                    value="{{ $main->inventaris->kode_barang }}"
                                     class="form-control input-sm required"
                                     name="kode_barang"
                                     id="kode_barang"
@@ -63,7 +63,7 @@
                             <div class="col-sm-8">
                                 <input
                                     maxlength="50"
-                                    value="{{ $main->register }}"
+                                    value="{{ $main->inventaris->register }}"
                                     class="form-control input-sm required"
                                     name="register"
                                     id="register"
@@ -76,10 +76,10 @@
                             <label class="col-sm-3 control-label" for="mutasi">Status Asset</label>
                             <div class="col-sm-4">
                                 <select name="status_mutasi" id="status" class="form-control input-sm required" @disabled($view_mark)>
-                                    <option value="Baik" @selected($main->mutasi->status_mutasi == 'Baik')>Baik</option>
-                                    <option value="Rusak" @selected($main->mutasi->status_mutasi == 'Rusak')>Rusak</option>
-                                    <option value="Diperbaiki" @selected($main->mutasi->status_mutasi == 'Diperbaiki')>Diperbaiki</option>
-                                    <option value="Hapus" @selected($main->mutasi->status_mutasi == 'Hapus')>Dihapus</option>
+                                    <option value="Baik" @selected($main->status_mutasi == 'Baik')>Baik</option>
+                                    <option value="Rusak" @selected($main->status_mutasi == 'Rusak')>Rusak</option>
+                                    <option value="Diperbaiki" @selected($main->status_mutasi == 'Diperbaiki')>Diperbaiki</option>
+                                    <option value="Hapus" @selected($main->status_mutasi == 'Hapus')>Dihapus</option>
                                 </select>
                             </div>
                         </div>
@@ -88,16 +88,16 @@
                             <div class="col-sm-4">
                                 <select name="mutasi" id="mutasi" class="form-control input-sm" @disabled($view_mark)>
                                     <optgroup label="Penghapusan">
-                                        <option value="Baik" @selected($main->mutasi->jenis_mutasi == 'Baik')>Status Baik</option>
-                                        <option value="Rusak" @selected($main->mutasi->jenis_mutasi == 'Rusak')>Status Rusak</option>
+                                        <option value="Baik" @selected($main->jenis_mutasi == 'Baik')>Status Baik</option>
+                                        <option value="Rusak" @selected($main->jenis_mutasi == 'Rusak')>Status Rusak</option>
                                     </optgroup>
                                     <optgroup label="Disumbangkan">
-                                        <option value="Masih Baik Disumbangkan" @selected($main->mutasi->jenis_mutasi == 'Masih Baik Disumbangkan')>Masih Baik</option>
-                                        <option value="Barang Rusak Disumbangkan" @selected($main->mutasi->jenis_mutasi == 'Barang Rusak Disumbangkan')>Rusak</option>
+                                        <option value="Masih Baik Disumbangkan" @selected($main->jenis_mutasi == 'Masih Baik Disumbangkan')>Masih Baik</option>
+                                        <option value="Barang Rusak Disumbangkan" @selected($main->jenis_mutasi == 'Barang Rusak Disumbangkan')>Rusak</option>
                                     </optgroup>
                                     <optgroup label="Jual">
-                                        <option value="Masih Baik Dijual" @selected($main->mutasi->jenis_mutasi == 'Masih Baik Dijual')>Masih Baik</option>
-                                        <option value="Barang Rusak Dijual" @selected($main->mutasi->jenis_mutasi == 'Barang Rusak Dijual')>Rusak</option>
+                                        <option value="Masih Baik Dijual" @selected($main->jenis_mutasi == 'Masih Baik Dijual')>Masih Baik</option>
+                                        <option value="Barang Rusak Dijual" @selected($main->jenis_mutasi == 'Barang Rusak Dijual')>Rusak</option>
                                     </optgroup>
                                 </select>
                             </div>
@@ -113,7 +113,7 @@
                                     name="sumbangkan"
                                     id="sumbangkan"
                                     type="text"
-                                    value="{{ $main->sumbangkan }}"
+                                    value="{{ $main->inventaris->sumbangkan }}"
                                 />
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                                     name="tahun"
                                     id="tahun"
                                     type="text"
-                                    value="{{ date('Y', strtotime($main->tanggal_dokument)) }}"
+                                    value="{{ date('Y', strtotime($main->inventaris->tanggal_dokument)) }}"
                                     disabled
                                 />
                             </div>
@@ -142,7 +142,7 @@
                                     name="harga_jual"
                                     id="harga_jual"
                                     type="text"
-                                    value="{{ $main->harga_jual }}"
+                                    value="{{ $main->inventaris->harga_jual }}"
                                     @disabled($view_mark)
                                 />
                             </div>
@@ -156,7 +156,7 @@
                                     class="form-control input-sm required datepicker"
                                     name="tahun_mutasi"
                                     id="tahun_mutasi"
-                                    value="{{ date('d-m-Y', strtotime($main->tanggal_dokument)) }}"
+                                    value="{{ date('d-m-Y', strtotime($main->inventaris->tanggal_dokument)) }}"
                                     @disabled($view_mark)
                                 />
                             </div>
@@ -164,7 +164,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
                             <div class="col-sm-8">
-                                <textarea rows="5" class="form-control input-sm required" name="keterangan" @disabled($view_mark) id="keterangan">{{ $main->mutasi->keterangan }}</textarea>
+                                <textarea rows="5" class="form-control input-sm required" name="keterangan" @disabled($view_mark) id="keterangan">{{ $main->keterangan }}</textarea>
                             </div>
                         </div>
 

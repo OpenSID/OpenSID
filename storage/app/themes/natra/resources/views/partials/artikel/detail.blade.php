@@ -116,7 +116,7 @@
                 ];
             @endphp
 
-            @include('theme::commons.share', $share);
+            @include('theme::commons.share', $share)
 
         </div>
         @if ($single_artikel['boleh_komentar'] == 1)

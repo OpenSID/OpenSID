@@ -72,9 +72,9 @@ class Notifikasi extends BaseModel
             ->get()->toArray();
     }
 
-    public static function convert($notif)
+    public static function convert(array $notif): array
     {
-        $aksi                = explode(',', $notif['aksi']);
+        $aksi                = explode(',', (string) $notif['aksi']);
         $notif['aksi_ya']    = $aksi[0];
         $notif['aksi_tidak'] = $aksi[1];
         $notif['isi']        = str_replace(['\n', '\"SEBAGAIMANA ADANYA\"'], ['', '"SEBAGAIMANA ADANYA"'], $notif['isi']);

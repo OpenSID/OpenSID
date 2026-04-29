@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Models\Area;
 use App\Models\Garis as GarisModel;
 use App\Models\Line;
@@ -42,6 +43,7 @@ use App\Models\Lokasi;
 use App\Models\Pembangunan;
 use App\Models\Wilayah;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -70,12 +72,12 @@ class Garis extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status  = $this->input->get('status') ?? null;
+            $status  = $this->input->get('status');
             $subline = $this->input->get('subline') ?? null;
             $line    = $this->input->get('line') ?? null;
             $parent  = $this->input->get('parent') ?? 0;
 
-            return datatables()->of(GarisModel::when($status, static fn ($q) => $q->whereEnabled($status))
+            return datatables()->of(GarisModel::status($status)
                 ->when($line, static fn ($q) => $q->whereIn('ref_line', static fn ($q) => $q->select('id')->from('line')->whereParrent($line)))
                 ->when($subline, static fn ($q) => $q->whereRefLine($subline))
                 ->with([
@@ -93,20 +95,19 @@ class Garis extends Admin_Controller
                         $aksi .= '<a href="' . ci_route('garis.form', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                     }
                     $aksi .= '<a href="' . ci_route('garis.ajax_garis_maps', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
-                    if (can('u')) {
-                        if ($row->isLock()) {
-                            $aksi .= '<a href="' . ci_route('garis.unlock', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('garis.lock', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
-                        }
-                    }
+
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => ci_route('garis.lock', implode('/', [$row->line->parent->id ?? $parent, $row->id])),
+                        'active' => $row->enabled,
+                    ])->render();
+
                     if (can('h')) {
                         $aksi .= '<a href="#" data-href="' . ci_route('garis.delete', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                     }
 
                     return $aksi;
                 })
-                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == AktifEnum::AKTIF ? 'Ya' : 'Tidak')
                 ->editColumn('ref_line', static fn ($row) => $row->line->parent->nama ?? '')
                 ->editColumn('kategori', static fn ($row) => $row->line->nama ?? '')
                 ->rawColumns(['aksi', 'ceklist'])
@@ -232,29 +233,25 @@ class Garis extends Admin_Controller
         }
     }
 
-    public function lock($parent, $id): void
+    public function lock($parent, $id)
     {
-        isCan('h');
+        isCan('u');
 
         try {
-            GarisModel::where(['id' => $id])->update(['enabled' => GarisModel::LOCK]);
-            redirect_with('success', 'Pengaturan garis berhasil dinonaktifkan', ci_route('garis.index', $parent));
+            $status  = GarisModel::gantiStatus($id, 'enabled');
+            $success = (bool) $status;
+
+            return json([
+                'success' => $success,
+                'message' => $success ? __('notification.status.success') : __('notification.status.error'),
+            ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Pengaturan garis gagal dinonaktifkan', ci_route('garis.index', $parent));
-        }
-    }
 
-    public function unlock($parent, $id): void
-    {
-        isCan('h');
-
-        try {
-            GarisModel::where(['id' => $id])->update(['enabled' => GarisModel::UNLOCK]);
-            redirect_with('success', 'Pengaturan garis berhasil dinonaktifkan', ci_route('garis.index', $parent));
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Pengaturan garis gagal dinonaktifkan', ci_route('garis.index', $parent));
+            return json([
+                'success' => false,
+                'message' => __('notification.status.error'),
+            ]);
         }
     }
 

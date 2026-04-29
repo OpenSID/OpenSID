@@ -84,20 +84,6 @@ class Handler implements ExceptionHandler
     }
 
     /**
-     * Determine if the exception is in the "do not report" list.
-     */
-    protected function shouldntReport(Throwable $e): bool
-    {
-        foreach ($this->dontReport as $type) {
-            if ($e instanceof $type) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function render($request, Throwable $e): void
@@ -110,5 +96,19 @@ class Handler implements ExceptionHandler
     public function renderForConsole($output, Throwable $e): void
     {
         (new ConsoleApplication())->renderThrowable($e, $output);
+    }
+
+    /**
+     * Determine if the exception is in the "do not report" list.
+     */
+    protected function shouldntReport(Throwable $e): bool
+    {
+        foreach ($this->dontReport as $type) {
+            if ($e instanceof $type) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

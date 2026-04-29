@@ -16,6 +16,7 @@
 @push('scripts')
     <!-- OpenStreetMap Js-->
     <script src="{{ asset('js/leaflet.js') }}"></script>
+    <script src="{{ asset('js/leaflet.textpath.js') }}"></script>
     <script src="{{ asset('js/turf.min.js') }}"></script>
     <script src="{{ asset('js/leaflet-geoman.min.js') }}"></script>
     <script src="{{ asset('js/leaflet.filelayer.js') }}"></script>

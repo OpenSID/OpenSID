@@ -23,7 +23,7 @@
         <div class="col-md-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('inventaris_tanah_mutasi'), 'label' => 'Daftar Mutasi Inventaris Tanah'])
+                    <x-kembali-button judul="Kembali Ke Daftar Mutasi Inventaris Tanah" url="inventaris_tanah_mutasi" />
                 </div>
                 <form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="{{ $form_action }}">
                     <div class="box-body">
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="mutasi">Status Asset</label>
+                            <label class="col-sm-3 control-label" for="mutasi">Status Aset</label>
                             <div class="col-sm-4">
                                 <select name="status_mutasi" id="status" class="form-control input-sm required" @disabled($view_mark)>
                                     <option value="Baik" @selected($main->mutasi->status_mutasi == 'Baik')>Baik</option>

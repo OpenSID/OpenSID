@@ -80,62 +80,6 @@ use Throwable;
 class Laravel extends Container
 {
     /**
-     * Indicates if the class aliases have been registered.
-     *
-     * @var bool
-     */
-    protected static $aliasesRegistered = false;
-
-    /**
-     * All of the loaded configuration files.
-     *
-     * @var array
-     */
-    protected $loadedConfigurations = [];
-
-    /**
-     * Indicates if the application has "booted".
-     *
-     * @var bool
-     */
-    protected $booted = false;
-
-    /**
-     * The loaded service providers.
-     *
-     * @var array
-     */
-    protected $loadedProviders = [];
-
-    /**
-     * The service binding methods that have been executed.
-     *
-     * @var array
-     */
-    protected $ranServiceBinders = [];
-
-    /**
-     * The custom storage path defined by the developer.
-     *
-     * @var string
-     */
-    protected $storagePath;
-
-    /**
-     * The application namespace.
-     *
-     * @var string
-     */
-    protected $namespace;
-
-    /**
-     * The array of terminating callbacks.
-     *
-     * @var callable[]
-     */
-    protected $terminatingCallbacks = [];
-
-    /**
      * The available container bindings and their respective load methods.
      *
      * @var array
@@ -198,6 +142,62 @@ class Laravel extends Container
     ];
 
     /**
+     * Indicates if the class aliases have been registered.
+     *
+     * @var bool
+     */
+    protected static $aliasesRegistered = false;
+
+    /**
+     * All of the loaded configuration files.
+     *
+     * @var array
+     */
+    protected $loadedConfigurations = [];
+
+    /**
+     * Indicates if the application has "booted".
+     *
+     * @var bool
+     */
+    protected $booted = false;
+
+    /**
+     * The loaded service providers.
+     *
+     * @var array
+     */
+    protected $loadedProviders = [];
+
+    /**
+     * The service binding methods that have been executed.
+     *
+     * @var array
+     */
+    protected $ranServiceBinders = [];
+
+    /**
+     * The custom storage path defined by the developer.
+     *
+     * @var string
+     */
+    protected $storagePath;
+
+    /**
+     * The application namespace.
+     *
+     * @var string
+     */
+    protected $namespace;
+
+    /**
+     * The array of terminating callbacks.
+     *
+     * @var callable[]
+     */
+    protected $terminatingCallbacks = [];
+
+    /**
      * Create a new Mini application instance.
      *
      * @param string|null $basePath
@@ -211,25 +211,6 @@ class Laravel extends Container
         protected $basePath = null
     ) {
         $this->bootstrapContainer();
-    }
-
-    /**
-     * Bootstrap the application container.
-     *
-     * @return void
-     */
-    protected function bootstrapContainer()
-    {
-        static::setInstance($this);
-
-        $this->instance('app', $this);
-        $this->instance(self::class, $this);
-
-        $this->instance('path', $this->path());
-
-        $this->instance('env', $this->environment());
-
-        $this->registerContainerAliases();
     }
 
     /**
@@ -372,20 +353,6 @@ class Laravel extends Container
     }
 
     /**
-     * Boot the given service provider.
-     *
-     * @return mixed
-     */
-    protected function bootProvider(ServiceProvider $provider)
-    {
-        if (method_exists($provider, 'boot')) {
-            return $this->call([$provider, 'boot']);
-        }
-
-        return null;
-    }
-
-    /**
      * Resolve the given type from the container.
      *
      * @param string $abstract
@@ -407,297 +374,6 @@ class Laravel extends Container
         }
 
         return parent::make($abstract, $parameters);
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerAuthBindings()
-    {
-        $this->singleton('auth', fn () => $this->loadComponent('auth', AuthServiceProvider::class, 'auth'));
-        $this->singleton('auth.driver', fn () => $this->loadComponent('auth', AuthServiceProvider::class, 'auth.driver'));
-        $this->singleton(AuthManager::class, fn () => $this->loadComponent('auth', AuthServiceProvider::class, 'auth'));
-        $this->singleton(Gate::class, fn () => $this->loadComponent('auth', AuthServiceProvider::class, Gate::class));
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerBroadcastingBindings()
-    {
-        $this->singleton(Factory::class, fn () => $this->loadComponent('broadcasting', BroadcastServiceProvider::class, Factory::class));
-        $this->singleton(Broadcaster::class, fn () => $this->loadComponent('broadcasting', BroadcastServiceProvider::class, Broadcaster::class));
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerBusBindings()
-    {
-        $this->singleton(Dispatcher::class, function () {
-            $this->register(BusServiceProvider::class);
-
-            return $this->make(Dispatcher::class);
-        });
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerCacheBindings()
-    {
-        $this->singleton('cache', fn () => $this->loadComponent('cache', CacheServiceProvider::class));
-        $this->singleton('cache.store', fn () => $this->loadComponent('cache', CacheServiceProvider::class, 'cache.store'));
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerComposerBindings()
-    {
-        $this->singleton('composer', fn ($app): \Illuminate\Support\Composer => new Composer($app->make('files'), $this->basePath()));
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerConfigBindings()
-    {
-        $this->singleton('config', static fn (): \Illuminate\Config\Repository => new Repository());
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerCookieBindings()
-    {
-        $this->singleton('cookie', fn () => $this->loadComponent('session', CookieServiceProvider::class, 'cookie'));
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerDatabaseBindings()
-    {
-        $this->singleton('db', function () {
-            $this->configure('app');
-
-            if (file_exists($this->basePath('desa'))) {
-                $this->configure('database');
-            }
-
-            $this->register(DatabaseServiceProvider::class);
-            $this->register(PaginationServiceProvider::class);
-
-            return $this->make('db');
-        });
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerEncrypterBindings()
-    {
-        $this->singleton('encrypter', fn () => $this->loadComponent('app', EncryptionServiceProvider::class, 'encrypter'));
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerEventBindings()
-    {
-        $this->singleton('events', function () {
-            $this->register(EventServiceProvider::class);
-
-            return $this->make('events');
-        });
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerFilesBindings()
-    {
-        $this->singleton('files', static fn (): \Illuminate\Filesystem\Filesystem => new Filesystem());
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerFilesystemBindings()
-    {
-        $this->singleton('filesystem', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem'));
-        $this->singleton('filesystem.disk', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.disk'));
-        $this->singleton('filesystem.cloud', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.cloud'));
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerHashBindings()
-    {
-        $this->singleton('hash', fn () => $this->loadComponent('hashing', HashServiceProvider::class, 'hash'));
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerLogBindings()
-    {
-        $this->singleton(LoggerInterface::class, function (): LogManager {
-            $this->configure('logging');
-
-            return new LogManager($this);
-        });
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerNotificationBindings()
-    {
-        $this->singleton(ChannelManager::class, function () {
-            $this->register(NotificationServiceProvider::class);
-
-            return $this->make(ChannelManager::class);
-        });
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerQueueBindings()
-    {
-        $this->singleton('queue', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue'));
-        $this->singleton('queue.connection', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue.connection'));
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerSessionBindings()
-    {
-        $this->singleton('session', fn () => $this->loadComponent('session', SessionServiceProvider::class, 'session'));
-        $this->singleton('session.store', fn () => $this->loadComponent('session', SessionServiceProvider::class, 'session.store'));
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerTranslationBindings()
-    {
-        $this->singleton('translator', function () {
-            $this->configure('app');
-
-            $this->instance('path.lang', $this->getLanguagePath());
-
-            $this->register(TranslationServiceProvider::class);
-
-            return $this->make('translator');
-        });
-    }
-
-    /**
-     * Prepare the given request instance for use with the application.
-     *
-     * @return Request
-     */
-    protected function prepareRequest(SymfonyRequest $request)
-    {
-        if (! $request instanceof Request) {
-            $request = Request::createFromBase($request);
-        }
-
-        $request->setUserResolver(fn ($guard = null) => $this->make('auth')->guard($guard)->user());
-
-        return $request;
-    }
-
-    /**
-     * Get the path to the application's language files.
-     */
-    protected function getLanguagePath(): string
-    {
-        if (is_dir($langPath = $this->basePath() . '/resources/lang')) {
-            return $langPath;
-        }
-
-        return __DIR__ . '/../resources/lang';
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerUrlGeneratorBindings()
-    {
-        $this->singleton('url', function () {
-            return tap(new \Illuminate\Routing\UrlGenerator($this), function ($urlGenerator) {
-                $urlGenerator->setKeyResolver(fn () => $this->make('config')->get('app.key'));
-            });
-        });
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerValidatorBindings()
-    {
-        $this->singleton('validator', function () {
-            $this->register(ValidationServiceProvider::class);
-
-            return $this->make('validator');
-        });
-    }
-
-    /**
-     * Register container bindings for the application.
-     *
-     * @return void
-     */
-    protected function registerViewBindings()
-    {
-        $this->singleton('view', fn () => $this->loadComponent('view', ViewServiceProvider::class, 'view'));
-        $this->singleton('view.engine.resolver', fn () => $this->loadComponent('view', ViewServiceProvider::class, 'view.engine.resolver'));
     }
 
     /**
@@ -1073,6 +749,330 @@ class Laravel extends Container
 
             $index++;
         }
+    }
+
+    /**
+     * Bootstrap the application container.
+     *
+     * @return void
+     */
+    protected function bootstrapContainer()
+    {
+        static::setInstance($this);
+
+        $this->instance('app', $this);
+        $this->instance(self::class, $this);
+
+        $this->instance('path', $this->path());
+
+        $this->instance('env', $this->environment());
+
+        $this->registerContainerAliases();
+    }
+
+    /**
+     * Boot the given service provider.
+     *
+     * @return mixed
+     */
+    protected function bootProvider(ServiceProvider $provider)
+    {
+        if (method_exists($provider, 'boot')) {
+            return $this->call([$provider, 'boot']);
+        }
+
+        return null;
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerAuthBindings()
+    {
+        $this->singleton('auth', fn () => $this->loadComponent('auth', AuthServiceProvider::class, 'auth'));
+        $this->singleton('auth.driver', fn () => $this->loadComponent('auth', AuthServiceProvider::class, 'auth.driver'));
+        $this->singleton(AuthManager::class, fn () => $this->loadComponent('auth', AuthServiceProvider::class, 'auth'));
+        $this->singleton(Gate::class, fn () => $this->loadComponent('auth', AuthServiceProvider::class, Gate::class));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerBroadcastingBindings()
+    {
+        $this->singleton(Factory::class, fn () => $this->loadComponent('broadcasting', BroadcastServiceProvider::class, Factory::class));
+        $this->singleton(Broadcaster::class, fn () => $this->loadComponent('broadcasting', BroadcastServiceProvider::class, Broadcaster::class));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerBusBindings()
+    {
+        $this->singleton(Dispatcher::class, function () {
+            $this->register(BusServiceProvider::class);
+
+            return $this->make(Dispatcher::class);
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerCacheBindings()
+    {
+        $this->singleton('cache', fn () => $this->loadComponent('cache', CacheServiceProvider::class));
+        $this->singleton('cache.store', fn () => $this->loadComponent('cache', CacheServiceProvider::class, 'cache.store'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerComposerBindings()
+    {
+        $this->singleton('composer', fn ($app): \Illuminate\Support\Composer => new Composer($app->make('files'), $this->basePath()));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerConfigBindings()
+    {
+        $this->singleton('config', static fn (): \Illuminate\Config\Repository => new Repository());
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerCookieBindings()
+    {
+        $this->singleton('cookie', fn () => $this->loadComponent('session', CookieServiceProvider::class, 'cookie'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerDatabaseBindings()
+    {
+        $this->singleton('db', function () {
+            $this->configure('app');
+
+            if (file_exists($this->basePath('desa'))) {
+                $this->configure('database');
+            }
+
+            $this->register(DatabaseServiceProvider::class);
+            $this->register(PaginationServiceProvider::class);
+
+            return $this->make('db');
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerEncrypterBindings()
+    {
+        $this->singleton('encrypter', fn () => $this->loadComponent('app', EncryptionServiceProvider::class, 'encrypter'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerEventBindings()
+    {
+        $this->singleton('events', function () {
+            $this->register(EventServiceProvider::class);
+
+            return $this->make('events');
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerFilesBindings()
+    {
+        $this->singleton('files', static fn (): \Illuminate\Filesystem\Filesystem => new Filesystem());
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerFilesystemBindings()
+    {
+        $this->singleton('filesystem', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem'));
+        $this->singleton('filesystem.disk', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.disk'));
+        $this->singleton('filesystem.cloud', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.cloud'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerHashBindings()
+    {
+        $this->singleton('hash', fn () => $this->loadComponent('hashing', HashServiceProvider::class, 'hash'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerLogBindings()
+    {
+        $this->singleton(LoggerInterface::class, function (): LogManager {
+            $this->configure('logging');
+
+            return new LogManager($this);
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerNotificationBindings()
+    {
+        $this->singleton(ChannelManager::class, function () {
+            $this->register(NotificationServiceProvider::class);
+
+            return $this->make(ChannelManager::class);
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerQueueBindings()
+    {
+        $this->singleton('queue', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue'));
+        $this->singleton('queue.connection', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue.connection'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerSessionBindings()
+    {
+        $this->singleton('session', fn () => $this->loadComponent('session', SessionServiceProvider::class, 'session'));
+        $this->singleton('session.store', fn () => $this->loadComponent('session', SessionServiceProvider::class, 'session.store'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerTranslationBindings()
+    {
+        $this->singleton('translator', function () {
+            $this->configure('app');
+
+            $this->instance('path.lang', $this->getLanguagePath());
+
+            $this->register(TranslationServiceProvider::class);
+
+            return $this->make('translator');
+        });
+    }
+
+    /**
+     * Prepare the given request instance for use with the application.
+     *
+     * @return Request
+     */
+    protected function prepareRequest(SymfonyRequest $request)
+    {
+        if (! $request instanceof Request) {
+            $request = Request::createFromBase($request);
+        }
+
+        $request->setUserResolver(fn ($guard = null) => $this->make('auth')->guard($guard)->user());
+
+        return $request;
+    }
+
+    /**
+     * Get the path to the application's language files.
+     */
+    protected function getLanguagePath(): string
+    {
+        if (is_dir($langPath = $this->basePath() . '/resources/lang')) {
+            return $langPath;
+        }
+
+        return __DIR__ . '/../resources/lang';
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerUrlGeneratorBindings()
+    {
+        $this->singleton('url', function () {
+            return tap(new \Illuminate\Routing\UrlGenerator($this), function ($urlGenerator) {
+                $urlGenerator->setKeyResolver(fn () => $this->make('config')->get('app.key'));
+            });
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerValidatorBindings()
+    {
+        $this->singleton('validator', function () {
+            $this->register(ValidationServiceProvider::class);
+
+            return $this->make('validator');
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerViewBindings()
+    {
+        $this->singleton('view', fn () => $this->loadComponent('view', ViewServiceProvider::class, 'view'));
+        $this->singleton('view.engine.resolver', fn () => $this->loadComponent('view', ViewServiceProvider::class, 'view.engine.resolver'));
     }
 
     /**

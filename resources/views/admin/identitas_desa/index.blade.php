@@ -199,7 +199,7 @@
                                 <th colspan="3" class="subtitle_head"><strong>KONTAK PEMBERITAHUAN</strong></th>
                             </tr>
                             <tr>
-                                <td>Nama Perangkat Desa</td>
+                                <td>Nama {{ ucwords(setting('sebutan_pemerintah_desa')) }}</td>
                                 <td>:</td>
                                 <td>{{ $main['nama_kontak'] }}</td>
                             </tr>
@@ -253,7 +253,11 @@
                             </tr>
                             @foreach($profil_desa['adat'] as $item)
                                 <tr>
-                                    <td>{{ $item->judul }}</td>
+                                    @if ($item->key === 'status_desa')
+                                        <td>{{ SebutanDesa("Status [Desa]") }}</td>
+                                    @else
+                                        <td>{{ $item->judul }}</td>
+                                    @endif
                                     <td>:</td>
                                     <td>
                                     @if ($item->key == 'struktur_adat' && $item->value)
@@ -267,7 +271,7 @@
 
                             @foreach($profil_desa['lainnya'] as $item)
                                 <tr>
-                                    <td>{{ $item->judul }}</td>
+                                    <td>{{ SebutanDesa($item->judul) }}</td>
                                     <td>:</td>
                                     <td>
                                     @if ($item->key == 'dokumen_regulasi_penetapan_kampung_adat' && $item->value)

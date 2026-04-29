@@ -556,23 +556,23 @@
                     },
                     type: "POST",
                     success: function(data) {
-                        if (data.status) {
-                            Swal.fire({
-                                'icon': 'success',
-                                'title': 'Success',
-                                'timer': 2000,
-                                'text': data.message
-                            }).then((result) => {
-                                window.location.reload();
-                            })
-                        } else {
-                            Swal.fire({
-                                'icon': 'error',
-                                'title': 'Error',
-                                'timer': 2000,
-                                'text': data.message
-                            })
-                        }
+                        Swal.fire({
+                            'icon': 'success',
+                            'title': 'Success',
+                            'timer': 2000,
+                            'text': data.message
+                        }).then((result) => {
+                            window.location.hash = '#folder_desa';
+                            window.location.reload();
+                        })
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            'icon': 'error',
+                            'title': 'Error',
+                            'timer': 2000,
+                            'text': 'Terjadi kesalahan saat memproses permintaan'
+                        })
                     }
                 })
             } else {

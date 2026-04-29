@@ -59,7 +59,7 @@
                                         <label class="col-sm-2 control-label" for="tahun">Tahun</label>
                                         <div class="col-sm-2">
                                             <select class="form-control input-sm required select2" name="tahun" onchange="formAction('mainform','{{ ci_route('laporan.bulan') }}')" width="100%">
-                                                <option value="">Pilih tahun</option>
+                                                <option value="">Pilih Tahun</option>
                                                 @for ($t = date('Y'); $t >= $tahun_lengkap; $t--)
                                                     <option value="{{ $t }}" @selected($tahun == $t)>{{ $t }}</option>
                                                 @endfor

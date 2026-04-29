@@ -80,7 +80,7 @@
   -webkit-border-radius: 3px;
 }
 .leaflet-popup-content {
-  height: 245px;
+  /* height: 245px; */
   overflow-y: scroll;
 }
 .kantor_desa .leaflet-popup-content {
@@ -268,6 +268,27 @@
   font-size:0.8em;
 }
 
+/* Style untuk text path nama jalan pada SVG */
+.leaflet-overlay-pane svg text {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  fill: #2c3e50;
+  stroke: #ffffff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+
+/* Style khusus untuk text path garis jalan */
+.leaflet-overlay-pane svg text textPath {
+  fill: #2c3e50;
+  stroke: #ffffff;
+  stroke-width: 2px;
+}
+
 @keyframes placeholderShimmer {
   0% {
     background-position: -468px 0;
@@ -425,4 +446,20 @@
 .firstHeading {
   text-align: center;
   font-weight: bold;
+}
+.leaflet-popup-content .leaflet-measure-tooltip h4 {
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+.leaflet-popup-content .leaflet-measure-tooltip .leaflet-measure-result-area,
+.leaflet-popup-content .leaflet-measure-tooltip .leaflet-measure-result-distance {
+    font-size: 12px;
+    color: #777;
+    line-height: 1.5;
+}
+.leaflet-popup-content hr {
+    margin: 8px 0;
 }

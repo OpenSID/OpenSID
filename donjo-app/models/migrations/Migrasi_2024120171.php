@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024120171 extends MY_Model
+class Migrasi_2024120171
 {
     use Migrator;
 
@@ -61,17 +61,7 @@ class Migrasi_2024120171 extends MY_Model
         $this->migrasi_2024112651();
     }
 
-    private function migrasi_2024110651()
-    {
-        (new CreateGrupAksesService())->handle();
-    }
-
-    private function migrasi_2024110652()
-    {
-        copyFavicon();
-    }
-
-    protected function migrasi_2024110351()
+    public function migrasi_2024110351()
     {
         $this->hapusForeignKey('persil_peta_fk', 'persil', 'lokasi');
         $this->tambahForeignKey('persil_peta_fk', 'persil', 'id_peta', 'area', 'id', true);
@@ -80,12 +70,12 @@ class Migrasi_2024120171 extends MY_Model
         $this->tambahForeignKey('mutasi_cdesa_peta_fk', 'mutasi_cdesa', 'id_peta', 'area', 'id', true);
     }
 
-    protected function migrasi_2024111251()
+    public function migrasi_2024111251()
     {
         FormatSurat::where('url_surat', 'sistem-surat-keterangan-pengantar-rujukcerai')->where('jenis', FormatSurat::TINYMCE_SISTEM)->delete();
     }
 
-    protected function migrasi_2024112071()
+    public function migrasi_2024112071()
     {
         if (! Schema::hasColumn('suplemen', 'status')) {
             Schema::table('suplemen', static function (Blueprint $table) {
@@ -106,7 +96,7 @@ class Migrasi_2024120171 extends MY_Model
         }
     }
 
-    protected function migrasi_2024112551()
+    public function migrasi_2024112551()
     {
         $query = <<<'SQL'
                 DELETE t1
@@ -122,7 +112,7 @@ class Migrasi_2024120171 extends MY_Model
         $this->tambahIndeks('grup_akses', 'config_id, id_grup, id_modul', 'UNIQUE', true);
     }
 
-    protected function migrasi_2024112651()
+    public function migrasi_2024112651()
     {
         if (Schema::hasColumn('shortcut', 'akses')) {
             Schema::table('shortcut', static function ($table) {
@@ -145,5 +135,15 @@ class Migrasi_2024120171 extends MY_Model
 
             (new ClearCacheObserver())->clearAllCache();
         }
+    }
+
+    public function migrasi_2024110651()
+    {
+        (new CreateGrupAksesService())->handle();
+    }
+
+    public function migrasi_2024110652()
+    {
+        copyFavicon();
     }
 }

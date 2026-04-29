@@ -52,10 +52,10 @@ namespace App\Libraries;
              posix_kill($pid, SIGKILL);
          } else {
              $os = php_uname('s');
-             if ($os == 'Windows NT') {
+             if ($os === 'Windows NT') {
                  //'F' to Force kill a process
                  exec("taskkill /pid {$pid} /F");
-             } elseif ($os == 'Linux') {
+             } elseif ($os === 'Linux') {
                  exec("kill -9 {$pid}");
              }
          }

@@ -42,6 +42,30 @@ use App\Enums\AktifEnum;
 trait StatusTrait
 {
     /**
+     * Ubah status data berdasarkan ID.
+     *
+     * @param mixed $id
+     * @param bool  $onlyOne Jika true, hanya satu data boleh aktif.
+     */
+    public static function updateStatus($id, bool $onlyOne = false): bool
+    {
+        $model = static::findOrFail($id);
+        $kolom = (new static())->getStatusColumn();
+
+        $newStatus = $model->{$kolom} === AktifEnum::AKTIF ? AktifEnum::TIDAK_AKTIF : AktifEnum::AKTIF;
+
+        if ($model->update([$kolom => $newStatus])) {
+            if ($onlyOne && $newStatus === AktifEnum::AKTIF) {
+                static::where($model->getKeyName(), '!=', $id)->update([$kolom => AktifEnum::TIDAK_AKTIF]);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Menambahkan status_label ke appends saat model di-inisialisasi.
      */
     public function initializeStatusTrait()
@@ -96,29 +120,5 @@ trait StatusTrait
     public function getStatusLabelAttribute()
     {
         return AktifEnum::getLabel($this->{$this->getStatusColumn()});
-    }
-
-    /**
-     * Ubah status data berdasarkan ID.
-     *
-     * @param mixed $id
-     * @param bool  $onlyOne Jika true, hanya satu data boleh aktif.
-     */
-    public static function updateStatus($id, bool $onlyOne = false): bool
-    {
-        $model = static::findOrFail($id);
-        $kolom = (new static())->getStatusColumn();
-
-        $newStatus = $model->{$kolom} === AktifEnum::AKTIF ? AktifEnum::TIDAK_AKTIF : AktifEnum::AKTIF;
-
-        if ($model->update([$kolom => $newStatus])) {
-            if ($onlyOne && $newStatus === AktifEnum::AKTIF) {
-                static::where($model->getKeyName(), '!=', $id)->update([$kolom => AktifEnum::TIDAK_AKTIF]);
-            }
-
-            return true;
-        }
-
-        return false;
     }
 }

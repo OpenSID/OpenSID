@@ -42,16 +42,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class KB extends BaseModel
 {
     /**
-     * {@inheritDoc}
-     */
-    protected $table = 'tweb_cara_kb';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $table = 'tweb_cara_kb';
 
     /**
      * The guarded with the model.

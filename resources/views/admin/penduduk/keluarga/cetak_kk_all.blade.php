@@ -14,7 +14,9 @@
     <div id="container">
         <link href="{{ asset('css/report.css') }}" rel="stylesheet" type="text/css">
         @foreach ($all_kk as $kk)
-            @include('admin.penduduk.keluarga.cetak_kk', $kk)
+            <div @if(! $loop->last) style="page-break-after: always;" @endif>
+                @include('admin.penduduk.keluarga.cetak_kk', $kk)
+            </div>
         @endforeach
     </div>
 </body>

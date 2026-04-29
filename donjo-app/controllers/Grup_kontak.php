@@ -40,6 +40,7 @@ use App\Models\DaftarKontak;
 use App\Models\GrupKontak;
 use App\Models\Penduduk;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,6 +54,45 @@ class Grup_kontak extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
+    }
+
+    // Hanya filter inputan
+    protected static function validate($request = [])
+    {
+        return [
+            'nama_grup'  => nama_terbatas($request['nama_grup']),
+            'keterangan' => htmlentities((string) $request['keterangan']),
+        ];
+    }
+
+    // Hanya filter inputan
+    protected static function anggotaValidate($request = [])
+    {
+        $penduduk = [];
+        if ($request['id_penduduk']) {
+            foreach ($request['id_penduduk'] as $key => $value) {
+                $penduduk[$key]['config_id']   = identitas('id');
+                $penduduk[$key]['id_grup']     = (int) bilangan($request['id_grup']);
+                $penduduk[$key]['id_kontak']   = null;
+                $penduduk[$key]['id_penduduk'] = (int) bilangan($value);
+                $penduduk[$key]['created_at']  = Carbon::now();
+                $penduduk[$key]['updated_at']  = Carbon::now();
+            }
+        }
+
+        $kontak = [];
+        if ($request['id_kontak']) {
+            foreach ($request['id_kontak'] as $key => $value) {
+                $kontak[$key]['config_id']   = identitas('id');
+                $kontak[$key]['id_grup']     = (int) bilangan($request['id_grup']);
+                $kontak[$key]['id_kontak']   = (int) bilangan($value);
+                $kontak[$key]['id_penduduk'] = null;
+                $kontak[$key]['created_at']  = Carbon::now();
+                $kontak[$key]['updated_at']  = Carbon::now();
+            }
+        }
+
+        return array_merge($penduduk, $kontak);
     }
 
     public function index()
@@ -73,15 +113,21 @@ class Grup_kontak extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('grup_kontak.form', $row->id_grup) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.rincian', [
+                        'url'   => "grup_kontak/anggota/{$row->id_grup}",
+                        'judul' => 'Data Anggota',
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('grup_kontak.delete', $row->id_grup) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'grup_kontak/form/' . $row->id_grup,
+                    ])->render();
 
-                    return $aksi . ('<a href="' . ci_route('grup_kontak.anggota', $row->id_grup) . '" class="btn bg-purple btn-sm"  title="Data Anggota"><i class="fa fa fa-list"></i></a> ');
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('grup_kontak.delete', $row->id_grup),
+                        'confirmDelete' => true,
+                    ])->render();
+
+                    return $aksi;
                 })
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
@@ -139,15 +185,6 @@ class Grup_kontak extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    // Hanya filter inputan
-    protected static function validate($request = [])
-    {
-        return [
-            'nama_grup'  => nama_terbatas($request['nama_grup']),
-            'keterangan' => htmlentities((string) $request['keterangan']),
-        ];
-    }
-
     // Anggota Grup
     public function anggota($id = null)
     {
@@ -167,9 +204,10 @@ class Grup_kontak extends Admin_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
-                    if (can('h')) {
-                        return '<a href="#" data-href="' . ci_route('grup_kontak.anggotadelete', $row->id_grup_kontak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    return View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('grup_kontak.anggotadelete', $row->id_grup_kontak),
+                        'confirmDelete' => true,
+                    ])->render();
                 })
                 ->addColumn('kontak', static fn ($row): string => (null === $row->id_kontak) ? '<span class="label label-success">Penduduk</span>' : '<span class="label label-info">Eksternal</span>')
                 ->rawColumns(['ceklist', 'aksi', 'kontak'])
@@ -214,36 +252,6 @@ class Grup_kontak extends Admin_Controller
         }
 
         redirect($_SERVER['HTTP_REFERER']);
-    }
-
-    // Hanya filter inputan
-    protected static function anggotaValidate($request = [])
-    {
-        $penduduk = [];
-        if ($request['id_penduduk']) {
-            foreach ($request['id_penduduk'] as $key => $value) {
-                $penduduk[$key]['config_id']   = identitas('id');
-                $penduduk[$key]['id_grup']     = (int) bilangan($request['id_grup']);
-                $penduduk[$key]['id_kontak']   = null;
-                $penduduk[$key]['id_penduduk'] = (int) bilangan($value);
-                $penduduk[$key]['created_at']  = Carbon::now();
-                $penduduk[$key]['updated_at']  = Carbon::now();
-            }
-        }
-
-        $kontak = [];
-        if ($request['id_kontak']) {
-            foreach ($request['id_kontak'] as $key => $value) {
-                $kontak[$key]['config_id']   = identitas('id');
-                $kontak[$key]['id_grup']     = (int) bilangan($request['id_grup']);
-                $kontak[$key]['id_kontak']   = (int) bilangan($value);
-                $kontak[$key]['id_penduduk'] = null;
-                $kontak[$key]['created_at']  = Carbon::now();
-                $kontak[$key]['updated_at']  = Carbon::now();
-            }
-        }
-
-        return array_merge($penduduk, $kontak);
     }
 
     public function penduduk($id_grup = null)

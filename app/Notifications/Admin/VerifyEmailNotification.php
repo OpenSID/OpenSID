@@ -46,11 +46,9 @@ class VerifyEmailNotification extends Notification
     /**
      * Get the notification's channels.
      *
-     * @param mixed $notifiable
-     *
      * @return array|string
      */
-    public function via($notifiable)
+    public function via(mixed $notifiable): array
     {
         return ['mail'];
     }
@@ -58,11 +56,9 @@ class VerifyEmailNotification extends Notification
     /**
      * Build the mail representation of the notification.
      *
-     * @param mixed $notifiable
-     *
      * @return MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable)
     {
         return (new MailMessage())
             ->subject(Lang::get('Verify Email Address'))
@@ -70,7 +66,7 @@ class VerifyEmailNotification extends Notification
             ->view('admin.auth.notifikasi_verifikasi_email', [
                 'hash'      => sha1($notifiable->email),
                 'expire'    => strtotime(date('Y-m-d H:i:s') . ' +60 minutes'),
-                'signature' => hash_hmac('sha256', $notifiable->email, config('app.key')),
+                'signature' => hash_hmac('sha256', $notifiable->email, (string) config('app.key')),
             ]);
     }
 }

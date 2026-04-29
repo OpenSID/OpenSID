@@ -28,7 +28,7 @@
                                 <td nowrap>{{ $data->jenis_kelamin }}</td>
                                 <td nowrap>{{ $data->tempatlahir }}</td>
                                 <td nowrap>{{ tgl_indo($data->tanggallahir) }}</td>
-                                <td nowrap>{{ $data->pendudukHubungan->nama }}</td>
+                                <td nowrap>{{ $data->penduduk_hubungan }}</td>
                                 <td nowrap>{{ $data->umur }}</td>
                                 <td><input id="ket_<?= $data->id ?>" name="ket_<?= $data->id ?>" value="" disabled="disabled"></td>
                             </tr>

@@ -123,53 +123,24 @@ class Kernel implements KernelContract
     }
 
     /**
-     * Set the request instance for URL generation.
-     *
-     * @return void
-     */
-    protected function setRequestForConsole(Laravel $app)
-    {
-        $server = $_SERVER;
-
-        $server = array_merge($server, [
-            'SCRIPT_FILENAME' => 'artisan',
-            'SCRIPT_NAME'     => 'artisan',
-            'PHP_SELF'        => 'artisan',
-            'PATH_TRANSLATED' => 'artisan',
-            'argv'            => Arr::except($server['argv'], 0),
-        ]);
-
-        $_SERVER = $server;
-
-        $app->instance('request', Request::create(
-            base_url(),
-            'GET',
-            [],
-            [],
-            [],
-            $server
-        ));
-    }
-
-    /**
      * Re-route the Symfony command events to their Laravel counterparts.
      *
      * @internal
      *
      * @return $this
      */
-    public function rerouteSymfonyCommandEvents()
+    public function rerouteSymfonyCommandEvents(): static
     {
         if (null === $this->symfonyDispatcher) {
             $this->symfonyDispatcher = new EventDispatcher();
 
-            $this->symfonyDispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event) {
+            $this->symfonyDispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event): void {
                 $this->app[Dispatcher::class]->dispatch(
                     new CommandStarting($event->getCommand()->getName(), $event->getInput(), $event->getOutput())
                 );
             });
 
-            $this->symfonyDispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) {
+            $this->symfonyDispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event): void {
                 $this->app[Dispatcher::class]->dispatch(
                     new CommandFinished($event->getCommand()->getName(), $event->getInput(), $event->getOutput(), $event->getExitCode())
                 );
@@ -177,21 +148,6 @@ class Kernel implements KernelContract
         }
 
         return $this;
-    }
-
-    /**
-     * Define the application's command schedule.
-     *
-     * @return void
-     */
-    protected function defineConsoleSchedule()
-    {
-        $this->app->instance(
-            Schedule::class,
-            $schedule = new Schedule()
-        );
-
-        $this->schedule($schedule);
     }
 
     /**
@@ -237,16 +193,6 @@ class Kernel implements KernelContract
     }
 
     /**
-     * Define the application's command schedule.
-     *
-     * @return void
-     */
-    protected function schedule(Schedule $schedule)
-    {
-
-    }
-
-    /**
      * Run an Artisan console command by name.
      *
      * @param string     $command
@@ -287,6 +233,60 @@ class Kernel implements KernelContract
     public function output()
     {
         return $this->getArtisan()->output();
+    }
+
+    /**
+     * Set the request instance for URL generation.
+     *
+     * @return void
+     */
+    protected function setRequestForConsole(Laravel $app)
+    {
+        $server = $_SERVER;
+
+        $server = array_merge($server, [
+            'SCRIPT_FILENAME' => 'artisan',
+            'SCRIPT_NAME'     => 'artisan',
+            'PHP_SELF'        => 'artisan',
+            'PATH_TRANSLATED' => 'artisan',
+            'argv'            => Arr::except($server['argv'], 0),
+        ]);
+
+        $_SERVER = $server;
+
+        $app->instance('request', Request::create(
+            base_url(),
+            'GET',
+            [],
+            [],
+            [],
+            $server
+        ));
+    }
+
+    /**
+     * Define the application's command schedule.
+     *
+     * @return void
+     */
+    protected function defineConsoleSchedule()
+    {
+        $this->app->instance(
+            Schedule::class,
+            $schedule = new Schedule()
+        );
+
+        $this->schedule($schedule);
+    }
+
+    /**
+     * Define the application's command schedule.
+     *
+     * @return void
+     */
+    protected function schedule(Schedule $schedule)
+    {
+
     }
 
     /**

@@ -39,7 +39,7 @@ namespace Modules\Analisis\Models;
 
 use App\Models\BaseModel;
 use App\Traits\ConfigId;
-use Modules\Analisis\Enums\TahapPedataanEnum;
+use Modules\Analisis\Enums\AnalisisRefStateEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,20 +50,21 @@ class AnalisisPeriode extends BaseModel
     public const UNLOCK = 0;
     public const LOCK   = 1;
 
+    public $timestamps = false;
+
     /**
      * {@inheritDoc}
      */
     protected $table = 'analisis_periode';
 
     protected $guarded = [];
-    public $timestamps = false;
     protected $appends = [
         'tahapan',
     ];
 
     public function getTahapanAttribute()
     {
-        return TahapPedataanEnum::all()[$this->id_state];
+        return AnalisisRefStateEnum::all()[$this->id_state];
     }
 
     public function isLock(): bool

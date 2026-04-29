@@ -52,6 +52,19 @@ class TeksBerjalan extends BaseModel
     use StatusTrait;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+
+    public $statusColumName = 'status';
+    public $sortable        = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => false,
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -59,24 +72,11 @@ class TeksBerjalan extends BaseModel
     protected $table = 'teks_berjalan';
 
     /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
-
-    /**
      * The guarded with the model.
      *
      * @var array
      */
     protected $guarded = ['id'];
-
-    public $statusColumName = 'status';
-    public $sortable        = [
-        'order_column_name'  => 'urut',
-        'sort_when_creating' => false,
-    ];
 
     public function scopeList($query, $tipe = '', $status = '')
     {

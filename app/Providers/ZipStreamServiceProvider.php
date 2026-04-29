@@ -45,16 +45,16 @@ class ZipStreamServiceProvider extends ServiceProvider
     /**
      * {@inheritDoc}
      */
-    public function register()
+    public function register(): void
     {
         $this->app->configure('zipstream');
         $this->app->singleton('zipstream.builder', Builder::class);
 
         if (class_exists(\Aws\S3\S3Client::class)) {
-            $this->app->singleton('zipstream.s3client', static function ($app) {
+            $this->app->singleton('zipstream.s3client', static function ($app): \Aws\S3\S3Client {
                 $config = $app['config']->get('zipstream.aws');
 
-                if (! count(array_filter($config['credentials']))) {
+                if (array_filter($config['credentials']) === []) {
                     unset($config['credentials']);
                 }
 

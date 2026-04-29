@@ -100,19 +100,6 @@ class Job extends CI_Controller
         log_message('notice', '>_ Selesai');
     }
 
-    private function cekDB($filename): string|false
-    {
-        $filename = DESAPATH . "/config/{$filename}.sql";
-
-        if (file_exists($filename)) {
-            return $filename;
-        }
-
-        log_message('error', 'File ' . $filename . ' tidak ditemukan');
-
-        return false;
-    }
-
     public function backup_inkremental($lokasi): void
     {
         /*
@@ -170,5 +157,18 @@ class Job extends CI_Controller
             $restore->update(['status' => -1]); // update backup gagal
             printf($e);
         }
+    }
+
+    private function cekDB($filename): string|false
+    {
+        $filename = DESAPATH . "/config/{$filename}.sql";
+
+        if (file_exists($filename)) {
+            return $filename;
+        }
+
+        log_message('error', 'File ' . $filename . ' tidak ditemukan');
+
+        return false;
     }
 }

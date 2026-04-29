@@ -12,13 +12,11 @@
                     <div class="form-group">
                         <label for="tahun">Tahun</label>
                         <input
-                            type="number"
+                            type="text"
                             class="form-control input-sm required"
                             id="tahun"
                             name="tahun"
                             value="{{ date('Y') }}"
-                            min="1945"
-                            max="{{ date('Y') }}"
                         >
                     </div>
                 </div>

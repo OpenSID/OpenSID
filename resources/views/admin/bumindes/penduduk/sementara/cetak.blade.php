@@ -80,7 +80,7 @@
                                 <td class="padat">{{ $data->sex == 2 ? 'P' : '' }}</td>
                                 <td>{!! $privasi_nik ? sensor_nik_kk($data->nik) : ($aksi == 'unduh' ? $data->nik . '&nbsp' : $data->nik) !!}</td>
                                 <td>{{ $data->tempatlahir . ', ' . tgl_indo_out($data->tanggallahir) }}</td>
-                                <td>{{ $data->pekerjaan->nama }}</td>
+                                <td>{{ $data->pekerjaan }}</td>
                                 <td>{{ $data->warganegara }}</td>
                                 <td>{{ empty($data->negara_asal) ? '-' : $data->negara_asal }}</td>
                                 <td>{{ empty($data->alamat_sebelumnya) ? '-' : $data->alamat_sebelumnya }}</td>
