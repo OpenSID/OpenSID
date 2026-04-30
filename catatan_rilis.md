@@ -51,6 +51,7 @@ Rilis versi 2604.1.0 ini berisi penambahan fitur batasan kaitkan akun pada tingk
 38. [#11069](https://github.com/OpenSID/OpenSID/issues/11069) Perbaikan tidak ada border pada preview cetak menu statistik.
 39. [#11083](https://github.com/OpenSID/OpenSID/issues/11083) Perbaikan tidak bisa upload file kematian lewat form tambah penduduk meninggal.
 40. [#11079](https://github.com/OpenSID/OpenSID/issues/11079) Perbaikan gagal cetak atau unduh kartu keluarga.
+41. [#11109](https://github.com/OpenSID/OpenSID/issues/11109) Perbaikan skeleton loading tetap tampil saat membuka datepicker.
 
 ### KEAMANAN
 1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.

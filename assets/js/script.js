@@ -260,33 +260,17 @@ $(document).ready(function() {
     mapBox();
     cetakBox();
 
-    var modalBoxSkeleton = `
-        <div class="modal-body">
-            <div class="form-group">
-                <div class="sk-line sk-label"></div>
-                <input class="form-control input-sm sk-line" disabled />
-            </div>
-            <div class="form-group">
-                <div class="sk-line sk-label-sm"></div>
-                <input class="form-control input-sm sk-line" disabled />
-            </div>
-            <div class="form-group">
-                <div class="sk-line sk-label" style="width:55%"></div>
-                <input class="form-control input-sm sk-line" disabled />
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-danger btn-sm pull-left sk-line" style="min-width:80px" disabled></button>
-            <button class="btn btn-info btn-sm sk-line" style="min-width:90px" disabled></button>
-            <button class="btn btn-info btn-sm sk-line" style="min-width:90px" disabled></button>
-        </div>
-    `;
-
     $('#modalBox').on('show.bs.modal', function(e) {
-        var link        = $(e.relatedTarget);
-        var href        = link.attr('href');
-        var size        = link.data('size') ?? '';
-        var modal       = $(this);
+        var link = $(e.relatedTarget);
+        // Cegah trigger ulang jika event bukan dari tombol/link pembuka modal
+        // (misal, klik input di dalam modal seperti datepicker)
+        if (!link.length || !link.attr('href')) {
+            // Bukan trigger dari tombol/link pembuka modal, abaikan
+            return;
+        }
+        var href = link.attr('href');
+        var size = link.data('size') ?? '';
+        var modal = $(this);
         var fetchedData = modal.find('.fetched-data');
 
         modal.find('.modal-title').text(link.data('title'));
@@ -296,49 +280,65 @@ $(document).ready(function() {
         }
 
         // Tampilkan skeleton, lalu mulai AJAX paralel dengan animasi slide-in
-        fetchedData.html(modalBoxSkeleton);
-        if (href) {
-            var nativeXhr = null;
+        fetchedData.html(`
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="sk-line sk-label"></div>
+                    <input class="form-control input-sm sk-line" disabled />
+                </div>
+                <div class="form-group">
+                    <div class="sk-line sk-label-sm"></div>
+                    <input class="form-control input-sm sk-line" disabled />
+                </div>
+                <div class="form-group">
+                    <div class="sk-line sk-label" style="width:55%"></div>
+                    <input class="form-control input-sm sk-line" disabled />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger btn-sm pull-left sk-line" style="min-width:80px" disabled></button>
+                <button class="btn btn-info btn-sm sk-line" style="min-width:90px" disabled></button>
+                <button class="btn btn-info btn-sm sk-line" style="min-width:90px" disabled></button>
+            </div>
+        `);
+        var nativeXhr = null;
+        $.ajax({
+            url: href,
+            type: 'GET',
+            xhr: function() {
+                return (nativeXhr = $.ajaxSettings.xhr());
+            },
+            success: function(response) {
+                var redirectUrl = nativeXhr && nativeXhr.responseURL;
 
-            $.ajax({
-                url: href,
-                type: 'GET',
-                xhr: function() {
-                    return (nativeXhr = $.ajaxSettings.xhr());
-                },
-                success: function(response) {
-                    var redirectUrl = nativeXhr && nativeXhr.responseURL;
-
-                    if (redirectUrl.includes('siteman')) {
-                        window.location.href = redirectUrl;
-                        return;
-                    }
-                    if (redirectUrl.includes('beranda')) {
-                        fetchedData.html(
-                            `<div class="modal-body">
-                                <div class="alert alert-danger">
-                                    <i class="fa fa-exclamation-triangle"></i>
-                                    Anda tidak memiliki akses untuk halaman atau aksi tersebut!
-                                </div>
-                            </div>`
-                        );
-                        return;
-                    }
-
-                    fetchedData.html(response);
-                },
-                error: function(xhr) {
+                if (redirectUrl.includes('siteman')) {
+                    window.location.href = redirectUrl;
+                    return;
+                }
+                if (redirectUrl.includes('beranda')) {
                     fetchedData.html(
                         `<div class="modal-body">
                             <div class="alert alert-danger">
                                 <i class="fa fa-exclamation-triangle"></i>
-                                Gagal memuat konten (${xhr.status} ${xhr.statusText}).
+                                Anda tidak memiliki akses untuk halaman atau aksi tersebut!
                             </div>
                         </div>`
                     );
+                    return;
                 }
-            });
-        }
+                fetchedData.html(response);
+            },
+            error: function(xhr) {
+                fetchedData.html(
+                    `<div class="modal-body">
+                        <div class="alert alert-danger">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            Gagal memuat konten (${xhr.status} ${xhr.statusText}).
+                        </div>
+                    </div>`
+                );
+            }
+        });
     });
 
     $('#modalBox').on('hidden.bs.modal', function() {
