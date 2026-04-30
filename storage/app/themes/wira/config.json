@@ -2,9 +2,9 @@
     {
         "judul": "Url CCTV Online",
         "key": "url_cctv",
-        "value": "https://cctvpenyedialayanan.com/hls/casdgfdsfdfgsfgsdfa202/stream.m3u8",
+        "value": "",
         "type": "input-text",
-        "keterangan": "Masukan url streaming cctv online",
+        "keterangan": "Masukan url streaming cctv online, cth: https://cctvpenyedialayanan.com/casdg/stream.m3u8",
         "options": null,
         "readonly": false,
         "link": true,
@@ -13,9 +13,9 @@
     {
         "judul": "Aktivasi AI Assistant",
         "key": "ai_assistant_key",
-        "value": "1",
+        "value": "",
         "type": "input-text",
-        "keterangan": "Masukan product key untuk klaim domain AI Assistant pada dashboard aiuntukdesa.digidesa.id",
+        "keterangan": "Masukan product key untuk klaim domain AI Assistant pada dashboard opensid.aiuntukdesa.id",
         "readonly": false,
         "link": true,
         "group": "Pembangunan"

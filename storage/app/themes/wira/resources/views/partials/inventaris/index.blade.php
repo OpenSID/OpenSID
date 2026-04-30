@@ -1,4 +1,4 @@
-﻿@extends('theme::layouts.right-sidebar')
+@extends('theme::layouts.right-sidebar')
 
 @section('content')
     <div class="content py-1">

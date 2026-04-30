@@ -1,4 +1,4 @@
-﻿@extends('theme::template')
+@extends('theme::template')
 @include('core::admin.layouts.components.asset_numeral')
 
 @section('layout')

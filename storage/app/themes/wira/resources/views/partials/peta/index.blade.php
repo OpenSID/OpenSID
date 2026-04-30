@@ -1,7 +1,6 @@
-﻿@extends('theme::template')
+@extends('theme::template')
 
 @push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ asset('bootstrap/css/font-awesome.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/leaflet-measure-path.css') }}">
 <link rel="stylesheet" href="{{ asset('css/MarkerCluster.css') }}">
@@ -125,810 +124,379 @@
     (function() {
         'use strict';
 
-        // Configuration constants
-        const CONFIG = {
-            apiUrl: '{{ ci_route('internal_api.peta') }}',
-            routes: {
-                statistikDesa: '{{ ci_route('statistik_web.chart_gis_desa') }}',
-                statistikDusun: '{{ ci_route('statistik_web.chart_gis_dusun') }}',
-                statistikRw: '{{ ci_route('statistik_web.chart_gis_rw') }}',
-                statistikRt: '{{ ci_route('statistik_web.chart_gis_rt') }}',
-                aparaturDesa: '{{ ci_route('load_aparatur_desa') }}',
-                aparaturWilayah: '{{ ci_route('load_aparatur_wilayah') }}',
-                pembangunan: '{{ ci_route('pembangunan') }}'
-            },
-            assets: {
-                symbolLokasi: '{{ base_url(LOKASI_SIMBOL_LOKASI) }}',
-                favicoDesa: '{{ favico_desa() }}',
-                fotoArea: '{{ base_url(LOKASI_FOTO_AREA) }}',
-                fotoGaris: '{{ base_url(LOKASI_FOTO_GARIS) }}',
-                fotoLokasi: '{{ base_url(LOKASI_FOTO_LOKASI) }}',
-                galeri: '{{ base_url(LOKASI_GALERI) }}'
-            },
-            settings: {
-                maxZoom: {{ setting('max_zoom_peta') }},
-                minZoom: {{ setting('min_zoom_peta') }},
-                tampilLuas: '{{ setting('tampil_luas_peta') }}',
-                mapboxKey: '{{ setting('mapbox_key') }}',
-                jenisPeta: '{{ setting('jenis_peta') }}',
-                defaultTampilWilayah: @json(SebutanDesa(setting('default_tampil_peta_wilayah')) ?: []),
-                defaultTampilInfrastruktur: @json(SebutanDesa(setting('default_tampil_peta_infrastruktur')) ?: [])
-            },
-            labels: {
-                desa: '{{ ucwords(setting('sebutan_desa')) }}',
-                dusun: '{{ ucwords(setting('sebutan_dusun')) }}',
-                kepalaDusun: '{{ ucwords(setting('sebutan_kepala_dusun')) }}',
-                pemerintahDesa: '{{ ucwords(setting('sebutan_pemerintah_desa')) }}'
-            }
-        };
+        window.onload = function() {
+            const _url = `{{ ci_route('internal_api.peta') }}`;
 
-        // Utility Functions
-        const Utils = {
-            /**
-             * Safely get nested object property
-             */
-            safeGet(obj, path, defaultValue = null) {
-                return path.split('.').reduce((acc, part) => acc && acc[part], obj) || defaultValue;
-            },
+            $.get(_url, {}, function(json) {
+                if (!json || !json.data || !json.data[0]) {
+                    console.error('Invalid API response');
+                    $('.spinner-grow').parent().remove();
+                    return;
+                }
 
-            /**
-             * Capitalize first character of each word
-             */
-            capitalizeWords(str) {
-                if (!str) return '';
-                return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-            },
+                const data = json.data[0].attributes;
 
-            /**
-             * Convert string to underscore format
-             */
-            underscore(str) {
-                if (!str) return '';
-                return str.toString().toLowerCase().replace(/\s+/g, '_');
-            },
+                generatePopupDesa(data);
+                generatePopupDusun(data);
+                generatePopupRw(data);
+                generatePopupRt(data);
+                generatePeta(data);
 
-            /**
-             * Remove loading spinner
-             */
-            removeLoadingSpinner() {
+                $('#isi_popup_dusun').remove();
+                $('#isi_popup_rw').remove();
+                $('#isi_popup_rt').remove();
+                $('#isi_popup').remove();
                 $('.spinner-grow').parent().remove();
-            },
 
-            /**
-             * Show error message
-             */
-            showError(message) {
-                console.error(message);
-                this.removeLoadingSpinner();
-                alert(message);
-            },
-
-            /**
-             * Validate required libraries
-             */
-            validateLibraries() {
-                if (typeof L === 'undefined') {
-                    throw new Error('Leaflet library not loaded');
-                }
-                if (typeof $ === 'undefined') {
-                    throw new Error('jQuery library not loaded');
-                }
-                if (!document.getElementById('map')) {
-                    throw new Error('Map container not found');
-                }
-            }
-        };
-
-        // Popup Generator Class
-        class PopupGenerator {
-            constructor(config) {
-                this.config = config;
-            }
-
-            /**
-             * Parse pengaturan - handle both string and array formats
-             */
-            parsePengaturan(pengaturan) {
-                if (!pengaturan) return [];
-                
-                if (typeof pengaturan === 'string') {
-                    try {
-                        return JSON.parse(pengaturan);
-                    } catch (e) {
-                        console.error('Error parsing pengaturan:', e);
-                        return [];
+                // Force resize after load
+                setTimeout(() => {
+                    if (window.mymap) {
+                        window.mymap.invalidateSize();
                     }
-                }
-                
-                return Array.isArray(pengaturan) ? pengaturan : [];
-            }
+                    window.dispatchEvent(new Event('resize'));
+                }, 500);
+            }).fail(function() {
+                console.error('Failed to fetch map data');
+                $('.spinner-grow').parent().remove();
+            });
 
-            /**
-             * Generate statistics links
-             */
-            generateStatistikLinks(listRef, baseUrl, params, title) {
-                const links = [];
-                for (let key in listRef) {
-                    links.push(
-                        `<li><a href="${baseUrl}/${key}/${params}" 
-                            data-remote="false" 
-                            data-toggle="modal" 
-                            data-target="#modalSedang" 
-                            data-title="Statistik Penduduk ${title}">
-                            ${listRef[key]}
-                        </a></li>`
-                    );
-                }
-                return links.join('');
-            }
+            const generatePopupDesa = function(data) {
+                let _listLink = [],
+                    _elmPopup;
+                const _link = '{{ ci_route('statistik_web.chart_gis_desa') }}';
+                _elmPopup = document.getElementById('isi_popup');
+                _elmPopup.querySelector('#content').querySelector('#firstHeading').innerHTML = `Wilayah {{ ucwords(setting('sebutan_desa')) }} ${data.desa.nama_desa}`;
 
-            /**
-             * Generate statistics section
-             */
-            generateStatistikSection(id, icon, title, links) {
-                return `
-                    <p>
-                        <a href="#${id}" 
-                           class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" 
-                           title="${title}" 
-                           data-toggle="collapse" 
-                           data-target="#${id}" 
-                           aria-expanded="false" 
-                           aria-controls="${id}">
-                            <i class="fa fa-${icon}"></i>&nbsp;&nbsp;${title}&nbsp;&nbsp;
-                        </a>
-                    </p>
-                    <div class="collapse box-body no-padding" id="${id}">
-                        <div class="card card-body">
-                            <ul>${links}</ul>
-                        </div>
-                    </div>
-                `;
-            }
+                let _pengaturan = typeof data.pengaturan === 'string' ? JSON.parse(data.pengaturan) : data.pengaturan;
+                let _html = '';
 
-            /**
-             * Generate popup for Desa
-             */
-            generatePopupDesa(data) {
-                const elmPopup = document.getElementById('isi_popup');
-                if (!elmPopup) return;
-
-                const content = elmPopup.querySelector('#content');
-                if (!content) return;
-
-                const firstHeading = content.querySelector('#firstHeading');
-                const bodyContent = content.querySelector('#bodyContent');
-                
-                if (!firstHeading || !bodyContent) return;
-
-                const desaName = Utils.safeGet(data, 'desa.nama_desa', '');
-                firstHeading.innerHTML = `Wilayah ${this.config.labels.desa} ${desaName}`;
-                
-                let html = '';
-                const title = `Statistik Penduduk ${this.config.labels.desa} ${Utils.capitalizeWords(desaName)}`;
-
-                // Parse pengaturan (handle JSON string or array)
-                const pengaturan = this.parsePengaturan(data.pengaturan);
-
-                // Statistik Penduduk
-                if (pengaturan.includes('Statistik Penduduk')) {
-                    const params = Utils.underscore(desaName);
-                    const links = this.generateStatistikLinks(
-                        data.list_ref,
-                        this.config.routes.statistikDesa,
-                        params,
-                        title
-                    );
-                    html += this.generateStatistikSection('collapseStatPenduduk', 'bar-chart', 'Statistik Penduduk', links);
+                if (_pengaturan.includes('Statistik Penduduk')) {
+                    for (let id in data.list_ref) {
+                        _listLink.push({
+                            link: `${_link}/${id}/${underscore(data.desa.nama_desa)}`,
+                            judul: `${data.list_ref[id]} Wilayah {{ ucwords(setting('sebutan_desa')) }} ${data.desa.nama_desa}`
+                        });
+                    }
+                    _html += generateStatistik('collapseStatPenduduk', 'bar-chart', 'Statistik Penduduk', _listLink);
                 }
 
-                // Statistik Bantuan
-                if (pengaturan.includes('Statistik Bantuan')) {
-                    const params = Utils.underscore(desaName);
-                    const links = this.generateStatistikLinks(
-                        data.list_bantuan,
-                        this.config.routes.statistikDesa,
-                        params,
-                        title
-                    );
-                    html += this.generateStatistikSection('collapseStatBantuan', 'heart', 'Statistik Bantuan', links);
+                if (_pengaturan.includes('Statistik Bantuan')) {
+                    let _listBantuan = [];
+                    for (let id in data.list_bantuan) {
+                        _listBantuan.push({
+                            link: `${_link}/${id}/${underscore(data.desa.nama_desa)}`,
+                            judul: `${data.list_bantuan[id]} Wilayah {{ ucwords(setting('sebutan_desa')) }} ${data.desa.nama_desa}`
+                        });
+                    }
+                    _html += generateStatistik('collapseStatBantuan', 'heart', 'Statistik Bantuan', _listBantuan);
                 }
 
-                // Aparatur Desa
-                if (pengaturan.includes('Aparatur Desa')) {
-                    html += `
+                if (_pengaturan.includes('Aparatur Desa')) {
+                    _html += `
                         <p>
-                            <a href="${this.config.routes.aparaturDesa}" 
-                               class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" 
-                               data-title="${this.config.labels.pemerintahDesa}" 
-                               data-remote="false" 
-                               data-toggle="modal" 
-                               data-target="#modalKecil">
-                                <i class="fa fa-user"></i>&nbsp;&nbsp;${this.config.labels.pemerintahDesa}&nbsp;&nbsp;
+                            <a href="{{ ci_route('load_aparatur_desa') }}" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-title="{{ ucwords(setting('sebutan_pemerintah_desa')) }}" data-remote="false" data-toggle="modal" data-target="#modalKecil">
+                                <i class="fa fa-user"></i>&nbsp;&nbsp;{{ ucwords(setting('sebutan_pemerintah_desa')) }}&nbsp;&nbsp;
                             </a>
                         </p>
                     `;
                 }
 
-                bodyContent.innerHTML = html;
-            }
+                _elmPopup.querySelector('#content').querySelector('#bodyContent').innerHTML = _html;
+            };
 
-            /**
-             * Generate popup element for wilayah (Dusun/RW/RT)
-             */
-            generatePopupElement(data, pengaturanRaw, gisData, wilayah) {
-                let parentElementHTML = '';
+            const generatePopupDusun = function(data) {
+                let _elmPopup = document.getElementById('isi_popup_dusun');
+                const _link = '{{ ci_route('statistik_web.chart_gis_dusun') }}';
+                const _linkAparatur = '{{ ci_route('load_aparatur_wilayah') }}';
+                const _sebutan_dusun = '{{ ucwords(setting('sebutan_dusun')) }}';
 
-                if (!gisData || gisData.length === 0) return parentElementHTML;
+                let _pengaturan = typeof data.pengaturan === 'string' ? JSON.parse(data.pengaturan) : data.pengaturan;
+                let _html = '';
 
-                // Parse pengaturan (handle JSON string or array)
-                const pengaturan = this.parsePengaturan(pengaturanRaw);
+                if (data.dusun_gis) {
+                    data.dusun_gis.forEach((item, index) => {
+                        let _listLink = [];
+                        let _subHtml = '';
 
-                gisData.forEach((item, index) => {
-                    let params, newTitle;
+                        if (_pengaturan.includes('Statistik Penduduk')) {
+                            for (let id in data.list_ref) {
+                                _listLink.push({
+                                    link: `${_link}/${id}/${underscore(item.dusun)}`,
+                                    judul: `${data.list_ref[id]} ${_sebutan_dusun} ${capitalizeFirstCharacterOfEachWord(item.dusun)}`
+                                });
+                            }
+                            _subHtml += generateStatistik('collapseStatPenduduk', 'bar-chart', 'Statistik Penduduk', _listLink);
+                        }
 
-                    // Generate params and title based on wilayah type
-                    switch (wilayah.key) {
-                        case 'dusun':
-                            params = Utils.underscore(item.dusun);
-                            newTitle = `${this.config.labels.desa} ${Utils.capitalizeWords(item.dusun)}`;
-                            break;
-                        case 'rw':
-                            params = `${Utils.underscore(item.dusun)}/${Utils.underscore(item.rw)}`;
-                            newTitle = `RW ${Utils.capitalizeWords(item.rw)} ${this.config.labels.dusun} ${Utils.capitalizeWords(item.dusun)}`;
-                            break;
-                        case 'rt':
-                            params = `${Utils.underscore(item.dusun)}/${Utils.underscore(item.rw)}/${Utils.underscore(item.rt)}`;
-                            newTitle = `RT ${Utils.capitalizeWords(item.rt)} RW ${Utils.capitalizeWords(item.rw)} ${this.config.labels.dusun} ${Utils.capitalizeWords(item.dusun)}`;
-                            break;
-                    }
+                        if (_pengaturan.includes('Statistik Bantuan')) {
+                            let _listBantuan = [];
+                            for (let id in data.list_bantuan) {
+                                _listBantuan.push({
+                                    link: `${_link}/${id}/${underscore(item.dusun)}`,
+                                    judul: `${data.list_bantuan[id]} ${_sebutan_dusun} ${capitalizeFirstCharacterOfEachWord(item.dusun)}`
+                                });
+                            }
+                            _subHtml += generateStatistik('collapseStatBantuan', 'heart', 'Statistik Bantuan', _listBantuan);
+                        }
 
-                    let contentHTML = '';
+                        if (_pengaturan.includes('Aparatur Desa') && item.id_kepala) {
+                            _subHtml += `
+                                <p>
+                                    <a href="${_linkAparatur}/${item.id_kepala}/1" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-title="{{ ucwords(setting('sebutan_kepala_dusun')) }}" data-remote="false" data-toggle="modal" data-target="#modalKecil">
+                                        <i class="fa fa-user"></i>&nbsp;&nbsp;{{ ucwords(setting('sebutan_kepala_dusun')) }}&nbsp;&nbsp;
+                                    </a>
+                                </p>
+                            `;
+                        }
 
-                    // Statistik Penduduk
-                    if (pengaturan.includes('Statistik Penduduk')) {
-                        const links = this.generateStatistikLinks(
-                            data.list_ref,
-                            wilayah.link,
-                            params,
-                            newTitle
-                        );
-                        contentHTML += this.generateStatistikSection('collapseStatPenduduk', 'bar-chart', 'Statistik Penduduk', links);
-                    }
-
-                    // Statistik Bantuan
-                    if (pengaturan.includes('Statistik Bantuan')) {
-                        const links = this.generateStatistikLinks(
-                            data.list_bantuan,
-                            wilayah.link,
-                            params,
-                            newTitle
-                        );
-                        contentHTML += this.generateStatistikSection('collapseStatBantuan', 'heart', 'Statistik Bantuan', links);
-                    }
-
-                    // Aparatur Wilayah
-                    if (pengaturan.includes('Aparatur Desa') && item.id_kepala) {
-                        contentHTML += `
-                            <p>
-                                <a href="${this.config.routes.aparaturWilayah}/${item.id_kepala}/${wilayah.level}" 
-                                   class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" 
-                                   data-title="${wilayah.sebutan}" 
-                                   data-remote="false" 
-                                   data-toggle="modal" 
-                                   data-target="#modalKecil">
-                                    <i class="fa fa-user"></i>&nbsp;&nbsp;${wilayah.sebutan}&nbsp;&nbsp;
-                                </a>
-                            </p>
-                        `;
-                    }
-
-                    const elementHTML = `
-                        <div id="${wilayah.div_parent}_${index}" style="visibility: hidden;">
-                            <div id="content">
-                                <h5 id="firstHeading" class="firstHeading">Wilayah ${newTitle}</h5>
-                                <div id="bodyContent">${contentHTML}</div>
+                        _html += `
+                            <div id="isi_popup_dusun_${index}" style="visibility: hidden;">
+                                <div id="content">
+                                    <h5 id="firstHeading" class="firstHeading">Wilayah {{ ucwords(setting('sebutan_desa')) }} ${capitalizeFirstCharacterOfEachWord(item.dusun)}</h5>
+                                    <div id="bodyContent">${_subHtml}</div>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    });
+                }
+                _elmPopup.innerHTML = _html;
+            };
 
-                    parentElementHTML += elementHTML;
-                });
+            const generatePopupRw = function(data) {
+                let _elmPopup = document.getElementById('isi_popup_rw');
+                const _link = '{{ ci_route('statistik_web.chart_gis_rw') }}';
+                const _linkAparatur = '{{ ci_route('load_aparatur_wilayah') }}';
+                const _sebutan_dusun = '{{ ucwords(setting('sebutan_dusun')) }}';
 
-                return parentElementHTML;
-            }
+                let _pengaturan = typeof data.pengaturan === 'string' ? JSON.parse(data.pengaturan) : data.pengaturan;
+                let _html = '';
 
-            /**
-             * Generate popup for Dusun
-             */
-            generatePopupDusun(data) {
-                const elmPopup = document.getElementById('isi_popup_dusun');
-                if (!elmPopup) return;
+                if (data.rw_gis) {
+                    data.rw_gis.forEach((item, index) => {
+                        let _listLink = [];
+                        let _subHtml = '';
 
-                const wilayah = {
-                    level: 1,
-                    key: 'dusun',
-                    sebutan: this.config.labels.kepalaDusun,
-                    div_parent: 'isi_popup_dusun',
-                    link: this.config.routes.statistikDusun
-                };
+                        if (_pengaturan.includes('Statistik Penduduk')) {
+                            for (let id in data.list_ref) {
+                                _listLink.push({
+                                    link: `${_link}/${id}/${underscore(item.dusun)}/${underscore(item.rw)}`,
+                                    judul: `${data.list_ref[id]} RW ${capitalizeFirstCharacterOfEachWord(item.rw)} ${_sebutan_dusun} ${capitalizeFirstCharacterOfEachWord(item.dusun)}`
+                                });
+                            }
+                            _subHtml += generateStatistik('collapseStatPenduduk', 'bar-chart', 'Statistik Penduduk', _listLink);
+                        }
 
-                elmPopup.innerHTML = this.generatePopupElement(
-                    data,
-                    data.pengaturan,
-                    data.dusun_gis,
-                    wilayah
-                );
-            }
+                        if (_pengaturan.includes('Statistik Bantuan')) {
+                            let _listBantuan = [];
+                            for (let id in data.list_bantuan) {
+                                _listBantuan.push({
+                                    link: `${_link}/${id}/${underscore(item.dusun)}/${underscore(item.rw)}`,
+                                    judul: `${data.list_bantuan[id]} RW ${capitalizeFirstCharacterOfEachWord(item.rw)} ${_sebutan_dusun} ${capitalizeFirstCharacterOfEachWord(item.dusun)}`
+                                });
+                            }
+                            _subHtml += generateStatistik('collapseStatBantuan', 'heart', 'Statistik Bantuan', _listBantuan);
+                        }
 
-            /**
-             * Generate popup for RW
-             */
-            generatePopupRw(data) {
-                const elmPopup = document.getElementById('isi_popup_rw');
-                if (!elmPopup) return;
+                        if (_pengaturan.includes('Aparatur Desa') && item.id_kepala) {
+                            _subHtml += `
+                                <p>
+                                    <a href="${_linkAparatur}/${item.id_kepala}/2" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-title="Ketua RW" data-remote="false" data-toggle="modal" data-target="#modalKecil">
+                                        <i class="fa fa-user"></i>&nbsp;&nbsp;Ketua RW&nbsp;&nbsp;
+                                    </a>
+                                </p>
+                            `;
+                        }
 
-                const wilayah = {
-                    level: 2,
-                    key: 'rw',
-                    sebutan: 'RW',
-                    div_parent: 'isi_popup_rw',
-                    link: this.config.routes.statistikRw
-                };
+                        _html += `
+                            <div id="isi_popup_rw_${index}" style="visibility: hidden;">
+                                <div id="content">
+                                    <h5 id="firstHeading" class="firstHeading">RW ${capitalizeFirstCharacterOfEachWord(item.rw)} ${_sebutan_dusun} ${capitalizeFirstCharacterOfEachWord(item.dusun)}</h5>
+                                    <div id="bodyContent">${_subHtml}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                _elmPopup.innerHTML = _html;
+            };
 
-                elmPopup.innerHTML = this.generatePopupElement(
-                    data,
-                    data.pengaturan,
-                    data.rw_gis,
-                    wilayah
-                );
-            }
+            const generatePopupRt = function(data) {
+                let _elmPopup = document.getElementById('isi_popup_rt');
+                const _link = '{{ ci_route('statistik_web.chart_gis_rt') }}';
+                const _linkAparatur = '{{ ci_route('load_aparatur_wilayah') }}';
+                const _sebutan_dusun = '{{ ucwords(setting('sebutan_dusun')) }}';
 
-            /**
-             * Generate popup for RT
-             */
-            generatePopupRt(data) {
-                const elmPopup = document.getElementById('isi_popup_rt');
-                if (!elmPopup) return;
+                let _pengaturan = typeof data.pengaturan === 'string' ? JSON.parse(data.pengaturan) : data.pengaturan;
+                let _html = '';
 
-                const wilayah = {
-                    level: 3,
-                    key: 'rt',
-                    sebutan: 'RT',
-                    div_parent: 'isi_popup_rt',
-                    link: this.config.routes.statistikRt
-                };
+                if (data.rt_gis) {
+                    data.rt_gis.forEach((item, index) => {
+                        let _listLink = [];
+                        let _subHtml = '';
 
-                elmPopup.innerHTML = this.generatePopupElement(
-                    data,
-                    data.pengaturan,
-                    data.rt_gis,
-                    wilayah
-                );
-            }
-        }
+                        if (_pengaturan.includes('Statistik Penduduk')) {
+                            for (let id in data.list_ref) {
+                                _listLink.push({
+                                    link: `${_link}/${id}/${underscore(item.dusun)}/${underscore(item.rw)}/${underscore(item.rt)}`,
+                                    judul: `${data.list_ref[id]} RT ${capitalizeFirstCharacterOfEachWord(item.rt)} RW ${capitalizeFirstCharacterOfEachWord(item.rw)} ${_sebutan_dusun} ${capitalizeFirstCharacterOfEachWord(item.dusun)}`
+                                });
+                            }
+                            _subHtml += generateStatistik('collapseStatPenduduk', 'bar-chart', 'Statistik Penduduk', _listLink);
+                        }
 
-        // Map Generator Class
-        class MapGenerator {
-            constructor(config) {
-                this.config = config;
-                this.map = null;
-            }
+                        if (_pengaturan.includes('Statistik Bantuan')) {
+                            let _listBantuan = [];
+                            for (let id in data.list_bantuan) {
+                                _listBantuan.push({
+                                    link: `${_link}/${id}/${underscore(item.dusun)}/${underscore(item.rw)}/${underscore(item.rt)}`,
+                                    judul: `${data.list_bantuan[id]} RT ${capitalizeFirstCharacterOfEachWord(item.rt)} RW ${capitalizeFirstCharacterOfEachWord(item.rw)} ${_sebutan_dusun} ${capitalizeFirstCharacterOfEachWord(item.dusun)}`
+                                });
+                            }
+                            _subHtml += generateStatistik('collapseStatBantuan', 'heart', 'Statistik Bantuan', _listBantuan);
+                        }
 
-            /**
-             * Initialize map position and zoom
-             */
-            initializeMapView(data) {
+                        if (_pengaturan.includes('Aparatur Desa') && item.id_kepala) {
+                            _subHtml += `
+                                <p>
+                                    <a href="${_linkAparatur}/${item.id_kepala}/3" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-title="Ketua RT" data-remote="false" data-toggle="modal" data-target="#modalKecil">
+                                        <i class="fa fa-user"></i>&nbsp;&nbsp;Ketua RT&nbsp;&nbsp;
+                                    </a>
+                                </p>
+                            `;
+                        }
+
+                        _html += `
+                            <div id="isi_popup_rt_${index}" style="visibility: hidden;">
+                                <div id="content">
+                                    <h5 id="firstHeading" class="firstHeading">RT ${capitalizeFirstCharacterOfEachWord(item.rt)} RW ${capitalizeFirstCharacterOfEachWord(item.rw)} ${_sebutan_dusun} ${capitalizeFirstCharacterOfEachWord(item.dusun)}</h5>
+                                    <div id="bodyContent">${_subHtml}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                _elmPopup.innerHTML = _html;
+            };
+
+            const generatePeta = function(data) {
                 let posisi = [-1.0546279422758742, 116.71875000000001];
                 let zoom = 10;
 
-                const lat = Utils.safeGet(data, 'desa.lat');
-                const lng = Utils.safeGet(data, 'desa.lng');
-                const path = Utils.safeGet(data, 'desa.path');
-                const zoomLevel = Utils.safeGet(data, 'desa.zoom', 10);
-
-                if (lat && lng) {
-                    posisi = [parseFloat(lat), parseFloat(lng)];
-                    zoom = parseInt(zoomLevel);
-                } else if (path) {
-                    try {
-                        const parsedPath = typeof path === 'string' ? JSON.parse(path) : path;
-                        if (Array.isArray(parsedPath) && parsedPath.length > 0 && parsedPath[0].length > 0) {
-                            posisi = parsedPath[0][0];
-                            zoom = parseInt(zoomLevel);
-                        }
-                    } catch (e) {
-                        console.error('Error parsing path:', e);
+                if (data.desa['lat'] != null && data.desa['lng'] != null) {
+                    posisi = [data.desa['lat'], data.desa['lng']];
+                    zoom = parseInt(data.desa['zoom']);
+                } else {
+                    if (data.desa['path'] != null) {
+                        let _path = typeof data.desa.path === 'string' ? JSON.parse(data.desa.path) : data.desa.path;
+                        posisi = _path[0][0];
+                        zoom = parseInt(data.desa['zoom']);
                     }
                 }
 
-                return { posisi, zoom };
-            }
-
-            /**
-             * Generate map
-             */
-            generate(data) {
-                try {
-                    // Initialize map view
-                    const { posisi, zoom } = this.initializeMapView(data);
-
-                    // Map options
-                    const options = {
-                        maxZoom: this.config.settings.maxZoom,
-                        minZoom: this.config.settings.minZoom,
-                        fullscreenControl: {
-                            position: 'topright'
-                        }
-                    };
-
-                    // Create map
-                    this.map = L.map('map', options).setView(posisi, zoom);
-
-                    // Fit bounds if path exists
-                    const path = Utils.safeGet(data, 'desa.path');
-                    if (path) {
-                        try {
-                            const parsedPath = typeof path === 'string' ? JSON.parse(path) : path;
-                            this.map.fitBounds(parsedPath);
-                        } catch (e) {
-                            console.error('Error fitting bounds:', e);
-                        }
+                let options = {
+                    maxZoom: {{ setting('max_zoom_peta') }},
+                    minZoom: {{ setting('min_zoom_peta') }},
+                    fullscreenControl: {
+                        position: 'topright'
                     }
-
-                    // Initialize marker arrays
-                    const markers = {
-                        desa: [],
-                        dusun: [],
-                        rw: [],
-                        rt: [],
-                        area: [],
-                        garis: [],
-                        lokasi: []
-                    };
-
-                    // Setup overlay layers for wilayah
-                    if (Utils.safeGet(data, 'desa.path')) {
-                        set_marker_desa_content(
-                            markers.desa,
-                            data.desa,
-                            `${this.config.labels.desa} ${data.desa.nama_desa}`,
-                            this.config.assets.favicoDesa,
-                            '#isi_popup'
-                        );
-                    }
-
-                    if (data.dusun_gis) {
-                        set_marker_multi_content(
-                            markers.dusun,
-                            JSON.stringify(data.dusun_gis),
-                            this.config.labels.dusun,
-                            'dusun',
-                            '#isi_popup_dusun_',
-                            this.config.assets.favicoDesa
-                        );
-                    }
-
-                    if (data.rw_gis) {
-                        set_marker_content(
-                            markers.rw,
-                            JSON.stringify(data.rw_gis),
-                            'RW',
-                            'rw',
-                            '#isi_popup_rw_',
-                            this.config.assets.favicoDesa
-                        );
-                    }
-
-                    if (data.rt_gis) {
-                        set_marker_content(
-                            markers.rt,
-                            JSON.stringify(data.rt_gis),
-                            'RT',
-                            'rt',
-                            '#isi_popup_rt_',
-                            this.config.assets.favicoDesa
-                        );
-                    }
-
-                    // Create overlay layers
-                    const overlayLayers = overlayWil(
-                        markers.desa,
-                        markers.dusun,
-                        markers.rw,
-                        markers.rt,
-                        this.config.labels.desa,
-                        this.config.labels.dusun,
-                        true,
-                        this.config.settings.tampilLuas
-                    );
-
-                    // Create base layers with fallback
-                    let baseLayers;
-                    
-                    // Check if Mapbox key is available
-                    if (!this.config.settings.mapboxKey || this.config.settings.mapboxKey === '') {
-                        console.warn('No Mapbox token found, using OpenStreetMap as fallback');
-                        
-                        // Create OpenStreetMap layers as fallback
-                        const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            maxZoom: 19,
-                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        }).addTo(this.map);
-                        
-                        const osmHotLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-                            maxZoom: 19,
-                            attribution: '&copy; OpenStreetMap contributors, Tiles courtesy of Humanitarian OSM Team'
-                        });
-                        
-                        const topoLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-                            maxZoom: 17,
-                            attribution: 'Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap'
-                        });
-                        
-                        baseLayers = {
-                            "OpenStreetMap": osmLayer,
-                            "OpenStreetMap HOT": osmHotLayer,
-                            "OpenTopoMap": topoLayer
-                        };
-                    } else {
-                        // Use Mapbox layers
-                        try {
-                            baseLayers = getBaseLayers(
-                                this.map,
-                                this.config.settings.mapboxKey,
-                                this.config.settings.jenisPeta
-                            );
-                        } catch (error) {
-                            console.error('Error loading Mapbox layers:', error);
-                            
-                            // Fallback to OSM if Mapbox fails
-                            const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                maxZoom: 19,
-                                attribution: '&copy; OpenStreetMap contributors'
-                            }).addTo(this.map);
-                            
-                            baseLayers = {
-                                "OpenStreetMap": osmLayer
-                            };
-                        }
-                    }
-
-                    // Add geolocation
-                    geoLocation(this.map);
-
-                    // Add scale control
-                    L.control.scale().addTo(this.map);
-
-                    // Add print control
-                    cetakPeta(this.map);
-
-                    // Setup legends
-                    this.setupLegends(data);
-
-                    // Add custom layers (area, garis, lokasi, etc.)
-                    const layerCustom = tampilkan_layer_area_garis_lokasi_plus(
-                        this.map,
-                        JSON.stringify(data.area || []),
-                        JSON.stringify(data.garis || []),
-                        JSON.stringify(data.lokasi || []),
-                        JSON.stringify(data.lokasi_pembangunan || []),
-                        this.config.assets.symbolLokasi,
-                        this.config.assets.favicoDesa,
-                        this.config.assets.fotoArea,
-                        this.config.assets.fotoGaris,
-                        this.config.assets.fotoLokasi,
-                        this.config.assets.galeri,
-                        this.config.routes.pembangunan,
-                        JSON.stringify(data.persil || []),
-                        this.config.settings.tampilLuas
-                    );
-
-                    // Add layer controls
-                    L.control.layers(baseLayers, overlayLayers, {
-                        position: 'topleft',
-                        collapsed: true
-                    }).addTo(this.map);
-
-                    L.control.groupedLayers('', layerCustom, {
-                        groupCheckboxes: true,
-                        position: 'topleft',
-                        collapsed: true
-                    }).addTo(this.map);
-
-                    // Auto-check configured layers
-                    this.autoCheckLayers(data);
-
-                } catch (error) {
-                    console.error('Error generating map:', error);
-                    throw error;
-                }
-            }
-
-            /**
-             * Setup map legends
-             */
-            setupLegends(data) {
-                const legends = {
-                    desa: L.control({ position: 'bottomright' }),
-                    dusun: L.control({ position: 'bottomright' }),
-                    rw: L.control({ position: 'bottomright' }),
-                    rt: L.control({ position: 'bottomright' })
                 };
 
-                this.map.on('overlayadd', (eventLayer) => {
-                    if (eventLayer.name === 'Peta Wilayah Desa') {
-                        setlegendPetaDesa(
-                            legends.desa,
-                            this.map,
-                            data.desa,
-                            this.config.labels.desa,
-                            data.desa.nama_desa
-                        );
-                    }
-                    if (eventLayer.name === 'Peta Wilayah Dusun') {
-                        setlegendPeta(
-                            legends.dusun,
-                            this.map,
-                            JSON.stringify(data.dusun_gis),
-                            this.config.labels.dusun,
-                            'dusun',
-                            '',
-                            ''
-                        );
-                    }
-                    if (eventLayer.name === 'Peta Wilayah RW') {
-                        setlegendPeta(
-                            legends.rw,
-                            this.map,
-                            JSON.stringify(data.rw_gis),
-                            'RW',
-                            'rw',
-                            this.config.labels.dusun
-                        );
-                    }
-                    if (eventLayer.name === 'Peta Wilayah RT') {
-                        setlegendPeta(
-                            legends.rt,
-                            this.map,
-                            JSON.stringify(data.rt_gis),
-                            'RT',
-                            'rt',
-                            'RW'
-                        );
-                    }
-                });
+                const mymap = L.map('map', options).setView(posisi, zoom);
+                window.mymap = mymap;
 
-                this.map.on('overlayremove', (eventLayer) => {
-                    if (eventLayer.name === 'Peta Wilayah Desa') {
-                        this.map.removeControl(legends.desa);
-                    }
-                    if (eventLayer.name === 'Peta Wilayah Dusun') {
-                        this.map.removeControl(legends.dusun);
-                    }
-                    if (eventLayer.name === 'Peta Wilayah RW') {
-                        this.map.removeControl(legends.rw);
-                    }
-                    if (eventLayer.name === 'Peta Wilayah RT') {
-                        this.map.removeControl(legends.rt);
-                    }
-                });
-            }
+                if (data.desa['path'] != null) {
+                    let _path = typeof data.desa.path === 'string' ? JSON.parse(data.desa.path) : data.desa.path;
+                    mymap.fitBounds(_path);
+                }
 
-            /**
-             * Auto-check configured layers
-             */
-            autoCheckLayers(data) {
-                const wilayahInfrastruktur = this.config.settings.defaultTampilWilayah.concat(
-                    this.config.settings.defaultTampilInfrastruktur
+                let marker_desa = [];
+                let marker_dusun = [];
+                let marker_rw = [];
+                let marker_rt = [];
+
+                if (data.desa['path']) {
+                    set_marker_desa_content(marker_desa, data.desa, "{{ ucwords(setting('sebutan_desa')) }} ${data.desa['nama_desa']}", "{{ favico_desa() }}", '#isi_popup');
+                }
+
+                if (data.dusun_gis) {
+                    set_marker_multi_content(marker_dusun, JSON.stringify(data.dusun_gis), '{{ ucwords(setting('sebutan_dusun')) }}', 'dusun', '#isi_popup_dusun_', '{{ favico_desa() }}');
+                }
+
+                if (data.rw_gis) {
+                    set_marker_multi_content(marker_rw, JSON.stringify(data.rw_gis), 'RW', 'rw', '#isi_popup_rw_', '{{ favico_desa() }}');
+                }
+
+                if (data.rt_gis) {
+                    set_marker_content(marker_rt, JSON.stringify(data.rt_gis), 'RT', 'rt', '#isi_popup_rt_', '{{ favico_desa() }}');
+                }
+
+                let overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "{{ ucwords(setting('sebutan_desa')) }}", "{{ ucwords(setting('sebutan_dusun')) }}", true, "{{ setting('tampil_luas_peta') }}");
+
+                let baseLayers;
+                const mapbox_key = "{{ setting('mapbox_key') }}";
+                if (!mapbox_key || mapbox_key === '') {
+                    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(mymap);
+                    baseLayers = { "OpenStreetMap": osmLayer };
+                } else {
+                    baseLayers = getBaseLayers(mymap, mapbox_key, "{{ setting('jenis_peta') }}");
+                }
+
+                geoLocation(mymap);
+                L.control.scale().addTo(mymap);
+                cetakPeta(mymap);
+
+                let layerCustom = tampilkan_layer_area_garis_lokasi_plus(
+                    mymap,
+                    JSON.stringify(data.area || []),
+                    JSON.stringify(data.garis || []),
+                    JSON.stringify(data.lokasi || []),
+                    JSON.stringify(data.lokasi_pembangunan || []),
+                    "{{ base_url(LOKASI_SIMBOL_LOKASI) }}",
+                    "{{ favico_desa() }}",
+                    "{{ base_url(LOKASI_FOTO_AREA) }}",
+                    "{{ base_url(LOKASI_FOTO_GARIS) }}",
+                    "{{ base_url(LOKASI_FOTO_LOKASI) }}",
+                    "{{ base_url(LOKASI_GALERI) }}",
+                    "{{ ci_route('pembangunan') }}",
+                    JSON.stringify(data.persil || []),
+                    "{{ setting('tampil_luas_peta') }}"
                 );
 
-                $('input[type=checkbox]').each(function() {
-                    const labelCheckbox = $(this).next().text().trim();
-                    
-                    if (wilayahInfrastruktur.includes(labelCheckbox)) {
-                        $(this).click();
-                    }
-                    
-                    if (labelCheckbox === 'Letter C-Desa') {
-                        if (data.tampilkan_cdesa != 1) {
-                            $(this).parent().remove();
-                        }
-                    }
+                L.control.layers(baseLayers, overlayLayers, { position: 'topleft', collapsed: true }).addTo(mymap);
+                L.control.groupedLayers('', layerCustom, { groupCheckboxes: true, position: 'topleft', collapsed: true }).addTo(mymap);
+            };
+
+            const generateStatistik = function(id, icon, judul, listLink) {
+                let _html = `
+                    <div class="panel box box-primary">
+                        <div class="box-header with-border">
+                            <h4 class="box-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#${id}" aria-expanded="false" class="collapsed">
+                                    <i class="fa fa-${icon}"></i> ${judul}
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="${id}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                            <div class="box-body">
+                                <ul style="padding-left: 20px;">
+                `;
+                listLink.forEach(item => {
+                    _html += `<li><a href="${item.link}" data-title="${item.judul}" data-remote="false" data-toggle="modal" data-target="#modalBesar">${item.judul}</a></li>`;
                 });
-            }
-        }
-
-        // Main Application
-        class MapApplication {
-            constructor() {
-                this.config = CONFIG;
-                this.popupGenerator = new PopupGenerator(this.config);
-                this.mapGenerator = new MapGenerator(this.config);
-            }
-
-            /**
-             * Initialize application
-             */
-            async initialize() {
-                try {
-                    // Validate libraries
-                    Utils.validateLibraries();
-
-                    // Remove header and footer
-                    $('#main-peta').siblings('.container').remove();
-
-                    // Fetch map data
-                    const data = await this.fetchMapData();
-
-                    // Validate response
-                    if (!data || !data.data || !data.data[0] || !data.data[0].attributes) {
-                        throw new Error('Invalid API response structure');
-                    }
-
-                    const attributes = data.data[0].attributes;
-
-                    // Generate popups
-                    this.popupGenerator.generatePopupDesa(attributes);
-                    this.popupGenerator.generatePopupDusun(attributes);
-                    this.popupGenerator.generatePopupRw(attributes);
-                    this.popupGenerator.generatePopupRt(attributes);
-
-                    // Generate map
-                    this.mapGenerator.generate(attributes);
-
-                    // Cleanup popup elements
-                    this.cleanupPopupElements();
-
-                    // Remove loading spinner
-                    Utils.removeLoadingSpinner();
-
-                } catch (error) {
-                    console.error('Map initialization error:', error);
-                    Utils.showError('Failed to load map. Please refresh the page.');
-                }
-            }
-
-            /**
-             * Fetch map data from API
-             */
-            fetchMapData() {
-                return new Promise((resolve, reject) => {
-                    $.ajax({
-                        url: this.config.apiUrl,
-                        type: 'POST',
-                        dataType: 'json',
-                        timeout: 30000,
-                        success: function(response) {
-                            resolve(response);
-                        },
-                        error: function(xhr, status, error) {
-                            reject(new Error(`API request failed: ${status} - ${error}`));
-                        }
-                    });
-                });
-            }
-
-            /**
-             * Cleanup temporary popup elements
-             */
-            cleanupPopupElements() {
-                $('#isi_popup_dusun').remove();
-                $('#isi_popup_rw').remove();
-                $('#isi_popup_rt').remove();
-                $('#isi_popup').remove();
-            }
-        }
-
-        // Initialize application on window load
-        window.onload = function() {
-            const app = new MapApplication();
-            app.initialize();
+                _html += `
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return _html;
+            };
         };
-
     })();
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 <script src="{{ asset('js/Leaflet.fullscreen.min.js') }}"></script>
 <script src="{{ asset('js/turf.min.js') }}"></script>

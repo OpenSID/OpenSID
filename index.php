@@ -42,88 +42,88 @@
  * File-file premium sudah dalam format encoded IonCube dan tidak dapat
  * dieksekusi tanpa IonCube Loader aktif di server.
  */
-if (! extension_loaded('ionCube Loader')) {
-    http_response_code(503);
-    header('Content-Type: text/html; charset=utf-8');
+// if (! extension_loaded('ionCube Loader')) {
+//     http_response_code(503);
+//     header('Content-Type: text/html; charset=utf-8');
 
-    echo <<<HTML
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenSID Premium — IonCube Loader Diperlukan</title>
-    <style>
-        html, body {
-            height: 100%;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            margin: 0;
-        }
-        *, *:before, *:after {
-            box-sizing: border-box;
-        }
-        .card {
-            background: white;
-            border-radius: 8px;
-            padding: 40px;
-            max-width: 600px;
-            width: 90%;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-            border-top: 4px solid #e74c3c;
-        }
-        h1 { color: #e74c3c; font-size: 20px; margin-top: 0; }
-        h2 { color: #333; font-size: 16px; margin-top: 24px; }
-        p, li { color: #555; line-height: 1.7; font-size: 14px; }
-        code {
-            background: #f0f0f0; padding: 2px 6px;
-            border-radius: 4px; font-family: monospace; font-size: 13px;
-        }
-        .info {
-            background: #eaf4fb; border-left: 4px solid #3498db;
-            padding: 12px 16px; border-radius: 0 4px 4px 0;
-            margin: 16px 0; font-size: 13px;
-        }
-        a { color: #3498db; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <h1>⚠ IonCube Loader Tidak Ditemukan</h1>
-        <p>OpenSID Premium memerlukan <b>IonCube Loader</b> yang aktif di server untuk dapat berjalan. Extension ini belum terdeteksi di server Anda.</p>
-        <div class="info">
-            Hubungi administrator server atau tim teknis Anda untuk mengaktifkan IonCube Loader.
-        </div>
-        <h2>Kesesuaian Versi PHP</h2>
-        <p>Pastikan Anda mengunduh paket instalasi OpenSID Premium yang di-encode sesuai dengan versi PHP di server Anda (misal: unduh rilis berakhiran <code>php82.zip</code> jika server menggunakan PHP 8.2) agar aplikasi dapat berjalan normal.</p>
-        <h2>Cara Mengaktifkan IonCube Loader</h2>
-        <b>Via cPanel (Shared Hosting):</b>
-        <ol>
-            <li>Login ke cPanel hosting Anda</li>
-            <li>Cari menu <b>PHP Selector</b> atau <b>Select PHP Version</b></li>
-            <li>Aktifkan extension <code>ioncube_loader</code></li>
-            <li>Klik Save dan muat ulang halaman ini</li>
-        </ol>
-        <b>Via VPS / Server Mandiri:</b>
-        <ol>
-            <li>Download IonCube Loader dari <a href="https://www.ioncube.com/loaders.php" target="_blank" rel="noopener noreferrer">ioncube.com/loaders.php</a></li>
-            <li>Tambahkan <code>zend_extension = /path/to/ioncube_loader.so</code> di baris pertama <code>php.ini</code></li>
-            <li>Restart web server</li>
-        </ol>
-        <p>Butuh bantuan? Hubungi tim OpenDesa di <a href="https://opendesa.id" target="_blank" rel="noopener noreferrer">opendesa.id</a>.</p>
-    </div>
-</body>
-</html>
-HTML;
+//     echo <<<HTML
+// <!DOCTYPE html>
+// <html lang="id">
+// <head>
+//     <meta charset="UTF-8">
+//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//     <title>OpenSID Premium — IonCube Loader Diperlukan</title>
+//     <style>
+//         html, body {
+//             height: 100%;
+//         }
+//         body {
+//             font-family: Arial, sans-serif;
+//             background: #f5f5f5;
+//             display: flex;
+//             justify-content: center;
+//             align-items: center;
+//             height: 100%;
+//             margin: 0;
+//         }
+//         *, *:before, *:after {
+//             box-sizing: border-box;
+//         }
+//         .card {
+//             background: white;
+//             border-radius: 8px;
+//             padding: 40px;
+//             max-width: 600px;
+//             width: 90%;
+//             box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+//             border-top: 4px solid #e74c3c;
+//         }
+//         h1 { color: #e74c3c; font-size: 20px; margin-top: 0; }
+//         h2 { color: #333; font-size: 16px; margin-top: 24px; }
+//         p, li { color: #555; line-height: 1.7; font-size: 14px; }
+//         code {
+//             background: #f0f0f0; padding: 2px 6px;
+//             border-radius: 4px; font-family: monospace; font-size: 13px;
+//         }
+//         .info {
+//             background: #eaf4fb; border-left: 4px solid #3498db;
+//             padding: 12px 16px; border-radius: 0 4px 4px 0;
+//             margin: 16px 0; font-size: 13px;
+//         }
+//         a { color: #3498db; }
+//     </style>
+// </head>
+// <body>
+//     <div class="card">
+//         <h1>⚠ IonCube Loader Tidak Ditemukan</h1>
+//         <p>OpenSID Premium memerlukan <b>IonCube Loader</b> yang aktif di server untuk dapat berjalan. Extension ini belum terdeteksi di server Anda.</p>
+//         <div class="info">
+//             Hubungi administrator server atau tim teknis Anda untuk mengaktifkan IonCube Loader.
+//         </div>
+//         <h2>Kesesuaian Versi PHP</h2>
+//         <p>Pastikan Anda mengunduh paket instalasi OpenSID Premium yang di-encode sesuai dengan versi PHP di server Anda (misal: unduh rilis berakhiran <code>php82.zip</code> jika server menggunakan PHP 8.2) agar aplikasi dapat berjalan normal.</p>
+//         <h2>Cara Mengaktifkan IonCube Loader</h2>
+//         <b>Via cPanel (Shared Hosting):</b>
+//         <ol>
+//             <li>Login ke cPanel hosting Anda</li>
+//             <li>Cari menu <b>PHP Selector</b> atau <b>Select PHP Version</b></li>
+//             <li>Aktifkan extension <code>ioncube_loader</code></li>
+//             <li>Klik Save dan muat ulang halaman ini</li>
+//         </ol>
+//         <b>Via VPS / Server Mandiri:</b>
+//         <ol>
+//             <li>Download IonCube Loader dari <a href="https://www.ioncube.com/loaders.php" target="_blank" rel="noopener noreferrer">ioncube.com/loaders.php</a></li>
+//             <li>Tambahkan <code>zend_extension = /path/to/ioncube_loader.so</code> di baris pertama <code>php.ini</code></li>
+//             <li>Restart web server</li>
+//         </ol>
+//         <p>Butuh bantuan? Hubungi tim OpenDesa di <a href="https://opendesa.id" target="_blank" rel="noopener noreferrer">opendesa.id</a>.</p>
+//     </div>
+// </body>
+// </html>
+// HTML;
 
-    exit;
-}
+//     exit;
+// }
 
 /*
  *---------------------------------------------------------------
