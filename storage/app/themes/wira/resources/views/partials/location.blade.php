@@ -210,13 +210,15 @@
 
 <script>
     // Jika posisi kantor desa belum ada, tampilkan seluruh Indonesia
-    @if (!empty($data_config['lat']) && !empty($data_config['lng']))
-        var posisi = [{{ $data_config['lat'] }}, {{ $data_config['lng'] }}];
-        var zoom = {{ $data_config['zoom'] ?: 10 }};
-    @else
-                var posisi = [-7.3983118, 109.5432662]; // default center
-        var zoom = 15;
-    @endif
+    @php
+        // Determine coordinates with a fallback hierarchy
+        $lat = $desa['lat'] ?? $data_config['lat'] ?? -1.0546279422758742;
+        $lng = $desa['lng'] ?? $data_config['lng'] ?? 116.71875000000001;
+        $zoom = $desa['zoom'] ?? $data_config['zoom'] ?? 10;
+    @endphp
+ 
+    var posisi = [{{ $lat }}, {{ $lng }}];
+    var zoom = {{ $zoom }};
 
     var options = {
         maxZoom: {{ setting('max_zoom_peta') }},

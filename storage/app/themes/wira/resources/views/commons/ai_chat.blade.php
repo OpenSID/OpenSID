@@ -5,7 +5,7 @@
     <!-- Chat Window -->
     <div id="chat-window"
         class="bg-white rounded-2xl shadow-2xl w-[90vw] sm:w-[380px] flex flex-col transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-auto hidden border border-gray-200 overflow-hidden mb-2 ml-2"
-        style="height: min(60vh, calc(100vh - 120px));">
+        style="height: min(80vh, calc(100vh - 120px));">
 
         <!-- Header -->
         <div class="bg-green-700 p-4 flex justify-between items-center shrink-0">
@@ -23,17 +23,28 @@
                     </div>
                 </div>
             </div>
-            <button id="close-chat"
-                class="text-white hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
+            <div class="flex items-center gap-1">
+                <button id="clear-chat-btn" title="Hapus Riwayat Chat"
+                    class="text-gray-200 hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </button>
+                <button id="close-chat"
+                    class="text-white hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
         </div>
 
         {{-- JDIH Search Mode Panel (Hidden by default) --}}
         <div id="jdih-search-panel"
-            class="hidden flex-col bg-gradient-to-b from-green-50 to-white border-b border-gray-200">
+            class="hidden flex-col bg-gradient-to-b from-green-50 to-white border-b border-gray-200"
+            style="height: auto; min-height: 26vh; max-height: 60vh; overflow-y: auto;">
             {{-- Mode Toggle Header --}}
             <div class="flex items-center justify-between p-3 bg-white/80 backdrop-blur-sm border-b border-gray-100">
                 <div class="flex items-center gap-2">
@@ -146,7 +157,7 @@
         <div class="p-3 bg-white border-t border-gray-100 shrink-0">
             <form id="chat-form" class="relative flex items-end gap-2">
                 <textarea id="chat-input" rows="1" placeholder="Ketik pertanyaan Anda..."
-                    class="w-full py-2.5 pl-4 pr-10 bg-gray-50 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 text-sm resize-none max-h-24 scrollbar-hide text-gray-700"
+                    class="w-full py-2.5 pl-4 pr-4 bg-gray-50 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 text-sm resize-none max-h-24 scrollbar-hide text-gray-700"
                     required></textarea>
                 {{-- JDIH Search Button --}}
                 <button type="button" id="open-jdih-btn" title="Cari Peraturan JDIH"
@@ -216,17 +227,15 @@
     </button>
 </div>
 
-
-<!-- Load AI Chat CSS -->
-<link rel="stylesheet" href="{{ theme_asset('css/ai_chat.css') }}">
 <!-- Load Marked.js for Markdown rendering -->
-<script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
-<!-- Load AI Chat Scripts in correct order -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<!-- AI Chat Configuration -->
 <script src="{{ theme_asset('js/ai_chat.js') }}"></script>
 <script src="{{ theme_asset('js/ai_chat_widget.js') }}"></script>
 <!-- Load JDIH Search Handler -->
 <script src="{{ theme_asset('js/jdih_search.js') }}"></script>
-<!-- AI Chat Configuration -->
+
 <script>
     window.DESA_AI_CONFIG = {
         iconUrl: '{{ theme_asset("icons/ai-icon.png") }}'

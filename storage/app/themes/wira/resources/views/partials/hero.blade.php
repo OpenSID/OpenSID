@@ -7,24 +7,19 @@
     {{-- Navigation Menu at the top --}}
     <header class="absolute top-0 left-0 right-0 z-30">
         <div class="relative z-10">
-            {{-- Desktop Header --}}
-            <div class="hidden lg:flex items-center justify-between mt-4">
-
-                {{-- LEFT: Logo + Menu --}}
-                <div class="flex items-center">
-
-                    {{-- Logo --}}
-                    <div class="flex items-center pr-4">
+            <div class="hidden lg:flex items-start justify-between py-2 mt-4">
+                <div class="flex items-start">
+                    <div class="flex items-center flex-shrink-0 pr-8 gap-x-3">
                         <a href="{{ ci_route() }}" class="block">
                             <img src="{{ gambar_desa($desa['logo']) }}"
                                 alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']) }}"
-                                class="h-12">
+                                class="h-12 w-auto object-contain">
                         </a>
-                        <div>
-                            <p class="text-sm font-semibold text-gray-900">
+                        <div class="flex flex-col justify-center border-l border-gray-200 pl-3">
+                            <p class="text-sm font-semibold text-gray-900 leading-tight">
                                 {{ ucfirst(setting('sebutan_desa')) }}
                             </p>
-                            <p class="text-sm font-semibold -mt-1 text-gray-900">
+                            <p class="text-sm font-semibold text-gray-900 leading-tight">
                                 {{ ucwords($desa['nama_desa']) }}
                             </p>
                         </div>
@@ -32,32 +27,30 @@
 
                     {{-- Navigation --}}
                     <nav class="text-sm text-gray-900">
-                        <ul class="flex items-center">
+                        <ul class="flex items-center flex-wrap gap-x-2 gap-y-2">
                             @if (menu_tema())
                                 @foreach (menu_tema() as $menu)
-                                    @php $has_dropdown = count($menu['childrens'] ?? []) > 0; @endphp
-                                    <li class="relative" @if($has_dropdown) x-data="{dropdown:false}" @endif>
-                                        <a href="{{ $has_dropdown ? '#!' : $menu['link_url'] }}"
-                                            class="px-2 py-2 font-medium hover:text-green-600 transition" @if($has_dropdown)
-                                                @mouseover="dropdown=true" @mouseleave="dropdown=false"
-                                            @click.prevent="dropdown=!dropdown" @endif>
+                                    @php $has_dropdown = count($menu['childrens'] ?? []) > 0 @endphp
+                                    <li class="relative" @if ($has_dropdown) x-data="{dropdown: false}" @endif>
+                                        @php $menu_link = $has_dropdown ? '#!' : $menu['link_url'] @endphp
+                                        <a href="{{ $menu_link }}" class="p-2 inline-block text-black font-medium transition-all duration-300" 
+                                        @if ($has_dropdown)
+                                            @mouseover="dropdown = true" @mouseleave="dropdown = false" @click="dropdown = !dropdown" 
+                                            aria-expanded="false" aria-haspopup="true"
+                                        @endif
+                                        >
                                             {{ $menu['nama'] }}
-                                            @if($has_dropdown)
-                                                <i class="fas fa-chevron-down text-xs ml-1" :class="{'rotate-180':dropdown}"></i>
+                                            @if ($has_dropdown)
+                                                <i class="fas fa-chevron-down text-xs ml-1 inline-block transition duration-300" :class="{ 'transform rotate-180': dropdown }"></i>
                                             @endif
                                         </a>
 
-                                        @if($has_dropdown)
-                                            <ul class="absolute top-full left-0 bg-white shadow-lg rounded-md border mt-1 min-w-max"
-                                                x-show="dropdown" x-transition @mouseover="dropdown=true"
-                                                @mouseleave="dropdown=false">
-                                                @foreach ($menu['childrens'] as $child)
-                                                    <li>
-                                                        <a href="{{ $child['link_url'] }}"
-                                                            class="block px-5 py-3 hover:bg-green-50 hover:text-green-600">
-                                                            {{ $child['nama'] }}
-                                                        </a>
-                                                    </li>
+                                        @if ($has_dropdown)
+                                            <ul class="absolute top-full left-0 min-w-max bg-white/95 backdrop-blur-md text-gray-700 invisible transform transition duration-200 origin-top rounded-sm overflow-hidden" 
+                                                :class="{ 'opacity-0 invisible z-[-10] scale-y-50': !dropdown, 'opacity-100 visible z-[9999] scale-y-100': dropdown }" 
+                                                x-transition @mouseover="dropdown = true" @mouseleave="dropdown = false">
+                                                @foreach ($menu['childrens'] as $childrens)
+                                                    <li><a href="{{ $childrens['link_url'] }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white transition-colors whitespace-nowrap">{{ $childrens['nama'] }}</a></li>
                                                 @endforeach
                                             </ul>
                                         @endif
@@ -68,7 +61,6 @@
                     </nav>
                 </div>
 
-                {{-- RIGHT: Login Button with Popup --}}
                 <div class="p-0" x-data="{ loginPopup: false }">
                     <button @click="loginPopup = true" class="inline-flex items-center px-6 py-2 text-sm font-semibold text-white
                            bg-green-600 rounded-full shadow-md
@@ -168,12 +160,12 @@
             <div class="lg:hidden fixed top-0 left-0 right-0 z-40">
                 <div class="bg-green-700 lg:bg-white shadow-md flex items-center justify-between px-4 py-2">
                     <div class="flex items-center gap-2">
-                        <img src="{{ gambar_desa($desa['logo']) }}" class="h-10">
-                        <div>
-                            <p class="text-white lg:text-black text-sm font-semibold">
+                        <img src="{{ gambar_desa($desa['logo']) }}" class="h-10 w-auto object-contain">
+                        <div class="flex flex-col justify-center border-l border-white/20 pl-2">
+                            <p class="text-white lg:text-black text-xs font-semibold leading-tight">
                                 {{ ucfirst(setting('sebutan_desa')) }}
                             </p>
-                            <p class="text-white lg:text-black text-sm font-semibold -mt-1">
+                            <p class="text-white lg:text-black text-xs font-semibold leading-tight">
                                 {{ ucwords($desa['nama_desa']) }}
                             </p>
                         </div>
@@ -186,20 +178,22 @@
 
 
     {{-- Hero content --}}
-    <div class="relative z-10 h-full flex flex-col lg:flex-row pt-16 lg:pt-16">
+    <div class="relative z-10 h-full flex flex-col lg:flex-row pt-20 lg:pt-32 pb-12">
         {{-- Desktop content --}}
         <div class="hidden lg:flex flex-1 flex-col justify-center">
-            <h1 class="text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 leading-tight text-gray-900">
-                Website Resmi
-            </h1>
-            <h2 class="text-5xl lg:text-6xl xl:text-7xl font-bold mb-5 leading-tight text-gray-900">
-                {{ ucfirst(setting('sebutan_desa')) }} {{ ucwords($desa['nama_desa']) }}
-            </h2>
-            <div class="text-sm lg:text-base xl:text-lg space-y-1 text-gray-600">
-                <p>{{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }}
-                    {{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}
-                </p>
-                <p>Provinsi {{ ucwords($desa['nama_propinsi']) }}</p>
+            <div class="max-w-4xl">
+                <h1 class="text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 leading-tight text-gray-900">
+                    Website Resmi
+                </h1>
+                <h2 class="text-5xl lg:text-6xl xl:text-7xl font-bold mb-5 leading-tight text-gray-900">
+                    {{ ucfirst(setting('sebutan_desa')) }} {{ ucwords($desa['nama_desa']) }}
+                </h2>
+                <div class="text-sm lg:text-base xl:text-lg space-y-1 text-gray-600">
+                    <p>{{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }}
+                        {{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}
+                    </p>
+                    <p>Provinsi {{ ucwords($desa['nama_propinsi']) }}</p>
+                </div>
             </div>
         </div>
 
@@ -228,18 +222,16 @@
                 </div>
 
                 {{-- Clock for Mobile --}}
-                @if(theme_config('jam_kerja') == '1')
-                    <div class="mt-2 bg-black/30 backdrop-blur-md rounded-lg p-2 inline-block mx-auto">
-                        <div class="text-center">
-                            <div id="digital-date-mobile" class="text-sm text-white font-medium mb-1">
-                                Loading...
-                            </div>
-                            <div id="working-hours-mobile" class="text-xs text-white">
-                                {{-- Working hours for current day will be inserted here by JavaScript --}}
-                            </div>
+                <div class="mt-2 bg-black/30 backdrop-blur-md rounded-lg p-2 inline-block mx-auto">
+                    <div class="text-center">
+                        <div id="digital-date-mobile" class="text-sm text-white font-medium mb-1">
+                            Loading...
+                        </div>
+                        <div id="working-hours-mobile" class="text-xs text-white">
+                            {{-- Working hours for current day will be inserted here by JavaScript --}}
                         </div>
                     </div>
-                @endif
+                </div>
             </div>
 
             {{-- Marquee --}}
@@ -259,30 +251,28 @@
                     </marquee>
                 </div>
             @endif
-
         </div>
 
 
         {{-- Torn Paper Image - Desktop --}}
-        <div class="hidden mt-12 lg:flex w-100px h-100px items-center justify-center">
+        <div class="hidden p-8 mt-12 lg:flex w-[100px] h-[100px] items-center justify-center">
             {{-- Clock Overlay (outside torn-paper to avoid filter clipping) --}}
-            @if(theme_config('jam_kerja') == '1')
-                <div class="absolute flex items-center justify-center z-40">
-                    <div class="bg-black/10 backdrop-blur-md rounded-lg px-3 py-2 shadow-lg">
-                        <div class="text-center">
-                            <div id="digital-clock" class="text-lg font-mono font-bold text-white">
-                                00:00:00
-                            </div>
-                            <div id="digital-date" class="text-xs text-white">
-                                Loading...
-                            </div>
-                            <div id="working-hours" class="text-xs text-white mt-1">
-                                {{-- Working hours for current day will be inserted here by JavaScript --}}
-                            </div>
+            <div class="absolute flex items-center justify-center z-40">
+                <div class="bg-black/10 backdrop-blur-md rounded-lg px-3 py-2 shadow-lg">
+                    <div class="text-center">
+                        <div id="digital-clock" class="text-lg font-mono font-bold text-white">
+                            00:00:00
+                        </div>
+                        <div id="digital-date" class="text-xs text-white">
+                            Loading...
+                        </div>
+                        <div id="working-hours" class="text-xs text-white mt-1">
+                            {{-- Working hours for current day will be inserted here by JavaScript --}}
                         </div>
                     </div>
                 </div>
-            @endif
+            </div>
+
             {{-- Torn Paper Image --}}
             <div class="torn-paper-image w-full h-full">
                 <img src="{{ $bg_header }}" alt="Desa Image" class="w-full h-full object-cover">

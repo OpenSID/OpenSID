@@ -3,7 +3,7 @@
     <h2 class="text-xl md:text-2xl font-bold mb-1">Data Statistik</h2>
     <h3 class="text-green-600 text-xl md:text-2xl font-bold mb-6 leading-tight">{{ ucfirst(setting('sebutan_desa')) }} {{ ucwords($desa['nama_desa']) }}, {{ ucfirst(setting('sebutan_kecamatan_singkat')) }} {{ ucwords($desa['nama_kecamatan']) }}</h3>
     
-    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-4">
         
         <a href="<?= site_url(); ?>data-wilayah" class="block">
             <div class="border border-gray-200 rounded-lg p-3 md:p-4 hover:shadow-lg transition-shadow h-full">
