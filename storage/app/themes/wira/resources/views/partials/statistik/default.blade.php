@@ -1,4 +1,4 @@
-﻿{{-- Update your default.blade.php file --}}
+{{-- Update your default.blade.php file --}}
 
 <!-- Breadcrumb -->
 <nav class="mb-6">
@@ -547,7 +547,7 @@
         // Load statistics data
         $.ajax({
             url: `{{ ci_route('internal_api.statistik', $key) }}?filter[tahun]={{ $selected_tahun ?? '' }}`,
-            method: 'POST',
+            type: 'POST',
             data: {},
             beforeSend: function() {
                 $('#showData').hide();

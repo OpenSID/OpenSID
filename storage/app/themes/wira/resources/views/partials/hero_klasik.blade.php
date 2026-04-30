@@ -18,7 +18,7 @@
         <div class="relative z-10 h-full flex flex-col justify-between">
             {{-- Desktop Menu --}}
             <div class="hidden lg:flex lg:flex-row justify-between pl-8 pr-8 mt-4">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center flex-shrink-0 gap-2">
                     <div class="w-15 h-8 flex items-center justify-center">
                         <a href="{{ ci_route() }}" class="block">
                             <figure>
@@ -33,7 +33,7 @@
                 </div>
                 <div>
                     <nav class="text-white text-sm" role="navigation">
-                        <ul class="flex">
+                        <ul class="flex flex-wrap gap-x-1 gap-y-2 justify-end">
                             @if (menu_tema())
                                 @foreach (menu_tema() as $menu)
                                     @php $has_dropdown = count($menu['childrens'] ?? []) > 0 @endphp
@@ -52,7 +52,7 @@
                                         </a>
 
                                         @if ($has_dropdown)
-                                            <ul class="absolute top-full left-0 min-w-max bg-white/95 backdrop-blur-md text-gray-700 shadow-md invisible transform transition duration-200 origin-top rounded-sm overflow-hidden" 
+                                            <ul class="absolute top-full left-0 min-w-max bg-white/95 backdrop-blur-md text-gray-700 invisible transform transition duration-200 origin-top rounded-sm overflow-hidden" 
                                                 :class="{ 'opacity-0 invisible z-[-10] scale-y-50': !dropdown, 'opacity-100 visible z-[9999] scale-y-100': dropdown }" 
                                                 x-transition @mouseover="dropdown = true" @mouseleave="dropdown = false">
                                                 @foreach ($menu['childrens'] as $childrens)

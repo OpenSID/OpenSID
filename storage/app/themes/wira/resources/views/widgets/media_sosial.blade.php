@@ -3,17 +3,17 @@
 <?php
 // Social media icon mapping
 $social_icons = [
-    'facebook' => ['icon' => 'facebook', 'color' => 'bg-blue-600'],
-    'instagram' => ['icon' => 'instagram', 'color' => 'bg-pink-500'],
-    'twitter' => ['icon' => 'twitter', 'color' => 'bg-blue-400'],
-    'x' => ['icon' => 'twitter', 'color' => 'bg-black'],
-    'youtube' => ['icon' => 'youtube', 'color' => 'bg-red-500'],
-    'whatsapp' => ['icon' => 'phone', 'color' => 'bg-green-500'],
-    'telegram' => ['icon' => 'send', 'color' => 'bg-blue-500'],
-    'tiktok' => ['icon' => 'music', 'color' => 'bg-black'],
-    'linkedin' => ['icon' => 'linkedin', 'color' => 'bg-blue-700'],
-    'email' => ['icon' => 'mail', 'color' => 'bg-gray-600'],
-    'website' => ['icon' => 'globe', 'color' => 'bg-primary-700'],
+    'facebook' => ['icon' => 'fa-brands fa-facebook-f', 'color' => 'bg-blue-600'],
+    'instagram' => ['icon' => 'fa-brands fa-instagram', 'color' => 'bg-pink-500'],
+    'twitter' => ['icon' => 'fa-brands fa-twitter', 'color' => 'bg-blue-400'],
+    'x' => ['icon' => 'fa-brands fa-x-twitter', 'color' => 'bg-black'],
+    'youtube' => ['icon' => 'fa-brands fa-youtube', 'color' => 'bg-red-500'],
+    'whatsapp' => ['icon' => 'fa-brands fa-whatsapp', 'color' => 'bg-green-500'],
+    'telegram' => ['icon' => 'fa-brands fa-telegram', 'color' => 'bg-blue-500'],
+    'tiktok' => ['icon' => 'fa-brands fa-tiktok', 'color' => 'bg-black'],
+    'linkedin' => ['icon' => 'fa-brands fa-linkedin', 'color' => 'bg-blue-700'],
+    'email' => ['icon' => 'fa-solid fa-envelope', 'color' => 'bg-gray-600'],
+    'website' => ['icon' => 'fa-solid fa-globe', 'color' => 'bg-primary-700'],
 ];
 
 function getSocialMediaInfo($name) {
@@ -34,7 +34,7 @@ function getSocialMediaInfo($name) {
     }
     
     // Default fallback
-    return ['icon' => 'globe', 'color' => 'bg-primary-700'];
+    return ['icon' => 'fa-solid fa-globe', 'color' => 'bg-primary-700'];
 }
 ?>
 
@@ -65,12 +65,8 @@ function getSocialMediaInfo($name) {
                                  alt="{{ $data['nama'] }}" 
                                  class="w-8 h-8 object-contain rounded"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-                            <i data-lucide="{{ $social_info['icon'] }}" 
-                               class="w-6 h-6 text-white" 
-                               style="display: none;"></i>
-                        @else
-                            <!-- Lucide icon -->
-                            <i data-lucide="{{ $social_info['icon'] }}" class="w-6 h-6 text-white"></i>
+                            <!-- FontAwesome icon -->
+                            <i class="{{ $social_info['icon'] }} text-xl text-white"></i>
                         @endif
                         
                         <!-- Tooltip -->
@@ -85,7 +81,7 @@ function getSocialMediaInfo($name) {
         <!-- Empty State -->
         <div class="text-center py-8">
             <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i data-lucide="globe" class="w-8 h-8 text-gray-400"></i>
+                <i class="fa-solid fa-globe text-3xl text-gray-400"></i>
             </div>
             <p class="text-gray-600">Belum ada media sosial yang tersedia</p>
         </div>

@@ -132,7 +132,7 @@ class Database extends Admin_Controller
             }
 
             // Parameter force_all untuk backup semua desa (hanya valid untuk super admin, bukan database gabungan)
-            $forceAll = $this->input->get('force_all') === '1' && super_admin() && ! setting('multi_desa');
+            $forceAll = $this->input->get('force_all') === '1' && is_super_admin() && ! setting('multi_desa');
 
             if ($forceAll) {
                 $dbName = (new Ekspor())->backup();

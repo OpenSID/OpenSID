@@ -67,7 +67,7 @@
 
                 $('#pagination-container').hide();
 
-                $.get(apiProduk, params, function(data) {
+                $.post(apiProduk, params, function(data) {
                     var produk = data.data;
                     var produkList = $('#produk-list');
 

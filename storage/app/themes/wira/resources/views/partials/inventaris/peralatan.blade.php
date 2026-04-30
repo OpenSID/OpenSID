@@ -1,4 +1,4 @@
-﻿@extends('theme::layouts.right-sidebar')
+@extends('theme::layouts.right-sidebar')
 @include('core::admin.layouts.components.asset_numeral')
 
 @section('content')

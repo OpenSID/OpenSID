@@ -1,6 +1,6 @@
 {{-- resources/views/partials/articles.blade.php --}}
 
-<div class="mt-8" id="articles-section">
+<div class="mt-16" id="articles-section">
     <div class="flex flex-col gap-4 mb-6">
 
         <div class="flex flex-wrap gap-2">
@@ -56,7 +56,7 @@
         <div class="fixed inset-0 flex items-center justify-center p-4 sm:p-6 z-50 pointer-events-none">
 
             {{-- Popup Content - FIXED: All height constraints properly set --}}
-            <div class="pointer-events-auto relative w-full max-w-6xl
+            <div class="pointer-events-auto relative w-full max-w-screen-2xl
                 bg-white shadow-2xl
                 rounded-2xl sm:rounded-3xl
                 flex flex-col
@@ -147,8 +147,8 @@
             </div>
         </div>
 
-        <!-- Desktop Grid (hidden on mobile, visible on sm and up) - 2 rows with 3 columns each (6 articles total) -->
-        <div class="hidden sm:grid sm:grid-cols-3 gap-6">
+        <!-- Desktop Grid (hidden on mobile, visible on sm and up) - 2 rows with 2, 3, or 4 columns depending on screen size -->
+        <div class="hidden sm:grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
             @foreach ($filteredArtikel->take(6) as $post)
                 @include('theme::partials.artikel.list', ['post' => $post])
             @endforeach

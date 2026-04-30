@@ -30,7 +30,7 @@
                         <select id="pamong" name="pamong" class="form-control input-sm required select2">
                             <option value="">Semua Perangkat</option>
                             @foreach ($pamong as $data)
-                                <option value="{{ $data->pamong_id }}">{{ $data->pamong_nama != null ? $data->pamong_nama : $data->penduduk->nama }}</option>
+                                <option value="{{ $data->pamong_id }}">{{ $data->pamong_nama ?: ($data->penduduk->nama ?? '-') }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -103,7 +103,7 @@
                     },
                     {
                         data: function(data) {
-                            return (data.pamong.pamong_nama) ? data.pamong.pamong_nama : data.pamong.penduduk.nama
+                            return (data.pamong.penduduk?.nama) ? data.pamong.penduduk?.nama : (data.pamong.pamong_nama ?? '-')
                         },
                         name: 'pamong.pamong_nama',
                         searchable: true,
