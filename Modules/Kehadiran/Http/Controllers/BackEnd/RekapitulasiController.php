@@ -61,7 +61,9 @@ class RekapitulasiController extends AdminModulController
 
     public function index()
     {
-        $pamong    = Pamong::daftar()->get();
+        $pamong    = Pamong::daftar()->where(static function ($q) {
+            $q->has('penduduk')->orWhere('pamong_nama', '!=', '');
+        })->get();
         $kehadiran = Kehadiran::get();
 
         return view('kehadiran::backend.rekapitulasi.index', ['pamong' => $pamong, 'kehadiran' => $kehadiran]);
@@ -77,6 +79,9 @@ class RekapitulasiController extends AdminModulController
             ];
 
             return datatables()->of(Kehadiran::with(['pamong', 'pamong.penduduk', 'pamong.jabatan'])
+                ->whereHas('pamong', static function ($q) {
+                    $q->has('penduduk')->orWhere('pamong_nama', '!=', '');
+                })
                 ->select('*', DB::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
                 ->filter($filters))
                 ->addIndexColumn()
@@ -116,13 +121,16 @@ class RekapitulasiController extends AdminModulController
         $writer->addRow(Row::fromValues($judul));
 
         $data_kehadiran = Kehadiran::with(['pamong'])
+            ->whereHas('pamong', static function ($q) {
+                $q->has('penduduk')->orWhere('pamong_nama', '!=', '');
+            })
             ->select('*', Kehadiran::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
             ->filter($filters)
             ->get();
 
         foreach ($data_kehadiran as $row) {
             $data = [
-                $row->pamong->pamong_nama != null ? $row->pamong->pamong_nama : $row->pamong->penduduk->nama,
+                $row->pamong->pamong_nama ?: $row->pamong->penduduk->nama,
                 $row->pamong->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->pamong->jabatan->nama : $row->pamong->jabatan->nama,
                 tgl_indo($row->tanggal),
                 date('H:i', strtotime($row->jam_masuk)),
