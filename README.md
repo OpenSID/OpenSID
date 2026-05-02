@@ -32,9 +32,13 @@ Repository ini mempunyai dua cabang (git branch):
 Salah satu tujuan utama pengembangan OpenSID adalah untuk memisahkan file SID inti dari file yang telah disesuaikan untuk keperluan desa. Pemisahan ini dimaksudkan untuk memudahkan upgrade SID di desa setiap kali ada release SID inti yang baru.
 
 ## Demo
-Demo aplikasi OpenSID dapat dilihat di http://sid.bangundesa.info. Kami usahakan agar versi yang terlihat di demo itu sesuai dengan status release terakhir repository ini. Demo itu menampilkan aplikasi desa yang dikembangkan di cabang _desa_.
+Demo aplikasi OpenSID dapat dilihat di http://sid.tristan.center. Kami usahakan agar versi yang terlihat di demo itu sesuai dengan status release terakhir repository ini. Demo itu menampilkan aplikasi desa yang dikembangkan di cabang _desa_.
 
 Modul administrasi OpenSID dapat diaskses pada http://sid.bangundesa.info/index.php/siteman. Masukkan Username = admin dan Password = sid304.
+
+
+## Branch Tristan
+Branch Tristan merupakan pengembangan dari master OpenSID. Dikembangkan oleh team .Dev PT. Tristan Digital Teknologi yang dimodifikasi sesuai kebutuhan dari kampung-kampung yang ada di Kabupaten Keerom Provinsi Papua
 
 ### Forum
 
