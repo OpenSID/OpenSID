@@ -69,50 +69,6 @@ trait ModulTrait
     }
 
     /**
-     * Load helper files from the module's "Helpers" directory.
-     *
-     * This method calls the `loadFilesFromDirectory` method to load all PHP files
-     * from the module's "Helpers" directory.
-     */
-    private function loadHelper(): void
-    {
-        $this->loadFilesFromDirectory('Helpers');
-    }
-
-    /**
-     * Load configuration files from the module's "Config" directory.
-     *
-     * This method calls the `loadFilesFromDirectory` method to load all PHP files
-     * from the "Config" directory, and merges them into the application configuration.
-     */
-    private function loadConfig(): void
-    {
-        $this->loadFilesFromDirectory('Config', function ($file) {
-            $this->mergeConfigFrom($file, pathinfo($file, PATHINFO_FILENAME));
-        });
-    }
-
-    /**
-     * Load all files from a specified subdirectory within the module's directory.
-     *
-     * This method is responsible for requiring or executing the PHP files from
-     * the given subdirectory. If a callback is provided, it will be called for each file.
-     *
-     * @param string        $subDirectory The subdirectory from which to load files.
-     * @param callable|null $callback     Optional callback to execute on each file.
-     */
-    private function loadFilesFromDirectory($subDirectory, ?callable $callback = null): void
-    {
-        foreach (glob($this->getModuleDirectory() . DIRECTORY_SEPARATOR . $subDirectory . DIRECTORY_SEPARATOR . '*.php') as $file) {
-            if ($callback) {
-                $callback($file);
-            } else {
-                require_once $file;
-            }
-        }
-    }
-
-    /**
      * Merge a configuration file into the application's configuration.
      *
      * This method loads a configuration file and merges its contents into the
@@ -192,5 +148,49 @@ trait ModulTrait
                 ->flatten()
                 ->toArray();
         });
+    }
+
+    /**
+     * Load helper files from the module's "Helpers" directory.
+     *
+     * This method calls the `loadFilesFromDirectory` method to load all PHP files
+     * from the module's "Helpers" directory.
+     */
+    private function loadHelper(): void
+    {
+        $this->loadFilesFromDirectory('Helpers');
+    }
+
+    /**
+     * Load configuration files from the module's "Config" directory.
+     *
+     * This method calls the `loadFilesFromDirectory` method to load all PHP files
+     * from the "Config" directory, and merges them into the application configuration.
+     */
+    private function loadConfig(): void
+    {
+        $this->loadFilesFromDirectory('Config', function ($file) {
+            $this->mergeConfigFrom($file, pathinfo($file, PATHINFO_FILENAME));
+        });
+    }
+
+    /**
+     * Load all files from a specified subdirectory within the module's directory.
+     *
+     * This method is responsible for requiring or executing the PHP files from
+     * the given subdirectory. If a callback is provided, it will be called for each file.
+     *
+     * @param string        $subDirectory The subdirectory from which to load files.
+     * @param callable|null $callback     Optional callback to execute on each file.
+     */
+    private function loadFilesFromDirectory($subDirectory, ?callable $callback = null): void
+    {
+        foreach (glob($this->getModuleDirectory() . DIRECTORY_SEPARATOR . $subDirectory . DIRECTORY_SEPARATOR . '*.php') as $file) {
+            if ($callback) {
+                $callback($file);
+            } else {
+                require_once $file;
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-@if ($peristiwa->kode_peristiwa == $logpenduduk::BARU_LAHIR)
+@if ($peristiwa->kode_peristiwa == App\Enums\PeristiwaPendudukEnum::BARU_LAHIR->value)
     <div class="form-group">
         <label for="keperluan" class="col-sm-3 control-label">Hari / Tanggal / Jam Kelahiran</label>
         <div class="col-sm-4">
@@ -65,7 +65,7 @@
     </div>
 @endif
 
-@if ($peristiwa->kode_peristiwa == $logpenduduk::MATI)
+@if ($peristiwa->kode_peristiwa == App\Enums\PeristiwaPendudukEnum::MATI->value)
     <div class="form-group">
         <label for="keperluan" class="col-sm-3 control-label">Hari / Tanggal / Jam Kematian</label>
         <div class="col-sm-4">
@@ -114,7 +114,7 @@
     </div>
 @endif
 
-@if ($peristiwa->kode_peristiwa == $logpenduduk::PINDAH_KELUAR)
+@if ($peristiwa->kode_peristiwa == App\Enums\PeristiwaPendudukEnum::PINDAH_KELUAR->value)
     <div class="form-group">
         <label for="keperluan" class="col-sm-3 control-label">Hari / Tanggal Pindah</label>
         <div class="col-sm-4">
@@ -137,7 +137,7 @@
     </div>
 @endif
 
-@if ($peristiwa->kode_peristiwa == $logpenduduk::HILANG)
+@if ($peristiwa->kode_peristiwa == App\Enums\PeristiwaPendudukEnum::HILANG->value)
     <div class="form-group">
         <label for="keperluan" class="col-sm-3 control-label">Hari / Tanggal Hilang</label>
         <div class="col-sm-4">

@@ -104,41 +104,6 @@ class Data_persil extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData()
-    {
-        $dusun   = $this->input->get('dusun') ?? null;
-        $rw      = $this->input->get('rw') ?? null;
-        $rt      = $this->input->get('rt') ?? null;
-        $wilayah = $this->input->get('lokasi') ?? null;
-        $kelas   = $this->input->get('kelas') ?? null;
-        $tipe    = $this->input->get('tipe') ?? null;
-
-        $idCluster = $rt ? [$rt] : [];
-        if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun, $namaRw] = explode('__', $rw);
-            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        if (empty($idCluster) && ! empty($dusun)) {
-            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
-        }
-        $query = Persil::withCount('mutasi')->with(['refKelas', 'cdesa', 'wilayah'])
-            ->when($kelas, static fn ($q) => $q->where('kelas', $kelas))
-            ->when($tipe, static fn ($q) => $q->whereIn('kelas', static function ($r) use ($tipe) {
-                $r->select('id')->from('ref_persil_kelas')->where('tipe', $tipe);
-            }))
-            ->when($wilayah, static function ($q) use ($wilayah) {
-                if ($wilayah == 1) {
-                    return $q->whereNotNull('id_wilayah');
-                }
-                if ($wilayah == 2) {
-                    return $q->whereNull('id_wilayah');
-                }
-            })->when($idCluster, static fn ($q) => $q->whereIn('id_wilayah', $idCluster));
-
-        return $query;
-    }
-
     public function rincian($id): void
     {
 
@@ -285,6 +250,41 @@ class Data_persil extends Admin_Controller
         $data['id_peta']           = ($post['area_tanah'] == 1 || $post['area_tanah'] == null) ? (empty($post['id_peta']) ? null : $post['id_peta']) : null;
 
         return $data;
+    }
+
+    private function sumberData()
+    {
+        $dusun   = $this->input->get('dusun') ?? null;
+        $rw      = $this->input->get('rw') ?? null;
+        $rt      = $this->input->get('rt') ?? null;
+        $wilayah = $this->input->get('lokasi') ?? null;
+        $kelas   = $this->input->get('kelas') ?? null;
+        $tipe    = $this->input->get('tipe') ?? null;
+
+        $idCluster = $rt ? [$rt] : [];
+        if (empty($idCluster) && ! empty($rw)) {
+            [$namaDusun, $namaRw] = explode('__', $rw);
+            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        if (empty($idCluster) && ! empty($dusun)) {
+            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+        $query = Persil::withCount('mutasi')->with(['refKelas', 'cdesa', 'wilayah'])
+            ->when($kelas, static fn ($q) => $q->where('kelas', $kelas))
+            ->when($tipe, static fn ($q) => $q->whereIn('kelas', static function ($r) use ($tipe) {
+                $r->select('id')->from('ref_persil_kelas')->where('tipe', $tipe);
+            }))
+            ->when($wilayah, static function ($q) use ($wilayah) {
+                if ($wilayah == 1) {
+                    return $q->whereNotNull('id_wilayah');
+                }
+                if ($wilayah == 2) {
+                    return $q->whereNull('id_wilayah');
+                }
+            })->when($idCluster, static fn ($q) => $q->whereIn('id_wilayah', $idCluster));
+
+        return $query;
     }
 
     private function dataMutasi($data)

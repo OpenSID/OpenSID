@@ -283,6 +283,101 @@ class Dokumen_sekretariat extends Admin_Controller
         }
     }
 
+    public function delete($kat = 1, $id = ''): void
+    {
+        isCan('h');
+
+        try {
+            Dokumen::destroy($id);
+            redirect_with('success', 'Data berhasil dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Data gagal dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+        }
+    }
+
+    public function delete_all($kat = ''): void
+    {
+        isCan('h');
+
+        try {
+            Dokumen::destroy($this->request['id_cb']);
+            redirect_with('success', 'Data berhasil dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Data gagal dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+        }
+    }
+
+    public function lock($kat = null, $id = ''): void
+    {
+        isCan('u');
+        if (Dokumen::gantiStatus($id, 'enabled')) {
+            redirect_with('success', 'Berhasil Ubah Status', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+        }
+        redirect_with('error', 'Gagal Ubah Status', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+    }
+
+    // $aksi = cetak/unduh
+    public function dialog_cetak($kat = 0, $aksi = 'cetak')
+    {
+        $data                    = $this->modal_penandatangan();
+        $data['tahun_laporan']   = DokumenHidup::getTahun($kat);
+        $data['aksi']            = $aksi;
+        $data['kat']             = $kat;
+        $data['jenis_peraturan'] = JenisPeraturan::all();
+        $data['form_action']     = route('buku-umum.dokumen_sekretariat.daftar', ['kat' => $kat, 'aksi' => $aksi]);
+
+        return view('admin.layouts.components.kades.dialog_cetak', $data);
+    }
+
+    /**
+     * TODO: Periksa apakah method ini masih digunakan?
+     *
+     * @param mixed $kat
+     */
+    public function cetak($kat = 1): void
+    {
+        $data     = $this->data_cetak($kat);
+        $template = $data['template'];
+        $this->load->view("dokumen/{$template}", $data);
+    }
+
+    public function daftar($id = 0, $aksi = '')
+    {
+        if ($id > 0) {
+            $data            = $this->data_cetak($id);
+            $data['sasaran'] = unserialize(SASARAN);
+            $data['aksi']    = $aksi;
+
+            //pengaturan data untuk format cetak/ unduh
+            $data['isi']       = $data['template'];
+            $data['letak_ttd'] = ['1', '1', '3'];
+
+            return view('admin.layouts.components.format_cetak', $data);
+        }
+
+        return show_404();
+    }
+
+    /**
+     * Unduh berkas berdasarkan kolom dokumen.id
+     *
+     * @param int $id_dokumen Id berkas pada koloam dokumen.id
+     * @param int $kat
+     * @param int $tipe
+     * @param int $popup
+     */
+    public function berkas($id_dokumen = 0, $kat = 1, $tipe = 0, $popup = 0): void
+    {
+        // Ambil nama berkas dari database
+        $data = DokumenHidup::GetDokumen($id_dokumen);
+
+        $this->validateDomain($data, true, route('buku-umum.dokumen_sekretariat.perdes', $kat));
+
+        ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, $tipe == 1, $popup);
+    }
+
     private function upload_dokumen()
     {
         $old_file                = $this->input->post('old_file', true);
@@ -362,83 +457,6 @@ class Dokumen_sekretariat extends Admin_Controller
         return $data;
     }
 
-    public function delete($kat = 1, $id = ''): void
-    {
-        isCan('h');
-
-        try {
-            Dokumen::destroy($id);
-            redirect_with('success', 'Data berhasil dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Data gagal dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
-        }
-    }
-
-    public function delete_all($kat = ''): void
-    {
-        isCan('h');
-
-        try {
-            Dokumen::destroy($this->request['id_cb']);
-            redirect_with('success', 'Data berhasil dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Data gagal dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
-        }
-    }
-
-    public function lock($kat = null, $id = ''): void
-    {
-        isCan('u');
-        if (Dokumen::gantiStatus($id, 'enabled')) {
-            redirect_with('success', 'Berhasil Ubah Status', route('buku-umum.dokumen_sekretariat.perdes', $kat));
-        }
-        redirect_with('error', 'Gagal Ubah Status', route('buku-umum.dokumen_sekretariat.perdes', $kat));
-    }
-
-    // $aksi = cetak/unduh
-    public function dialog_cetak($kat = 0, $aksi = 'cetak')
-    {
-        $data                    = $this->modal_penandatangan();
-        $data['tahun_laporan']   = DokumenHidup::getTahun($kat);
-        $data['aksi']            = $aksi;
-        $data['kat']             = $kat;
-        $data['jenis_peraturan'] = JenisPeraturan::all();
-        $data['form_action']     = route('buku-umum.dokumen_sekretariat.daftar', ['kat' => $kat, 'aksi' => $aksi]);
-
-        return view('admin.layouts.components.kades.dialog_cetak', $data);
-    }
-
-    /**
-     * TODO: Periksa apakah method ini masih digunakan?
-     *
-     * @param mixed $kat
-     */
-    public function cetak($kat = 1): void
-    {
-        $data     = $this->data_cetak($kat);
-        $template = $data['template'];
-        $this->load->view("dokumen/{$template}", $data);
-    }
-
-    public function daftar($id = 0, $aksi = '')
-    {
-        if ($id > 0) {
-            $data            = $this->data_cetak($id);
-            $data['sasaran'] = unserialize(SASARAN);
-            $data['aksi']    = $aksi;
-
-            //pengaturan data untuk format cetak/ unduh
-            $data['isi']       = $data['template'];
-            $data['letak_ttd'] = ['1', '1', '3'];
-
-            return view('admin.layouts.components.format_cetak', $data);
-        }
-
-        return show_404();
-    }
-
     private function data_cetak($kat)
     {
         $post                   = $this->input->post();
@@ -472,24 +490,6 @@ class Dokumen_sekretariat extends Admin_Controller
         }
 
         return $data;
-    }
-
-    /**
-     * Unduh berkas berdasarkan kolom dokumen.id
-     *
-     * @param int $id_dokumen Id berkas pada koloam dokumen.id
-     * @param int $kat
-     * @param int $tipe
-     * @param int $popup
-     */
-    public function berkas($id_dokumen = 0, $kat = 1, $tipe = 0, $popup = 0): void
-    {
-        // Ambil nama berkas dari database
-        $data = DokumenHidup::GetDokumen($id_dokumen);
-
-        $this->validateDomain($data, true, route('buku-umum.dokumen_sekretariat.perdes', $kat));
-
-        ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, $tipe == 1, $popup);
     }
 
     private function _set_tab($kat): void

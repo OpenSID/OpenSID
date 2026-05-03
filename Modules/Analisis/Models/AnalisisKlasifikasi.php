@@ -46,11 +46,12 @@ class AnalisisKlasifikasi extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
+
     /**
      * {@inheritDoc}
      */
     protected $table = 'analisis_klasifikasi';
 
     protected $guarded = [];
-    public $timestamps = false;
 }

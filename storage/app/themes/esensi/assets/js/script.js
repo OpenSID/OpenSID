@@ -57,12 +57,12 @@
       if ($('#peserta_program').length) {
       let pesertaDatatable =  $('#peserta_program').DataTable({
           processing: true,
-          serverSide: true,            
+          serverSide: true,
           order: [],
           ajax: {
             url: bantuanUrl,
-            type: 'GET',            
-            data: function(row) {                  
+            type: 'GET',
+            data: function(row) {
               return {
                   "page[size]": row.length,
                   "page[number]": (row.start / row.length) + 1,
@@ -79,6 +79,8 @@
           },
           columns: [{
             data: null,
+            orderable: false,
+            searchable: false
           },
           {
               data: 'attributes.nama',

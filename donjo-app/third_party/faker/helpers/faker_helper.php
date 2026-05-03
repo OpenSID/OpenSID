@@ -38,12 +38,12 @@
 use App\Enums\AgamaEnum;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Models\GolonganDarah;
 use App\Models\LogKeluarga;
-use App\Models\LogPenduduk;
-use App\Models\Pekerjaan;
 use App\Models\Pendidikan;
 use App\Models\PendidikanKK;
 use Illuminate\Support\Facades\DB;
@@ -263,7 +263,7 @@ function buatIndividu($configId, string $kodeKecamatan, $kkLevel, $statusKawin =
         'agama_id'             => faker()->numberBetween(1, AgamaEnum::count()),
         'pendidikan_kk_id'     => faker()->numberBetween(1, PendidikanKK::count()),
         'pendidikan_sedang_id' => faker()->numberBetween(1, Pendidikan::count()),
-        'pekerjaan_id'         => faker()->numberBetween(1, Pekerjaan::count()),
+        'pekerjaan_id'         => faker()->numberBetween(1, PekerjaanEnum::count()),
         'status_kawin'         => $statusKawin,
         'id_cluster'           => DB::table('tweb_wil_clusterdesa')->inRandomOrder()->first()->id,
         'warganegara_id'       => 1,
@@ -284,7 +284,7 @@ function buatIndividu($configId, string $kodeKecamatan, $kkLevel, $statusKawin =
     $logPenduduk = [
         'config_id'      => $configId,
         'id_pend'        => $id,
-        'kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK,
+        'kode_peristiwa' => PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
         'tgl_lapor'      => faker()->dateTimeBetween(configFaker('keluarga')['rentang_awal'] . '-01-01', date('Y') . '-12-31')->format('Y-m-d'),
         'catatan'        => 'Penduduk Baru Pindah Masuk',
     ];

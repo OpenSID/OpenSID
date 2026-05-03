@@ -88,7 +88,7 @@
                             </div>
                         @else
                             <div class="video-container">
-                                <iframe class="video-view" src="{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=0&loop=1" frameborder="0"></iframe>
+                                <iframe class="video-view" src="https://www.youtube.com/embed/{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=1&loop=1&playlist={{ setting('anjungan_youtube') }}" frameborder="0" allow="autoplay"></iframe>
                             </div>
 
                         @endif

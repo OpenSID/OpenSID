@@ -44,7 +44,6 @@ class KelompokTransformer extends TransformerAbstract
 {
     public function transform(Kelompok $kelompok)
     {
-        $kelompok->kategori = $kelompok->kategori;
         $kelompok->no_sk_pendirian ??= '';
         $kelompok->tipe = ucwords($kelompok->tipe);
         $kelompok->logo = gambar_desa($kelompok->logo);

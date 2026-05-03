@@ -53,6 +53,8 @@ class StatistikPengunjung extends BaseModel
     public const BULAN_INI  = 4;
     public const TAHUN_INI  = 5;
 
+    public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
@@ -67,47 +69,10 @@ class StatistikPengunjung extends BaseModel
      */
     protected $guarded = [];
 
-    public $timestamps = false;
-
-    public function scopeFilter($query, $type = null)
-    {
-        switch ($type) {
-            case self::HARI_INI:
-                $query = $query->whereDate('tanggal', Carbon::today());
-                break;
-
-            case self::KEMARIN:
-                $query = $query->whereDate('tanggal', Carbon::today()->subDay());
-                break;
-
-            case self::MINGGU_INI:
-                $query = $query->whereBetween('tanggal', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                    ->whereMonth('tanggal', Carbon::now()->month)
-                    ->whereYear('tanggal', Carbon::now()->year);
-                break;
-
-            case self::BULAN_INI:
-                $query = $query->whereMonth('tanggal', Carbon::now()->month)
-                    ->whereYear('tanggal', Carbon::now()->year);
-                break;
-
-            case self::TAHUN_INI:
-                $query = $query->whereYear('tanggal', Carbon::now()->year);
-                break;
-
-            default:
-                break;
-        }
-
-        return $query->orderBy('tanggal', 'asc');
-    }
-
     /**
      * Get statistik pengunjung.
-     *
-     * @return array
      */
-    public static function summary()
+    public static function summary(): array
     {
         $agent = new UserAgent();
 
@@ -151,5 +116,38 @@ class StatistikPengunjung extends BaseModel
         }
 
         return $browser;
+    }
+
+    public function scopeFilter($query, $type = null)
+    {
+        switch ($type) {
+            case self::HARI_INI:
+                $query = $query->whereDate('tanggal', Carbon::today());
+                break;
+
+            case self::KEMARIN:
+                $query = $query->whereDate('tanggal', Carbon::today()->subDay());
+                break;
+
+            case self::MINGGU_INI:
+                $query = $query->whereBetween('tanggal', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->whereMonth('tanggal', Carbon::now()->month)
+                    ->whereYear('tanggal', Carbon::now()->year);
+                break;
+
+            case self::BULAN_INI:
+                $query = $query->whereMonth('tanggal', Carbon::now()->month)
+                    ->whereYear('tanggal', Carbon::now()->year);
+                break;
+
+            case self::TAHUN_INI:
+                $query = $query->whereYear('tanggal', Carbon::now()->year);
+                break;
+
+            default:
+                break;
+        }
+
+        return $query->orderBy('tanggal', 'asc');
     }
 }

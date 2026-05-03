@@ -51,16 +51,6 @@ class BantuanImports
         $this->path = $path ?? DEFAULT_LOKASI_IMPOR . 'bantuan.xlsx';
     }
 
-    private function getValue($array): array
-    {
-        return array_values($array);
-    }
-
-    private function getId($array): array
-    {
-        return array_keys($array);
-    }
-
     public function import(): array
     {
         try {
@@ -234,5 +224,15 @@ class BantuanImports
 
             return ['status' => false, 'message' => $e->getMessage()];
         }
+    }
+
+    private function getValue($array): array
+    {
+        return array_values($array);
+    }
+
+    private function getId($array): array
+    {
+        return array_keys($array);
     }
 }

@@ -101,7 +101,7 @@ class AnjunganSuratController extends MandiriModulController
         $surat        = FormatSurat::find($id);
         $syarat_surat = $this->getSyarat($surat->syarat_surat);
         $penduduk     = Penduduk::find($id_pend) ?? show_404();
-        $individu     = $penduduk->formIndividu();
+        $individu     = $penduduk->toArray();
         $data         = [];
         $data         = array_merge($data, [
             'syarat_surat' => $syarat_surat,
@@ -133,18 +133,6 @@ class AnjunganSuratController extends MandiriModulController
         }
 
         return $data;
-    }
-
-    private function get_data_untuk_form($url, array &$data): void
-    {
-        // Panggil 1 penduduk berdasarkan datanya sendiri
-        $data['penduduk'] = [$data['periksa']['penduduk']];
-
-        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
-        $data['surat']              = FormatSurat::where('url_surat', $url)->first()->toArray();
-        $data['input']              = $this->input->post();
-        $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
-        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
     }
 
     public function permohonan()
@@ -202,23 +190,6 @@ class AnjunganSuratController extends MandiriModulController
         }
 
         return view('anjungan::frontend.surat.permohonan');
-    }
-
-    protected function print_connector()
-    {
-        if (null === ($anjungan = $this->cek_anjungan)) {
-            return;
-        }
-
-        try {
-            $connector = new NetworkPrintConnector($anjungan['printer_ip'], $anjungan['printer_port'], 5);
-        } catch (Exception $e) {
-            logger()->error($e->getMessage());
-
-            return false;
-        }
-
-        return $connector;
     }
 
     public function kirim($id = '')
@@ -290,6 +261,39 @@ class AnjunganSuratController extends MandiriModulController
         }
 
         return redirect(route('anjungan.permohonan'));
+    }
+
+    protected function print_connector()
+    {
+        if (null === ($anjungan = $this->cek_anjungan)) {
+            return;
+        }
+
+        try {
+            $connector = new NetworkPrintConnector($anjungan['printer_ip'], $anjungan['printer_port'], 5);
+        } catch (Exception $e) {
+            logger()->error($e->getMessage());
+
+            return false;
+        }
+
+        return $connector;
+    }
+
+    private function get_data_untuk_form($url, array &$data): void
+    {
+        // Panggil 1 penduduk berdasarkan datanya sendiri
+        $data['penduduk'] = [$data['periksa']['penduduk']];
+
+        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
+        $data['surat']              = FormatSurat::where('url_surat', $url)->first()->toArray();
+        $data['input']              = $this->input->post();
+        $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
+        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
+
+        $penandatangan     = $this->tinymce->formPenandatangan();
+        $data['pamong']    = $penandatangan['penandatangan'];
+        $data['atas_nama'] = $penandatangan['atas_nama'];
     }
 
     private function handlePreview($surat, $post, $data)

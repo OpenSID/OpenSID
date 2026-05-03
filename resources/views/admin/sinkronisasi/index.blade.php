@@ -1,7 +1,7 @@
 @extends('admin.layouts.index')
 
 @section('title')
-    <h1>SINKRONISASI</h1>
+    <h1>Sinkronisasi</h1>
 @endsection
 
 @section('breadcrumb')
@@ -13,8 +13,8 @@
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#opendk" data-toggle="tab"><b>OPENDK</b></a></li>
-            <li><a href="#tab_buat_key" data-toggle="tab"><b>BUAT KEY</b></a></li>
+            <li class="active"><a href="#opendk" data-toggle="tab"><b>OpenDK</b></a></li>
+            <li><a href="#tab_buat_key" data-toggle="tab"><b>Pengaturan</b></a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="opendk">
@@ -35,10 +35,14 @@
                                     <td class="aksi">
                                         @php $slug = url_title($data, 'dash', true); @endphp
                                         @if (in_array($slug, ['penduduk', 'identitas-desa', 'program-bantuan', 'pembangunan']))
-                                            @if ($list_setting->firstWhere('key', 'api_opendk_key')?->value)
-                                                <a href="#" data-href="{{ site_url('sinkronisasi/kirim/') . $slug }}" class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block kirim_data" title="Kirim Data"
-                                                    data-modul='{{ isset($modul[$data]) ? json_encode($modul[$data], JSON_THROW_ON_ERROR) : '' }}' data-body="Apakah yakin mengirim data {{ $data }} ke OpenDK?"
-                                                ><i class="fa fa-random"></i> Kirim Data</a>
+                                            @if (setting('sinkronisasi_opendk') && $list_setting->firstWhere('key', 'api_opendk_key')?->value)
+                                                <a href="#" data-href="{{ site_url("sinkronisasi/kirim/{$slug}") }}"
+                                                    class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block kirim_data"
+                                                    title="Kirim Data"
+                                                    data-modul='{{ isset($modul[$data]) ? json_encode($modul[$data], JSON_THROW_ON_ERROR) : '' }}'
+                                                    data-body="Apakah yakin mengirim data {{ $data }} ke OpenDK?">
+                                                    <i class="fa fa-random"></i> Kirim Data
+                                                </a>
                                             @else
                                                 <a href="#" title="API Key Belum Ditentukan" class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" disabled><i class="fa fa-random"></i> Kirim Data</a>
                                             @endif
@@ -77,14 +81,14 @@
                         </div>
                         <div id="modul-sinkronisasi">
                             <div class="form-group">
-                                <label class="col-sm-12 col-md-3" for="nama">Api Opendk Server</label>
+                                <label class="col-sm-12 col-md-3" for="nama">Api OpenDK Server</label>
                                 <div class="col-sm-12 col-md-4">
                                     <input id="api_opendk_server" name="api_opendk_server" class="form-control input-sm" type="text" value="{{ $list_setting->firstWhere('key', 'api_opendk_server')?->value }}" />
                                 </div>
                                 <label class="col-sm-12 col-md-5 pull-left" for="nama">Alamat Server OpenDK <code>(contoh: https://demodk.opendesa.id)</code></label>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-12 col-md-3" for="nama">Api Opendk Key</label>
+                                <label class="col-sm-12 col-md-3" for="nama">Api OpenDK Key</label>
                                 <div class="col-sm-12 col-md-4">
                                     <textarea rows="5" id="api_opendk_key" name="api_opendk_key" class="form-control input-sm" placeholder="Silakan Masukkan API Key OpenDK">{{ $list_setting->firstWhere('key', 'api_opendk_key')?->value }}</textarea>
                                 </div>

@@ -63,7 +63,7 @@
                                     {{ $par->jml_p }}<br>
                                 @endforeach
                             </td>
-                            <td>{{ Modules\Analisis\Enums\TipePertanyaanEnum::valueOf($data['id_tipe']) }}</td>
+                            <td>{{ Modules\Analisis\Enums\AnalisisTipeIndikatorEnum::valueOf($data['id_tipe']) }}</td>
                             <td>{{ $data['kategori']['kategori'] }}</td>
                             <td>{{ App\Enums\StatusEnum::valueOf($data['act_analisis']) }}</td>
                         </tr>

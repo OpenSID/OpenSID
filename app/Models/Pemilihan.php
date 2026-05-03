@@ -74,18 +74,6 @@ class Pemilihan extends BaseModel
     ];
 
     /**
-     * Scope query untuk status
-     *
-     * @param Builder $query
-     *
-     * @return Builder
-     */
-    public function scopeStatus($query, mixed $value = 1)
-    {
-        return $query->where('status', $value);
-    }
-
-    /**
      * Fungsi untuk mengambil tanggal pemilihan terdekat yang aktif
      *
      * @return string
@@ -95,5 +83,17 @@ class Pemilihan extends BaseModel
         $tanggal = self::status()->orderBy('tanggal')->first()->tanggal ?? Carbon::now();
 
         return Carbon::parse($tanggal)->format('d-m-Y');
+    }
+
+    /**
+     * Scope query untuk status
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeStatus($query, mixed $value = 1)
+    {
+        return $query->where('status', $value);
     }
 }

@@ -36,6 +36,7 @@
  */
 
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SHDKEnum;
 use App\Models\DokumenHidup;
 use App\Models\FormatSurat;
@@ -75,7 +76,7 @@ class DataSuratPenduduk extends CI_Controller
 
         if ($kategori === 'individu') {
             $statusDasar = is_array($surat->form_isian->{$kategori}->status_dasar) ? $surat->form_isian->{$kategori}->status_dasar : [$surat->form_isian->{$kategori}->status_dasar];
-            if (array_intersect($statusDasar, $this->logpenduduk::PERISTIWA)) {
+            if (array_intersect($statusDasar, PeristiwaPendudukEnum::peristiwa())) {
                 $data['logpenduduk'] = $this->logpenduduk;
                 $data['peristiwa']   = $this->logpenduduk::with('penduduk')->where('id_pend', $id)->latest()->first();
             }

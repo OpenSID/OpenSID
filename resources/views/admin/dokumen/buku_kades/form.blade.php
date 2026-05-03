@@ -23,7 +23,7 @@
     <div class="box box-info">
         {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-header with-border">
-            <x-kembali-button judul="Kembali ke Daftar {{ $kat_nama }} Di {{ ucwords(setting('sebutan_desa')) }}" url="#" onclick="window.history.back()" />
+            <x-kembali-button judul="Kembali ke Daftar {{ $kat_nama }} Di {{ ucwords(setting('sebutan_desa')) }}" url="#" onclick="window.history.back(); return false;" />
         </div>
         <input type="hidden" name="link_redirect" id="link_redirect">
         <div class="box-body">
@@ -106,6 +106,17 @@
                 $("#file_path").removeClass("required");
                 $("#url").addClass("required");
             }
+        });
+
+        $('#url').on('paste change', function() {
+            var input = $(this);
+            setTimeout(function() {
+                var url = input.val();
+                if (url.includes('drive.google.com') && url.includes('/view')) {
+                    var newUrl = url.replace('/view?usp=sharing', '/preview');
+                    input.val(newUrl);
+                }
+            }, 100);
         });
     </script>
 @endpush

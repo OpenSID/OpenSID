@@ -42,7 +42,7 @@
                         <div class="col-sm-3">
                             <select class="form-control input-sm  select2" id="tahap">
                                 <option value="">Pilih Status Pendataan</option>
-                                @foreach (Modules\Analisis\Enums\TahapPedataanEnum::all() as $key => $item)
+                                @foreach (Modules\Analisis\Enums\AnalisisRefStateEnum::all() as $key => $item)
                                     <option value="{{ $key }}">{{ $item }}</option>
                                 @endforeach
                             </select>

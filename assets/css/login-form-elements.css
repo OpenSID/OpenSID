@@ -62,3 +62,50 @@ button.btn:hover { opacity: 0.6; color: #fff; }
 button.btn:active { outline: 0; opacity: 0.6; color: #fff; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
 button.btn:focus { outline: 0; opacity: 0.6; background: #0667d6; color: #fff; }
 button.btn:active:focus, button.btn.active:focus { outline: 0; opacity: 0.6; background: #0667d6; color: #fff; }
+
+a.btn-otp {
+	height: 50px;
+    margin: 0;
+    padding: 0 20px;
+    vertical-align: middle;
+    background: #248a48;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 50px;
+    color: #fff;
+    -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+    text-shadow: none;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+    -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+}
+a.btn-otp:hover { opacity: 0.6; color: #fff; }
+a.btn-otp:active { outline: 0; opacity: 0.6; color: #fff; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+a.btn-otp:focus { outline: 0; opacity: 0.6; background: #0667d6; color: #fff; }
+a.btn-otp:active:focus, a.btn-otp.active:focus { outline: 0; opacity: 0.6; background: #0667d6; color: #fff; }
+
+.otp-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.otp-input {
+    width: 45px !important;
+    height: 45px !important;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    box-shadow: none !important;
+    display: inline-block !important;
+    padding: 0 !important;
+}
+
+.otp-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+    outline: none;
+}

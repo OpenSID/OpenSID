@@ -48,11 +48,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class KehadiranPamong extends BaseModel
 {
     // Ambil data untuk widget aparatur desa
-    public static function widget()
+    public static function widget(): array
     {
         $data_query = Pamong::aktif()->urut()->get()->toArray();
 
-        $tampilkanStatusKehadiran = ! (JamKerja::libur()->exists() || HariLibur::liburNasional()->exists())
+        $tampilkanStatusKehadiran = ! JamKerja::libur()->exists() && ! HariLibur::liburNasional()->exists()
             || setting('tampilkan_status_kehadiran_pada_hari_libur');
 
         $result = collect($data_query)->map(static function (array $item) use ($tampilkanStatusKehadiran): array {

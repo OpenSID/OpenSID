@@ -183,23 +183,6 @@ class Cdesa extends Admin_Controller
         redirect_with('success', 'Berhasil Hapus Data');
     }
 
-    protected function validate()
-    {
-        $data = $this->input->post();
-
-        $penduduk = [];
-        if ($data['jenis_pemilik'] == 1) {
-            $penduduk['id_pend']  = $data['id_penduduk'];
-            $penduduk['id_cdesa'] = $data['id_cdesa'];
-        }
-        unset($data['id_penduduk']);
-
-        $cdesa['data']     = $data;
-        $cdesa['penduduk'] = $penduduk;
-
-        return $cdesa;
-    }
-
     public function dialog($aksi = 'cetak'): void
     {
         $data                = $this->modal_penandatangan();
@@ -288,5 +271,22 @@ class Cdesa extends Admin_Controller
         $data['letak_ttd'] = [];
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    protected function validate()
+    {
+        $data = $this->input->post();
+
+        $penduduk = [];
+        if ($data['jenis_pemilik'] == 1) {
+            $penduduk['id_pend']  = $data['id_penduduk'];
+            $penduduk['id_cdesa'] = $data['id_cdesa'];
+        }
+        unset($data['id_penduduk']);
+
+        $cdesa['data']     = $data;
+        $cdesa['penduduk'] = $penduduk;
+
+        return $cdesa;
     }
 }

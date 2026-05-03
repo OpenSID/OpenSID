@@ -1,4 +1,5 @@
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.datetime_picker')
 
 <div class="box box-info">
     <div class="box-header">

@@ -49,18 +49,18 @@ class SuplemenTerdata extends BaseModel
     public const KELUARGA = 2;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'suplemen_terdata';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'suplemen_terdata';
 
     /**
      * The guarded with the model.
@@ -95,10 +95,10 @@ class SuplemenTerdata extends BaseModel
         return $this->belongsTo(Keluarga::class, 'keluarga_id');
     }
 
-    public function scopeAnggota($query, $sasaran, $suplemen)
+    public function scopeAnggota($query, $sasaran, $suplemen): void
     {
          // Skip data yang tidak punya penduduk_id dan keluarga_id
-        $query->where(static function ($q) {
+        $query->where(static function ($q): void {
             $q->whereNotNull('suplemen_terdata.penduduk_id')
                 ->orWhereNotNull('suplemen_terdata.keluarga_id');
         });

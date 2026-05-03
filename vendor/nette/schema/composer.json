@@ -15,16 +15,19 @@
 		}
 	],
 	"require": {
-		"php": "8.1 - 8.4",
+		"php": "8.1 - 8.5",
 		"nette/utils": "^4.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.5.2",
 		"tracy/tracy": "^2.8",
-		"phpstan/phpstan-nette": "^1.0"
+		"phpstan/phpstan-nette": "^2.0@stable"
 	},
 	"autoload": {
-		"classmap": ["src/"]
+		"classmap": ["src/"],
+		"psr-4": {
+			"Nette\\": "src"
+		}
 	},
 	"minimum-stability": "dev",
 	"scripts": {

@@ -37,6 +37,7 @@
 
 use App\Models\InventarisGedung;
 use App\Models\MutasiInventarisGedung;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -62,32 +63,32 @@ class Inventaris_gedung_mutasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisGedung::query()->with('mutasi');
+            $data = MutasiInventarisGedung::query()->select('mutasi_inventaris_gedung.*')->with('inventaris');
 
             return datatables()->of($data)
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    $aksi .= '<a href="' . site_url('inventaris_gedung_mutasi/form/' . $row->id . '/ubah/1') . '" title="Lihat Data" class="btn bg-info btn-sm"><i class="fa fa-eye"></i></a>';
+                    $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => site_url('inventaris_gedung_mutasi/form/' . $row->id . '/ubah/1'),
+                        'judul' => 'Lihat Data',
+                    ])->render();
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . site_url('inventaris_gedung_mutasi/form/' . $row->id . '/ubah') . '" title="Edit Data" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "inventaris_gedung_mutasi/form/{$row->id}/ubah",
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . site_url('inventaris_gedung_mutasi/delete/' . $row->mutasi->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => site_url('inventaris_gedung_mutasi/delete/' . $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
-                ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
-                ->editColumn('tahun_pengadaan', static fn ($row): string => date('Y', strtotime($row->tanggal_dokument)))
-                ->editColumn('tanggal_mutasi', static function ($row) {
-                    if ($row->mutasi) {
-                        return date('d M Y', strtotime($row->mutasi->tahun_mutasi));
-                    }
-                })
+                ->editColumn('kode_barang_register', static fn ($row): string => $row->inventaris->kode_barang . '<br>' . $row->inventaris->register)
+                ->editColumn('tahun_pengadaan', static fn ($row): string => date('Y', strtotime($row->inventaris->tanggal_dokument)))
+                ->editColumn('tanggal_mutasi', static fn ($row) => date('d M Y', strtotime($row->tahun_mutasi)))
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
         }
@@ -109,7 +110,9 @@ class Inventaris_gedung_mutasi extends Admin_Controller
     {
         isCan('u');
 
-        if (MutasiInventarisGedung::where('id_inventaris_gedung', $id)->update($this->validate($this->request))) {
+        $mutasi = MutasiInventarisGedung::findOrFail($id);
+
+        if ($mutasi->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'inventaris_gedung_mutasi');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -142,13 +145,15 @@ class Inventaris_gedung_mutasi extends Admin_Controller
             $data['action']      = $view ? 'Rincian' : 'Ubah';
             $data['form_action'] = ci_route('inventaris_gedung_mutasi.update', $id);
             $data['view_mark']   = $view ? 1 : 0;
+            $data['main']        = MutasiInventarisGedung::with('inventaris')->find($id) ?? show_404();
         } else {
-            $data['action']      = 'Tambah';
-            $data['form_action'] = ci_route('inventaris_gedung_mutasi.create', $id);
-            $data['view_mark']   = null;
+            $data['action']           = 'Tambah';
+            $data['form_action']      = ci_route('inventaris_gedung_mutasi.create', $id);
+            $data['view_mark']        = null;
+            $data['main']             = new MutasiInventarisGedung();
+            $data['main']->inventaris = InventarisGedung::find($id) ?? show_404();
         }
 
-        $data['main']       = InventarisGedung::findOrFail($id);
         $data['tip']        = 2;
         $data['controller'] = str_replace_last('_mutasi', '', $this->controller);
 

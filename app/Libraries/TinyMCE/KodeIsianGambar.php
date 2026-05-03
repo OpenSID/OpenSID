@@ -44,15 +44,8 @@ class KodeIsianGambar
 {
     private $urls_id;
 
-    /**
-     * @var CI_Controller
-     */
-    protected $ci;
-
     public function __construct(private $request, private $result, private $surat = null, private $lampiran = false)
     {
-        $this->ci = &get_instance();
-        $this->ci->load->model('surat_model');
     }
 
     public static function set($request, $result, $surat = null, $lampiran = false): array
@@ -88,10 +81,8 @@ class KodeIsianGambar
 
     /**
      * Mengganti placeholder dengan tag gambar berformat base64 jika file tersedia.
-     *
-     * @param mixed $height
      */
-    private function replacePlaceholder(string $placeholder, string $filePath, int $width = 90, $height = 90): void
+    private function replacePlaceholder(string $placeholder, string $filePath, int $width = 90, mixed $height = 90): void
     {
         $realPath = realpath($filePath);
         $imgTag   = ''; // Placeholder dihapus jika gambar tidak tersedia
@@ -110,7 +101,6 @@ class KodeIsianGambar
      */
     private function handleQrCode(): void
     {
-        app('ci')->load->model('surat_model');
         if (! $this->request['qr_code']) {
             $this->result = str_replace('[qr_code]', '', $this->result);
 
@@ -118,7 +108,7 @@ class KodeIsianGambar
         }
 
         // Generate kode QR (dari surat atau dummy)
-        $cek = $this->surat ? $this->surat_model->buatQrCode($this->surat->nama_surat) : dummyQrCode($this->header['desa']['logo']);
+        $cek = $this->surat ? LogSurat::buatQrCode($this->surat->nama_surat, identitas('logo')) : dummyQrCode(identitas('logo'));
 
         // Pastikan gambar kode QR valid sebelum diproses
         $qrcodePath = $cek['viewqr'] ?? null;
@@ -132,7 +122,7 @@ class KodeIsianGambar
 
         if ($this->surat) {
             // Periksa apakah ada kode QR yang sudah ada dalam hasil
-            preg_match('/<img[^>]+src="([^"]*qrcode[^"]*temp[^"]*)"/i', $this->result, $matches);
+            preg_match('/<img[^>]+src="([^"]*qrcode[^"]*temp[^"]*)"/i', (string) $this->result, $matches);
 
             if (isset($matches[1]) && ! file_exists($matches[1])) {
                 // Ganti kode QR yang tidak valid dengan yang baru
@@ -156,15 +146,5 @@ class KodeIsianGambar
     private function shouldIncludeQrCode(): bool
     {
         return (setting('tte') == 1 && ($this->surat->verifikasi_kades == LogSurat::TERIMA || $this->lampiran)) || setting('tte') == 0;
-    }
-
-    public function __get($name)
-    {
-        return $this->ci->{$name};
-    }
-
-    public function __call($method, $arguments)
-    {
-        return $this->ci->{$method}(...$arguments);
     }
 }

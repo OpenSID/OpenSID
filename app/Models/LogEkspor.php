@@ -41,14 +41,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogEkspor extends BaseModel
 {
+    public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'log_ekspor';
-
-    public $timestamps = false;
 
     /**
      * The guarded with the model.

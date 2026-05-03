@@ -73,11 +73,11 @@
         <tr class="border thick">
             <th width="10">NO</th>
             <th align="left">{{ strtoupper($judul['nomor']) }}</th>
-            @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
-                <th>{{ $analisis_master['subjek_tipe'] == App\Enums\AnalisisRefSubjekEnum::PENDUDUK ? 'No. KK' : 'NIK KK' }}</th>
+            @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
+                <th>{{ $analisis_master['subjek_tipe'] == Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK ? 'No. KK' : 'NIK KK' }}</th>
             @endif
             <th align="left">{{ strtoupper($judul['nama']) }}</th>
-            @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, App\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
+            @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
                 <th>JENIS KELAMIN</th>
                 <th>ALAMAT</th>
             @endif
@@ -90,12 +90,12 @@
             <tr>
                 <td align="center" width="2">{{ $loop->iteration }}</td>
                 <td class="textx">{{ $data[$judul['kolom']['0']['data']] }}</td>
-                @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
+                @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
                     <td class="textx">{{ $data['kk'] }}</td>
                     <td class="textx">{{ $data['kk'] }}</td>
                 @endif
                 <td>{{ $data[$judul['kolom'][1]['data']] }}</td>
-                @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, App\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
+                @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
                     <td align="center">{{ App\Enums\JenisKelaminEnum::valueOf($data['sex']) }}</td>
                     <td>{{ strtoupper($data['alamat'] . ' ' . 'RT/RW ' . $data['rt'] . '/' . $data['rw'] . ' - ' . setting('sebutan_dusun') . ' ' . $data['dusun']) }}</td>
                 @endif

@@ -76,6 +76,14 @@ class Koneksi_database extends CI_Controller
         Artisan::call(command: 'opensid:desa-baru', outputBuffer: new ConsoleOutput());
     }
 
+    public function encryptPassword(): void
+    {
+        // setelah appKey diganti, password terenkrip harus diganti juga
+        $password = (new Config())->getConnection()->getConfig('password');
+        updateConfigFile('password', encrypt($password));
+        redirect(site_url());
+    }
+
     private function cekConfig(): array
     {
         if (! $this->session->cek_app_key) {
@@ -97,13 +105,5 @@ class Koneksi_database extends CI_Controller
             'appKey'   => $appKey,
             'appKeyDb' => $appKeyDb->app_key,
         ];
-    }
-
-    public function encryptPassword(): void
-    {
-        // setelah appKey diganti, password terenkrip harus diganti juga
-        $password = (new Config())->getConnection()->getConfig('password');
-        updateConfigFile('password', encrypt($password));
-        redirect(site_url());
     }
 }

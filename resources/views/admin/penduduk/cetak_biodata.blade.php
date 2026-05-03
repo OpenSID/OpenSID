@@ -66,7 +66,7 @@
                 <tr>
                     <td>Jenis Kelamin</td>
                     <td>:</td>
-                    <td>{{ strtoupper(App\Enums\JenisKelaminEnum::valueOf($penduduk->sex)) }}</td>
+                    <td>{{ $penduduk->jenis_kelamin }}</td>
                 </tr>
                 <tr>
                     <td>Akta lahir</td>
@@ -86,7 +86,12 @@
                 <tr>
                     <td>Pekerjaan</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->pekerjaan->nama) }}</td>
+                    <td>{{ $penduduk->pekerjaan }}</td>
+                </tr>
+                <tr>
+                    <td>Pekerja Migran</td>
+                    <td>:</td>
+                    <td>{{ $penduduk->pekerja_migran }}</td>
                 </tr>
                 <tr>
                     <td>Golongan Darah</td>
@@ -96,7 +101,7 @@
                 <tr>
                     <td>Cacat</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->cacat->nama) }}</td>
+                    <td>{{ $penduduk->cacat }}</td>
                 </tr>
                 <tr>
                     <td>Status Kawin</td>
@@ -106,12 +111,12 @@
                 <tr>
                     <td>Hubungan dalam Keluarga</td>
                     <td>:</td>
-                    <td>{{ strtoupper(App\Enums\SHDKEnum::valueOf($penduduk->kk_level)) }}</td>
+                    <td>{{ strtoupper($penduduk->penduduk_hubungan) }}</td>
                 </tr>
                 <tr>
                     <td>Warga Negara</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->warganegara) }}</td>
+                    <td>{{ $penduduk->warganegara }}</td>
                 </tr>
                 <tr>
                     <td>Suku/Etnis</td>

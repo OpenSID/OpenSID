@@ -45,8 +45,8 @@ class AnalisisKategoriController extends AdminModulController
     public $moduleName    = 'Analisis';
     public $modul_ini     = 'analisis';
     public $sub_modul_ini = 'analisis-kategori';
-    private $selectedMenu = 'Data Kategori';
     protected $analisisMaster;
+    private $selectedMenu = 'Data Kategori';
 
     public function __construct()
     {
@@ -58,6 +58,13 @@ class AnalisisKategoriController extends AdminModulController
             'selectedMenu'    => $this->selectedMenu,
             'analisis_master' => $this->analisisMaster,
         ]);
+    }
+
+    protected static function validate(array $request = []): array
+    {
+        return [
+            'kategori' => htmlentities($request['kategori']),
+        ];
     }
 
     public function index($master)
@@ -160,12 +167,5 @@ class AnalisisKategoriController extends AdminModulController
         }
 
         redirect_with('error', 'Gagal Hapus Data', ci_route('analisis_kategori.' . $mater));
-    }
-
-    protected static function validate(array $request = []): array
-    {
-        return [
-            'kategori' => htmlentities($request['kategori']),
-        ];
     }
 }

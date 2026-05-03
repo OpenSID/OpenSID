@@ -54,7 +54,15 @@ class Surat extends Mandiri_Controller
         if ($this->input->is_ajax_request()) {
             $printer = $this->print_connector();
 
-            return datatables(PermohonanSurat::with(['logSurat', 'surat'])->belumDiambil()->whereIdPemohon($this->is_login->id_pend))
+            $query = PermohonanSurat::with([
+                'logSurat:id,tte',
+                'surat:id,nama',
+            ])
+                ->without(['penduduk'])
+                ->belumDiambil()
+                ->whereIdPemohon($this->is_login->id_pend);
+
+            return datatables($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($item) use ($printer) {
                     $aksi = '';
@@ -225,11 +233,10 @@ class Surat extends Mandiri_Controller
 
         $surat    = FormatSurat::find($data['id_surat']);
         $penduduk = Penduduk::find($id_pend) ?? show_404();
-        $individu = $penduduk->formIndividu();
 
         $data = array_merge($data, [
             'url'          => $surat->url_surat,
-            'individu'     => $individu,
+            'individu'     => $penduduk->toArray(),
             'anggota'      => $penduduk?->keluarga?->anggota?->toArray(),
             'surat_url'    => rtrim($_SERVER['REQUEST_URI'], '/clear'),
             'form_action'  => route('layanan-mandiri.surat.kirim', $permohonan['id']),
@@ -251,11 +258,11 @@ class Surat extends Mandiri_Controller
             'config_id'   => identitas('id'),
             'id_pemohon'  => bilangan($post['nik']),
             'id_surat'    => FormatSurat::where('url_surat', $post['url_surat'])->first()->id,
-            'isian_form'  => json_encode($post, JSON_THROW_ON_ERROR),
+            'isian_form'  => $post,
             'status'      => 1, // Selalu 1 bagi penggun layanan mandiri
             'keterangan'  => $this->security->xss_clean($data_permohonan['keterangan']),
             'no_hp_aktif' => bilangan($data_permohonan['no_hp_aktif'] ?? $post['no_hp_aktif']),
-            'syarat'      => json_encode($data_permohonan['syarat'], JSON_THROW_ON_ERROR),
+            'syarat'      => $data_permohonan['syarat'],
             'updated_at'  => date('Y-m-d H:i:s'),
         ];
 
@@ -294,18 +301,6 @@ class Surat extends Mandiri_Controller
         $this->session->unset_userdata('data_permohonan');
 
         redirect('layanan-mandiri/permohonan-surat');
-    }
-
-    private function get_data_untuk_form($url, array &$data): void
-    {
-        // Panggil 1 penduduk berdasarkan datanya sendiri
-        $data['penduduk'] = [$data['periksa']['penduduk']];
-
-        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
-        $data['surat']              = FormatSurat::where('url_surat', $url)->first()->toArray();
-        $data['input']              = $this->input->post();
-        $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
-        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
     }
 
     public function proses($id = ''): void
@@ -360,6 +355,23 @@ class Surat extends Mandiri_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    public function cetak($id)
+    {
+        $surat = LogSurat::find($id);
+
+        // Cek ada file
+        if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
+            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
+        }
+        echo 'Berkas tidak ditemukan';
+    }
+
+    public function nomor_surat_duplikat(): void
+    {
+        $hasil = LogSurat::isDuplikat('log_surat', $_POST['nomor'], $_POST['url']);
+        echo $hasil ? 'false' : 'true';
+    }
+
     protected function print_connector()
     {
         if (null === ($anjungan = $this->cek_anjungan)) {
@@ -377,20 +389,15 @@ class Surat extends Mandiri_Controller
         return $connector;
     }
 
-    public function cetak($id)
+    private function get_data_untuk_form($url, array &$data): void
     {
-        $surat = LogSurat::find($id);
+        // Panggil 1 penduduk berdasarkan datanya sendiri
+        $data['penduduk'] = [$data['periksa']['penduduk']];
 
-        // Cek ada file
-        if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
-            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
-        }
-        echo 'Berkas tidak ditemukan';
-    }
-
-    public function nomor_surat_duplikat(): void
-    {
-        $hasil = LogSurat::isDuplikat('log_surat', $_POST['nomor'], $_POST['url']);
-        echo $hasil ? 'false' : 'true';
+        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
+        $data['surat']              = FormatSurat::where('url_surat', $url)->first()->toArray();
+        $data['input']              = $this->input->post();
+        $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
+        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
     }
 }

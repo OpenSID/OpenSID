@@ -50,8 +50,8 @@ class HamilEnum extends BaseEnum
     public static function all(): array
     {
         return [
-            self::HAMIL       => 'Hamil',
-            self::TIDAK_HAMIL => 'Tidak Hamil',
+            self::HAMIL       => 'HAMIL',
+            self::TIDAK_HAMIL => 'TIDAK HAMIL',
         ];
     }
 }

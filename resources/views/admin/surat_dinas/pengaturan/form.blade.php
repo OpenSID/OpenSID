@@ -36,11 +36,63 @@
 
             @include('admin.surat_dinas.pengaturan.tinymce')
             <div class="box-footer">
-                <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-                <button type="submit" name="action" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>Simpan dan Keluar</button>
-                <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="konsep" class="btn btn-social btn-warning btn-sm pull-right" style="margin: 0 8px 0 0;"><i class="fa fa-file-code-o"></i>
-                    Simpan Sementara</a>
-                <button id="preview" name="action" value="preview" class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i class="fa fa-eye"></i>Tinjau PDF</button>
+                <!-- Layout Desktop (seperti awal) -->
+                <div class="hidden-xs">
+                    <button type="reset" class="btn btn-social btn-danger btn-sm">
+                        <i class="fa fa-times"></i> Batal
+                    </button>
+
+                    <button type="submit" name="action"
+                        class="btn btn-social btn-info btn-sm pull-right"
+                        style="margin: 0 8px 0 0; @if ($viewOnly) opacity:0.5; pointer-events:none; cursor:default; @endif">
+                        <i class="fa fa-check"></i> Simpan dan Keluar
+                    </button>
+
+                    <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="konsep"
+                        class="btn btn-social btn-warning btn-sm pull-right"
+                        style="margin: 0 8px 0 0; @if ($viewOnly) opacity:0.5; pointer-events:none; cursor:default; @endif">
+                        <i class="fa fa-file-code-o"></i> Simpan Sementara
+                    </a>
+
+                    <button id="preview" name="action" value="preview"
+                        class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px">
+                        <i class="fa fa-eye"></i> Tinjau PDF
+                    </button>
+                </div>
+
+                <!-- Layout Mobile (2 baris, 2 tombol per baris) -->
+                <div class="visible-xs">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button type="reset" class="btn btn-social btn-danger btn-sm btn-block">
+                                <i class="fa fa-times"></i> Batal
+                            </button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="submit" name="action"
+                                class="btn btn-social btn-info btn-sm btn-block"
+                                style="@if ($viewOnly) opacity:0.5; pointer-events:none; cursor:default; @endif">
+                                <i class="fa fa-check"></i> Simpan dan Keluar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:8px;">
+                        <div class="col-xs-6">
+                            <button id="preview" name="action" value="preview"
+                                class="btn btn-social btn-vk btn-success btn-sm btn-block">
+                                <i class="fa fa-eye"></i> Tinjau PDF
+                            </button>
+                        </div>
+                        <div class="col-xs-6">
+                            <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="konsep"
+                                class="btn btn-social btn-warning btn-sm btn-block"
+                                style="@if ($viewOnly) opacity:0.5; pointer-events:none; cursor:default; @endif">
+                                <i class="fa fa-file-code-o"></i> Simpan Sementara
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

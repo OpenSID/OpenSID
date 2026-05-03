@@ -45,6 +45,8 @@ class Simbol extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
@@ -52,15 +54,9 @@ class Simbol extends BaseModel
      */
     protected $table = 'gis_simbol';
 
-    public $timestamps = false;
     protected $guarded = [
         'id',
     ];
-
-    protected function scopeRoot($query)
-    {
-        return $query->whereTipe(1);
-    }
 
     public static function boot(): void
     {
@@ -79,5 +75,10 @@ class Simbol extends BaseModel
                 unlink($foto);
             }
         }
+    }
+
+    protected function scopeRoot($query)
+    {
+        return $query->whereTipe(1);
     }
 }

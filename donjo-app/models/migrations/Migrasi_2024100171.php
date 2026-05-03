@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024100171 extends MY_Model
+class Migrasi_2024100171
 {
     use Migrator;
 
@@ -62,64 +62,6 @@ class Migrasi_2024100171 extends MY_Model
         $this->migrasi_2024092151();
     }
 
-    protected function migrasi_2024090552()
-    {
-        if (! Schema::hasColumn('log_notifikasi_admin', 'token')) {
-            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
-                $table->longText('token')->nullable()->after('isi');
-            });
-        }
-
-        if (! Schema::hasColumn('log_notifikasi_admin', 'device')) {
-            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
-                $table->longText('device')->after('token');
-            });
-        }
-    }
-
-    protected function migrasi_2024090951()
-    {
-        // pakai get, bisa jadi di database gabungan
-        $penduduk_luar = SettingAplikasi::dontCache()->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'form_penduduk_luar')->get();
-        if ($penduduk_luar) {
-            foreach ($penduduk_luar as $key => $penduduk) {
-                if ($penduduk) {
-                    $penduduk->value = json_encode(updateIndex(json_decode($penduduk->value, true)), JSON_THROW_ON_ERROR);
-                    $penduduk->save();
-                }
-            }
-        }
-    }
-
-    protected function migrasi_2024091251()
-    {
-        Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
-            $table->longText('device')->nullable()->change();
-        });
-    }
-
-    protected function migrasi_2024090551()
-    {
-        DB::table('setting_aplikasi')
-            ->whereIn('key', ['sebutan_dusun', 'sebutan_singkatan_kadus'])
-            ->where('kategori', '!=', 'Wilayah Administratif')
-            ->update(['kategori' => 'Wilayah Administratif']);
-
-        $this->changeSettingKey('sebutan_singkatan_kadus', [
-            'judul'      => 'Sebutan Singkatan Kepala Dusun',
-            'key'        => 'sebutan_singkatan_kepala_dusun',
-            'value'      => 'Kadus',
-            'keterangan' => 'Sebutan singkatan Kepala Dusun',
-            'jenis'      => 'input-text',
-            'option'     => null,
-            'attribute'  => [
-                'class'       => 'required',
-                'placeholder' => 'Kadus',
-            ],
-            'kategori' => 'Wilayah Administratif',
-        ]);
-    }
-
     public function migrasi_2024092051()
     {
         DB::table('widget')
@@ -129,9 +71,9 @@ class Migrasi_2024100171 extends MY_Model
 
     public function migrasi_2024092151()
     {
-        checkAndFixTable('log_notifikasi_admin');
+        $this->checkAndFixTable('log_notifikasi_admin');
 
-        checkAndFixTable('log_notifikasi_mandiri');
+        $this->checkAndFixTable('log_notifikasi_mandiri');
     }
 
     public function migrasi_2024093051()
@@ -204,7 +146,65 @@ class Migrasi_2024100171 extends MY_Model
         }
     }
 
-    protected function migrasi_2024090671()
+    public function migrasi_2024090552()
+    {
+        if (! Schema::hasColumn('log_notifikasi_admin', 'token')) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->longText('token')->nullable()->after('isi');
+            });
+        }
+
+        if (! Schema::hasColumn('log_notifikasi_admin', 'device')) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->longText('device')->after('token');
+            });
+        }
+    }
+
+    public function migrasi_2024090951()
+    {
+        // pakai get, bisa jadi di database gabungan
+        $penduduk_luar = SettingAplikasi::dontCache()->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'form_penduduk_luar')->get();
+        if ($penduduk_luar) {
+            foreach ($penduduk_luar as $key => $penduduk) {
+                if ($penduduk) {
+                    $penduduk->value = json_encode(updateIndex(json_decode($penduduk->value, true)), JSON_THROW_ON_ERROR);
+                    $penduduk->save();
+                }
+            }
+        }
+    }
+
+    public function migrasi_2024091251()
+    {
+        Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+            $table->longText('device')->nullable()->change();
+        });
+    }
+
+    public function migrasi_2024090551()
+    {
+        DB::table('setting_aplikasi')
+            ->whereIn('key', ['sebutan_dusun', 'sebutan_singkatan_kadus'])
+            ->where('kategori', '!=', 'Wilayah Administratif')
+            ->update(['kategori' => 'Wilayah Administratif']);
+
+        $this->changeSettingKey('sebutan_singkatan_kadus', [
+            'judul'      => 'Sebutan Singkatan Kepala Dusun',
+            'key'        => 'sebutan_singkatan_kepala_dusun',
+            'value'      => 'Kadus',
+            'keterangan' => 'Sebutan singkatan Kepala Dusun',
+            'jenis'      => 'input-text',
+            'option'     => null,
+            'attribute'  => [
+                'class'       => 'required',
+                'placeholder' => 'Kadus',
+            ],
+            'kategori' => 'Wilayah Administratif',
+        ]);
+    }
+
+    public function migrasi_2024090671()
     {
         $this->createSetting([
             'judul'      => 'Rentang Waktu Masuk',

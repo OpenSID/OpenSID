@@ -38,6 +38,7 @@
 use App\Enums\StatusEnum;
 use App\Models\Pamong;
 use Illuminate\Support\Facades\DB;
+use Modules\Kehadiran\Enums\JenisIzin;
 use Modules\Kehadiran\Models\Kehadiran;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
@@ -105,6 +106,7 @@ class RekapitulasiController extends AdminModulController
                         $tipe        = ($statusLower === 'hadir') ? 'success'
                             : (($statusLower === 'tidak berada di kantor') ? 'danger'
                             : 'warning');
+                        $status = JenisIzin::valueOf($status, $status);
                     }
 
                     return '<span class="label label-' . $tipe . '">' . ucwords($status) . '</span>';

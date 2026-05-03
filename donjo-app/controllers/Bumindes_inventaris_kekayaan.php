@@ -63,11 +63,6 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
         view('admin.bumindes.umum.main', $data);
     }
 
-    private function sumberData($tahun = null)
-    {
-        return MasterInventaris::permen47($tahun);
-    }
-
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
@@ -106,5 +101,10 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
         $data['letak_ttd'] = ['1', '1', '23'];
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function sumberData($tahun = null)
+    {
+        return MasterInventaris::permen47($tahun);
     }
 }

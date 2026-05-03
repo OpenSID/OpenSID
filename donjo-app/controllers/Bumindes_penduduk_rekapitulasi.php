@@ -80,16 +80,6 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData()
-    {
-        $filters = [
-            'tahun' => empty($this->input->get('tahun')) ? null : $this->input->get('tahun'),
-            'bulan' => empty($this->input->get('bulan')) ? null : $this->input->get('bulan'),
-        ];
-
-        return LogPenduduk::rekapitulasiList($filters)->get()->toArray();
-    }
-
     public function dataProcess($rekap)
     {
         return collect($rekap)->map(static function (array $item): array {
@@ -142,6 +132,16 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         }
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        $filters = [
+            'tahun' => empty($this->input->get('tahun')) ? null : $this->input->get('tahun'),
+            'bulan' => empty($this->input->get('bulan')) ? null : $this->input->get('bulan'),
+        ];
+
+        return LogPenduduk::rekapitulasiList($filters)->get()->toArray();
     }
 
     private function laporan_pdf(array $data): void

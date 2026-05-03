@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -58,4 +59,12 @@ class LogTolak extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * Get the user that owns the LogSurat
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

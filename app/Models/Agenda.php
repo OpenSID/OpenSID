@@ -45,14 +45,14 @@ class Agenda extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'agenda';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -72,20 +72,12 @@ class Agenda extends BaseModel
 
     public static function scopeShow($query, $type = '')
     {
-        switch ($type) {
-            case 'yad':
-                $query->whereRaw('DATE(agenda.tgl_agenda) > CURDATE()')
-                    ->orderBy('agenda.tgl_agenda');
-                break;
-
-            case 'lama':
-                $query->whereRaw('DATE(agenda.tgl_agenda) < CURDATE()');
-                break;
-
-            default:
-                $query->whereRaw('DATE(agenda.tgl_agenda) = CURDATE()');
-                break;
-        }
+        match ($type) {
+            'yad' => $query->whereRaw('DATE(agenda.tgl_agenda) > CURDATE()')
+                ->orderBy('agenda.tgl_agenda'),
+            'lama'  => $query->whereRaw('DATE(agenda.tgl_agenda) < CURDATE()'),
+            default => $query->whereRaw('DATE(agenda.tgl_agenda) = CURDATE()'),
+        };
 
         return $query->selectRaw('a.*, agenda.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
             ->leftJoin('artikel as a', 'a.id', '=', 'agenda.id_artikel')

@@ -1,25 +1,28 @@
 <div class="col-md-12">
     <div class="row" style="margin-top: 5px">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Peristiwa</th>
-                    <th>Tgl Peristiwa</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($logs as $log)
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Peristiwa</th>
+                        <th>Tgl Peristiwa</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($logs as $log)
                     <tr>
                         <td>{{ $log['id'] }}</td>
                         <td>{{ \App\Models\LogKeluarga::kodePeristiwaAll($log['id_peristiwa']) }}</td>
                         <td>{{ $log['tgl_peristiwa'] }}</td>
-                        <td><button type="button" data-log='{{ $log['id'] }}' onclick="hapusLogKeluarga(this)" class="btn btn-sm btn-danger">Hapus Log</button></td>
+                        <td><button type="button" data-log='{{ $log[' id'] }}' onclick="hapusLogKeluarga(this)"
+                                class="btn btn-sm btn-danger">Hapus Log</button></td>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

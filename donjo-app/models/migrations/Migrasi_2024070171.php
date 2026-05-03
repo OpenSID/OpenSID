@@ -45,7 +45,7 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024070171 extends MY_Model
+class Migrasi_2024070171
 {
     use Migrator;
 
@@ -62,28 +62,48 @@ class Migrasi_2024070171 extends MY_Model
         (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
     }
 
-    protected function migrasi_2024051253()
+    public function migrasi_2024052271()
+    {
+        if (! Schema::hasColumn('tweb_desa_pamong', 'status_pejabat')) {
+            Schema::table('tweb_desa_pamong', static function (Blueprint $table) {
+                $table->tinyInteger('status_pejabat')->default(0);
+            });
+        }
+
+        $this->createSetting([
+            'judul'      => 'Sebutan PJ Kepala Desa',
+            'key'        => 'sebutan_pj_kepala_desa',
+            'value'      => 'Pj.',
+            'keterangan' => 'Pengganti sebutan PJ Kepala Desa',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'Pemerintah Desa',
+        ]);
+    }
+
+    public function migrasi_2024051253()
     {
         Schema::table('alias_kodeisian', static function (Blueprint $table) {
             $table->string('judul', 20)->change();
         });
     }
 
-    protected function migrasi_2024060152()
+    public function migrasi_2024060152()
     {
         Modul::where('slug', 'pengaturan-analisis')->update(['url' => 'setting_analisis']);
         Modul::where('slug', 'pengaturan-web')->update(['url' => 'setting_web']);
         Modul::where('slug', 'pengaturan-layanan-mandiri')->update(['url' => 'setting_mandiri']);
     }
 
-    protected function migrasi_2024061151()
+    public function migrasi_2024061151()
     {
         DB::table('produk')->where('status', 2)->update(['status' => 0]);
         DB::table('produk_kategori')->where('status', 2)->update(['status' => 0]);
         DB::table('pelapak')->where('status', 2)->update(['status' => 0]);
     }
 
-    protected function migrasi_2024062051()
+    public function migrasi_2024062051()
     {
         if (Schema::hasTable('keuangan_ta_jurnal_umum_rinci')) {
             if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
@@ -102,32 +122,7 @@ class Migrasi_2024070171 extends MY_Model
         }
     }
 
-    public function migrasi_2024052271()
-    {
-        if (! $this->db->field_exists('status_pejabat', 'tweb_desa_pamong')) {
-            $this->dbforge->add_column('tweb_desa_pamong', [
-                'status_pejabat' => [
-                    'type'       => 'TINYINT',
-                    'constraint' => 4,
-                    'null'       => false,
-                    'default'    => 0,
-                ],
-            ]);
-        }
-
-        $this->createSetting([
-            'judul'      => 'Sebutan PJ Kepala Desa',
-            'key'        => 'sebutan_pj_kepala_desa',
-            'value'      => 'Pj.',
-            'keterangan' => 'Pengganti sebutan PJ Kepala Desa',
-            'jenis'      => 'text',
-            'option'     => null,
-            'attribute'  => null,
-            'kategori'   => 'Pemerintah Desa',
-        ]);
-    }
-
-    protected function migrasi_2024061471()
+    public function migrasi_2024061471()
     {
         $perbaris = 0;
 
@@ -178,7 +173,7 @@ class Migrasi_2024070171 extends MY_Model
                 'level'      => 1,
                 'hidden'     => 0,
                 'ikon_kecil' => 'fa-clone',
-                'parent'     => $this->db->get_where('setting_modul', ['config_id' => identitas('id'), 'slug' => 'admin-web'])->row()->id,
+                'parent'     => DB::table('setting_modul')->where('config_id', identitas('id'))->where('slug', 'admin-web')->first()->id,
             ]);
         }
 
@@ -194,7 +189,7 @@ class Migrasi_2024070171 extends MY_Model
         ]);
     }
 
-    protected function migrasi_2024062851()
+    public function migrasi_2024062851()
     {
         $this->createSetting([
             'judul'      => 'Sumber Penduduk Berulang Global',

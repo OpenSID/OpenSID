@@ -62,6 +62,9 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::post('data-kesehatan/scorecard', 'Kesehatan@scorecard')->name('fweb.kesehatan.scorecard');
     Route::get('data-kesehatan/{slug?}', 'Kesehatan@detail')->name('fweb.kesehatan.detail');
 
+    // vaksinasi
+    Route::get('/data-vaksinasi', 'Vaksin@index')->name('fweb.vaksinasi');
+
     // Kelompok
     Route::get('/data-kelompok/{slug?}', 'Kelompok@detail')->name('fweb.kelompok.detail');
 

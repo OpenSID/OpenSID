@@ -289,6 +289,20 @@ if (! function_exists('dispatch')) {
             }
 
             /**
+             * Handle the object's destruction.
+             *
+             * @return void
+             */
+            public function __destruct()
+            {
+                if (! $this->shouldDispatch()) {
+                    return;
+                }
+
+                app(Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
+            }
+
+            /**
              * Determine if the job should be dispatched.
              */
             protected function shouldDispatch(): bool
@@ -309,20 +323,6 @@ if (! function_exists('dispatch')) {
                     $key = 'laravel_unique_job:' . get_class($this->job) . $uniqueId,
                     $this->job->uniqueFor ?? 0
                 )->get();
-            }
-
-            /**
-             * Handle the object's destruction.
-             *
-             * @return void
-             */
-            public function __destruct()
-            {
-                if (! $this->shouldDispatch()) {
-                    return;
-                }
-
-                app(Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
             }
         };
     }

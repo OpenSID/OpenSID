@@ -76,7 +76,7 @@ class ModuleCommand extends Command
     {
         $this->info('Module:');
         $modules = collect(File::directories(base_path('Modules')))
-            ->map(static fn ($path) => basename($path))
+            ->map(static fn ($path): string => basename((string) $path))
             ->diff(MODUL_BAWAAN)
             ->values()
             ->mapWithKeys(static fn ($module, $index) => [$index + 1 => $module]);

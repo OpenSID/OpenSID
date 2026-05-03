@@ -37,7 +37,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="referensi">Hubungkan Dengan Data
-                                        {{ App\Enums\AnalisisRefSubjekEnum::valueOf($analisis_master['subjek_tipe']) }}</label>
+                                        {{ Modules\Analisis\Enums\AnalisisRefSubjekEnum::valueOf($analisis_master['subjek_tipe']) }}</label>
                                     <div class="col-sm-5">
                                         <select class="form-control select2" id="referensi" name="referensi"
                                             {{ $disabled }}>
@@ -45,7 +45,7 @@
                                             @foreach ($data_tabel as $referensi => $data)
                                                 <option value="{{ $referensi }}" @selected($analisis_indikator['referensi'] == $referensi)
                                                     data-tipe="{{ $data['tipe'] ?? 4 }}">
-                                                    {{ App\Enums\AnalisisRefSubjekEnum::valueOf($analisis_master['subjek_tipe']) . ' : ' . $data['judul'] }}
+                                                    {{ Modules\Analisis\Enums\AnalisisRefSubjekEnum::valueOf($analisis_master['subjek_tipe']) . ' : ' . $data['judul'] }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -57,27 +57,27 @@
                                     <label class="col-sm-3 control-label" for="id_tipe">Tipe Pertanyaan</label>
                                     <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
                                         <label id="sx3" {{ $disabled }}
-                                            class="{{ $disabled }} tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($analisis_indikator['id_tipe'] == Modules\Analisis\Enums\TipePertanyaanEnum::PILIHAN_TUNGGAL || $analisis_indikator['id_tipe'] == null)">
+                                            class="{{ $disabled }} tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($analisis_indikator['id_tipe'] == Modules\Analisis\Enums\AnalisisTipeIndikatorEnum::PILIHAN_TUNGGAL || $analisis_indikator['id_tipe'] == null)">
                                             <input id="group3" type="radio" name="id_tipe" class="form-check-input"
                                                 type="radio" value="1" onclick="{{ $analisis_indikator['id_tipe'] }}"
                                                 autocomplete="off">Pilihan (Tunggal)
                                         </label>
                                         <label id="sx2" {{ $disabled }}
-                                            class="{{ $disabled }} tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($analisis_indikator['id_tipe'] == Modules\Analisis\Enums\TipePertanyaanEnum::PILIHAN_GANDA)">
+                                            class="{{ $disabled }} tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($analisis_indikator['id_tipe'] == Modules\Analisis\Enums\AnalisisTipeIndikatorEnum::PILIHAN_GANDA)">
                                             <input id="group2" type="radio" name="id_tipe" class="form-check-input"
                                                 type="radio" value="2"
                                                 onclick="{{ $analisis_indikator['id_tipe'] }}" autocomplete="off">Pilihan
                                             (Ganda)
                                         </label>
                                         <label id="sx1" {{ $disabled }}
-                                            class="{{ $disabled }} tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($analisis_indikator['id_tipe'] == Modules\Analisis\Enums\TipePertanyaanEnum::ISIAN_JUMLAH)">
+                                            class="{{ $disabled }} tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($analisis_indikator['id_tipe'] == Modules\Analisis\Enums\AnalisisTipeIndikatorEnum::ISIAN_JUMLAH)">
                                             <input id="group1" type="radio" name="id_tipe" class="form-check-input"
                                                 type="radio" value="3"
                                                 onclick="{{ $analisis_indikator['id_tipe'] }}" autocomplete="off">Isian
                                             Jumlah (Kuantitatif)
                                         </label>
                                         <label id="sx4" {{ $disabled }}
-                                            class="{{ $disabled }} tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($analisis_indikator['id_tipe'] == Modules\Analisis\Enums\TipePertanyaanEnum::ISIAN_TEKS)">
+                                            class="{{ $disabled }} tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($analisis_indikator['id_tipe'] == Modules\Analisis\Enums\AnalisisTipeIndikatorEnum::ISIAN_TEKS)">
                                             <input id="group4" type="radio" name="id_tipe" class="form-check-input"
                                                 type="radio" value="4"
                                                 onclick="{{ $analisis_indikator['id_tipe'] }}" autocomplete="off">Isian
@@ -119,7 +119,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 delik">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="bobot">Bobot</label>
                                     <div class="col-sm-2">
@@ -129,7 +129,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 delik">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="act_analisis">Aksi Analisis</label>
                                     <div class="btn-group col-sm-7" data-toggle="buttons">
@@ -198,16 +198,9 @@
 @endpush
 @push('scripts')
     <script type="text/javascript">
-        function tampil_delik(tipe) {
-            (tipe == '1' || tipe == null) ? $('.delik').show(): $('.delik').hide();
-        }
-
         $(function() {
             checked("{{ $analisis_indikator['id_tipe'] }}");
-            tampil_delik($('input[name=id_tipe]:checked').val());
-            $('input[name="id_tipe"]').change(function() {
-                tampil_delik($(this).val());
-            });
+            $('input[name="id_tipe"]').change();
 
             $("#referensi").change(function() {
 
@@ -269,9 +262,6 @@
 
             // --- Set Pertanyaan teks ---
             $("#pertanyaan").val(initialForm.pertanyaan);
-
-            // --- Pastikan .delik sesuai tipe ---
-            tampil_delik(initialForm.tipe);
         }
 
         function checked(id_tipe) {
@@ -290,8 +280,6 @@
                 $("#sx3").addClass('active');
                 $("#group3").prop("checked", true);
             }
-
-            tampil_delik($('input[name=id_tipe]:checked').val());
         }
     </script>
 @endpush

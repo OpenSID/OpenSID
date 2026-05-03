@@ -35,17 +35,16 @@
  *
  */
 
-use App\Enums\AnalisisRefSubjekEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Models\Pamong;
 use App\Models\Wilayah;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Libraries\Analisis;
 use Modules\Analisis\Models\AnalisisKlasifikasi;
 use Modules\Analisis\Models\AnalisisMaster;
-use Modules\Analisis\Models\AnalisisParameter;
 use Modules\Analisis\Models\AnalisisPeriode;
 use Modules\Analisis\Models\AnalisisResponHasil;
 
@@ -56,9 +55,10 @@ class AnalisisLaporanController extends AdminModulController
     public $moduleName    = 'Analisis';
     public $modul_ini     = 'analisis';
     public $sub_modul_ini = 'analisis-laporan';
-    private $selectedMenu = 'Laporan Analisis';
     protected $periodeAktif;
     protected $analisisMaster;
+    private $selectedMenu = 'Laporan Analisis';
+    private $filters      = [];
 
     public function __construct()
     {
@@ -86,6 +86,7 @@ class AnalisisLaporanController extends AdminModulController
             'analisis_periode' => $this->periodeAktif->id,
             'wilayah'          => Wilayah::treeAccess(),
             'namaPeriode'      => $this->periodeAktif->nama,
+            'filters'          => $this->filters,
         ];
 
         return view('analisis::laporan.index', $data);
@@ -115,45 +116,6 @@ class AnalisisLaporanController extends AdminModulController
         }
 
         return show_404();
-    }
-
-    private function sumberData()
-    {
-        $dusun       = $this->input->get('dusun') ?? null;
-        $rw          = $this->input->get('rw') ?? null;
-        $rt          = $this->input->get('rt') ?? null;
-        $klasifikasi = $this->input->get('klasifikasi') ?? null;
-
-        $idCluster = $rt ? [$rt] : [];
-
-        if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun, $namaRw] = explode('__', $rw);
-            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        if (empty($idCluster) && ! empty($dusun)) {
-            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        $analisisMaster   = $this->analisisMaster;
-        $analisSumberData = Analisis::sumberData($analisisMaster->subjek_tipe, $idCluster);
-        $utama            = $analisSumberData['utama'];
-        $sumber           = $analisSumberData['sumber'];
-        $pembagi          = (float) $analisisMaster->pembagi;
-
-        $sumber->selectRaw("CAST((analisis_respon_hasil.akumulasi/{$pembagi}) AS decimal(8,3)) AS nilai, analisis_klasifikasi.nama AS klasifikasi")
-            ->leftJoin('analisis_respon_hasil', $utama . '.id', '=', 'analisis_respon_hasil.id_subjek')
-            ->leftJoin('analisis_klasifikasi', static function ($join) use ($pembagi, $analisisMaster) {
-                $join->on(DB::raw("analisis_respon_hasil.akumulasi / {$pembagi}"), '>=', 'analisis_klasifikasi.minval')
-                    ->on(DB::raw("analisis_respon_hasil.akumulasi / {$pembagi}"), '<=', 'analisis_klasifikasi.maxval')
-                    ->on('analisis_klasifikasi.id_master', '=', DB::raw($analisisMaster->id));
-            })
-            ->where('analisis_respon_hasil.id_periode', $this->periodeAktif->id);
-        if ($klasifikasi) {
-            $sumber->where('analisis_klasifikasi.id', $klasifikasi);
-        }
-
-        return $sumber;
     }
 
     public function form($master, $idSubjek)
@@ -233,7 +195,6 @@ class AnalisisLaporanController extends AdminModulController
 
     public function ajaxMultiJawab($master)
     {
-        $data['jawab']       = session('jawab') ?? '';
         $data['main']        = (new Analisis())->multiJawab($master);
         $data['form_action'] = ci_route("analisis_laporan.{$master}.multi_jawab_proses");
 
@@ -242,21 +203,70 @@ class AnalisisLaporanController extends AdminModulController
 
     public function multiJawabProses($master)
     {
-        if (isset($_POST['id_cb'])) {
-            unset($_SESSION['jawab'], $_SESSION['jmkf']);
+        $this->filters = $this->input->post('filters') ?? [];
 
-            $id_cb = $_POST['id_cb'];
-            $cb    = '';
-            if (count($id_cb) > 0) {
-                foreach ($id_cb as $id) {
-                    $cb .= $id . ',';
-                }
-            }
-            set_session('jawab', $cb . '7777777');
-            $jawab = session('jawab');
-            set_session('jmkf', AnalisisParameter::selectRaw('DISTINCT(id_indikator) AS id_jmkf')->whereRaw('id in (' . $jawab . ')')->count());
+        $this->index($master);
+    }
+
+    private function sumberData()
+    {
+        $dusun       = $this->input->get('dusun') ?? null;
+        $rw          = $this->input->get('rw') ?? null;
+        $rt          = $this->input->get('rt') ?? null;
+        $klasifikasi = $this->input->get('klasifikasi') ?? null;
+        $filters     = $this->input->get('filters') ?? null;
+
+        $idCluster = $rt ? [$rt] : [];
+
+        if (empty($idCluster) && ! empty($rw)) {
+            [$namaDusun, $namaRw] = explode('__', $rw);
+            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        redirect(ci_route("analisis_laporan.{$master}"));
+        if (empty($idCluster) && ! empty($dusun)) {
+            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        $analisisMaster   = $this->analisisMaster;
+        $analisSumberData = Analisis::sumberData($analisisMaster->subjek_tipe, $idCluster);
+        $utama            = $analisSumberData['utama'];
+        $sumber           = $analisSumberData['sumber'];
+        $pembagi          = (float) $analisisMaster->pembagi;
+
+        $subjekTipe = match ($this->analisisMaster->subjek_tipe) {
+            AnalisisRefSubjekEnum::PENDUDUK     => 'penduduk_id',
+            AnalisisRefSubjekEnum::KELUARGA     => 'keluarga_id',
+            AnalisisRefSubjekEnum::RUMAH_TANGGA => 'rtm_id',
+            AnalisisRefSubjekEnum::KELOMPOK     => 'kelompok_id',
+            AnalisisRefSubjekEnum::DESA         => 'desa_id',
+            AnalisisRefSubjekEnum::DUSUN        => 'dusun_id',
+            AnalisisRefSubjekEnum::RW           => 'rw_id',
+            AnalisisRefSubjekEnum::RT           => 'rt_id',
+        };
+
+        $sumber->selectRaw("CAST((analisis_respon_hasil.akumulasi/{$pembagi}) AS decimal(8,3)) AS nilai, analisis_klasifikasi.nama AS klasifikasi")
+            ->leftJoin('analisis_respon_hasil', $utama . '.id', '=', 'analisis_respon_hasil.id_subjek')
+            ->leftJoin('analisis_klasifikasi', static function ($join) use ($pembagi, $analisisMaster) {
+                $join->on(DB::raw("analisis_respon_hasil.akumulasi / {$pembagi}"), '>=', 'analisis_klasifikasi.minval')
+                    ->on(DB::raw("analisis_respon_hasil.akumulasi / {$pembagi}"), '<=', 'analisis_klasifikasi.maxval')
+                    ->on('analisis_klasifikasi.id_master', '=', DB::raw($analisisMaster->id));
+            })
+            ->where('analisis_respon_hasil.id_periode', $this->periodeAktif->id)
+            ->when($klasifikasi, static function ($query, $klasifikasi) {
+                $query->where('analisis_klasifikasi.id', $klasifikasi);
+            })
+            ->when($filters, function ($query, $filters) use ($subjekTipe, $utama) {
+                $query->when(isset($filters['id_jawaban']), function ($query) use ($filters, $subjekTipe, $utama) {
+                    $query->whereExists(function ($subQuery) use ($filters, $subjekTipe, $utama) {
+                        $subQuery->select(DB::raw('1'))
+                            ->from('analisis_respon')
+                            ->whereRaw("analisis_respon.{$subjekTipe} = {$utama}.id")
+                            ->where('analisis_respon.id_periode', $this->periodeAktif->id)
+                            ->whereIn('analisis_respon.id_parameter', $filters['id_jawaban']);
+                    });
+                });
+            });
+
+        return $sumber;
     }
 }

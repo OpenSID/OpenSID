@@ -271,6 +271,15 @@ class Theme extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
+    public function pindai(): void
+    {
+        isCan('u');
+
+        theme_scan();
+
+        redirect_with('success', 'Berhasil Memindai Tema');
+    }
+
     protected function unggah_tema()
     {
         $this->load->library('Upload');
@@ -331,15 +340,6 @@ class Theme extends Admin_Controller
             'status' => true,
             'data'   => 'Berhasil Unggah Tema',
         ];
-    }
-
-    public function pindai(): void
-    {
-        isCan('u');
-
-        theme_scan();
-
-        redirect_with('success', 'Berhasil Memindai Tema');
     }
 
     protected function validateOpsi($opsi, $tema)

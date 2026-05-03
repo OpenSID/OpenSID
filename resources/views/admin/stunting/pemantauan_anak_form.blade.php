@@ -139,6 +139,12 @@
                             />
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Keterangan</label>
+                        <div class="col-sm-9">
+                            <textarea name="keterangan" class="form-control input-sm" rows="5" placeholder="Masukkan keterangan">{{ $anak->keterangan }}</textarea>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">

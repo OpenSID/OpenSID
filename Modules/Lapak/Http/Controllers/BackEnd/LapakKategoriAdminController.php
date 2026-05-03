@@ -110,22 +110,40 @@ class LapakKategoriAdminController extends AdminModulController
         return view('lapak::backend.kategori.form', $data);
     }
 
-    public function kategoriInsert(): void
+    public function kategoriInsert()
     {
         isCan('u');
 
-        (new ProdukKategori())->kategoriInsert(request()->post());
+        $kategoriModel = new ProdukKategori();
+        $validator     = $kategoriModel->kategoriValidasi(request()->all());
 
-        redirect_with('success', 'Berhasil menambah data', 'lapak_admin/kategori');
+        if ($validator->fails()) {
+            return json(['success' => false, 'errors' => $validator->errors()->toArray()]);
+        }
+
+        $kategoriModel->create($validator->validated());
+
+        set_session('success', 'Berhasil menambah data');
+
+        return json(['success' => true, 'redirect' => ci_route('lapak_admin.kategori')]);
     }
 
-    public function kategoriUpdate($id = ''): void
+    public function kategoriUpdate($id = '')
     {
         isCan('u');
 
-        (new ProdukKategori())->kategoriUpdate($id, request()->post());
+        $kategoriModel = new ProdukKategori();
+        $validator     = $kategoriModel->kategoriValidasi(request()->all(), $id);
 
-        redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/kategori');
+        if ($validator->fails()) {
+            return json(['success' => false, 'errors' => $validator->errors()->toArray()]);
+        }
+
+        $kategoriModel->where('id', $id)->update($validator->validated());
+
+        set_session('success', 'Berhasil mengubah data');
+
+        return json(['success' => true, 'redirect' => ci_route('lapak_admin.kategori')]);
     }
 
     public function kategoriDelete($id): void

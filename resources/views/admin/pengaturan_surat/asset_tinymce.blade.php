@@ -112,10 +112,15 @@ src: url($url) format('truetype');
                 font_family_formats: `Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black; Bookman Old Style=bookman old style; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Tahoma=tahoma,arial,helvetica,sans-serif; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva;${fonts}`,
                 setup: function(ed) {
                     ed.on('init', function() {
-                        setTimeout(function() {
-                            ed.execCommand('fontSize', false, '12pt');
-                        }, 500);
+                        // Terapkan ukuran font default ke seluruh isi editor
+                        ed.getBody().style.fontSize = '12pt';
+                        ed.getBody().style.fontFamily = "{{ setting('font_surat') }}";
+
+                        // Sinkronkan tampilan toolbar supaya juga menampilkan "12pt"
+                        const toolbarFontSize = ed.getContainer().querySelector('.tox-fontsize-input');
+                        if (toolbarFontSize) toolbarFontSize.value = '12pt';
                     });
+
                     ed.on('click', function(e) {
                         let target = e.target;
                         if (target.nodeName !== 'BODY') {
@@ -249,9 +254,13 @@ src: url($url) format('truetype');
                 font_family_formats: `Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black; Bookman Old Style=bookman old style; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Tahoma=tahoma,arial,helvetica,sans-serif; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva;${fonts}`,
                 setup: function(ed) {
                     ed.on('init', function() {
-                        setTimeout(function() {
-                            ed.execCommand('fontSize', false, '12pt');
-                        }, 500);
+                        // Terapkan ukuran font default ke seluruh isi editor
+                        ed.getBody().style.fontSize = '12pt';
+                        ed.getBody().style.fontFamily = "{{ setting('font_surat') }}";
+
+                        // Sinkronkan tampilan toolbar supaya juga menampilkan "12pt"
+                        const toolbarFontSize = ed.getContainer().querySelector('.tox-fontsize-input');
+                        if (toolbarFontSize) toolbarFontSize.value = '12pt';
                     });
                     ed.on('BeforeExecCommand', function(e) {
                             if (e.command === 'mcePageBreak') {

@@ -61,6 +61,12 @@
         <div class="form-group">
             <button type="submit" class="btn" @disabled($second)>Masuk</button>
         </div>
+
+        @if (setting('login_otp'))
+            <div class="form-group text-center">
+                <a href="{{ ci_route('siteman.otp.form_login_otp') }}" class="btn" role="button" aria-pressed="true">Masuk dengan OTP</a>
+            </div>
+        @endif
     </form>
 @endsection
 
@@ -120,6 +126,11 @@
             if ($('#countdown').length) {
                 start_countdown();
             }
+
+            // Hapus localStorage untuk timer OTP login setiap kali halaman login utama dimuat.
+            // Ini untuk memastikan timer direset jika pengguna kembali ke halaman ini
+            // setelah gagal OTP atau membatalkan proses.
+            localStorage.removeItem('otpLoginExpiry');
         });
     </script>
 @endpush

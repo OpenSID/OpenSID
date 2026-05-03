@@ -41,6 +41,7 @@ use App\Models\UserGrup;
 use App\Models\Wilayah;
 use App\Traits\UploadFotoUser;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -137,7 +138,10 @@ class Man_user extends Admin_Controller
             $data['action']      = 'Tambah';
         }
 
-        $data['wilayah']    = Wilayah::tree();
+        if (Schema::hasColumn('user', 'batasi_wilayah') && Schema::hasColumn('user', 'akses_wilayah')) {
+            $data['wilayah'] = Wilayah::tree();
+        }
+
         $data['user_group'] = UserGrup::status()->when(super_admin() == $id, static function ($query): void {
                                             $query->where('slug', UserGrup::ADMINISTRATOR);
                                         })->get(['id', 'nama']);
@@ -174,12 +178,6 @@ class Man_user extends Admin_Controller
 
             redirect_with('success', 'Berhasil Tambah Data');
         }
-    }
-
-    private function set_form_validation(): void
-    {
-        $this->form_validation->set_rules('password', 'Kata Sandi Baru', 'required|callback_syarat_sandi');
-        $this->form_validation->set_message('syarat_sandi', 'Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil');
     }
 
     // Kata sandi harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil
@@ -308,5 +306,11 @@ class Man_user extends Admin_Controller
         }
 
         return $data;
+    }
+
+    private function set_form_validation(): void
+    {
+        $this->form_validation->set_rules('password', 'Kata Sandi Baru', 'required|callback_syarat_sandi');
+        $this->form_validation->set_message('syarat_sandi', 'Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil');
     }
 }

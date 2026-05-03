@@ -37,7 +37,9 @@
 
 namespace App\Models;
 
+use App\Enums\AktifEnum;
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -46,23 +48,24 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Polygon extends BaseModel
 {
     use ConfigId;
+    use StatusTrait;
 
-    public const LOCK        = 1;
-    public const UNLOCK      = 2;
     public const POLYGON     = 0;
     public const SUB_POLYGON = 2;
 
     /**
      * {@inheritDoc}
      */
-    protected $table = 'polygon';
+    public $incrementing = false;
+
+    public $timestamps      = false;
+    public $statusColumName = 'enabled';
 
     /**
      * {@inheritDoc}
      */
-    public $incrementing = false;
+    protected $table = 'polygon';
 
-    public $timestamps  = false;
     protected $fillable = [
         'config_id',
         'nama',
@@ -85,6 +88,19 @@ class Polygon extends BaseModel
         return $this->attributes['tipe'] == 0 ? null : $this->attributes['parrent'];
     }
 
+    /**
+     * Get the parent that owns the Polygon
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Polygon::class, 'parrent', 'id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Polygon::class, 'parrent', 'id')->whereTipe(self::SUB_POLYGON);
+    }
+
     protected function scopeRoot($query)
     {
         return $query->whereTipe(self::POLYGON);
@@ -102,19 +118,6 @@ class Polygon extends BaseModel
 
     protected function scopeActive($query)
     {
-        return $query->whereEnabled(self::UNLOCK);
-    }
-
-    /**
-     * Get the parent that owns the Polygon
-     */
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(Polygon::class, 'parrent', 'id');
-    }
-
-    public function children(): HasMany
-    {
-        return $this->hasMany(Polygon::class, 'parrent', 'id')->whereTipe(self::SUB_POLYGON);
+        return $query->whereEnabled(AktifEnum::AKTIF);
     }
 }

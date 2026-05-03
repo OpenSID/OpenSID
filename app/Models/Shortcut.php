@@ -58,6 +58,14 @@ class Shortcut extends BaseModel
 
     public const ACTIVE   = 1;
     public const INACTIVE = 0;
+
+    /**
+     * {@inheritDoc}
+     */
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => true,
+    ];
     // public const is_shortcut = true;
 
     /**
@@ -79,23 +87,6 @@ class Shortcut extends BaseModel
         'akses',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
-    public $sortable = [
-        'order_column_name'  => 'urut',
-        'sort_when_creating' => true,
-    ];
-
-    public function scopeStatus($query, $status = null)
-    {
-        if ($status) {
-            return $query->where('status', $status);
-        }
-
-        return $query;
-    }
-
     public static function listIcon(): ?array
     {
         $list_icon = [];
@@ -110,44 +101,6 @@ class Shortcut extends BaseModel
         }
 
         return null;
-    }
-
-    public function getModuleData($key)
-    {
-        $raw_query = $this->attributes['raw_query'];
-
-        return static::querys()['modules'][$raw_query][$key] ?? null;
-    }
-
-    public function getLinkAttribute()
-    {
-        return $this->getModuleData('link');
-    }
-
-    public function getAksesAttribute()
-    {
-        return $this->getModuleData('akses');
-    }
-
-    public function getCountAttribute()
-    {
-        try {
-            return $this->getModuleData('jumlah') ?? 0;
-        } catch (Exception $e) {
-            // Log the error for debugging
-            log_message('error', "Query : {$this->attributes['raw_query']}. Error : " . $e->getMessage());
-
-            // Return a default value on error
-            return 0;
-        }
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(static function ($model): void {
-            $model->urut = self::max('urut') + 1;
-        });
     }
 
     public static function querys()
@@ -338,10 +291,22 @@ class Shortcut extends BaseModel
                     ],
 
                     // Layanan Mandiri
-                    'Verifikasi Layanan Mandiri' => [
-                        'link'   => 'mandiri',
+                    'Verifikasi Layanan Mandiri (Semua)' => [
+                        'link'   => 'mandiri?status=',
                         'akses'  => 'pendaftar-layanan-mandiri',
-                        'jumlah' => PendudukMandiri::status()->count(),
+                        'jumlah' => PendudukMandiri::count(),
+                    ],
+
+                    'Verifikasi Layanan Mandiri (Aktif)' => [
+                        'link'   => 'mandiri?status=1',
+                        'akses'  => 'pendaftar-layanan-mandiri',
+                        'jumlah' => PendudukMandiri::active()->count(),
+                    ],
+
+                    'Verifikasi Layanan Mandiri (Tidak Aktif)' => [
+                        'link'   => 'mandiri?status=0',
+                        'akses'  => 'pendaftar-layanan-mandiri',
+                        'jumlah' => PendudukMandiri::inactive()->count(),
                     ],
 
                     // Bantuan
@@ -467,5 +432,52 @@ class Shortcut extends BaseModel
                 ])->merge($shorcutModules),
             ];
         });
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(static function ($model): void {
+            $model->urut = self::max('urut') + 1;
+        });
+    }
+
+    public function scopeStatus($query, $status = null)
+    {
+        if ($status) {
+            return $query->where('status', $status);
+        }
+
+        return $query;
+    }
+
+    public function getModuleData($key)
+    {
+        $raw_query = $this->attributes['raw_query'];
+
+        return static::querys()['modules'][$raw_query][$key] ?? null;
+    }
+
+    public function getLinkAttribute()
+    {
+        return $this->getModuleData('link');
+    }
+
+    public function getAksesAttribute()
+    {
+        return $this->getModuleData('akses');
+    }
+
+    public function getCountAttribute()
+    {
+        try {
+            return $this->getModuleData('jumlah') ?? 0;
+        } catch (Exception $e) {
+            // Log the error for debugging
+            log_message('error', "Query : {$this->attributes['raw_query']}. Error : " . $e->getMessage());
+
+            // Return a default value on error
+            return 0;
+        }
     }
 }

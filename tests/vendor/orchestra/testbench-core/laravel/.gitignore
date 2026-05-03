@@ -1,6 +1,0 @@
-.env
-.env.*
-!.env.example
-
-testbench.yaml
-testbench.yaml.backup

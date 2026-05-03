@@ -133,42 +133,9 @@ class Covid19_model extends MY_Model
         $query = $this->db->get();
         $data  = $query->row_array();
 
-        $this->load->model('surat_model');
-        $data['alamat_wilayah'] = $this->surat_model->get_alamat_wilayah($data);
+        $data['alamat_wilayah'] = format_alamat_wilayah($data);
 
         return $data;
-    }
-
-    private function get_pemudik($id = null, $limit = null)
-    {
-        $this->config_id('s');
-
-        $this->db->select('s.*, o.nik as terdata_id, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun');
-        $this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
-		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
-        $this->db->select('(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS `alamat`');
-        $this->db->select('cv.id AS covid_id, cv.nama AS status_covid');
-        $this->db->from('covid19_pemudik s');
-        $this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
-        $this->db->join('tweb_keluarga k', 'k.id = o.id_kk', 'left');
-        $this->db->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left');
-        $this->db->join('ref_status_covid cv', 'cv.id = s.status_covid', 'left');
-
-        if (isset($id)) {
-            $this->db->where('s.id', $id);
-        }
-
-        if ($is_pantau_covid_page) {
-            $this->db->where('s.is_wajib_pantau', '1');
-        }
-
-        if (isset($limit)) {
-            $this->db->limit($limit['per_page'], $limit['offset']);
-        }
-
-        $this->db->order_by('s.tanggal_datang', 'DESC');
-
-        return $this->db->get();
     }
 
     public function get_pemudik_by_id($id)
@@ -240,30 +207,6 @@ class Covid19_model extends MY_Model
         return $this->db->insert('covid19_pemudik', $data);
     }
 
-    private function sterilkan($post)
-    {
-        $tujuan_mudik = unserialize_flip(TUJUAN_MUDIK);
-
-        $data = [
-            'pantau'            => (int) $post['pantau'],
-            'status_covid'      => (int) $post['status_covid'],
-            'is_wajib_pantau'   => (int) $post['wajib_pantau'],
-            'keluhan_kesehatan' => alfanumerik_spasi($post['keluhan']),
-            'keterangan'        => alfanumerik_spasi($post['keterangan']),
-        ];
-
-        if ($data['pantau'] == 1) {
-            $data['tanggal_datang'] = $post['tanggal_tiba'];
-            $data['asal_mudik']     = alfanumerik_spasi($post['asal_pemudik']);
-            $data['durasi_mudik']   = bilangan($post['durasi_pemudik']);
-            $data['tujuan_mudik']   = $tujuan_mudik[$post['tujuan_pemudik']];
-            $data['no_hp']          = bilangan_spasi($post['hp_pemudik']);
-            $data['email']          = strip_tags($post['email_pemudik']);
-        }
-
-        return $data;
-    }
-
     public function update_pemudik_by_id($post, $id): void
     {
         $data = $this->sterilkan($post);
@@ -281,39 +224,6 @@ class Covid19_model extends MY_Model
         //delete warga pemudik
         $this->db->where('id', $id);
         $this->db->delete('covid19_pemudik');
-    }
-    // TABEL PEMUDIK END
-
-    // TABEL PEMANTAUAN
-    private function get_pantau_pemudik($filter_tgl = null, $filter_nik = null, ?array $limit = null)
-    {
-        $this->config_id('p');
-
-        $this->db->select('p.*, o.nik, o.nama, o.sex, s.tanggal_datang');
-        $this->db->select('DATEDIFF(p.tanggal_jam, s.tanggal_datang) AS date_diff');
-        $this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
-		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
-        $this->db->select('cv.id AS covid_id, cv.nama AS status_covid');
-        $this->db->from('covid19_pantau p');
-        $this->db->join('covid19_pemudik s', 's.id = p.id_pemudik', 'left');
-        $this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
-        $this->db->join('ref_status_covid cv', 'cv.id = p.status_covid', 'left');
-        $this->db->order_by('o.nik', 'ASC');
-        $this->db->order_by('p.tanggal_jam', 'DESC');
-
-        if (isset($filter_tgl) && $filter_tgl != '0') {
-            $this->db->where('DATE(p.tanggal_jam)', $filter_tgl);
-        }
-
-        if (isset($filter_nik) && $filter_nik != '0') {
-            $this->db->where('p.id_pemudik', $filter_nik);
-        }
-
-        if (isset($limit)) {
-            $this->db->limit($limit['per_page'], $limit['offset']);
-        }
-
-        return $this->db->get();
     }
 
     public function get_list_pantau_pemudik($page, $filter_tgl = null, $filter_nik = null)
@@ -396,5 +306,94 @@ class Covid19_model extends MY_Model
 
         $this->db->where('id', $id);
         $this->db->delete('covid19_pantau');
+    }
+
+    private function get_pemudik($id = null, $limit = null)
+    {
+        $this->config_id('s');
+
+        $this->db->select('s.*, o.nik as terdata_id, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun');
+        $this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
+		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
+        $this->db->select('(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS `alamat`');
+        $this->db->select('cv.id AS covid_id, cv.nama AS status_covid');
+        $this->db->from('covid19_pemudik s');
+        $this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
+        $this->db->join('tweb_keluarga k', 'k.id = o.id_kk', 'left');
+        $this->db->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left');
+        $this->db->join('ref_status_covid cv', 'cv.id = s.status_covid', 'left');
+
+        if (isset($id)) {
+            $this->db->where('s.id', $id);
+        }
+
+        if ($is_pantau_covid_page) {
+            $this->db->where('s.is_wajib_pantau', '1');
+        }
+
+        if (isset($limit)) {
+            $this->db->limit($limit['per_page'], $limit['offset']);
+        }
+
+        $this->db->order_by('s.tanggal_datang', 'DESC');
+
+        return $this->db->get();
+    }
+
+    private function sterilkan($post)
+    {
+        $tujuan_mudik = unserialize_flip(TUJUAN_MUDIK);
+
+        $data = [
+            'pantau'            => (int) $post['pantau'],
+            'status_covid'      => (int) $post['status_covid'],
+            'is_wajib_pantau'   => (int) $post['wajib_pantau'],
+            'keluhan_kesehatan' => alfanumerik_spasi($post['keluhan']),
+            'keterangan'        => alfanumerik_spasi($post['keterangan']),
+        ];
+
+        if ($data['pantau'] == 1) {
+            $data['tanggal_datang'] = $post['tanggal_tiba'];
+            $data['asal_mudik']     = alfanumerik_spasi($post['asal_pemudik']);
+            $data['durasi_mudik']   = bilangan($post['durasi_pemudik']);
+            $data['tujuan_mudik']   = $tujuan_mudik[$post['tujuan_pemudik']];
+            $data['no_hp']          = bilangan_spasi($post['hp_pemudik']);
+            $data['email']          = strip_tags($post['email_pemudik']);
+        }
+
+        return $data;
+    }
+    // TABEL PEMUDIK END
+
+    // TABEL PEMANTAUAN
+    private function get_pantau_pemudik($filter_tgl = null, $filter_nik = null, ?array $limit = null)
+    {
+        $this->config_id('p');
+
+        $this->db->select('p.*, o.nik, o.nama, o.sex, s.tanggal_datang');
+        $this->db->select('DATEDIFF(p.tanggal_jam, s.tanggal_datang) AS date_diff');
+        $this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
+		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
+        $this->db->select('cv.id AS covid_id, cv.nama AS status_covid');
+        $this->db->from('covid19_pantau p');
+        $this->db->join('covid19_pemudik s', 's.id = p.id_pemudik', 'left');
+        $this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
+        $this->db->join('ref_status_covid cv', 'cv.id = p.status_covid', 'left');
+        $this->db->order_by('o.nik', 'ASC');
+        $this->db->order_by('p.tanggal_jam', 'DESC');
+
+        if (isset($filter_tgl) && $filter_tgl != '0') {
+            $this->db->where('DATE(p.tanggal_jam)', $filter_tgl);
+        }
+
+        if (isset($filter_nik) && $filter_nik != '0') {
+            $this->db->where('p.id_pemudik', $filter_nik);
+        }
+
+        if (isset($limit)) {
+            $this->db->limit($limit['per_page'], $limit['offset']);
+        }
+
+        return $this->db->get();
     }
 }

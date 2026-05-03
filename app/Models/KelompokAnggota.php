@@ -47,18 +47,18 @@ class KelompokAnggota extends BaseModel
     use ConfigId;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'kelompok_anggota';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'kelompok_anggota';
 
     /**
      * The guarded with the model.
@@ -72,6 +72,43 @@ class KelompokAnggota extends BaseModel
         'alamat_lengkap',
         'nama_penduduk',
     ];
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, bool $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $lokasi   = $model->tipe === 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA;
+            $pathFile = $lokasi . $model->getOriginal($file);
+
+            if (file_exists($pathFile)) {
+                unlink($pathFile);
+            }
+        }
+    }
+
+    public static function listJabatan($id_kelompok = 0, $tipe = 'kelompok')
+    {
+        return self::distinct()
+            ->selectRaw('UPPER(jabatan) as jabatan ')
+            ->whereRaw("jabatan REGEXP '[a-zA-Z]+'")
+            ->where('id_kelompok', $id_kelompok)
+            ->where('tipe', $tipe)
+            ->orderBy('jabatan')
+            ->get()
+            ->toArray();
+    }
 
     /**
      * Scope query untuk tipe kelompok
@@ -95,7 +132,7 @@ class KelompokAnggota extends BaseModel
 
     public function scopeSlugKelompok($query, $slug)
     {
-        return $query->whereHas('kelompok', static function ($query) use ($slug) {
+        return $query->whereHas('kelompok', static function ($query) use ($slug): void {
             $query->where('slug', $slug);
         });
     }
@@ -105,7 +142,7 @@ class KelompokAnggota extends BaseModel
         $sebutanDusun = ucwords((string) setting('sebutan_dusun'));
         $alamat       = "{$this->anggota->wilayah->dusun} RW {$this->anggota->wilayah->rw} RT {$this->anggota->wilayah->rt}";
 
-        return $alamat == ' RW  RT ' ? '' : "{$sebutanDusun} {$alamat}";
+        return $alamat === ' RW  RT ' ? '' : "{$sebutanDusun} {$alamat}";
     }
 
     public function getNamaPendudukAttribute(): string
@@ -185,42 +222,5 @@ class KelompokAnggota extends BaseModel
     public function kelompok()
     {
         return $this->belongsTo(Kelompok::class, 'id_kelompok', 'id');
-    }
-
-    public static function boot(): void
-    {
-        parent::boot();
-
-        static::updating(static function ($model): void {
-            static::deleteFile($model, 'foto');
-        });
-
-        static::deleting(static function ($model): void {
-            static::deleteFile($model, 'foto', true);
-        });
-    }
-
-    public static function deleteFile($model, ?string $file, bool $deleting = false): void
-    {
-        if ($model->isDirty($file) || $deleting) {
-            $lokasi   = $model->tipe === 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA;
-            $pathFile = $lokasi . $model->getOriginal($file);
-
-            if (file_exists($pathFile)) {
-                unlink($pathFile);
-            }
-        }
-    }
-
-    public static function listJabatan($id_kelompok = 0, $tipe = 'kelompok')
-    {
-        return self::distinct()
-            ->selectRaw('UPPER(jabatan) as jabatan ')
-            ->whereRaw("jabatan REGEXP '[a-zA-Z]+'")
-            ->where('id_kelompok', $id_kelompok)
-            ->where('tipe', $tipe)
-            ->orderBy('jabatan')
-            ->get()
-            ->toArray();
     }
 }

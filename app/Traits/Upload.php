@@ -46,106 +46,6 @@ use Spatie\Image\Manipulations;
 
 trait Upload
 {
-    /**
-     * Mengunggah file ke path yang ditentukan dengan konfigurasi yang diberikan.
-     *
-     * @param string       $file        Nama field input file.
-     * @param array        $config      Opsi konfigurasi untuk unggahan.
-     * @param string|null  $redirectUrl URL untuk dialihkan jika terjadi kesalahan (opsional).
-     * @param Closure|null $callback    Fungsi callback yang akan dieksekusi setelah unggahan berhasil (opsional).
-     *
-     * @return array|string|null Mengembalikan nama file yang diunggah jika berhasil, array dengan pesan kesalahan jika gagal, atau null.
-     */
-    protected function upload($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
-    {
-        $isAjax = request()->ajax();
-
-        if (! is_dir($config['upload_path'])) {
-            folder($config['upload_path'], '0755', 'htaccess1');
-        }
-
-        $this->load->library('upload');
-        $this->upload->initialize($config);
-
-        try {
-            $upload = $this->upload->do_upload($file);
-
-            if (! $upload) {
-                if ($isAjax) {
-                    return json(['error' => $this->upload->display_errors()], 400);
-                }
-                redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
-            }
-
-            $uploadData = $this->upload->data();
-
-            if ($callback && $uploadData['file_ext'] !== '.webp') {
-                return $callback($uploadData);
-            }
-
-            if (isset($config['resize'])) {
-                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
-            }
-
-            return $uploadData['file_name'];
-        } catch (Exception $e) {
-            logger()->errror($e);
-
-            if ($isAjax) {
-                return json(['error' => $e->getMessage()], 400);
-            }
-
-            redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
-        }
-
-        return null;
-    }
-
-    protected function uploadAll($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
-    {
-        $isAjax = request()->ajax();
-
-        if (! is_dir($config['upload_path'])) {
-            folder($config['upload_path'], '0755', 'htaccess1');
-        }
-
-        $this->load->library('upload');
-        $this->upload->initialize($config);
-
-        try {
-            $upload = $this->upload->do_upload($file);
-
-            if (! $upload) {
-                if ($isAjax) {
-                    return json(['error' => $this->upload->display_errors()], 400);
-                }
-                redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
-            }
-
-            $uploadData = $this->upload->data();
-
-            if ($callback) {
-                return $callback($uploadData);
-            }
-
-            if (isset($config['resize'])) {
-                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
-            }
-
-            return $uploadData['file_name'];
-        } catch (Exception $e) {
-            logger()->errror($e);
-
-            if ($isAjax) {
-                return json(['error' => $e->getMessage()], 400);
-            }
-
-            redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
-        }
-
-        return null;
-    }
-
     public function uploadPicture($gambar = '', $lokasi = '')
     {
         return $this->uploadAll(
@@ -287,53 +187,80 @@ trait Upload
     /**
      * Mengunggah logo ke path yang ditentukan.
      *
-     * @param string   $file    Nama field input file.
-     * @param string   $lokasi  Path untuk menyimpan file.
-     * @param int|null $size    Ukuran logo yang diinginkan.
-     * @param bool     $webp    Konversi ke WebP.
-     * @param bool     $favicon Buat favicon.
+     * @param string      $file     Nama field input file.
+     * @param string      $lokasi   Path untuk menyimpan file.
+     * @param int|null    $size     Ukuran logo yang diinginkan.
+     * @param bool        $webp     Konversi ke WebP.
+     * @param bool        $favicon  Buat favicon.
+     * @param string|null $filename Nama file custom.
      *
      * @return string Nama file yang diunggah.
      */
-    public function uploadGambar(string $file, string $lokasi, ?int $size = null, bool $webp = true, bool $favicon = false)
+    public function uploadGambar(string $file, string $lokasi, int|string|null $size = null, bool $webp = true, bool $favicon = false, ?string $filename = null, ?string $old_filename = null)
     {
+        if (empty($_FILES[$file]['name'])) {
+            return null;
+        }
+
+        $config = [
+            'upload_path'   => $lokasi,
+            'allowed_types' => 'gif|jpg|png|jpeg|webp',
+            'max_size'      => max_upload() * 1024,
+            'overwrite'     => true,
+        ];
+
+        if ($filename) {
+            $config['file_name'] = $filename;
+        }
+
         return $this->upload(
             file: $file,
-            config: [
-                'upload_path'   => $lokasi,
-                'allowed_types' => 'gif|jpg|png|jpeg|webp',
-                'max_size'      => max_upload() * 1024,
-                'overwrite'     => true,
-            ],
-            callback: static function ($uploadData) use ($size, $favicon, $webp) {
+            config: $config,
+            callback: static function ($uploadData) use ($size, $favicon, $webp, $lokasi, $old_filename) {
                 $ext      = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
                 $filePath = $uploadData['file_path'];
                 $rawName  = $uploadData['raw_name'];
                 $fullPath = $uploadData['full_path'];
 
                 if ($ext === 'gif') {
-                    return "{$rawName}.gif";
+                    $new_ext = 'gif';
+                } else {
+                    if ($size) {
+                        $image = Image::load($fullPath);
+                        if (is_int($size)) {
+                            $image->width($size)->height($size);
+                        } elseif (is_string($size)) {
+                            $dimensi = generateDimensi($size);
+                            $image->width($dimensi['width'])->height($dimensi['height']);
+                        }
+                        $image->save($fullPath);
+                    }
+
+                    if ($favicon) {
+                        Image::load($fullPath)->width(16)->height(16)->save("{$filePath}favicon.ico");
+
+                        copyFavicon();
+                    }
+
+                    if ($webp) {
+                        Image::load($fullPath)->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
+
+                        unlink($fullPath);
+
+                        $new_ext = 'webp';
+                    } else {
+                        $new_ext = $ext;
+                    }
                 }
 
-                if ($size) {
-                    Image::load($fullPath)->width($size)->height($size)->save("{$filePath}{$rawName}.{$ext}");
+                $new_filename_with_ext = "{$rawName}.{$new_ext}";
+
+                // On success, delete old file
+                if ($old_filename && $old_filename !== $new_filename_with_ext && file_exists($lokasi . $old_filename)) {
+                    unlink($lokasi . $old_filename);
                 }
 
-                if ($favicon) {
-                    Image::load($fullPath)->width(16)->height(16)->save("{$filePath}favicon.ico");
-
-                    copyFavicon();
-                }
-
-                if ($webp) {
-                    Image::load($fullPath)->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
-
-                    unlink($fullPath);
-
-                    $ext = 'webp';
-                }
-
-                return "{$rawName}.{$ext}";
+                return $new_filename_with_ext;
             }
         );
     }
@@ -438,5 +365,107 @@ trait Upload
                 return "{$rawName}.webp";
             }
         );
+    }
+
+    /**
+     * Mengunggah file ke path yang ditentukan dengan konfigurasi yang diberikan.
+     *
+     * @param string       $file        Nama field input file.
+     * @param array        $config      Opsi konfigurasi untuk unggahan.
+     * @param string|null  $redirectUrl URL untuk dialihkan jika terjadi kesalahan (opsional).
+     * @param Closure|null $callback    Fungsi callback yang akan dieksekusi setelah unggahan berhasil (opsional).
+     *
+     * @return array|string|null Mengembalikan nama file yang diunggah jika berhasil, array dengan pesan kesalahan jika gagal, atau null.
+     */
+    protected function upload($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
+    {
+        $isAjax = request()->ajax();
+        $CI     = &get_instance();
+
+        if (! is_dir($config['upload_path'])) {
+            folder($config['upload_path'], '0755', 'htaccess1');
+        }
+
+        $CI->load->library('upload');
+        $CI->upload->initialize($config);
+
+        try {
+            $upload = $CI->upload->do_upload($file);
+
+            if (! $upload) {
+                if ($isAjax) {
+                    return json(['error' => $CI->upload->display_errors()], 400);
+                }
+                redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
+            }
+
+            $uploadData = $CI->upload->data();
+
+            if ($callback && $uploadData['file_ext'] !== '.webp') {
+                return $callback($uploadData);
+            }
+
+            if (isset($config['resize'])) {
+                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
+            }
+
+            return $uploadData['file_name'];
+        } catch (Exception $e) {
+            logger()->errror($e);
+
+            if ($isAjax) {
+                return json(['error' => $e->getMessage()], 400);
+            }
+
+            redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
+        }
+
+        return null;
+    }
+
+    protected function uploadAll($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
+    {
+        $isAjax = request()->ajax();
+        $CI     = &get_instance();
+
+        if (! is_dir($config['upload_path'])) {
+            folder($config['upload_path'], '0755', 'htaccess1');
+        }
+
+        $CI->load->library('upload');
+        $CI->upload->initialize($config);
+
+        try {
+            $upload = $CI->upload->do_upload($file);
+
+            if (! $upload) {
+                if ($isAjax) {
+                    return json(['error' => $CI->upload->display_errors()], 400);
+                }
+                redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
+            }
+
+            $uploadData = $CI->upload->data();
+
+            if ($callback) {
+                return $callback($uploadData);
+            }
+
+            if (isset($config['resize'])) {
+                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
+            }
+
+            return $uploadData['file_name'];
+        } catch (Exception $e) {
+            logger()->errror($e);
+
+            if ($isAjax) {
+                return json(['error' => $e->getMessage()], 400);
+            }
+
+            redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
+        }
+
+        return null;
     }
 }

@@ -15,9 +15,8 @@
 @section('content')
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route('rtm.cetak_kk', $id_kk) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('rtm.anggota', $id_kk), 'label' => 'Daftar Anggota Rumah Tangga'])
-
+            <x-btn-button judul="Cetak" icon="fa fa-print" blank='true' type="bg-purple" :url="'rtm/cetak_kk/' . $id_kk" />
+            <x-kembali-button judul="Kembali Ke Daftar Anggota Rumah Tangga" url="rtm/anggota/{{ $id_kk }}" />
         </div>
         <div class="box-header">
             <h3 class="text-center"><strong>KARTU RUMAH TANGGA</strong></h3>
@@ -103,12 +102,12 @@
                                         <td>{{ strtoupper($data['nama']) }}</td>
                                         <td>{{ $data['nik'] }}</td>
                                         <td>{{ $data['keluarga']['no_kk'] ?? '' }}</td>
-                                        <td>{{ strtoupper(App\Enums\JenisKelaminEnum::valueOf($data['sex'])) }}</td>
+                                        <td>{{ $data['jenis_kelamin'] }}</td>
                                         <td>{{ $data['tempatlahir'] }}</td>
                                         <td>{{ $data['tanggallahir'] }}</td>
-                                        <td>{{ strtoupper(App\Enums\AgamaEnum::valueOf($data['agama_id'])) }}</td>
-                                        <td>{{ App\Enums\PendidikanKKEnum::valueToUpper($data['pendidikan_kk_id']) }}</td>
-                                        <td>{{ $data['pekerjaan']['nama'] ?? '' }}</td>
+                                        <td>{{ $data['agama'] }}</td>
+                                        <td>{{ $data['pendidikan_kk'] }}</td>
+                                        <td>{{ $data['pekerjaan'] }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -137,10 +136,10 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $data['status_perkawinan'] ?? '' }}</td>
                                         <td>{{ App\Enums\HubunganRTMEnum::valueOf($data['rtm_level']) }}</td>
-                                        <td>{{ strtoupper(App\Enums\WargaNegaraEnum::valueOf($data['warganegara_id'])) }}</td>
+                                        <td>{{ $data['warganegara'] }}</td>
                                         <td>{{ strtoupper($data['nama_ayah']) }}</td>
                                         <td>{{ strtoupper($data['nama_ibu']) }}</td>
-                                        <td>{{ strtoupper(App\Enums\GolonganDarahEnum::valueOf($data['golongan_darah_id'])) }}</td>
+                                        <td>{{ $data['golongan_darah'] }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

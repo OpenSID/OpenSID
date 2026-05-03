@@ -56,5 +56,8 @@ class Migrasi_module
 
             $this->jalankanMigrasiModule($module);
         }
+
+        // Migrasi Module Kehadiran
+        $this->jalankanMigrasiModule('Kehadiran');
     }
 }

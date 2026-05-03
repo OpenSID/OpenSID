@@ -37,13 +37,6 @@
 
 namespace App\Models;
 
-use App\Enums\CacatEnum;
-use App\Enums\GolonganDarahEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PekerjaanEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Enums\SHDKEnum;
-use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -79,20 +72,20 @@ class PendudukSaja extends Penduduk
     {
         $penduduk                      = self::with(['wilayah', 'keluarga' => static fn ($q) => $q->withOnly([])])->find($id);
         $data                          = $penduduk->toArray();
-        $data['hubungan']              = SHDKEnum::valueOf($penduduk->kk_level);
+        $data['hubungan']              = $penduduk->penduduk_hubungan;
         $data['kepala_kk']             = PendudukSaja::kepalaKeluarga()->where('id_kk', $penduduk->id_kk)->first()?->nama;
-        $data['gol_darah']             = GolonganDarahEnum::valueOf($penduduk->golongan_darah_id);
-        $data['pendidikan']            = PendidikanKKEnum::valueOf($penduduk->pendidikan_kk_id);
+        $data['gol_darah']             = $penduduk->golongan_darah;
+        $data['pendidikan']            = $penduduk->pendidikan_kk;
         $data['status']                = StatusPendudukEnum::valueOf($penduduk->status);
-        $data['pek']                   = PekerjaanEnum::valueOf($penduduk->pekerjaan_id);
-        $data['men']                   = CacatEnum::valueOf($penduduk->cacat_id);
+        $data['pek']                   = $penduduk->pekerjaan;
+        $data['men']                   = $penduduk->cacat;
         $data['wn']                    = $penduduk->warganegara;
         $data['agama']                 = $penduduk->agama;
         $data['rw']                    = $penduduk->wilayah->rw;
         $data['rt']                    = $penduduk->wilayah->rt;
         $data['dusun']                 = $penduduk->wilayah->dusun;
         $data['umur']                  = $penduduk->umur;
-        $data['sex']                   = JenisKelaminEnum::valueOf($penduduk->sex);
+        $data['sex']                   = $penduduk->jenis_kelamin;
         $data['alamat']                = $penduduk->keluarga->alamat;
         $data['info_pilihan_penduduk'] = 'NIK: ' . $penduduk->nik . ' - ' . $penduduk->nama . '\nAlamat : RT-' . $penduduk->wilayah->rt . ', RW-' . $penduduk->wilayah->rw . ' ' . $penduduk->wilayah->dusun;
         $data['alamat_wilayah']        = $penduduk->alamat_wilayah;
@@ -107,12 +100,12 @@ class PendudukSaja extends Penduduk
         $data     = [];
         //cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
         if ($penduduk->isAnak()) {
-            $data = self::select(['id'])->ayah($penduduk->id_kk)->first()->toArray() ?? [];
+            $data = self::select(['id'])->ayah($penduduk->id_kk)->first()?->toArray() ?? [];
         }
 
         // jika tidak ada Cari berdasarkan ayah_nik
         if (empty($data) && ! empty($penduduk->ayah_nik)) {
-            $data = self::select(['id'])->where('nik', $penduduk->ayah_nik)->first()->toArray() ?? [];
+            $data = self::select(['id'])->where('nik', $penduduk->ayah_nik)->first()?->toArray() ?? [];
         }
         if (isset($data['id'])) {
             $ayahId = $data['id'];
@@ -133,12 +126,12 @@ class PendudukSaja extends Penduduk
         $data     = [];
         //cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
         if ($penduduk->isAnak()) {
-            $data = self::select(['id'])->ibu($penduduk->id_kk)->first()->toArray() ?? [];
+            $data = self::select(['id'])->ibu($penduduk->id_kk)->first()?->toArray() ?? [];
         }
 
         // jika tidak ada Cari berdasarkan ayah_nik
         if (empty($data) && ! empty($penduduk->ayah_nik)) {
-            $data = self::select(['id'])->where('nik', $penduduk->ayah_nik)->first()->toArray() ?? [];
+            $data = self::select(['id'])->where('nik', $penduduk->ayah_nik)->first()?->toArray() ?? [];
         }
         if (isset($data['id'])) {
             $ibuId = $data['id'];
@@ -181,22 +174,22 @@ class PendudukSaja extends Penduduk
         $kepalakeluarga = self::kepalaKeluarga()->where('id_kk', $penduduk?->id_kk)?->first();
         $data           = $penduduk?->toArray();
 
-        $data['gol_darah']       = GolonganDarahEnum::valueOf($penduduk?->golongan_darah_id);
-        $data['sex']             = JenisKelaminEnum::valueOf($penduduk?->sex);
-        $data['sex_id']          = $penduduk?->sex;
+        $data['gol_darah']       = $penduduk->golongan_darah;
+        $data['sex']             = $penduduk->jenis_kelamin;
+        $data['sex_id']          = $penduduk->sex;
         $data['umur']            = $penduduk?->umur;
-        $data['status_kawin']    = StatusKawinEnum::valueOf($penduduk?->status_kawin);
-        $data['status_kawin_id'] = $penduduk?->status_kawin;
-        $data['warganegara']     = $penduduk?->warganegara;
-        $data['agama']           = $penduduk?->agama;
-        $data['pendidikan']      = PendidikanKKEnum::valueOf($penduduk?->pendidikan_kk_id);
-        $data['hubungan']        = SHDKEnum::valueOf($penduduk?->kk_level);
-        $data['pekerjaan']       = PekerjaanEnum::valueOf($penduduk?->pekerjaan_id);
+        $data['status_kawin']    = $penduduk->status_perkawinan;
+        $data['status_kawin_id'] = $penduduk->status_perkawinan;
+        $data['warganegara']     = $penduduk->warganegara;
+        $data['agama']           = $penduduk->agama;
+        $data['pendidikan']      = $penduduk->pendidikan_kk;
+        $data['hubungan']        = $penduduk->penduduk_hubungan;
+        $data['pekerjaan']       = $penduduk->pekerjaan;
         $data['rw']              = $penduduk?->wilayah?->rw;
         $data['rt']              = $penduduk?->wilayah?->rt;
         $data['dusun']           = $penduduk?->wilayah?->dusun;
         $data['alamat']          = $penduduk?->keluarga?->alamat;
-        $data['cacat']           = CacatEnum::valueOf($penduduk?->cacat_id);
+        $data['cacat']           = $penduduk->cacat;
         $data['nik_kk']          = $kepalakeluarga?->nik;
         $data['telepon_kk']      = $kepalakeluarga?->telepon;
         $data['email_kk']        = $kepalakeluarga?->email;

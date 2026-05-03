@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <select class="form-control input-sm select2 " name="tahun" id="tahun">
-                            <option value="">Tahun</option>
+                            <option value="">Pilih Tahun</option>
                             @foreach ($list_tahun as $thn)
                                 <option value="{{ $thn['tahun'] }}" @selected($tahun == $thn['tahun'])>
                                     {{ $thn['tahun'] }}

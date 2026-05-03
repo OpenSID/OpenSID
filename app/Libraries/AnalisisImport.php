@@ -37,37 +37,35 @@
 
 namespace App\Libraries;
 
-use Exception;
+use CI_Input;
+use CI_Session;
+use Exception; // Perbarui namespace
 use Google\Client;
-use Google\Service\Script; // Perbarui namespace
+use Google\Service\Script;
 use Google\Service\Script\ExecutionRequest;
-
- // Perbarui namespace
 
 class AnalisisImport
 {
-    protected function getOAuthCredentialsFile()
-    {
-        // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
-        if (setting('api_gform_credential')) {
-            $api_gform_credential = setting('api_gform_credential');
-        } elseif (empty(setting('api_gform_redirect_uri'))) {
-            $api_gform_credential = config_item('api_gform_credential');
-        }
+    protected $ci;
+    protected CI_Input $input;
+    protected CI_Session $session;
 
-        return json_decode(str_replace('\"', '"', $api_gform_credential), true);
+    public function __construct()
+    {
+        $this->ci = &get_instance();
+
+        $this->input   = $this->ci->input;
+        $this->session = $this->ci->session;
     }
 
     public function importGform($redirectLink = '')
     {
         // Check Credential File
         if (! $oauthCredentials = $this->getOAuthCredentialsFile()) {
-            echo 'ERROR - File Credential Not Found';
-
-            return;
+            return redirect_with('error', 'File Credential Tidak Ditemukan', 'analisis_master', true);
         }
 
-        $redirectUri = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+        $redirectUri = setting('api_gform_redirect_uri') ?: config_item('api_gform_redirect_uri');
 
         // Get the API client and construct the service object.
         $client = new Client();
@@ -87,76 +85,113 @@ class AnalisisImport
         }
 
         // add "?logout" to the URL to remove a token from the session
-        if (isset($_REQUEST['logout'])) {
-            unset($_SESSION['upload_token']);
+        if ($this->input->get('logout')) {
+            $this->session->unset_userdata('upload_token');
         }
 
-        if (isset($_GET['code'])) {
-            $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-            $client->setAccessToken($token);
-            $_SESSION['upload_token'] = $token;
+        if ($this->input->get('code')) {
+            try {
+                $token = $client->fetchAccessTokenWithAuthCode($this->input->get('code'));
+
+                // Check if token contains error
+                if (isset($token['error'])) {
+                    $errorMsg = $token['error_description'] ?? $token['error'];
+
+                    return redirect_with('error', "OAuth Error: {$errorMsg}", 'analisis_master', true);
+                }
+
+                $client->setAccessToken($token);
+                $this->session->set_userdata('upload_token', $token);
+            } catch (Exception $e) {
+                // Handle invalid authorization code
+                logger()->error($e);
+
+                // Clean up session to prevent stuck states
+                $this->session->unset_userdata('upload_token');
+                $this->session->unset_userdata('inside_retry');
+                $this->session->unset_userdata('google_form_id');
+                $this->session->unset_userdata('gform_id');
+
+                return redirect_with('error', 'Kode otorisasi tidak valid atau sudah kedaluwarsa. Silakan coba lagi.', 'analisis_master', true);
+            }
         }
 
-        if (! empty($_SESSION['upload_token'])) {
-            $client->setAccessToken($_SESSION['upload_token']);
+        if ($this->session->userdata('upload_token')) {
+            $client->setAccessToken($this->session->userdata('upload_token'));
             if ($client->isAccessTokenExpired()) {
-                unset($_SESSION['upload_token']);
+                $this->session->unset_userdata('upload_token');
             }
         } else {
             $authUrl = $client->createAuthUrl();
         }
 
+        // Get and validate form ID
+        $formId = $this->session->userdata('google_form_id') ?? '';
+        if (empty($formId)) {
+            $formId = $this->session->userdata('gform_id') ?? '';
+        }
+
         // Create an execution request object.
         $request = new ExecutionRequest(); // Perbarui untuk menggunakan ExecutionRequest
         $request->setFunction('getFormItems');
-        $formId = $_SESSION['google_form_id'];
-        if ($formId == '') {
-            $formId = $_SESSION['gform_id'];
-        }
         $request->setParameters([$formId]); // Parameter harus dalam array
 
         try {
-            if (isset($authUrl) && $_SESSION['inside_retry'] != true) {
+            if (isset($authUrl) && $this->session->userdata('inside_retry') != true) {
                 // If no authentication before
-                $_SESSION['gform_id']             = $formId;
-                $_SESSION['inside_retry']         = true;
-                $_SESSION['inside_redirect_link'] = $redirectLink;
-                header('Location: ' . $authUrl);
+                $this->session->set_userdata('gform_id', $formId);
+                $this->session->set_userdata('inside_retry', true);
+                $this->session->set_userdata('inside_redirect_link', $redirectLink);
+
+                header("Location: {$authUrl}");
             } else {
                 // If it has authenticated
                 // Make the API request.
                 $response = $service->scripts->run($scriptId, $request);
 
-                if ($response->getError()) {
-                    echo 'Error';
-                    // The API executed, but the script returned an error.
+                // Get Response
+                $resp = $response->getResponse();
 
-                    // Extract the first (and only) set of error details. The values of this
-                    // object are the script's 'errorMessage' and 'errorType', and an array of
-                    // stack trace elements.
-                    $error = $response->getError()['details'][0];
-                    printf("Script error message: %s\n", $error['errorMessage']);
-
-                    if (array_key_exists('scriptStackTraceElements', $error)) {
-                        // There may not be a stacktrace if the script didn't start executing.
-                        echo "Script error stacktrace:\n";
-
-                        foreach ($error['scriptStackTraceElements'] as $trace) {
-                            printf("\t%s: %d\n", $trace['function'], $trace['lineNumber']);
-                        }
-                    }
-                } else {
-                    // Get Response
-                    $resp = $response->getResponse();
-
-                    return $resp['result'];
-                }
+                return $resp['result'];
             }
         } catch (Exception $e) {
-            // The API encountered a problem before the script started executing.
-            echo 'Caught exception: ', $e->getMessage(), "\n";
+            // Handle different types of exceptions
+            logger()->error($e);
+            $errorMessage = $e->getMessage();
+
+            if (strpos($errorMessage, 'Invalid code') !== false) {
+                return redirect_with('error', 'Kode verifikasi tidak valid atau telah kedaluwarsa. Silakan bersihkan data browser dan ulangi proses.', 'analisis_master', true);
+            }
+            if (strpos($errorMessage, 'invalid_grant') !== false) {
+                return redirect_with('error', 'Sesi verifikasi telah berakhir. Silakan lakukan verifikasi ulang untuk melanjutkan.', 'analisis_master', true);
+            }
+            if (strpos($errorMessage, '"code": 404') !== false || strpos($errorMessage, 'Requested entity was not found') !== false) {
+                // Handle 404 errors - script or form not found
+                $currentScriptId = $scriptId ?? 'Tidak diatur';
+                $currentFormId   = $formId ?? 'Tidak diatur';
+
+                return redirect_with('error', "Sumber daya tidak ditemukan. Silakan periksa:<br>1. ID Google Apps Script sudah benar dan dapat diakses<br>2. ID Google Form sudah benar dan dapat diakses<br>3. Anda memiliki hak akses ke script dan form tersebut<br><br>Script ID Saat Ini: {$currentScriptId}<br>Form ID Saat Ini: {$currentFormId}", 'analisis_master', true);
+            }
+            if (strpos($errorMessage, '"code": 403') !== false) {
+                // Handle permission errors
+                return redirect_with('error', 'Akses tidak diizinkan. Pastikan Anda memiliki hak akses yang sesuai untuk menggunakan Google Apps Script dan Form yang dimaksud.', 'analisis_master', true);
+            }
+
+                // Generic error for other API issues
+                return redirect_with('error', "Kesalahan Google API:<br> {$errorMessage}", 'analisis_master', true);
+
+        }
+    }
+
+    protected function getOAuthCredentialsFile(): mixed
+    {
+        // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
+        if (setting('api_gform_credential')) {
+            $api_gform_credential = setting('api_gform_credential');
+        } elseif (empty(setting('api_gform_redirect_uri'))) {
+            $api_gform_credential = config_item('api_gform_credential');
         }
 
-        return '0';
+        return json_decode(str_replace('\"', '"', $api_gform_credential), true);
     }
 }

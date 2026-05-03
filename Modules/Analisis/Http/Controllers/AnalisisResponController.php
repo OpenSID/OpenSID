@@ -35,12 +35,12 @@
  *
  */
 
-use App\Enums\AnalisisRefSubjekEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Models\Wilayah;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Libraries\Analisis;
 use Modules\Analisis\Libraries\Bdt;
 use Modules\Analisis\Models\AnalisisIndikator;
@@ -58,10 +58,10 @@ class AnalisisResponController extends AdminModulController
     public $moduleName    = 'Analisis';
     public $modul_ini     = 'analisis';
     public $sub_modul_ini = 'analisis-respon';
-    private $selectedMenu = 'Input Data';
     protected $periodeAktif;
     protected $analisisMaster;
     protected $subjekTipe;
+    private $selectedMenu = 'Input Data';
 
     public function __construct()
     {
@@ -127,47 +127,6 @@ class AnalisisResponController extends AdminModulController
         }
 
         return show_404();
-    }
-
-    private function sumberData()
-    {
-        $dusun = request()->get('dusun') ?? null;
-        $rw    = request()->get('rw') ?? null;
-        $rt    = request()->get('rt') ?? null;
-        $isi   = request()->get('isi') ?? null;
-
-        $idCluster = $rt ? [$rt] : [];
-
-        if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun, $namaRw] = explode('__', $rw);
-            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        if (empty($idCluster) && ! empty($dusun)) {
-            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        $analisisMaster   = $this->analisisMaster;
-        $analisSumberData = Analisis::sumberData($analisisMaster->subjek_tipe, $idCluster);
-        $utama            = $analisSumberData['utama'];
-        $sumber           = $analisSumberData['sumber'];
-
-        $sumber->selectRaw('(SELECT a.id_subjek FROM analisis_respon a WHERE a.id_subjek = ' . $utama . ".id AND a.id_periode = {$this->periodeAktif->id} LIMIT 1) as cek")
-            ->selectRaw("(SELECT b.pengesahan FROM analisis_respon_bukti b WHERE b.id_master = {$analisisMaster->id} AND b.id_periode = {$this->periodeAktif->id} AND b.id_subjek = " . $utama . '.id limit 1) as bukti_pengesahan');
-
-        if ($isi) {
-            switch($isi) {
-                case 1:
-                    $sumber->whereRaw("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = {$utama}.id AND id_periode = {$this->periodeAktif->id}) > 0");
-                    break;
-
-                case 2:
-                    $sumber->whereRaw("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = {$utama}.id AND id_periode = {$this->periodeAktif->id}) = 0");
-                    break;
-            }
-        }
-
-        return $sumber;
     }
 
     public function form($master, $idSubjek)
@@ -298,9 +257,13 @@ class AnalisisResponController extends AdminModulController
             $result = (new AnalisisRespon())->import_respon($master, $periode, $subjekTipe, $op, $mapSubjek);
             DB::commit();
             redirect_with('success', 'Data berhasil diimpor', ci_route('analisis_respon.' . $master));
+
+            if ($result['success'] === false) {
+                redirect_with('error', "Data gagal diimpor {$result['pesan']}", ci_route("analisis_respon.{$master}"));
+            }
         } catch (Exception $e) {
             DB::rollBack();
-            redirect_with('error', 'Data gagal diimpor ' . $result['pesan'] . ' ' . $e->getMessage(), ci_route('analisis_respon.' . $master));
+            redirect_with('error', "Data gagal diimpor {$result['pesan']} {$e->getMessage()}", ci_route("analisis_respon.{$master}"));
         }
     }
 
@@ -327,5 +290,46 @@ class AnalisisResponController extends AdminModulController
             DB::rollBack();
             redirect_with('error', 'Data gagal diimpor ' . $e->getMessage(), ci_route('analisis_respon.' . $master));
         }
+    }
+
+    private function sumberData()
+    {
+        $dusun = request()->get('dusun') ?? null;
+        $rw    = request()->get('rw') ?? null;
+        $rt    = request()->get('rt') ?? null;
+        $isi   = request()->get('isi') ?? null;
+
+        $idCluster = $rt ? [$rt] : [];
+
+        if (empty($idCluster) && ! empty($rw)) {
+            [$namaDusun, $namaRw] = explode('__', $rw);
+            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        if (empty($idCluster) && ! empty($dusun)) {
+            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        $analisisMaster   = $this->analisisMaster;
+        $analisSumberData = Analisis::sumberData($analisisMaster->subjek_tipe, $idCluster);
+        $utama            = $analisSumberData['utama'];
+        $sumber           = $analisSumberData['sumber'];
+
+        $sumber->selectRaw('(SELECT a.id_subjek FROM analisis_respon a WHERE a.id_subjek = ' . $utama . ".id AND a.id_periode = {$this->periodeAktif->id} LIMIT 1) as cek")
+            ->selectRaw("(SELECT b.pengesahan FROM analisis_respon_bukti b WHERE b.id_master = {$analisisMaster->id} AND b.id_periode = {$this->periodeAktif->id} AND b.id_subjek = " . $utama . '.id limit 1) as bukti_pengesahan');
+
+        if ($isi) {
+            switch($isi) {
+                case 1:
+                    $sumber->whereRaw("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = {$utama}.id AND id_periode = {$this->periodeAktif->id}) > 0");
+                    break;
+
+                case 2:
+                    $sumber->whereRaw("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = {$utama}.id AND id_periode = {$this->periodeAktif->id}) = 0");
+                    break;
+            }
+        }
+
+        return $sumber;
     }
 }

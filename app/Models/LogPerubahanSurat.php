@@ -47,6 +47,17 @@ class LogPerubahanSurat extends BaseModel
     use ConfigId;
     use Author;
 
+    // protected $casts = [
+    //     'tanggal' => 'datetime:Y-m-d H:i:s',
+    // ];
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+
     /**
      * The table associated with the model.
      *
@@ -60,17 +71,6 @@ class LogPerubahanSurat extends BaseModel
      * @var array
      */
     protected $guarded = [];
-
-    // protected $casts = [
-    //     'tanggal' => 'datetime:Y-m-d H:i:s',
-    // ];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
 
     // public function surat()
     // {

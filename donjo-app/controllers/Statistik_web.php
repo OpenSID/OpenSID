@@ -51,27 +51,6 @@ class Statistik_web extends Web_Controller
         parent::__construct();
     }
 
-    private function get_data_stat(array &$data, $lap): void
-    {
-        $data['stat']         = LaporanPenduduk::judulStatistik($lap);
-        $data['list_bantuan'] = Bantuan::selectRaw('id, nama, sasaran, ndesc, sdate, edate, CONCAT(50,id) as lap')->get()->toArray();
-        if ((int) $lap > 50) {
-            // Untuk program bantuan, $lap berbentuk '50<program_id>'
-            $program_id             = preg_replace('/^50/', '', $lap);
-            $program                = Bantuan::find($program_id);
-            $program->judul_sasaran = SasaranEnum::valueOf($program->sasaran);
-            $data['program']        = $program->toArray();
-            $data['judul_kelompok'] = $data['program']['judul_sasaran'];
-            $data['kategori']       = 'bantuan';
-        } elseif (in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) {
-            $data['kategori'] = 'bantuan';
-        } elseif ((int) $lap > 20 || "{$lap}" === 'kelas_sosial') {
-            $data['kategori'] = 'keluarga';
-        } else {
-            $data['kategori'] = 'penduduk';
-        }
-    }
-
     public function dusun($tipe = 0, $lap = 0): void
     {
         $tipe_stat = $this->get_tipe_statistik($tipe);
@@ -186,6 +165,27 @@ class Statistik_web extends Web_Controller
         $data['individu'] = PendudukSaja::find($id_kepala);
 
         $this->load->view('gis/kadus/', $data);
+    }
+
+    private function get_data_stat(array &$data, $lap): void
+    {
+        $data['stat']         = LaporanPenduduk::judulStatistik($lap);
+        $data['list_bantuan'] = Bantuan::selectRaw('id, nama, sasaran, ndesc, sdate, edate, CONCAT(50,id) as lap')->get()->toArray();
+        if ((int) $lap > 50) {
+            // Untuk program bantuan, $lap berbentuk '50<program_id>'
+            $program_id             = preg_replace('/^50/', '', $lap);
+            $program                = Bantuan::find($program_id);
+            $program->judul_sasaran = SasaranEnum::valueOf($program->sasaran);
+            $data['program']        = $program->toArray();
+            $data['judul_kelompok'] = $data['program']['judul_sasaran'];
+            $data['kategori']       = 'bantuan';
+        } elseif (in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) {
+            $data['kategori'] = 'bantuan';
+        } elseif ((int) $lap > 20 || "{$lap}" === 'kelas_sosial') {
+            $data['kategori'] = 'keluarga';
+        } else {
+            $data['kategori'] = 'penduduk';
+        }
     }
 
     private function cek_akses($lap): ?bool

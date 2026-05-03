@@ -109,7 +109,7 @@ function cekFile($onlyDirectory, $exceptDirectory, $onlyFile, $exceptFile)
         foreach (glob($onlyDirectory . '/*') as $cek) {
             if (is_file($cek) && pathinfo($cek)['extension'] === 'php') {
                 // Only File
-                if ($onlyFile && ! (in_array($cek, $onlyFile) || preg_match('/' . implode('|', $onlyFile) . '/', basename($cek)))) {
+                if($onlyFile && ! (in_array($cek, $onlyFile) || preg_match('/' . implode('|', $onlyFile) . '/', basename($cek)))) {
                     continue;
                 }
 

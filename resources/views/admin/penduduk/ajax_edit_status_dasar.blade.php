@@ -117,14 +117,17 @@
     </div>
 </form>
 <script>
-    $('#tgl_1').datetimepicker({
-        format: 'DD-MM-YYYY',
-        locale: 'id'
-    });
+    $('#tgl_1').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id',
+		maxDate: moment().endOf('year')
+	});
 
     $('#tgl_lapor').datetimepicker({
         format: 'DD-MM-YYYY',
-        locale: 'id'
+        locale: 'id',
+        maxDate: moment().endOf('year')
     });
 
     $('document').ready(function() {
@@ -172,13 +175,21 @@
         });
         $('.modal #status_dasar').trigger('change');
 
-        setTimeout(function() {
-            $("#tgl_lapor").rules('add', {
-                tgl_lebih_besar: "input[name='tgl_peristiwa']",
-                messages: {
-                    tgl_lebih_besar: "Tanggal lapor harus sama atau lebih besar dari tanggal peristiwa."
-                }
-            })
-        }, 500);
+        $.validator.addMethod("tgl_lebih_besar", function(value, element, param) {
+            if (!value) return true;
+
+            let tglLapor = moment(value, "DD-MM-YYYY");
+            let tglPeristiwa = moment($(param).val(), "DD-MM-YYYY");
+
+            return tglLapor.isSameOrAfter(tglPeristiwa);
+        }, "Tanggal lapor harus sama atau lebih besar dari tanggal peristiwa.");
+
+        // Tambahkan rule ke input tgl_lapor
+        $("#tgl_lapor").rules('add', {
+            tgl_lebih_besar: "input[name='tgl_peristiwa']",
+            messages: {
+                tgl_lebih_besar: "Tanggal lapor harus sama atau lebih besar dari tanggal peristiwa."
+            }
+        });
     });
 </script>

@@ -37,7 +37,6 @@
 
 namespace Modules\Analisis\Libraries;
 
-use App\Enums\AnalisisRefSubjekEnum;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
 use Exception;
@@ -45,6 +44,7 @@ use Google\Client;
 use Google\Service\Script;
 use Google\Service\Script\ExecutionRequest;
 use Illuminate\Http\Request;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisKategori;
 use Modules\Analisis\Models\AnalisisMaster;
@@ -212,14 +212,6 @@ class Gform
         }
 
         return ['error' => $list_error];
-    }
-
-    protected function getOAuthCredentialsFile()
-    {
-        // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
-        $api_gform_credential = setting('api_gform_credential') ?? config_item('api_gform_credential');
-
-        return json_decode(str_replace('\"', '"', $api_gform_credential), true);
     }
 
     public function import_gform($redirect_link = '')
@@ -511,5 +503,13 @@ class Gform
         }
 
         return $result;
+    }
+
+    protected function getOAuthCredentialsFile()
+    {
+        // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
+        $api_gform_credential = setting('api_gform_credential') ?? config_item('api_gform_credential');
+
+        return json_decode(str_replace('\"', '"', $api_gform_credential), true);
     }
 }

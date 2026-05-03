@@ -53,237 +53,6 @@ use Illuminate\Support\Str;
 trait Migrator
 {
     /**
-     * Tambah atau perbarui data ke tabel setting_modul.
-     *
-     * @return void
-     */
-    protected function createModul(array $data)
-    {
-        $modul = new Modul();
-        $modul = $modul->withoutGlobalScope('config_id');
-
-        $data['config_id'] ??= identitas('id');
-        $data['ikon_kecil'] ??= $data['ikon'];
-
-        // Tetapkan nilai urut jika belum disediakan
-        if (Schema::hasColumn('setting_modul', 'urut') && ! isset($data['urut'])) {
-            $data['urut'] = $data['parent'] == Modul::PARENT
-                ? $modul->max('urut') + 1
-                : $modul->where('parent', $data['parent'])->max('urut') + 1;
-        }
-
-        if (! isset($data['slug'])) {
-            $data['slug'] = Str::slug($data['modul']);
-        }
-
-        if (! isset($data['aktif'])) {
-            $data['aktif'] = StatusEnum::YA;
-        }
-
-        if (! isset($data['hidden'])) {
-            $data['hidden'] = 0;
-        }
-
-        if (isset($data['parent_slug'])) {
-            $parent         = $modul->where('config_id', $data['config_id'])->where('slug', $data['parent_slug'])->first();
-            $data['parent'] = $parent ? $parent->id : Modul::PARENT;
-            unset($data['parent_slug']);
-        }
-
-        // Simpan atau perbarui data modul
-        $modul->upsert($data, ['config_id', 'slug'], ['url', 'level', 'hidden', 'ikon_kecil', 'parent']);
-
-        // Create Hak Akses Administator
-        $this->createHakAkses([
-            'config_id' => $data['config_id'],
-            'id_grup'   => UserGrup::withoutConfigId($data['config_id'])->where('slug', UserGrup::ADMINISTRATOR)->value('id'),
-            'id_modul'  => Modul::withoutConfigId($data['config_id'])->where('slug', $data['slug'])->first()->id,
-            'akses'     => GrupAkses::HAPUS,
-        ]);
-
-        cache()->flush();
-    }
-
-    /**
-     * Tambah atau perbarui beberapa data ke tabel setting_modul.
-     *
-     * @return void
-     */
-    protected function createModuls(array $data)
-    {
-        foreach ($data as $modul) {
-            $this->createModul($modul);
-        }
-    }
-
-    /**
-     * Ubah atau hapus modul lama dari tabel setting_modul.
-     *
-     * @param string $slug  Slug modul yang akan diubah atau dihapus.
-     * @param array  $where Kondisi pencarian modul yang akan diubah.
-     * @param array  $data  Data untuk update jika modul tidak ditemukan.
-     *
-     * @return void
-     */
-    protected function updateOrDeleteModul(string $slug, array $where, array $data)
-    {
-        $query = is_array(reset($where)) ? Modul::whereIn(key($where), reset($where)) : Modul::where($where);
-
-        if (Modul::where('slug', $slug)->exists()) {
-            $query->delete();
-        } else {
-            $query->update($data);
-        }
-
-        cache()->flush();
-    }
-
-    /**
-     * Hapus data dari tabel modul.
-     *
-     * @return void
-     */
-    protected function deleteModul(array $where)
-    {
-        $modul = new Modul();
-        $modul = $modul->withoutGlobalScope('config_id');
-
-        $data['config_id'] ??= identitas('id');
-        $modul = $modul->where($where)->first();
-
-        if ($modul) {
-            // Hapus modul anak jika ini adalah parent
-            if ($modul->parent == Modul::PARENT) {
-                $modul->whereParent($modul->id)->delete();
-            }
-
-            // Hapus modul itu sendiri
-            $modul->delete();
-        }
-
-        cache()->flush();
-    }
-
-    /**
-     * Jalankan migrasi modul.
-     */
-    private function jalankanMigrasiModule(string $name, string $action = 'up'): void
-    {
-        Log::info("Migrasi Module {$name}");
-
-        $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
-        $directoryTable   = $modulesDirectory . '/' . $name . '/Database/Migrations';
-        $migrations       = File::files($directoryTable);
-
-        if ($action === 'up') {
-            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
-        } else {
-            usort($migrations, static fn ($a, $b): int => strcmp($b->getFilename(), $a->getFilename()));
-        }
-
-        foreach ($migrations as $migrate) {
-            $migrateFile = require $migrate->getPathname();
-
-            match ($action) {
-                'down'  => $migrateFile->down(),
-                default => $migrateFile->up(),
-            };
-
-            Log::info("Migrasi {$action} {$migrate->getFilename()} berhasil dijalankan.");
-        }
-
-        cache()->flush();
-    }
-
-    /**
-     * Tambah atau perbarui data ke tabel setting_aplikasi.
-     *
-     * @return bool
-     */
-    protected function createSetting(array $data)
-    {
-        $setting = new SettingAplikasi();
-        $setting = $setting->withoutGlobalScope('config_id');
-
-        $data['config_id'] ??= identitas('id');
-
-        $forCreate = ['judul', 'keterangan', 'jenis', 'option', 'attribute', 'kategori'];
-
-        if (Schema::hasColumn('setting_aplikasi', 'urut')) {
-            $forCreate[] = 'urut';
-        }
-
-        $setting->upsert($data, ['config_id', 'key'], $forCreate);
-
-        $setting->flushQueryCache();
-
-        return true;
-    }
-
-    /**
-     * Tambah atau perbarui beberapa data ke tabel setting_aplikasi.
-     *
-     * @return bool
-     */
-    protected function createSettings(array $data)
-    {
-        foreach ($data as $setting) {
-            $this->createSetting($setting);
-        }
-
-        return true;
-    }
-
-    /**
-     * Ubah dan hapus key lama dari tabel setting_aplikasi.
-     *
-     * @return bool
-     */
-    protected function changeSettingKey(string $oldKey, array $data)
-    {
-        $valueSetting = optional(SettingAplikasi::where('key', $oldKey)->first())->value;
-        SettingAplikasi::where('key', $oldKey)->delete();
-
-        $data['value'] = $valueSetting ?? $data['value'];
-
-        return $this->createSetting($data);
-    }
-
-    /**
-     * Hapus data dari tabel setting_aplikasi
-     *
-     * @return void
-     */
-    protected function deleteSetting(array $where)
-    {
-        $setting = new SettingAplikasi();
-        $setting = $setting->withoutGlobalScope('config_id');
-
-        $data['config_id'] ??= identitas('id');
-
-        $setting->where($where)->delete();
-
-        $setting->flushQueryCache();
-
-        return true;
-    }
-
-    /**
-     * Tambah atau perbarui data ke tabel grup_akses.
-     *
-     * @return void
-     */
-    protected function createHakAkses(array $data)
-    {
-        $akses = new GrupAkses();
-        $akses = $akses->withoutGlobalScope('config_id');
-
-        $data['config_id'] ??= identitas('id');
-
-        $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
-    }
-
-    /**
      * Menjalankan migrasi Laravel secara manual.
      *
      * @param array|string $migrationFiles Daftar file migrasi yang akan dijalankan
@@ -470,5 +239,484 @@ trait Migrator
             ->where('CONSTRAINT_NAME', $foreignKey)
             ->where('CONSTRAINT_TYPE', 'FOREIGN KEY')
             ->exists();
+    }
+
+    /**
+     * Tambah indeks ke tabel.
+     *
+     * @param string $tabel Nama tabel
+     * @param string $kolom Nama kolom
+     * @param string $index Tipe indeks (UNIQUE, INDEX, dll)
+     * @param bool   $multi Apakah indeks multi kolom
+     *
+     * @return bool
+     */
+    public function tambahIndeks($tabel, $kolom, $index = 'UNIQUE', $multi = false)
+    {
+        if ($index == 'UNIQUE') {
+            // Handle multiple columns properly
+            $groupByColumns = is_array($kolom) ? $kolom : explode(',', str_replace(' ', '', $kolom));
+
+            $duplikat = DB::table($tabel)
+                ->selectRaw($kolom . ', count(*) as jumlah')
+                ->groupBy($groupByColumns)
+                ->havingRaw('count(*) > 1')
+                ->exists();
+
+            if ($duplikat) {
+                session_error('--> Silakan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
+                log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");
+
+                return false;
+            }
+        }
+
+        $unique_name = preg_replace('/[^a-zA-Z0-9_-]+/i', '', $kolom);
+        if (! $this->cek_indeks($tabel, $unique_name)) {
+            if ($multi == true && $index == 'UNIQUE') {
+                return DB::statement("ALTER TABLE `{$tabel}` ADD UNIQUE INDEX `{$unique_name}` ({$kolom})");
+            }
+
+            return DB::statement("ALTER TABLE {$tabel} ADD {$index} {$kolom} (`{$kolom}`)");
+        }
+
+        return true;
+    }
+
+    /**
+     * Cek apakah indeks sudah ada di tabel.
+     *
+     * @param string $tabel Nama tabel
+     * @param string $kolom Nama kolom indeks
+     *
+     * @return bool
+     */
+    public function cek_indeks($tabel, $kolom)
+    {
+        $db = DB::getDatabaseName();
+
+        return DB::table('INFORMATION_SCHEMA.STATISTICS')
+            ->where('table_schema', $db)
+            ->where('table_name', $tabel)
+            ->where('index_name', $kolom)
+            ->exists();
+    }
+
+    /**
+     * Ubah modul setting menu.
+     *
+     * @param mixed $where Kondisi where
+     * @param array $modul Data modul untuk update
+     *
+     * @return bool
+     */
+    public function ubah_modul($where, array $modul)
+    {
+        $query = DB::table('setting_modul');
+
+        if (is_array($where)) {
+            $query->where($where);
+        } else {
+            $query->where('id', $where);
+        }
+
+        $query->update($modul);
+
+        cache()->flush();
+
+        return true;
+    }
+
+    /**
+     * Tambah setting aplikasi (legacy method untuk kompatibilitas).
+     *
+     * @param array $setting   Data setting
+     * @param int   $config_id Config ID
+     *
+     * @return bool
+     */
+    public function tambah_setting($setting, $config_id = null)
+    {
+        $setting['config_id'] = $config_id ?? identitas('id');
+
+        return $this->createSetting($setting);
+    }
+
+    /**
+     * Tambah surat TinyMCE.
+     *
+     * @param array $data      Data surat
+     * @param int   $config_id Config ID
+     *
+     * @return bool
+     */
+    public function tambah_surat_tinymce($data, $config_id = null)
+    {
+        $config_id ??= identitas('id');
+        $data['url_surat']    = 'surat-' . url_title($data['nama'], '-', true);
+        $data['jenis']        = 1; // FormatSurat::TINYMCE_SISTEM
+        $data['syarat_surat'] = json_encode($data['syarat_surat'], JSON_THROW_ON_ERROR);
+        $data['created_by']   = auth()->id ?? 1;
+        $data['updated_by']   = auth()->id ?? 1;
+        $data['config_id']    = $config_id;
+
+        if (is_array($data['form_isian'])) {
+            $data['form_isian'] = json_encode($data['form_isian'], JSON_THROW_ON_ERROR);
+        }
+
+        if (is_array($data['kode_isian'])) {
+            $data['kode_isian'] = json_encode($data['kode_isian'], JSON_THROW_ON_ERROR);
+        }
+
+        // Tambah data baru dan update (hanya kolom template) jika ada sudah ada
+        $cek_surat = DB::table('tweb_surat_format')->where('config_id', $config_id)->where('url_surat', $data['url_surat']);
+
+        if ($cek_surat->exists()) {
+            $cek_surat->update(['template' => $data['template']]);
+        } else {
+            DB::table('tweb_surat_format')->insert($data);
+        }
+
+        return true;
+    }
+
+    /**
+     * Tambah data awal ke tabel.
+     *
+     * @param string $tabel    Nama tabel
+     * @param array  $data     Data untuk ditambahkan
+     * @param bool   $berulang Boleh berulang atau tidak
+     *
+     * @return bool
+     */
+    public function data_awal(?string $tabel = null, array $data = [], $berulang = false)
+    {
+        $config_id = identitas('id');
+
+        if (Schema::hasTable($tabel) && $data !== []) {
+            collect($data)
+                ->chunk(100)
+                // tambahkan config_id terlebih dahulu
+                ->map(static fn ($chunk) => $chunk->map(static function (array $item) use ($config_id): array {
+                    $item['config_id'] = $config_id;
+
+                    return $item;
+                }))
+                ->each(static function ($chunk) use ($tabel): void {
+                    // upsert agar tidak duplikat
+                    DB::table($tabel)->upsert($chunk->all(), 'config_id');
+                });
+            log_message('notice', 'Berhasil memperbarui data awal tabel ' . $tabel);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Cek primary key pada tabel.
+     *
+     * @param string $tabel Nama tabel
+     * @param array  $kolom Kolom primary key
+     *
+     * @return bool
+     */
+    public function cek_primary_key($tabel, $kolom = [])
+    {
+        $schemaManager = DB::connection()->getDoctrineSchemaManager();
+        $indexes       = $schemaManager->listTableIndexes($tabel);
+
+        foreach ($indexes as $index) {
+            if ($index->isPrimary() && $index->getColumns() == $kolom) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Hapus FOREIGN KEY (legacy method untuk kompatibilitas).
+     *
+     * @param string $tabel           Nama tabel referensi
+     * @param string $nama_constraint Nama constraint
+     * @param string $drop            Nama tabel yang akan di-drop foreign key-nya
+     *
+     * @return bool
+     */
+    public function hapus_foreign_key($tabel, $nama_constraint, $drop)
+    {
+        $query = DB::table('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', DB::getDatabaseName())
+            ->where('REFERENCED_TABLE_NAME', $tabel)
+            ->where('CONSTRAINT_NAME', $nama_constraint)
+            ->first();
+
+        if ($query) {
+            try {
+                DB::statement("ALTER TABLE {$drop} DROP FOREIGN KEY {$nama_constraint}");
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+            }
+
+            return true;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check and fix table structure
+     *
+     * @param string $tableName
+     *
+     * @return bool
+     */
+    public function checkAndFixTable($tableName)
+    {
+        $table = DB::table($tableName)->first();
+        if ($table) {
+            $kolom_id = DB::select("SHOW COLUMNS FROM {$tableName} WHERE Field = 'id' AND Extra = 'auto_increment'");
+            $pk       = DB::select("SHOW INDEX FROM {$tableName} WHERE Key_name = 'PRIMARY'");
+
+            if (! $kolom_id || ! $pk) {
+                DB::statement("ALTER TABLE {$tableName} ADD PRIMARY KEY (id)");
+                DB::statement("ALTER TABLE {$tableName} MODIFY id INT AUTO_INCREMENT");
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Tambah atau perbarui data ke tabel setting_modul.
+     *
+     * @return void
+     */
+    protected function createModul(array $data)
+    {
+        $modul = new Modul();
+        $modul = $modul->withoutGlobalScope('config_id');
+
+        $data['config_id'] ??= identitas('id');
+        $data['ikon_kecil'] ??= $data['ikon'];
+
+        // Tetapkan nilai urut jika belum disediakan
+        if (Schema::hasColumn('setting_modul', 'urut') && ! isset($data['urut'])) {
+            $data['urut'] = $data['parent'] == Modul::PARENT
+                ? $modul->max('urut') + 1
+                : $modul->where('parent', $data['parent'])->max('urut') + 1;
+        }
+
+        if (! isset($data['slug'])) {
+            $data['slug'] = Str::slug($data['modul']);
+        }
+
+        if (! isset($data['aktif'])) {
+            $data['aktif'] = StatusEnum::YA;
+        }
+
+        if (! isset($data['hidden'])) {
+            $data['hidden'] = 0;
+        }
+
+        if (isset($data['parent_slug'])) {
+            $parent         = $modul->where('config_id', $data['config_id'])->where('slug', $data['parent_slug'])->first();
+            $data['parent'] = $parent ? $parent->id : Modul::PARENT;
+            unset($data['parent_slug']);
+        }
+
+        // Simpan atau perbarui data modul
+        $modul->upsert($data, ['config_id', 'slug'], ['url', 'level', 'hidden', 'ikon_kecil', 'parent']);
+
+        // Create Hak Akses Administator
+        $this->createHakAkses([
+            'config_id' => $data['config_id'],
+            'id_grup'   => UserGrup::withoutConfigId($data['config_id'])->where('slug', UserGrup::ADMINISTRATOR)->value('id'),
+            'id_modul'  => Modul::withoutConfigId($data['config_id'])->where('slug', $data['slug'])->first()->id,
+            'akses'     => GrupAkses::HAPUS,
+        ]);
+
+        cache()->flush();
+    }
+
+    /**
+     * Tambah atau perbarui beberapa data ke tabel setting_modul.
+     *
+     * @return void
+     */
+    protected function createModuls(array $data)
+    {
+        foreach ($data as $modul) {
+            $this->createModul($modul);
+        }
+    }
+
+    /**
+     * Ubah atau hapus modul lama dari tabel setting_modul.
+     *
+     * @param string $slug  Slug modul yang akan diubah atau dihapus.
+     * @param array  $where Kondisi pencarian modul yang akan diubah.
+     * @param array  $data  Data untuk update jika modul tidak ditemukan.
+     *
+     * @return void
+     */
+    protected function updateOrDeleteModul(string $slug, array $where, array $data)
+    {
+        $query = is_array(reset($where)) ? Modul::whereIn(key($where), reset($where)) : Modul::where($where);
+
+        if (Modul::where('slug', $slug)->exists()) {
+            $query->delete();
+        } else {
+            $query->update($data);
+        }
+
+        cache()->flush();
+    }
+
+    /**
+     * Hapus data dari tabel modul.
+     *
+     * @return void
+     */
+    protected function deleteModul(array $where)
+    {
+        $modul = new Modul();
+        $modul = $modul->withoutGlobalScope('config_id');
+
+        $data['config_id'] ??= identitas('id');
+        $modul = $modul->where($where)->first();
+
+        if ($modul) {
+            // Hapus modul anak jika ini adalah parent
+            if ($modul->parent == Modul::PARENT) {
+                $modul->whereParent($modul->id)->delete();
+            }
+
+            // Hapus modul itu sendiri
+            $modul->delete();
+        }
+
+        cache()->flush();
+    }
+
+    /**
+     * Tambah atau perbarui data ke tabel setting_aplikasi.
+     *
+     * @return bool
+     */
+    protected function createSetting(array $data)
+    {
+        $setting = new SettingAplikasi();
+        $setting = $setting->withoutGlobalScope('config_id');
+
+        $data['config_id'] ??= identitas('id');
+
+        $forCreate = ['judul', 'keterangan', 'jenis', 'option', 'attribute', 'kategori'];
+
+        if (Schema::hasColumn('setting_aplikasi', 'urut')) {
+            $forCreate[] = 'urut';
+        }
+
+        $setting->upsert($data, ['config_id', 'key'], $forCreate);
+
+        $setting->flushQueryCache();
+
+        return true;
+    }
+
+    /**
+     * Tambah atau perbarui beberapa data ke tabel setting_aplikasi.
+     *
+     * @return bool
+     */
+    protected function createSettings(array $data)
+    {
+        foreach ($data as $setting) {
+            $this->createSetting($setting);
+        }
+
+        return true;
+    }
+
+    /**
+     * Ubah dan hapus key lama dari tabel setting_aplikasi.
+     *
+     * @return bool
+     */
+    protected function changeSettingKey(string $oldKey, array $data)
+    {
+        $valueSetting = optional(SettingAplikasi::where('key', $oldKey)->first())->value;
+        SettingAplikasi::where('key', $oldKey)->delete();
+
+        $data['value'] = $valueSetting ?? $data['value'];
+
+        return $this->createSetting($data);
+    }
+
+    /**
+     * Hapus data dari tabel setting_aplikasi
+     *
+     * @return void
+     */
+    protected function deleteSetting(array $where)
+    {
+        $setting = new SettingAplikasi();
+        $setting = $setting->withoutGlobalScope('config_id');
+
+        $data['config_id'] ??= identitas('id');
+
+        $setting->where($where)->delete();
+
+        $setting->flushQueryCache();
+
+        return true;
+    }
+
+    /**
+     * Tambah atau perbarui data ke tabel grup_akses.
+     *
+     * @return void
+     */
+    protected function createHakAkses(array $data)
+    {
+        $akses = new GrupAkses();
+        $akses = $akses->withoutGlobalScope('config_id');
+
+        $data['config_id'] ??= identitas('id');
+
+        $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
+    }
+
+    /**
+     * Jalankan migrasi modul.
+     */
+    private function jalankanMigrasiModule(string $name, string $action = 'up'): void
+    {
+        Log::info("Migrasi Module {$name}");
+
+        $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
+        $directoryTable   = $modulesDirectory . '/' . $name . '/Database/Migrations';
+        $migrations       = File::files($directoryTable);
+
+        if ($action === 'up') {
+            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
+        } else {
+            usort($migrations, static fn ($a, $b): int => strcmp($b->getFilename(), $a->getFilename()));
+        }
+
+        foreach ($migrations as $migrate) {
+            $migrateFile = require $migrate->getPathname();
+
+            match ($action) {
+                'down'  => $migrateFile->down(),
+                default => $migrateFile->up(),
+            };
+
+            Log::info("Migrasi {$action} {$migrate->getFilename()} berhasil dijalankan.");
+        }
+
+        cache()->flush();
     }
 }

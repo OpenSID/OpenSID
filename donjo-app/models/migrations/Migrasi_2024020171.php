@@ -50,7 +50,7 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024020171 extends MY_Model
+class Migrasi_2024020171
 {
     use Migrator;
 
@@ -60,7 +60,7 @@ class Migrasi_2024020171 extends MY_Model
         $this->migrasi_data();
     }
 
-    protected function migrasi_tabel()
+    public function migrasi_tabel()
     {
         $this->migrasi_2024011251();
         $this->migrasi_2024011751();
@@ -70,7 +70,7 @@ class Migrasi_2024020171 extends MY_Model
     }
 
     // Migrasi perubahan data
-    protected function migrasi_data()
+    public function migrasi_data()
     {
         $this->migrasi_2024010452();
         $this->migrasi_2024011371();
@@ -87,7 +87,7 @@ class Migrasi_2024020171 extends MY_Model
         $this->migrasi_2024012371();
     }
 
-    protected function migrasi_2024010452()
+    public function migrasi_2024010452()
     {
         $this->createSetting([
             'judul'      => 'Status Penduduk Lahir',
@@ -156,18 +156,18 @@ class Migrasi_2024020171 extends MY_Model
         ]);
     }
 
-    protected function migrasi_2024010451()
+    public function migrasi_2024010451()
     {
         Modul::where('slug', 'komentar')->update(['url' => 'komentar']);
         Modul::where('slug', 'menu')->update(['url' => 'menu']);
     }
 
-    protected function migrasi_2024010851()
+    public function migrasi_2024010851()
     {
         Modul::where('slug', 'log-penduduk')->update(['url' => 'penduduk_log/clear', 'hidden' => 0, 'ikon' => 'fa-archive', 'modul' => 'Catatan Peristiwa', 'slug' => 'catatan-peristiwa', 'level' => 2]);
     }
 
-    protected function migrasi_2024011051()
+    public function migrasi_2024011051()
     {
         // ubah status enabled menjadi 0 untuk nonaktif, sebelumnya 2
         Galery::where(['enabled' => 2])->update(['enabled' => 0]);
@@ -175,19 +175,19 @@ class Migrasi_2024020171 extends MY_Model
         Modul::where('slug', 'galeri')->update(['url' => 'gallery']);
     }
 
-    protected function migrasi_2024011052()
+    public function migrasi_2024011052()
     {
         Modul::where('slug', 'pemerintah-desa')->update(['url' => 'pengurus']);
     }
 
-    protected function migrasi_2024011251()
+    public function migrasi_2024011251()
     {
         $this->hapus_foreign_key('lokasi', 'pembangunan_lokasi_fk', 'pembangunan');
 
         $this->tambahForeignKey('pembangunan_lokasi_cluster_fk', 'pembangunan', 'id_lokasi', 'tweb_wil_clusterdesa', 'id', true);
     }
 
-    protected function migrasi_2024011451()
+    public function migrasi_2024011451()
     {
         $tanpaSlug = Suplemen::whereNull('slug')->get();
         if ($tanpaSlug) {
@@ -197,7 +197,7 @@ class Migrasi_2024020171 extends MY_Model
         }
     }
 
-    protected function migrasi_2024011551()
+    public function migrasi_2024011551()
     {
         $this->hapus_foreign_key('inventaris_tanah', 'FK_mutasi_inventaris_tanah', 'mutasi_inventaris_tanah');
         $this->tambahForeignKey('mutasi_inventaris_tanah_inventaris_tanah_fk', 'mutasi_inventaris_tanah', 'id_inventaris_tanah', 'inventaris_tanah', 'id', true);
@@ -208,7 +208,7 @@ class Migrasi_2024020171 extends MY_Model
         $this->hapus_foreign_key('tweb_penduduk', 'id_pend_fk', 'tweb_penduduk_mandiri');
     }
 
-    protected function migrasi_2024011751()
+    public function migrasi_2024011751()
     {
         if (! Schema::hasTable('pesan_mandiri')) {
             Schema::create('pesan_mandiri', static function (Blueprint $table) {
@@ -248,20 +248,22 @@ class Migrasi_2024020171 extends MY_Model
         }
     }
 
-    protected function migrasi_2024011951()
+    public function migrasi_2024011951()
     {
         Modul::where('slug', 'kontak')->update(['url' => 'mailbox']);
     }
 
-    protected function migrasi_2024012251()
+    public function migrasi_2024012251()
     {
-        if ($this->db->field_exists('userid', 'program')) {
-            $this->dbforge->drop_column('program', 'userid');
+        if (Schema::hasColumn('program', 'userid')) {
+            Schema::table('program', static function (Blueprint $table) {
+                $table->dropColumn('userid');
+            });
         }
     }
 
     // migrasi 2312.0.0 - 2312.0.3 yang tidak sama dengan struktur instalasi awal
-    protected function migrasi_2024012351()
+    public function migrasi_2024012351()
     {
         $this->tambahIndeks('klasifikasi_surat', 'config_id, kode', 'UNIQUE', true);
 
@@ -270,7 +272,7 @@ class Migrasi_2024020171 extends MY_Model
         Modul::where('slug', 'pengguna')->update(['url' => 'man_user']);
     }
 
-    protected function migrasi_2024011371()
+    public function migrasi_2024011371()
     {
         $statis = [
             [
@@ -298,42 +300,40 @@ class Migrasi_2024020171 extends MY_Model
         ]);
     }
 
-    protected function migrasi_2024011471()
+    public function migrasi_2024011471()
     {
-        if (! $this->db->field_exists('tampilan', 'artikel')) {
-            $this->db->query("ALTER TABLE `artikel` ADD COLUMN `tampilan` TINYINT(4) NULL DEFAULT '1' AFTER `hit`");
+        if (! Schema::hasColumn('artikel', 'tampilan')) {
+            Schema::table('artikel', static function (Blueprint $table) {
+                $table->tinyInteger('tampilan')->nullable()->default(1)->after('hit');
+            });
         }
     }
 
-    protected function migrasi_2024011571()
+    public function migrasi_2024011571()
     {
-        if (! $this->db->field_exists('media_sosial', 'tweb_desa_pamong')) {
-            $this->db->query('ALTER TABLE `tweb_desa_pamong` ADD `media_sosial` TEXT NULL');
+        if (! Schema::hasColumn('tweb_desa_pamong', 'media_sosial')) {
+            Schema::table('tweb_desa_pamong', static function (Blueprint $table) {
+                $table->text('media_sosial')->nullable();
+            });
         }
     }
 
-    protected function migrasi_2024011971()
+    public function migrasi_2024011971()
     {
         Kategori::where(['enabled' => 2])->update(['enabled' => 0]);
         Modul::where('slug', 'kategori')->update(['hidden' => 0, 'level' => 4, 'ikon' => 'fa-list-alt', 'urut' => 2]);
     }
 
-    protected function migrasi_2024012371()
+    public function migrasi_2024012371()
     {
-        if (! $this->db->field_exists('format_nomor_global', 'tweb_surat_format')) {
-            $this->dbforge->add_column('tweb_surat_format', [
-                'format_nomor_global' => [
-                    'type'       => 'TINYINT',
-                    'constraint' => 1,
-                    'null'       => true,
-                    'default'    => 1,
-                    'after'      => 'format_nomor',
-                ],
-            ]);
+        if (! Schema::hasColumn('tweb_surat_format', 'format_nomor_global')) {
+            Schema::table('tweb_surat_format', static function (Blueprint $table) {
+                $table->tinyInteger('format_nomor_global')->nullable()->default(1)->after('format_nomor');
+            });
         }
     }
 
-    protected function migrasi_2024012971()
+    public function migrasi_2024012971()
     {
         $pleaceholder = [
             'facebook'  => 'https://www.facebook.com/groups/komunitasopendesa',

@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class PeriksaKlasifikasiSurat extends CI_Controller
@@ -50,7 +52,11 @@ class PeriksaKlasifikasiSurat extends CI_Controller
     public function hapus()
     {
         $id = $this->input->get('id');
-        $this->db->where('id', $id)->delete('klasifikasi_surat');
+
+        DB::table('klasifikasi_surat')
+            ->where('id', $id)
+            ->where('config_id', identitas('id'))
+            ->delete();
 
         return $this->output
             ->set_content_type('application/json')

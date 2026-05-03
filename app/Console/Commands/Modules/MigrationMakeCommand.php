@@ -48,6 +48,12 @@ class MigrationMakeCommand extends GeneratorCommand
      */
     protected $signature = 'module:make-migration {name} {module}';
 
+    public function handle(): void
+    {
+        parent::handle();
+        $this->info('Migration has been created successfully!');
+    }
+
     /**
      * Get the stub file for the generator.
      *
@@ -73,11 +79,5 @@ class MigrationMakeCommand extends GeneratorCommand
     private function getFileName(): string
     {
         return date('Y_m_d_His_') . $this->argument('name') . '_table';
-    }
-
-    public function handle(): void
-    {
-        parent::handle();
-        $this->info('Migration has been created successfully!');
     }
 }

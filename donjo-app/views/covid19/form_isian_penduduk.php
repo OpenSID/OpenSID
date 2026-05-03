@@ -19,7 +19,7 @@
 			<label for="sex">Jenis Kelamin</label>
 			<select class="form-control input-sm required" name="sex" >
 				<option value="">-- Pilih Jenis Kelamin --</option>
-				<?php foreach (\App\Enums\JenisKelaminEnum::valuesToUpper() as $id => $nama): ?>
+				<?php foreach (App\Enums\JenisKelaminEnum::valuesToUpper() as $id => $nama): ?>
 					<option <?php selected($penduduk['id_sex'], $id); ?> value="<?= $id ?>"> <?= $nama ?> </option>
 				<?php endforeach; ?>
 			</select>

@@ -7,15 +7,11 @@
     </div>
     <div class="box-body no-padding">
         <ul class="nav nav-pills nav-stacked">
-            @if ($controller == 'laporan_inventaris')
-                <li {{ jecho($tip, 1, 'class="active"') }}><a href="{{ site_url('laporan_inventaris') }}"><i class="fa fa-list"></i> Laporan Semua Asset</a></li>
-                <li {{ jecho($tip, 2, 'class="active"') }}><a href="{{ site_url('laporan_inventaris/mutasi') }}"><i class="fa fa-list"></i> Laporan Asset Yang Dihapus</a></li>
-            @else
-                <li {{ jecho($tip, 1, 'class="active"') }}><a href="{{ site_url(str_replace('_mutasi', '', $controller)) }}"><i class="fa fa-list"></i> Daftar Inventaris</a></li>
-                @if ($controller != 'inventaris_kontruksi')
-                    <li {{ jecho($tip, 2, 'class="active"') }}><a href="{{ site_url(str_replace('_mutasi_mutasi', '_mutasi', $controller . '_mutasi')) }}"><i class="fa fa-share"></i> Daftar Mutasi</a></li>
-                @endif
-            @endif
+            @foreach (App\Enums\InventarisMenuEnum::getMenus($controller) as $menu)
+                <li {{ jecho($tip, $menu->tip(), 'class="active"') }}>
+                    <a href="{{ $menu->url($controller) }}"><i class="{{ $menu->icon() }}"></i> {{ $menu->label() }}</a>
+                </li>
+            @endforeach
         </ul>
     </div>
 </div>
@@ -28,27 +24,16 @@
     </div>
     <div class="box-body no-padding">
         <ul class="nav nav-pills nav-stacked">
-            @if (can('b', 'laporan-inventaris'))
-                <li {!! in_array($controller, ['laporan_inventaris', 'laporan_inventaris_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('laporan_inventaris') }}"><i class="fa fa-tags"></i> Laporan Semua Asset</a></li>
-            @endif
-            @if (can('b', 'inventaris-tanah'))
-                <li {!! in_array($controller, ['inventaris_tanah', 'inventaris_tanah_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_tanah') }}"><i class="fa fa-tags"></i> Tanah</a></li>
-            @endif
-            @if (can('b', 'inventaris-peralatan'))
-                <li {!! in_array($controller, ['inventaris_peralatan', 'inventaris_peralatan_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_peralatan') }}"><i class="fa fa-tags"></i> Peralatan Dan Mesin</a></li>
-            @endif
-            @if (can('b', 'inventaris-gedung'))
-                <li {!! in_array($controller, ['inventaris_gedung', 'inventaris_gedung_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_gedung') }}"><i class="fa fa-tags"></i> Gedung dan Bangunan</a></li>
-            @endif
-            @if (can('b', 'inventaris-jalan'))
-                <li {!! in_array($controller, ['inventaris_jalan', 'inventaris_jalan_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_jalan') }}"><i class="fa fa-tags"></i> Jalan, Irigasi, dan Jaringan</a></li>
-            @endif
-            @if (can('b', 'inventaris-asset'))
-                <li {!! in_array($controller, ['inventaris_asset', 'inventaris_asset_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_asset') }}"><i class="fa fa-tags"></i> Aset Tetap Lainnya</a></li>
-            @endif
-            @if (can('b', 'inventaris-kontruksi'))
-                <li {!! in_array($controller, ['inventaris_kontruksi', 'inventaris_kontruksi_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_kontruksi') }}"><i class="fa fa-tags"></i> Konstruksi dalam pengerjaan</a></li>
-            @endif
+            @foreach (App\Enums\InventarisSubMenuEnum::all() as $key => $value)
+                @php
+                    $permission = ($key === 'laporan_inventaris')
+                        ? 'laporan-inventaris'
+                        : str_replace('_', '-', $key);
+                @endphp
+                @if (can('b', $permission))
+                    <li {!! in_array($controller, [$key, $key . '_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url($key) }}"><i class="fa fa-tags"></i> {{ $value }}</a></li>
+                @endif
+            @endforeach
         </ul>
     </div>
 </div>

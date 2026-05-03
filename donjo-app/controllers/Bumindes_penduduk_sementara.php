@@ -80,19 +80,6 @@ class Bumindes_penduduk_sementara extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData()
-    {
-        $filters = [
-            'tahun' => $this->input->get('tahun') ?? null,
-            'bulan' => $this->input->get('bulan') ?? null,
-        ];
-
-        return Penduduk::with(['log_latest'])
-            ->statusPenduduk(StatusPendudukEnum::TIDAK_TETAP)
-            ->statusDasar([StatusDasarEnum::HIDUP, StatusDasarEnum::PERGI])
-            ->filterLog($filters);
-    }
-
     public function dialog($aksi = 'cetak')
     {
         $data['aksi']       = $aksi;
@@ -121,5 +108,18 @@ class Bumindes_penduduk_sementara extends Admin_Controller
         $data['letak_ttd']   = ['2', '2', '9'];
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        $filters = [
+            'tahun' => $this->input->get('tahun') ?? null,
+            'bulan' => $this->input->get('bulan') ?? null,
+        ];
+
+        return Penduduk::with(['log_latest'])
+            ->statusPenduduk(StatusPendudukEnum::TIDAK_TETAP)
+            ->statusDasar([StatusDasarEnum::HIDUP, StatusDasarEnum::PERGI])
+            ->filterLog($filters);
     }
 }

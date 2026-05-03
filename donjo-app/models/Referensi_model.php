@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\StatusRekamEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // Model ini digunakan untuk data referensi statis yg tidak disimpan pd database atau sebagai referensi global
@@ -69,7 +71,7 @@ class Referensi_model extends MY_Model
 
     public function list_ktp_el()
     {
-        return array_flip(unserialize(KTP_EL));
+        return StatusRekamEnum::all();
     }
 
     public function list_status_rekam()

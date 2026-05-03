@@ -51,6 +51,15 @@ class Opendk_pesan extends Admin_Controller
         isCan('b');
     }
 
+    // Hanya filter inputan
+    protected static function validate($request = []): array
+    {
+        return [
+            'judul' => alfanumerik_spasi($request['judul']),
+            'pesan' => $request['pesan'],
+        ];
+    }
+
     public function cek()
     {
         // cek setting server ke opendk
@@ -213,15 +222,6 @@ class Opendk_pesan extends Admin_Controller
             'diarsipkan' => 1,
         ]);
         redirect_with('success', 'pesan berhasil diarsipkan');
-    }
-
-    // Hanya filter inputan
-    protected static function validate($request = []): array
-    {
-        return [
-            'judul' => alfanumerik_spasi($request['judul']),
-            'pesan' => $request['pesan'],
-        ];
     }
 
     public function getPesan()

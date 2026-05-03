@@ -43,21 +43,6 @@ class Sinkronisasi
 {
     private string $zip_file = '';
 
-    // $file = nama file yg akan diproses
-    private function extractFile(string $file)
-    {
-        $data  = get_csv($this->zip_file, $file);
-        $count = count($data);
-
-        for ($i = 0; $i < $count; $i++) {
-            if (empty($data[$i]) || ! array_filter($data[$i])) {
-                unset($data[$i]);
-            }
-        }
-
-        return $data;
-    }
-
     public function sinkronkan($file = null)
     {
         $hasil = true;
@@ -98,6 +83,21 @@ class Sinkronisasi
         }
 
         return $hasil;
+    }
+
+    // $file = nama file yg akan diproses
+    private function extractFile(string $file)
+    {
+        $data  = get_csv($this->zip_file, $file);
+        $count = count($data);
+
+        for ($i = 0; $i < $count; $i++) {
+            if (empty($data[$i]) || ! array_filter($data[$i])) {
+                unset($data[$i]);
+            }
+        }
+
+        return $data;
     }
 
     // Hapus kolom yang tidak akan diupdate

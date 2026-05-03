@@ -100,6 +100,7 @@
                             </div>
                         </div>
 
+                        @if ($wilayah)
                         <div class="form-group">
                             <label for="batasi_wilayah" class="col-sm-3 control-label">Akses Wilayah</label>
                             <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
@@ -165,6 +166,7 @@
                                 </table>
                             </div>
                         </div>
+                        @endif
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="nama">Nama</label>

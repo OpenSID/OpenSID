@@ -50,6 +50,17 @@ class Shortcut extends Admin_Controller
         isCan('b');
     }
 
+    protected static function validate($request = [])
+    {
+        return [
+            'judul'     => $request['judul'],
+            'raw_query' => $request['raw_query'],
+            'icon'      => $request['icon'],
+            'warna'     => $request['warna'] ?? '#00c0ef',
+            'status'    => $request['status'] ?? 0,
+        ];
+    }
+
     public function index()
     {
         return view('admin.shortcut.index');
@@ -184,16 +195,5 @@ class Shortcut extends Admin_Controller
         shortcut_cache();
 
         return json(['status' => 1]);
-    }
-
-    protected static function validate($request = [])
-    {
-        return [
-            'judul'     => $request['judul'],
-            'raw_query' => $request['raw_query'],
-            'icon'      => $request['icon'],
-            'warna'     => $request['warna'] ?? '#00c0ef',
-            'status'    => $request['status'] ?? 0,
-        ];
     }
 }

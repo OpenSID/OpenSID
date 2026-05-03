@@ -37,9 +37,9 @@
 
 namespace Modules\Analisis\Models;
 
-use App\Enums\AnalisisRefSubjekEnum;
 use App\Models\BaseModel;
 use App\Traits\ConfigId;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,13 +50,14 @@ class AnalisisMaster extends BaseModel
     public const UNLOCK = 0;
     public const LOCK   = 1;
 
+    public $timestamps = false;
+
     /**
      * {@inheritDoc}
      */
     protected $table = 'analisis_master';
 
     protected $guarded = [];
-    public $timestamps = false;
 
     public function isLock(): bool
     {

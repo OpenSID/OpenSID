@@ -59,18 +59,6 @@ class Status_desa extends Admin_Controller
         return $this->idm();
     }
 
-    private function idm()
-    {
-        $tahun = session('tahun') ?? ($this->input->post('tahun') ?? (setting('tahun_idm')) ?? date('Y'));
-
-        $data = [
-            'tahun' => (int) $tahun,
-            'idm'   => idm(identitas('kode_desa'), $tahun),
-        ];
-
-        return view('admin.status_desa.idm', $data);
-    }
-
     public function perbarui_idm(int $tahun): void
     {
         if (cek_koneksi_internet() && $tahun) {
@@ -111,19 +99,6 @@ class Status_desa extends Admin_Controller
         set_session('tahun', $tahun);
         (new SettingAplikasi())->flushQueryCache();
         redirect_with('success', 'Berhasil Simpan Data');
-    }
-
-    private function sdgs()
-    {
-        set_session('navigasi', 'sdgs');
-
-        $data = [
-            'sdgs'          => sdgs(),
-            'kode_desa'     => identitas('kode_desa'),
-            'kode_desa_bps' => identitas('kode_desa_bps'),
-        ];
-
-        return view('admin.status_desa.sdgs', $data);
     }
 
     public function perbarui_bps()
@@ -173,5 +148,30 @@ class Status_desa extends Admin_Controller
     public function navigasi($navigasi = 'idm'): void
     {
         redirect_with('navigasi', $navigasi);
+    }
+
+    private function idm()
+    {
+        $tahun = session('tahun') ?? ($this->input->post('tahun') ?? (setting('tahun_idm')) ?? date('Y'));
+
+        $data = [
+            'tahun' => (int) $tahun,
+            'idm'   => idm(identitas('kode_desa'), $tahun),
+        ];
+
+        return view('admin.status_desa.idm', $data);
+    }
+
+    private function sdgs()
+    {
+        set_session('navigasi', 'sdgs');
+
+        $data = [
+            'sdgs'          => sdgs(),
+            'kode_desa'     => identitas('kode_desa'),
+            'kode_desa_bps' => identitas('kode_desa_bps'),
+        ];
+
+        return view('admin.status_desa.sdgs', $data);
     }
 }

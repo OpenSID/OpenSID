@@ -52,6 +52,18 @@ class Theme extends BaseModel
     public const PATH_SISTEM   = 'storage/app/themes/';
     public const PATH_DESA     = 'desa/themes/';
 
+    public $cacheFor = -1;
+
+    /**
+     * @var mixed[]|string
+     */
+    public $tema;
+
+    /**
+     * @var 'desa/themes'|'vendor/themes'
+     */
+    public $folder;
+
     /**
      * Invalidate the cache automatically
      * upon update in the database.
@@ -59,8 +71,6 @@ class Theme extends BaseModel
      * @var bool
      */
     protected static $flushCacheOnUpdate = true;
-
-    public $cacheFor = -1;
 
     /**
      * The table associated with the model.
@@ -93,17 +103,22 @@ class Theme extends BaseModel
         'opsi'   => 'json',
     ];
 
-    /**
-     * @var mixed[]|string
-     */
-    public $tema;
+    private string $templateFile = 'resources/views/template.blade.php';
 
-    /**
-     * @var 'desa/themes'|'vendor/themes'
-     */
-    public $folder;
+    public static function boot(): void
+    {
+        parent::boot();
 
-    private $templateFile = 'resources/views/template.blade.php';
+        static::creating(static function ($model): void {
+            $model->slug = Str::slug('desa-' . $model->nama);
+        });
+
+        static::deleting(static function ($model): void {
+            deleteDir($model->full_path);
+
+            cache()->forget('theme_active');
+        });
+    }
 
     public function getFullPathAttribute()
     {
@@ -174,7 +189,7 @@ class Theme extends BaseModel
 
         // Jika tidak ada tema aktif yang valid, fallback ke DEFAULT_THEME
         // Nonaktifkan semua tema terlebih dahulu.
-        self::whereIn('sistem', [0, 1])->get()->each(static function ($theme) {
+        self::whereIn('sistem', [0, 1])->get()->each(static function ($theme): void {
             $theme->update(['status' => 0]);
         });
 
@@ -187,21 +202,6 @@ class Theme extends BaseModel
         return self::isActive()->first();
     }
 
-    public static function boot(): void
-    {
-        parent::boot();
-
-        static::creating(static function ($model): void {
-            $model->slug = Str::slug('desa-' . $model->nama);
-        });
-
-        static::deleting(static function ($model): void {
-            deleteDir($model->full_path);
-
-            cache()->forget('theme_active');
-        });
-    }
-
     // Mengambil latar belakang website ubahan
     public function latarWebsite()
     {
@@ -212,7 +212,7 @@ class Theme extends BaseModel
         return is_file($latar_website) ? $latar_website : null;
     }
 
-    public function lokasiLatarWebsite()
+    public function lokasiLatarWebsite(): string
     {
         $folder = "desa/pengaturan/{$this->tema}/images/";
         if (! file_exists($folder)) {

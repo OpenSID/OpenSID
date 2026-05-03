@@ -88,6 +88,7 @@
                             <th nowrap>NIK</th>
                             <th nowrap>NAMA</th>
                             <th nowrap>NO. KK / NAMA KK</th>
+                            <th nowrap>JENIS KELAMIN</th>
                             <th nowrap>{{ strtoupper(setting('sebutan_dusun')) }}</th>
                             <th nowrap>RW</th>
                             <th nowrap>RT</th>
@@ -106,17 +107,7 @@
     </div>
     @include('admin.layouts.components.konfirmasi', ['periksa_data' => true, 'pertanyaan' => $pertanyaan])
 @endsection
-@push('css')
-    <style>
-        .select2-results__option[aria-disabled=true] {
-            display: none;
-        }
 
-        .row.mepet>div {
-            margin-right: -25px;
-        }
-    </style>
-@endpush
 @push('scripts')
     <script>
         $(document).ready(function() {
@@ -194,6 +185,13 @@
                         searchable: true,
                         orderable: true,
                         defaultContent: ''
+                    },
+                    {
+                        data: 'penduduk.jenis_kelamin',
+                        name: 'penduduk.jenis_kelamin',
+                        searchable: false,
+                        orderable: false,
+                        defaultContent: '-',
                     },
                     {
                         data: 'penduduk.wilayah.dusun',

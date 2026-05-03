@@ -114,6 +114,30 @@
         </div>
     </div>
     @include('admin.layouts.components.konfirmasi_hapus')
+
+    <!-- Modal Timeline Penolakan -->
+    <div class="modal fade" id="modalTimeline" tabindex="-1" role="dialog" aria-labelledby="modalTimelineLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalTimelineLabel">
+                        <i class="fa fa-history"></i> Linimasa Penolakan Surat
+                    </h4>
+                </div>
+                <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                    <ul class="timeline" id="timelineContent">
+                        <!-- Timeline content will be populated by JavaScript -->
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -204,8 +228,24 @@
                         orderable: false
                     },
                     {
-                        data: 'alasan',
-                        name: 'alasan',
+                        data: 'tolak',
+                        name: 'tolak.keterangan',
+                        render: function(data, type, row, meta) {
+                            if (data && Array.isArray(data) && data.length > 0) {
+                                const timelineData = JSON.stringify(data);
+                                return `
+                                    <button type="button" 
+                                            class="btn btn-xs btn-info btn-timeline" 
+                                            data-toggle="modal" 
+                                            data-target="#modalTimeline" 
+                                            data-timeline='${timelineData}'>
+                                        <i class="fa fa-history"></i> Lihat Linimasa
+                                    </button>
+                                `;
+                            }
+
+                            return '';
+                        },
                         searchable: false,
                         orderable: false,
                         defaultContent: '',
@@ -253,15 +293,15 @@
                             },
                             title: 'TTE',
                             html: `
-                    @if (empty($list_setting->firstWhere('key', 'tte_api')?->value) || $list_setting->firstWhere('key', 'tte_api')?->value == base_url())
-                        <div class="alert alert-warning alert-dismissible">
-                            <h4><i class="icon fa fa-warning"></i> Info Penting!</h4>
-                            Modul TTE ini hanya sebuah simulasi untuk persiapan penerapan TTE di {{ config_item('nama_aplikasi') }} dan Hanya berlaku untuk Surat yang Menggunakan TinyMCE
-                        </div>
-                    @endif
-                    <object data='{{ ci_route('keluar.unduh.tinymce') }}/${id}/true' style="width: 100%;min-height: 400px;" type="application/pdf"></object>
-                    <input type="password" id="passphrase" autocomplete="off" class="swal2-input" placeholder="Masukkan Passphrase">
-                `,
+                                @if (empty($list_setting->firstWhere('key', 'tte_api')?->value) || $list_setting->firstWhere('key', 'tte_api')?->value == base_url())
+                                    <div class="alert alert-warning alert-dismissible">
+                                        <h4><i class="icon fa fa-warning"></i> Info Penting!</h4>
+                                        Modul TTE ini hanya sebuah simulasi untuk persiapan penerapan TTE di {{ config_item('nama_aplikasi') }} dan Hanya berlaku untuk Surat yang Menggunakan TinyMCE
+                                    </div>
+                                @endif
+                                <object data='{{ ci_route('keluar.unduh.tinymce') }}/${id}/true' style="width: 100%;min-height: 400px;" type="application/pdf"></object>
+                                <input type="password" id="passphrase" autocomplete="off" class="swal2-input" placeholder="Masukkan Passphrase">
+                            `,
                             showCancelButton: true,
                             confirmButtonText: 'Kirim',
                             showLoaderOnConfirm: true,
@@ -338,7 +378,7 @@
                                 formData.append('sidcsrf', getCsrfToken());
                                 formData.append('id', id);
 
-                                return fetch("{{ ci_route('api.surat_kecamatan.kirim') }}", {
+                                return fetch("{{ ci_route('external_api.surat_kecamatan.kirim') }}", {
                                     method: 'post',
                                     body: formData,
                                 }).then(response => {
@@ -380,6 +420,88 @@
                             }
 
                         })
+                    });
+
+                    // Handle timeline modal
+                    $('button.btn-timeline').click(function(e) {
+                        e.preventDefault();
+                        var timelineData = $(this).data('timeline');
+                        var timelineContent = $('#timelineContent');
+
+                        // Clear existing content
+                        timelineContent.empty();
+
+                        if (timelineData && timelineData.length > 0) {
+                            // Group timeline by date
+                            var groupedData = {};
+                            $.each(timelineData, function(index, item) {
+                                var dateString = item.created_at || item.tanggal_tolak;
+                                var dateFormat = 'DD MMM YYYY';
+                                var dateKey = dateString && moment(dateString).isValid() ? moment(dateString).format(dateFormat) : 'Tanggal tidak diketahui';
+                                if (!groupedData[dateKey]) {
+                                    groupedData[dateKey] = [];
+                                }
+                                groupedData[dateKey].push(item);
+                            });
+
+                            // Create timeline items using AdminLTE2 structure
+                            $.each(groupedData, function(dateKey, items) {
+                                // Add timeline time label
+                                var timeLabel = `
+                                    <li class="time-label">
+                                        <span class="bg-red">${dateKey}</span>
+                                    </li>
+                                `;
+                                timelineContent.append(timeLabel);
+
+                                // Add timeline items for this date
+                                $.each(items, function(index, item) {
+                                    var dateString = item.created_at || item.tanggal_tolak;
+                                    var timeOnly = dateString && moment(dateString).isValid() ? moment(dateString).format('HH:mm') : '--:--';
+                                    var keterangan = item.keterangan || 'Tidak ada keterangan';
+                                    var penolak = item.user.nama || 'System';
+                                    var fullDate = dateString && moment(dateString).isValid() ? moment(dateString).format('DD MMMM YYYY HH:mm') : 'Tanggal tidak tersedia';
+
+                                    var timelineItem = `
+                                        <li>
+                                            <i class="fa fa-times bg-red"></i>
+                                            <div class="timeline-item">
+                                                <span class="time"><i class="fa fa-clock-o"></i> ${timeOnly}</span>
+                                                <h3 class="timeline-header">
+                                                    <strong>
+                                                        <i class="fa fa-user"></i> ${penolak}
+                                                    </strong> menolak permohonan surat
+                                                </h3>
+                                                <div class="timeline-body">
+                                                    <div class="well">
+                                                        <h4>Alasan Penolakan:</h4>
+                                                        <p>${keterangan}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="timeline-footer">
+                                                    <small class="text-muted">
+                                                        <i class="fa fa-calendar"></i> Ditolak pada ${fullDate}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    `;
+
+                                    timelineContent.append(timelineItem);
+                                });
+                            });
+                            // Add end marker
+                            timelineContent.append(`<li><i class="fa fa-clock-o bg-gray"></i></li>`);
+                        } else {
+                            var emptyState = `
+                                <li>
+                                    <div class="alert alert-info text-center">
+                                        <i class="fa fa-info-circle"></i> Tidak ada data timeline penolakan
+                                    </div>
+                                </li>
+                            `;
+                            timelineContent.html(emptyState);
+                        }
                     });
                 }
             });

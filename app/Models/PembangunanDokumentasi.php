@@ -68,16 +68,6 @@ class PembangunanDokumentasi extends BaseModel
         'updated_at',
     ];
 
-    public function getPersentaseAttribute($value)
-    {
-        return $value;
-    }
-
-    public function pembangunan()
-    {
-        return $this->belongsTo(Pembangunan::class, 'id_pembangunan', 'id');
-    }
-
     public static function boot(): void
     {
         parent::boot();
@@ -99,5 +89,15 @@ class PembangunanDokumentasi extends BaseModel
                 unlink($gambar);
             }
         }
+    }
+
+    public function getPersentaseAttribute($value)
+    {
+        return $value;
+    }
+
+    public function pembangunan()
+    {
+        return $this->belongsTo(Pembangunan::class, 'id_pembangunan', 'id');
     }
 }

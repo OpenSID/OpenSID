@@ -35,9 +35,11 @@
  *
  */
 
+use App\Enums\InventarisSubMenuEnum;
 use App\Models\Aset;
 use App\Models\InventarisGedung;
 use App\Models\Pamong;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -55,7 +57,9 @@ class Inventaris_gedung extends Admin_Controller
 
     public function index()
     {
-        $data['tip'] = 1;
+        $data['tip']    = 1;
+        $data['action'] = 'Daftar';
+        $data['header'] = InventarisSubMenuEnum::GEDUNG['header'];
 
         return view('admin.inventaris.gedung.index', $data);
     }
@@ -69,18 +73,28 @@ class Inventaris_gedung extends Admin_Controller
                     $aksi = '';
 
                     if (can('u') && ! $row->mutasi) {
-                        $aksi .= '<a href="' . ci_route('inventaris_gedung_mutasi.form/') . $row->id . '/tambah' . '" title="Mutasi Data" class="btn bg-olive btn-sm"><i class="fa fa-external-link-square"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route('inventaris_gedung_mutasi.form/') . $row->id . '/tambah',
+                            'judul'      => 'Mutasi Data',
+                            'icon'       => 'fa fa-external-link-square',
+                            'type'       => 'bg-olive',
+                            'buttonOnly' => true,
+                        ])->render();
                     }
 
-                    $aksi .= '<a href="' . ci_route('inventaris_gedung.form') . '/' . $row->id . '/' . 1 . '" class="btn btn-info btn-sm"  title="Lihat Data"><i class="fa fa-eye"></i></a> ';
+                     $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                         'url'   => ci_route('inventaris_gedung.form') . '/' . $row->id . '/' . 1,
+                         'judul' => 'Lihat Data',
+                     ])->render();
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('inventaris_gedung.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "inventaris_gedung/form/{$row->id}",
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('inventaris_gedung.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('inventaris_gedung.delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
@@ -91,11 +105,6 @@ class Inventaris_gedung extends Admin_Controller
         }
 
         return show_404();
-    }
-
-    private function sumberData()
-    {
-        return InventarisGedung::with('mutasi');
     }
 
     public function form($id = '', $view = false)
@@ -120,6 +129,7 @@ class Inventaris_gedung extends Admin_Controller
         $data['get_kode'] = $this->header['desa'];
         $data['aset']     = Aset::golongan(4)->get()->toArray();
         $data['hasil']    = sprintf('%06s', InventarisGedung::count() + 1);
+        $data['header']   = InventarisSubMenuEnum::GEDUNG['header'];
 
         return view('admin.inventaris.gedung.form', $data);
     }
@@ -161,29 +171,6 @@ class Inventaris_gedung extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate(array $data): array
-    {
-        $data['nama_barang']          = strip_tags((string) explode('_', $data['nama_barang'])[0]);
-        $data['kode_barang']          = strip_tags((string) $data['kode_barang']);
-        $data['register']             = strip_tags((string) $data['register']);
-        $data['kondisi_bangunan']     = strip_tags((string) $data['kondisi_bangunan']);
-        $data['kontruksi_bertingkat'] = strip_tags((string) $data['tingkat']);
-        $data['kontruksi_beton']      = strip_tags((string) $data['kontruksi']);
-        $data['luas_bangunan']        = strip_tags((string) $data['luas_bangunan']);
-        $data['letak']                = strip_tags((string) $data['alamat']);
-        $data['no_dokument']          = strip_tags((string) $data['no_bangunan']);
-        $data['tanggal_dokument']     = date('Y-m-d', strtotime((string) $this->input->post('tanggal_bangunan')));
-        $data['status_tanah']         = strip_tags((string) $data['status_tanah']);
-        $data['luas']                 = strip_tags((string) $data['luas_tanah']);
-        $data['kode_tanah']           = strip_tags((string) $data['kode_tanah']);
-        $data['asal']                 = strip_tags((string) $data['asal']);
-        $data['harga']                = bilangan($data['harga']);
-        $data['keterangan']           = strip_tags((string) $data['keterangan']);
-        $data['visible']              = 1;
-
-        return $data;
-    }
-
     public function dialog($aksi = 'cetak')
     {
         $data               = $this->modal_penandatangan();
@@ -206,13 +193,36 @@ class Inventaris_gedung extends Admin_Controller
 
         $data['total'] = total_jumlah($data['main'], 'harga');
 
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=inventaris_gedung_' . date('Y-m-d') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
+        $data['file'] = 'inventaris_gedung_' . date('Y-m-d');
 
-        return view('admin.inventaris.gedung.cetak', $data);
+        view('admin.inventaris.gedung.cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        return InventarisGedung::with('mutasi');
+    }
+
+    private function validate(array $data): array
+    {
+        $data['nama_barang']          = strip_tags((string) explode('_', $data['nama_barang'])[0]);
+        $data['kode_barang']          = strip_tags((string) $data['kode_barang']);
+        $data['register']             = strip_tags((string) $data['register']);
+        $data['kondisi_bangunan']     = strip_tags((string) $data['kondisi_bangunan']);
+        $data['kontruksi_bertingkat'] = strip_tags((string) $data['tingkat']);
+        $data['kontruksi_beton']      = strip_tags((string) $data['kontruksi']);
+        $data['luas_bangunan']        = strip_tags((string) $data['luas_bangunan']);
+        $data['letak']                = strip_tags((string) $data['alamat']);
+        $data['no_dokument']          = strip_tags((string) $data['no_bangunan']);
+        $data['tanggal_dokument']     = date('Y-m-d', strtotime((string) $this->input->post('tanggal_bangunan')));
+        $data['status_tanah']         = strip_tags((string) $data['status_tanah']);
+        $data['luas']                 = strip_tags((string) $data['luas_tanah']);
+        $data['kode_tanah']           = strip_tags((string) $data['kode_tanah']);
+        $data['asal']                 = strip_tags((string) $data['asal']);
+        $data['harga']                = bilangan($data['harga']);
+        $data['keterangan']           = strip_tags((string) $data['keterangan']);
+        $data['visible']              = 1;
+
+        return $data;
     }
 }

@@ -6,7 +6,7 @@
                 <input
                     id="no_kk"
                     name="no_kk"
-                    class="form-control input-sm digits required"
+                    class="form-control input-sm nama_terbatas required"
                     type="text"
                     placeholder="Nomor Rumah Tangga"
                     value="{{ $kk['no_kk'] }}"

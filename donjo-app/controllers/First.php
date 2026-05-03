@@ -182,27 +182,32 @@ class First extends Web_Controller
         view('web.gis.aparatur_wilayah', $data);
     }
 
-    public function get_form_info(): void
+    public function get_form_info()
     {
-        $redirect_link = $this->input->get('redirectLink', true);
+        $redirect_link = $this->input->get('redirectLink');
 
         if ($this->session->inside_retry == false) {
             // Untuk kondisi SEBELUM autentikasi dan SETELAH RETRY hit API
-            if ($this->input->get('outsideRetry', true) == 'true') {
+            if ($this->input->get('outsideRetry') == 'true') {
                 $this->session->inside_retry = true;
             }
-            $this->session->google_form_id = $this->input->get('formId', true);
-            $result                        = (new AnalisisImport())->importGform($redirect_link);
 
-            echo json_encode($result, JSON_THROW_ON_ERROR);
-        } else {
+            $result = (new AnalisisImport())->importGform($redirect_link);
+
+            $this->session->set_userdata([
+                'data_import' => $result,
+                'success'     => 5,
+            ]);
+
+            return redirect('analisis_master');
+        }
             // Untuk kondisi SESAAT setelah Autentikasi
             $redirect_link = $this->session->inside_redirect_link;
 
             $this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
 
-            header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code', true) . '&formId=' . $this->session->google_form_id);
-        }
+            header("Location: {$redirect_link}?outsideRetry=true&code={$this->input->get('code')}&formId={$this->session->google_form_id}");
+
     }
 
     public function utama(): void

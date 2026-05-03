@@ -46,6 +46,13 @@ class DisposisiSuratmasuk extends BaseModel
     use ConfigId;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -58,13 +65,6 @@ class DisposisiSuratmasuk extends BaseModel
      * @var string
      */
     protected $primaryKey = 'id_disposisi';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.

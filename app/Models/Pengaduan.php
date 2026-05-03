@@ -76,6 +76,19 @@ class Pengaduan extends BaseModel
         'child',
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+        static::deleting(static function ($model): void {
+            if ($model->foto) {
+                $file = FCPATH . LOKASI_PENGADUAN . $model->foto;
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+            }
+        });
+    }
+
     /**
      * Scope query untuk status pengaduan
      *
@@ -137,18 +150,5 @@ class Pengaduan extends BaseModel
         }
 
         return $query;
-    }
-
-    public static function boot(): void
-    {
-        parent::boot();
-        static::deleting(static function ($model): void {
-            if ($model->foto) {
-                $file = FCPATH . LOKASI_PENGADUAN . $model->foto;
-                if (file_exists($file)) {
-                    unlink($file);
-                }
-            }
-        });
     }
 }

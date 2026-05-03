@@ -41,6 +41,7 @@ use App\Models\Pamong;
 use App\Models\Pembangunan;
 use App\Models\PembangunanDokumentasi;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -73,13 +74,14 @@ class Pembangunan_dokumentasi extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('pembangunan_dokumentasi.form-dokumentasi', "{$row->id_pembangunan}/{$row->id}") . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "pembangunan_dokumentasi/form-dokumentasi/{$row->id_pembangunan}/{$row->id}",
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('pembangunan_dokumentasi.delete-dokumentasi', "{$row->id_pembangunan}/{$row->id}") . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('pembangunan_dokumentasi.delete-dokumentasi', "{$row->id_pembangunan}/{$row->id}"),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
@@ -204,6 +206,10 @@ class Pembangunan_dokumentasi extends Admin_Controller
             header('Pragma: no-cache');
             header('Expires: 0');
         }
+
+        $data['aksi'] = $aksi;
+        $data['file'] = 'wilayah_' . date('Y-m-d');
+
         view('admin.pembangunan.dokumentasi.cetak', $data);
     }
 

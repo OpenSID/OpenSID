@@ -66,18 +66,18 @@ class Modul extends BaseModel
     ];
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'setting_modul';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'setting_modul';
 
     /**
      * The guarded with the model.
@@ -98,6 +98,22 @@ class Modul extends BaseModel
     protected $appends = [
         'raw_aktif',
     ];
+
+    public static function listIcon()
+    {
+        $list_icon = [];
+
+        $file = FCPATH . 'assets/fonts/fontawesome.txt';
+
+        if (file_exists($file)) {
+            $list_icon = file_get_contents($file);
+            $list_icon = explode('.', $list_icon);
+
+            return array_map(static fn ($a): string => explode(':', $a)[0], $list_icon);
+        }
+
+        return false;
+    }
 
     /**
      * Scope query untuk aktif
@@ -207,29 +223,13 @@ class Modul extends BaseModel
             ->values();
     }
 
-    protected function getRawAktifAttribute($value)
-    {
-        return $this->attributes['aktif'];
-    }
-
-    public static function listIcon()
-    {
-        $list_icon = [];
-
-        $file = FCPATH . 'assets/fonts/fontawesome.txt';
-
-        if (file_exists($file)) {
-            $list_icon = file_get_contents($file);
-            $list_icon = explode('.', $list_icon);
-
-            return array_map(static fn ($a): string => explode(':', $a)[0], $list_icon);
-        }
-
-        return false;
-    }
-
     public function isLock(): bool
     {
         return $this->attributes['aktif'] == self::LOCK;
+    }
+
+    protected function getRawAktifAttribute($value)
+    {
+        return $this->attributes['aktif'];
     }
 }

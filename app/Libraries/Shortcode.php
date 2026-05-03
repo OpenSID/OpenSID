@@ -37,6 +37,7 @@
 
 namespace App\Libraries;
 
+use App\Enums\AktifEnum;
 use App\Models\Pamong;
 use Illuminate\Support\Facades\Blade;
 
@@ -50,17 +51,29 @@ class Shortcode
         return preg_replace_callback($regex, function (array $matches) {
             $params_explode = explode(',', $matches[1]);
 
-            return $this->extract_shortcode($params_explode[0], $params_explode[1]);
+            return $this->extract_shortcode($params_explode[0], $params_explode[1] ?? '');
+        }, $str);
+    }
+
+    // Shortcode untuk list artikel
+    public function convert_sc_list($str = '')
+    {
+        $regex = '/\\[\\[(.*?)\\]\\]/';
+
+        return preg_replace_callback($regex, function (array $matches) {
+            $params_explode = explode(',', $matches[1]);
+
+            return $this->converted_sc_list($params_explode[0] ?? '', $params_explode[1] ?? '');
         }, $str);
     }
 
     private function extract_shortcode(?string $type = '', ?string $thn = '')
     {
         return match ($type) {
-            'penerima_bantuan_penduduk_grafik' => $this->penerima_bantuan_penduduk_grafik($stat = 0),
-            'penerima_bantuan_penduduk_daftar' => $this->penerima_bantuan_penduduk_daftar($stat = 0),
-            'penerima_bantuan_keluarga_grafik' => $this->penerima_bantuan_keluarga_grafik($stat = 0),
-            'penerima_bantuan_keluarga_daftar' => $this->penerima_bantuan_keluarga_daftar($stat = 0),
+            'penerima_bantuan_penduduk_grafik' => $this->penerima_bantuan_penduduk_grafik(),
+            'penerima_bantuan_penduduk_daftar' => $this->penerima_bantuan_penduduk_daftar(),
+            'penerima_bantuan_keluarga_grafik' => $this->penerima_bantuan_keluarga_grafik(),
+            'penerima_bantuan_keluarga_daftar' => $this->penerima_bantuan_keluarga_daftar(),
             'grafik-RP-APBD-manual', 'grafik-RP-APBD' => $this->grafik_rp_apbd($thn),
             'lap-RP-APBD-Bidang-manual', 'lap-RP-APBD' => $this->tabel_rp_apbd($thn),
             'sotk_w_bpd'  => $this->sotk_w_bpd(),
@@ -87,7 +100,7 @@ class Shortcode
     private function penerima_bantuan_penduduk_grafik(int $stat = 0)
     {
         $heading = 'Penerima Bantuan (Penduduk)';
-        $stat    = Statistik::bantuan('bantuan_penduduk');
+        $stat    = Statistik::bantuan('bantuan_penduduk', ['status' => AktifEnum::AKTIF]);
         $lap     = 'bantuan_penduduk';
         $data    = [
             'heading' => $heading,
@@ -102,7 +115,7 @@ class Shortcode
     private function penerima_bantuan_penduduk_daftar(int $stat = 0)
     {
         $heading = 'Penerima Bantuan (Penduduk)';
-        $stat    = Statistik::bantuan('bantuan_penduduk');
+        $stat    = Statistik::bantuan('bantuan_penduduk', ['status' => AktifEnum::AKTIF]);
         $lap     = 'bantuan_penduduk';
 
         $data = [
@@ -117,7 +130,7 @@ class Shortcode
     private function penerima_bantuan_keluarga_grafik(int $stat = 0)
     {
         $heading = 'Penerima Bantuan (Keluarga)';
-        $stat    = Statistik::bantuan('bantuan_keluarga');
+        $stat    = Statistik::bantuan('bantuan_keluarga', ['status' => AktifEnum::AKTIF]);
         $lap     = 'bantuan_keluarga';
         $data    = [
             'heading' => $heading,
@@ -132,7 +145,7 @@ class Shortcode
     private function penerima_bantuan_keluarga_daftar(int $stat = 0)
     {
         $heading = 'Penerima Bantuan (Keluarga)';
-        $stat    = Statistik::bantuan('bantuan_keluarga');
+        $stat    = Statistik::bantuan('bantuan_keluarga', ['status' => AktifEnum::AKTIF]);
         $lap     = 'bantuan_keluarga';
         $data    = [
             'heading' => $heading,
@@ -172,18 +185,6 @@ class Shortcode
         $data['bagan']['nodes'] = Pamong::status()->get()->toArray();
 
         return Blade::render('admin.pengurus.bagan_sisip', $data);
-    }
-
-    // Shortcode untuk list artikel
-    public function convert_sc_list($str = '')
-    {
-        $regex = '/\\[\\[(.*?)\\]\\]/';
-
-        return preg_replace_callback($regex, function (array $matches) {
-            $params_explode = explode(',', $matches[1]);
-
-            return $this->converted_sc_list($params_explode[0] ?? '', $params_explode[1] ?? '');
-        }, $str);
     }
 
     private function converted_sc_list(?string $type = '', ?string $thn = '')

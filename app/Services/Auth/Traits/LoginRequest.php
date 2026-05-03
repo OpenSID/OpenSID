@@ -53,7 +53,7 @@ trait LoginRequest
      *
      * @return array<string, array|\Illuminate\Contracts\Validation\Rule|string>
      */
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'username' => ['required', 'string'],
@@ -64,11 +64,9 @@ trait LoginRequest
     /**
      * Attempt to authenticate the request's credentials.
      *
-     * @param mixed $extra
-     *
      * @throws ValidationException
      */
-    protected function authenticate($extra = [])
+    protected function authenticate(mixed $extra = [])
     {
         $this->ensureIsNotRateLimited();
 
@@ -88,6 +86,8 @@ trait LoginRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        return null;
     }
 
     /**
@@ -98,7 +98,7 @@ trait LoginRequest
     protected function ensureIsNotRateLimited()
     {
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), config_item('maximum_login_attempts'))) {
-            return;
+            return null;
         }
 
         event(new Lockout($request = request()));

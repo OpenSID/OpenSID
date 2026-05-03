@@ -48,9 +48,9 @@ class ProdukKategori extends BaseModel
     use ConfigId;
     use ShortcutCache;
 
+    public $timestamps = false;
     protected $table   = 'produk_kategori';
     protected $guarded = [];
-    public $timestamps = false;
 
     public function produk()
     {
@@ -67,18 +67,20 @@ class ProdukKategori extends BaseModel
             );
     }
 
-    public function kategoriInsert($post = []): void
+    public function kategoriInsert($post = []): bool
     {
-        $data = $this->kategoriValidasi($post);
-
-        $this->create($data);
+        return (bool) $this->create($post);
     }
 
-    public function kategoriUpdate($id = 0, $post = []): void
+    public function kategoriUpdate($id = 0, $post = []): bool
     {
-        $data = $this->kategoriValidasi($post);
+        $validator = $this->kategoriValidasi($post, $id);
 
-        $this->where('id', $id)->update($data);
+        if ($validator->fails()) {
+            return false;
+        }
+
+        return (bool) $this->where('id', $id)->update($validator->validated());
     }
 
     public function kategoriDelete($id = 0): void
@@ -95,12 +97,20 @@ class ProdukKategori extends BaseModel
         }
     }
 
-    private function kategoriValidasi(array $post = []): array
+    public function kategoriValidasi(array $post = [], $id = null)
     {
-        return [
-            'kategori' => alfanumerik_spasi($post['kategori']),
-            'slug'     => url_title($post['kategori'], 'dash', true),
-        ];
+        // Sanitasi input sebelum validasi
+        $post['kategori'] = alfanumerik_spasi($post['kategori']);
+        $post['slug']     = url_title($post['slug'] ?: $post['kategori'], 'dash', true);
+
+        return validator($post, [
+            'kategori' => ['required', 'string', 'max:100'],
+            'slug'     => ['required', 'string', 'max:100', 'unique:produk_kategori,slug,' . $id . ',id,config_id,' . identitas('id')],
+        ], [
+            'kategori.required' => 'Kategori produk wajib diisi.',
+            'slug.required'     => 'Slug produk wajib diisi.',
+            'slug.unique'       => 'Slug sudah digunakan, silakan gunakan slug lain.',
+        ]);
     }
 
     protected function scopeActive($query)

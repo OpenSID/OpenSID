@@ -58,32 +58,24 @@ class ViewClearCommand extends Command
     protected $description = 'Clear all compiled view files';
 
     /**
-     * The filesystem instance.
-     *
-     * @var Filesystem
-     */
-    protected $files;
-
-    /**
      * Create a new config clear command instance.
      *
      * @return void
      */
-    public function __construct(Filesystem $files)
-    {
+    public function __construct(/**
+     * The filesystem instance.
+     */
+    protected Filesystem $files
+    ) {
         parent::__construct();
-
-        $this->files = $files;
     }
 
     /**
      * Execute the console command.
      *
      * @throws RuntimeException
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->laravel->configure('view');
 

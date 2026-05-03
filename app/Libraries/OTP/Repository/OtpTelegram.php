@@ -54,7 +54,7 @@ class OtpTelegram implements OtpInterface
     /**
      * {@inheritDoc}
      */
-    public function kirimOtp($user, $otp)
+    public function kirimOtp($user, $otp): ?bool
     {
         if ($this->cekVerifikasiOtp($user)) {
             return true;
@@ -72,6 +72,8 @@ class OtpTelegram implements OtpInterface
                 EOD,
             'parse_mode' => 'Markdown',
         ]);
+
+        return null;
     }
 
     /**
@@ -82,7 +84,7 @@ class OtpTelegram implements OtpInterface
         if ($this->cekVerifikasiOtp($user)) {
             return true;
         }
-        $raw_token = hash('sha256', $otp);
+        $raw_token = hash('sha256', (string) $otp);
         $token     = PendudukSaja::where('telegram_token', $raw_token)->first();
         if (! $token) {
             return false;

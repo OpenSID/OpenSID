@@ -37,13 +37,13 @@
 
 namespace Modules\Analisis\Libraries;
 
+use App\Libraries\SpreadsheetExcelReader;
 use App\Models\Penduduk;
 use App\Models\Rtm;
 use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisMaster;
 use Modules\Analisis\Models\AnalisisParameter;
 use Modules\Analisis\Models\AnalisisRespon;
-use Spreadsheet_Excel_Reader;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -75,29 +75,6 @@ class Bdt
         $this->subjekTipe     = $subjekTipe;
     }
 
-    private function fileImportValid()
-    {
-        // error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
-        // TODO: pakai cara upload yg disediakan Codeigniter
-        if ($_FILES['bdt']['error'] == 1) {
-            $upload_mb = max_upload();
-            $_SESSION['error_msg'] .= ' -> Ukuran file melebihi batas ' . $upload_mb . ' MB';
-            $_SESSION['success'] = -1;
-
-            return false;
-        }
-        $tipe_file       = TipeFile($_FILES['bdt']);
-        $mime_type_excel = ['application/vnd.ms-excel', 'application/octet-stream'];
-        if (! in_array($tipe_file, $mime_type_excel)) {
-            $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file;
-            $_SESSION['success'] = -1;
-
-            return false;
-        }
-
-        return true;
-    }
-
     /*
      * 1. Impor pengelompokan rumah tangga
      * 2. Impor data BDT 2015 ke dalam analisis_respon
@@ -114,7 +91,7 @@ class Bdt
 
         // Pakai parameter 'false' untuk mengurangi penggunaan memori
         // https://github.com/jasonrogena/php-excel-reader/issues/96
-        $data = new Spreadsheet_Excel_Reader($_FILES['bdt']['tmp_name'], false);
+        $data = new SpreadsheetExcelReader($_FILES['bdt']['tmp_name'], false);
         // Baca jumlah baris berkas BDT
         $this->jml_baris     = $data->rowcount($sheet_index = 0);
         $this->baris_pertama = $this->cariBarisPertama($data, $this->jml_baris);
@@ -138,6 +115,29 @@ class Bdt
 
         $data_sheet = $data->sheets[0]['cells'];
         $this->imporRespon($data_sheet);
+    }
+
+    private function fileImportValid()
+    {
+        // error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
+        // TODO: pakai cara upload yg disediakan Codeigniter
+        if ($_FILES['bdt']['error'] == 1) {
+            $upload_mb = max_upload();
+            $_SESSION['error_msg'] .= ' -> Ukuran file melebihi batas ' . $upload_mb . ' MB';
+            $_SESSION['success'] = -1;
+
+            return false;
+        }
+        $tipe_file       = TipeFile($_FILES['bdt']);
+        $mime_type_excel = ['application/vnd.ms-excel', 'application/octet-stream'];
+        if (! in_array($tipe_file, $mime_type_excel)) {
+            $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file;
+            $_SESSION['success'] = -1;
+
+            return false;
+        }
+
+        return true;
     }
 
     private function imporRespon($data_sheet): void
@@ -212,7 +212,7 @@ class Bdt
             ->delete();
     }
 
-    private function cariBarisPertama(Spreadsheet_Excel_Reader $data, $jml_baris)
+    private function cariBarisPertama(SpreadsheetExcelReader $data, $jml_baris)
     {
         if ($jml_baris <= 1) {
             return 0;

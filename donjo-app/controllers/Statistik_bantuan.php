@@ -66,28 +66,6 @@ class Statistik_bantuan extends Admin_Controller
         return view($view, $data);
     }
 
-    private function dataMenu($id)
-    {
-        $sasaran      = ($id == 'bantuan_penduduk') ? SasaranEnum::PENDUDUK : SasaranEnum::KELUARGA;
-        $tahunPertama = Bantuan::selectRaw('YEAR(sdate) as sdate')->when($sasaran, static fn ($q) => $q->whereSasaran($sasaran))->whereNotNull('sdate')->orderByRaw('YEAR(sdate)')->first()?->sdate;
-        $tahunPertama ??= date('Y');
-        $config    = $this->header['desa'];
-        $heading   = LaporanPenduduk::judulStatistik($id);
-        $idProgram = $id;
-        $statistik = getStatistikLabel($idProgram, $heading, $config['nama_desa']);
-
-        return [
-            'lap'                   => $id,
-            'heading'               => $heading,
-            'allKategori'           => LaporanPenduduk::menuLabel(),
-            'tahun_bantuan_pertama' => $tahunPertama,
-            'judul_kelompok'        => 'Jenis Kelompok',
-            'kategori'              => 'Program Bantuan',
-            'wilayah'               => Wilayah::treeAccess(),
-            'label'                 => $statistik['label'],
-        ];
-    }
-
     public function datatables($id)
     {
         [$filter, $filterGlobal] = $this->getFilters();
@@ -131,38 +109,6 @@ class Statistik_bantuan extends Admin_Controller
         }
 
         return show_404();
-    }
-
-    private function getFilters()
-    {
-        $status    = $this->input->get('status') ?? 1;
-        $tahun     = $this->input->get('tahun') ?? null;
-        $namaDusun = $this->input->get('dusun') ?? null;
-        $rw        = $this->input->get('rw') ?? null;
-        $rt        = $this->input->get('rt') ?? null;
-
-        $idCluster = $rt ? [$rt] : [];
-
-        if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun, $namaRw] = explode('__', $rw);
-            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        if (empty($idCluster) && ! empty($namaDusun)) {
-            $idCluster = Wilayah::whereDusun($namaDusun)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        $filterGlobal = $filter = [
-            'tahun'  => $tahun,
-            'status' => $status,
-            'dusun'  => $namaDusun,
-            'rw'     => $namaRw,
-            'rt'     => $rt,
-        ];
-        $filter['cluster']  = $idCluster;
-        $filterGlobal['rt'] = $rt ? Wilayah::find($rt)->rt : null;
-
-        return [$filter, $filterGlobal];
     }
 
     public function sumberData($lap, $filter = [])
@@ -270,5 +216,59 @@ class Statistik_bantuan extends Admin_Controller
         $data['letak_ttd']  = ['2', '2', '9'];
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function dataMenu($id)
+    {
+        $sasaran      = ($id == 'bantuan_penduduk') ? SasaranEnum::PENDUDUK : SasaranEnum::KELUARGA;
+        $tahunPertama = Bantuan::selectRaw('YEAR(sdate) as sdate')->when($sasaran, static fn ($q) => $q->whereSasaran($sasaran))->whereNotNull('sdate')->orderByRaw('YEAR(sdate)')->first()?->sdate;
+        $tahunPertama ??= date('Y');
+        $config    = $this->header['desa'];
+        $heading   = LaporanPenduduk::judulStatistik($id);
+        $idProgram = $id;
+        $statistik = getStatistikLabel($idProgram, $heading, $config['nama_desa']);
+
+        return [
+            'lap'                   => $id,
+            'heading'               => $heading,
+            'allKategori'           => LaporanPenduduk::menuLabel(),
+            'tahun_bantuan_pertama' => $tahunPertama,
+            'judul_kelompok'        => 'Jenis Kelompok',
+            'kategori'              => 'Program Bantuan',
+            'wilayah'               => Wilayah::treeAccess(),
+            'label'                 => $statistik['label'],
+        ];
+    }
+
+    private function getFilters()
+    {
+        $status    = $this->input->get('status') ?? 1;
+        $tahun     = $this->input->get('tahun') ?? null;
+        $namaDusun = $this->input->get('dusun') ?? null;
+        $rw        = $this->input->get('rw') ?? null;
+        $rt        = $this->input->get('rt') ?? null;
+
+        $idCluster = $rt ? [$rt] : [];
+
+        if (empty($idCluster) && ! empty($rw)) {
+            [$namaDusun, $namaRw] = explode('__', $rw);
+            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        if (empty($idCluster) && ! empty($namaDusun)) {
+            $idCluster = Wilayah::whereDusun($namaDusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        $filterGlobal = $filter = [
+            'tahun'  => $tahun,
+            'status' => $status,
+            'dusun'  => $namaDusun,
+            'rw'     => $namaRw,
+            'rt'     => $rt,
+        ];
+        $filter['cluster']  = $idCluster;
+        $filterGlobal['rt'] = $rt ? Wilayah::find($rt)->rt : null;
+
+        return [$filter, $filterGlobal];
     }
 }

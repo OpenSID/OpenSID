@@ -54,6 +54,15 @@ class AnalisisParameterController extends AdminModulController
         isCan('b');
     }
 
+    protected static function validate(array $request = []): array
+    {
+        return [
+            'kode_jawaban' => bilangan($request['kode_jawaban']),
+            'jawaban'      => htmlentities($request['jawaban']),
+            'nilai'        => bilangan($request['nilai']),
+        ];
+    }
+
     public function index($master, $indikator)
     {
         $data = [
@@ -163,14 +172,5 @@ class AnalisisParameterController extends AdminModulController
         }
 
         redirect_with('error', 'Gagal Hapus Data', ci_route('analisis_indikator.' . $master . '.parameter', $indikator));
-    }
-
-    protected static function validate(array $request = []): array
-    {
-        return [
-            'kode_jawaban' => bilangan($request['kode_jawaban']),
-            'jawaban'      => htmlentities($request['jawaban']),
-            'nilai'        => bilangan($request['nilai']),
-        ];
     }
 }

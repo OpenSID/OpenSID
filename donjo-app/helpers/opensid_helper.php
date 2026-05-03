@@ -36,12 +36,21 @@
  */
 
 use App\Enums\AgamaEnum;
+use App\Enums\AsuransiEnum;
+use App\Enums\BahasaEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\KeluargaSejahteraEnum;
+use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
+use App\Enums\PendidikanSedangEnum;
+use App\Enums\PendudukBidangEnum;
+use App\Enums\PendudukKursusEnum;
+use App\Enums\PeristiwaPendudukEnum;
+use App\Enums\PindahEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\Artikel;
@@ -61,6 +70,9 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Modules\Analisis\Enums\AnalisisRefStateEnum;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
+use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
 use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\Kehadiran;
 use voku\helper\AntiXSS;
@@ -70,7 +82,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2604.0.0');
+define('VERSION', '2605.0.0');
 
 /**
  * VERSI_DATABASE
@@ -81,7 +93,7 @@ define('VERSION', '2604.0.0');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2026040151');
+define('VERSI_DATABASE', '2026050151');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -109,11 +121,7 @@ define('ASALDANA', serialize([
     'Dana Desa'         => 'Dana Desa',
     'Lain-lain (Hibah)' => 'Lain-lain (Hibah)',
 ]));
-define('KTP_EL', serialize([
-    strtolower('BELUM')  => '1',
-    strtolower('KTP-EL') => '2',
-    strtolower('KIA')    => '3',
-]));
+
 define('TEMPAT_DILAHIRKAN', serialize([
     'RS/RB'     => '1',
     'Puskesmas' => '2',
@@ -989,7 +997,7 @@ if (! function_exists('warna')) {
 
 function buat_slug(array $data_slug): string
 {
-    return $data_slug['thn'] . '/' . $data_slug['bln'] . '/' . $data_slug['hri'] . '/' . $data_slug['slug'];
+    return sprintf('%s/%02d/%02d/%s', $data_slug['thn'], $data_slug['bln'], $data_slug['hri'], $data_slug['slug']);
 }
 
 function namafile($str): string
@@ -1835,6 +1843,20 @@ if (! function_exists('ref')) {
                 ];
             })->values()->toArray(),
 
+            'tweb_penduduk_pendidikan' => collect(PendidikanSedangEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'tweb_penduduk_pekerjaan' => collect(PekerjaanEnum::all())->map(static function ($item, $key) {
+            return (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ];
+            })->values()->toArray(),
+
             'tweb_penduduk_pendidikan_kk' => collect(PendidikanKKEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
@@ -1847,6 +1869,76 @@ if (! function_exists('ref')) {
                     'id'   => $key,
                     'nama' => $item,
                 ];
+            })->values()->toArray(),
+
+            'ref_penduduk_bidang' => collect(PendudukBidangEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'ref_penduduk_kursus' => collect(PendudukKursusEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'analisis_ref_state' => collect(AnalisisRefStateEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'analisis_ref_subjek' => collect(AnalisisRefSubjekEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'     => $key,
+                    'subjek' => $item,
+                ];
+            })->values()->toArray(),
+
+            'analisis_tipe_indikator' => collect(AnalisisTipeIndikatorEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'tipe' => $item,
+                ];
+            })->values()->toArray(),
+
+            'tweb_penduduk_asuransi' => collect(AsuransiEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'ref_penduduk_bahasa' => collect(BahasaEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'ref_peristiwa' => collect(PeristiwaPendudukEnum::labels())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'tweb_status_dasar' => collect(StatusDasarEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'ref_pindah' => collect(PindahEnum::all())->map(static function ($item, $key) {
+                 return (object) [
+                     'id'   => $key,
+                     'nama' => $item,
+                 ];
             })->values()->toArray(),
 
             default => ci()->db->get($alias)->result(),
@@ -2111,6 +2203,22 @@ if (! function_exists('formatTanggal')) {
         }
 
         return Carbon::parse($tanggal)->translatedFormat(setting('format_tanggal_surat'));
+    }
+}
+
+/**
+ * @param string $jam
+ *
+ * @return string
+ */
+if (! function_exists('formatJam')) {
+    function formatJam($jam = null)
+    {
+        if (null === $jam) {
+            return setting('ganti_data_kosong');
+        }
+
+        return Carbon::parse($jam)->format('H:i');
     }
 }
 
@@ -2444,21 +2552,37 @@ if (! function_exists('caseHitung')) {
     function caseHitung($teks)
     {
         $pola = '/\[(hitung|HiTung|Hitung|HitunG|HItung)]\[(.+?)]/';
-        $teks = str_replace(['[Op+]', '[Op\\]', '[Op*]', '[Op-]'], ['+', '/', '*', '-'], $teks);
+        $teks = str_replace(['[Op+]', '[Op/]', '[Op*]', '[Op-]'], ['+', '/', '*', '-'], $teks);
 
         return preg_replace_callback($pola, static function (array $matches) {
+            // hanya angka, operator, kurung
             $onlyNumberAndOperator = preg_replace('/[^0-9\+\-\*\/\(\)]/', '', $matches[2]);
-            if (strpos($onlyNumberAndOperator, '/0') !== false) {
+
+            // hapus operator di awal/akhir
+            $onlyNumberAndOperator = preg_replace('/^[\+\*\/]+|[\+\-\*\/]+$/', '', $onlyNumberAndOperator);
+
+            // jika kosong, return 0
+            if ($onlyNumberAndOperator === '') {
                 return '0';
             }
 
-            $operasi = eval("return {$onlyNumberAndOperator};");
+            // jika ada operator ganda, rapikan (misal "++", "+*", dll → hapus terakhir)
+            $onlyNumberAndOperator = preg_replace('/[\+\-\*\/]+$/', '', $onlyNumberAndOperator);
+
+            try {
+                $operasi = eval("return ({$onlyNumberAndOperator});");
+            } catch (Throwable $e) {
+                log_message('error', 'Eval gagal: ' . $onlyNumberAndOperator . ' | ' . $e->getMessage());
+
+                return '0';
+            }
 
             $ke = caseWord($matches[1], $operasi);
 
             if (preg_match('/[Rr][pP]/', $matches[2])) {
-                // jika hasil operasinya -, maka minus berada di depan Rp. contohnya - Rp. 100.000
-                return strpos($ke, '-') === 0 ? str_replace('-', '- Rp. ', rupiah24($ke, 'Rp. ', 0)) : rupiah24($ke, 'Rp. ', 0);
+                return strpos($ke, '-') === 0
+                    ? str_replace('-', '- Rp. ', rupiah24($ke, 'Rp. ', 0))
+                    : rupiah24($ke, 'Rp. ', 0);
             }
 
             return $ke;
@@ -2583,78 +2707,6 @@ if (! function_exists('get_hari')) {
     }
 }
 
-if (! function_exists('akas')) {
-    /**
-     * Class registry
-     *
-     * This function acts as a singleton. If the requested class does not
-     * exist it is instantiated and set to a static variable. If it has
-     * previously been instantiated the variable is returned.
-     *
-     * @param string	the class name being requested
-     * @param string	the directory where the class should be found
-     * @param mixed	an optional argument to pass to the class constructor
-     * @param mixed      $class
-     * @param mixed      $directory
-     * @param mixed|null $param
-     *
-     * @return object
-     */
-    function akas(string $class, string $directory = '', $param = null)
-    {
-        static $_classes = [];
-
-        // Does the class exist? If so, we're done...
-        if (isset($_classes[$class])) {
-            return $_classes[$class];
-        }
-
-        $name = false;
-
-        // Look for the class first in the local application/libraries folder
-        // then in the native system/libraries folder
-        foreach ([APPPATH, BASEPATH] as $path) {
-            if (file_exists($path . $directory . '/' . $class . '.php')) {
-                $name = 'CI_' . $class;
-
-                if (class_exists($name, false) === false) {
-                    require_once $path . $directory . '/' . $class . '.php';
-                }
-
-                break;
-            }
-        }
-
-        // Is the request a class extension? If so we load it too
-        if (file_exists(APPPATH . $directory . '/' . config_item('subclass_prefix') . $class . '.php')) {
-            $name = config_item('subclass_prefix') . $class;
-
-            if (class_exists($name, false) === false) {
-                require_once APPPATH . $directory . '/' . $name . '.php';
-            }
-        }
-
-        // Did we find the class?
-        if ($name === false) {
-            // Note: We use exit() rather than show_error() in order to avoid a
-            // self-referencing loop with the Exceptions class
-            set_status_header(503);
-            echo 'Unable to locate the specified class: ' . $class . '.php';
-
-            exit(5); // EXIT_UNK_CLASS
-        }
-
-        // Keep track of what we just loaded
-        is_loaded($class);
-
-        $_classes[$class] = isset($param)
-            ? new $name($param)
-            : new $name();
-
-        return $_classes[$class];
-    }
-}
-
 if (! function_exists('forceRemoveDir')) {
     function forceRemoveDir(string $dir): void
     {
@@ -2717,6 +2769,11 @@ if (! function_exists('getStatistikLabel')) {
                     break;
 
                 case 'bdt':
+                    $kategori = 'RTM';
+                    $label    = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
+                    break;
+
+                case 'dtsen':
                     $kategori = 'RTM';
                     $label    = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
                     break;

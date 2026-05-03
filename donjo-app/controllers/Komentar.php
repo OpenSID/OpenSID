@@ -75,19 +75,29 @@ class Komentar extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('komentar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        $aksi .= '<a href="' . ci_route('komentar.detail', $row->id) . '" class="btn btn-info btn-sm"  title="Balas Komentar"><i class="fa fa-mail-forward"></i></a> ';
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'komentar/form/' . $row->id,
+                    ])->render();
 
-                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                            'url'    => site_url("komentar/lock/{$row->id}"),
-                            'active' => $row->status,
+                    if (can('u')) {
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route('komentar.detail', $row->id),
+                            'icon'       => 'fa fa-mail-forward',
+                            'judul'      => 'Balas Komentar',
+                            'type'       => 'btn-info',
+                            'buttonOnly' => true,
                         ])->render();
                     }
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('komentar.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => site_url("komentar/lock/{$row->id}"),
+                        'active' => $row->status,
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('komentar.delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
@@ -132,19 +142,6 @@ class Komentar extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', __('notification.updated.error'), $url);
         }
-    }
-
-    private function validasi(array $post)
-    {
-        $data['owner']    = htmlentities((string) $post['owner']);
-        $data['no_hp']    = bilangan($post['no_hp']);
-        $data['email']    = email($post['email']);
-        $data['komentar'] = htmlentities((string) $post['komentar']);
-        if (isset($post['status'])) {
-            $data['status'] = bilangan($post['status']);
-        }
-
-        return $data;
     }
 
     public function insert(): void
@@ -243,5 +240,18 @@ class Komentar extends Admin_Controller
             redirect_with('success', __('notification.status.success'));
         }
         redirect_with('error', __('notification.status.error'));
+    }
+
+    private function validasi(array $post)
+    {
+        $data['owner']    = htmlentities((string) $post['owner']);
+        $data['no_hp']    = bilangan($post['no_hp']);
+        $data['email']    = email($post['email']);
+        $data['komentar'] = htmlentities((string) $post['komentar']);
+        if (isset($post['status'])) {
+            $data['status'] = bilangan($post['status']);
+        }
+
+        return $data;
     }
 }

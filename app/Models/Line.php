@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Enums\AktifEnum;
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -47,9 +48,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Line extends BaseModel
 {
     use ConfigId;
+    use StatusTrait;
 
     public const ROOT  = 0;
     public const CHILD = 2;
+
+    public $timestamps      = false;
+    public $statusColumName = 'enabled';
 
     /**
      * The table associated with the model.
@@ -57,8 +62,6 @@ class Line extends BaseModel
      * @var string
      */
     protected $table = 'line';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -75,6 +78,19 @@ class Line extends BaseModel
         'jenis',
         'parrent',
     ];
+
+    /**
+     * Get the parent that owns the Line
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Line::class, 'parrent', 'id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Line::class, 'parrent', 'id')->whereTipe(self::CHILD);
+    }
 
     protected function scopeRoot($query)
     {
@@ -94,23 +110,5 @@ class Line extends BaseModel
     protected function scopeSubLine($query)
     {
         return $query->whereTipe(self::CHILD);
-    }
-
-    protected function scopeStatus($query, $status)
-    {
-        return $query->when(in_array($status, ['0', '1']), static fn ($query) => $query->whereEnabled($status));
-    }
-
-    /**
-     * Get the parent that owns the Line
-     */
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(Line::class, 'parrent', 'id');
-    }
-
-    public function children(): HasMany
-    {
-        return $this->hasMany(Line::class, 'parrent', 'id')->whereTipe(self::CHILD);
     }
 }

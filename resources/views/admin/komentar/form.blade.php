@@ -22,7 +22,7 @@
             <div class="col-md-12">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('komentar'), 'label' => 'Daftar Komentar'])
+                        <x-kembali-button judul="Kembali Daftar Komentar" url="komentar"/>
                     </div>
                     <div class="box-body">
                         <div class="form-group">

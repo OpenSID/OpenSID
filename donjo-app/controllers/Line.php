@@ -81,12 +81,13 @@ class Line extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('line.form', implode('/', [$row->parrent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                    }
 
                     if ($row->tipe == LineModel::ROOT) {
                         $aksi .= '<a href="' . ci_route('line.index') . '?parent=' . $row->id . '&tipe=' . LineModel::CHILD . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '" data-title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
+                    }
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('line.form', implode('/', [$row->parrent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('u')) {
@@ -182,6 +183,28 @@ class Line extends Admin_Controller
         }
     }
 
+    public function lock($parent, $id)
+    {
+        isCan('u');
+
+        try {
+            $status  = LineModel::gantiStatus($id, 'enabled');
+            $success = (bool) $status;
+
+            return json([
+                'success' => $success,
+                'message' => $success ? __('notification.status.success') : __('notification.status.error'),
+            ]);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return json([
+                'success' => false,
+                'message' => __('notification.status.error'),
+            ]);
+        }
+    }
+
     private function hasChild($id): bool
     {
         if (is_array($id)) {
@@ -191,29 +214,14 @@ class Line extends Admin_Controller
         return LineModel::where('parrent', $id)->exists();
     }
 
-    public function lock($parent, $id): void
-    {
-        isCan('u');
-        $tipe = $this->tipe($parent);
-
-        try {
-            if (LineModel::gantiStatus($id, 'enabled')) {
-                redirect_with('success', __('notification.status.success'), ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
-            }
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-        }
-
-        redirect_with('error', __('notification.status.error'), ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
-    }
-
     private function validasi(array $post): array
     {
         return [
-            'nama'  => nomor_surat_keputusan($post['nama']),
-            'jenis' => nomor_surat_keputusan($post['jenis']),
-            'tebal' => bilangan($post['tebal']),
-            'color' => warna($post['color']),
+            'nama'    => nomor_surat_keputusan($post['nama']),
+            'jenis'   => nomor_surat_keputusan($post['jenis']),
+            'tebal'   => bilangan($post['tebal']),
+            'color'   => warna($post['color']),
+            'enabled' => $post['enabled'] ?? AktifEnum::TIDAK_AKTIF,
         ];
     }
 

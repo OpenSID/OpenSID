@@ -1,12 +1,16 @@
-    <script type="text/javascript">
-        $(document).ready(function() {
+<script type="text/javascript">
+    $(document).ready(function() {
+        function loadHighcharts(strukturPemerintah, strukturSotk) {
             Highcharts.chart('container', {
                 chart: {
                     height: 600,
-                    @if (!isset($parentWidth))
-                        width: {{ setting('ukuran_lebar_bagan') }},
-                    @endif
                     inverted: true
+                },
+                plotOptions: {
+                    organization: {
+                        nodePadding: 20,
+                        hangingIndent: 30
+                    }
                 },
 
                 title: {
@@ -29,14 +33,7 @@
                     type: 'organization',
                     name: "{{ ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa']) }}",
                     keys: ['from', 'to'],
-                    data: [
-                        @if ($ada_bpd)
-                            ['BPD', 'LPM'],
-                        @endif
-                        @foreach ($bagan['struktur'] as $struktur)
-                            [{{ key($struktur) }}, {{ current($struktur) }}],
-                        @endforeach
-                    ],
+                    data: strukturSotk,
                     levels: [{
                         level: 0,
                         color: 'gold',
@@ -70,45 +67,7 @@
                     linkColor: "#ccc",
                     linkLineWidth: 2,
                     linkRadius: 0,
-
-                    nodes: [
-                        @if ($ada_bpd)
-                            {
-                                id: 'BPD',
-                                color: 'gold',
-                                column: 0,
-                                offset: '-150'
-                            }, {
-                                id: 'LPM',
-                                color: 'gold',
-                                column: 0,
-                                dataLabels: {
-                                    color: 'black'
-                                },
-                                offset: '150'
-                            },
-                        @endif
-                        @foreach ($bagan['nodes'] as $pamong)
-                            {
-                                id: {{ $pamong['pamong_id'] }},
-                                title: '{{ $pamong['jabatan']['nama'] }}',
-                                name: `{{ $pamong['pamong_nama'] }}`,
-                                image: '{{ AmbilFoto($pamong['foto_staff'], '', $pamong['jenis_kelamin']) }}',
-                                @if (!empty($pamong['bagan_tingkat']))
-                                    column: {{ $pamong['bagan_tingkat'] ?: '' }},
-                                @endif
-                                @if (!empty($pamong['bagan_offset']))
-                                    offset: '{{ $pamong['bagan_offset'] ?: '' }}%',
-                                @endif
-                                @if (!empty($pamong['bagan_layout']))
-                                    layout: '{{ $pamong['bagan_layout'] ?: '' }}',
-                                @endif
-                                @if (!empty($pamong['bagan_warna']))
-                                    color: '{{ $pamong['bagan_warna'] ?: '' }}',
-                                @endif
-                            },
-                        @endforeach
-                    ],
+                    nodes: strukturPemerintah,
                     colorByPoint: false,
                     color: '#007ad0',
                     dataLabels: {
@@ -133,5 +92,77 @@
                 }
 
             });
-        });
-    </script>
+        }
+
+        var strukturPemerintah = [];
+        var strukturSotk = [];
+
+        function loadSotk() {
+            const apiPemerintah = '{{ route('api.pemerintah') }}';
+            const $sotkList = $('#sotk-list');
+            $sotkList.html('<p class="text-center">Memuat...</p>');
+
+            $.get(apiPemerintah, function(response) {
+                const pemerintah = response.data;
+
+                if (!pemerintah.length) {
+                    $sotkList.html('<p class="py-2 text-center">Tidak ada SOTK yang tersedia</p>');
+                    return;
+                }
+
+                @if ($ada_bpd)
+                const initialStructure = [
+                    {
+                        id: 'BPD',
+                        color: 'gold',
+                        column: 0,
+                        offset: '-150'
+                    },
+                    {
+                        id: 'LPM',
+                        color: 'gold',
+                        column: 0,
+                        dataLabels: {
+                            color: 'black'
+                        },
+                        offset: '150'
+                    }
+                ];
+                strukturPemerintah.push(...initialStructure);
+                strukturSotk.push(['BPD', 'LPM']);
+                @endif
+
+                pemerintah.forEach(item => {
+                    const data = {
+                        id: parseInt(item.id),
+                        title: item.attributes.nama_jabatan,
+                        name: item.attributes.nama,
+                        image: item.attributes.foto,
+                        column: item.attributes.bagan_tingkat || undefined,
+                        offset: item.attributes.bagan_offset || undefined,
+                        layout: item.attributes.bagan_layout || undefined,
+                        color: item.attributes.bagan_warna || undefined,
+                    };
+
+                    strukturPemerintah.push(data);
+
+                    if (item.attributes.atasan) {
+                        strukturSotk.push([parseInt(item.attributes.atasan), data.id]);
+                    }
+                });
+
+                $sotkList.html(`
+                <center>
+                    <figure class="highcharts-figure" style="max-width: 100%;">
+                        <div id="container" style="max-width: 100%;"></div>
+                    </figure>
+                </center>
+            `);
+
+                loadHighcharts(strukturPemerintah, strukturSotk);
+            });
+        }
+
+        loadSotk();
+    });
+</script>

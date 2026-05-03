@@ -45,7 +45,7 @@ use MySQLImport;
 
 class Ekspor
 {
-    private $db;
+    private readonly mysqli $db;
     private array $config;
 
     public function __construct()
@@ -71,7 +71,7 @@ class Ekspor
         return $dbName;
     }
 
-    public function restore($filename)
+    public function restore(string $filename): bool
     {
         $import = new MySQLImport($this->db);
         $import->load($filename);
@@ -82,7 +82,7 @@ class Ekspor
         return true;
     }
 
-    private function clearCache()
+    private function clearCache(): void
     {
         // reset cache blade
         kosongkanFolder(config_item('cache_blade'));
@@ -90,7 +90,7 @@ class Ekspor
         session_destroy();
     }
 
-    private function resetAppKey()
+    private function resetAppKey(): void
     {
         $app_key = Config::first()->app_key;
         if (empty($app_key)) {

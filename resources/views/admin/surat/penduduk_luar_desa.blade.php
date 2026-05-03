@@ -1,4 +1,4 @@
-<div class="penduduk_form penduduk_luar_desa penduduk_luar_{{ $index }} {{ old("{$kategori}.nama") && old("{$kategori}.opsi_penduduk") == $index ? '' : 'hide' }}">
+<div class="penduduk_form penduduk_luar_desa penduduk_luar_{{ $index }} {{ old("{$kategori}.nama") || count($opsiSumberPenduduk) == 1 ? '' : 'hide' }}">
     <div class="form-group">
         <label class="col-sm-3 control-label"><strong>Nama Lengkap / NIK KTP</strong></label>
         <div class="col-sm-5 col-lg-6">

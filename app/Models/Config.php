@@ -48,6 +48,9 @@ class Config extends BaseModel
     use Author;
     use QueryCacheable;
 
+    // forever remember cache
+    public $cacheFor = -1;
+
     /**
      * Digunakan untuk menyimpan instance pamong
      * yang digunakan pada getter.
@@ -61,9 +64,6 @@ class Config extends BaseModel
      * @var bool
      */
     protected static $flushCacheOnUpdate = true;
-
-    // forever remember cache
-    public $cacheFor = -1;
 
     /**
      * The table associated with the model.
@@ -146,6 +146,43 @@ class Config extends BaseModel
     ];
 
     /**
+     * The "booted" method of the model.
+     */
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(static function ($model): void {
+            $model->app_key = get_app_key();
+        });
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'logo');
+            static::deleteFile($model, 'kantor_desa');
+            static::clearCache();
+        });
+    }
+
+    // Hapus cache config dan modul
+    public static function clearCache(): void
+    {
+        cache()->forget('identitas_desa');
+        // hapus_cache('status_langganan');
+        cache()->forget('siappakai');
+        // hapus_cache('_cache_modul');
+    }
+
+    public static function deleteFile($model, ?string $file): void
+    {
+        if ($model->isDirty($file)) {
+            $logo = LOKASI_LOGO_DESA . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
+            }
+        }
+    }
+
+    /**
      * Getter untuk nip kepala desa dari pengurus
      *
      * @return string
@@ -212,42 +249,5 @@ class Config extends BaseModel
     public function scopeAppKey($query, $appKey = null)
     {
         return $query->where('app_key', $appKey ?? get_app_key());
-    }
-
-    /**
-     * The "booted" method of the model.
-     */
-    public static function boot(): void
-    {
-        parent::boot();
-
-        static::creating(static function ($model): void {
-            $model->app_key = get_app_key();
-        });
-
-        static::updating(static function ($model): void {
-            static::deleteFile($model, 'logo');
-            static::deleteFile($model, 'kantor_desa');
-            static::clearCache();
-        });
-    }
-
-    // Hapus cache config dan modul
-    public static function clearCache(): void
-    {
-        cache()->forget('identitas_desa');
-        // hapus_cache('status_langganan');
-        cache()->forget('siappakai');
-        // hapus_cache('_cache_modul');
-    }
-
-    public static function deleteFile($model, ?string $file): void
-    {
-        if ($model->isDirty($file)) {
-            $logo = LOKASI_LOGO_DESA . $model->getOriginal($file);
-            if (file_exists($logo)) {
-                unlink($logo);
-            }
-        }
     }
 }

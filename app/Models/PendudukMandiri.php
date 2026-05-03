@@ -42,6 +42,7 @@ use App\Notifications\Penduduk\VerifyNotification;
 use App\Services\Auth\Traits\Authorizable;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use App\Traits\StatusTrait;
 use Exception;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
@@ -64,6 +65,7 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     use CanResetPassword;
     use MustVerifyEmail;
     use Notifiable;
+    use StatusTrait;
 
     /**
      * {@inheritDoc}
@@ -78,6 +80,20 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     /**
      * {@inheritDoc}
      */
+    public $incrementing = false;
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+
+    public $statusColumName = 'aktif';
+
+    /**
+     * {@inheritDoc}
+     */
     protected $primaryKey = 'id_pend';
 
     /**
@@ -88,22 +104,10 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     /**
      * {@inheritDoc}
      */
-    public $incrementing = false;
-
-    /**
-     * {@inheritDoc}
-     */
     protected $hidden = [
         'pin',
         'remember_token',
     ];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
 
     /**
      * The guarded with the model.
@@ -118,18 +122,6 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     protected $with = [
         'penduduk',
     ];
-
-    /**
-     * Scope query untuk aktif
-     *
-     * @param Builder $query
-     *
-     * @return Builder
-     */
-    public function scopeStatus($query, mixed $value = 1)
-    {
-        return $query->where('aktif', $value);
-    }
 
     /**
      * Define an inverse one-to-one or many relationship.

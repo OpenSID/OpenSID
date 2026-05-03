@@ -78,7 +78,7 @@
                         @foreach ($main as $key => $data)
                             <tr>
                                 <td class="text-left">{{ $key + 1 }}</td>
-                                <td>{{ strtoupper($data['ref_asal_tanah_kas']['nama']) }}</td>
+                                <td>{{ strtoupper($data->asal_tanah_kas_label ?? '') }}</td>
                                 <td class="text-left">{{ $data['letter_c'] }}</td>
                                 <td>{{ strtoupper($data['luas']) }}</td>
                                 <td>{{ strtoupper($data['ref_persil_kelas']['kode']) }}</td>
@@ -98,7 +98,7 @@
                                 <td class="text-center">{{ $data['ada_papan_nama'] ?: '' }}</td>
                                 <td class="text-center">{{ $data['tidak_ada_papan_nama'] ?: '' }}</td>
                                 <td>{{ strtoupper($data['lokasi']) }}</td>
-                                <td class="text-center">{{ strtoupper($data['ref_peruntukan_tanah_kas']['nama'] ?: '') }}</td>
+                                <td class="text-center">{{ strtoupper($data->peruntukan_tanah_kas_label ?? '') }}</td>
                                 <td>{{ strtoupper($data['mutasi']) }}</td>
                                 <td>{{ strtoupper($data['keterangan']) }}</td>
                             </tr>

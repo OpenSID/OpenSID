@@ -49,6 +49,13 @@ class Kehadiran extends BaseModel
     use ConfigId;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -67,13 +74,6 @@ class Kehadiran extends BaseModel
         'jam_keluar',
         'status_kehadiran',
     ];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * Define a many-to-one relationship.

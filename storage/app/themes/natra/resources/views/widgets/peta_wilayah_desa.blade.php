@@ -48,7 +48,7 @@
 
     @if (!empty($desa['path']))
         var polygon_desa = {!! $desa['path'] !!};
-        var kantor_desa = L.polygon(polygon_desa, style_polygon).bindTooltip("Wilayah Desa").addTo(wilayah_desa);
+        var kantor_desa = L.polygon(polygon_desa, style_polygon).bindTooltip("Wilayah {{ ucwords(setting('sebutan_desa')) }}").addTo(wilayah_desa);
         wilayah_desa.fitBounds(kantor_desa.getBounds());
     @endif
 </script>

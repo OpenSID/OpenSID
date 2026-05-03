@@ -35,8 +35,10 @@
  *
  */
 
+use App\Enums\InventarisSubMenuEnum;
 use App\Models\Pamong;
 use App\Services\LaporanInventaris;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,7 +56,8 @@ class Laporan_inventaris extends Admin_Controller
 
     public function index(): void
     {
-        $data['tip'] = 1;
+        $data['tip']    = 1;
+        $data['header'] = InventarisSubMenuEnum::LAPORAN['header'];
 
         view('admin.inventaris.laporan.index', $data);
     }
@@ -66,17 +69,17 @@ class Laporan_inventaris extends Admin_Controller
 
             return datatables()->of($this->sumberData(null, $mutasi))
                 ->addIndexColumn()
-                ->addColumn('aksi', static fn ($row): string => '<div class="btn-group" role="group" aria-label="..."><a href="' . ci_route($row['name']) . '" class="btn btn-default btn-sm"  title="Lihat Data" type="button"><i class="fa fa-eye"></i></a></div>')
+                ->addColumn('aksi', static function ($row): string {
+                    return View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => ci_route($row['name']),
+                        'judul' => 'Lihat Data',
+                    ])->render();
+                })
                 ->rawColumns(['aksi'])
                 ->make();
         }
 
         return show_404();
-    }
-
-    private function sumberData($tahun = null, $mutasi = false)
-    {
-        return LaporanInventaris::all($tahun, $mutasi);
     }
 
     public function dialog($aksi = 'cetak', $mutasi = 0)
@@ -108,15 +111,15 @@ class Laporan_inventaris extends Admin_Controller
             $data['tahun'] = 'Tahun ' . $tahun;
         }
 
-        $data['isi']       = 'admin.inventaris.laporan.cetak';
         $data['letak_ttd'] = ['1', '2', '12'];
 
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.inventaris.laporan.cetak', $data);
     }
 
     public function mutasi(): void
     {
-        $data['tip'] = 2;
+        $data['tip']    = 2;
+        $data['header'] = 'Laporan Aset Yang Dihapus';
         view('admin.inventaris.laporan.mutasi.index', $data);
     }
 
@@ -130,5 +133,10 @@ class Laporan_inventaris extends Admin_Controller
             $this->session->unset_userdata($filter);
         }
         redirect('laporan_inventaris/permendagri_47');
+    }
+
+    private function sumberData($tahun = null, $mutasi = false)
+    {
+        return LaporanInventaris::all($tahun, $mutasi);
     }
 }

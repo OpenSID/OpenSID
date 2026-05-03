@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Nette\Schema;
 
+use function count;
+
 
 final class Context
 {

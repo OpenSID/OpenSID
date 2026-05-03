@@ -46,18 +46,18 @@ class KaderMasyarakat extends BaseModel
     use ConfigId;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'kader_pemberdayaan_masyarakat';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'kader_pemberdayaan_masyarakat';
 
     /**
      * {@inheritDoc}

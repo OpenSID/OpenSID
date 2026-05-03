@@ -137,37 +137,6 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    private function cekConfig(): void
-    {
-        // jika belum install
-        if (! file_exists(DESAPATH)) {
-            redirect('install');
-        }
-
-        $this->load->database();
-
-        // Tambahkan model yg akan diautoload di sini. Seeder di load disini setelah
-        // installer berhasil dijalankan dengan kondisi folder desa sudah ada.
-        $this->load->model(['seeders/seeder']);
-
-        $appKey   = get_app_key();
-        $appKeyDb = Config::first();
-
-        if (Config::count() === 0) {
-            $this->session->cek_app_key = true;
-            show_error('Silakan tambah desa baru melalui console');
-        } elseif (Config::count() > 1) {
-            $appKeyDb = Config::appKey()->first();
-        }
-
-        if (! empty($appKeyDb->app_key) && $appKey !== $appKeyDb->app_key) {
-            $this->session->cek_app_key = true;
-            redirect('koneksi_database/config');
-        }
-
-        $this->cek_anjungan = $this->cekAnjungan();
-    }
-
     public function create_log_notifikasi_admin($next, $isi): void
     {
         $users = User::whereHas('pamong', static function ($query) use ($next) {
@@ -285,6 +254,37 @@ class MY_Controller extends CI_Controller
         ];
 
         $this->create_log_notifikasi_penduduk($isi);
+    }
+
+    private function cekConfig(): void
+    {
+        // jika belum install
+        if (! file_exists(DESAPATH)) {
+            redirect('install');
+        }
+
+        $this->load->database();
+
+        // Tambahkan model yg akan diautoload di sini. Seeder di load disini setelah
+        // installer berhasil dijalankan dengan kondisi folder desa sudah ada.
+        $this->load->model(['seeders/seeder']);
+
+        $appKey   = get_app_key();
+        $appKeyDb = Config::first();
+
+        if (Config::count() === 0) {
+            $this->session->cek_app_key = true;
+            show_error('Silakan tambah desa baru melalui console');
+        } elseif (Config::count() > 1) {
+            $appKeyDb = Config::appKey()->first();
+        }
+
+        if (! empty($appKeyDb->app_key) && $appKey !== $appKeyDb->app_key) {
+            $this->session->cek_app_key = true;
+            redirect('koneksi_database/config');
+        }
+
+        $this->cek_anjungan = $this->cekAnjungan();
     }
 
     /**

@@ -88,11 +88,11 @@
         <h5 class="text-bold">STATUS {{ strtoupper(setting('sebutan_desa')) }}</h5>
 
         <div class="form-group">
-            <label class="col-sm-3 control-label">Status Desa</label>
+            <label class="col-sm-3 control-label">Status {{ ucfirst(setting('sebutan_desa')) }}</label>
             <div class="col-sm-8">
                 <select name="status_desa" class="form-control input-sm">
-                    <option value="adat" {{ ($profil_desa['status_desa'] ?? '') == 'adat' ? 'selected' : '' }}>Adat</option>
-                    <option value="non_adat" {{ ($profil_desa['status_desa'] ?? '') == 'non_adat' ? 'selected' : '' }}>Non-Adat</option>
+                    <option value="Adat" @selected(($profil_desa['status_desa'] ?? '') == 'Adat')>Adat</option>
+                    <option value="Bukan Adat" @selected(($profil_desa['status_desa'] ?? '') == 'Bukan Adat')>Bukan Adat</option>
                 </select>
             </div>
         </div>
@@ -146,7 +146,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-3 control-label">Regulasi Penetapan Kampung Adat</label>
+            <label class="col-sm-3 control-label">Regulasi Penetapan {{ ucwords(setting('sebutan_desa')) }} Adat</label>
             <div class="col-sm-8">
                 <input type="text" name="regulasi_penetapan_kampung_adat" class="form-control input-sm" value="{{ $profil_desa['regulasi_penetapan_kampung_adat'] ?? '' }}" placeholder="Contoh: Nomor SK/Perda"><br>
                 @if (!empty($profil_desa['dokumen_regulasi_penetapan_kampung_adat']) && file_exists($dokumen_regulasi_file))

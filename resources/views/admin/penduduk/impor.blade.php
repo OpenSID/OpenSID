@@ -63,7 +63,7 @@
                                     </li>
                                 </ul>
                                 <li>Simpan (Save) berkas Excel sebagai .xlsx </li>
-                                <li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
+                                <li>Pastikan format excel berekstensi .xlsx (format Excel versi 2007 ke atas)</li>
                                 <li>Data yang dibutuhkan untuk Impor dengan memenuhi urutan format dan aturan data pada tautan
                                     di bawah ini :
                                     <div class="timeline-footer col-sm-12">

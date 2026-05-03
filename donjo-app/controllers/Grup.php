@@ -183,14 +183,6 @@ class Grup extends Admin_Controller
         }
     }
 
-    private function set_form_validation(): void
-    {
-        $this->form_validation->set_error_delimiters('', '');
-        $this->form_validation->set_rules('nama', 'Nama Grup', 'required|callback_syarat_nama');
-        $this->form_validation->set_message('nama', 'Hanya boleh berisi karakter alfanumerik, spasi dan strip');
-        $this->form_validation->set_rules('modul[]', 'Akses Modul', 'required');
-    }
-
     public function syarat_nama($str)
     {
         return ! preg_match('/[^a-zA-Z0-9 \\-]/', (string) $str);
@@ -223,27 +215,6 @@ class Grup extends Admin_Controller
                 redirect_with('error', 'Grup pengguna gagal disimpan');
             }
         }
-    }
-
-    private function simpanAkses(string $grupId, array $moduls): void
-    {
-        $grupAkses = [];
-        $configId  = identitas()->id;
-        GrupAkses::whereIdGrup($grupId)->delete();
-
-        foreach ($moduls['id'] as $mod) {
-            $baca  = $moduls['akses_baca'][$mod] ? 1 : 0;
-            $ubah  = $moduls['akses_ubah'][$mod] ? 2 : 0;
-            $hapus = $moduls['akses_hapus'][$mod] ? 4 : 0;
-
-            $akses       = $baca + $ubah + $hapus;
-            $grupAkses[] = ['config_id' => $configId, 'akses' => $akses, 'id_grup' => $grupId, 'id_modul' => $mod];
-        }
-        if ($grupAkses) {
-            GrupAkses::insert($grupAkses);
-        }
-        cache()->forget("akses_grup_{$grupId}");
-        cache()->forget("{$grupId}_admin_menu");
     }
 
     public function delete($id = null): void
@@ -334,25 +305,6 @@ class Grup extends Admin_Controller
         redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
     }
 
-    private function formatImport($list_data = null)
-    {
-        return collect(json_decode((string) $list_data, true))
-            ->map(static fn ($item): array => [
-                'config_id'  => identitas('id'),
-                'nama'       => $item['nama'],
-                'slug'       => $item['slug'],
-                'jenis'      => UserGrup::DESA,
-                'status'     => $item['status'],
-                'akses'      => $item['akses'],
-                'created_at' => date('Y-m-d H:i:s'),
-                'creted_by'  => ci_auth()->id,
-                'updated_at' => date('Y-m-d H:i:s'),
-                'updated_by' => ci_auth()->id,
-            ])
-            ->filter(static fn ($item): bool => $item['nama'] && $item['slug'])
-            ->toArray();
-    }
-
     public function impor_filter($data)
     {
         set_session('data_impor_pengguna', $data);
@@ -375,6 +327,54 @@ class Grup extends Admin_Controller
         $this->prosesImport(session('data_impor_pengguna'), $id);
 
         redirect_with('success', 'Berhasil Impor Data');
+    }
+
+    private function set_form_validation(): void
+    {
+        $this->form_validation->set_error_delimiters('', '');
+        $this->form_validation->set_rules('nama', 'Nama Grup', 'required|callback_syarat_nama');
+        $this->form_validation->set_message('nama', 'Hanya boleh berisi karakter alfanumerik, spasi dan strip');
+        $this->form_validation->set_rules('modul[]', 'Akses Modul', 'required');
+    }
+
+    private function simpanAkses(string $grupId, array $moduls): void
+    {
+        $grupAkses = [];
+        $configId  = identitas()->id;
+        GrupAkses::whereIdGrup($grupId)->delete();
+
+        foreach ($moduls['id'] as $mod) {
+            $baca  = $moduls['akses_baca'][$mod] ? 1 : 0;
+            $ubah  = $moduls['akses_ubah'][$mod] ? 2 : 0;
+            $hapus = $moduls['akses_hapus'][$mod] ? 4 : 0;
+
+            $akses       = $baca + $ubah + $hapus;
+            $grupAkses[] = ['config_id' => $configId, 'akses' => $akses, 'id_grup' => $grupId, 'id_modul' => $mod];
+        }
+        if ($grupAkses) {
+            GrupAkses::insert($grupAkses);
+        }
+        cache()->forget("akses_grup_{$grupId}");
+        cache()->forget("{$grupId}_admin_menu");
+    }
+
+    private function formatImport($list_data = null)
+    {
+        return collect(json_decode((string) $list_data, true))
+            ->map(static fn ($item): array => [
+                'config_id'  => identitas('id'),
+                'nama'       => $item['nama'],
+                'slug'       => $item['slug'],
+                'jenis'      => UserGrup::DESA,
+                'status'     => $item['status'],
+                'akses'      => $item['akses'],
+                'created_at' => date('Y-m-d H:i:s'),
+                'creted_by'  => ci_auth()->id,
+                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_by' => ci_auth()->id,
+            ])
+            ->filter(static fn ($item): bool => $item['nama'] && $item['slug'])
+            ->toArray();
     }
 
     private function prosesImport($list_data = null, $id = null): bool

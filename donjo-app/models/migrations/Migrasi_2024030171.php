@@ -39,11 +39,13 @@ use App\Imports\KlasifikasiSuratImports;
 use App\Models\Modul;
 use App\Models\Widget;
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024030171 extends MY_Model
+class Migrasi_2024030171
 {
     use Migrator;
 
@@ -52,29 +54,6 @@ class Migrasi_2024030171 extends MY_Model
         $this->migrasi_tabel();
 
         $this->migrasi_data();
-    }
-
-    protected function migrasi_tabel()
-    {
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data()
-    {
-        $this->migrasi_2024020651();
-        $this->migrasi_2024020652();
-        $this->migrasi_2024021351();
-        $this->migrasi_2024022271();
-        $this->migrasi_2024020551();
-        $this->migrasi_2024130201();
-        $this->migrasi_2024210201();
-    }
-
-    protected function migrasi_2024020551()
-    {
-        Modul::where('slug', 'buku-lembaran-dan-berita-desa')->update(['url' => 'lembaran_desa']);
-
-        $this->updateOrDeleteModul('peristiwa', ['slug' => ['log-penduduk', 'catatan-peristiwa']], ['slug' => 'peristiwa']);
     }
 
     public function migrasi_2024020651()
@@ -108,7 +87,30 @@ class Migrasi_2024030171 extends MY_Model
         }
     }
 
-    protected function migrasi_2024021351()
+    public function migrasi_tabel()
+    {
+    }
+
+    // Migrasi perubahan data
+    public function migrasi_data()
+    {
+        $this->migrasi_2024020651();
+        $this->migrasi_2024020652();
+        $this->migrasi_2024021351();
+        $this->migrasi_2024022271();
+        $this->migrasi_2024020551();
+        $this->migrasi_2024130201();
+        $this->migrasi_2024210201();
+    }
+
+    public function migrasi_2024020551()
+    {
+        Modul::where('slug', 'buku-lembaran-dan-berita-desa')->update(['url' => 'lembaran_desa']);
+
+        $this->updateOrDeleteModul('peristiwa', ['slug' => ['log-penduduk', 'catatan-peristiwa']], ['slug' => 'peristiwa']);
+    }
+
+    public function migrasi_2024021351()
     {
         DB::table('setting_aplikasi')
             ->where('config_id', identitas('id'))
@@ -116,26 +118,23 @@ class Migrasi_2024030171 extends MY_Model
             ->update(['kategori' => 'Pemerintah Desa']);
     }
 
-    protected function migrasi_2024130201()
+    public function migrasi_2024130201()
     {
         Modul::where('slug', 'buku-ekspedisi')->update(['url' => 'ekspedisi']);
     }
 
-    protected function migrasi_2024210201()
+    public function migrasi_2024210201()
     {
         Modul::where('slug', 'administrasi-penduduk')->update(['url' => 'bumindes_penduduk_induk']);
         Modul::where('slug', 'buku-mutasi-penduduk')->update(['url' => 'bumindes_penduduk_mutasi']);
         Modul::where('slug', 'buku-penduduk-sementara')->update(['url' => 'bumindes_penduduk_sementara']);
     }
 
-    protected function migrasi_2024022271()
+    public function migrasi_2024022271()
     {
-        $this->dbforge->modify_column('klasifikasi_surat', [
-            'nama' => [
-                'type' => 'TEXT',
-                'null' => false,
-            ],
-        ]);
+        Schema::table('klasifikasi_surat', static function (Blueprint $table) {
+            $table->text('nama')->nullable(false)->change();
+        });
 
         if (DB::table('klasifikasi_surat')->where('config_id', identitas('id'))->count() === 0) {
             (new KlasifikasiSuratImports())->import();

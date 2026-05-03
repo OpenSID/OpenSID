@@ -51,6 +51,43 @@ class Gawai_layanan extends Admin_Controller
         isCan('b');
     }
 
+    // Hanya filter inputan
+    protected static function validate($request = [], $id = null)
+    {
+        $anjungan      = Gawai::find($id);
+        $ip_address    = Gawai::where('ip_address', $request['ip_address'])->first();
+        $mac_address   = Gawai::where('mac_address', $request['mac_address'])->first();
+        $id_pengunjung = Gawai::where('id_pengunjung', $request['id_pengunjung'])->first();
+
+        if ($ip_address && $anjungan->ip_address != $request['ip_address']) {
+            redirect_with('error', 'IP Address telah digunakan');
+        }
+
+        if ($mac_address && $anjungan->mac_address != $request['mac_address']) {
+            redirect_with('error', 'Mac Address telah digunakan');
+        }
+
+        if ($id_pengunjung && $anjungan->id_pengunjung != $request['id_pengunjung']) {
+            redirect_with('error', 'ID Pengunjung telah digunakan');
+        }
+
+        $validated = [
+            'ip_address'    => bilangan_titik($request['ip_address']),
+            'mac_address'   => alfanumerik_kolon($request['mac_address']),
+            'id_pengunjung' => alfanumerik($request['id_pengunjung']),
+            'printer_ip'    => bilangan_titik($request['printer_ip']),
+            'printer_port'  => bilangan($request['printer_port']),
+            'keyboard'      => bilangan($request['keyboard']),
+            'keterangan'    => htmlentities((string) $request['keterangan']),
+            'tipe'          => 2,
+            'status'        => $request['status'] ?? 0,
+        ];
+
+        $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;
+
+        return $validated;
+    }
+
     public function index()
     {
         return view('admin.gawai_layanan.index');
@@ -156,42 +193,5 @@ class Gawai_layanan extends Admin_Controller
         $kunci->update(['status' => ($val == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);
 
         redirect_with('success', 'Berhasil Ubah Data');
-    }
-
-    // Hanya filter inputan
-    protected static function validate($request = [], $id = null)
-    {
-        $anjungan      = Gawai::find($id);
-        $ip_address    = Gawai::where('ip_address', $request['ip_address'])->first();
-        $mac_address   = Gawai::where('mac_address', $request['mac_address'])->first();
-        $id_pengunjung = Gawai::where('id_pengunjung', $request['id_pengunjung'])->first();
-
-        if ($ip_address && $anjungan->ip_address != $request['ip_address']) {
-            redirect_with('error', 'IP Address telah digunakan');
-        }
-
-        if ($mac_address && $anjungan->mac_address != $request['mac_address']) {
-            redirect_with('error', 'Mac Address telah digunakan');
-        }
-
-        if ($id_pengunjung && $anjungan->id_pengunjung != $request['id_pengunjung']) {
-            redirect_with('error', 'ID Pengunjung telah digunakan');
-        }
-
-        $validated = [
-            'ip_address'    => bilangan_titik($request['ip_address']),
-            'mac_address'   => alfanumerik_kolon($request['mac_address']),
-            'id_pengunjung' => alfanumerik($request['id_pengunjung']),
-            'printer_ip'    => bilangan_titik($request['printer_ip']),
-            'printer_port'  => bilangan($request['printer_port']),
-            'keyboard'      => bilangan($request['keyboard']),
-            'keterangan'    => htmlentities((string) $request['keterangan']),
-            'tipe'          => 2,
-            'status'        => $request['status'] ?? 0,
-        ];
-
-        $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;
-
-        return $validated;
     }
 }

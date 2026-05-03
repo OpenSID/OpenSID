@@ -45,10 +45,8 @@ use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\Include_\AbsolutizeRequireAndIncludePathRector;
 use Rector\Config\RectorConfig;
 use Rector\Php73\Rector\ConstFetch\SensitiveConstantNameRector;
-use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Rector\TypeDeclaration\Rector\ClassMethod\BoolReturnTypeFromStrictScalarReturnsRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictTypedCallRector;
 use Rector\ValueObject\PhpVersion;
 
@@ -62,6 +60,7 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/app',
     ]);
 
+    // Mendukung PHP 8.1 sampai 8.3 (aman untuk minimal 8.1, maksimal fitur 8.3)
     $rectorConfig->phpVersion(PhpVersion::PHP_81);
 
     // register a single rule, test push
@@ -69,15 +68,9 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->skip([
         SensitiveConstantNameRector::class,
         ExplicitBoolCompareRector::class,
-        JsonThrowOnErrorRector::class,
         LocallyCalledStaticMethodToNonStaticRector::class,
-        // skip rule ini, karena menyebabkan error di codeigniter 3
         AbsolutizeRequireAndIncludePathRector::class,
         CompleteDynamicPropertiesRector::class,
-        BoolReturnTypeFromStrictScalarReturnsRector::class => [
-            __DIR__ . '/donjo-app/helpers',
-            __DIR__ . '/app/Providers/ConsoleServiceProvider.php',
-        ],
         // return illuminate builder padahal seharusnya return hasOne atau belongsTo dll
         ReturnTypeFromStrictTypedCallRector::class => [
             __DIR__ . '/app/Models/',
@@ -94,7 +87,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     // define sets of rules
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_83,
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
         SetList::TYPE_DECLARATION,

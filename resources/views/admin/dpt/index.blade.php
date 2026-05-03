@@ -77,6 +77,7 @@
                             <th nowrap>TAG ID CARD</th>
                             <th nowrap>NAMA</th>
                             <th nowrap>NO KK</th>
+                            <th nowrap>JENIS KELAMIN</th>
                             <th nowrap>ALAMAT</th>
                             <th nowrap>{{ strtoupper(setting('sebutan_dusun')) }}</th>
                             <th nowrap>RW</th>
@@ -164,6 +165,13 @@
                         },
                     },
                     {
+                        data: 'jenis_kelamin',
+                        name: 'jenis_kelamin',
+                        searchable: false,
+                        orderable: false,
+                        defaultContent: ''
+                    },
+                    {
                         data: 'alamat_sekarang',
                         name: 'alamat_sekarang',
                         searchable: false,
@@ -205,14 +213,14 @@
                         },
                     },
                     {
-                        data: 'pekerjaan.nama',
-                        name: 'pekerjaan.nama',
+                        data: 'pekerjaan',
+                        name: 'pekerjaan',
                         searchable: false,
                         orderable: false,
                     },
                     {
-                        data: 'status_kawin_nama',
-                        name: 'status_kawin_nama',
+                        data: 'status_perkawinan',
+                        name: 'status_perkawinan',
                         searchable: false,
                         orderable: false,
                         defaultContent: ''

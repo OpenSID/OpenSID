@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\DaftarKontak;
+use Illuminate\Support\Facades\View;
 
 // TODO:: Hapus bagian ini karena tidak digunakan, menggunakan controller DaftarKontak
 class Kontak extends Admin_Controller
@@ -50,6 +51,19 @@ class Kontak extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
+    }
+
+    // Hanya filter inputan
+    protected static function validate($request = []): array
+    {
+        return [
+            'nama'         => nama_terbatas($request['nama']),
+            'hubung_warga' => htmlentities((string) $request['hubung_warga']),
+            'telepon'      => bilangan($request['telepon']),
+            'email'        => htmlentities((string) $request['email']),
+            'telegram'     => bilangan($request['telegram']),
+            'keterangan'   => htmlentities((string) $request['keterangan']),
+        ];
     }
 
     public function index()
@@ -70,13 +84,14 @@ class Kontak extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('kontak.form', $row->id_kontak) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'kontak/form/' . $row->id_kontak,
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('kontak.delete', $row->id_kontak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('kontak.delete', $row->id_kontak),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
@@ -144,18 +159,5 @@ class Kontak extends Admin_Controller
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    // Hanya filter inputan
-    protected static function validate($request = []): array
-    {
-        return [
-            'nama'         => nama_terbatas($request['nama']),
-            'hubung_warga' => htmlentities((string) $request['hubung_warga']),
-            'telepon'      => bilangan($request['telepon']),
-            'email'        => htmlentities((string) $request['email']),
-            'telegram'     => bilangan($request['telegram']),
-            'keterangan'   => htmlentities((string) $request['keterangan']),
-        ];
     }
 }

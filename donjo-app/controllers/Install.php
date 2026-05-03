@@ -95,17 +95,6 @@ class Install extends CI_Controller
         ]);
     }
 
-    private function check_server(): bool
-    {
-        foreach ($this->config->item('server') as $check) {
-            if (! $check['check']()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     /**
      * Step 3
      */
@@ -123,17 +112,6 @@ class Install extends CI_Controller
         return view('installer.steps.folders', [
             'result' => $this->check_folders(),
         ]);
-    }
-
-    private function check_folders(): bool
-    {
-        foreach ($this->config->item('folders') as $check) {
-            if (! $check['check']()) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
@@ -201,78 +179,6 @@ class Install extends CI_Controller
         }
 
         return redirect('install/migrations');
-    }
-
-    private function config_database(array $request = []): array
-    {
-        if (! $this->session->has_userdata('hostname') && isset($request['database_hostname'])) {
-            $this->session->set_userdata([
-                'hostname' => $request['database_hostname'],
-                'port'     => $request['database_port'],
-                'username' => $request['database_username'],
-                'password' => $request['database_password'],
-                'database' => $request['database_name'],
-            ]);
-        }
-
-        $db = '$db';
-
-        $this->config->set_item(
-            'database',
-            <<<EOS
-                <?php
-                // -------------------------------------------------------------------------
-                //
-                // Letakkan username, password dan database sebetulnya di file ini.
-                // File ini JANGAN di-commit ke GIT. TAMBAHKAN di .gitignore
-                // -------------------------------------------------------------------------
-
-                // Data Konfigurasi MySQL yang disesuaikan
-
-                {$db}['default']['hostname'] = '{$this->session->hostname}';
-                {$db}['default']['username'] = '{$this->session->username}';
-                {$db}['default']['password'] = '{$this->session->password}';
-                {$db}['default']['port']     = {$this->session->port};
-                {$db}['default']['database'] = '{$this->session->database}';
-                {$db}['default']['dbcollat'] = 'utf8mb4_general_ci';
-
-                /*
-                | Untuk setting koneksi database 'Strict Mode'
-                | Sesuaikan dengan ketentuan hosting
-                */
-                {$db}['default']['stricton'] = true;
-
-                /*
-                | Konfigurasi options digunakan untuk menyisipkan opsi tambahan
-                | saat mengatur koneksi ke database.
-                */
-                {$db}['default']['options'] = [
-                    // PDO::ATTR_EMULATE_PREPARES => true,
-                ];
-                EOS
-        );
-
-        return [
-            'dsn'      => '',
-            'hostname' => $this->session->hostname,
-            'port'     => $this->session->port,
-            'username' => $this->session->username,
-            'password' => $this->session->password,
-            'database' => $this->session->database,
-            'dbdriver' => 'mysqli',
-            'dbprefix' => '',
-            'pconnect' => true,
-            'db_debug' => true,
-            'cache_on' => false,
-            'cachedir' => '',
-            'char_set' => 'utf8mb4',
-            'dbcollat' => 'utf8mb4_general_ci',
-            'swap_pre' => '',
-            'encrypt'  => false,
-            'compress' => false,
-            'stricton' => false,
-            'failover' => [],
-        ];
     }
 
     /**
@@ -399,5 +305,99 @@ class Install extends CI_Controller
         }
 
         copyFavicon();
+    }
+
+    private function check_server(): bool
+    {
+        foreach ($this->config->item('server') as $check) {
+            if (! $check['check']()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function check_folders(): bool
+    {
+        foreach ($this->config->item('folders') as $check) {
+            if (! $check['check']()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function config_database(array $request = []): array
+    {
+        if (! $this->session->has_userdata('hostname') && isset($request['database_hostname'])) {
+            $this->session->set_userdata([
+                'hostname' => $request['database_hostname'],
+                'port'     => $request['database_port'],
+                'username' => $request['database_username'],
+                'password' => $request['database_password'],
+                'database' => $request['database_name'],
+            ]);
+        }
+
+        $db = '$db';
+
+        $this->config->set_item(
+            'database',
+            <<<EOS
+                <?php
+                // -------------------------------------------------------------------------
+                //
+                // Letakkan username, password dan database sebetulnya di file ini.
+                // File ini JANGAN di-commit ke GIT. TAMBAHKAN di .gitignore
+                // -------------------------------------------------------------------------
+
+                // Data Konfigurasi MySQL yang disesuaikan
+
+                {$db}['default']['hostname'] = '{$this->session->hostname}';
+                {$db}['default']['username'] = '{$this->session->username}';
+                {$db}['default']['password'] = '{$this->session->password}';
+                {$db}['default']['port']     = {$this->session->port};
+                {$db}['default']['database'] = '{$this->session->database}';
+                {$db}['default']['dbcollat'] = 'utf8mb4_general_ci';
+
+                /*
+                | Untuk setting koneksi database 'Strict Mode'
+                | Sesuaikan dengan ketentuan hosting
+                */
+                {$db}['default']['stricton'] = true;
+
+                /*
+                | Konfigurasi options digunakan untuk menyisipkan opsi tambahan
+                | saat mengatur koneksi ke database.
+                */
+                {$db}['default']['options'] = [
+                    // PDO::ATTR_EMULATE_PREPARES => true,
+                ];
+                EOS
+        );
+
+        return [
+            'dsn'      => '',
+            'hostname' => $this->session->hostname,
+            'port'     => $this->session->port,
+            'username' => $this->session->username,
+            'password' => $this->session->password,
+            'database' => $this->session->database,
+            'dbdriver' => 'mysqli',
+            'dbprefix' => '',
+            'pconnect' => true,
+            'db_debug' => true,
+            'cache_on' => false,
+            'cachedir' => '',
+            'char_set' => 'utf8mb4',
+            'dbcollat' => 'utf8mb4_general_ci',
+            'swap_pre' => '',
+            'encrypt'  => false,
+            'compress' => false,
+            'stricton' => false,
+            'failover' => [],
+        ];
     }
 }

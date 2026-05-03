@@ -48,6 +48,13 @@ class MutasiCdesa extends BaseModel
     use ConfigId;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -60,13 +67,6 @@ class MutasiCdesa extends BaseModel
      * @var array
      */
     protected $guarded = [];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     public static function getList($id_cdesa, $id_persil = null)
     {
