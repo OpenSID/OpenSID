@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2026042971
+class Migrasi_2026050151
 {
     use Migrator;
 

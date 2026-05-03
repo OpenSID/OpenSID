@@ -93,7 +93,7 @@ define('VERSION', '2605.0.0');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2026042951');
+define('VERSI_DATABASE', '2026050151');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
