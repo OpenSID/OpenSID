@@ -19,7 +19,7 @@
 @section('header')
     <div class="header" align="center">
         <label align="left">{{ get_identitas() }}</label>
-        <h3>DAFTAR PENDUDUK YANG STATUS DASARNYA MATI, HILANG ATAU PINDAH</h3>
+        <h3>DAFTAR PENDUDUK YANG STATUS DASARNYA LAHIR, MATI, HILANG ATAU PINDAH</h3>
         <br>
     </div>
 @endsection
