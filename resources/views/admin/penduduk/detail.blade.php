@@ -20,6 +20,41 @@
         margin-top: 5px;
         margin-bottom: 5px;
     }
+
+    @media (max-width: 767px) {
+        .box-header .btn-toolbar {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+        }
+
+        .box-header .btn-toolbar .btn-group,
+        .box-header .btn-toolbar > .btn {
+            flex: 1 1 calc(50% - 4px) !important;
+            display: block !important;
+            margin: 0 !important;
+            float: none !important;
+        }
+
+        .box-header .btn-toolbar .btn-group:first-child,
+        .box-header .btn-toolbar > .btn:first-child,
+        .box-header .btn-toolbar .btn-group:last-child,
+        .box-header .btn-toolbar > .btn:last-child {
+            flex: 1 1 100% !important;
+        }
+
+        .box-header .btn-toolbar .btn-group .btn,
+        .box-header .btn-toolbar > .btn {
+            width: 100% !important;
+            display: block !important;
+            text-align: left !important;
+            white-space: normal !important;
+            height: auto !important;
+            padding-top: 8px !important;
+            padding-bottom: 8px !important;
+        }
+    }
 </style>
 @endpush
 
@@ -29,14 +64,12 @@
     <div class="box-header with-border">
         <div class="btn-toolbar" role="toolbar">
             <!-- Dokumen Management -->
-            <div class="btn-group" role="group">
-                <x-btn-button
-                    :url="'penduduk/dokumen/' . $penduduk->id"
-                    judul="Manajemen Dokumen"
-                    icon="fa fa-book"
-                    type="btn-success"
-                />
-            </div>
+            <x-btn-button
+                :url="'penduduk/dokumen/' . $penduduk->id"
+                judul="Manajemen Dokumen"
+                icon="fa fa-book"
+                type="btn-success"
+            />
 
             <!-- Edit and Print Actions -->
             @if (can('u') && $penduduk->status_dasar == App\Enums\StatusDasarEnum::HIDUP)
@@ -58,7 +91,7 @@
 
             <!-- Family Actions -->
             @if ($penduduk->keluarga->no_kk && $penduduk->status_dasar == App\Enums\StatusDasarEnum::HIDUP && !empty($penduduk->id_kk))
-                <div class="btn-group" role="group">
+                <div class="btn-group btn-group-vertical" role="group">
                     <x-btn-button
                         :url="'keluarga/anggota/' . $penduduk->id_kk"
                         judul="Anggota Keluarga"
@@ -89,23 +122,19 @@
                     ];
                 @endphp
                 
-                <div class="btn-group" role="group">
-                    <x-split-button
-                        judul="Tambah Penduduk"
-                        :list="$listTambahPenduduk"
-                        icon="fa fa-plus"
-                        type="btn-success"
-                    />
-                </div>
+                <x-split-button
+                    judul="Tambah Penduduk"
+                    :list="$listTambahPenduduk"
+                    icon="fa fa-plus"
+                    type="btn-success"
+                />
             @endif
 
             <!-- Back Button -->
-            <div class="btn-group" role="group">
-                <x-kembali-button
-                    url="penduduk/clear"
-                    judul="Kembali Ke Daftar Penduduk"
-                />
-            </div>
+            <x-kembali-button
+                url="penduduk/clear"
+                judul="Kembali Ke Daftar Penduduk"
+            />
         </div>
     </div>
     <div class="box-body">
