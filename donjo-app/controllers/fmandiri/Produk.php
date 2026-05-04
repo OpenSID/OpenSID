@@ -56,10 +56,10 @@ class Produk extends Mandiri_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $query = ProdukModel::with(['kategori', 'pelapak'])
+            $query = ProdukModel::query()->with(['kategori', 'pelapak'])
                 ->whereHas('pelapak', function ($query) {
                     $query->where('id_pend', $this->is_login->id_pend);
-                })->get();
+                });
 
             return datatables($query)
                 ->addIndexColumn()
