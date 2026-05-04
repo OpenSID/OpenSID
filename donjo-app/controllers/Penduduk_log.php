@@ -362,7 +362,7 @@ class Penduduk_log extends Admin_Controller
     }
 
     public function cetak($aksi = 'cetak', $privasi_nik = 0): void
-    {
+    {        
         $query = datatables($this->sumberData())
             ->filter(function ($query) {
                 $query->when($this->input->post('id_cb'), static function ($query, $ids) {
@@ -374,16 +374,12 @@ class Penduduk_log extends Admin_Controller
             'main'  => $query->prepareQuery()->results(),
             'judul' => $this->input->post('judul'),
             'aksi'  => $aksi,
+            'file'  => 'Log Penduduk',
         ];
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
         }
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=Log_Penduduk_' . date('Ymd') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
+        
         view('admin.penduduk_log.cetak', $data);
     }
 
