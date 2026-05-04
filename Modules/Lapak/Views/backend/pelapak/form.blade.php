@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
             <label class="control-label" for="nama"><?= HEADER_TELEPON ?></label>
-            <input class="form-control input-sm number required" type="text" name="telepon" id="telepon" placeholder="<?= HEADER_TELEPON ?>" value="{{ $main->telepon }}" />
+            <input class="form-control input-sm number required" type="text" name="telepon" id="telepon" placeholder="<?= HEADER_TELEPON ?>" value="{{ $main->telepon }}" minlength="10" maxlength="15"/>
         </div>
     </div>
     <div class="modal-footer">
