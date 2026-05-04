@@ -1,4 +1,4 @@
-Rilis versi 2604.1.0 ini berisi penambahan fitur batasan kaitkan akun pada tingkat superadmin  dan perbaikan lainnya yang diminta oleh komunitas SID.
+Rilis versi 2605.0.0 ini berisi penambahan fitur batasan kaitkan akun pada tingkat superadmin  dan perbaikan lainnya yang diminta oleh komunitas SID.
 
 ### FITUR
 1. [#11040](https://github.com/OpenSID/OpenSID/issues/11040) Penambahan fitur animasi skeleton wave (shimmer loading) pada modal AJAX global.

@@ -35,9 +35,14 @@
  *
  */
 
+use App\Enums\PekerjaanEnum;
 use App\Models\Theme;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
     use Migrator;
@@ -49,6 +54,10 @@ return new class () extends Migration {
     {
         $this->tambahPengaturanTahunApbdes();
         $this->hapusTemaNatra();
+        $this->updatePekerjaan();
+        $this->updateSyaratSurat();
+        $this->refreshArtikelKategoriForeignKey();
+        $this->normalisasiRelasiPendudukMandiri();
     }
 
     /**
@@ -88,5 +97,63 @@ return new class () extends Migration {
                 // throw new \Exception('Gagal update theme cache: ' . $e->getMessage());
             }
         }
+    }
+
+    private function updatePekerjaan(): void
+    {
+        if (Schema::hasTable('tweb_penduduk_pekerjaan')) {
+            DB::table('tweb_penduduk_pekerjaan')
+                ->where('id', 5)
+                ->update(['nama' => PekerjaanEnum::APARATUR_SIPIL_NEGARA_ASN]);
+        }
+    }
+
+    private function updateSyaratSurat(): void
+    {
+        if (Schema::hasTable('ref_syarat_surat')) {
+            DB::table('ref_syarat_surat')
+                ->where('ref_syarat_nama', 'LIKE', 'SK. PNS/KARIP/SK. TNI%POLRI')
+                ->update(['ref_syarat_nama' => 'SK. ASN/KARIP/SK. TNI - POLRI']);
+        }
+    }
+
+    private function refreshArtikelKategoriForeignKey(): void
+    {
+        // Drop FK lama sebelum menambahkan yang baru
+        $this->hapusForeignKey('artikel_kategori_2026_fk', 'artikel', 'kategori');
+
+        if (! $this->foreignKeyExists('artikel', 'artikel_kategori_2026_04_15_fk')) {
+            Schema::table('artikel', static function (Blueprint $table): void {
+                $table->foreign(['id_kategori'], 'artikel_kategori_2026_04_15_fk')->references(['id'])->on('kategori')->onUpdate('cascade')->onDelete('set null');
+            });
+        }
+    }
+
+    /**
+     * Normalisasi relasi tweb_penduduk_mandiri.id_pend ke tweb_penduduk.id.
+     * - Data id_pend yang tidak punya pasangan di tweb_penduduk akan di-set null.
+     * - Foreign key ditambahkan jika belum ada menggunakan helper Migrator.
+     */
+    private function normalisasiRelasiPendudukMandiri(): void
+    {
+        if (! Schema::hasTable('tweb_penduduk_mandiri') || ! Schema::hasTable('tweb_penduduk')) {
+            return;
+        }
+
+        if (! Schema::hasColumn('tweb_penduduk_mandiri', 'id_pend')) {
+            return;
+        }
+
+        $this->tambahForeignKey(
+            'tweb_penduduk_mandiri_id_pend_fk_2026',
+            'tweb_penduduk_mandiri',
+            'id_pend',
+            'tweb_penduduk',
+            'id',
+            true,
+            false,
+            'SET NULL',
+            'CASCADE'
+        );
     }
 };
