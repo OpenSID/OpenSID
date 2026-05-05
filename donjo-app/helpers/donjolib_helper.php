@@ -734,6 +734,19 @@ function set_words($data = '', $type = null): string
     return trim($data);
 }
 
+if (! function_exists('title_case')) {
+    /**
+     * Mengubah string menjadi format Title Case.
+     * Huruf pertama setiap kata kapital, sisanya huruf kecil.
+     *
+     * @param string|null $str
+     */
+    function title_case(?string $str): string
+    {
+        return ucwords(strtolower((string) $str));
+    }
+}
+
 if (! function_exists('persen')) {
     /**
      * Mengubah nilai desimal menjadi persentase dalam format string.

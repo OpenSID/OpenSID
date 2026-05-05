@@ -12,7 +12,7 @@
                     <div class="flex items-center flex-shrink-0 pr-8 gap-x-3">
                         <a href="{{ ci_route() }}" class="block">
                             <img src="{{ gambar_desa($desa['logo']) }}"
-                                alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']) }}"
+                                alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . title_case($desa['nama_desa']) }}"
                                 class="h-12 w-auto object-contain">
                         </a>
                         <div class="flex flex-col justify-center border-l border-gray-200 pl-3">
@@ -20,7 +20,7 @@
                                 {{ ucfirst(setting('sebutan_desa')) }}
                             </p>
                             <p class="text-sm font-semibold text-gray-900 leading-tight">
-                                {{ ucwords($desa['nama_desa']) }}
+                                {{ title_case($desa['nama_desa']) }}
                             </p>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                                 {{ ucfirst(setting('sebutan_desa')) }}
                             </p>
                             <p class="text-white lg:text-black text-xs font-semibold leading-tight">
-                                {{ ucwords($desa['nama_desa']) }}
+                                {{ title_case($desa['nama_desa']) }}
                             </p>
                         </div>
                     </div>
@@ -186,13 +186,13 @@
                     Website Resmi
                 </h1>
                 <h2 class="text-5xl lg:text-6xl xl:text-7xl font-bold mb-5 leading-tight text-gray-900">
-                    {{ ucfirst(setting('sebutan_desa')) }} {{ ucwords($desa['nama_desa']) }}
+                    {{ ucfirst(setting('sebutan_desa')) }} {{ title_case($desa['nama_desa']) }}
                 </h2>
                 <div class="text-sm lg:text-base xl:text-lg space-y-1 text-gray-600">
-                    <p>{{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }}
-                        {{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}
+                    <p>{{ ucfirst(setting('sebutan_kecamatan')) }} {{ title_case($desa['nama_kecamatan']) }}
+                        {{ ucfirst(setting('sebutan_kabupaten')) }} {{ title_case($desa['nama_kabupaten']) }}
                     </p>
-                    <p>Provinsi {{ ucwords($desa['nama_propinsi']) }}</p>
+                    <p>Provinsi {{ title_case($desa['nama_propinsi']) }}</p>
                 </div>
             </div>
         </div>
@@ -210,15 +210,15 @@
 
                 <h1 class="text-2xl font-bold text-white mt-16">Website Resmi</h1>
                 <h2 class="text-xl font-bold text-white">
-                    {{ ucfirst(setting('sebutan_desa')) }} {{ ucwords($desa['nama_desa']) }}
+                    {{ ucfirst(setting('sebutan_desa')) }} {{ title_case($desa['nama_desa']) }}
                 </h2>
 
                 <div class="text-xs text-bold text-white mt-1">
                     <p>
-                        {{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }}
-                        {{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}
+                        {{ ucfirst(setting('sebutan_kecamatan')) }} {{ title_case($desa['nama_kecamatan']) }}
+                        {{ ucfirst(setting('sebutan_kabupaten')) }} {{ title_case($desa['nama_kabupaten']) }}
                     </p>
-                    <p>Provinsi {{ ucwords($desa['nama_propinsi']) }}</p>
+                    <p>Provinsi {{ title_case($desa['nama_propinsi']) }}</p>
                 </div>
 
                 {{-- Clock for Mobile --}}

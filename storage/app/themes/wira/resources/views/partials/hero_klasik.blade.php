@@ -22,13 +22,13 @@
                     <div class="w-15 h-8 flex items-center justify-center">
                         <a href="{{ ci_route() }}" class="block">
                             <figure>
-                                <img src="{{ gambar_desa($desa['logo']) }}" alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']) }}" class="h-12 mx-auto pb-2">
+                                <img src="{{ gambar_desa($desa['logo']) }}" alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . title_case($desa['nama_desa']) }}" class="h-12 mx-auto pb-2">
                             </figure>
                         </a>
                     </div>
                     <div>
                         <p class="text-sm font-semibold">{{ ucfirst(setting('sebutan_desa')) }}</p>
-                        <p class="text-sm font-semibold -mt-1">{{ ucwords($desa['nama_desa']) }}</p>
+                        <p class="text-sm font-semibold -mt-1">{{ title_case($desa['nama_desa']) }}</p>
                     </div>
                 </div>
                 <div>
@@ -76,14 +76,14 @@
                             <a href="{{ ci_route() }}" class="block">
                                 <figure>
                                     <img src="{{ gambar_desa($desa['logo']) }}" 
-                                        alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']) }}" 
+                                        alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . title_case($desa['nama_desa']) }}" 
                                         class="h-10 mx-auto pb-2">
                                 </figure>
                             </a>
                         </div>
                         <div class="mb-2">
                             <p class="text-sm font-semibold">{{ ucfirst(setting('sebutan_desa')) }}</p>
-                            <p class="text-sm font-semibold -mt-1">{{ ucwords($desa['nama_desa']) }}</p>
+                            <p class="text-sm font-semibold -mt-1">{{ title_case($desa['nama_desa']) }}</p>
                         </div>
                     </div>
                     <div class="mt-2">
@@ -103,12 +103,12 @@
             </h1>
             
             <h2 class="text-lg sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 leading-tight">
-                {{ ucfirst(setting('sebutan_desa')) }} {{ ucwords($desa['nama_desa']) }}
+                {{ ucfirst(setting('sebutan_desa')) }} {{ title_case($desa['nama_desa']) }}
             </h2>
             <div class="text-xs sm:text-sm md:text-base space-y-0.5">
-                <p>{{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }} 
-                   {{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}</p>
-                <p>Provinsi {{ ucwords($desa['nama_propinsi']) }}</p>
+                <p>{{ ucfirst(setting('sebutan_kecamatan')) }} {{ title_case($desa['nama_kecamatan']) }} 
+                   {{ ucfirst(setting('sebutan_kabupaten')) }} {{ title_case($desa['nama_kabupaten']) }}</p>
+                <p>Provinsi {{ title_case($desa['nama_propinsi']) }}</p>
             </div>
         </div>
         
@@ -116,7 +116,7 @@
         <div class="lg:hidden flex-1 flex flex-col mb-4 items-center">
             <figure>
                 <img src="{{ gambar_desa($desa['logo']) }}" 
-                        alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']) }}" 
+                        alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . title_case($desa['nama_desa']) }}" 
                         class="h-12 mx-auto pb-2">
             </figure>
             <h1 class="text-sm font-bold">
@@ -124,12 +124,12 @@
             </h1>
             
             <h2 class="text-sm font-bold">
-                {{ ucfirst(setting('sebutan_desa')) }} {{ ucwords($desa['nama_desa']) }}
+                {{ ucfirst(setting('sebutan_desa')) }} {{ title_case($desa['nama_desa']) }}
             </h2>
             <div class="text-xs text-center">
-                <p>{{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }} 
-                {{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}</p>
-                <p>Provinsi {{ ucwords($desa['nama_propinsi']) }}</p>
+                <p>{{ ucfirst(setting('sebutan_kecamatan')) }} {{ title_case($desa['nama_kecamatan']) }} 
+                {{ ucfirst(setting('sebutan_kabupaten')) }} {{ title_case($desa['nama_kabupaten']) }}</p>
+                <p>Provinsi {{ title_case($desa['nama_propinsi']) }}</p>
             </div>
             @if(theme_config('jam_kerja') == '1')
             <div class="rounded-lg p-2 sm:p-3 inline-block text-center">

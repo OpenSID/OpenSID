@@ -1,8 +1,8 @@
 <div class="w-full md:w-1/2">
     <h2 class="text-2xl font-bold mb-3">Lokasi Kami</h2>
     <p class="text-sm text-gray-700 mb-3">
-        {{ ucwords(setting('sebutan_kecamatan')) }} {{ $desa['nama_kecamatan'] }}
-        {{ ucwords(setting('sebutan_kabupaten')) }} {{ $desa['nama_kabupaten'] }} Provinsi {{ $desa['nama_propinsi'] }}
+        {{ ucwords(setting('sebutan_kecamatan')) }} {{ title_case($desa['nama_kecamatan']) }}
+        {{ ucwords(setting('sebutan_kabupaten')) }} {{ title_case($desa['nama_kabupaten']) }} Provinsi {{ title_case($desa['nama_propinsi']) }}
     </p>
 
     <div class="relative w-full h-[250px] bg-gray-200 z-[9] rounded-lg overflow-hidden">
@@ -16,7 +16,7 @@
                 <div>
                     <a href="https://www.openstreetmap.org/#map=15/{{ $data_config['lat'] }}/{{ $data_config['lng'] }}"
                         target="_blank" class="text-xs font-bold">Kantor {{ ucwords(setting('sebutan_desa')) }}
-                        {{ $desa['nama_desa'] }}</a>
+                        {{ title_case($desa['nama_desa']) }}</a>
                     <p class="text-xs text-gray-500">{{ $desa['alamat_kantor'] }}</p>
                 </div>
             </div>

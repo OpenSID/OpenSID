@@ -158,22 +158,22 @@
                     <div class="w-10 h-10 flex items-center justify-center">
                         @if (!empty($desa['logo']))
                             <img src="{{ gambar_desa($desa['logo']) }}"
-                                alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']) }}"
+                                alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . title_case($desa['nama_desa']) }}"
                                 class="h-8 w-auto">
                         @endif
                     </div>
                     <div class="min-w-0">
                         <p class="text-sm font-semibold leading-tight">
-                            {{ ucfirst(setting('sebutan_desa')) }} {{ ucwords($desa['nama_desa']) }}
+                            {{ ucfirst(setting('sebutan_desa')) }} {{ title_case($desa['nama_desa']) }}
                         </p>
                         <p class="text-[10px]">
-                            {{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }}
+                            {{ ucfirst(setting('sebutan_kecamatan')) }} {{ title_case($desa['nama_kecamatan']) }}
                         </p>
                         <p class="text-[10px]">
-                            {{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}
+                            {{ ucfirst(setting('sebutan_kabupaten')) }} {{ title_case($desa['nama_kabupaten']) }}
                         </p>
                         <p class="text-[10px]">
-                            Provinsi {{ ucwords($desa['nama_propinsi']) }}
+                            Provinsi {{ title_case($desa['nama_propinsi']) }}
                         </p>
                     </div>
                 </div>
@@ -182,7 +182,7 @@
                 <div class="text-right text-xs flex-shrink-0 max-w-[40%]">
                     <p class="text-green-200 mb-1">&copy; {{ date('Y') }}</p>
                     <p class="text-green-300 text-[10px] leading-tight">
-                        {{ ucfirst(setting('sebutan_desa')) }} {{ ucwords($desa['nama_desa']) }}
+                        {{ ucfirst(setting('sebutan_desa')) }} {{ title_case($desa['nama_desa']) }}
                     </p>
                     @if (isset($themeVersion))
                         <p class="text-[10px] leading-tight">
@@ -212,19 +212,19 @@
                     <div class="w-12 h-12 flex items-center justify-center flex-shrink-0">
                         @if (!empty($desa['logo']))
                             <img src="{{ gambar_desa($desa['logo']) }}"
-                                alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']) }}"
+                                alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . title_case($desa['nama_desa']) }}"
                                 class="h-10 w-auto">
                         @endif
                     </div>
                     <div>
                         <p class="text-sm font-semibold">{{ ucfirst(setting('sebutan_desa')) }}</p>
-                        <p class="text-sm font-semibold -mt-1">{{ ucwords($desa['nama_desa']) }}</p>
+                        <p class="text-sm font-semibold -mt-1">{{ title_case($desa['nama_desa']) }}</p>
                     </div>
                 </div>
                 <div class="text-sm space-y-1">
-                    <p>{{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }}</p>
-                    <p>{{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}</p>
-                    <p class="mb-4">Provinsi {{ ucwords($desa['nama_propinsi']) }}</p>
+                    <p>{{ ucfirst(setting('sebutan_kecamatan')) }} {{ title_case($desa['nama_kecamatan']) }}</p>
+                    <p>{{ ucfirst(setting('sebutan_kabupaten')) }} {{ title_case($desa['nama_kabupaten']) }}</p>
+                    <p class="mb-4">Provinsi {{ title_case($desa['nama_propinsi']) }}</p>
                     @if (!empty($desa['email_desa']))
                         <p>
                             <span class="text-green-200">Email:</span>
@@ -294,7 +294,7 @@
         <div class="hidden md:block border-t border-green-600 mt-6 md:mt-8 pt-4 text-center text-xs">
             <p class="mb-2">
                 Hak cipta situs &copy; {{ date('Y') }} - {{ ucfirst(setting('sebutan_desa')) }}
-                {{ ucwords($desa['nama_desa']) }}
+                {{ title_case($desa['nama_desa']) }}
             </p>
             <div class="flex justify-center items-center gap-2 flex-wrap">
                 @if (isset($themeVersion))

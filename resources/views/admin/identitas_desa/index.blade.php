@@ -62,9 +62,9 @@
     <div class="box-body">
         <div class="box-body bg-identitas">
             <img class="img-identitas img-responsive" src="{{ $main['url_logo'] }}" alt="Logo {{ ucwords(setting('sebutan_desa')) }}">
-            <h3 class="text-identitas">{{ ucwords(setting('sebutan_desa') . ' ' . $main['nama_desa']) }}</h3>
+            <h3 class="text-identitas">{{ ucwords(setting('sebutan_desa')) . ' ' . title_case($main['nama_desa']) }}</h3>
             <p class="text-identitas">
-                <b>{{ ucwords(setting('sebutan_kecamatan') . ' ' . $main['nama_kecamatan'] . ', ' . setting('sebutan_kabupaten') . ' ' . $main['nama_kabupaten'] . ', Provinsi ' . $main['nama_propinsi']) }}</b>
+                <b>{{ ucwords(setting('sebutan_kecamatan')) . ' ' . title_case($main['nama_kecamatan']) . ', ' . ucwords(setting('sebutan_kabupaten')) . ' ' . title_case($main['nama_kabupaten']) . ', Provinsi ' . title_case($main['nama_propinsi']) }}</b>
             </p>
         </div>
         <br>

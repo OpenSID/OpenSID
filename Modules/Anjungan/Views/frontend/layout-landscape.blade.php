@@ -43,7 +43,7 @@
                     <img src="{{ gambar_desa($desa['logo']) }}" alt="logo">
                     <div>
                         <h1>{{ setting('sebutan_anjungan_mandiri') }}</h1>
-                        <p> {{ ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
+                        <p> {{ title_case(setting('sebutan_desa') . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
                         </p>
                     </div>
                 </div>
