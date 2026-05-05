@@ -144,24 +144,26 @@ class Man_user extends Admin_Controller
 
                     $aksi = View::make('admin.layouts.components.buttons.edit', ['url' => 'man_user/form/' . $row->id])->render();
 
-                    if (can('u')) {
-                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                            'url'    => $row->active == '0' ? site_url("man_user/user_unlock/{$row->id}") : site_url("man_user/user_lock/{$row->id}"),
-                            'active' => $row->active,
-                        ])->render();
-                    }
+                    if ($row->id != super_admin()) {
+                        if (can('u')) {
+                            $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                                'url'    => $row->active == '0' ? site_url("man_user/user_unlock/{$row->id}") : site_url("man_user/user_lock/{$row->id}"),
+                                'active' => $row->active,
+                            ])->render();
+                        }
 
-                    if (can('h') && $row->id != super_admin()) {
-                        $nama = htmlspecialchars((string) $row->nama, ENT_QUOTES);
-                        $url  = site_url("man_user/delete/{$row->id}");
-                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'           => $url,
-                            'confirmDelete' => false,
-                            'judul'         => 'Hapus',
-                            'icon'          => 'fa fa-trash-o',
-                            'type'          => 'bg-maroon',
-                            'onclick'       => "konfirmasiHapus('{$url}', '{$nama}')",
-                        ])->render();
+                        if (can('h')) {
+                            $nama = htmlspecialchars((string) $row->nama, ENT_QUOTES);
+                            $url  = site_url("man_user/delete/{$row->id}");
+                            $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                                'url'           => $url,
+                                'confirmDelete' => false,
+                                'judul'         => 'Hapus',
+                                'icon'          => 'fa fa-trash-o',
+                                'type'          => 'bg-maroon',
+                                'onclick'       => "konfirmasiHapus('{$url}', '{$nama}')",
+                            ])->render();
+                        }
                     }
 
                     return $aksi;

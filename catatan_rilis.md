@@ -9,6 +9,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 4. [#11121] (https://github.com/OpenSID/OpenSID/issues/11121) Perbaikan tampilan peta pada pengaturan produk layanan mandiri.
 5. [#11122] (https://github.com/OpenSID/OpenSID/issues/11122) Perbaikan validasi telepon Pelapak.
 6. [#11123] (https://github.com/OpenSID/OpenSID/issues/11123) Perbaikan navigasi paginasi muncul meskipun data kosong pada produk warga.
+7. [#11124] (https://github.com/OpenSID/OpenSID/issues/11124) Perbaikan tombol lock (kunci akun) masih muncul pada akun administrator utama.
 
 ### KEAMANAN
 
