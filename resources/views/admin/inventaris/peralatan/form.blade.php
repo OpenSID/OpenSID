@@ -232,13 +232,8 @@
             $('#output').val(numeral($('#harga').val()).format('Rp0,0'));
 
             $("#nama_barang").change(function() {
-                if ($('#register').val().length != 21) {
-                    $('#register').val($('#nama_barang').val().split('_').pop());
-                    $('#nama_barang_save').val($('#nama_barang').val().slice(0, -16));
-                } else {
-                    $('#register').val($('#nama_barang').val().split('_').pop() + $('#register').val().slice(-6));
-                    $('#nama_barang_save').val($('#nama_barang').val().slice(0, -16));
-                }
+                $('#register').val($('#nama_barang').val().split('_').pop());
+                $('#nama_barang_save').val($('#nama_barang').val().slice(0, -16));
             });
 
             if (!id) {
