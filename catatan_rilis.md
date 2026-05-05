@@ -19,6 +19,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 14. [#11125] (https://github.com/OpenSID/OpenSID/issues/11125) Perbaikan nomor register pada saat input data inventaris tidak konsisten di menu Sekretariat.
 15. [#11099] (https://github.com/OpenSID/OpenSID/issues/11099) Perbaikan tidak ada runtime error saat Enter ditekan dengan teks konfirmasi yang salah.
 16. [#11107] (https://github.com/OpenSID/OpenSID/issues/11107) Perbaikan error ajax datatable syarat surat.
+17. [#11108] (https://github.com/OpenSID/OpenSID/issues/11108) Perbaikan surat keterangan harga tanah sistem, ketika disalin dan disimpan, muncul tanda ] di tabel jumlah.
 
 ### KEAMANAN
 

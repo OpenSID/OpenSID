@@ -2675,7 +2675,7 @@ if (! function_exists('caseWord')) {
 if (! function_exists('caseHitung')) {
     function caseHitung($teks)
     {
-        $pola = '/\[(hitung|HiTung|Hitung|HitunG|HItung)]\[(.+?)]/';
+        $pola = '/\[(hitung|HiTung|Hitung|HitunG|HItung)]\[((?:[^\[\]]|\[[^\]]*\])*)\]/i';
         $teks = str_replace(['[Op+]', '[Op/]', '[Op*]', '[Op-]'], ['+', '/', '*', '-'], $teks);
 
         return preg_replace_callback($pola, static function (array $matches) {
