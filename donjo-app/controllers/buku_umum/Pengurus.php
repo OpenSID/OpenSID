@@ -526,6 +526,13 @@ class Pengurus extends Admin_Controller
     // Jabatan
     public function jabatan()
     {
+        return view('admin.jabatan.index', [
+            'selected_nav' => 'pengurus',
+        ]);
+    }
+
+    public function jabatanDatatables()
+    {
         if ($this->input->is_ajax_request()) {
             $refJabatan = $this->refJabatan;
 
@@ -561,9 +568,7 @@ class Pengurus extends Admin_Controller
                 ->make();
         }
 
-        return view('admin.jabatan.index', [
-            'selected_nav' => 'pengurus',
-        ]);
+        return show_404();
     }
 
     public function jabatanform($id = '')

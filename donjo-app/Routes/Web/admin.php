@@ -1062,6 +1062,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::get('/atur_bagan', 'Pengurus@atur_bagan')->name('buku-umum.pengurus.atur_bagan');
         Route::post('/update_bagan', 'Pengurus@update_bagan')->name('buku-umum.pengurus.update_bagan');
         Route::get('/jabatan', 'Pengurus@jabatan')->name('buku-umum.pengurus.jabatan');
+        Route::post('/jabatan/datatables', 'Pengurus@jabatanDatatables')->name('buku-umum.pengurus.jabatan.datatables');
         Route::get('/jabatanform/{id?}', 'Pengurus@jabatanform')->name('buku-umum.pengurus.jabatanform');
         Route::post('/jabataninsert', 'Pengurus@jabataninsert')->name('buku-umum.pengurus.jabataninsert');
         Route::post('/jabatanUpdate/{id?}', 'Pengurus@jabatanUpdate')->name('buku-umum.pengurus.jabatanUpdate');

@@ -55,7 +55,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('pengurus.jabatan') }}",
+                    url: "{{ ci_route('pengurus.jabatan.datatables') }}",
                     method: 'POST',
                 },
                 columns: [{
