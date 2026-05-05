@@ -49,7 +49,7 @@
                 'autoWidth': false,
                 'pageLength': 10,
                 'ajax': {
-                    'url': "{{ ci_route('database.desa_inkremental') }}",
+                    'url': "{{ ci_route('database.desa_inkremental_datatables') }}",
                     'method': 'POST',
                     'data': function(d) {
                         d.tahun = $('#tahun').val();

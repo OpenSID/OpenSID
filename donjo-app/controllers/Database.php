@@ -202,8 +202,13 @@ class Database extends Admin_Controller
 
     public function desa_inkremental()
     {
+        return view('admin.database.inkremental');
+    }
+
+    public function desa_inkremental_datatables()
+    {
         if ($this->input->is_ajax_request()) {
-            return datatables(LogBackup::query())
+            return datatables()->of(LogBackup::query())
                 ->addIndexColumn()
                 ->addColumn('aksi', static fn ($row): string => View::make('admin.layouts.components.buttons.hapus', [
                     'url'           => ci_route('database.inkremental_delete', $row->id),
@@ -213,7 +218,7 @@ class Database extends Admin_Controller
                 ->make();
         }
 
-        return view('admin.database.inkremental');
+        return show_404();
     }
 
     public function inkremental_job()

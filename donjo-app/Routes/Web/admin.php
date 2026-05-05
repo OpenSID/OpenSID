@@ -1701,6 +1701,7 @@ Route::group('database', static function (): void {
     Route::get('/exec_backup', 'Database@exec_backup')->name('database.exec_backup');
     Route::get('/desa_backup', 'Database@desa_backup')->name('database.desa_backup');
     Route::get('/desa_inkremental', 'Database@desa_inkremental')->name('database.desa_inkremental');
+    Route::post('/desa_inkremental_datatables', 'Database@desa_inkremental_datatables')->name('database.desa_inkremental_datatables');
     Route::post('/inkremental_job', 'Database@inkremental_job')->name('database.inkremental_job');
     Route::get('/inkremental_download', 'Database@inkremental_download')->name('database.inkremental_download');
     Route::get('/inkremental_delete/{id?}', 'Database@inkremental_delete')->name('database.inkremental_delete');
