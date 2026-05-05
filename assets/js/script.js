@@ -58,11 +58,18 @@ $(document).ready(function() {
     });
 
     $(function() {
-        var formModal = $(".modal form");
-
         $(document).on("keydown", ":input:not(textarea):not(:submit)", function(event) {
             if (event.key === "Enter") {
-                if ((formModal.is(":visible") && !formModal.valid()) || !$("#validasi").valid()) {
+                var formModal = $(".modal form:visible");
+                var shouldBlock = false;
+
+                if (formModal.length) {
+                    shouldBlock = !formModal.valid();
+                }
+                if (!shouldBlock && $("#validasi").length) {
+                    shouldBlock = !$("#validasi").valid();
+                }
+                if (shouldBlock) {
                     event.preventDefault();
                     return false;
                 }

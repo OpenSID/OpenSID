@@ -17,6 +17,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 12. [#11134] (https://github.com/OpenSID/OpenSID/issues/11134) Perbaikan navigasi halaman tidak sinkron dengan jumlah data kosong pada Buku Inventaris dan Kekayaan Desa.
 13. [#11128] (https://github.com/OpenSID/OpenSID/issues/11128) Perbaikan untuk mengatasi DataTables AJAX error pada tab Jabatan di halaman Buku Pemerintah Desa.
 14. [#11125] (https://github.com/OpenSID/OpenSID/issues/11125) Perbaikan nomor register pada saat input data inventaris tidak konsisten di menu Sekretariat.
+15. [#11099] (https://github.com/OpenSID/OpenSID/issues/11099) Perbaikan tidak ada runtime error saat Enter ditekan dengan teks konfirmasi yang salah.
 
 ### KEAMANAN
 
