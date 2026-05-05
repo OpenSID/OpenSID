@@ -14,6 +14,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 9. [#11130] (https://github.com/OpenSID/OpenSID/issues/11130) Perbaikan validasi pada halaman Tipe Lokasi di menu Pemetaan.
 10. [#11131] (https://github.com/OpenSID/OpenSID/issues/11131) Perbaikan crash halaman Riwayat Mutasi Penduduk ketika ada data log_penduduk dengan kode_peristiwa anomali.
 11. [#11077] (https://github.com/OpenSID/OpenSID/issues/11077) Perbaikan gambar tombol cetak/print tidak tampil pada saat cetak lembar disposisi surat.
+12. [#11134] (https://github.com/OpenSID/OpenSID/issues/11134) Perbaikan navigasi halaman tidak sinkron dengan jumlah data kosong pada Buku Inventaris dan Kekayaan Desa.
 
 ### KEAMANAN
 

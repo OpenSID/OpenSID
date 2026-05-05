@@ -68,17 +68,21 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
         if ($this->input->is_ajax_request()) {
 
             $tahun = $tahun = $this->input->post_get('tahun') ?? date('Y');
+            $data = $this->sumberData($tahun);
 
-            return datatables()->of($this->sumberData($tahun))
+            if (empty($data)) {
+                return json([
+                    'draw'            => (int) $this->input->post('draw'),
+                    'recordsTotal'    => 0,
+                    'recordsFiltered' => 0,
+                    'data'            => []
+                ]);
+            }
+
+            return datatables()->of($data)
                 ->addIndexColumn()
                 ->editColumn('keterangan', static function (array $row): string {
-                    $html = '';
-
-                    foreach ($row['keterangan'] as $ket) {
-                        $html .= '<li>' . $ket . '</li>';
-                    }
-
-                    return $html;
+                    return implode(', ', $row['keterangan']);
                 })
                 ->editColumn('tgl_hapus', static fn ($row) => tgl_indo($row['tgl_hapus']))
                 ->rawColumns(['aksi', 'keterangan'])
