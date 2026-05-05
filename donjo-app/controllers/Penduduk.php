@@ -341,6 +341,17 @@ class Penduduk extends Admin_Controller
     public function form($id = null, $peristiwa = null)
     {
         isCan('u');
+
+        $logPeristiwa = [
+            PeristiwaPendudukEnum::BARU_LAHIR->value,
+            PeristiwaPendudukEnum::MATI->value,
+            PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
+        ];
+
+        if ($peristiwa && ! in_array($peristiwa, $logPeristiwa)) {
+            redirect_with('error', 'Peristiwa tidak valid.', ci_route('penduduk'));
+        }
+
         $penduduk = new PendudukModel();
         // cek_nik
         if ($id) {
