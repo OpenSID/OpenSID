@@ -23,6 +23,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 18. [#11067] (https://github.com/OpenSID/OpenSID/issues/11067) Perbaikan pada menu DTSEN di pendataan kesehatan seharusnya bisa pilih multiple penyakit.
 
 ### KEAMANAN
+1. [#11136] (https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.
 
 ### TEKNIS
 1. [#11140] (https://github.com/OpenSID/OpenSID/issues/11140) Penyesuaian format huruf pada penampilan nama Kabupaten/Provinsi di halaman publik.
