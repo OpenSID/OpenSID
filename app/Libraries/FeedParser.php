@@ -38,6 +38,7 @@
 namespace App\Libraries;
 
 use Exception;
+use Illuminate\Support\Facades\Http;
 use XMLParser;
 
 /**
@@ -51,11 +52,19 @@ use XMLParser;
  */
 class FeedParser
 {
-    private readonly XMLParser $xmlParser;  // List of tag names which have sub tags
+    private readonly XMLParser $xmlParser;
     private array $channels = [];
     private array $items    = [];
-    private string $url;                     // The parsed url
-    private string $version = '';                     // Detected feed version
+    private string $url;
+    private string $version = '';
+
+    // Handler properties
+    private bool $insideItem = false;
+    private string $currentTag = '';
+    private array $itemTags = ['item', 'entry'];
+    private array $channelTags = ['channel', 'feed'];
+    private array $currentItem = [];
+    private array $currentChannel = [];
 
     /**
      * Constructor - Initialize and set event handler functions to xmlParser
@@ -69,14 +78,10 @@ class FeedParser
         xml_set_character_data_handler($this->xmlParser, 'characterData');
     }
 
-    /*-----------------------------------------------------------------------+
-    |  Public functions. Use to parse feed and get informations.             |
-    +-----------------------------------------------------------------------*/
-
     /**
      * Get all channel elements
      *
-     * @return array - All chennels as associative array
+     * @return array All channels as associative array
      */
     public function getChannels(): array
     {
@@ -86,7 +91,7 @@ class FeedParser
     /**
      * Get all feed items
      *
-     * @return array - All feed items as associative array
+     * @return array All feed items as associative array
      */
     public function getItems(): array
     {
@@ -96,7 +101,7 @@ class FeedParser
     /**
      * Get total number of feed items
      *
-     * @return number
+     * @return int
      */
     public function getTotalItems(): int
     {
@@ -106,9 +111,11 @@ class FeedParser
     /**
      * Get a feed item by index
      *
-     * @param number  index of feed item
+     * @param mixed $index Index of feed item
      *
-     * @return array feed item as associative array of it's elements
+     * @return array Feed item as associative array
+     *
+     * @throws Exception
      */
     public function getItem(mixed $index)
     {
@@ -116,15 +123,17 @@ class FeedParser
             return $this->items[$index];
         }
 
-        throw new Exception('Item index is learger then total items.');
+        throw new Exception('Item index is larger than total items.');
     }
 
     /**
      * Get a channel element by name
      *
-     * @param string  the name of channel tag
+     * @param mixed $tagName Name of channel tag
      *
-     * @return string
+     * @return string Channel tag value
+     *
+     * @throws Exception
      */
     public function getChannel(mixed $tagName)
     {
@@ -137,6 +146,10 @@ class FeedParser
 
     /**
      * Get the parsed URL
+     *
+     * @return string The feed URL that was parsed
+     *
+     * @throws Exception
      */
     public function getParsedUrl(): string
     {
@@ -149,6 +162,8 @@ class FeedParser
 
     /**
      * Get the detected Feed version
+     *
+     * @return string Feed version (e.g., 'rss', 'atom', '1.0', '2.0')
      */
     public function getFeedVersion(): string
     {
@@ -156,14 +171,23 @@ class FeedParser
     }
 
     /**
-     * Parses a feed url
+     * Parse a feed URL
      *
-     * @param srting  teh feed url
+     * @param mixed $url The feed URL to parse
+     *
+     * @return bool|null Returns null on success, false on error
      */
     public function parse(mixed $url): ?bool
     {
-        $this->url  = $url;
-        $URLContent = $this->getUrlContent();
+        $this->url = $url;
+
+        try {
+            $URLContent = $this->getUrlContent();
+        } catch (\Exception $e) {
+            logger()->error('Failed to load feed: ' . $e->getMessage());
+
+            return false;
+        }
 
         if ($URLContent !== '' && $URLContent !== '0') {
             $segments = str_split($URLContent, 4096);
@@ -172,8 +196,8 @@ class FeedParser
                 $lastPiese = (count($segments) - 1) == $index;
                 $result    = xml_parse($this->xmlParser, $data, $lastPiese);
                 if ($result === 0) {
-                    log_message('error', sprintf(
-                        'XML error: %s at line %d',
+                    logger()->error('XML error: ' . sprintf(
+                        '%s at line %d',
                         xml_error_string(xml_get_error_code($this->xmlParser)),
                         xml_get_current_line_number($this->xmlParser)
                     ));
@@ -183,13 +207,13 @@ class FeedParser
             }
             xml_parser_free($this->xmlParser);
         } else {
-            log_message('error', 'Sorry! cannot load the feed url.');
+            logger()->error('Feed content is empty.');
 
             return false;
         }
 
         if ($this->version === '' || $this->version === '0') {
-            log_message('error', 'Sorry! cannot detect the feed version.');
+            logger()->error('Unable to detect feed version.');
 
             return false;
         }
@@ -197,42 +221,165 @@ class FeedParser
         return null;
     }
 
-    // End public functions -------------------------------------------------
+    /**
+     * Start element XML parser handler
+     *
+     * @param XMLParser $parser XML parser object
+     * @param string $name Element tag name
+     * @param array $attribs Element attributes
+     *
+     * @return void
+     */
+    private function startElement(XMLParser $parser, string $name, array $attribs): void
+    {
+        $name = strtolower($name);
+        $this->currentTag = $name;
 
-    /*-----------------------------------------------------------------------+
-    | Private functions. Be careful to edit them.                            |
-    +-----------------------------------------------------------------------*/
+        // Detect feed version from root element
+        if ($this->version === '' || $this->version === '0') {
+            $this->findVersion($name, $attribs);
+        }
+
+        // Handle item/entry tags
+        if (in_array($name, $this->itemTags, true)) {
+            $this->insideItem = true;
+            $this->currentItem = [];
+        }
+
+        // Handle channel/feed tags
+        if (in_array($name, $this->channelTags, true)) {
+            $this->currentChannel = [];
+        }
+    }
 
     /**
-     * Load the whole contents of a RSS/ATOM page
+     * End element XML parser handler
      *
-     * @return string
+     * @param XMLParser $parser XML parser object
+     * @param string $name Element tag name
+     *
+     * @return void
      */
-    private function getUrlContent(): string|bool
+    private function endElement(XMLParser $parser, string $name): void
+    {
+        $name = strtolower($name);
+
+        // Save item when closing item/entry tag
+        if (in_array($name, $this->itemTags, true)) {
+            $this->insideItem = false;
+            if (!empty($this->currentItem)) {
+                $this->items[] = $this->currentItem;
+            }
+            $this->currentItem = [];
+        }
+
+        // Save channel when closing channel/feed tag
+        if (in_array($name, $this->channelTags, true)) {
+            if (!empty($this->currentChannel)) {
+                $this->channels[strtoupper($name)] = $this->currentChannel;
+            }
+            $this->currentChannel = [];
+        }
+
+        $this->currentTag = '';
+    }
+
+    /**
+     * Character data XML parser handler
+     *
+     * @param XMLParser $parser XML parser object
+     * @param string $data Character data content
+     *
+     * @return void
+     */
+    private function characterData(XMLParser $parser, string $data): void
+    {
+        $data = trim($data);
+
+        if ($data === '' || $data === '0') {
+            return;
+        }
+
+        $data = $this->unhtmlentities($data);
+
+        if ($this->insideItem) {
+            // Store data in current item
+            if (!isset($this->currentItem[strtoupper($this->currentTag)])) {
+                $this->currentItem[strtoupper($this->currentTag)] = $data;
+            } else {
+                $this->currentItem[strtoupper($this->currentTag)] .= $data;
+            }
+        } else {
+            // Store data in current channel
+            if (!isset($this->currentChannel[strtoupper($this->currentTag)])) {
+                $this->currentChannel[strtoupper($this->currentTag)] = $data;
+            } else {
+                $this->currentChannel[strtoupper($this->currentTag)] .= $data;
+            }
+        }
+    }
+
+    /**
+     * Detect and set feed version from root element
+     *
+     * @param string $tagName Root element tag name
+     * @param array $attribs Root element attributes
+     *
+     * @return void
+     */
+    private function findVersion(string $tagName, array $attribs): void
+    {
+        $tagName = strtolower($tagName);
+
+        if ($tagName === 'rss') {
+            $this->version = $attribs['version'] ?? '2.0';
+        } elseif ($tagName === 'feed' && isset($attribs['xmlns'])) {
+            if (str_contains($attribs['xmlns'], 'atom')) {
+                $this->version = 'atom';
+            }
+        } elseif ($tagName === 'rdf:rdf') {
+            $this->version = '1.0';
+        }
+    }
+
+    /**
+     * Decode HTML entities in a string
+     *
+     * @param string $str Input string with HTML entities
+     *
+     * @return string Decoded string
+     */
+    private function unhtmlentities(string $str): string
+    {
+        $trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_QUOTES);
+        $trans_tbl = array_flip($trans_tbl);
+
+        return strtr($str, $trans_tbl);
+    }
+
+    /**
+     * Load the complete content of a RSS/ATOM feed URL
+     *
+     * @return string Feed content
+     *
+     * @throws Exception
+     */
+    private function getUrlContent(): string
     {
         if (! isset($this->url) || ($this->url === '' || $this->url === '0')) {
-            throw new Exception('URL to parse is empty!.');
+            throw new Exception('URL to parse is empty.');
         }
 
-        if ($content = @file_get_contents($this->url)) {
-            return $content;
+        try {
+            $response = Http::timeout(5)->get($this->url);
+
+            if (! $response->successful()) {
+                throw new Exception('HTTP ' . $response->status());
+            }
+
+            return $response->body();
+        } catch (\Exception $e) {
+            throw new Exception("Error loading feed URL: {$e->getMessage()}");
         }
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $this->url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $content = curl_exec($ch);
-        $error   = curl_error($ch);
-
-        curl_close($ch);
-
-        if ($error === '') {
-            return $content;
-        }
-
-        throw new Exception("Erroe occured while loading url by cURL. <br />\n" . $error);
     }
-} //End class FeedParser
+}

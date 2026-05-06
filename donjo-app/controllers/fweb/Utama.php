@@ -111,13 +111,20 @@ class Utama extends Web_Controller
 
     public function getFeed()
     {
-        $sumber_feed = setting('link_feed');
-        if (! cek_bisa_akses_site($sumber_feed)) {
+        $feedUrl = setting('link_feed');
+        
+        if (empty($feedUrl) || ! cek_bisa_akses_site($feedUrl)) {
             return null;
         }
 
-        $feed = (new FeedReader());
+        try {
+            $feed = new FeedReader($feedUrl);
 
-        return array_slice($feed->items, 0, 2);
+            return array_slice($feed->getItems(), 0, 2);
+        } catch (\Throwable $e) {
+            logger()->error('FeedReader gagal memproses feed: ' . $e->getMessage());
+
+            return null;
+        }
     }
 }

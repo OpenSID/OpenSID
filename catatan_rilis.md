@@ -26,3 +26,4 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 ### TEKNIS
 1. [#11140] (https://github.com/OpenSID/OpenSID/issues/11140) Penyesuaian format huruf pada penampilan nama Kabupaten/Provinsi di halaman publik.
+2. [#11139] (https://github.com/OpenSID/OpenSID/issues/11139) Penyesuaian lanjutan FeedParser untuk kompatibilitas PHP 8.2.

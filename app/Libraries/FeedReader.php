@@ -37,22 +37,48 @@
 
 namespace App\Libraries;
 
+use Exception;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class FeedReader
 {
-    public $items;
+    private array $items = [];
     private FeedParser $parser;
 
-    public function __construct()
-    {
-        $this->buka_feed();
-    }
-
-    private function buka_feed(): void
+    /**
+     * Create a new FeedReader instance
+     *
+     * @param string $url Feed URL to parse
+     *
+     * @throws Exception
+     */
+    public function __construct(string $url)
     {
         $this->parser = new FeedParser();
-        $this->parser->parse(setting('link_feed'));
+        if (! $this->parser->parse($url)) {
+            throw new Exception('Failed to parse feed from: ' . $url);
+        }
         $this->items = $this->parser->getItems();
+    }
+
+    /**
+     * Get parsed feed items
+     *
+     * @return array List of feed items
+     */
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    /**
+     * Get total number of items
+     *
+     * @return int
+     */
+    public function getTotalItems(): int
+    {
+        return count($this->items);
     }
 }
