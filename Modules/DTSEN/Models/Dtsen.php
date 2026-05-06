@@ -47,6 +47,19 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Dtsen extends BaseModel
 {
     use ConfigId;
+    
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::deleting(static function ($dtsen) {
+            // Hapus semua anggota dtsen terkait saat data dtsen (keluarga) dihapus
+            $dtsen->dtsenAnggota()->delete();
+        });
+    }
 
     /**
      * The table associated with the model.

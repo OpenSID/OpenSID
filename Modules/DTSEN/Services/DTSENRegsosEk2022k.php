@@ -682,14 +682,22 @@ class DTSENRegsosEk2022k
         // 8;MALARIA 9;LEPRA/KUSTA 10;HIV/AIDS 11;GILA/STRESS 12;TBC 13;ASTHMA 14;TIDAK ADA/TIDAK SAKIT
 
         // untuk penulisan yg tidak mirip
-        if ($agt->sakit_menahun_id == 6) {
-            $dtsen_anggota->kd_penyakit_kronis_menahun = 6; // 430 | 06. Diabeles (kencing manis)
-        } elseif ($agt->sakit_menahun_id == 13) {
-            $dtsen_anggota->kd_penyakit_kronis_menahun = 4; // 430 | 04. Asma
-        } else {
-            // bandingkan kemudian set ke lainnya jika tidak ditemukan
-            $sakit_menahun                             = SakitMenahunEnum::valueOf($agt->sakit_menahun_id);
-            $dtsen_anggota->kd_penyakit_kronis_menahun = $this->getIndexPilihanWithDefault(Regsosek2022kEnum::pilihanBagian4()['430'], $sakit_menahun); // 430
+        if (empty($dtsen_anggota->kd_penyakit_kronis_menahun)) {
+            // Jika statusnya bukan 'TIDAK ADA/TIDAK SAKIT' (ID 14), baru lakukan sinkronisasi
+            if ($agt->sakit_menahun_id && $agt->sakit_menahun_id != 14) {
+                if ($agt->sakit_menahun_id == 6) {
+                    $dtsen_anggota->kd_penyakit_kronis_menahun = 6; // 430 | 06. Diabeles (kencing manis)
+                } elseif ($agt->sakit_menahun_id == 13) {
+                    $dtsen_anggota->kd_penyakit_kronis_menahun = 4; // 430 | 04. Asma
+                } else {
+                    // bandingkan kemudian set ke lainnya jika tidak ditemukan
+                    $sakit_menahun                             = SakitMenahunEnum::valueOf($agt->sakit_menahun_id);
+                    $dtsen_anggota->kd_penyakit_kronis_menahun = $this->getIndexPilihanWithDefault(Regsosek2022kEnum::pilihanBagian4()['430'], $sakit_menahun); // 430
+                }
+            } else {
+                // Jika tidak sakit atau datanya kosong, biarkan NULL agar di form muncul sebagai belum diisi
+                $dtsen_anggota->kd_penyakit_kronis_menahun = null;
+            }
         }
 
         return $dtsen_anggota;
@@ -1932,6 +1940,9 @@ class DTSENRegsosEk2022k
         $message = [];
 
         foreach ($request['pilihan']['4'] as $key => $input) {
+            if ($key === '430_sub') {
+                continue;
+            }
             if ($input != '' && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
                 $message[] = "No {$key}: Pilihan tidak ditemukan";
             }
@@ -1955,55 +1966,112 @@ class DTSENRegsosEk2022k
             return ['content' => ['message' => 'Anggota keluarga tidak ditemukan'], 'header_code' => 406];
         }
 
-        $selected_anggota->kd_gizi_seimbang = ($umur <= 4)
-            ? $this->null_or_value($request['pilihan']['4']['427'])
-            : null;
-        $selected_anggota->kd_sulit_penglihatan = ($umur >= 2)
-            ? $this->null_or_value($request['pilihan']['4']['428a'])
-            : null;
-        $selected_anggota->kd_sulit_pendengaran = ($umur >= 2)
-            ? $this->null_or_value($request['pilihan']['4']['428b'])
-            : null;
-        $selected_anggota->kd_sulit_jalan_naiktangga = ($umur >= 2)
-            ? $this->null_or_value($request['pilihan']['4']['428c'])
-            : null;
-        $selected_anggota->kd_sulit_gerak_tangan_jari = ($umur >= 2)
-            ? $this->null_or_value($request['pilihan']['4']['428d'])
-            : null;
-        $selected_anggota->kd_sulit_belajar_intelektual = ($umur >= 2)
-            ? $this->null_or_value($request['pilihan']['4']['428e'])
-            : null;
-        $selected_anggota->kd_sulit_perilaku_emosi = ($umur >= 2)
-            ? $this->null_or_value($request['pilihan']['4']['428f'])
-            : null;
-        $selected_anggota->kd_sulit_paham_bicara_kom = ($umur >= 5)
-            ? $this->null_or_value($request['pilihan']['4']['428g'])
-            : null;
-        $selected_anggota->kd_sulit_mandiri = ($umur >= 5)
-            ? $this->null_or_value($request['pilihan']['4']['428h'])
-            : null;
-        $selected_anggota->kd_sulit_ingat_konsentrasi = ($umur >= 5)
-            ? $this->null_or_value($request['pilihan']['4']['428i'])
-            : null;
-        $selected_anggota->kd_sering_sedih_depresi = ($umur >= 5)
-            ? $this->null_or_value($request['pilihan']['4']['428j'])
-            : null;
-        $selected_anggota->kd_memiliki_perawat = (
-            $umur >= 60
-            || in_array($selected_anggota->kd_sulit_penglihatan, ['1', '2'])
-            || in_array($selected_anggota->kd_sulit_pendengaran, ['1', '2'])
-            || in_array($selected_anggota->kd_sulit_jalan_naiktangga, ['1', '2'])
-            || in_array($selected_anggota->kd_sulit_gerak_tangan_jari, ['1', '2'])
-            || in_array($selected_anggota->kd_sulit_belajar_intelektual, ['1', '2'])
-            || in_array($selected_anggota->kd_sulit_perilaku_emosi, ['1', '2'])
-            || in_array($selected_anggota->kd_sulit_paham_bicara_kom, ['1', '2'])
-            || in_array($selected_anggota->kd_sulit_mandiri, ['1', '2'])
-            || in_array($selected_anggota->kd_sulit_ingat_konsentrasi, ['1', '2'])
-            || in_array($selected_anggota->kd_sering_sedih_depresi, ['1', '2'])
-        )
-            ? $this->null_or_value($request['pilihan']['4']['429'])
-            : null;
-        $selected_anggota->kd_penyakit_kronis_menahun = $this->null_or_value($request['pilihan']['4']['430']);
+        if (isset($request['pilihan']['4']['427'])) {
+            $selected_anggota->kd_gizi_seimbang = ($umur <= 4)
+                ? $this->null_or_value($request['pilihan']['4']['427'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['428a'])) {
+            $selected_anggota->kd_sulit_penglihatan = ($umur >= 2)
+                ? $this->null_or_value($request['pilihan']['4']['428a'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['428b'])) {
+            $selected_anggota->kd_sulit_pendengaran = ($umur >= 2)
+                ? $this->null_or_value($request['pilihan']['4']['428b'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['428c'])) {
+            $selected_anggota->kd_sulit_jalan_naiktangga = ($umur >= 2)
+                ? $this->null_or_value($request['pilihan']['4']['428c'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['428d'])) {
+            $selected_anggota->kd_sulit_gerak_tangan_jari = ($umur >= 2)
+                ? $this->null_or_value($request['pilihan']['4']['428d'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['428e'])) {
+            $selected_anggota->kd_sulit_belajar_intelektual = ($umur >= 2)
+                ? $this->null_or_value($request['pilihan']['4']['428e'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['428f'])) {
+            $selected_anggota->kd_sulit_perilaku_emosi = ($umur >= 2)
+                ? $this->null_or_value($request['pilihan']['4']['428f'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['428g'])) {
+            $selected_anggota->kd_sulit_paham_bicara_kom = ($umur >= 5)
+                ? $this->null_or_value($request['pilihan']['4']['428g'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['428h'])) {
+            $selected_anggota->kd_sulit_mandiri = ($umur >= 5)
+                ? $this->null_or_value($request['pilihan']['4']['428h'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['428i'])) {
+            $selected_anggota->kd_sulit_ingat_konsentrasi = ($umur >= 5)
+                ? $this->null_or_value($request['pilihan']['4']['428i'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['428j'])) {
+            $selected_anggota->kd_sering_sedih_depresi = ($umur >= 5)
+                ? $this->null_or_value($request['pilihan']['4']['428j'])
+                : null;
+        }
+
+        if (isset($request['pilihan']['4']['429'])) {
+            $selected_anggota->kd_memiliki_perawat = (
+                $umur >= 60
+                || in_array($selected_anggota->kd_sulit_penglihatan, ['1', '2'])
+                || in_array($selected_anggota->kd_sulit_pendengaran, ['1', '2'])
+                || in_array($selected_anggota->kd_sulit_jalan_naiktangga, ['1', '2'])
+                || in_array($selected_anggota->kd_sulit_gerak_tangan_jari, ['1', '2'])
+                || in_array($selected_anggota->kd_sulit_belajar_intelektual, ['1', '2'])
+                || in_array($selected_anggota->kd_sulit_perilaku_emosi, ['1', '2'])
+                || in_array($selected_anggota->kd_sulit_paham_bicara_kom, ['1', '2'])
+                || in_array($selected_anggota->kd_sulit_mandiri, ['1', '2'])
+                || in_array($selected_anggota->kd_sulit_ingat_konsentrasi, ['1', '2'])
+                || in_array($selected_anggota->kd_sering_sedih_depresi, ['1', '2'])
+            )
+                ? $this->null_or_value($request['pilihan']['4']['429'])
+                : null;
+        }
+        $gatekeeper_430 = $request['pilihan']['4']['430'] ?? '';
+
+        if ($gatekeeper_430 === '1') {
+            // Jika pilih Ya: kumpulkan penyakit yang dipilih
+            $selected_sub = [];
+            if (isset($request['pilihan']['4']['430_sub'])) {
+                foreach ($request['pilihan']['4']['430_sub'] as $sub_key => $sub_val) {
+                    if ($sub_val == '1' && array_key_exists($sub_key, Regsosek2022kEnum::pilihanBagian4()['430'])) {
+                        $selected_sub[] = $sub_key;
+                    }
+                }
+            }
+            if (empty($selected_sub)) {
+                return ['content' => ['message' => 'Anda memilih "Ya" pada pertanyaan 430, tetapi belum memilih jenis penyakitnya.'], 'header_code' => 406];
+            }
+            $selected_anggota->kd_penyakit_kronis_menahun = implode(',', $selected_sub);
+        } elseif ($gatekeeper_430 === '2') {
+            // Jika pilih Tidak secara eksplisit
+            $selected_anggota->kd_penyakit_kronis_menahun = '1';
+        } else {
+            // Jika gatekeeper Kosong, biarkan NULL
+            $selected_anggota->kd_penyakit_kronis_menahun = null;
+        }
 
         $this->saveRelatedAttribute($selected_anggota);
 
@@ -2199,7 +2267,7 @@ class DTSENRegsosEk2022k
             return;
         }
 
-        if ($dtsen_or_dtsen_anggota->isDirty($attribute_tersedia)) {
+        if (true) {
             $tmp_attributes = [];
 
             foreach ($dtsen_or_dtsen_anggota->attributesToArray() as $atr => $val) {

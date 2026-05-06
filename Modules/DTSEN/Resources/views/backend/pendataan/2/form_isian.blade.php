@@ -2,6 +2,13 @@
     .title {
         color: #000
     }
+
+    #modal-tab4 .table td:first-child {
+        word-wrap: break-word;
+        word-break: break-word;
+        white-space: normal;
+        max-width: 350px;
+    }
 </style>
 <div class="col-md-12">
     <div class="box box-primary">

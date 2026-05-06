@@ -210,8 +210,36 @@
             $('#pilihan_4_428h').val(global_data_anggota[index_anggota].kd_sulit_mandiri).trigger('change');
             $('#pilihan_4_428i').val(global_data_anggota[index_anggota].kd_sulit_ingat_konsentrasi).trigger('change');
             $('#pilihan_4_428j').val(global_data_anggota[index_anggota].kd_sering_sedih_depresi).trigger('change');
-            $('#pilihan_4_429').val(global_data_anggota[index_anggota].kd_memiliki_perawat).trigger('change');
-            $('#pilihan_4_430').val(global_data_anggota[index_anggota].kd_penyakit_kronis_menahun).trigger('change');
+            // prefill 430 sub choices
+            let kd_penyakit = global_data_anggota[index_anggota].kd_penyakit_kronis_menahun;
+            let list_penyakit = [];
+            if (kd_penyakit != null && kd_penyakit !== '') {
+                list_penyakit = kd_penyakit.toString().split(',').map(s => $.trim(s));
+            }
+            
+            // Determine if any chronic disease exists (not just '1' = Tidak Ada)
+            let has_kronis = list_penyakit.length > 0 && !(list_penyakit.length === 1 && parseInt(list_penyakit[0], 10) === 1);
+            
+            // Set the gatekeeper Ya/Tidak
+            if (kd_penyakit != null && kd_penyakit !== '') {
+                $('#pilihan_4_430_yatidak').val(has_kronis ? '1' : '2').trigger('change');
+            } else {
+                $('#pilihan_4_430_yatidak').val('').trigger('change');
+            }
+
+            $('.choices_430').each(function() {
+                let elemId = $(this).attr('id'); // e.g. pilihan_4_430_2
+                let id = elemId.replace('pilihan_4_430_', '');
+                
+                // Compare as integers to ignore leading zeros
+                let isSelected = list_penyakit.some(item => parseInt(item, 10) == parseInt(id, 10));
+                
+                if (isSelected && parseInt(id, 10) !== 1) { // 1 is "Tidak Ada", we don't have a select for it
+                    $(this).val('1').trigger('change');
+                } else {
+                    $(this).val('2').trigger('change');
+                }
+            });
 
             // keikutsertaan dalam program
             $('#pilihan_4_431a').val(tentukanJumlahTerpilih([99, 8, 4, 2, 1, 0], global_data_anggota[index_anggota].kd_jamkes_setahun)).trigger('change');
@@ -330,25 +358,28 @@
                 // -- kesehatan
                 indexTR = 4;
                 terisi = 0;
-                temp_jumlah_terisi[indexTR].jumlah = 28; // default value
-                untuk_dicek_terisi = ['kd_penyakit_kronis_menahun'];
-                if (tmp_umur >= 0 && tmp_umur <= 4) {
-                    untuk_dicek_terisi.push('kd_gizi_seimbang');
+                // Hitung jumlah pertanyaan secara dinamis dari DOM
+                let is_balita = (tmp_umur >= 0 && tmp_umur <= 4);
+                let jumlah_sub_penyakit = $('.tr_430_disease').length; // jumlah sub-pertanyaan dari blok 430 (saat ini 17)
+                let jumlah_kesehatan = jumlah_sub_penyakit + (is_balita ? $('#tr_4_427').length : 0);
+                temp_jumlah_terisi[indexTR].jumlah = jumlah_kesehatan;
+
+                let kd_penyakit = global_data_anggota[index_anggota].kd_penyakit_kronis_menahun;
+
+                // Hitung terisi untuk blok 430
+                // Jika 430 sudah dijawab (Ya atau Tidak), maka seluruh 17 pertanyaan dianggap terisi
+                let terisi_430 = 0;
+                if (kd_penyakit != null && kd_penyakit !== '') {
+                    terisi_430 = jumlah_sub_penyakit;
                 }
-                if (tmp_umur >= 2) {
-                    untuk_dicek_terisi.push('kd_sulit_penglihatan', 'kd_sulit_pendengaran', 'kd_sulit_jalan_naiktangga', 'kd_sulit_gerak_tangan_jari', 'kd_sulit_belajar_intelektual', 'kd_sulit_perilaku_emosi');
+
+                // Untuk balita, cek pertanyaan 427 secara terpisah
+                let terisi_427 = 0;
+                if (is_balita && global_data_anggota[index_anggota].kd_gizi_seimbang != null && global_data_anggota[index_anggota].kd_gizi_seimbang !== '') {
+                    terisi_427 = 1;
                 }
-                if (tmp_umur >= 5) {
-                    untuk_dicek_terisi.push('kd_sulit_paham_bicara_kom', 'kd_sulit_mandiri', 'kd_sulit_ingat_konsentrasi', 'kd_sering_sedih_depresi');
-                }
-                if (tmp_umur >= 60 || ['1', '2'].indexOf(global_data_anggota[index_anggota].kd_sering_sedih_depresi) || ['1', '2'].indexOf(global_data_anggota[index_anggota].kd_sulit_penglihatan) || ['1', '2'].indexOf(global_data_anggota[index_anggota].kd_sulit_pendengaran) || ['1', '2'].indexOf(
-                        global_data_anggota[index_anggota].kd_sulit_jalan_naiktangga) || ['1', '2'].indexOf(global_data_anggota[index_anggota].kd_sulit_gerak_tangan_jari) || ['1', '2'].indexOf(global_data_anggota[index_anggota].kd_sulit_belajar_intelektual) || ['1', '2'].indexOf(global_data_anggota[
-                        index_anggota].kd_sulit_perilaku_emosi) || ['1', '2'].indexOf(global_data_anggota[index_anggota].kd_sulit_paham_bicara_kom) || ['1', '2'].indexOf(global_data_anggota[index_anggota].kd_sulit_mandiri) || ['1', '2'].indexOf(global_data_anggota[index_anggota]
-                        .kd_sulit_ingat_konsentrasi) || ['1', '2'].indexOf(global_data_anggota[index_anggota].kd_sering_sedih_depresi)) {
-                    untuk_dicek_terisi.push('kd_memiliki_perawat');
-                }
-                temp_jumlah_terisi[indexTR].jumlah = untuk_dicek_terisi.length;
-                untuk_dicek_terisi.forEach(function_cek_sudah_diisi);
+
+                temp_jumlah_terisi[indexTR].terisi = terisi_430 + terisi_427;
 
                 // -- program perlindungan sosial
                 indexTR = 5;
@@ -463,16 +494,8 @@
                     }
                 } else if (table == 'tabel_kesehatan') {
                     show_when_otherwise_hide(global_umur_art <= 4, ['tr_4_427'], ['tr_4_427']);
-                    show_when_otherwise_hide(global_umur_art >= 2, ['tr_4_428a', 'tr_4_428b', 'tr_4_428c', 'tr_4_428d', 'tr_4_428e', 'tr_4_428f'], ['tr_4_428a', 'tr_4_428b', 'tr_4_428c', 'tr_4_428d', 'tr_4_428e', 'tr_4_428f']);
-                    show_when_otherwise_hide(global_umur_art >= 5, ['tr_4_428g', 'tr_4_428h', 'tr_4_428i', 'tr_4_428j'], ['tr_4_428g', 'tr_4_428h', 'tr_4_428i', 'tr_4_428j']);
-                    let ada_kode_1_atau_2 = false;
-                    ['#pilihan_4_428a', '#pilihan_4_428b', '#pilihan_4_428c', '#pilihan_4_428d', '#pilihan_4_428e', '#pilihan_4_428f', '#pilihan_4_428g', '#pilihan_4_428h', '#pilihan_4_428i', '#pilihan_4_428j']
-                    .forEach(function(item) {
-                        if (!ada_kode_1_atau_2) {
-                            ada_kode_1_atau_2 = ['1', '2'].indexOf($(item).val()) > -1;
-                        }
-                    });
-                    show_when_otherwise_hide(global_umur_art >= 60 || ada_kode_1_atau_2, ['1', '2'].indexOf($('#pilihan_4_428j').val()) > -1, ['tr_4_429'], ['tr_4_429']);
+                    // Trigger the gatekeeper to show/hide disease rows based on saved data
+                    $('#pilihan_4_430_yatidak').trigger('change');
                 } else if (table == 'tabel_program_perlindungan_sosial') {
                     show_when_otherwise_hide(global_umur_art >= 5, ['tr_4_431b', 'tr_4_431c', 'tr_4_431d', ], ['tr_4_431b', 'tr_4_431c', 'tr_4_431d', ]);
                     show_when_otherwise_hide(global_umur_art >= 5 && global_umur_art <= 30, ['tr_4_431e', ], ['tr_4_431e', ]);

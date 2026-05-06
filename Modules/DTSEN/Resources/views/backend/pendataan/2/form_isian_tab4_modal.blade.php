@@ -534,13 +534,27 @@
                                 <tr id="tr_4_430">
                                     <td class="ganti-nama">430. Apakah (nama) memiliki keluhan kesehatan kronis/menahun?</td>
                                     <td>
-                                        @include('admin.layouts.components.select_pilihan_dtsen', [
-                                            'class' => 'select2',
-                                            'attribut' => 'id="pilihan_4_430" name="pilihan[4][430]"',
-                                            'pilihan' => $pilihan4['430'],
-                                        ])
+                                        <select class="form-control input-sm select2" id="pilihan_4_430_yatidak" name="pilihan[4][430]" style="width:100%">
+                                            <option value="">-- Pilih --</option>
+                                            <option value="2">Tidak</option>
+                                            <option value="1">Ya</option>
+                                        </select>
                                     </td>
                                 </tr>
+                                @foreach($pilihan4['430'] as $key => $disease)
+                                    @if($key != 1)
+                                    <tr id="tr_4_430_{{ $key }}" class="tr_430_disease" style="display:none;">
+                                        <td style="padding-left: 20px;">{{ $disease }}</td>
+                                        <td>
+                                            @include('admin.layouts.components.select_pilihan_dtsen', [
+                                                'class' => 'select2 choices_430',
+                                                'attribut' => 'id="pilihan_4_430_' . $key . '" name="pilihan[4][430_sub][' . $key . ']"',
+                                                'pilihan' => ['2' => 'Tidak', '1' => 'Ya'],
+                                            ])
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
                             </tbody>
                         </table>
                         <div class="col-sm-12" style="margin-top:15px">
@@ -719,6 +733,23 @@
                     ]);
                 });
 
+            // -- penyakit kronis 430: show/hide daftar penyakit
+            $('#pilihan_4_430_yatidak').on('change', function() {
+                let val = $(this).val();
+                if (val === '1') {
+                    // Ya: tampilkan daftar penyakit
+                    $('.tr_430_disease').show();
+                } else if (val === '2') {
+                    // Tidak: sembunyikan dan reset semua sub ke 'Tidak'
+                    $('.tr_430_disease').hide();
+                    $('.choices_430').val('2').trigger('change');
+                } else {
+                    // Kosong: sembunyikan dan biarkan sub tetap kosong
+                    $('.tr_430_disease').hide();
+                    $('.choices_430').val('').trigger('change');
+                }
+            });
+
             $('#pilihan_4_428a_428i').on('change', function(ev) {
                 $('#pilihan_4_428a, #pilihan_4_428b, #pilihan_4_428c, #pilihan_4_428d, #pilihan_4_428e, #pilihan_4_428f, #pilihan_4_428g, #pilihan_4_428h, #pilihan_4_428i')
                     .val(ev.currentTarget.value).trigger('change');
@@ -727,12 +758,34 @@
             // -- submit form
             $('.form-4').on('submit', function(ev) {
                 ev.preventDefault();
-                let is_valid = is_form_valid($(this).attr('id'));
-                if (!is_valid) {
-                    return false;
+                let id = $(this).attr('id');
+                
+                // --- Validasi Khusus Pertanyaan 430 (Penyakit Kronis) ---
+                if (id === 'form-4-kesehatan') {
+                    let gatekeeper430 = $('#pilihan_4_430_yatidak').val();
+                    if (gatekeeper430 === '1') { // Jika pilih Ya
+                        let adaPenyakitTerpilih = false;
+                        $('.choices_430').each(function() {
+                            if ($(this).val() === '1') {
+                                adaPenyakitTerpilih = true;
+                                return false; // break loop
+                            }
+                        });
+
+                        if (!adaPenyakitTerpilih) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Peringatan',
+                                text: 'Anda memilih "Ya" pada pertanyaan 430, silakan pilih minimal satu jenis penyakit pada daftar di bawahnya.',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Oke'
+                            });
+                            return false; // Jangan lanjut submit
+                        }
+                    }
                 }
 
-                let id = $(this).attr('id');
+                let is_valid = is_form_valid(id);
                 let form = $('#' + id).serializeArray();
                 $('#' + id + ' select').each(function(index, el) {
                     form.push({
