@@ -194,13 +194,12 @@ class TamuController extends AnjunganBaseController
     public function cetak()
     {
         return view('bukutamu::backend.tamu.cetak', [
-            'data_tamu' => $this->data(),
+            'data_tamu' => $this->getExportData(),
         ]);
     }
 
-    public function ekspor(): void
+    public function ekspor()
     {
-        $tanggal    = $this->input->get('tanggal');
         $judulTabel = json_decode(setting('buku_tamu_judul_tabel'), true);
         $writer     = new Writer();
         $writer->openToBrowser(namafile('Buku Tamu') . '.xlsx');
@@ -254,7 +253,7 @@ class TamuController extends AnjunganBaseController
         $writer->addRow($rowFromValues);
 
         // Cetak Data
-        foreach ($this->data($tanggal) as $no => $data) {
+        foreach ($this->getExportData() as $no => $data) {
             $cells = [$no + 1];
 
             if (in_array('hari_tanggal', $judulTabel)) {
@@ -288,6 +287,11 @@ class TamuController extends AnjunganBaseController
         }
 
         $writer->close();
+    }
+
+    private function getExportData()
+    {
+        return $this->sumberData()->get();
     }
 
     private function data()

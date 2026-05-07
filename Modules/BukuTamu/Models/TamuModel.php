@@ -72,6 +72,7 @@ class TamuModel extends BaseModel
     protected $appends = [
         'jenis_kelamin_id',
         'url_foto',
+        'bertemu',
     ];
 
     /**
@@ -110,6 +111,11 @@ class TamuModel extends BaseModel
     public function setBidangAttribute(mixed $value): void
     {
         $this->attributes['bidang'] = RefJabatan::find($value)->nama ?? null;
+    }
+
+    public function getBertemuAttribute()
+    {
+        return $this->attributes['bidang'] ?? null;
     }
 
     public function getJenisKelaminIdAttribute()

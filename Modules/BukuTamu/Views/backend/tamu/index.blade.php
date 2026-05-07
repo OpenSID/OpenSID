@@ -129,25 +129,21 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#cetak, #expor').on('click', function() {
-                let url = $(this).attr('id') == 'cetak' ?
-                    "{{ ci_route('buku_tamu.cetak') }}/" :
-                    "{{ ci_route('buku_tamu.ekspor') }}/";
+            $('#cetak, #expor').on('click', function(e) {
+                e.preventDefault();
+                
+                let iscetak = $(this).attr('id') == 'cetak';
+                let url = iscetak ?
+                    "{{ ci_route('buku_tamu.cetak') }}" :
+                    "{{ ci_route('buku_tamu.ekspor') }}";
 
-                let params = $('#tabeldata').DataTable().ajax.params();
-                let queryString = $.param(params);
+                let params = new URLSearchParams({
+                    status: $('#status').val(),
+                    tanggal: $('#date-range').val()
+                });
 
-                $.ajax({
-                    url: `${url}?${queryString}`,
-                    method: 'POST',
-                    data: {
-                        status: $('#status').val(),
-                        tanggal: $('#date-range').val(),
-                    },
-                    success: function(data) {
-                        window.open(this.url, '_blank');
-                    },
-                })
+                // Open di tab baru dengan GET request
+                window.open(url + '?' + params.toString(), '_blank');
             });
 
             var TableData = $('#tabeldata').DataTable({
