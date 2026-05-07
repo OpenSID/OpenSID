@@ -7,14 +7,14 @@
 @endpush
 
 @push('scripts')
-    <script src="{{ asset('lib/print/js/jquery.tools.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
     <script src="{{ asset('lib/print/js/jquery.print-preview.js') }}" type="text/javascript" charset="utf-8"></script>
 
     <script type="text/javascript">
         $(function() {
-            $("#feature > div").scrollable({
-                interval: 2000
-            }).autoscroll();
+
+
+
 
             $('#aside').prepend('<a class="print-preview">Cetak </a>');
             $('a.print-preview').printPreview();
