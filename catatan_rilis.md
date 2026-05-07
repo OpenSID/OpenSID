@@ -21,6 +21,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 16. [#11107] (https://github.com/OpenSID/OpenSID/issues/11107) Perbaikan error ajax datatable syarat surat.
 17. [#11108] (https://github.com/OpenSID/OpenSID/issues/11108) Perbaikan surat keterangan harga tanah sistem, ketika disalin dan disimpan, muncul tanda ] di tabel jumlah.
 18. [#11067] (https://github.com/OpenSID/OpenSID/issues/11067) Perbaikan pada menu DTSEN di pendataan kesehatan seharusnya bisa pilih multiple penyakit.
+19. [#11144] (https://github.com/OpenSID/OpenSID/issues/11144) Perbaikan migrasi tambah tabel security_baseline dan kolom pekerja_migran.
 
 ### KEAMANAN
 1. [#11136] (https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.

@@ -45,19 +45,21 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('security_baselines', static function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('config_id')->nullable();
-            $table->timestamp('generated_at');
-            $table->string('version', 10)->default('1.0');
-            $table->string('target_directory');
-            $table->json('excluded_dirs')->nullable();
-            $table->json('statistics');
-            $table->longText('files');
-            $table->timestamps();
+        if (! Schema::hasTable('security_baselines')) {
+            Schema::create('security_baselines', static function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->integer('config_id')->nullable();
+                $table->timestamp('generated_at');
+                $table->string('version', 10)->default('1.0');
+                $table->string('target_directory');
+                $table->json('excluded_dirs')->nullable();
+                $table->json('statistics');
+                $table->longText('files');
+                $table->timestamps();
 
-            $table->index(['config_id', 'generated_at']);
-        });
+                $table->index(['config_id', 'generated_at']);
+            });
+        }
     }
 
     /**

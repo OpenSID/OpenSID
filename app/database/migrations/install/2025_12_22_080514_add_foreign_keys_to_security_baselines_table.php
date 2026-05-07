@@ -35,19 +35,25 @@
  *
  */
 
+use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
+    use Migrator;
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::table('security_baselines', static function (Blueprint $table) {
-            $table->foreign(['config_id'])->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
-        });
+        if (Schema::hasTable('security_baselines') && Schema::hasTable('config')) {
+            if (! $this->foreignKeyExists('security_baselines', 'security_baselines_config_id_foreign')) {
+                Schema::table('security_baselines', static function (Blueprint $table) {
+                    $table->foreign(['config_id'])->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
+                });
+            }
+        }
     }
 
     /**
@@ -55,8 +61,12 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::table('security_baselines', static function (Blueprint $table) {
-            $table->dropForeign('security_baselines_config_id_foreign');
-        });
+        if (Schema::hasTable('security_baselines') && Schema::hasTable('config')) {
+            if ($this->foreignKeyExists('security_baselines', 'security_baselines_config_id_foreign')) {
+                Schema::table('security_baselines', static function (Blueprint $table) {
+                    $table->dropForeign('security_baselines_config_id_foreign');
+                });
+            }
+        }
     }
 };
