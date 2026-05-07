@@ -5,7 +5,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 1. [#11091](https://github.com/OpenSID/OpenSID/issues/11091) Perbaikan nama hasil unduhan Data Riwayat Mutasi Penduduk dimana nama filenya hanya muncul timestamp saja.
 2. [#11092](https://github.com/OpenSID/OpenSID/issues/11092) Perbaikan penyesuaian judul cetak dan unduhan Data Riwayat Mutasi Penduduk dimana lahir tidak ada.
-3. [#1101] (https://github.com/OpenSID/OpenSID/issues/1101) Perbaikan tampilan tombol-tombol ketika lihat detail data penduduk tidak beraturan.
+3. [#11101] (https://github.com/OpenSID/OpenSID/issues/11101) Perbaikan tampilan tombol-tombol ketika lihat detail data penduduk tidak beraturan.
 4. [#11121] (https://github.com/OpenSID/OpenSID/issues/11121) Perbaikan tampilan peta pada pengaturan produk layanan mandiri.
 5. [#11122] (https://github.com/OpenSID/OpenSID/issues/11122) Perbaikan validasi telepon Pelapak.
 6. [#11123] (https://github.com/OpenSID/OpenSID/issues/11123) Perbaikan navigasi paginasi muncul meskipun data kosong pada produk warga.
@@ -22,6 +22,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 17. [#11108] (https://github.com/OpenSID/OpenSID/issues/11108) Perbaikan surat keterangan harga tanah sistem, ketika disalin dan disimpan, muncul tanda ] di tabel jumlah.
 18. [#11067] (https://github.com/OpenSID/OpenSID/issues/11067) Perbaikan pada menu DTSEN di pendataan kesehatan seharusnya bisa pilih multiple penyakit.
 19. [#11144] (https://github.com/OpenSID/OpenSID/issues/11144) Perbaikan migrasi tambah tabel security_baseline dan kolom pekerja_migran.
+20. [#11133] (https://github.com/OpenSID/OpenSID/issues/11133) Perbaikan gagal menampilkan data pada halaman rekapitulasi penduduk.
 
 ### KEAMANAN
 1. [#11136] (https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.

@@ -407,12 +407,13 @@ class LogPenduduk extends BaseModel
             ->selectRaw($buildSelect(2, true, [3, 4], 'WNA_P_KURANG_KELUAR'))
 
             // Jumlah dan mutasi KK diambil dari derived table yang sudah di-GROUP BY dusun.
-            // ANY_VALUE() diperlukan untuk mematuhi sql_mode=only_full_group_by karena
+            // MAX() diperlukan untuk mematuhi sql_mode=only_full_group_by karena
             // kolom ini berasal dari JOIN, bukan dari aggregate query utama.
+            // (Menggantikan ANY_VALUE() agar kompatibel dengan MySQL/MariaDB versi lebih lama).
             // Penggunaannya aman secara semantik karena derived table menjamin
             // tepat satu nilai per dusun.
-            ->selectRaw('ANY_VALUE(COALESCE(kk_jlh_dt.KK_JLH, 0)) AS KK_JLH')
-            ->selectRaw('ANY_VALUE(COALESCE(kk_masuk_dt.KK_MASUK_JLH, 0)) AS KK_MASUK_JLH')
+            ->selectRaw('MAX(COALESCE(kk_jlh_dt.KK_JLH, 0)) AS KK_JLH')
+            ->selectRaw('MAX(COALESCE(kk_masuk_dt.KK_MASUK_JLH, 0)) AS KK_MASUK_JLH')
 
             ->join('tweb_penduduk', 'log_penduduk.id_pend', '=', 'tweb_penduduk.id')
             ->leftJoin('tweb_wil_clusterdesa', 'tweb_penduduk.id_cluster', '=', 'tweb_wil_clusterdesa.id')
