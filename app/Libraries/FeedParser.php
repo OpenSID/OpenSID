@@ -371,7 +371,7 @@ class FeedParser
         }
 
         try {
-            $response = Http::timeout(5)->get($this->url);
+            $response = Http::timeout(5)->withOptions(['allow_redirects' => false])->get($this->url);
 
             if (! $response->successful()) {
                 throw new Exception('HTTP ' . $response->status());
