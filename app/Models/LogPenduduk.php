@@ -269,7 +269,7 @@ class LogPenduduk extends BaseModel
                 GROUP BY lk2.id_kk
                 HAVING MIN(lk2.tgl_peristiwa) >= '{$bulanMulai}'
             )
-            GROUP BY dusun
+            GROUP BY COALESCE(w2.dusun, '__NULL__')
         ";
 
         // Derived table untuk menghitung net change KK dalam bulan berjalan per dusun.
@@ -298,7 +298,7 @@ class LogPenduduk extends BaseModel
             AND lk.tgl_peristiwa >= '{$bulanMulai}'
             AND lk.tgl_peristiwa  < '{$bulanAkhir}'
             AND p3.is_historical  = 0
-            GROUP BY dusun
+            GROUP BY COALESCE(w3.dusun, '__NULL__')
         ";
 
         /**
@@ -374,7 +374,7 @@ class LogPenduduk extends BaseModel
         $query
             // Dusun NULL dinormalisasi agar tidak menghasilkan baris tanpa identitas
             // pada hasil GROUP BY. Nilai '__NULL__' digunakan sebagai sentinel string.
-            ->selectRaw("COALESCE(tweb_wil_clusterdesa.dusun, '__NULL__') AS DUSUN")
+            ->selectRaw("MAX(COALESCE(tweb_wil_clusterdesa.dusun, '__NULL__')) AS DUSUN")
 
             // Saldo penduduk di awal bulan, dihitung dari semua log sebelum bulan berjalan.
             ->selectRaw($buildSelect(1, false, null, 'WNI_L_AWAL', true))
