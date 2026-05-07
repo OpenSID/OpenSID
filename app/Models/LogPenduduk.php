@@ -269,7 +269,7 @@ class LogPenduduk extends BaseModel
                 GROUP BY lk2.id_kk
                 HAVING MIN(lk2.tgl_peristiwa) >= '{$bulanMulai}'
             )
-            GROUP BY COALESCE(w2.dusun, '__NULL__')
+            GROUP BY dusun
         ";
 
         // Derived table untuk menghitung net change KK dalam bulan berjalan per dusun.
@@ -298,7 +298,7 @@ class LogPenduduk extends BaseModel
             AND lk.tgl_peristiwa >= '{$bulanMulai}'
             AND lk.tgl_peristiwa  < '{$bulanAkhir}'
             AND p3.is_historical  = 0
-            GROUP BY COALESCE(w3.dusun, '__NULL__')
+            GROUP BY dusun
         ";
 
         /**
@@ -409,7 +409,8 @@ class LogPenduduk extends BaseModel
             // Jumlah dan mutasi KK diambil dari derived table yang sudah di-GROUP BY dusun.
             // MAX() diperlukan untuk mematuhi sql_mode=only_full_group_by karena
             // kolom ini berasal dari JOIN, bukan dari aggregate query utama.
-            // (Menggantikan ANY_VALUE() agar kompatibel dengan MySQL/MariaDB versi lebih lama).
+            // (Dipakai sebagai pengganti ANY_VALUE() agar kompatibel dengan MariaDB
+            // versi lama yang belum mendukung ANY_VALUE().)
             // Penggunaannya aman secara semantik karena derived table menjamin
             // tepat satu nilai per dusun.
             ->selectRaw('MAX(COALESCE(kk_jlh_dt.KK_JLH, 0)) AS KK_JLH')
