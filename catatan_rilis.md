@@ -28,6 +28,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 23. [#11148] (https://github.com/OpenSID/OpenSID/issues/11148) Perbaikan ubah status dasar pindah penduduk.
 24. [#11127] (https://github.com/OpenSID/OpenSID/issues/11127) Perbaikan form isian Nomor Register pada saat menambah inventaris jalan, irigasi dan jaringan.
 25. [#11142] (https://github.com/OpenSID/OpenSID/issues/11142) Perbaikan notif perpanjang layanan siappakai masih tampil padahal sudah perpanjang.
+26. [#11143] (https://github.com/OpenSID/OpenSID/issues/11143) Perbaikan preview template surat dinas.
 
 ### KEAMANAN
 1. [#11136] (https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.

@@ -95,50 +95,53 @@ class FakeDataIsian
 
     private function sumberData(): void
     {
-        $form_isian = json_decode((string) $this->request['form_isian'], true);
+        if ($this->jenis !== '_dinas') {
 
-        if ($form_isian) {
-            $pendudukLuar = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
+            $form_isian = json_decode((string) $this->request['form_isian'], true);
 
-            foreach ($form_isian as $key => $value) {
-                if ($value) {
-                    if (in_array(1, ($value['data'] ?? []))) {
-                        $this->data['input']['id_pend_' . $key] = Penduduk::filters([
-                            'sex'      => $value['sex'],
-                            'kk_level' => $value['kk_level'],
-                        ])->orderBy(DB::raw('RAND()'))->first('id')->id;
+            if ($form_isian) {
+                $pendudukLuar = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
 
-                        if (! $this->data['input']['id_pend_' . $key]) {
-                            if ($this->redirect) {
-                                redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
-                            } else {
-                                logger()->warning('Tidak ditemukan penduduk untuk dijadikan contoh', [
-                                    'key'   => $key,
-                                    'value' => $value,
-                                ]);
+                foreach ($form_isian as $key => $value) {
+                    if ($value) {
+                        if (in_array(1, ($value['data'] ?? []))) {
+                            $this->data['input']['id_pend_' . $key] = Penduduk::filters([
+                                'sex'      => $value['sex'],
+                                'kk_level' => $value['kk_level'],
+                            ])->orderBy(DB::raw('RAND()'))->first('id')->id;
+
+                            if (! $this->data['input']['id_pend_' . $key]) {
+                                if ($this->redirect) {
+                                    redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+                                } else {
+                                    logger()->warning('Tidak ditemukan penduduk untuk dijadikan contoh', [
+                                        'key'   => $key,
+                                        'value' => $value,
+                                    ]);
+                                }
                             }
-                        }
 
-                        // untuk individu ganti jadi $this->data['id_pend']
-                        // TODO:: Sederhanakan cara ini
-                        if ($key == 'individu') {
-                            $this->data['id_pend'] = $this->data['input']['id_pend_' . $key];
+                            // untuk individu ganti jadi $this->data['id_pend']
+                            // TODO:: Sederhanakan cara ini
+                            if ($key == 'individu') {
+                                $this->data['id_pend'] = $this->data['input']['id_pend_' . $key];
+                            }
+                        } else {
+                            // tidak ada pilihan penduduk desa
+                            $pendudukLuarTerpilih = $pendudukLuar[array_rand($pendudukLuar)];
+                            $formInputPenduduk    = explode(',', (string) $pendudukLuarTerpilih['input']);
+
+                            foreach ($formInputPenduduk as $input) {
+                                $input                             = $input === 'no_ktp' ? 'nik' : $input;
+                                $this->data['input'][$key][$input] = 'Masukkan ' . $input . ' ' . $key;
+                            }
+                            $this->data['input'][$key]['opsi_penduduk'] = 2;
                         }
                     } else {
-                        // tidak ada pilihan penduduk desa
-                        $pendudukLuarTerpilih = $pendudukLuar[array_rand($pendudukLuar)];
-                        $formInputPenduduk    = explode(',', (string) $pendudukLuarTerpilih['input']);
-
-                        foreach ($formInputPenduduk as $input) {
-                            $input                             = $input === 'no_ktp' ? 'nik' : $input;
-                            $this->data['input'][$key][$input] = 'Masukkan ' . $input . ' ' . $key;
-                        }
-                        $this->data['input'][$key]['opsi_penduduk'] = 2;
+                        // TODO: Perbarui ini mengikuti cara baru
+                        $this->data['nik_non_warga']  = random_int(1_000_000_000_000_000, 9_999_999_999_999_999);
+                        $this->data['nama_non_warga'] = 'Nama Non Warga';
                     }
-                } else {
-                    // TODO: Perbarui ini mengikuti cara baru
-                    $this->data['nik_non_warga']  = random_int(1_000_000_000_000_000, 9_999_999_999_999_999);
-                    $this->data['nama_non_warga'] = 'Nama Non Warga';
                 }
             }
         }
