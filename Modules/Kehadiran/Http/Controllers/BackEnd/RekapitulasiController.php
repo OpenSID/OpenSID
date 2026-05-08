@@ -98,7 +98,7 @@ class RekapitulasiController extends AdminModulController
         return show_404();
     }
 
-    public function ekspor(): void
+    public function ekspor()
     {
         $filters = [
             'tanggal' => $this->input->get('daterange'),
@@ -124,7 +124,7 @@ class RekapitulasiController extends AdminModulController
             ->whereHas('pamong', static function ($q) {
                 $q->has('penduduk')->orWhere('pamong_nama', '!=', '');
             })
-            ->select('*', Kehadiran::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
+            ->select('*', DB::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
             ->filter($filters)
             ->get();
 

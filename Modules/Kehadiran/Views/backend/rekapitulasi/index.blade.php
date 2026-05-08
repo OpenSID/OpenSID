@@ -174,7 +174,7 @@
             $(document).on('click', '#excel', function(e) {
                 $.ajax({
                     url: "{{ ci_route('kehadiran_rekapitulasi.ekspor') }}",
-                    method: 'POST',
+                    type: "GET",
                     data: {
                         daterange: $('#date-range').val(),
                         status: $('#status').val(),
