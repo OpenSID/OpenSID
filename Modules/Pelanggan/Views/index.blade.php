@@ -123,50 +123,81 @@
                 $notifikasiLayanan = collect();
             @endphp
 
-            {{-- Kumpulkan semua layanan yang akan/sudah kadaluarsa --}}
+            {{-- Kumpulkan semua layanan dari pemesanan aktif untuk diproses notifikasi --}}
             @foreach ($response->body->pemesanan as $pemesanan)
+                {{-- Proses hanya pemesanan dengan status aktif --}}
+                @if ($pemesanan->status_pemesanan !== 'aktif')
+                    @continue
+                @endif
+
                 @php
-                    // Filter layanan bukan premium (kategori_id != 4)
-                    $pemesananBukanPremium = collect($pemesanan->layanan)->filter(static fn($q) => $q->kategori_id != 4);
+                    // Filter layanan non-premium (kategori_id != 4)
+                    $pemesananBukanPremium = collect($pemesanan->layanan ?? [])
+                        ->filter(static fn($q) => $q->kategori_id != 4);
                     
-                    // Filter untuk layanan yang akan kadaluarsa dalam 30 hari atau sudah kadaluarsa
-                    $layananAkanKadaluarsa = $pemesananBukanPremium->filter(function($layanan) use ($hariNotifikasi) {
-                        // Skip jika tidak ada tanggal akhir atau unlimited
+                    // Filter layanan yang memiliki tanggal akhir valid dan tidak unlimited
+                    $semuaLayanan = $pemesananBukanPremium->filter(function($layanan) {
+                        // Skip layanan tanpa tanggal akhir atau dengan tanggal unlimited
                         if (!isset($layanan->tanggal_akhir) || $layanan->tanggal_akhir == '9999-12-31') {
                             return false;
                         }
-                        
+
+                        // Validasi format tanggal untuk mencegah error di tahap processing
                         try {
-                            $today = \Illuminate\Support\Carbon::now();
-                            $tanggalAkhir = \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
-                            $sisaHari = $today->diffInDays($tanggalAkhir, false);
-                            
-                            // Tampilkan jika akan kadaluarsa dalam 30 hari atau sudah kadaluarsa
-                            return $sisaHari <= $hariNotifikasi;
+                            \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
+                            return true;
                         } catch (\Exception $e) {
                             return false;
                         }
                     });
-                    
-                    // Map data untuk ditampilkan
-                    $layananDiproses = $layananAkanKadaluarsa->map(function($layanan) use ($pemesanan) {
+
+                    // Transformasi data layanan dengan perhitungan sisa hari
+                    $layananDiproses = $semuaLayanan->map(function($layanan) use ($pemesanan) {
                         $today = \Illuminate\Support\Carbon::now();
                         $tanggalAkhir = \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
                         $sisaHari = $today->diffInDays($tanggalAkhir, false);
-                        
+
                         return [
                             'layanan' => $layanan,
                             'pemesanan' => $pemesanan,
                             'sisa_hari' => $sisaHari,
                             'tanggal_akhir' => $tanggalAkhir,
-                            'sudah_kadaluarsa' => $sisaHari < 0
+                            'sudah_kadaluarsa' => $sisaHari < 0,
+                            'tanggal_akhir_value' => strtotime($layanan->tanggal_akhir)
                         ];
                     });
-                    
-                    // Gabungkan ke collection utama
+
+                    // Akumulasi layanan dari semua pemesanan
                     $notifikasiLayanan = $notifikasiLayanan->merge($layananDiproses);
                 @endphp
             @endforeach
+
+            {{-- Deduplikasi layanan: hanya pertahankan entry terbaru untuk setiap nama layanan --}}
+            @php
+                if ($notifikasiLayanan->isNotEmpty()) {
+                    // Deduplication mapping untuk memastikan satu layanan hanya ditampilkan sekali dengan versi terbaru
+                    $dedupMap = [];
+
+                    foreach ($notifikasiLayanan as $item) {
+                        $namaLayanan = $item['layanan']->nama;
+                        $tanggalValue = $item['tanggal_akhir_value'];
+
+                        // Pertahankan entry dengan tanggal akhir terbaru untuk layanan yang sama
+                        if (!isset($dedupMap[$namaLayanan]) || $tanggalValue > $dedupMap[$namaLayanan]['tanggal_akhir_value']) {
+                            $dedupMap[$namaLayanan] = $item;
+                        }
+                    }
+
+                    // Konversi hasil deduplication kembali ke collection
+                    $notifikasiLayanan = collect($dedupMap);
+
+                    // Filter notifikasi yang akan ditampilkan berdasarkan rentang waktu 30 hari
+                    $notifikasiLayanan = $notifikasiLayanan->filter(function($item) use ($hariNotifikasi) {
+                        // Tampilkan notifikasi hanya jika layanan dalam rentang 30 hari sebelum dan sesudah kadaluarsa
+                        return $item['sisa_hari'] > -$hariNotifikasi && $item['sisa_hari'] <= $hariNotifikasi;
+                    });
+                }
+            @endphp
 
             {{-- Tampilkan Notifikasi --}}
             @if($notifikasiLayanan->isNotEmpty())
@@ -217,12 +248,16 @@
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-file-text-o"></i> Faktur</td>
-                                        <td>: {{ $pemesanan->faktur }}</td>
+                                        <td>: <code>{{ $pemesanan->faktur }}</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-clock-o"></i> Periode Pemesanan</td>
+                                        <td>: {{ tgl_indo($pemesanan->tgl_mulai ?? 'N/A') }} - {{ tgl_indo($pemesanan->tgl_akhir ?? 'N/A') }}</td>
                                     </tr>
                                     @if($layanan->harga > 0)
                                     <tr>
                                         <td><i class="fa fa-money"></i> Biaya Perpanjangan</td>
-                                        <td>: Rp {{ number_format($layanan->harga, 0, ',', '.') }}</td>
+                                        <td>: <strong>Rp {{ number_format($layanan->harga, 0, ',', '.') }}</strong></td>
                                     </tr>
                                     @endif
                                 </table>
