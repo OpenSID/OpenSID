@@ -1,7 +1,7 @@
 @push('css')
     <link rel="stylesheet" href="{{ asset('lib/print/css/960.css') }}asset/" type="text/css" media="screen">
     <link rel="stylesheet" href="{{ asset('lib/print/css/screen.css') }}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ asset('lib/print/css/print-preview.css') }}" type="text/css" media="screen">
+    <link rel="stylesheet" href="{{ asset('lib/print/css/print-preview.css') }}" type="text/css" media="all">
     <link rel="stylesheet" href="{{ asset('lib/print/css/print.css') }}" type="text/css" media="print" />
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
 @endpush
@@ -12,9 +12,6 @@
 
     <script type="text/javascript">
         $(function() {
-
-
-
 
             $('#aside').prepend('<a class="print-preview">Cetak </a>');
             $('a.print-preview').printPreview();

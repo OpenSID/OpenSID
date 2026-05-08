@@ -24,6 +24,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 19. [#11144] (https://github.com/OpenSID/OpenSID/issues/11144) Perbaikan migrasi tambah tabel security_baseline dan kolom pekerja_migran.
 20. [#11133] (https://github.com/OpenSID/OpenSID/issues/11133) Perbaikan gagal menampilkan data pada halaman rekapitulasi penduduk.
 21. [#11145] (https://github.com/OpenSID/OpenSID/issues/11145) Perbaikan klik tombol cetak dan eksport data tamu tidak berfungsi dan data pada kolom bertemu hilang pada saat cetak.
+22. [#11153] (https://github.com/OpenSID/OpenSID/issues/11153) Perbaikan preview cetak pada laporan bulanan tidak ada garisnya.
 
 ### KEAMANAN
 1. [#11136] (https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.

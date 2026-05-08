@@ -57,7 +57,7 @@
             print_frame_ref.close();
 
             // Grab contents and apply stylesheet
-            var $iframe_head = $('head link[media*=print], head link[media=all]').clone(),
+            var $iframe_head = $('head link[media*=print], head link[media=all], head style').clone(),
                 $iframe_body = $('body > *:not(#print-modal):not(script)').clone();
             $iframe_head.each(function() {
                 $(this).attr('media', 'all');
