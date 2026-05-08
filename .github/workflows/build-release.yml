@@ -301,7 +301,7 @@ jobs:
           cd rilis-premium
           git checkout beta
 
-          find . -mindepth 1 -not -path './.git' -not -path './.git/*' -delete
+          find . -mindepth 1 -not -path './.git' -not -path './.git/*' -not -path './.github' -not -path './.github/*' -delete
           cp -r ../output/. .
 
           git config user.name  "OpenDesa Bot"
@@ -319,7 +319,7 @@ jobs:
           cd rilis-premium
           git checkout master
 
-          find . -mindepth 1 -not -path './.git' -not -path './.git/*' -delete
+          find . -mindepth 1 -not -path './.git' -not -path './.git/*' -not -path './.github' -not -path './.github/*' -delete
           cp -r ../output/. .
 
           git config user.name  "OpenDesa Bot"
