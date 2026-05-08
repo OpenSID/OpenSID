@@ -277,6 +277,7 @@ class Surat_masuk extends Admin_Controller
 
     public function dialog($aksi = 'cetak')
     {
+        $data               = $this->modal_penandatangan();
         $data['aksi']       = $aksi;
         $data['formAction'] = ci_route('surat_masuk.cetak', $aksi);
 
@@ -292,7 +293,11 @@ class Surat_masuk extends Admin_Controller
                 });
             });
 
-        $data              = $this->modal_penandatangan();
+        $ttd               = $this->modal_penandatangan();
+        $pamong_ttd        = $this->input->post('pamong_ttd');
+        $pamong_ketahui    = $this->input->post('pamong_ketahui');
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $pamong_ttd ?: $ttd['pamong_ttd']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ttd'];
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $pamong_ketahui ?: $ttd['pamong_ketahui']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ketahui'];
         $data['aksi']      = $aksi;
         $data['main']      = $query->prepareQuery()->results();
         $data['file']      = 'Surat Masuk';

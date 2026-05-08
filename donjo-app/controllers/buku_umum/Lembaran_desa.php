@@ -41,6 +41,7 @@ use App\Enums\JenisPeraturan;
 use App\Enums\StatusEnum;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
+use App\Models\Pamong;
 use Illuminate\Support\Facades\View;
 
 class Lembaran_desa extends Admin_Controller
@@ -165,6 +166,7 @@ class Lembaran_desa extends Admin_Controller
     {
         $tahunAwal = Dokumen::tahun()->pluck('tahun')->min() ?? date('Y');
 
+        $data               = $this->modal_penandatangan();
         $data['list_tahun'] = collect(tahun($tahunAwal))->map(static fn ($tahun) => ['tahun' => $tahun]);
 
         $data['aksi']       = $aksi;
@@ -179,7 +181,11 @@ class Lembaran_desa extends Admin_Controller
         $q->whereYear('tgl_upload', $this->request['tahun']);
     }));
 
-        $data         = $this->modal_penandatangan();
+        $ttd          = $this->modal_penandatangan();
+        $pamong_ttd           = $this->input->post('pamong_ttd');
+        $pamong_ketahui       = $this->input->post('pamong_ketahui');
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $pamong_ttd ?: $ttd['pamong_ttd']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ttd'];
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $pamong_ketahui ?: $ttd['pamong_ketahui']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ketahui'];
         $data['aksi'] = $aksi;
         $data['main'] = $query->prepareQuery()?->results()?->map(static function ($document) {
             $array = $document?->toArray();

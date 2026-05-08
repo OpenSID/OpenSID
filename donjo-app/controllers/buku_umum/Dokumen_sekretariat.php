@@ -480,8 +480,11 @@ class Dokumen_sekretariat extends Admin_Controller
     private function data_cetak($kat)
     {
         $post                   = $this->input->post();
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $post['pamong_ttd']])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
+        $ttd                    = $this->modal_penandatangan();
+        $pamong_ttd             = $post['pamong_ttd'] ?? null;
+        $pamong_ketahui         = $post['pamong_ketahui'] ?? null;
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $pamong_ttd ?: $ttd['pamong_ttd']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ttd'];
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $pamong_ketahui ?: $ttd['pamong_ketahui']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ketahui'];
 
         $query = datatables(DokumenHidup::dataCetak($kat, $post['tahun'], $post['jenis_peraturan']))
             ->orderColumn('attr->tgl_kep_kades', static function ($query, $order) {

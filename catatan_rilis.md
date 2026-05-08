@@ -29,6 +29,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 24. [#11127] (https://github.com/OpenSID/OpenSID/issues/11127) Perbaikan form isian Nomor Register pada saat menambah inventaris jalan, irigasi dan jaringan.
 25. [#11142] (https://github.com/OpenSID/OpenSID/issues/11142) Perbaikan notif perpanjang layanan siappakai masih tampil padahal sudah perpanjang.
 26. [#11143] (https://github.com/OpenSID/OpenSID/issues/11143) Perbaikan preview template surat dinas.
+27. [#11138] (https://github.com/OpenSID/OpenSID/issues/11138) Perbaikan pilihan penandatanganan ketika klik tombol cetak di buku pemerintah desa tidak konsisten.
 
 ### KEAMANAN
 1. [#11136] (https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.

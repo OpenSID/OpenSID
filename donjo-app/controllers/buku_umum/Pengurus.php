@@ -432,11 +432,15 @@ class Pengurus extends Admin_Controller
             'aksi'  => $aksi,
         ];
 
-        $data['pamong_ttd'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
+        $pamong_ttd = $this->input->post('pamong_ttd');
+        $data['pamong_ttd'] = ! empty($pamong_ttd) 
+            ? Pamong::selectData()->where(['pamong_id' => $pamong_ttd])->first()?->toArray() 
+            : null;
 
-        $data['pamong_ketahui'] = ! empty($ttd['pamong_ketahui']?->pamong_id)
-        ? Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']->pamong_id])->first()?->toArray()
-        : null;
+        $pamong_ketahui = $this->input->post('pamong_ketahui');
+        $data['pamong_ketahui'] = ! empty($pamong_ketahui)
+            ? Pamong::selectData()->where(['pamong_id' => $pamong_ketahui])->first()?->toArray()
+            : null;
 
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');
