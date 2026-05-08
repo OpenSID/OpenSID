@@ -139,7 +139,6 @@
         maxDate: moment().endOf('year')
     });
 
-    // â”€â”€ Load anggota keluarga via AJAX â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     var anggotaSudahDimuat = false;
 
     function loadAnggotaKeluarga() {
@@ -147,67 +146,72 @@
 
         var idPenduduk = '{{ $nik->id }}'.toString();
 
-        $('#tabel_anggota_pindah').html(
-            '<p class="text-muted"><i class="fa fa-spinner fa-spin"></i> Memuat data anggota keluarga...</p>'
-        );
+        $('#tabel_anggota_pindah').html(`
+            <p class="text-muted"><i class="fa fa-spinner fa-spin"></i> Memuat data anggota keluarga...</p>
+        `);
 
         $.ajax({
             url: '{{ ci_route("penduduk.ajax_anggota_keluarga") }}/' + idPenduduk,
-            method: 'POST',
+            method: 'get',
             dataType: 'json',
             success: function (response) {
                 anggotaSudahDimuat = true;
 
                 if (!response.data || response.data.length === 0) {
-                    $('#tabel_anggota_pindah').html(
-                        '<p class="text-muted"><i class="fa fa-info-circle"></i> ' +
-                        'Tidak ada anggota lain dalam keluarga ini.</p>'
-                    );
+                    $('#tabel_anggota_pindah').html(`
+                        <p class="text-muted"><i class="fa fa-info-circle"></i>
+                        Tidak ada anggota lain dalam keluarga ini.</p>
+                    `);
                     return;
                 }
 
-                var html = '<p class="text-muted" style="margin-bottom:6px;">' +
-                '<small><i class="fa fa-info-circle"></i> ' +
-                'Centang anggota keluarga yang akan ikut pindah bersama. ' +
-                'Anda dapat memilih satu atau lebih anggota.</small></p>';
+                var html = `
+                    <p class="text-muted" style="margin-bottom:6px;">
+                        <small><i class="fa fa-info-circle"></i>
+                        Centang anggota keluarga yang akan ikut pindah bersama.
+                        Anda dapat memilih satu atau lebih anggota.</small>
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-condensed table-hover" style="margin-bottom:0;">
+                            <thead>
+                                <tr class="active">
+                                    <th class="padat text-center">
+                                        <input type="checkbox" id="check_all_pindah" title="Pilih/Batal semua">
+                                    </th>
+                                    <th>NIK</th>
+                                    <th>Nama</th>
+                                    <th>Hubungan</th>
+                                    <th>Jenis Kelamin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
 
-                html += '<div class="table-responsive">' +
-                    '<table class="table table-bordered table-condensed table-hover" style="margin-bottom:0;">' +
-                    '<thead>' +
-                    '<tr class="active">' +
-                    '<th class="padat text-center">' +
-                    '<input type="checkbox" id="check_all_pindah" title="Pilih/Batal semua">' +
-                    '</th>' +
-                    '<th>NIK</th>' +
-                    '<th>Nama</th>' +
-                    '<th>Hubungan</th>' +
-                    '<th>Jenis Kelamin</th>' +
-                    '</tr>' +
-                    '</thead>' +
-                    '<tbody>';
-
-                    response.data.forEach(function (item) {
-
+                response.data.forEach(function (item) {
                     var checked = item.id == idPenduduk ? 'checked' : '';
-
-                    html += '<tr>' +
-                        '<td class="padat text-center">' +
-                        '<input type="checkbox" name="anggota_pindah[]" value="' + item.id + '" ' + checked + '>' +
-                        '</td>' +
-                        '<td>' + item.nik + '</td>' +
-                        '<td>' + item.nama + '</td>' +
-                        '<td><span class="label label-default">' + item.hubungan + '</span></td>' +
-                        '<td>' + item.jenis_kelamin + '</td>' +
-                        '</tr>';
+                    html += `
+                        <tr>
+                            <td class="padat text-center">
+                                <input type="checkbox" name="anggota_pindah[]" value="${item.id}" ${checked}>
+                            </td>
+                            <td>${item.nik}</td>
+                            <td>${item.nama}</td>
+                            <td><span class="label label-default">${item.hubungan}</span></td>
+                            <td>${item.jenis_kelamin}</td>
+                        </tr>
+                    `;
                 });
 
-                html += '</tbody></table></div>';
-
-                // Ringkasan jumlah
-                html += '<p class="text-right" style="margin-top:5px;">' +
-                    '<small class="text-muted" id="info_jumlah_pindah">' +
-                    response.data.length + ' dari ' + response.data.length +
-                    ' anggota dipilih</small></p>';
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-right" style="margin-top:5px;">
+                        <small class="text-muted" id="info_jumlah_pindah">
+                            ${response.data.length} dari ${response.data.length} anggota dipilih
+                        </small>
+                    </p>
+                `;
 
                 $('#tabel_anggota_pindah').html(html);
 
@@ -227,17 +231,16 @@
 
                 function updateJumlahPindah(total) {
                     var terpilih = $('input[name="anggota_pindah[]"]:checked').length;
-                    $('#info_jumlah_pindah').text(terpilih + ' dari ' + total + ' anggota dipilih');
+                    $('#info_jumlah_pindah').text(`${terpilih} dari ${total} anggota dipilih`);
                 }
             },
             error: function (e) {
-                $('#tabel_anggota_pindah').html(
-                    '<div class="alert alert-danger">' +
-                    '<i class="fa fa-exclamation-triangle"></i> ' +
-                    'Gagal memuat data anggota keluarga. Silakan tutup modal dan coba lagi.' +
-                    '</div>'
-                );
-
+                $('#tabel_anggota_pindah').html(`
+                    <div class="alert alert-danger">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        Gagal memuat data anggota keluarga. Silakan tutup modal dan coba lagi.
+                    </div>
+                `);
             }
         });
     }
