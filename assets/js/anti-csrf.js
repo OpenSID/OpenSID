@@ -212,7 +212,8 @@ $(function () {
     // Jika via AJAX, ajaxComplete yang akan restore.
     // --------------------------------------------------------
     $(document).on("submit", "form", function () {
-        const $btn = $(this)
+        const $form = $(this);
+        const $btn = $form
             .find("button[type=submit]:enabled:visible, input[type=submit]:enabled:visible")
             .first();
 
@@ -221,5 +222,18 @@ $(function () {
         }
 
         disableBtn($btn);
+
+        // Jika form tidak akan melakukan page reload (misal: target="_blank"),
+        // restore button setelah delay. Jika page reload, browser akan reset button-nya.
+        const btnRef = $btn[0];
+        const isExternalOpen = $form.attr("target") === "_blank";
+        
+        if (isExternalOpen) {
+            // Form akan membuka tab/window baru, halaman tidak reload
+            // Restore button setelah 100ms (form request sudah terkirim ke server)
+            setTimeout(function() {
+                restoreOriginalSubmit(btnRef);
+            }, 100);
+        }
     });
 });
