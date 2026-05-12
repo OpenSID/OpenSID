@@ -51,7 +51,7 @@
                             <select id="status" class="form-control input-sm select2" name="status">
                                 <option value="">Semua</option>
                                 @foreach ($status as $item)
-                                    <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                                    <option value="{{ $item['id'] }}" @selected($item['id'] == 1)>{{ $item['nama'] }}</option>
                                 @endforeach
                                 @if (ci_auth()->id == super_admin() && $soft_deleted_count > 0)
                                     <option value="deleted">Dihapus ({{ $soft_deleted_count }})</option>
@@ -68,7 +68,6 @@
                         </div>
                     </div>
                     <hr class="batas">
-                    {!! form_open(null, 'id="mainform" name="mainform"') !!}
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
                             <thead class="bg-gray">
@@ -88,7 +87,6 @@
                             </thead>
                         </table>
                     </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -204,9 +202,7 @@
                 $('#tabeldata thead th:last-child').text(isDeleted ? 'Dihapus Pada' : 'Tanggal Verifikasi');
             }
 
-            $('#status').select2().val(1).trigger('change');
             toggleDeletedMode($('#status').val() === 'deleted');
-            TableData.draw();
 
             $('#status').on('select2:select', function(e) {
                 toggleDeletedMode($(this).val() === 'deleted');
