@@ -47,7 +47,6 @@
             $("#form-cetak").attr("action", `{{ $action }}`);
         @endif
 
-        addCsrfField($('#form-cetak')[0]);  // tambah CSRF token
         // Reset params.length ke original value
         params.length = originalLength;
         // Hide modal

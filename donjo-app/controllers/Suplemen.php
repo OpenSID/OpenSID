@@ -224,22 +224,7 @@ class Suplemen extends Admin_Controller
     public function datatables_terdata()
     {
         if ($this->input->is_ajax_request()) {
-            $id      = $this->input->post_get('id');
-            $sasaran = $this->input->post_get('sasaran');
-            $filters = [
-                'sex'   => $this->input->post_get('sex'),
-                'dusun' => $this->input->post_get('dusun'),
-                'rw'    => $this->input->post_get('rw'),
-                'rt'    => $this->input->post_get('rt'),
-            ];
-            $user          = ci_auth();
-            $aksesWilayah  = [];
-            $batasiWilayah = (bool) $user->batasi_wilayah;
-            if ($batasiWilayah) {
-                $aksesWilayah = $user->akses_wilayah ?? [];
-            }
-
-            return datatables()->of(SuplemenTerdata::anggota($sasaran, $id)->when($batasiWilayah, static fn ($q) => $q->whereIn('tweb_wil_clusterdesa.id', $aksesWilayah))->filter($filters))
+            return datatables()->of($this->sumberData())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         if ($row->sumber != 'OpenKab' && $row->config_id != null) {
@@ -282,6 +267,30 @@ class Suplemen extends Admin_Controller
         }
 
         return show_404();
+    }
+
+    private function sumberData()
+    {
+        $id      = $this->input->post_get('id');
+        $sasaran = $this->input->post_get('sasaran');
+        $filters = [
+            'sex'   => $this->input->post_get('sex'),
+            'dusun' => $this->input->post_get('dusun'),
+            'rw'    => $this->input->post_get('rw'),
+            'rt'    => $this->input->post_get('rt'),
+        ];
+        $user           = ci_auth();
+        $aksesWilayah   = [];
+        $batasiWilayah  = (bool) $user->batasi_wilayah;
+        if ($batasiWilayah) {
+            $aksesWilayah = $user->akses_wilayah ?? [];
+        }
+
+        $query = SuplemenTerdata::anggota($sasaran, $id)
+            ->when($batasiWilayah, static fn ($q) => $q->whereIn('tweb_wil_clusterdesa.id', $aksesWilayah))
+            ->filter($filters);
+
+        return $query;
     }
 
     public function form_terdata($id_suplemen, $aksi = 1, $id = '')
@@ -407,22 +416,28 @@ class Suplemen extends Admin_Controller
         return show_404();
     }
 
-    // $aksi = cetak/unduh
     public function dialog_daftar($id = 0, $aksi = '')
     {
-        $data                = $this->modal_penandatangan();
-        $data['aksi']        = $aksi;
-        $data['form_action'] = site_url("{$this->controller}/daftar/{$id}/{$aksi}");
+        $data = $this->modal_penandatangan();
 
-        return view('admin.layouts.components.ttd_pamong', $data);
+        $data['aksi']      = $aksi;
+        $data['action']    = site_url("suplemen/daftar/{$id}/{$aksi}");
+        $data['field_ttd'] = true;
+        $data['field_nik'] = false;
+
+        return view('admin.layouts.components.ajax-cetak-bersama', $data);
     }
 
-    // $aksi = cetak/unduh
     public function daftar($id = 0, $aksi = '')
     {
         if ($id > 0) {
-            $data['suplemen']       = ModelSuplemen::findOrFail($id)->toArray();
-            $data['terdata']        = SuplemenTerdata::anggota($data['suplemen']['sasaran'], $data['suplemen']['id'])->get()->toArray();
+            $data['suplemen'] = ModelSuplemen::findOrFail($id)->toArray();
+            $data['terdata']  = datatables($this->sumberData())->filter(function ($query) {
+                $query->when($this->input->post('id_cb'), static function ($query, $ids) {
+                    $query->whereIn('suplemen_terdata.id', json_decode($ids));
+                });
+            })->prepareQuery()->results();
+
             $data['sasaran']        = unserialize(SASARAN);
             $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->request['pamong_ttd']])->first()->toArray();
             $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->request['pamong_ketahui']])->first()->toArray();
