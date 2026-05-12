@@ -39,6 +39,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 34. [#11193](https://github.com/OpenSID/OpenSID/issues/11193) Perbaikan error saat memilih kategori peta pada menu pengaturan peta.
 35. [#11196](https://github.com/OpenSID/OpenSID/issues/11196) Perbaikan key sidcsrf tidak ada pada endpoint curl di halaman pengaturan pengguna.
 36. [#11146](https://github.com/OpenSID/OpenSID/issues/11146) Perbaikan saat menambahkan KIA nama anak tidak tampil.
+37. [#11149](https://github.com/OpenSID/OpenSID/issues/11149) Perbaikan filter tidak aktif tidak berfungsi pada menu pengguna.
 
 ### KEAMANAN
 1. [#11136](https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.
