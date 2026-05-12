@@ -1627,7 +1627,8 @@ class Penduduk extends Admin_Controller
         }
         $penduduk->foto = null;
         $penduduk->save();
-        redirect(ci_route('penduduk.form', $penduduk->id));
+
+        return redirect_with('success', 'Foto berhasil dikembalikan ke foto bawaan.', ci_route('penduduk.form', $penduduk->id));
     }
 
     public function get_judul_statistik($tipe = '0', $nomor = 0, $sex = null)

@@ -25,15 +25,14 @@
                 <button type="button" class="btn btn-info btn-block btn-mb-5" id="file_browser"><i class="fa fa-upload"></i> Unggah</button>
                 <button type="button" class="btn btn-danger btn-block btn-mb-5" onclick="kamera();" id="ambil_kamera"><i class="fa fa-camera"></i> Kamera</button>
                 @if (!empty($penduduk['id']))
-                    <a href="#" data-href="{{ ci_route('penduduk.foto_bawaan', $penduduk['id']) }}" class="btn btn-warning btn-block" title="Kembalikan" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-undo"></i> Kembalikan</a>
+                    <a href="#" data-href="{{ ci_route('penduduk.foto_bawaan', $penduduk['id']) }}" class="btn btn-warning btn-block" title="Kembalikan" data-toggle="modal" data-target="#confirm-status"><i class="fa fa-undo"></i> Kembalikan</a>
                 @endif
             </span>
         </div>
     </div>
 </div>
 @include('admin.layouts.components.capture')
-@include('admin.layouts.components.konfirmasi_hapus')
-
+@include('admin.layouts.components.konfirmasi', ['periksa_data' => can('u'), 'pertanyaan' => 'Apakah Anda yakin ingin mengembalikan foto ke foto bawaan?'])
 @push('scripts')
     <script>
         $(document).ready(function() {

@@ -32,6 +32,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 27. [#11138] (https://github.com/OpenSID/OpenSID/issues/11138) Perbaikan pilihan penandatanganan ketika klik tombol cetak di buku pemerintah desa tidak konsisten.
 28. [#11160] (https://github.com/OpenSID/OpenSID/issues/11160) Perbaikan tombol ekspor excel tidak berfungsi (hanya loading).
 29. [#11158] (https://github.com/OpenSID/OpenSID/issues/1158) Perbaikan perbaikan tombol cetak dengan target blank pada menu Analisis > Laporan Analisis > Laporan Per Indikator.
+30. [#11157] (https://github.com/OpenSID/OpenSID/issues/11157) Perbaikan pesan konfirmasi 'Kembalikan Foto' tidak sesuai (menampilkan informasi penghapusan data).
 
 ### KEAMANAN
 1. [#11136] (https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.
