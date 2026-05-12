@@ -54,7 +54,7 @@
                                 <select id="tahun" name="tahun" class="form-control input-sm select2">
                                     <option value="">Pilih Tahun</option>
                                     @foreach ($tahun as $data)
-                                        <option value="{{ $data->tahun }}">{{ $data->tahun }}</option>
+                                        <option @selected($data->tahun == date('Y')) value="{{ $data->tahun }}">{{ $data->tahun }}</option>
                                     @endforeach
                                 </select>
                             </div>

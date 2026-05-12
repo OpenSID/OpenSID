@@ -33,6 +33,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 28. [#11160] (https://github.com/OpenSID/OpenSID/issues/11160) Perbaikan tombol ekspor excel tidak berfungsi (hanya loading).
 29. [#11158] (https://github.com/OpenSID/OpenSID/issues/1158) Perbaikan perbaikan tombol cetak dengan target blank pada menu Analisis > Laporan Analisis > Laporan Per Indikator.
 30. [#11157] (https://github.com/OpenSID/OpenSID/issues/11157) Perbaikan pesan konfirmasi 'Kembalikan Foto' tidak sesuai (menampilkan informasi penghapusan data).
+31. [#11150] (https://github.com/OpenSID/OpenSID/issues/11150) Perbaikan tahun default sasaran paud.
 
 ### KEAMANAN
 1. [#11136] (https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.
