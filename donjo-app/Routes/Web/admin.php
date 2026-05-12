@@ -597,7 +597,7 @@ Route::group('stunting', static function (): void {
     Route::post('/datatablesKia', 'Stunting@datatablesKia')->name('stunting.datatablesKia');
     Route::match(['GET', 'POST'], '/formKia/{id?}', 'Stunting@formKia')->name('stunting.formKia');
     Route::get('/getIbu', 'Stunting@getIbu')->name('stunting.getIbu');
-    Route::get('/getAnak', 'Stunting@getAnak')->name('stunting.getAnak');
+    Route::post('/getAnak', 'Stunting@getAnak')->name('stunting.getAnak');
     Route::post('/insertKia', 'Stunting@insertKia')->name('stunting.insertKia');
     Route::post('/updateKia/{id?}', 'Stunting@updateKia')->name('stunting.updateKia');
     Route::get('/deleteKia/{id}', 'Stunting@deleteKia')->name('stunting.deleteKia');

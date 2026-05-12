@@ -406,7 +406,7 @@ class Stunting extends Admin_Controller
         }
 
         if ($this->input->is_ajax_request()) {
-            $ibu      = $this->input->get('ibu');
+            $ibu      = $this->input->post('ibu');
             $penduduk = Penduduk::find($ibu);
             if ($penduduk) {
                 $anak = Penduduk::where('id_kk', $penduduk->id_kk)
