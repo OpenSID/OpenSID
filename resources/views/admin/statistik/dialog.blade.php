@@ -6,7 +6,7 @@
             <select class="form-control input-sm select2 required" name="pamong_ttd">
                 <option value="">Pilih Staf {{ ucwords(setting('sebutan_pemerintah_desa')) }}</option>
                 @foreach ($pamong as $data)
-                    <option value="{{ $data['pamong_id'] }}" @selected($data['jabatan_id'] == $pamong_ketahui['jabatan_id'])>{{ $data['pamong_nama'] }} ({{ $data['pamong_jabatan'] }})</option>
+                    <option value="{{ $data['pamong_id'] }}" @selected($data['pamong_id'] == $pamong_ttd['pamong_id'])>{{ $data['pamong_nama'] }} ({{ $data['pamong_jabatan'] }})</option>
                 @endforeach
             </select>
         </div>

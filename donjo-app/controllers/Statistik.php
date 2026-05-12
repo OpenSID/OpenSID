@@ -37,6 +37,7 @@
 
 use App\Enums\Statistik\StatistikPendudukEnum;
 use App\Models\Bantuan;
+use App\Models\Pamong;
 use App\Models\Wilayah;
 use App\Services\LaporanPenduduk;
 
@@ -188,6 +189,9 @@ class Statistik extends Admin_Controller
 
         $data = array_merge($filter, $this->modal_penandatangan());
 
+        if ($this->input->post('pamong_ttd')) {
+            $data['pamong_ttd'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
+        }
         $query              = $this->sumberData($lap, $filter);
         $data['laporan_no'] = $this->input->post('laporan_no');
         $data['main']       = $query;
