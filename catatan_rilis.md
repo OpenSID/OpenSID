@@ -36,6 +36,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 31. [#11150] (https://github.com/OpenSID/OpenSID/issues/11150) Perbaikan tahun default sasaran paud.
 32. [#11164] (https://github.com/OpenSID/OpenSID/issues/11164) Perbaikan tanggal pemantauan bulanan anak.
 33. [#11155] (https://github.com/OpenSID/OpenSID/issues/11155) Perbaikan filtering data saat cetak suplemen terdata.
+34. [#11193] (https://github.com/OpenSID/OpenSID/issues/11193) Perbaikan error saat memilih kategori peta pada menu pengaturan peta.
 
 ### KEAMANAN
 1. [#11136](https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.
