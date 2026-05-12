@@ -248,7 +248,7 @@ class Keluar extends Admin_Controller
                                 ])->render();
                             }
                         }
-                        if ($row->urls_id) {
+                        if ($row->urls_id && $row->tte == 1) {
                             if (! $row->log_verifikasi) {
                                 $aksi .= View::make('admin.layouts.components.buttons.btn', [
                                     'url'        => ci_route('keluar.qrcode', $row->urls_id),

@@ -41,6 +41,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 36. [#11146](https://github.com/OpenSID/OpenSID/issues/11146) Perbaikan saat menambahkan KIA nama anak tidak tampil.
 37. [#11149](https://github.com/OpenSID/OpenSID/issues/11149) Perbaikan filter tidak aktif tidak berfungsi pada menu pengguna.
 38. [#11152](https://github.com/OpenSID/OpenSID/issues/11152) Perbaikan penandatanganan di statistik kependudukan tidak mengikuti pamong/staf yang dipilih pada saat memilih penandatanganan.
+39. [#11156](https://github.com/OpenSID/OpenSID/issues/11156) Perbaikan QR Code muncul pada surat yang belum dilakukan TTE (passphrase).
 
 ### KEAMANAN
 1. [#11136](https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.

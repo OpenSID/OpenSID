@@ -204,7 +204,7 @@ class Surat_dinas_arsip extends Admin_Controller
 
                     // hanya untuk arsip surat -->
                     if ($row->status == '1') {
-                        if ($row->urls_id) {
+                        if ($row->urls_id && $row->tte == 1) {
                             $aksi .= '<a href="' . ci_route('surat_dinas_arsip.qrcode', $row->urls_id) . '" title="QR Code" data-size="modal-sm" class="viewQR btn bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a> ';
                         }
                         if ($row->isi_surat && $row->verifikasi_operator != '-1') {
