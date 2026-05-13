@@ -28,7 +28,9 @@
                     ];
                     @endphp
                     <x-split-button judul="Cetak/Unduh" :list="$listCetakUnduh" :icon="'fa fa-arrow-circle-down'" :type="'bg-purple'" :target="true" />
-                    <x-btn-button judul="Ekspor" icon="fa fa-download" type="bg-blue" modal="true" :url="'dokumen/ekspor'" />
+                    <a href="{{ site_url('dokumen/ekspor') }}" class="btn btn-social bg-blue btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ekspor" data-toggle="modal" data-target="#modalBox" data-remote="false" data-backdrop="false" data-keyboard="false" data-title="Ekspor">
+                        <i class="fa fa-download"></i> Ekspor
+                    </a>
                 </div>
                 <div class="box-body">
                     <div class="row mepet">

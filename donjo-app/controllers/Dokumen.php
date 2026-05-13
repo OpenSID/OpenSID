@@ -283,7 +283,7 @@ class Dokumen extends Admin_Controller
         $data['log_semua']     = LogEkspor::where(['kode_ekspor' => 'informasi_publik', 'semua' => 1])->orderByDesc('tgl_ekspor')->first();
         $data['log_perubahan'] = LogEkspor::where(['kode_ekspor' => 'informasi_publik', 'semua' => 2])->orderByDesc('tgl_ekspor')->first();
 
-        view('admin.dokumen.informasi_publik.ekspor', $data);
+        return view('admin.dokumen.informasi_publik.ekspor', $data);
     }
 
     public function ekspor_csv()
@@ -321,6 +321,15 @@ class Dokumen extends Admin_Controller
 					end
 				end) as aksi
 		,'{$kodeDesa}' as kode_desa, satuan, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun")->whereRaw(DB::raw("DATE(updated_at) > STR_TO_DATE('{$tglDari}', '%d-%m-%Y')"))->get()->toArray();
+        }
+
+        // Handle case when no data available
+        if (empty($data)) {
+            fclose($file);
+            @unlink($tmpfname);
+            redirect_with('error', 'Tidak ada data yang ditemukan untuk diekspor.');
+
+            return;
         }
 
         $header = array_keys($data[0]);

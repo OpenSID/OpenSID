@@ -213,24 +213,29 @@ $(function () {
     // --------------------------------------------------------
     $(document).on("submit", "form", function () {
         const $form = $(this);
-        const $btn = $form
-            .find("button[type=submit]:enabled:visible, input[type=submit]:enabled:visible")
-            .first();
-
-        if (! $btn.length) {
+    
+        // 1. Validasi: Jangan disable tombol jika form tidak valid
+        if (typeof $.fn.valid === 'function' && $form.data('validator') && !$form.valid()) {
             return;
         }
-
+    
+        // 2. Cari tombol submit yang aktif dan terlihat
+        const $btn = $form.find("button[type=submit]:enabled:visible, input[type=submit]:enabled:visible").first();
+    
+        // 3. Cek apakah tombol ditemukan
+        if ($btn.length === 0) {
+            return;
+        }
+    
+        // 4. Disable tombol untuk mencegah double-submit
         disableBtn($btn);
-
-        // Jika form tidak akan melakukan page reload (misal: target="_blank"),
-        // restore button setelah delay. Jika page reload, browser akan reset button-nya.
-        const btnRef = $btn[0];
+    
+        // 5. Penanganan khusus jika form tidak me-reload halaman (misal: target="_blank")
         const isExternalOpen = $form.attr("target") === "_blank";
         
         if (isExternalOpen) {
-            // Form akan membuka tab/window baru, halaman tidak reload
-            // Restore button setelah 100ms (form request sudah terkirim ke server)
+            const btnRef = $btn[0];
+            // Restore button setelah delay singkat agar user bisa klik lagi nanti
             setTimeout(function() {
                 restoreOriginalSubmit(btnRef);
             }, 100);
