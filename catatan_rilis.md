@@ -46,8 +46,9 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 ### KEAMANAN
 1. [#11136](https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.
-2. [#6188](https://github.com/OpenSID/premium/issues/6188) Perbaikan Kerentanan Security pada JS Library.
+2. [#6188](https://github.com/OpenSID/premium/issues/6188) Perbaikan kerentanan security pada JS Library.
 3. [#6269](https://github.com/OpenSID/premium/issues/6269) Penambahan validasi tujuan URL pada fitur RSS Feed (link_feed) untuk mencegah Blind SSRF.
+4. [#6266](https://github.com/OpenSID/premium/issues/6266) Perbaikan 3 kerentanan high pada dependencies (picomatch, minimatch, lodash).
 
 ### TEKNIS
 1. [#11140](https://github.com/OpenSID/OpenSID/issues/11140) Penyesuaian format huruf pada penampilan nama Kabupaten/Provinsi di halaman publik.
