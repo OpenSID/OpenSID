@@ -56,3 +56,4 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 1. [#11140](https://github.com/OpenSID/OpenSID/issues/11140) Penyesuaian format huruf pada penampilan nama Kabupaten/Provinsi di halaman publik.
 2. [#11139](https://github.com/OpenSID/OpenSID/issues/11139) Penyesuaian lanjutan FeedParser untuk kompatibilitas PHP 8.2.
 3. [#11162](https://github.com/OpenSID/OpenSID/issues/11162) Perbaikan workflow untuk rilis agar folder .github tidak terhapus.
+4. [#11161](https://github.com/OpenSID/OpenSID/issues/11161) Menjadikan tema Palanta menjadi tema bawaan opensid.
