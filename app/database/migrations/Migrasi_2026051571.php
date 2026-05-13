@@ -35,9 +35,12 @@
  *
  */
 
+use App\Enums\PekerjaanEnum;
+use App\Models\Theme;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
@@ -48,6 +51,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+        $this->tambahTabelBaseLinesDanKolomPekerjaMigran();
     }
 
     /**
@@ -56,4 +60,19 @@ return new class () extends Migration {
     public function down(): void
     {
     }
+
+    private function tambahTabelBaseLinesDanKolomPekerjaMigran(): void
+    {
+        $this->runMigration([
+            'install/2025_12_22_080511_create_security_baselines_table',
+            'install/2025_12_22_080514_add_foreign_keys_to_security_baselines_table'
+        ]);
+
+        if (Schema::hasTable('tweb_penduduk') && ! Schema::hasColumn('tweb_penduduk', 'pekerja_migran')) {
+            Schema::table('tweb_penduduk', static function (Blueprint $table) {
+                $table->string('pekerja_migran')->nullable()->after('adat');
+            });
+        }
+    }
+
 };
