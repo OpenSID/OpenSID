@@ -10,7 +10,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ ci_route('komentar') }}"> Daftar Kotak Pesan</a></li>
+    <li><a href="{{ ci_route('mailbox') }}"> Daftar Kotak Pesan</a></li>
     <li class="active">Detail Kotak Pesan</li>
 @endsection
 

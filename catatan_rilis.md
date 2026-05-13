@@ -44,6 +44,7 @@ Rilis versi 2605.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 39. [#11156](https://github.com/OpenSID/OpenSID/issues/11156) Perbaikan QR Code muncul pada surat yang belum dilakukan TTE (passphrase).
 40. [#11159](https://github.com/OpenSID/OpenSID/issues/11159) Perbaikan tombol ekspor tidak berfungsi pada menu Sekretariat > informasi publik.
 41. [#11203](https://github.com/OpenSID/OpenSID/issues/11203) Perbaikan perbedaan hasil rekapitulasi di desa angseri karena ketidak sesuaian data kelahiran/keluarga baru bulan ini.
+42. [#11200](https://github.com/OpenSID/OpenSID/issues/11200) Perbaikan breadcrumb daftar kotak pesan.
 
 ### KEAMANAN
 1. [#11136](https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.
