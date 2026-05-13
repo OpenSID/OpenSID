@@ -482,7 +482,7 @@ class LogPenduduk extends BaseModel
     {
         $configId = identitas('id');
         $subQuery = DB::raw(
-            '(SELECT MAX(id) as id, id_pend from log_penduduk where config_id = ' . $configId . ' and tgl_peristiwa <= \'' . $tanggal . ' 23:59:59\' group by id_pend) as logMax'
+            '(SELECT MAX(id) as id, id_pend from log_penduduk where config_id = ' . $configId . ' and tgl_lapor <= \'' . $tanggal . ' 23:59:59\' group by id_pend) as logMax'
         );
 
         return $query->join($subQuery, 'logMax.id', '=', 'log_penduduk.id');
