@@ -39,7 +39,6 @@ namespace App\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Support\Str;
 
 class SecretCodeRule implements ValidationRule
 {
@@ -52,7 +51,8 @@ class SecretCodeRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! Str::contains($this->secretCode, $value)) {
+        // Exact comparison for secret code validation
+        if ($this->secretCode !== $value) {
             $fail(__('Kode rahasia tidak valid.'));
         }
     }
