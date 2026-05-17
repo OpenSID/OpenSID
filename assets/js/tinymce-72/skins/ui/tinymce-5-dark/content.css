@@ -1,3 +1,12 @@
+/* This file is bundled with the code from the following third party libraries */
+
+/**
+ * http://prismjs.com/
+ * Dracula Theme originally by Zeno Rocha [@zenorocha]
+ * https://draculatheme.com/
+ *
+ * Ported for PrismJS by Albert Vallverdu [@byverdu]
+ */
 @keyframes tox-rotation {
   0% {
     transform: rotate(0deg);
@@ -579,12 +588,6 @@ tiny-math-inline {
   right: -1px;
   top: -1px;
 }
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  .mce-content-body td[data-mce-selected]::after,
-  .mce-content-body th[data-mce-selected]::after {
-    border-color: rgba(0, 84, 180, 0.7);
-  }
-}
 .mce-content-body img[data-mce-selected]::selection {
   background: none;
 }
@@ -668,7 +671,7 @@ table[style*="border-width: 0px"] caption,
   all: initial;
   display: inline-block;
   position: relative;
-  width: 600px;
+  width: min(100%, 600px);
   height: 80px;
   --tox-uploadcare-placeholder--content-cursor: auto !important;
   --tox-uploadcare-placeholder--content-color: rgba(34, 47, 62, 0.7);
@@ -682,6 +685,7 @@ table[style*="border-width: 0px"] caption,
   --tox-uploadcare-placeholder--content-justify-content: center;
   --tox-uploadcare-placeholder--content-gap: 8px;
   --tox-uploadcare-placeholder--icon-fill: rgba(34, 47, 62, 0.7);
+  --tox-uploadcare-placeholder--icon-min-width: 24px;
   --tox-uc-loading-spinner-wrapper-display-none: none;
   --tox-uc-loading-spinner-wrapper-display: flex;
   --tox-uc-loading-spinner-wrapper-position: absolute;
@@ -842,6 +846,8 @@ table[style*="border-width: 0px"] caption,
 [data-ephox-foam-a11y-violation][data-ephox-foam-a11y-current-violation] {
   outline-width: 4px;
   transition: outline-width 0.1s ease-in-out, background-color 0.1s ease-in-out;
+  box-shadow: 0 0 0 99999px #222f3e80;
+  z-index: 1;
 }
 [data-ephox-foam-a11y-violation][data-ephox-foam-a11y-severity-info] {
   outline-color: #99c4f5;
@@ -863,6 +869,9 @@ table[style*="border-width: 0px"] caption,
 [data-ephox-foam-a11y-violation][data-ephox-foam-a11y-current-violation="error"] {
   outline-color: #eb9999;
   background-color: #fae6e6;
+}
+[data-ephox-foam-a11y-violation][data-ephox-foam-a11y-current-violation]:is(td, th, tr) {
+  position: static;
 }
 body {
   font-family: sans-serif;

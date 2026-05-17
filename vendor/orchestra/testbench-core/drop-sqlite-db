@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+
+define('TESTBENCH_WORKING_PATH', $workingPath = getcwd());
+
+$skeletonPath = realpath(__DIR__).'/laravel';
+
+if (file_exists(__DIR__.'/vendor/autoload.php')) {
+    // Development environment.
+    require __DIR__.'/vendor/autoload.php';
+} else {
+    // Installation environment.
+    require __DIR__.'/../../autoload.php';
+}
+
+$config = Orchestra\Testbench\Foundation\Config::loadFromYaml(
+    workingPath: $workingPath,
+    defaults: [
+        'providers' => [],
+        'dont-discover' => [],
+    ],
+);
+
+$directory = ($config['laravel'] ? $config['laravel'] : $skeletonPath).'/database';
+
+if (file_exists("{$directory}/database.sqlite")) {
+    @unlink("{$directory}/database.sqlite");
+}

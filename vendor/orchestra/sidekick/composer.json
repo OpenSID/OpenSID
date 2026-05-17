@@ -1,0 +1,66 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "orchestra/sidekick",
+    "description": "Packages Toolkit Utilities and Helpers for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mior Muhammad Zaki",
+            "email": "crynobone@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Orchestra\\Sidekick\\": "src/"
+        },
+        "files": [
+            "src/Eloquent/functions.php",
+            "src/Filesystem/functions.php",
+            "src/Http/functions.php",
+            "src/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Orchestra\\Sidekick\\Tests\\": "tests/",
+            "App\\": "workbench/app/",
+            "Database\\Factories\\": "workbench/database/factories/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "composer-runtime-api": "^2.2",
+        "composer/semver": "^3.0",
+        "symfony/polyfill-php83": "^1.32"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.21",
+        "laravel/framework": "^10.48.29|^11.44.7|^12.1.1|^13.0",
+        "laravel/pint": "^1.4",
+        "mockery/mockery": "^1.5.1",
+        "orchestra/testbench-core": "^8.37.0|^9.14.0|^10.2.0|^11.0",
+        "phpstan/phpstan": "^2.1.14",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0",
+        "symfony/process": "^6.0|^7.0"
+    },
+    "config": {
+        "audit": {
+            "block-insecure": false
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "lint": [
+            "@php vendor/bin/pint",
+            "@php vendor/bin/phpstan analyse --verbose"
+        ],
+        "test": "@php vendor/bin/phpunit",
+        "ci": [
+            "@lint",
+            "@test"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

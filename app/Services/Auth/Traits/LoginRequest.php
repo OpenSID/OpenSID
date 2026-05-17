@@ -73,6 +73,21 @@ trait LoginRequest
         $data = $this->validated($request = request(), $this->rules());
         $data = except($data, ['g-recaptcha-response', 'captcha_code', 'secret_code']);
 
+        // Cek status aktif pengguna sebelum login untuk menghindari
+        // login-then-logout anti-pattern (session/event tidak perlu dibuat)
+        $user = Auth::guard($this->guard)->retrieveByCredentials($data);
+        if ($user && ! $user->active) {
+            RateLimiter::hit($this->throttleKey(), config_item('lockout_time'));
+
+            try {
+                throw ValidationException::withMessages([
+                    'email' => 'Akun Anda sedang tidak aktif.',
+                ]);
+            } catch (ValidationException $e) {
+                return $this->invalid($request, $e);
+            }
+        }
+
         if (! Auth::guard($this->guard)->attempt([...$data, ...$extra])) {
             RateLimiter::hit($this->throttleKey(), config_item('lockout_time'));
 

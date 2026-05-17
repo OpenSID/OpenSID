@@ -106,6 +106,7 @@ class PerangkatController extends WebModulController
         $tag      = trim($this->request['tag']);
 
         $user = User::with(['pamong'])
+            ->where('active', true)
             ->whereHas('pamong', static function ($query) use ($username, $tag): void {
                 $query
                     ->status('1') // pamong aktif
@@ -123,8 +124,8 @@ class PerangkatController extends WebModulController
             })
             ->first();
 
-        if ($ektp && ! $user) {
-            set_session('error', 'ID Card Salah. Coba Lagi');
+        if (! $user) {
+            set_session('error', $ektp ? 'ID Card Salah. Coba Lagi' : 'Username atau Password Salah');
 
             return redirect($this->url);
         }
@@ -208,7 +209,13 @@ class PerangkatController extends WebModulController
         }
 
         if (! Auth::guard('perangkat')->check()) {
-            redirect($this->url);
+            return redirect($this->url);
+        }
+
+        // Paksa keluar jika pengguna tidak aktif
+        $user = Auth::guard('perangkat')->user();
+        if ($user && ! $user->active) {
+            return $this->logout();
         }
     }
 

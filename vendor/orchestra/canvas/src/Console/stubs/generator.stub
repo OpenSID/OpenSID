@@ -1,0 +1,46 @@
+<?php
+
+namespace DummyNamespace;
+
+use Orchestra\Canvas\Core\Commands\GeneratorCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
+
+#[AsCommand(name: 'dummy:command', description: 'Create a new class')]
+class DummyClass extends GeneratorCommand
+{
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Class';
+
+    /**
+     * Get the stub file for the generator.
+     *
+     * @return string
+     */
+    protected function getStub()
+    {
+        // ...
+    }
+
+    /**
+     * Resolve the default fully-qualified path to the stub.
+     *
+     * @param  string  $stub
+     * @return string
+     */
+    protected function resolveDefaultStubPath($stub)
+    {
+        return __DIR__.$stub;
+    }
+
+    /**
+     * Get the default namespace for the class.
+     */
+    public function getDefaultNamespace($rootNamespace)
+    {
+        return $rootNamespace;
+    }
+}

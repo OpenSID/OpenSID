@@ -81,6 +81,7 @@
         "friendsofphp/php-cs-fixer": "^3.49",
         "mikey179/vfsstream": "~1.1.0",
         "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^8.0",
         "phpunit/phpunit": "^9.6",
         "rector/rector": "^1.0"
     },

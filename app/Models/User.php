@@ -97,6 +97,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         'telegram_verified_at' => 'datetime',
         'akses_wilayah'        => 'json',
         'two_factor_enabled'   => 'boolean',
+        'active'               => 'boolean',
     ];
 
     public static function deleteFile($model, ?string $file, $deleting = false): void
