@@ -218,6 +218,17 @@ class LapakPelapakAdminController extends AdminModulController
     {
         isCan('h');
 
+        $idCb = request('id_cb', []);
+
+        $adaPelapakMemilikiProduk = Pelapak::listPelapak()
+            ->whereIn('pelapak.id', $idCb)
+            ->get()
+            ->contains(static fn ($pelapak): bool => $pelapak->jumlah > 0);
+
+        if ($adaPelapakMemilikiProduk) {
+            redirect_with('error', 'Terdapat pelapak yang masih memiliki produk. Silakan hapus produk terlebih dahulu.', 'lapak_admin/pelapak');
+        }
+
         (new Pelapak())->pelapakDeleteAll();
 
         redirect_with('success', 'Berhasil menghapus data', 'lapak_admin/pelapak');
