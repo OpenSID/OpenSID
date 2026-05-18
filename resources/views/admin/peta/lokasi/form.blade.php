@@ -131,7 +131,7 @@
             // AJAX untuk mengambil kategori
             $.ajax({
                 url: "{{ ci_route('plan.ajax_get_kategori') }}",
-                method: 'POST',
+                method: 'get',
                 data: {
                     jenis_id: jenisId
                 },
@@ -145,9 +145,12 @@
 
                         // Set nilai terpilih jika ada (mode edit)
                         if (selectedKategori) {
-                            $kategori.val(selectedKategori).trigger('change');
+                            $kategori.val(selectedKategori);
                             selectedKategori = ''; // reset agar tidak dipaksa ulang saat jenis diubah
                         }
+
+                        // Beritahu Select2 bahwa opsi sudah berubah agar muncul di klik pertama (#11204)
+                        $kategori.trigger('change.select2');
                     }
                 },
                 error: function(xhr, status, error) {

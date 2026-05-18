@@ -46,6 +46,7 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 41. [#11203](https://github.com/OpenSID/OpenSID/issues/11203) Perbaikan perbedaan hasil rekapitulasi di desa angseri karena ketidak sesuaian data kelahiran/keluarga baru bulan ini.
 42. [#11200](https://github.com/OpenSID/OpenSID/issues/11200) Perbaikan breadcrumb daftar kotak pesan.
 43. [#11208](https://github.com/OpenSID/OpenSID/issues/11208) Perbaikan karakter aneh pada tombol close modal log aktivitas.
+44. [#11204](https://github.com/OpenSID/OpenSID/issues/11204) Perbaikan pilihan kategori tidak muncul pada saat menambahkan data Lokasi, Garis dan Area pada sub menu pengaturan peta.
 
 ### KEAMANAN
 1. [#11136](https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.
