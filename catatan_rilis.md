@@ -54,6 +54,7 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 49. [#11223](https://github.com/OpenSID/OpenSID/issues/11223) Perbaikan pengguna masih bisa login kehadiran, padahal status pengguna sedang tidak aktif.
 50. [#11217](https://github.com/OpenSID/OpenSID/issues/11217) Perbaikan popup “DataTables Ajax Error” muncul setelah memilih data penduduk meski data berhasil disimpan.
 51. [#11216](https://github.com/OpenSID/OpenSID/issues/11216) Perbaikan tombol loading ketika nonaktifkan data pada pengaturan peta.
+52. [#11229](https://github.com/OpenSID/OpenSID/issues/11229) Perbaikan status hamil tetap muncul meskipun status perkawinan belum kawin.
 
 ### KEAMANAN
 1. [#11136](https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.
