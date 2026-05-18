@@ -122,7 +122,7 @@ class Kelompok_anggota extends Admin_Controller
                         ])->render();
                     }
 
-                    if (can('h') && $row->jml_anggota <= 0) {
+                    if (can('h')) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                             'url'           => route("{$controller}.delete", ['id_kelompok' => $row->id_kelompok, 'id' => $row->id]),
                             'confirmDelete' => true,

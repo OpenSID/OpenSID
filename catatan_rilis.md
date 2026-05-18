@@ -48,6 +48,7 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 43. [#11208](https://github.com/OpenSID/OpenSID/issues/11208) Perbaikan karakter aneh pada tombol close modal log aktivitas.
 44. [#11204](https://github.com/OpenSID/OpenSID/issues/11204) Perbaikan pilihan kategori tidak muncul pada saat menambahkan data Lokasi, Garis dan Area pada sub menu pengaturan peta.
 45. [#11205](https://github.com/OpenSID/OpenSID/issues/11205) Perbaikan error saat akses halaman kategori lembaga.
+46. [#11206](https://github.com/OpenSID/OpenSID/issues/11206) Perbaikan tidak dapat hapus/nonaktifkan anggota lembaga.
 
 ### KEAMANAN
 1. [#11136](https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.

@@ -600,7 +600,7 @@ class Kelompok extends Admin_Controller
     {
         return KelompokModel::with(['kelompokMaster', 'ketua'])
             ->withCount(['kelompokAnggota as jml_anggota' => static function ($query) use ($tipe) {
-                $query->where('tipe', $tipe);
+                $query->where('tipe', $tipe)->whereNull('tgl_sk_pemberhentian');
             }])
             ->tipe($tipe)
             ->when($this->session->sex, static fn ($q) => $q->jenisKelaminKetua() )
