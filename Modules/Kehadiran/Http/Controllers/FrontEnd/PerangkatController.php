@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -106,10 +107,11 @@ class PerangkatController extends WebModulController
         $password = trim($this->request['password']);
         $tag      = trim($this->request['tag']);
 
-        $user = User::with(['pamong'])
+        $user = User::status(StatusEnum::YA)
+            ->with(['pamong'])
             ->whereHas('pamong', static function ($query) use ($username, $tag): void {
                 $query
-                    ->status('1') // pamong aktif
+                    ->status(StatusEnum::YA)
                     ->where(static function ($query) use ($username, $tag): void {
                         $query
                             ->orWhere('username', $username)
@@ -124,12 +126,14 @@ class PerangkatController extends WebModulController
             })
             ->first();
 
-        if ($ektp && ! $user) {
-            set_session('error', 'ID Card Salah. Coba Lagi');
+        // User tidak ditemukan
+        if (! $user) {
+            set_session('error', $ektp ? 'ID Card Salah. Coba Lagi' : 'Username atau Password Salah');
 
             return redirect($this->url);
         }
 
+        // Login via password (bukan ektp), validasi password
         if (! $ektp && ! Hash::check($password, $user->password)) {
             set_session('error', 'Username atau Password Salah');
 
@@ -138,7 +142,7 @@ class PerangkatController extends WebModulController
 
         Auth::guard('perangkat')->login($user);
 
-        redirect('kehadiran');
+        return redirect('kehadiran');
     }
 
     public function masukEktp(): void
