@@ -367,6 +367,7 @@ foreach (['lembaga' => 'Lembaga', 'kelompok' => 'Kelompok'] as $key => $value) {
         Route::match(['GET', 'POST'], '/index/{p?}/{o?}', "{$value}@index");
         Route::match(['GET', 'POST'], '/index/{p?}', "{$value}@index");
         Route::match(['GET', 'POST'], '/', "{$value}@index");
+        Route::post('datatables', "{$value}@datatables");
 
         // dokumen
         Route::get('dokumen/{id}', "{$value}@indexDokumen")->name("{$key}.dokumen.index");
