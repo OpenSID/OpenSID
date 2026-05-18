@@ -52,6 +52,7 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 47. [#11210](https://github.com/OpenSID/OpenSID/issues/11210) Perbaikan Pelapak yang sudah memiliki produk masih bisa dihapus lewat fitur select.
 48. [#11224](https://github.com/OpenSID/OpenSID/issues/11224) Perbaikan file hasil unduh data dibeberapa menu/submenu hanya tampil timetstamps saja, nama filenya tidak ada.
 49. [#11223](https://github.com/OpenSID/OpenSID/issues/11223) Perbaikan pengguna masih bisa login kehadiran, padahal status pengguna sedang tidak aktif.
+50. [#11217](https://github.com/OpenSID/OpenSID/issues/11217) Perbaikan popup “DataTables Ajax Error” muncul setelah memilih data penduduk meski data berhasil disimpan.
 
 ### KEAMANAN
 1. [#11136](https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.

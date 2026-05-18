@@ -332,7 +332,7 @@ Route::group('rtm', static function (): void {
     Route::post('update_nokk/{id?}', 'Rtm@update_nokk')->name('rtm.update_nokk');
     Route::get('anggota/{id?}', 'Rtm@anggota')->name('rtm.anggota');
     Route::get('ajax_add_anggota/{id?}', 'Rtm@ajax_add_anggota')->name('rtm.ajax_add_anggota');
-    Route::get('datables_anggota/{id?}', 'Rtm@datables_anggota')->name('rtm.datables_anggota');
+    Route::post('datables_anggota/{id?}', 'Rtm@datables_anggota')->name('rtm.datables_anggota');
     Route::get('edit_anggota/{id_rtm?}/{id?}', 'Rtm@edit_anggota')->name('rtm.edit_anggota');
     Route::get('kartu_rtm/{id?}', 'Rtm@kartu_rtm')->name('rtm.kartu_rtm');
     Route::get('cetak_kk/{id?}', 'Rtm@cetak_kk')->name('rtm.cetak_kk');
