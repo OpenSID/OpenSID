@@ -50,6 +50,7 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 45. [#11205](https://github.com/OpenSID/OpenSID/issues/11205) Perbaikan error saat akses halaman kategori lembaga.
 46. [#11206](https://github.com/OpenSID/OpenSID/issues/11206) Perbaikan tidak dapat hapus/nonaktifkan anggota lembaga.
 47. [#11210](https://github.com/OpenSID/OpenSID/issues/11210) Perbaikan Pelapak yang sudah memiliki produk masih bisa dihapus lewat fitur select.
+48. [#11224](https://github.com/OpenSID/OpenSID/issues/11224) Perbaikan file hasil unduh data dibeberapa menu/submenu hanya tampil timetstamps saja, nama filenya tidak ada.
 
 ### KEAMANAN
 1. [#11136](https://github.com/OpenSID/OpenSID/issues/11136) Perbaikan celah keamanan XSS pada upload media di RFM dan eksekusi payload di image.svg.

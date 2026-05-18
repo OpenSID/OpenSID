@@ -247,6 +247,7 @@ class Wilayah extends Admin_Controller
     public function daftar($aksi = 'cetak'): void
     {
         $data['aksi']           = $aksi;
+        $data['file']           = 'Data Dusun';
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
         $data['dusuns']         = WilayahModel::dusun()->with([
@@ -259,12 +260,6 @@ class Wilayah extends Admin_Controller
             ]),
         ])->orderBy('urut')->withCount(['rts', 'rws' => static fn ($q) => $q->where('rw', '!=', '-'), 'keluargaAktif', 'pendudukPria', 'pendudukWanita'])->get();
 
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=wilayah_' . date('Y-m-d') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
         view('admin.wilayah.wilayah_cetak', $data);
     }
 
@@ -475,10 +470,11 @@ class Wilayah extends Admin_Controller
         redirect_with('success', $nama . ' berhasil dihapus');
     }
 
-    public function cetak_rw(int $id): void
+    public function cetak_rw(int $id, string $aksi = 'cetak'): void
     {
         $dusun         = WilayahModel::find($id);
-        $data['aksi']  = 'cetak';
+        $data['aksi']  = $aksi;
+        $data['file']  = 'Data RW Wilayah ' . Setting('sebutan_dusun') . ' ' . $dusun->dusun;
         $data['dusun'] = $dusun->dusun;
         $data['rws']   = WilayahModel::rw()->whereDusun($dusun->dusun)->with(['kepala'])->orderBy('urut')
             ->withCount(['rts' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw')), 'keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_3.rw = tweb_wil_clusterdesa.rw'))])
@@ -489,18 +485,14 @@ class Wilayah extends Admin_Controller
 
     public function unduh_rw(int $id): void
     {
-        header('Content-type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=wilayah_rw_' . date('Y-m-d') . '.xls');
-        header('Pragma: no-cache');
-        header('Expires: 0');
-
-        $this->cetak_rw($id);
+        $this->cetak_rw($id, 'unduh');
     }
 
-    public function cetak_rt(int $id): void
+    public function cetak_rt(int $id, string $aksi = 'cetak'): void
     {
         $rw            = WilayahModel::find($id);
-        $data['aksi']  = 'cetak';
+        $data['aksi']  = $aksi;
+        $data['file']  = 'Data RT Wilayah RW ' . $rw->rw . ' ' . Setting('sebutan_dusun') . ' ' . $rw->dusun;
         $data['dusun'] = $rw->dusun;
         $data['rts']   = WilayahModel::rt()->whereRw($rw->rw)->where('rt', '!=', '-')->whereDusun($rw->dusun)->with(['kepala'])->orderBy('urut')
             ->withCount(['keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw and laravel_reserved_0.rt = tweb_wil_clusterdesa.rt')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw and laravel_reserved_1.rt = tweb_wil_clusterdesa.rt')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw and laravel_reserved_2.rt = tweb_wil_clusterdesa.rt'))])
@@ -511,12 +503,7 @@ class Wilayah extends Admin_Controller
 
     public function unduh_rt(int $id): void
     {
-        header('Content-type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=wilayah_rt_' . date('Y-m-d') . '.xls');
-        header('Pragma: no-cache');
-        header('Expires: 0');
-
-        $this->cetak_rt($id);
+        $this->cetak_rt($id, 'unduh');
     }
 
     public function warga($id = ''): void
