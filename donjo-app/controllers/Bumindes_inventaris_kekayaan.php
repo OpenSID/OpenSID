@@ -109,6 +109,7 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
 
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;
+        $data['file']      = 'Inventaris dan Kekayaan ' . ucwords(setting('sebutan_desa'));
         $data['main']      = $query->collection ?? collect();
         $data['tgl_cetak'] = $this->input->post('tgl_cetak');
         $data['isi']       = 'admin.dokumen.inventaris_kekayaan.cetak';

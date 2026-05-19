@@ -430,6 +430,7 @@ class Pengurus extends Admin_Controller
             'main'  => $query->take($paramDatatable['length'])->get(),
             'start' => $paramDatatable['start'],
             'aksi'  => $aksi,
+            'file'  => SebutanDesa('Daftar [Pemerintah Desa]'), 
         ];
 
         $pamong_ttd = $this->input->post('pamong_ttd');
@@ -441,13 +442,6 @@ class Pengurus extends Admin_Controller
         $data['pamong_ketahui'] = ! empty($pamong_ketahui)
             ? Pamong::selectData()->where(['pamong_id' => $pamong_ketahui])->first()?->toArray()
             : null;
-
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=wilayah_' . date('Y-m-d') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
 
         $data['is_landscape'] = true;
 

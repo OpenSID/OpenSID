@@ -113,7 +113,7 @@ class Laporan extends Admin_Controller
     public function dialog(string $aksi = 'cetak'): void
     {
         $data                = $this->modal_penandatangan();
-        $data['aksi']        = 'Cetak';
+        $data['aksi']        = $aksi;
         $data['form_action'] = ci_route('laporan.cetak', $aksi);
         view('admin.layouts.components.ttd_pamong', $data);
     }
@@ -122,12 +122,8 @@ class Laporan extends Admin_Controller
     {
         $data         = $this->data_cetak();
         $data['aksi'] = $aksi;
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=Laporan_bulanan_' . date('d_m_Y') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
+        $data['file'] = 'Laporan Bulanan ' . ucwords(setting('sebutan_desa'));
+
         view('admin.laporan.bulanan_print', $data);
     }
 
