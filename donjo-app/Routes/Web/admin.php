@@ -363,11 +363,8 @@ foreach (['lembaga' => 'Lembaga', 'kelompok' => 'Kelompok'] as $key => $value) {
         Route::get('/delete/{id?}', "{$value}@delete")->name("{$key}.delete");
         Route::post('/delete_all', "{$value}@delete_all")->name("{$key}.delete_all");
         Route::get('/statistik/{tipe?}/{nomor?}/{sex?}', "{$value}@statistik")->name("{$key}.statistik");
-        Route::match(['GET', 'POST'], '/index', "{$value}@index");
-        Route::match(['GET', 'POST'], '/index/{p?}/{o?}', "{$value}@index");
-        Route::match(['GET', 'POST'], '/index/{p?}', "{$value}@index");
-        Route::match(['GET', 'POST'], '/', "{$value}@index");
-        Route::post('datatables', "{$value}@datatables");
+        Route::get('/', "{$value}@index")->name("{$key}.index");
+        Route::post('/datatables', "{$value}@datatables")->name("{$key}.datatables");
 
         // dokumen
         Route::get('dokumen/{id}', "{$value}@indexDokumen")->name("{$key}.dokumen.index");

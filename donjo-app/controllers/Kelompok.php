@@ -79,13 +79,19 @@ class Kelompok extends Admin_Controller
     public function index()
     {
         $data['list_master']          = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
-        $data['default_status_dasar'] = $this->input->get('default_status_dasar') ?? 1;
-        $data['default_kelompok']     = $this->input->get('default_kelompok');
-        if ($this->input->is_ajax_request()) {
+        $data['default_status_dasar'] = request('default_status_dasar') ?? 1;
+        $data['default_kelompok']     = request('default_kelompok');
+
+        return view('admin.kelompok.index', $data);
+    }
+
+    public function datatables()
+    {
+        if (request()->ajax()) {
             $controller = $this->controller;
-            $status     = $this->input->get('status_dasar');
+            $status     = request('status_dasar');
             $tipe       = $this->tipe;
-            $filter     = $this->input->get('filter');
+            $filter     = request('filter');
             $query      = $this->sumberData($status, $tipe, $filter);
 
             return datatables()->of($query)
@@ -124,7 +130,7 @@ class Kelompok extends Admin_Controller
                 ->make();
         }
 
-        return view('admin.kelompok.index', $data);
+        return show_404();
     }
 
     public function form($id = 0)
@@ -605,18 +611,16 @@ class Kelompok extends Admin_Controller
             ->tipe($tipe)
             ->when($this->session->sex, static fn ($q) => $q->jenisKelaminKetua() )
             ->penerimaBantuan()
-            ->whereHas('kelompokMaster', static function ($query) use ($filter): void {
-                if ($filter) {
-                    $query->where('id_master', $filter);
-                }
+            ->when($filter, static function ($query) use ($filter): void {
+                $query->where('id_master', $filter);
             })->when($status > 0, static function ($query) use ($status) {
-                    $query->whereHas('ketua', static function ($query) use ($status): void {
-                        if ($status == 1) {
-                            $query->where('status_dasar', 1);
-                        } elseif ($status == 2) {
-                            $query->where('status_dasar', null);
-                        }
-                    });
+                $query->whereHas('ketua', static function ($query) use ($status): void {
+                    if ($status == 1) {
+                        $query->where('status_dasar', 1);
+                    } elseif ($status == 2) {
+                        $query->where('status_dasar', null);
+                    }
                 });
+            });
     }
 }
