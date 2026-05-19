@@ -118,18 +118,17 @@ class AuthenticatedSessionController extends Web_Controller
         if ($request->has('nik') || ($request->has('tag_id_card') && $request->has('password'))) {
 
             if ($request->has('anjungan_uuid') && ! empty($request->anjungan_uuid)) {
+
                 $anjungan = Anjungan::where('uuid', $request->anjungan_uuid)->first();
-                if (! $anjungan) {
-                    redirect_with('error', 'Anjungan tidak ditemukan.', ci_route('layanan-mandiri/masuk'));
+                if ($anjungan) {
+                    if (! $anjungan->status) {
+                        redirect_with('error', 'Anjungan belum diaktifkan oleh admin.', ci_route('layanan-mandiri/masuk'));
+                    }
+
+                    $this->session->set_userdata('anjungan_uuid', $request->anjungan_uuid);
+
+                    $this->session->is_anjungan = true;
                 }
-
-                if (! $anjungan->status) {
-                    redirect_with('error', 'Anjungan belum diaktifkan oleh admin.', ci_route('layanan-mandiri/masuk'));
-                }
-
-                $this->session->set_userdata('anjungan_uuid', $request->anjungan_uuid);
-
-                $this->session->is_anjungan = true;
             }
 
             // Login menggunakan NIK atau E-KTP dan password
