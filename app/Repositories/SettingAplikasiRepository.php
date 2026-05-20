@@ -299,16 +299,6 @@ class SettingAplikasiRepository
                     );
                 }
 
-                // Terapkan perlindungan SSRF lokal untuk link_feed via trait
-                if ($key == 'link_feed' && ! empty($value)) {
-                    $this->validateDomain(
-                        data: [$key => $value],
-                        requireCloudWhitelist: false,
-                        attribute: $key,
-                        redirectUrl: base_url('setting_web')
-                    );
-                }
-
                 if ($key == 'ip_adress_kehadiran' || $key == 'mac_adress_kehadiran') {
                     $value = trim($value);
                 }

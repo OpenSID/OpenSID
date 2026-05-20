@@ -87,15 +87,6 @@ class Utama extends Web_Controller
 
         $data['headline'] = Artikel::withOnly(['author'])->headline()->enable()->where('tgl_upload', '<=', Carbon::now())->sitemap()->orderBy('tgl_upload', 'desc')->first();
         $data['cari']     = $cari;
-        if (setting('covid_rss')) {
-
-            $data['feed'] = [
-                // TODO:: Pindahkan ke library
-                'items' => $this->getFeed(),
-                'title' => 'BERITA COVID19.GO.ID',
-                'url'   => 'https://www.covid19.go.id',
-            ];
-        }
 
         if (setting('apbdes_footer')) {
             $data['transparansi'] = (new Keuangan())->grafik_keuangan_tema(setting('apbdes_tahun'));
@@ -107,24 +98,5 @@ class Utama extends Web_Controller
         }
 
         return view('theme::partials.artikel.index', $data);
-    }
-
-    public function getFeed()
-    {
-        $feedUrl = setting('link_feed');
-        
-        if (empty($feedUrl) || ! cek_bisa_akses_site($feedUrl)) {
-            return null;
-        }
-
-        try {
-            $feed = new FeedReader($feedUrl);
-
-            return array_slice($feed->getItems(), 0, 2);
-        } catch (\Throwable $e) {
-            logger()->error('FeedReader gagal memproses feed: ' . $e->getMessage());
-
-            return null;
-        }
     }
 }

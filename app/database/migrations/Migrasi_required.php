@@ -77,6 +77,9 @@ use Migrator;
         DB::table('setting_aplikasi')->whereIn('key', [
             'sebutan_pemerintah_desa',
             'compatible_version_general',
+            'covid_desa',
+            'covid_rss',
+            'link_feed',
         ])->delete();
 
         cache()->flush();
