@@ -169,13 +169,7 @@ class AuthenticatedSessionController extends Web_Controller
             $redirect = 'anjungan-mandiri/penduduk-guest';
         }
 
-        $this->session->unset_userdata([
-            'mandiri', 'is_login',
-            'is_anjungan', 'data_permohonan',
-            'auth_mandiri', 'login_ektp',
-            'login_penduduk_guest',
-            'anjungan_uuid',
-        ]);
+        $this->session->sess_destroy();
 
         return redirect($redirect);
     }

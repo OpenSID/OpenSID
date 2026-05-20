@@ -47,7 +47,6 @@ class Mandiri_Controller extends MY_Controller
         // To inherit directly the attributes of the parent class.
         parent::__construct();
 
-        $CI             = &get_instance();
         $this->is_login = $this->session->is_login;
         $this->header   = identitas();
 
@@ -87,6 +86,9 @@ class Mandiri_Controller extends MY_Controller
                 // Pengguna belum melakukan verifikasi Telegram, arahkan ke halaman verifikasi Telegram
                 return redirect('layanan-mandiri/daftar/verifikasi/telegram');
             }
+
+            // logout other devices jika melakukan perubahan password
+            $this->middleware->run('AuthenticateSession', 'penduduk');
         }
     }
 }
