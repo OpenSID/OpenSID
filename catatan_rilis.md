@@ -12,6 +12,7 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 7. [#11237](https://github.com/OpenSID/OpenSID/issues/11237) Perbaikan upload gambar pada artikel dianggap jenis berkas berbahaya.
 8. [#11240](https://github.com/OpenSID/OpenSID/issues/11240) Perbaikan tombol hapus pada halaman pengguna tidak berfungsi.
 9. [#11243](https://github.com/OpenSID/OpenSID/issues/11243) Perbaikan ketidaksesuaian jumlah rekapitulasi KK antara Laporan Bulanan dan Buku Administrasi Penduduk.
+10. [#11238](https://github.com/OpenSID/OpenSID/issues/11238) Perbaikan URL notifikasi menyimpan localhost saat migrasi dijalankan di local.
 
 ### KEAMANAN
 

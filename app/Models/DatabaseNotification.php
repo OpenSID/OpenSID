@@ -42,4 +42,31 @@ use App\Traits\ConfigId;
 class DatabaseNotification extends \Illuminate\Notifications\DatabaseNotification
 {
     use ConfigId;
+
+    /**
+     * Mutator untuk menyesuaikan URL dengan domain aplikasi saat ini.
+     *
+     * Override dari parent Illuminate\Notifications\DatabaseNotification untuk:
+     * - Menangani domain lama (berputar.opendesa.id) → domain aktual saat ini
+     * - Menjaga query string & fragment saat transformasi
+     * - Membersihkan leading index.php dari path (termasuk multi-slash)
+     * - Menangani null/JSON malformed secara eksplisit
+     *
+     * @param mixed $value JSON value dari kolom data
+     *
+     * @return array|null
+     */
+    public function getDataAttribute($value)
+    {
+        return tap(json_decode($value, true), function (&$data) {
+            if (! is_array($data) || empty($data['url'])) {
+                return;
+            }
+            $parsed = parse_url($data['url']);
+            $path   = ltrim(preg_replace('|^/+index\.php|', '', $parsed['path'] ?? ''), '/');
+            $suffix = ! empty($parsed['query']) ? '?' . $parsed['query'] : '';
+            $suffix .= ! empty($parsed['fragment']) ? '#' . $parsed['fragment'] : '';
+            $data['url'] = url($path) . $suffix;
+        });
+    }
 }
