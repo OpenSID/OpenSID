@@ -333,6 +333,7 @@
                         req.status_penduduk = $('#status_penduduk').val();
                         req.status_dasar = $('#status_dasar').val();
                         req.jenis_kelamin = $('#jenis_kelamin').val();
+                        req.tahun = filterColumn['tahun'] ?? null;
                         req.dusun = $('#dusun').val();
                         req.rw = $('#rw').val();
                         req.rt = $('#rt').val();

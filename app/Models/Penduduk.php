@@ -923,7 +923,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     }
 
     /**
-     * Define a one-to-many relationship.
+     * Define a one-to-many relationship for latest log record.
      *
      * @return HasOne
      */
@@ -1206,19 +1206,19 @@ class Penduduk extends BaseModel implements AuthenticatableContract
                 $tahun_bulan = str_pad($bulan, 2, '0', STR_PAD_LEFT);
 
                 return $query->whereHas('log_latest', static function ($query) use ($tahun, $tahun_bulan) {
-                    $query->whereRaw("date_format(tgl_lapor, '%Y-%m') <= '{$tahun}-{$tahun_bulan}'");
+                    $query->whereRaw("date_format(log_penduduk.tgl_lapor, '%Y-%m') <= '{$tahun}-{$tahun_bulan}'");
                 });
                 break;
 
             case $tahun:
                 return $query->whereHas('log_latest', static function ($query) use ($tahun) {
-                    $query->whereYear('tgl_lapor', '<=', $tahun);
+                    $query->whereYear('log_penduduk.tgl_lapor', '<=', $tahun);
                 });
                 break;
 
             case $bulan:
                 return $query->whereHas('log_latest', static function ($query) use ($bulan) {
-                    $query->whereMonth('tgl_lapor', '<=', $bulan);
+                    $query->whereMonth('log_penduduk.tgl_lapor', '<=', $bulan);
                 });
                 break;
 
