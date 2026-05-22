@@ -321,6 +321,10 @@ class Man_user extends Admin_Controller
     {
         isCan('h');
 
+        if (empty($this->request['id_cb'])) {
+            redirect_with('error', 'Tidak ada data yang dipilih');
+        }
+
         $errors = [];
 
         foreach ($this->request['id_cb'] as $id) {

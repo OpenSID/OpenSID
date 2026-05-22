@@ -68,25 +68,27 @@
                         </div>
                     </div>
                     <hr class="batas">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
-                            <thead class="bg-gray">
-                                <tr>
-                                    <th class="padat"><input type="checkbox" id="checkall" /></th>
-                                    <th class="padat">No</th>
-                                    <th class="padat">Aksi</th>
-                                    <th class="padat">Foto</th>
-                                    <th>Username</th>
-                                    <th>Nama</th>
-                                    <th>Staf</th>
-                                    <th>Group</th>
-                                    <th>Login Terakhir</th>
-                                    <th>Status</th>
-                                    <th>Tanggal Verifikasi</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+                    <form id="mainform" name="mainform" method="POST">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
+                                <thead class="bg-gray">
+                                    <tr>
+                                        <th class="padat"><input type="checkbox" id="checkall" /></th>
+                                        <th class="padat">No</th>
+                                        <th class="padat">Aksi</th>
+                                        <th class="padat">Foto</th>
+                                        <th>Username</th>
+                                        <th>Nama</th>
+                                        <th>Staf</th>
+                                        <th>Group</th>
+                                        <th>Login Terakhir</th>
+                                        <th>Status</th>
+                                        <th>Tanggal Verifikasi</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
