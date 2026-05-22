@@ -295,6 +295,16 @@ class MY_Controller extends CI_Controller
         $macAddress   = $this->session->mac_address;
         $anjunganUuid = $this->session->anjungan_uuid;
 
+        // Auto-restore dari Cookie jika session kosong tapi cookie ada
+        $restoreFromCookie = false;
+        if (! $anjunganUuid && isset($_COOKIE['anjungan_uuid'])) {
+            $cookieUuid = $_COOKIE['anjungan_uuid'];
+            if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $cookieUuid)) {
+                $anjunganUuid      = $cookieUuid;
+                $restoreFromCookie = true;
+            }
+        }
+
         // jika sesi tidak berisi pengenal apa pun, jangan ambil row generik
         if (! $macAddress && ! $anjunganUuid) {
             return [];
@@ -314,6 +324,10 @@ class MY_Controller extends CI_Controller
                 ->where('config_id', identitas('id'))
                 ->orderBy('tipe')
                 ->first();
+
+            if ($data && $restoreFromCookie) {
+                $this->session->set_userdata('anjungan_uuid', $anjunganUuid);
+            }
 
             if ($data) {
                 $data->tipe = json_decode($data->tipe, true) ?? [];

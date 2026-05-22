@@ -23,6 +23,8 @@
             let uuid = $('#anjungan_id').val();
             if (uuid) {
                 localStorage.setItem('anjungan_uuid', uuid);
+                const secureFlag = location.protocol === 'https:' ? '; Secure' : '';
+                document.cookie = "anjungan_uuid=" + uuid + "; max-age=" + (365*24*60*60*5) + "; path=/; SameSite=Lax" + secureFlag;
             }
             // Submit form secara manual setelah menyimpan ke localStorage
             $('#validasi').submit();

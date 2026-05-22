@@ -8,6 +8,10 @@
                 // Set it to the hidden input (existing logic)
                 $('#anjungan_uuid').val(anjunganUuid);
 
+                // Set cookie as well to ensure persistence and compatibility with backend auto-restore
+                const secureFlag = location.protocol === 'https:' ? '; Secure' : '';
+                document.cookie = "anjungan_uuid=" + anjunganUuid + "; max-age=" + (365*24*60*60*5) + "; path=/; SameSite=Lax" + secureFlag;
+
                 // --- NEW AJAX LOGIC ---
                 // Send UUID to server to validate and create session, then show button
                 const url = '{{ site_url("layanan-mandiri/cek-anjungan-ajax") }}';

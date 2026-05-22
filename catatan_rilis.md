@@ -14,6 +14,7 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 9. [#11243](https://github.com/OpenSID/OpenSID/issues/11243) Perbaikan ketidaksesuaian jumlah rekapitulasi KK antara Laporan Bulanan dan Buku Administrasi Penduduk.
 10. [#11238](https://github.com/OpenSID/OpenSID/issues/11238) Perbaikan URL notifikasi menyimpan localhost saat migrasi dijalankan di local.
 11. [#11249](https://github.com/OpenSID/OpenSID/issues/11249) Perbaikan tombol simpan Identitas Desa tidak kembali normal setelah upload gambar gagal.
+12. [#11251](https://github.com/OpenSID/OpenSID/issues/11251) Perbaikan sesi perangkat Anjungan hilang setiap pagi — perangkat ter-redirect ke halaman login.
 
 ### KEAMANAN
 
