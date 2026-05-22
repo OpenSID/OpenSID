@@ -251,7 +251,7 @@ class LogPenduduk extends BaseModel
                     COUNT(DISTINCT k2.id)   AS KK_JLH
                 FROM tweb_keluarga k2
                 JOIN tweb_penduduk p2
-                    ON  k2.nik_kepala = p2.id
+                    ON  p2.id_kk      = k2.id
                     AND p2.config_id  = k2.config_id
                 LEFT JOIN tweb_wil_clusterdesa w2
                     ON p2.id_cluster = w2.id
@@ -305,7 +305,7 @@ class LogPenduduk extends BaseModel
                     ON  lk.id_kk     = k3.id
                     AND k3.config_id = lk.config_id
                 JOIN tweb_penduduk p3
-                    ON  k3.nik_kepala = p3.id
+                    ON  p3.id_kk      = k3.id
                     AND p3.config_id  = k3.config_id
                 LEFT JOIN tweb_wil_clusterdesa w3
                     ON p3.id_cluster = w3.id

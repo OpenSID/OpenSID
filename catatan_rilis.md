@@ -11,6 +11,7 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 6. [#11247](https://github.com/OpenSID/OpenSID/issues/11247) Perbaikan data rincian penduduk pada semua statistik tidak terfilter berdasarkan tahun yang dipilih.
 7. [#11237](https://github.com/OpenSID/OpenSID/issues/11237) Perbaikan upload gambar pada artikel dianggap jenis berkas berbahaya.
 8. [#11240](https://github.com/OpenSID/OpenSID/issues/11240) Perbaikan tombol hapus pada halaman pengguna tidak berfungsi.
+9. [#11243](https://github.com/OpenSID/OpenSID/issues/11243) Perbaikan ketidaksesuaian jumlah rekapitulasi KK antara Laporan Bulanan dan Buku Administrasi Penduduk.
 
 ### KEAMANAN
 
