@@ -13,6 +13,7 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 8. [#11240](https://github.com/OpenSID/OpenSID/issues/11240) Perbaikan tombol hapus pada halaman pengguna tidak berfungsi.
 9. [#11243](https://github.com/OpenSID/OpenSID/issues/11243) Perbaikan ketidaksesuaian jumlah rekapitulasi KK antara Laporan Bulanan dan Buku Administrasi Penduduk.
 10. [#11238](https://github.com/OpenSID/OpenSID/issues/11238) Perbaikan URL notifikasi menyimpan localhost saat migrasi dijalankan di local.
+11. [#11249](https://github.com/OpenSID/OpenSID/issues/11249) Perbaikan tombol simpan Identitas Desa tidak kembali normal setelah upload gambar gagal.
 
 ### KEAMANAN
 

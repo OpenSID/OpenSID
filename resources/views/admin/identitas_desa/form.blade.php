@@ -155,6 +155,17 @@
             // simpan
             $(document).on("submit", "form#validasi", function(event) {
                 event.preventDefault();
+                const $form = $(this);
+                const $btn = $form.find('button[type="submit"], input[type="submit"]').first();
+                const restoreSubmitButton = function() {
+                    if ($btn.length && typeof restoreOriginalSubmit === 'function') {
+                        restoreOriginalSubmit($btn[0]);
+                    }
+                };
+                const getErrorMessage = function(response) {
+                    return response?.responseJSON?.message || response?.message || 'Terjadi kesalahan saat menyimpan data. Silakan coba kembali.';
+                };
+                
                 Swal.fire({
                     title: 'Sedang Menyimpan',
                     allowOutsideClick: false,
@@ -203,18 +214,20 @@
                             })
                             window.location.replace(`${SITE_URL}identitas_desa`);
                         } else {
+                            restoreSubmitButton();
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal Ubah Data',
-                                text: response.message,
+                                text: getErrorMessage(response),
                             })
                         }
                     })
                     .fail(function(response) {
+                        restoreSubmitButton();
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal Ubah Data',
-                            text: response.message,
+                            text: getErrorMessage(response),
                         })
                     });
             });
