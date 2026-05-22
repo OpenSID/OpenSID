@@ -152,7 +152,7 @@
 
         $.ajax({
             url: '{{ ci_route("penduduk.ajax_anggota_keluarga") }}/' + idPenduduk,
-            method: 'get',
+            method: 'POST',
             dataType: 'json',
             success: function (response) {
                 anggotaSudahDimuat = true;

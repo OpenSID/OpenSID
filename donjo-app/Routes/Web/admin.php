@@ -231,7 +231,7 @@ Route::group('penduduk', static function (): void {
     Route::get('ajax_penduduk_maps/{id?}/{edit?}', 'Penduduk@ajax_penduduk_maps')->name('penduduk.ajax_penduduk_maps');
     Route::post('update_maps/{id?}/{edit?}', 'Penduduk@update_maps')->name('penduduk.update_maps');
     Route::get('edit_status_dasar/{id?}/{url?}/{parrent?}', 'Penduduk@edit_status_dasar')->name('penduduk.edit_status_dasar');
-    Route::get('ajax_anggota_keluarga/{id_penduduk?}', 'Penduduk@ajax_anggota_keluarga')->name('penduduk.ajax_anggota_keluarga');
+    Route::post('ajax_anggota_keluarga/{id_penduduk?}', 'Penduduk@ajax_anggota_keluarga')->name('penduduk.ajax_anggota_keluarga');
     Route::post('update_status_dasar/{id?}/{url?}/{parrent?}', 'Penduduk@update_status_dasar')->name('penduduk.update_status_dasar');
     Route::get('kembalikan_status/{id?}', 'Penduduk@kembalikan_status')->name('penduduk.kembalikan_status');
     Route::post('cetak/{aksi?}/{privasi_nik?}', 'Penduduk@cetak')->name('penduduk.cetak');
