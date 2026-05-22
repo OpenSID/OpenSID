@@ -9,6 +9,7 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 4. [#11233](https://github.com/OpenSID/OpenSID/issues/11233) Perbaikan layanan mandiri masih bisa diakses tanpa login ulang setelah reset PIN.
 5. [#11236](https://github.com/OpenSID/OpenSID/issues/11236) Perbaikan gagal memuat anggota keluarga saat ubah status dasar pada data tertentu.
 6. [#11247](https://github.com/OpenSID/OpenSID/issues/11247) Perbaikan data rincian penduduk pada semua statistik tidak terfilter berdasarkan tahun yang dipilih.
+7. [#11237](https://github.com/OpenSID/OpenSID/issues/11237) Perbaikan upload gambar pada artikel dianggap jenis berkas berbahaya.
 
 ### KEAMANAN
 

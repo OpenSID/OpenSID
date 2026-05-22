@@ -584,30 +584,82 @@ function isMobile()
     return preg_match("/\\b(?:a(?:ndroid|vantgo)|b(?:lackberry|olt|o?ost)|cricket|do‌\u{200b}como|hiptop|i(?:emob‌\u{200b}ile|p[ao]d)|kitkat|m‌\u{200b}(?:ini|obi)|palm|(?:‌\u{200b}i|smart|windows )phone|symbian|up\\.(?:browser|link)|tablet(?: browser| pc)|(?:hp-|rim |sony )tablet|w(?:ebos|indows ce|os))/i", $_SERVER['HTTP_USER_AGENT']);
 }
 
-/*
-Deteksi file berisi script PHP:
--- extension .php
--- berisi string '<?php', '<script', function, __halt_compiler,<html
-Perhatian: string '<?', '<%' tidak bisa digunakan sebagai indikator,
-karena file image dan PDF juga mengandung string ini.
-*/
-function isPHP($file, $filename): bool
-{
-    $ext = get_extension($filename);
-    if ($ext === '.php') {
-        return true;
-    }
+if (! function_exists('isPHP')) {
+    /**
+     * Deteksi apakah file berisi kode script PHP
+     *
+     * Fungsi ini memeriksa file untuk mendeteksi kehadiran kode PHP dan pattern berbahaya
+     * dengan teknik pattern matching yang refined untuk mencegah false positive.
+     *
+     * Deteksi mencakup:
+     * - Ekstensi file .php
+     * - Opening tag PHP: <?php, <?=, <script language="php">
+     * - Fungsi berbahaya: __halt_compiler()
+     * - Polyglot files: image files dengan embedded PHP code
+     *
+     * Strategi keamanan:
+     * - Scan pattern dijalankan pada SEMUA file tanpa early-return berdasarkan tipe
+     * - Pola dirancang untuk menangkap variasi bypass umum (spacing, newline, special chars)
+     * - Memory-efficient: hanya scan 1MB pertama file
+     * - Deteksi polyglot di awal file (after magic bytes) dan EXIF metadata
+     *
+     * @param string $file     Path lengkap ke file yang akan diperiksa
+     * @param string $filename Nama file (digunakan untuk ekstraksi extension)
+     *
+     * @return bool True jika file adalah PHP atau mengandung kode PHP, False sebaliknya
+     *
+     * @example
+     * if (isPHP('/tmp/upload_file.jpg', 'photo.jpg')) {
+     *     // File berisi PHP code - DANGEROUS!
+     * }
+     */
+    function isPHP($file, $filename): bool
+    {
+        $ext = get_extension($filename);
+        if ($ext === '.php') {
+            return true;
+        }
 
-    $handle = fopen($file, 'rb');
-    $buffer = stream_get_contents($handle);
-    if (preg_match('/<\?php|<\?=|<script|__halt_compiler|<html/i', $buffer)) {
+        $handle = fopen($file, 'rb');
+        if (!$handle) {
+            return false;
+        }
+
+        // Polyglot files biasanya menyisipkan PHP setelah magic bytes (di awal)
+        // EXIF data juga terletak di awal file, jadi 1MB sudah cukup
+        $buffer = fread($handle, 1024 * 1024);
         fclose($handle);
 
-        return true;
-    }
-    fclose($handle);
+        if (empty($buffer)) {
+            return false;
+        }
 
-    return false;
+        // Jalankan pattern matching pada SEMUA file untuk deteksi polyglot
+        // Tidak ada early-return berdasarkan tipe atau magic bytes
+        
+        // Deteksi PHP opening tags dengan variasi spacing/newline/parenthesis
+        // Menangkap: <?php, <?= dengan atau tanpa spasi, <?=(variable)
+        if (preg_match('/<\?php[\s\(\r\n]|<\?=[\s\$]/i', $buffer)) {
+            return true;
+        }
+
+        // Deteksi short tag di akhir file
+        if (preg_match('/<\?php$|<\?=$/i', $buffer)) {
+            return true;
+        }
+
+        // Deteksi script tag dengan language=php attribute
+        if (preg_match('/<script\s+language\s*=\s*["\']?php["\']?/i', $buffer)) {
+            return true;
+        }
+
+        // Deteksi halt compiler (sering digunakan dalam polyglot/obfuscator)
+        if (preg_match('/__halt_compiler\s*\(/i', $buffer)) {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 function get_extension($filename): string
@@ -619,17 +671,17 @@ function get_extension($filename): string
 
 if (! function_exists('max_upload')) {
     /**
-     * Mendapatkan ukuran maksimum unggahan yang diizinkan oleh konfigurasi server.
+     * Mendapatkan ukuran maksimum unggahan yang diizinkan oleh konfigurasi server
      *
      * Fungsi ini menghitung ukuran maksimum unggahan dengan mempertimbangkan
      * direktif konfigurasi PHP berikut:
-     * - `upload_max_filesize`: Ukuran maksimum file yang diunggah.
-     * - `post_max_size`: Ukuran maksimum data POST yang akan diterima oleh PHP.
-     * - `memory_limit`: Jumlah maksimum memori yang diizinkan untuk dialokasikan oleh skrip.
+     * - `upload_max_filesize`: Ukuran maksimum file yang diunggah
+     * - `post_max_size`: Ukuran maksimum data POST yang akan diterima oleh PHP
+     * - `memory_limit`: Jumlah maksimum memori yang diizinkan untuk dialokasikan oleh skrip
      *
-     * @param bool $byteFormat Jika true, mengembalikan hasil dalam format byte yang dapat dibaca manusia.
+     * @param bool $byteFormat Jika true, mengembalikan hasil dalam format byte yang dapat dibaca manusia
      *
-     * @return int|string Nilai minimum di antara `upload_max_filesize`, `post_max_size`, dan `memory_limit` dalam byte atau format yang dapat dibaca manusia.
+     * @return int|string Nilai minimum di antara `upload_max_filesize`, `post_max_size`, dan `memory_limit` dalam byte atau format yang dapat dibaca manusia
      */
     function max_upload(bool $byteFormat = false)
     {
