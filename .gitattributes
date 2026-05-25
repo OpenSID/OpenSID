@@ -37,6 +37,7 @@
 /playwright.config.ts export-ignore
 /rector.php           export-ignore
 /tests                export-ignore
+/documents            export-ignore
 /tsconfig.json        export-ignore
 /update-themes.sh     export-ignore
 /.e2e.env.example     export-ignore
