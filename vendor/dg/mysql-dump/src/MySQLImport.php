@@ -1,13 +1,8 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
  * MySQL database dump loader.
  *
- * @author     David Grudl (http://davidgrudl.com)
- * @copyright  Copyright (c) 2008 David Grudl
- * @license    New BSD License
  */
 class MySQLImport
 {
@@ -65,6 +60,9 @@ class MySQLImport
 
 		while (!feof($handle)) {
 			$s = fgets($handle);
+			if ($s === false) {
+				break;
+			}
 			$size += strlen($s);
 			if (strtoupper(substr($s, 0, 10)) === 'DELIMITER ') {
 				$delimiter = trim(substr($s, 10));

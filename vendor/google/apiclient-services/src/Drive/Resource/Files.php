@@ -353,8 +353,8 @@ class Files extends \Google\Service\Resource
    * @opt_param string orderBy A comma-separated list of sort keys. Valid keys
    * are: * `createdTime`: When the file was created. Avoid using this key for
    * queries on large item collections as it might result in timeouts or other
-   * issues. For time-related sorting on large item collections, use
-   * `modifiedTime` instead. * `folder`: The folder ID. This field is sorted using
+   * issues. For time-related sorting on large item collections, use `modifiedTime
+   * desc` instead. * `folder`: The folder ID. This field is sorted using
    * alphabetical ordering. * `modifiedByMeTime`: The last time the file was
    * modified by the user. * `modifiedTime`: The last time the file was modified
    * by anyone. * `name`: The name of the file. This field is sorted using
@@ -367,9 +367,11 @@ class Files extends \Google\Service\Resource
    * last time the file was viewed by the user. Each key sorts ascending by
    * default, but can be reversed with the `desc` modifier. Example usage:
    * `?orderBy=folder,modifiedTime desc,name`.
-   * @opt_param int pageSize The maximum number of files to return per page.
-   * Partial or empty result pages are possible even before the end of the files
-   * list has been reached.
+   * @opt_param int pageSize The maximum number of files to return per page. Pages
+   * may be partial or empty even before reaching the end of the file list. If
+   * unspecified, at most 100 files are returned for shared drives, and the entire
+   * list of files for non-shared drives. The maximum value is 100; values above
+   * 100 are changed to 100.
    * @opt_param string pageToken The token for continuing a previous list request
    * on the next page. This should be set to the value of `nextPageToken` from the
    * previous response.

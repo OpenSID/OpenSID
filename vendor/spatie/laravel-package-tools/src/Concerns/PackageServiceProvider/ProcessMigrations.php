@@ -81,6 +81,8 @@ trait ProcessMigrations
         $migrationsPath = 'migrations/' . dirname($migrationFileName) . '/';
         $migrationFileName = basename($migrationFileName);
 
+        $migrationFileName = self::stripTimestampPrefix($migrationFileName);
+
         $len = strlen($migrationFileName) + 4;
 
         if (Str::contains($migrationFileName, '/')) {
@@ -94,7 +96,6 @@ trait ProcessMigrations
             }
         }
 
-        $migrationFileName = self::stripTimestampPrefix($migrationFileName);
         $timestamp = $now->format('Y_m_d_His');
         $formattedFileName = Str::of($migrationFileName)->snake()->finish('.php');
 

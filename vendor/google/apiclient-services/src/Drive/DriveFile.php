@@ -837,7 +837,7 @@ class DriveFile extends \Google\Collection
     return $this->kind;
   }
   /**
-   * Output only. An overview of the labels on the file.
+   * Label information on the file.
    *
    * @param DriveFileLabelInfo $labelInfo
    */
@@ -1239,9 +1239,7 @@ class DriveFile extends \Google\Collection
     return $this->sharingUser;
   }
   /**
-   * Shortcut file details. Only populated for shortcut files, which have the
-   * mimeType field set to `application/vnd.google-apps.shortcut`. Can only be
-   * set on `files.create` requests.
+   * Information about a shortcut file.
    *
    * @param DriveFileShortcutDetails $shortcutDetails
    */

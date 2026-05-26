@@ -19,7 +19,10 @@ Rilis versi 2605.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 ### KEAMANAN
 
+1. [#6323](https://github.com/OpenSID/premium/issues/6323) Perbaikan kerentanan keamanan pada dependencies NPM dan Composer.
+
 ### TEKNIS
+
 1. [#11241](https://github.com/OpenSID/OpenSID/issues/11241) buat status covid rss menjadi tidak aktif dan nonaktifkan menu/modulnya karena sudah tidak terpakai.
 2. [#11250](https://github.com/OpenSID/OpenSID/issues/11250) Menon-aktifkan PlaywrightController Endpoints Accessible pada mode demo.
 3. [#6199](https://github.com/OpenSID/premium/issues/6199) Tambahkan panduan teknis pembuatan modul bawaan dan modul premium.
