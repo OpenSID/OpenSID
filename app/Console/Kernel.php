@@ -53,6 +53,7 @@ use App\Console\Commands\Modules\ScopeMakeCommand;
 use App\Console\Commands\Modules\SeedMakeCommand;
 use App\Console\Commands\Modules\ServiceMakeCommand;
 use App\Console\Commands\Modules\TraitMakeCommand;
+use App\Console\Commands\PindaiTemaCommand;
 use App\Console\Commands\SetupCommand;
 use App\Console\Commands\UpdateThemesCommand;
 use App\Console\Commands\ViewClearCommand;
@@ -110,9 +111,10 @@ class Kernel implements KernelContract
         SetupCommand::class,
         UpdateThemesCommand::class,
         ViewClearCommand::class,
+        PindaiTemaCommand::class,
 
         // Command module tambahan
-        ModuleMakeCommand::class,  // php artisan make:module
+        ModuleMakeCommand::class,      // php artisan make:module
         ControllerMakeCommand::class,  // php artisan make:controller
         ControllerMakeCommand::class,  // php artisan make:controller
         MigrationMakeCommand::class,   // php artisan make:migration
