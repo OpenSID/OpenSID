@@ -314,3 +314,19 @@ if (! function_exists('module_asset')) {
         return base_url("module_asset/{$name}?{$queryString}");
     }
 }
+
+if (! function_exists('compare_versions')) {
+    /**
+     * Compare two version strings
+     * Returns: 1 if v1 > v2, -1 if v1 < v2, 0 if equal
+     *
+     * @param string $v1 First version
+     * @param string $v2 Second version
+     *
+     * @return int
+     */
+    function compare_versions($v1, $v2)
+    {
+        return version_compare($v1 ?? '0.0.0', $v2 ?? '0.0.0');
+    }
+}

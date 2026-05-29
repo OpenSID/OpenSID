@@ -68,16 +68,21 @@ class Theme extends Admin_Controller
         $currentPage = request()->get('page', 1);
         $perPage     = 10;
 
-        $themeList = $themeModel = ThemeModel::query()
-            ->when($kategori == 'umum', static fn ($query) => $query->where('sistem', 1))
-            ->when($kategori == 'premium', static fn ($query) => $query->where('sistem', 0))
-            ->orderBy('sistem', 'desc')
-            ->paginate($perPage);
-
         $themeOrder = collect(PelangganService::apiPelangganPemesanan()?->body?->pemesanan ?? [])
             ->flatMap(static fn ($item) => collect($item?->layanan ?? [])
                 ->map(static fn ($layanan) => (array) $layanan))
             ->filter(static fn ($layanan) => ($layanan['nama_kategori'] ?? null) === 'Tema');
+
+        // Fetch all themes from database without pagination
+        $themeModel = ThemeModel::query()
+            ->when($kategori == 'umum', static fn ($query) => $query->where('sistem', 1))
+            ->when($kategori == 'premium', static fn ($query) => $query->where('sistem', 0))
+            ->orderBy('sistem', 'desc')
+            ->orderBy('versi', 'desc')
+            ->get();
+
+        $allThemes = $themeModel->toArray();
+        $apiTotal  = 0;
 
         try {
             $response = Http::withToken(setting('layanan_opendesa_token'))
@@ -88,13 +93,13 @@ class Theme extends Admin_Controller
                         'premium' => 2,
                         default   => null,
                     },
-                    'page'     => $currentPage,
-                    'per_page' => $perPage,
                 ])
                 ->throw()
                 ->json();
 
-            $themeApi = collect($response['data'])->map(static fn ($theme) => new ThemeModel([
+            $apiTotal = $response['meta']['total'] ?? 0;
+
+            $themeApi = collect($response['data'] ?? [])->map(static fn ($theme) => [
                 'id'           => null,
                 'config_id'    => null,
                 'nama'         => $theme['name'],
@@ -116,20 +121,33 @@ class Theme extends Admin_Controller
                 'totalInstall' => $theme['totalInstall'] ?? 0,
                 'marketplace'  => true,
                 'providers'    => $theme['providers'] ?? null,
-            ]));
+            ])->toArray();
 
-            $mergedThemes = collect($themeModel->items())->merge($themeApi->toArray())->unique('slug');
-
-            $themeList = new LengthAwarePaginator(
-                $mergedThemes,
-                $themeModel->total() + $response['meta']['total'],
-                $perPage,
-                $currentPage,
-                ['path' => request()->url(), 'query' => request()->query()]
-            );
+            $allThemes = collect($allThemes)->merge($themeApi)->toArray();
         } catch (Throwable $e) {
             logger()->error($e);
         }
+
+        // Group themes by nama and get the latest version of each theme
+        $groupedThemes = collect($allThemes)
+            ->groupBy('nama')
+            ->map(static fn ($group) => $group->reduce(
+                static fn ($latest, $current) => compare_versions($current['versi'], $latest['versi']) > 0 ? $current : $latest,
+                $group->first()
+            ))
+            ->values()
+            ->sortByDesc(static fn ($theme) => $theme['status']) // Aktif tema di atas
+            ->sortByDesc(static fn ($theme) => $theme['sistem']) // Tema sistem di atas tema premium
+            ->toArray();
+
+        // Apply pagination on the merged and deduplicated list
+        $themeList = new LengthAwarePaginator(
+            array_slice($groupedThemes, ($currentPage - 1) * $perPage, $perPage),
+            count($groupedThemes),
+            $perPage,
+            $currentPage,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
 
         return view('admin.theme.index', compact('kategori', 'themeOrder', 'themeList'));
     }
