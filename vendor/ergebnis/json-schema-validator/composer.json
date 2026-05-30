@@ -1,0 +1,81 @@
+{
+  "name": "ergebnis/json-schema-validator",
+  "description": "Provides a JSON schema validator, building on top of justinrainbow/json-schema.",
+  "license": "MIT",
+  "type": "library",
+  "keywords": [
+    "json",
+    "schema",
+    "validator"
+  ],
+  "authors": [
+    {
+      "name": "Andreas Möller",
+      "email": "am@localheinz.com",
+      "homepage": "https://localheinz.com"
+    }
+  ],
+  "homepage": "https://github.com/ergebnis/json-schema-validator",
+  "support": {
+    "issues": "https://github.com/ergebnis/json-schema-validator/issues",
+    "source": "https://github.com/ergebnis/json-schema-validator",
+    "security": "https://github.com/ergebnis/json-schema-validator/blob/main/.github/SECURITY.md"
+  },
+  "require": {
+    "php": "~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+    "ext-json": "*",
+    "ergebnis/json": "^1.2.0",
+    "ergebnis/json-pointer": "^3.4.0",
+    "justinrainbow/json-schema": "^5.2.12 || ^6.0.0"
+  },
+  "require-dev": {
+    "ergebnis/composer-normalize": "^2.44.0",
+    "ergebnis/data-provider": "^3.3.0",
+    "ergebnis/license": "^2.5.0",
+    "ergebnis/php-cs-fixer-config": "^6.37.0",
+    "ergebnis/phpunit-slow-test-detector": "^2.16.1",
+    "fakerphp/faker": "^1.24.0",
+    "infection/infection": "~0.26.6",
+    "phpstan/extension-installer": "^1.4.3",
+    "phpstan/phpstan": "^1.12.10",
+    "phpstan/phpstan-deprecation-rules": "^1.2.1",
+    "phpstan/phpstan-phpunit": "^1.4.0",
+    "phpstan/phpstan-strict-rules": "^1.6.1",
+    "phpunit/phpunit": "^9.6.20",
+    "rector/rector": "^1.2.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ergebnis\\Json\\SchemaValidator\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ergebnis\\Json\\SchemaValidator\\Test\\": "test/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "ergebnis/composer-normalize": true,
+      "infection/extension-installer": true,
+      "phpstan/extension-installer": true
+    },
+    "audit": {
+      "abandoned": "report"
+    },
+    "platform": {
+      "php": "7.4.33"
+    },
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "4.6-dev"
+    },
+    "composer-normalize": {
+      "indent-size": 2,
+      "indent-style": "space"
+    }
+  }
+}

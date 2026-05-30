@@ -1,0 +1,78 @@
+{
+  "name": "ergebnis/json",
+  "description": "Provides a Json value object for representing a valid JSON string.",
+  "license": "MIT",
+  "type": "library",
+  "keywords": [
+    "json"
+  ],
+  "authors": [
+    {
+      "name": "Andreas Möller",
+      "email": "am@localheinz.com",
+      "homepage": "https://localheinz.com"
+    }
+  ],
+  "homepage": "https://github.com/ergebnis/json",
+  "support": {
+    "issues": "https://github.com/ergebnis/json/issues",
+    "source": "https://github.com/ergebnis/json",
+    "security": "https://github.com/ergebnis/json/blob/main/.github/SECURITY.md"
+  },
+  "require": {
+    "php": "~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "ergebnis/composer-normalize": "^2.44.0",
+    "ergebnis/data-provider": "^3.3.0",
+    "ergebnis/license": "^2.5.0",
+    "ergebnis/php-cs-fixer-config": "^6.37.0",
+    "ergebnis/phpstan-rules": "^2.11.0",
+    "ergebnis/phpunit-slow-test-detector": "^2.16.1",
+    "fakerphp/faker": "^1.24.0",
+    "infection/infection": "~0.26.6",
+    "phpstan/extension-installer": "^1.4.3",
+    "phpstan/phpstan": "^2.1.22",
+    "phpstan/phpstan-deprecation-rules": "^2.0.3",
+    "phpstan/phpstan-phpunit": "^2.0.7",
+    "phpstan/phpstan-strict-rules": "^2.0.6",
+    "phpunit/phpunit": "^9.6.24",
+    "rector/rector": "^2.1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ergebnis\\Json\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ergebnis\\Json\\Test\\": "test/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true,
+      "ergebnis/composer-normalize": true,
+      "infection/extension-installer": true,
+      "phpstan/extension-installer": true
+    },
+    "audit": {
+      "abandoned": "report"
+    },
+    "platform": {
+      "php": "7.4.33"
+    },
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "1.7-dev"
+    },
+    "composer-normalize": {
+      "indent-size": 2,
+      "indent-style": "space"
+    }
+  }
+}
