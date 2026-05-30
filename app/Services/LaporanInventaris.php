@@ -57,51 +57,45 @@ class LaporanInventaris
             ],
         ];
 
-        if (can('b', 'inventaris-peralatan')) {
-            $laporan_inventaris['inventaris_peralatan'] = [
-                ['pribadi', 'inventaris_peralatan', 'Pembelian Sendiri'],
-                ['pemerintah', 'inventaris_peralatan', 'Bantuan Pemerintah'],
-                ['provinsi', 'inventaris_peralatan', 'Bantuan Provinsi'],
-                ['kabupaten', 'inventaris_peralatan', 'Bantuan Kabupaten'],
-                ['sumbangan', 'inventaris_peralatan', 'Sumbangan'],
-            ];
-        }
-        if (can('b', 'inventaris-gedung')) {
-            $laporan_inventaris['inventaris_gedung'] = [
-                ['pribadi', 'inventaris_gedung', 'Pembelian Sendiri'],
-                ['pemerintah', 'inventaris_gedung', 'Bantuan Pemerintah'],
-                ['provinsi', 'inventaris_gedung', 'Bantuan Provinsi'],
-                ['kabupaten', 'inventaris_gedung', 'Bantuan Kabupaten'],
-                ['sumbangan', 'inventaris_gedung', 'Sumbangan'],
-            ];
-        }
-        if (can('b', 'inventaris-jalan')) {
-            $laporan_inventaris['inventaris_jalan'] = [
-                ['pribadi', 'inventaris_jalan', 'Pembelian Sendiri'],
-                ['pemerintah', 'inventaris_jalan', 'Bantuan Pemerintah'],
-                ['provinsi', 'inventaris_jalan', 'Bantuan Provinsi'],
-                ['kabupaten', 'inventaris_jalan', 'Bantuan Kabupaten'],
-                ['sumbangan', 'inventaris_jalan', 'Sumbangan'],
-            ];
-        }
-        if (can('b', 'inventaris-asset')) {
-            $laporan_inventaris['inventaris_asset'] = [
-                ['pribadi', 'inventaris_asset', 'Pembelian Sendiri'],
-                ['pemerintah', 'inventaris_asset', 'Bantuan Pemerintah'],
-                ['provinsi', 'inventaris_asset', 'Bantuan Provinsi'],
-                ['kabupaten', 'inventaris_asset', 'Bantuan Kabupaten'],
-                ['sumbangan', 'inventaris_asset', 'Sumbangan'],
-            ];
-        }
-        if (can('b', 'inventaris-kontruksi')) {
-            $laporan_inventaris['inventaris_kontruksi'] = [
-                ['pribadi', 'inventaris_kontruksi', 'Pembelian Sendiri'],
-                ['pemerintah', 'inventaris_kontruksi', 'Bantuan Pemerintah'],
-                ['provinsi', 'inventaris_kontruksi', 'Bantuan Provinsi'],
-                ['kabupaten', 'inventaris_kontruksi', 'Bantuan Kabupaten'],
-                ['sumbangan', 'inventaris_kontruksi', 'Sumbangan'],
-            ];
-        }
+        $laporan_inventaris['inventaris_peralatan'] = [
+            ['pribadi', 'inventaris_peralatan', 'Pembelian Sendiri'],
+            ['pemerintah', 'inventaris_peralatan', 'Bantuan Pemerintah'],
+            ['provinsi', 'inventaris_peralatan', 'Bantuan Provinsi'],
+            ['kabupaten', 'inventaris_peralatan', 'Bantuan Kabupaten'],
+            ['sumbangan', 'inventaris_peralatan', 'Sumbangan'],
+        ];
+
+        $laporan_inventaris['inventaris_gedung'] = [
+            ['pribadi', 'inventaris_gedung', 'Pembelian Sendiri'],
+            ['pemerintah', 'inventaris_gedung', 'Bantuan Pemerintah'],
+            ['provinsi', 'inventaris_gedung', 'Bantuan Provinsi'],
+            ['kabupaten', 'inventaris_gedung', 'Bantuan Kabupaten'],
+            ['sumbangan', 'inventaris_gedung', 'Sumbangan'],
+        ];
+
+        $laporan_inventaris['inventaris_jalan'] = [
+            ['pribadi', 'inventaris_jalan', 'Pembelian Sendiri'],
+            ['pemerintah', 'inventaris_jalan', 'Bantuan Pemerintah'],
+            ['provinsi', 'inventaris_jalan', 'Bantuan Provinsi'],
+            ['kabupaten', 'inventaris_jalan', 'Bantuan Kabupaten'],
+            ['sumbangan', 'inventaris_jalan', 'Sumbangan'],
+        ];
+
+        $laporan_inventaris['inventaris_asset'] = [
+            ['pribadi', 'inventaris_asset', 'Pembelian Sendiri'],
+            ['pemerintah', 'inventaris_asset', 'Bantuan Pemerintah'],
+            ['provinsi', 'inventaris_asset', 'Bantuan Provinsi'],
+            ['kabupaten', 'inventaris_asset', 'Bantuan Kabupaten'],
+            ['sumbangan', 'inventaris_asset', 'Sumbangan'],
+        ];
+
+        $laporan_inventaris['inventaris_kontruksi'] = [
+            ['pribadi', 'inventaris_kontruksi', 'Pembelian Sendiri'],
+            ['pemerintah', 'inventaris_kontruksi', 'Bantuan Pemerintah'],
+            ['provinsi', 'inventaris_kontruksi', 'Bantuan Provinsi'],
+            ['kabupaten', 'inventaris_kontruksi', 'Bantuan Kabupaten'],
+            ['sumbangan', 'inventaris_kontruksi', 'Sumbangan'],
+        ];
 
         $result = [];
 

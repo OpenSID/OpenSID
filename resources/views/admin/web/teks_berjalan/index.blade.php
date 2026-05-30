@@ -21,15 +21,8 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @if (can('u'))
-                    <a href="{{ ci_route('teks_berjalan.form') }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah">
-                        <i class="fa fa-plus"></i> Tambah
-                    </a>
-                    @endif
-                    @if (can('h'))
-                    <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('teks_berjalan.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                            class='fa fa-trash-o'></i> Hapus</a>
-                    @endif
+                    <x-tambah-button :url="'teks_berjalan/form'" />
+                    <x-hapus-button confirmDelete="true" selectData="true" :url="'teks_berjalan/delete'" />
                 </div>
                 <div class="box-body">
                     <div class="row mepet">

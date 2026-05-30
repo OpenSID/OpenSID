@@ -86,14 +86,28 @@
             <div class="form-group" id="telegram-group" style="{{ $defaultChannel === 'telegram' ? '' : 'display: none;' }}">
                 <label for="telegram">Chat ID Telegram <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="telegram" name="{{ $defaultChannel === 'telegram' ? 'identifier' : 'telegram_identifier' }}"
-                    placeholder="123456789" value="{{ old('identifier') }}" {{ $defaultChannel === 'telegram' ? 'required' : '' }}>
+                    placeholder="123456789" value="{{ old('identifier', $userData->id_telegram) }}" {{ $defaultChannel === 'telegram' ? 'required' : '' }} @disabled($telegramError)>
                 <span class="help-block">
                     <strong>Cara mendapatkan Chat ID:</strong><br>
                     1. Buka bot <a href="https://t.me/userinfobot" target="_blank">@userinfobot</a> di
                     Telegram<br>
                     2. Kirim pesan /start<br>
-                    3. Bot akan memberikan ID Anda<br>
+                    3. Bot akan memberikan ID Anda.<br>
+                    4. Pastikan Anda juga sudah memulai percakapan dengan bot.
                 </span>
+                @if ($telegramError && setting('telegram_notifikasi'))
+                    {{-- <span class="help-block text-red">
+                        <i class="fa fa-exclamation-triangle"></i> Terjadi kesalahan saat memuat informasi bot. Pastikan token bot Telegram pada menu <strong>Pengaturan > Aplikasi</strong> sudah benar.
+                    </span> --}}
+                    <div class="alert alert-danger">
+                        <h4><i class="icon fa fa-warning"></i> Perhatian!</h4>
+                        <p>Terjadi kesalahan saat memuat informasi bot. Pastikan token bot Telegram pada menu <strong>Pengaturan > Aplikasi</strong> sudah benar.</p>
+                    </div>
+                @elseif ($telegramBotUsername)
+                    <a href="https://t.me/{{ $telegramBotUsername }}?start" target="_blank" class="btn btn-social btn-primary btn-sm" style="margin-top: 10px;">
+                        <i class="fa fa-telegram"></i> Klik untuk memulai percakapan dengan Bot {{ '@' . $telegramBotUsername }}
+                        </a>
+                @endif
             </div>
 
             <div class="alert alert-warning">
@@ -107,7 +121,7 @@
 
     <div class="box-footer">
         @if (!$userData->otp_enabled)
-            <button type="submit" class="btn btn-success btn-sm btn-social" @disabled(!$canSubmit)>
+            <button type="submit" class="btn btn-success btn-sm btn-social" id="submit-otp-btn" @disabled(!$canSubmit)>
                 <i class="fa fa-send"></i> Kirim Kode OTP
             </button>
         @endif
@@ -117,6 +131,10 @@
     <script>
         $(document).ready(function() {
             // Toggle between email and telegram input
+            const telegramError = {{ json_encode($telegramError) }};
+            const canSubmit = {{ json_encode($canSubmit) }};
+            const submitBtn = $('#submit-otp-btn');
+
             $('input[name="channel"]').change(function() {
                 var channel = $(this).val();
                 if (channel === 'email') {
@@ -124,11 +142,17 @@
                     $('#telegram-group').hide();
                     $('#email').attr('name', 'identifier').prop('required', true);
                     $('#telegram').attr('name', 'telegram_identifier').prop('required', false);
+                    if (canSubmit) {
+                        submitBtn.prop('disabled', false);
+                    }
                 } else if (channel === 'telegram') {
                     $('#email-group').hide();
                     $('#telegram-group').show();
                     $('#telegram').attr('name', 'identifier').prop('required', true);
                     $('#email').attr('name', 'email_identifier').prop('required', false);
+                    if (telegramError) {
+                        submitBtn.prop('disabled', true);
+                    }
                 }
             });
 

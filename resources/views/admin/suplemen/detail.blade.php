@@ -3,12 +3,12 @@
 
 @section('title')
     <h1>
-        Daftar Terdata Suplemen
+        Data Terdata {{ $module_name }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Daftar Terdata Suplemen</li>
+    <li class="active">Data Terdata {{ $module_name }}</li>
 @endsection
 
 @section('content')

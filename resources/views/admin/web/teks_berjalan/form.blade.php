@@ -20,8 +20,7 @@
     {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('teks_berjalan'), 'label' => 'Teks Berjalan'])
-
+            <x-kembali-button judul="Kembali Ke Daftar Teks Berjalan" url="teks_berjalan" />
         </div>
         <div class="box-body">
             <div class="col-md-12">

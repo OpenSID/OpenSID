@@ -9,13 +9,13 @@
 @include('admin.layouts.components.asset_datatables')
 @section('title')
     <h1>
-        Data {{ $tipe }}
+        Data {{ $module_name }}
         {{ ucwords($kelompok['nama']) }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ site_url(str_replace('_anggota', '', $controller)) }}"> Daftar {{ $tipe }}</a></li>
+    <li><a href="{{ site_url(str_replace('_anggota', '', $controller)) }}"> Data  {{ $module_name }}</a></li>
     <li class="active">
         {{ ucwords($kelompok['nama']) }}
     </li>

@@ -89,14 +89,16 @@
                         orderable: true
                     },
                     {
-                        data: 'ibu.nama',
+                        data: function(data) {
+                            return data.ibu?.nama ?? '-'
+                        },
                         name: 'ibu.nama',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: function(data) {
-                            return data.anak_id != null ? data.anak.nama : '-'
+                            return data.anak?.nama ?? '-'
                         },
                         name: 'anak.nama',
                         searchable: true,

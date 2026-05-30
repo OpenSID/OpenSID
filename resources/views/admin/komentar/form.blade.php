@@ -22,7 +22,7 @@
             <div class="col-md-12">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <x-kembali-button judul="Kembali Daftar Komentar" url="komentar"/>
+                        <x-kembali-button judul="Kembali Ke Daftar Komentar" url="komentar"/>
                     </div>
                     <div class="box-body">
                         <div class="form-group">

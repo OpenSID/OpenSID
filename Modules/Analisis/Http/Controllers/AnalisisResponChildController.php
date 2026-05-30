@@ -41,7 +41,9 @@ require_once FCPATH . 'Modules/Analisis/Http/Controllers/AnalisisResponControlle
 
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Models\AnalisisIndikator;
+use Modules\Analisis\Models\AnalisisMaster;
 use Modules\Analisis\Models\AnalisisParameter;
 use Modules\Analisis\Models\AnalisisPeriode;
 use Modules\Analisis\Models\AnalisisRespon;
@@ -67,7 +69,21 @@ class AnalisisResponChildController extends AnalisisResponController
         $per = $this->getPeriodeChild();
 
         try {
-            AnalisisRespon::updateKuisioner($master, $per, $_POST, $idSubjek);
+            // Child responses belong to the child master; determine child master id and its subjek column
+            $idChild         = $this->analisisMaster->id_child;
+            $child           = AnalisisMaster::findOrFail($idChild);
+            $subjekTipeChild = match ($child->subjek_tipe) {
+                AnalisisRefSubjekEnum::PENDUDUK     => 'penduduk_id',
+                AnalisisRefSubjekEnum::KELUARGA     => 'keluarga_id',
+                AnalisisRefSubjekEnum::RUMAH_TANGGA => 'rtm_id',
+                AnalisisRefSubjekEnum::KELOMPOK     => 'kelompok_id',
+                AnalisisRefSubjekEnum::DESA         => 'desa_id',
+                AnalisisRefSubjekEnum::DUSUN        => 'dusun_id',
+                AnalisisRefSubjekEnum::RW           => 'rw_id',
+                AnalisisRefSubjekEnum::RT           => 'rt_id',
+            };
+
+            AnalisisRespon::updateKuisioner($idChild, $per, $_POST, $idSubjek, $subjekTipeChild);
             DB::commit();
             redirect_with('success', 'Berhasil Simpan Data Kuisioner', ci_route('analisis_respon.' . $master . '.form', $parentSubjek));
         } catch (Exception $e) {

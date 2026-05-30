@@ -92,42 +92,27 @@
                                             <tr>
                                                 <td id="cd_item">
                                                     <div>
-                                                        <input type="checkbox" name="cb[{{ $data2['id_parameter'] }}]" value="{{ $data2['id_parameter'] }}.{{ $data['id'] }}" @checked($data2['cek'])>
+                                                        {{-- value: indikator.id_parameter (sama format dengan parent form) --}}
+                                                        <input type="checkbox" name="cb[{{ $data2['id_parameter'] }}_{{ $data['id'] }}]" value="{{ $data['id'] }}.{{ $data2['id_parameter'] }}" @checked($data2['cek'])>
                                                         <label>{{ $data2['kode_jawaban'] }}. {{ $data2['jawaban'] }}</label>
                                                     </div>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     @elseif ($data['id_tipe'] == 3)
-                                        @if ($data['parameter_respon'])
-                                            @php $data2 = $data['parameter_respon']; @endphp
-                                            <tr>
-                                                <td id="">
-                                                    <div style="display:inline-block;"><input name="ia[{{ $data['id'] }}]" type="text" class="inputbox number" size="10" value="{{ $data2['jawaban'] }}" /></div>
-                                                </td>
-                                            </tr>
-                                        @else
-                                            <tr>
-                                                <td id="">
-                                                    <div style="display:inline-block;"><input name="ia[{{ $data['id'] }}]" type="text" class="inputbox number" size="10" value="" /></div>
-                                                </td>
-                                            </tr>
-                                        @endif
+                                        @php $data2 = $data['parameter_respon'][0] ?? null; @endphp
+                                        <tr>
+                                            <td id="">
+                                                <div style="display:inline-block;"><input name="ia[{{ $data['id'] }}]" type="text" class="inputbox number" size="10" value="{{ $data2['jawaban'] ?? '' }}" /></div>
+                                            </td>
+                                        </tr>
                                     @elseif ($data['id_tipe'] == 4)
-                                        @if ($data['parameter_respon'])
-                                            @php $data2 = $data['parameter_respon'] @endphp
-                                            <tr>
-                                                <td id="">
-                                                    <div style="width:100%"><input name="it[{{ $data['id'] }}]" type="text" class="form-control input-sm" value="{{ $data2['jawaban'] }}" /></div>
-                                                </td>
-                                            </tr>
-                                        @else
-                                            <tr>
-                                                <td id="">
-                                                    <div style="width:100%"><input name="it[{{ $data['id'] }}]" type="text" class="form-control input-sm" value="" /></div>
-                                                </td>
-                                            </tr>
-                                        @endif
+                                        @php $data2 = $data['parameter_respon'][0] ?? null; @endphp
+                                        <tr>
+                                            <td id="">
+                                                <div style="width:100%"><input name="it[{{ $data['id'] }}]" type="text" class="form-control input-sm" value="{{ $data2['jawaban'] ?? '' }}" /></div>
+                                            </td>
+                                        </tr>
                                     @endif
                                 @endforeach
                             </table>

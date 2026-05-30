@@ -74,7 +74,7 @@
                         <div class="col-input">
                             <div class="form-group">
                                 <label>Bertemu</label>
-                                <select class="form-control required" name="id_bidang" placeholder="Bertemu" required>
+                                <select class="form-control form-select required" name="id_bidang" placeholder="Bertemu" required>
                                     <option label="Pilih" value="">Pilih</option>
                                     @foreach ($bertemu as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>

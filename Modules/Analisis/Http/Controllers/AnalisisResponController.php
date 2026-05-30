@@ -248,19 +248,23 @@ class AnalisisResponController extends AdminModulController
     public function importProses($master, $op = 0): void
     {
         isCan('u');
-        $periode    = $this->periodeAktif->id;
-        $subjekTipe = $this->analisisMaster->subjek_tipe;
-        $mapSubjek  = $this->subjekTipe;
+        $periode                    = $this->periodeAktif->id;
+        $subjekTipe                 = $this->analisisMaster->subjek_tipe;
+        $mapSubjek                  = $this->subjekTipe;
+        $analisisRespon             = new AnalisisRespon();
+        $analisisRespon->subjekTipe = $mapSubjek;
+
         DB::beginTransaction();
 
         try {
-            $result = (new AnalisisRespon())->import_respon($master, $periode, $subjekTipe, $op, $mapSubjek);
-            DB::commit();
-            redirect_with('success', 'Data berhasil diimpor', ci_route('analisis_respon.' . $master));
-
-            if ($result['success'] === false) {
-                redirect_with('error', "Data gagal diimpor {$result['pesan']}", ci_route("analisis_respon.{$master}"));
+            $result = $analisisRespon->import_respon($master, $periode, $subjekTipe, $op, $mapSubjek);
+            if ($result['success']) {
+                DB::commit();
+                redirect_with('success', 'Data berhasil diimpor', ci_route('analisis_respon.' . $master));
             }
+
+            DB::rollBack();
+            redirect_with('error', "Data gagal diimpor {$result['pesan']}", ci_route("analisis_respon.{$master}"));
         } catch (Exception $e) {
             DB::rollBack();
             redirect_with('error', "Data gagal diimpor {$result['pesan']} {$e->getMessage()}", ci_route("analisis_respon.{$master}"));

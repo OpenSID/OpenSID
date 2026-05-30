@@ -37,12 +37,15 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class OtpToken extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The timestamps for the model.
      *

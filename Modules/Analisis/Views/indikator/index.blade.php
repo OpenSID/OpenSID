@@ -82,6 +82,7 @@
                                                         <th>Kategori/Variabel</th>
                                                         <th>Bobot</th>
                                                         <th>Aksi Analisis</th>
+                                                        <th>Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -166,6 +167,13 @@
                         searchable: true,
                         class: 'padat',
                     },
+                    {
+                        data: 'is_publik',
+                        name: 'is_publik',
+                        searchable: true,
+                        orderable: false,
+                        class: 'padat'
+                    }
                 ],
                 columnDefs: [{
                     type: 'num',

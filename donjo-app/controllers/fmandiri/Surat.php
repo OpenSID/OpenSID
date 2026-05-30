@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Libraries\TinyMCE;
 use App\Models\DokumenHidup;
 use App\Models\FormatSurat;
 use App\Models\LogSurat;
@@ -49,6 +50,15 @@ use NotificationChannels\Telegram\Telegram;
 
 class Surat extends Mandiri_Controller
 {
+    protected TinyMCE $tinymce;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->tinymce = new TinyMCE();
+    }
+
     public function index()
     {
         if ($this->input->is_ajax_request()) {
@@ -233,6 +243,10 @@ class Surat extends Mandiri_Controller
 
         $surat    = FormatSurat::find($data['id_surat']);
         $penduduk = Penduduk::find($id_pend) ?? show_404();
+
+        $penandatangan     = $this->tinymce->formPenandatangan();
+        $data['pamong']    = $penandatangan['penandatangan'];
+        $data['atas_nama'] = $penandatangan['atas_nama'];
 
         $data = array_merge($data, [
             'url'          => $surat->url_surat,

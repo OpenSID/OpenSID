@@ -52,6 +52,7 @@ class AnalisisRespon extends BaseModel
     use ConfigId;
 
     public $timestamps = false;
+    public $subjekTipe;
 
     /**
      * {@inheritDoc}
@@ -114,30 +115,80 @@ class AnalisisRespon extends BaseModel
                     if (empty($id_p)) {
                         continue;
                     } // Abaikan isian kosong
-                    $p = preg_split('/\\./', $id_p);
+                    $p           = preg_split('/\\./', $id_p);
+                    $indikatorId = $p[0];
+                    $paramRaw    = $p[1] ?? null;
 
-                    $data['id_subjek']    = $id;
-                    $data[$subjekTipe]    = $id;
-                    $data['id_periode']   = $idPeriode;
-                    $data['id_indikator'] = $p[0];
-                    $data['id_parameter'] = $p[1];
-                    $data['config_id']    = identitas('id');
-                    self::insert($data);
+                    // Pastikan id_parameter valid; jika tidak ada, coba cari berdasarkan kode_jawaban/jawaban
+                    $param = null;
+                    if (is_numeric($paramRaw)) {
+                        $param = AnalisisParameter::find($paramRaw);
+                    }
+                    // Pastikan indikator ada sebelum membuat parameter baru
+                    if (! AnalisisIndikator::where('id', $indikatorId)->exists()) {
+                        log_message('error', "AnalisisRespon::updateKuisioner - indikator {$indikatorId} tidak ditemukan untuk master {$idMaster}; melewatkan parameter {$paramRaw}");
+
+                        continue;
+                    }
+                    if (! $param && $paramRaw !== null) {
+                        $param = AnalisisParameter::where('id_indikator', $indikatorId)
+                            ->where(static function ($query) use ($paramRaw) {
+                                $query->where('kode_jawaban', $paramRaw)->orWhere('jawaban', $paramRaw);
+                            })->first();
+                    }
+                    if (! $param && $paramRaw !== null) {
+                        // Buat parameter baru jika memang tidak ditemukan
+                        $param = AnalisisParameter::create(['jawaban' => $paramRaw, 'id_indikator' => $indikatorId, 'asign' => 0, 'config_id' => identitas('id')]);
+                    }
+
+                    if ($param) {
+                        $data['id_subjek']    = $id;
+                        $data[$subjekTipe]    = $id;
+                        $data['id_periode']   = $idPeriode;
+                        $data['id_indikator'] = $indikatorId;
+                        $data['id_parameter'] = $param->id;
+                        $data['config_id']    = identitas('id');
+                        self::insert($data);
+                    }
                 }
             }
             if (isset($postData['cb'])) {
                 $id_cb = $postData['cb'];
                 if ($id_cb) {
                     foreach ($id_cb as $id_p) {
-                        $p = preg_split('/\\./', $id_p);
+                        $p           = preg_split('/\\./', $id_p);
+                        $indikatorId = $p[0];
+                        $paramRaw    = $p[1] ?? null;
 
-                        $data['id_subjek']    = $id;
-                        $data[$subjekTipe]    = $id;
-                        $data['id_periode']   = $idPeriode;
-                        $data['id_indikator'] = $p[0];
-                        $data['id_parameter'] = $p[1];
-                        $data['config_id']    = identitas('id');
-                        self::insert($data);
+                        $param = null;
+                        if (is_numeric($paramRaw)) {
+                            $param = AnalisisParameter::find($paramRaw);
+                        }
+                        // Pastikan indikator ada sebelum membuat parameter baru
+                        if (! AnalisisIndikator::where('id', $indikatorId)->exists()) {
+                            log_message('error', "AnalisisRespon::updateKuisioner - indikator {$indikatorId} tidak ditemukan untuk master {$idMaster}; melewatkan parameter {$paramRaw}");
+
+                            continue;
+                        }
+                        if (! $param && $paramRaw !== null) {
+                            $param = AnalisisParameter::where('id_indikator', $indikatorId)
+                                ->where(static function ($query) use ($paramRaw) {
+                                    $query->where('kode_jawaban', $paramRaw)->orWhere('jawaban', $paramRaw);
+                                })->first();
+                        }
+                        if (! $param && $paramRaw !== null) {
+                            $param = AnalisisParameter::create(['jawaban' => $paramRaw, 'id_indikator' => $indikatorId, 'asign' => 0, 'config_id' => identitas('id')]);
+                        }
+
+                        if ($param) {
+                            $data['id_subjek']    = $id;
+                            $data[$subjekTipe]    = $id;
+                            $data['id_periode']   = $idPeriode;
+                            $data['id_indikator'] = $indikatorId;
+                            $data['id_parameter'] = $param->id;
+                            $data['config_id']    = identitas('id');
+                            self::insert($data);
+                        }
                     }
                 }
             }
@@ -208,14 +259,15 @@ class AnalisisRespon extends BaseModel
 
     public function import_respon($idMaster, $periode, $subjekTipe, $op, $mapSubjek)
     {
-        $per    = $periode;
-        $subjek = $subjekTipe;
-        $mas    = $idMaster;
-        $key    = ($per + 3) * ($mas + 7) * ($subjek * 3);
-        $key    = 'AN' . $key;
-        $respon = [];
+        $configID = identitas('id');
+        $per      = $periode;
+        $subjek   = $subjekTipe;
+        $mas      = $idMaster;
+        $key      = ($per + 3) * ($mas + 7) * ($subjek * 3);
+        $key      = 'AN' . $key;
+        $respon   = [];
 
-        $indikator = AnalisisIndikator::where('id_master', $idMaster)->orderBy('id')->get()->toArray();
+        $indikator = AnalisisIndikator::where('id_master', $idMaster)->orderBy('id')->get()?->toArray();
 
         try {
             if ($_FILES['respon']['type'] != 'application/vnd.ms-excel') {
@@ -279,11 +331,10 @@ class AnalisisRespon extends BaseModel
                         $id_subjek = PendudukHidup::select(['id'])->where('nik', $id_subjek)->first()?->id ?? null;
                     } elseif ($subjek == 3) {
                         // sasaran rumah tangga, simpan id, bukan nomor rumah tangga
-                        $id_subjek = Rtm::select('id')->where('id_rtm', $id_subjek)->first()?->id ?? null;
+                        $id_subjek = Rtm::select('id')->where('id', $id_subjek)->first()?->id ?? null;
                     }
 
-                    $j   = $kl + $op;
-                    $all = '';
+                    $j = $kl + $op;
 
                     foreach ($indikator as $indi) {
                         $isi = $data->val($i, $j, $s);
@@ -292,7 +343,7 @@ class AnalisisRespon extends BaseModel
                                 $param = AnalisisParameter::where('id_indikator', $indi['id'])
                                     ->where(static function ($query) use ($isi) {
                                         $query->where('kode_jawaban', $isi)->orWhere('jawaban', $isi);
-                                    })->first()->toArray();
+                                    })->first()?->toArray();
                                 if ($param) {
                                     $in_param = $param['id'];
                                 } elseif ($isi == '') {
@@ -307,11 +358,12 @@ class AnalisisRespon extends BaseModel
                                     'id_subjek'    => $id_subjek,
                                     $mapSubjek     => $id_subjek,
                                     'id_periode'   => $per,
+                                    'config_id'    => $configID,
                                 ];
                             } elseif ($indi['id_tipe'] == 2) {
                                 $this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon, $mapSubjek);
                             } else {
-                                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()->toArray();
+                                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()?->toArray();
 
                                 // apakah sdh ada jawaban yg sama
                                 if ($param) {
@@ -320,10 +372,10 @@ class AnalisisRespon extends BaseModel
                                     $parameter['jawaban']      = $isi;
                                     $parameter['id_indikator'] = $indi['id'];
                                     $parameter['asign']        = 0;
-                                    $parameter['config_id']    = identitas('id');
+                                    $parameter['config_id']    = $configID;
                                     AnalisisParameter::create($parameter);
 
-                                    $param    = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()->toArray();
+                                    $param    = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()?->toArray();
                                     $in_param = $param['id'];
                                 }
 
@@ -333,7 +385,7 @@ class AnalisisRespon extends BaseModel
                                     'id_subjek'    => $id_subjek,
                                     $mapSubjek     => $id_subjek,
                                     'id_periode'   => $per,
-                                    'config_id'    => identitas('id'),
+                                    'config_id'    => $configID,
                                 ];
                             }
                         }
@@ -354,6 +406,8 @@ class AnalisisRespon extends BaseModel
 
             $this->pre_update($idMaster, $per);
         } catch (Exception $e) {
+            logger()->error($e);
+
             return [
                 'success' => false,
                 'pesan'   => $e->getMessage(),
@@ -425,9 +479,9 @@ class AnalisisRespon extends BaseModel
             if ($indi['is_teks'] == 1) {
                 // Isian sebagai teks pilihan bukan kode
                 $teks  = strtolower($isi_ini);
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()->toArray();
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()?->toArray();
             } else {
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()->toArray();
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()?->toArray();
             }
             if ($param['id'] != '') {
                 $in_param = $param['id'];

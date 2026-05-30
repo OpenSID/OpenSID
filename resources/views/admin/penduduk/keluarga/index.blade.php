@@ -3,12 +3,12 @@
 @include('admin.layouts.components.datetime_picker')
 @section('title')
     <h1>
-        Data Keluarga
+        {{ $module_name }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Data Keluarga</li>
+    <li class="active">{{ $module_name }}</li>
 @endsection
 
 @section('content')
@@ -342,7 +342,7 @@
                     },
                     {
                         data: 'kepala_keluarga.nama',
-                        name: 'kepalaKeluarga.nama',
+                        name: 'kepala_keluarga.nama',
                         defaultContent: '',
                         searchable: true,
                         orderable: true
@@ -394,7 +394,7 @@
                     },
                     {
                         data: 'kepala_keluarga.keluarga.wilayah.rw',
-                        name: 'tw',
+                        name: 'rw',
                         searchable: false,
                         orderable: false,
                         defaultContent: '-',

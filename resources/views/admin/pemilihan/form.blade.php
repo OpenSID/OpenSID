@@ -3,14 +3,14 @@
 
 @section('title')
     <h1>
-        Pemilihan
+        Data {{ $module_name }}
         <small>{{ $action }} Data</small>
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ ci_route('pemilihan') }}"> Pemilihan</a></li>
-    <li class="breadcrumb-item"><a href="{{ ci_route('pemilihan') }}">Daftar Pemilihan</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('dpt') }}">Data {{ $module_name }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('pemilihan') }}">Data Pemilihan</a></li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -18,7 +18,7 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('pemilihan'), 'label' => 'Daftar Pemilihan'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('pemilihan'), 'label' => "Daftar {$module_name}"])
 
         </div>
         <div class="box-body">

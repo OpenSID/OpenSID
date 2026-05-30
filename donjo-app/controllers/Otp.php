@@ -100,7 +100,18 @@ class Otp extends Admin_Controller
         } elseif ($channel === 'telegram') {
             // Verify Telegram chat ID
             if (! $this->otpService->verifyTelegramChatId($identifier)) {
-                redirect_with('error', 'Chat ID Telegram tidak valid. Pastikan Anda sudah mengirim /start ke bot.', ci_route('pengguna') . '#otp');
+                $botUsername = $this->otpService->getBotUsername();
+
+                $errorMessage = 'Gagal memverifikasi Chat ID Telegram.<br><br>' .
+                                'Pastikan Chat ID yang Anda masukkan sudah benar dan Anda sudah memulai percakapan dengan bot ' .
+                                'Telegram dengan mengirim pesan <code>/start</code>.';
+
+                if ($botUsername) {
+                    $link = '<a href="https://t.me/' . $botUsername . '?start" target="_blank" class="btn btn-social btn-primary btn-sm" style="margin-top: 10px;"><i class="fa fa-telegram"></i> Klik di sini untuk memulai percakapan</a>';
+                    $errorMessage .= '<br><br>' . $link;
+                }
+
+                redirect_with('error', $errorMessage, ci_route('pengguna') . '#otp', true);
             }
         }
 

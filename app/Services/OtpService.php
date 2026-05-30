@@ -82,7 +82,7 @@ class OtpService
 
         // Create new token
         $expiryMinutes = setting('otp_expiry_minutes');
-        $token         = OtpToken::insert([
+        $token         = OtpToken::create([
             'user_id'    => $user->id,
             'token_hash' => $tokenHash,
             'channel'    => $channel,
@@ -341,6 +341,33 @@ class OtpService
         ci()->session->unset_userdata('otp_activation');
 
         return true;
+    }
+
+    /**
+     * Get Telegram bot username from token.
+     */
+    public function getBotUsername(): ?string
+    {
+        try {
+            $botToken = setting('telegram_token');
+
+            if (empty($botToken)) {
+                return null;
+            }
+
+            $response = Http::timeout(5)->get("https://api.telegram.org/bot{$botToken}/getMe");
+
+            if (! $response->successful()) {
+                // Lemparkan exception jika permintaan tidak berhasil (misalnya, token tidak valid)
+                throw new Exception('Gagal menghubungi API  periksa token dan chat_id anda: ' . $response->body());
+            }
+
+            return $response->json('result.username');
+        } catch (Exception $e) {
+            Log::error('Failed to get Telegram bot username: ' . $e->getMessage());
+
+            throw $e; // Lemparkan kembali exception
+        }
     }
 
     /**
