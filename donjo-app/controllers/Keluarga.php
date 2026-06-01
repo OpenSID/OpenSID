@@ -128,6 +128,10 @@ class Keluarga extends Admin_Controller
             $canUpdate = can('u');
 
             return datatables()->of($this->sumberData())
+                ->orderColumn(
+                    'kepala_keluarga.nama',
+                    static fn ($query, $order) => $query->orderBy('kepala_keluarga.nama', $order)
+                )
                 ->addColumn('ceklist', static fn ($row) => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')->addColumn('valid_kk', static function ($row) {
                     $result = '';
                     if (strlen($row->no_kk) < 16) {
@@ -794,7 +798,9 @@ class Keluarga extends Admin_Controller
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        return KeluargaModel::with(['wilayah', 'kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota')->when($status != null, static fn ($q) => $q->whereHas('kepalaKeluarga', static function ($r) use ($status) {
+        $query = KeluargaModel::with(['wilayah', 'kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])
+            ->leftJoin('tweb_penduduk as kepala_keluarga', 'tweb_keluarga.nik_kepala', '=', 'kepala_keluarga.id')
+            ->withCount('anggota')->when($status != null, static fn ($q) => $q->whereHas('kepalaKeluarga', static function ($r) use ($status) {
                 switch($status) {
                     case 1:
                         return $r->whereStatusDasar($status);
@@ -840,10 +846,16 @@ class Keluarga extends Admin_Controller
                     default:
                         return $q->whereHas('bantuan', static fn ($r) => $r->where('program_id', $bantuan));
                 }
-            })->orderBy(DB::raw("CASE
+            });
+
+        if (! request()->has('order')) {
+            $query->orderBy(DB::raw("CASE
                 WHEN CHAR_LENGTH(no_kk) < 16 THEN 1
                 WHEN no_kk LIKE '0%' AND CHAR_LENGTH(no_kk) = 16 THEN 2
                 ELSE 3
             END"));
+        }
+
+        return $query;
     }
 }

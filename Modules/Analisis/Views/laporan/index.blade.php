@@ -143,7 +143,7 @@
                     @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
                         {
                             data: 'kk',
-                            name: '{{ $analisis_master['subjek_tipe'] == Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK ? 'no_kk' : 'nik' }}',
+                            name: '{{ $analisis_master['subjek_tipe'] == Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK ? 'no_kk' : 'nik_kepala' }}',
                         },
                     @endif
                     {!! json_encode($judul['kolom'][1]) !!},

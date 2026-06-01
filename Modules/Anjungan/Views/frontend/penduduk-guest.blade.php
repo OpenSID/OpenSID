@@ -105,11 +105,11 @@
                                     >
                                 </div>
                                 <div class="form-group" style="margin-bottom:12px;width:100%;">
+                                    <input type="hidden" id="tanggal_lahir" name="tanggal_lahir">
                                     <input
                                         type="text"
                                         class="form-control"
-                                        id="tanggal_lahir"
-                                        name="tanggal_lahir"
+                                        id="tanggal_lahir_screen"
                                         placeholder="Tanggal Lahir (dd/mm/yyyy)"
                                         required
                                         maxlength="10"
@@ -143,7 +143,7 @@
         });
 
         // Validasi input tanggal lahir dd/mm/yyyy (sederhana)
-        const tanggalLahirInput = document.getElementById('tanggal_lahir');
+        const tanggalLahirInput = document.getElementById('tanggal_lahir_screen');
         if (tanggalLahirInput) {
             tanggalLahirInput.addEventListener('input', function(e) {
                 let value = e.target.value.replace(/\D/g, ''); // Hanya angka
@@ -160,17 +160,18 @@
         const formGuest = document.getElementById('form-guest');
         if (formGuest) {
             formGuest.addEventListener('submit', function(e) {
-                const tanggalInput = document.getElementById('tanggal_lahir');
-                const value = tanggalInput.value;
+                const tanggalInputVisible = document.getElementById('tanggal_lahir_screen');
+                const tanggalInputHidden = document.getElementById('tanggal_lahir');
+                const value = tanggalInputVisible.value;
                 
                 // Jika format dd/mm/yyyy, konversi ke yyyy-mm-dd
                 if (value && value.includes('/')) {
                     const parts = value.split('/');
                     if (parts.length === 3) {
-                        const day = parts[0].padStart(2, '0');
-                        const month = parts[1].padStart(2, '0');
+                        const day = parts[0];
+                        const month = parts[1];
                         const year = parts[2];
-                        tanggalInput.value = `${year}-${month}-${day}`;
+                        tanggalInputHidden.value = `${year}-${month}-${day}`;
                     }
                 }
             });

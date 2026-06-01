@@ -39,6 +39,7 @@ use App\Models\Ekspedisi as ModelsEkspedisi;
 use App\Models\KlasifikasiSurat;
 use App\Models\Pamong;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -71,16 +72,29 @@ class Ekspedisi extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . route('buku-umum.ekspedisi.form', ['id' => $row->id]) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "ekspedisi/form/{$row->id}",
+                    ])->render();
 
                     if ($row->tanda_terima) {
-                        $aksi .= '<a href="' . route('buku-umum.ekspedisi.unduh_tanda_terima', ['id' => $row->id]) . '" class="btn btn-purple btn-sm bg-purple" title="Unduh Tanda Terima" target="_blank"><i class="fa fa-download"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => route('buku-umum.ekspedisi.unduh_tanda_terima', ['id' => $row->id]),
+                            'judul'      => 'Unduh Tanda Terima',
+                            'icon'       => 'fa fa-download',
+                            'type'       => 'bg-purple',
+                            'buttonOnly' => true,
+                            'blank'      => true,
+                        ])->render();
                     }
 
                     if (can('u')) {
-                        $aksi .= ('<a href="' . route('buku-umum.ekspedisi.bukan_ekspedisi', ['id' => $row->id]) . '" class="btn bg-olive btn-sm" title="Keluarkan dari Buku Ekspedisi"><i class="fa fa-undo"></i></a>');
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => route('buku-umum.ekspedisi.bukan_ekspedisi', ['id' => $row->id]),
+                            'judul'      => 'Keluarkan dari Buku Ekspedisi',
+                            'icon'       => 'fa fa-undo',
+                            'type'       => 'bg-olive',
+                            'buttonOnly' => true,
+                        ])->render();
                     }
 
                     return $aksi;

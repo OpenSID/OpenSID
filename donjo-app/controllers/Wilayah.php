@@ -107,27 +107,40 @@ class Wilayah extends Admin_Controller
                 case 'rw':
                     $mapKantor       = 'ajax_kantor_rw_maps';
                     $mapWilayah      = 'ajax_wilayah_rw_maps';
-                    $wilayah         = WilayahModel::find($parent);
+                    $wilayah         = WilayahModel::findOrFail($parent);
                     $cek_lokasi_peta = cek_lokasi_peta($wilayah->toArray());
-                    $model           = WilayahModel::rw()->whereDusun($wilayah->dusun)->with(['kepala'])->orderBy('urut')
-                        ->withCount(['rts' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw')), 'keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_3.rw = tweb_wil_clusterdesa.rw'))]);
+                    $model           = WilayahModel::rw()
+                        ->whereDusun($wilayah->dusun)
+                        ->with(['kepala'])
+                        ->orderByRaw("CASE WHEN rw = '-' THEN 0 ELSE 1 END") // untuk menempatkan RW '-' di urutan paling atas
+                        ->orderBy('urut', 'ASC')
+                        ->withCount([
+                            'rts'            => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw')),
+                            'keluargaAktif'  => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw')),
+                            'pendudukPria'   => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw')),
+                            'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_3.rw = tweb_wil_clusterdesa.rw')),
+                        ]);
+
                     break;
 
                 case 'rt':
                     $mapKantor  = 'ajax_kantor_rt_maps';
                     $mapWilayah = 'ajax_wilayah_rt_maps';
-                    $wilayah    = WilayahModel::find($parent);
+                    $wilayah    = WilayahModel::findOrFail($parent);
                     $wilayahRw  = $wilayah->toArray();
                     if ($wilayah->rw == '-') {
                         $wilayahRw = WilayahModel::dusun()->whereDusun($wilayah->dusun)->first()->toArray();
                     }
                     $cek_lokasi_peta = cek_lokasi_peta($wilayahRw);
-                    $model           = WilayahModel::rt()->whereRw($wilayah->rw)->where('rt', '!=', '-')->whereDusun($wilayah->dusun)->with(['kepala'])->orderBy('urut')
+                    $model           = WilayahModel::rt()->whereRw($wilayah->rw)->where('rt', '!=', '-')
+                        ->whereDusun($wilayah->dusun)
+                        ->with(['kepala'])
+                        ->orderBy('urut', 'ASC')
                         ->withCount(['keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw and laravel_reserved_0.rt = tweb_wil_clusterdesa.rt')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw and laravel_reserved_1.rt = tweb_wil_clusterdesa.rt')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw and laravel_reserved_2.rt = tweb_wil_clusterdesa.rt'))]);
                     break;
 
                 default:
-                    $model           = WilayahModel::dusun()->with(['kepala'])->orderBy('urut')->withCount(['rts', 'rws' => static fn ($q) => $q->where('rw', '!=', '-'), 'keluargaAktif', 'pendudukPria', 'pendudukWanita']);
+                    $model           = WilayahModel::dusun()->with(['kepala'])->orderBy('id')->withCount(['rts', 'rws' => static fn ($q) => $q->where('rw', '!=', '-'), 'keluargaAktif', 'pendudukPria', 'pendudukWanita']);
                     $cek_lokasi_peta = cek_lokasi_peta(collect(identitas())->toArray());
                     $mapKantor       = 'ajax_kantor_dusun_maps';
                     $mapWilayah      = 'ajax_wilayah_dusun_maps';

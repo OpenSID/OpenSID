@@ -91,6 +91,24 @@ class Wilayah extends BaseModel
         'zoom' => Zoom::class,
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(static function ($model): void {
+
+            if ($model->isDusun()) {
+                $max = Wilayah::dusun()->max('urut');
+            } elseif ($model->isRw()) {
+                $max = Wilayah::rw($model->dusun)->max('urut');
+            } else {
+                $max = Wilayah::rt($model->dusun, $model->rw)->max('urut');
+            }
+
+            $model->urut = ($max ?? 0) + 1;
+        });
+    }
+
     public static function updateUrutan(): void
     {
         $all  = Wilayah::dusun()->with(['rws' => static fn ($q) => $q->with('rts')])->orderBy('urut')->get();
@@ -141,24 +159,39 @@ class Wilayah extends BaseModel
     /**
      * Scope query untuk rw.
      *
-     * @param Builder $query
+     * @param Builder    $query
+     * @param mixed|null $dusun
      *
      * @return Builder
      */
-    public function scopeRw($query)
+    public function scopeRw($query, $dusun = null)
     {
+        if ($dusun) {
+            $query->whereDusun($dusun);
+        }
+
         return $query->where('rt', '=', '0')->where('rw', '!=', '0');
     }
 
     /**
      * Scope query untuk rt
      *
-     * @param Builder $query
+     * @param Builder    $query
+     * @param mixed|null $dusun
+     * @param mixed|null $rw
      *
      * @return Builder
      */
-    public function scopeRt($query)
+    public function scopeRt($query, $dusun = null, $rw = null)
     {
+        if ($dusun) {
+            $query->whereDusun($dusun);
+
+            if ($dusun) {
+                $query->whereRw($rw);
+            }
+        }
+
         return $query->where('rt', '!=', '0');
     }
 

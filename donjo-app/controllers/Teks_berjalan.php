@@ -85,18 +85,19 @@ class Teks_berjalan extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('teks_berjalan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'teks_berjalan/form/' . $row->id,
+                    ])->render();
 
-                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                            'url'    => site_url("teks_berjalan/lock/{$row->id}"),
-                            'active' => $row->status,
-                        ])->render();
-                    }
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => site_url("teks_berjalan/lock/{$row->id}"),
+                        'active' => $row->status,
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('teks_berjalan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('teks_berjalan.delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

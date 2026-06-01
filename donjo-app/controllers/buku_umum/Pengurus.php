@@ -105,43 +105,42 @@ class Pengurus extends Admin_Controller
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
-                    $aksi = '';
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('pengurus.form', $row->pamong_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    $aksi = View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "pengurus/form/{$row->pamong_id}",
+                    ])->render();
 
-                        $status = $row->pamong_status == 1 ? 2 : 1;
+                    $status = $row->pamong_status == 1 ? 2 : 1;
 
-                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                            'url'    => ci_route('pengurus.lock', "{$row->pamong_id}/{$status}"),
-                            'active' => $row->pamong_status == 1 ? 1 : 0,
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => ci_route('pengurus.lock', "{$row->pamong_id}/{$status}"),
+                        'active' => $row->pamong_status == 1 ? 1 : 0,
+                    ])->render();
+
+                    $statusKehadiran = $row->kehadiran == 1 ? 0 : 1;
+
+                    $aksi .= View::make('admin.layouts.components.tombol_kehadiran', [
+                        'url'    => ci_route('pengurus.kehadiran', "{$row->pamong_id}/{$statusKehadiran}"),
+                        'active' => $row->kehadiran == 1 ? 1 : 0,
+                    ])->render();
+
+                    $statusTtd = $row->pamong_ttd == 1 ? 2 : 1;
+
+                    if ($row->jabatan_id == sekdes()->id) {
+                        $aksi .= View::make('admin.layouts.components.tombol_ttd', [
+                            'url'    => ci_route('pengurus.ttd', "a.n/{$row->pamong_id}/{$statusTtd}"),
+                            'active' => $row->pamong_ttd == 1 ? 1 : 0,
                         ])->render();
 
-                        $statusKehadiran = $row->kehadiran == 1 ? 0 : 1;
+                    }
 
-                        $aksi .= View::make('admin.layouts.components.tombol_kehadiran', [
-                            'url'    => ci_route('pengurus.kehadiran', "{$row->pamong_id}/{$statusKehadiran}"),
-                            'active' => $row->kehadiran == 1 ? 1 : 0,
+                    if (! in_array($row->jabatan_id, RefJabatan::getKadesSekdes())) {
+                        $statusUb = $row->pamong_ub == 1 ? 2 : 1;
+
+                        $aksi .= View::make('admin.layouts.components.tombol_ttd', [
+                            'url'    => ci_route('pengurus.ttd', "u.b/{$row->pamong_id}/{$statusUb}"),
+                            'active' => $row->pamong_ub == 1 ? 1 : 0,
+                            'label'  => 'u.b',
                         ])->render();
-
-                        $statusTtd = $row->pamong_ttd == 1 ? 2 : 1;
-
-                        if ($row->jabatan_id == sekdes()->id) {
-                            $aksi .= View::make('admin.layouts.components.tombol_ttd', [
-                                'url'    => ci_route('pengurus.ttd', "a.n/{$row->pamong_id}/{$statusTtd}"),
-                                'active' => $row->pamong_ttd == 1 ? 1 : 0,
-                            ])->render();
-
-                        }
-                        if (! in_array($row->jabatan_id, RefJabatan::getKadesSekdes())) {
-                            $statusUb = $row->pamong_ub == 1 ? 2 : 1;
-
-                            $aksi .= View::make('admin.layouts.components.tombol_ttd', [
-                                'url'    => ci_route('pengurus.ttd', "u.b/{$row->pamong_id}/{$statusUb}"),
-                                'active' => $row->pamong_ub == 1 ? 1 : 0,
-                                'label'  => 'u.b',
-                            ])->render();
-                        }
-
                     }
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
@@ -521,12 +520,15 @@ class Pengurus extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('pengurus.jabatanform', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "pengurus/jabatanform/{$row->id}",
+                    ])->render();
 
-                    if (can('h') && ! in_array($row->id, RefJabatan::getKadesSekdes())) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('pengurus.jabatandelete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    if (! in_array($row->id, RefJabatan::getKadesSekdes())) {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('pengurus.jabatandelete', $row->id),
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;

@@ -36,16 +36,19 @@
  */
 
 use App\Traits\Migrator;
+use Database\Seeders\DataAwal\SettingAplikasi;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_surat_bawaan
+class Migrasi_required
 {
     use Migrator;
 
     public function up()
     {
         $this->tambah_ubah_surat_bawaan();
+        $this->hapus_pengaturan_aplikasi_lama();
     }
 
     public function tambah_ubah_surat_bawaan()
@@ -53,5 +56,10 @@ class Migrasi_surat_bawaan
         $id = identitas('id');
         restoreSuratBawaanTinyMCE($id);
         restoreSuratBawaanDinasTinyMCE($id);
+    }
+
+    public function hapus_pengaturan_aplikasi_lama()
+    {
+        DB::table('setting_aplikasi')->whereIn('key', (new SettingAplikasi())->unusedKeys())->delete();
     }
 }

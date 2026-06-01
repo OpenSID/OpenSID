@@ -37,6 +37,7 @@
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\ListSasaranEnum;
+use App\Enums\StatusDasarEnum;
 use App\Models\Keluarga;
 use App\Models\Pamong;
 use App\Models\Penduduk;
@@ -704,6 +705,7 @@ class Suplemen extends Admin_Controller
                         ->orWhere('nama', 'like', "%{$cari}%");
                 });
             })
+            ->where('status_dasar', StatusDasarEnum::HIDUP) // Hanya penduduk dengan status hidup
             ->whereNotIn('id', static fn ($q) => $q->select(['penduduk_id'])->whereNotNull('penduduk_id')->from('suplemen_terdata')->where('id_suplemen', $id_suplemen))
             ->paginate(10);
 

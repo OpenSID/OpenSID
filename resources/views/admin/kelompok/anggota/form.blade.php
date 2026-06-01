@@ -2,12 +2,12 @@
 @include('admin.layouts.components.asset_validasi')
 @section('title')
     <h1>
-        Data Anggota {{ $tipe }}
+        Data Anggota {{ $module_name }}
     </h1>
 @endsection
 @section('breadcrumb')
     <li><a href="{{ site_url(str_replace('_anggota', '', $controller)) }}"> Daftar {{ $tipe }}</a></li>
-    <li class="active">Data Anggota {{ $tipe }}</li>
+    <li class="active">Data Anggota {{ $module_name }}</li>
 @endsection
 
 @section('content')

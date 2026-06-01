@@ -174,16 +174,25 @@
                 createdRow: function(row, data, dataIndex) {
                     if ('{{ $level }}' == 'rw') {
                         if (data.rw == '-') {
+                            // Gabungkan kolom RW dan Kepala RW
                             $(row).find('td').eq(3).replaceWith(
                                 '<td colspan="2">Pergunakan RW ini apabila RT berada langsung di bawah {{ $wilayah }}, yaitu tidak ada RW</td>'
                             )
-                            $(row).find('td').eq(4).remove()
+                            $(row).find('td').eq(4).remove();
+
+                            // Hilangkan ikon drag
+                            $(row).find('td').eq(0).html('');
+
+                            // Tambahkan class agar tidak bisa di-drag
+                            $(row).removeClass('dragable-handle');
                         }
                     }
 
-                    $(row).attr('data-id', data.id)
+                    $(row).attr('data-id', data.id);
+                    $(row).attr('data-rw', data.rw);
                     $(row).addClass('dragable-handle');
                 },
+
                 initComplete: function(settings, json) {
                     if (refreshOrder) {
                         // trigger update urut jika ada yang masih kosong

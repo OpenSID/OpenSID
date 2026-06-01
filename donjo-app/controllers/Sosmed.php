@@ -38,6 +38,7 @@
 use App\Enums\StatusEnum;
 use App\Models\MediaSosial;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -76,19 +77,19 @@ class Sosmed extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . site_url("sosmed/form/{$row->id}") . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "sosmed/form/{$row->id}",
+                    ])->render();
 
-                        if ($row->enabled == StatusEnum::YA) {
-                            $aksi .= '<a href="' . site_url("sosmed/lock/{$row->id}") . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . site_url("sosmed/lock/{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
-                        }
-                    }
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => site_url("sosmed/lock/{$row->id}"),
+                        'active' => $row->enabled,
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . site_url("sosmed/delete/{$row->id}") . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => site_url('sosmed/delete/' . $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

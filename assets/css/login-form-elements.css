@@ -85,27 +85,51 @@ a.btn-otp:active { outline: 0; opacity: 0.6; color: #fff; -moz-box-shadow: none;
 a.btn-otp:focus { outline: 0; opacity: 0.6; background: #0667d6; color: #fff; }
 a.btn-otp:active:focus, a.btn-otp.active:focus { outline: 0; opacity: 0.6; background: #0667d6; color: #fff; }
 
+/* Container OTP */
 .otp-container {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    flex-wrap: nowrap;
+    gap: 10px; /* modern browser */
 }
 
-.otp-input {
+/* Fallback untuk browser lama */
+@supports not (gap: 10px) {
+    .otp-container .otp-input:not(:last-child) {
+        margin-right: 10px;
+    }
+}
+
+/* Input OTP */
+.otp-input.form-control {
+    display: inline-block !important;
     width: 45px !important;
     height: 45px !important;
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
-    border: 2px solid #ccc;
-    border-radius: 6px;
+    text-align: center !important;
+    font-size: 22px !important;
+    font-weight: bold !important;
+    border: 2px solid #ccc !important;
+    border-radius: 6px !important;
     box-shadow: none !important;
-    display: inline-block !important;
     padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s ease;
 }
 
+/* Fokus efek */
 .otp-input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
-    outline: none;
+    border-color: #007bff !important;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4) !important;
+    outline: none !important;
+    transform: scale(1.05);
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 480px) {
+    .otp-input.form-control {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 18px !important;
+    }
 }

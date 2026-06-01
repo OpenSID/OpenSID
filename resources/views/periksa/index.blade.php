@@ -590,7 +590,6 @@
                                                     <th>Nama</th>
                                                     <th>Kode Peristiwa Log Terakhir</th>
                                                     <th>Status Dasar Saat Ini</th>
-                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -600,22 +599,19 @@
                                                     <td>{{ $penduduk['nama'] }}</td>
                                                     <td>{{ \App\Models\LogPenduduk::kodePeristiwaAll($penduduk['kode_peristiwa']) }}</td>
                                                     <td>{{ \App\Enums\StatusDasarEnum::all()[$penduduk['status_dasar']] ?? '-' }}</td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-sm btn-danger"
-                                                            data-title="Data Catatan Peristiwa Penduduk {{ $penduduk['nama'] }} / {{ $penduduk['nik'] }}"
-                                                            data-url='periksaLogPenduduk'
-                                                            data-ref='{!! json_encode(['penduduk'=> $penduduk]) !!}'
-                                                            data-toggle="modal"
-                                                            data-target="#modal-kosong"
-                                                            data-close-btn-center="1">
-                                                            <i class="fa fa-eye"></i> Lihat log
-                                                        </button>
-                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </div>
+                                    <p>Klik tombol Perbaiki Data untuk memperbaiki log penduduk dan status dasar penduduk tidak sesuai dengan menghapus log penduduk yang terlanjur masuk. <br><a href="#"
+                                            data-href="{{ ci_route('periksa.perbaikiSebagian', 'log_penduduk_tidak_sinkron') }}"
+                                            class="btn btn-sm btn-social btn-danger" role="button"
+                                            title="Perbaiki masalah data" data-toggle="modal"
+                                            data-target="#confirm-backup"
+                                            data-body="Apakah sudah melakukan backup database/folder desa?"><i
+                                                class="fa fa fa-wrench"></i>Perbaiki Data</a>
+                                    </p>
                                 </div>
                             </div>
                             @endif
@@ -1326,6 +1322,48 @@
                             @includeWhen(in_array('keluarga_tanpa_nik_kepala', $masalah),
                             'periksa.keluarga_tanpa_nik_kepala')
                             @includeWhen(in_array('modul_asing', $masalah), 'periksa.modul_asing')
+
+                            @if (in_array('setting_aplikasi_tidak_lengkap', $masalah))
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <strong>Terdeteksi setting aplikasi tidak lengkap</strong>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Key</th>
+                                                        <th>Judul</th>
+                                                        <th>Kategori</th>
+                                                        <th>Keterangan</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($setting_aplikasi_tidak_lengkap ?? [] as $setting)
+                                                        <tr>
+                                                            <td>{{ $loop->iteration }}</td>
+                                                            <td><code>{{ $setting['key'] }}</code></td>
+                                                            <td>{{ $setting['judul'] }}</td>
+                                                            <td><span class="label label-info">{{ $setting['kategori'] }}</span></td>
+                                                            <td>{{ $setting['keterangan'] }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <p>Klik tombol Perbaiki untuk menambahkan setting aplikasi yang hilang ke database. 
+                                            <br><a href="#"
+                                                data-href="{{ ci_route('periksa.perbaikiSebagian', 'setting_aplikasi_tidak_lengkap') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal"
+                                                data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/folder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            @endif
+
                             @php
                             $excludePerbaikiSemua = ['klasifikasi_surat_ganda', 'log_keluarga_ganda',
                             'log_penduduk_tidak_sinkron', 'kepala_keluarga_ganda', 'tgllahir_null_kosong',

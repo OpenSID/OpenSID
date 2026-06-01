@@ -594,9 +594,17 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
     public static function baru($data)
     {
+        // disimpan dulu ke variabel baru karna base64 cukup besar jika disimpan di column foto pada table karna fungsi self::create($data) akan mengirim semua data pada variabel $data ke query insert
+        $fotoClone = $data['foto'];
+
+        // hapus agar tidak terkirim ke query insert self::create($data)
+        unset($data['foto']);
+
         $penduduk = self::create($data);
 
-        if ($foto = (new self())->uploadGambar('foto', LOKASI_USER_PICT, null)) {
+        $data['foto'] = $fotoClone;
+
+        if ($foto = (new self())->uploadFotoPenduduk()) {
             $penduduk->foto = $foto;
             $penduduk->save();
         }
@@ -1238,7 +1246,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             }
         }
 
-        if ($foto = $this->uploadGambar(file: 'foto', lokasi: LOKASI_USER_PICT, filename: time() . '-' . $this->id . '-' . random_int(10000, 999999))) {
+        if ($foto = $this->uploadFotoPenduduk(nama_file: time() . '-' . $this->id . '-' . random_int(10000, 999999))) {
             $data['foto'] = $foto;
         } else {
             unset($data['foto']);
