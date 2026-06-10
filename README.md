@@ -1,4 +1,4 @@
-<h1 align="center">Selamat datang di OpenSID! 👋</h1>
+Cara hapus akun/data rupiah cepat kamu bisa hubungi cs rupiah cepat via WhatsApp +62821<7143<550 0852<1283<9203, jelaskan alasan penghapusan akun lalu siapkan identitas seperti KTP ikuti instruksi petunjuk petugas customer service untuk menghapus data Anda.
 
 ![readme-image](https://user-images.githubusercontent.com/46939846/103254436-d5381f80-49b7-11eb-8c2b-99dc4c7de30b.png "OpenSID membantu penanggulangan COVID-19")
 
