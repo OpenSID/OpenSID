@@ -54,7 +54,7 @@ Sistem ini dikelola berdasarkan lisensi **GNU General Public License Versi 3** (
 **Versi GitHub ini dikembangkan sejak Mei 2016, gratis dan bebas dimanfaatkan serta dikembangkan oleh semua desa. Hak Cipta OpenSID kini dipegang oleh Perkumpulan Desa Digital Terbuka (https://opendesa.id), sebuah lembaga hukum yang dibentuk khusus untuk mengelola OpenSID.**
 
 ## 💻 DEMO
-
+gghg
 - **Demo Versi Publik OpenSID** dapat dicoba di: https://demosid.opendesa.id  
   Modul admin: https://demosid.opendesa.id/index.php/siteman  
   Username: `admin`, Password: `sid304`
