@@ -183,6 +183,18 @@ class Penduduk_model extends MY_Model {
 		}
 	}
 
+	protected function umur_detail_sql()
+	{
+		$kf = $this->session->umur_detail;
+		if (isset($kf))
+		{
+			if ($kf == JUMLAH) $this->db->where("u.tanggallahir <> ''");
+			else if ($kf == BELUM_MENGISI) $this->db->where("(u.tanggallahir IS NULL OR u.tanggallahir = '')");
+			else
+				$this->db->where("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id)", $kf);
+		}
+	}
+
 	protected function akta_kelahiran_sql()
 	{
 		$kf = $this->session->akta_kelahiran;
@@ -351,6 +363,7 @@ class Penduduk_model extends MY_Model {
 		$this->umur_min_sql(); // Hanya u/ Pencarian Spesifik
 		$this->umur_max_sql(); // Hanya u/ Pencarian Spesifik
 		$this->umur_sql(); // Kode 13, 15
+		$this->umur_detail_sql(); // Kode 20
 		$this->akta_kelahiran_sql(); // Kode 17
 		$this->hamil_sql(); // Filter blum digunakan
 	}
@@ -1335,15 +1348,19 @@ class Penduduk_model extends MY_Model {
 				case 17: $table = 'tweb_penduduk_umur'; break;
 				case 18: $table = 'tweb_status_ktp'; break;
 				case 19: $table = 'tweb_penduduk_asuransi'; break;
+				case 20: $judul = array('nama' => 'Usia ' . $nomor . ' Tahun'); break;
 				case 'covid': $table = 'ref_status_covid'; break;
 				case 'bantuan_penduduk': $table = 'program'; break;
 				case 'hubungan_kk' : $table = 'tweb_penduduk_hubungan'; break;
 			}
 
-			if ($tipe == 13 OR $tipe == 17) $this->db->where('STATUS', 1);
-			if ($tipe == 15) $this->db->where('STATUS', 0);
+			if (isset($table))
+			{
+				if ($tipe == 13 OR $tipe == 17) $this->db->where('STATUS', 1);
+				if ($tipe == 15) $this->db->where('STATUS', 0);
 
-			$judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
+				$judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
+			}
 		}
 
 		if ($sex == 1) $judul['nama'] .= " - LAKI-LAKI";

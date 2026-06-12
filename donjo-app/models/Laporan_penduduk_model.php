@@ -305,10 +305,11 @@ class Laporan_penduduk_model extends MY_Model {
 	protected function order_by($o)
 	{
 		//Ordering SQL
+		$id_column = ($this->lap == '20') ? 'id' : 'u.id';
 		switch ($o)
 		{
-			case 1: $this->db->order_by('u.id'); break;
-			case 2: $this->db->order_by('u.id DESC'); break;
+			case 1: $this->db->order_by($id_column); break;
+			case 2: $this->db->order_by($id_column . ' DESC'); break;
 			case 3: $this->db->order_by('laki'); break;
 			case 4: $this->db->order_by('laki DESC'); break;
 			case 5: $this->db->order_by('jumlah'); break;
@@ -414,14 +415,33 @@ class Laporan_penduduk_model extends MY_Model {
 				->where('u.status', "1");
 				break;
 
-			case "15":
-					// Umur kategori
-				$where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai ";
-				$this->select_jml($where);
-				$this->db->select("u.*, concat(u.nama, ' (', u.dari, ' - ', u.sampai, ')') as nama")
-				->from('tweb_penduduk_umur u')
-				->where('u.status', "0");
-				break;
+		case "15":
+				// Umur kategori
+			$where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai ";
+			$this->select_jml($where);
+			$this->db->select("u.*, concat(u.nama, ' (', u.dari, ' - ', u.sampai, ')') as nama")
+			->from('tweb_penduduk_umur u')
+			->where('u.status', "0");
+			break;
+
+			case "20":
+				// Umur detail (per tahun)
+			$umur_expr = "(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)";
+			$this->db
+				->select("$umur_expr AS id")
+				->select("CONCAT('Usia ', $umur_expr, ' Tahun') AS nama")
+				->select('COUNT(b.id) AS jumlah')
+				->select("COUNT(CASE WHEN b.sex = 1 THEN b.id END) AS laki")
+				->select("COUNT(CASE WHEN b.sex = 2 THEN b.id END) AS perempuan")
+				->from('penduduk_hidup b')
+				->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left');
+
+			if ($dusun = $this->session->userdata("dusun")) $this->db->where('a.dusun', $dusun);
+			if ($rw = $this->session->userdata("rw")) $this->db->where('a.rw', $rw);
+			if ($rt = $this->session->userdata("rt")) $this->db->where('a.rt', $rt);
+
+			$this->db->group_by('id')->order_by('id');
+			break;
 
 			case "17":
 					// Akta kelahiran
@@ -577,6 +597,70 @@ class Laporan_penduduk_model extends MY_Model {
 		foreach ($id_cb as $id)
 		{
 			$this->delete_rentang($id, $semua=true);
+		}
+	}
+
+	// -------------------- Kategori Umur (status = 0) -------------------
+
+	public function list_data_kategori()
+	{
+		$query = $this->db->where('status', 0)->order_by('dari')->get('tweb_penduduk_umur');
+		$data = $query->result_array();
+
+		return $data;
+	}
+
+	public function get_kategori($id = 0)
+	{
+		$sql = "SELECT * FROM tweb_penduduk_umur WHERE id = $id ";
+		$query = $this->db->query($sql);
+		$data = $query->row_array();
+
+		return $data;
+	}
+
+	public function insert_kategori()
+	{
+		$data = $_POST;
+		$data['status'] = 0;
+		if ($data['sampai'] != '99999')
+			$data['nama'] = $data['dari'].' s/d '.$data['sampai'].' Tahun';
+		else
+			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
+		$outp = $this->db->insert('tweb_penduduk_umur', $data);
+
+		status_sukses($outp);
+	}
+
+	public function update_kategori($id = 0)
+	{
+		$data = $_POST;
+		if ($data['sampai'] != '99999')
+			$data['nama'] = $data['dari'].' s/d '.$data['sampai'].' Tahun';
+		else
+			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
+		$outp = $this->db->where('id', $id)->update('tweb_penduduk_umur', $data);
+
+		status_sukses($outp);
+	}
+
+	public function delete_kategori($id = '', $semua = false)
+	{
+		if (!$semua) $this->session->success = 1;
+
+		$outp = $this->db->where('id', $id)->delete('tweb_penduduk_umur');
+
+		status_sukses($outp, $gagal_saja = true);
+	}
+
+	public function delete_all_kategori()
+	{
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
+		{
+			$this->delete_kategori($id, $semua = true);
 		}
 	}
 
