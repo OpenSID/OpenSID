@@ -247,10 +247,69 @@ class First extends Web_Controller {
 	{
 		if (!$this->web_menu_model->menu_aktif('statistik/'.$stat)) show_404();
 
+		// Handle dusun/rw/rt filter dari form (PRG pattern)
+		if ($this->input->post('dusun') !== null)
+		{
+			$dusun = $this->input->post('dusun');
+			if ($dusun)
+			{
+				$this->session->set_userdata('dusun', $dusun);
+				$this->session->unset_userdata('rw');
+				$this->session->unset_userdata('rt');
+			}
+			else
+			{
+				$this->session->unset_userdata('dusun');
+				$this->session->unset_userdata('rw');
+				$this->session->unset_userdata('rt');
+			}
+			redirect("first/statistik/$stat/$tipe");
+		}
+		if ($this->input->post('rw') !== null)
+		{
+			$rw = $this->input->post('rw');
+			if ($rw)
+			{
+				$this->session->set_userdata('rw', $rw);
+				$this->session->unset_userdata('rt');
+			}
+			else
+			{
+				$this->session->unset_userdata('rw');
+				$this->session->unset_userdata('rt');
+			}
+			redirect("first/statistik/$stat/$tipe");
+		}
+		if ($this->input->post('rt') !== null)
+		{
+			$rt = $this->input->post('rt');
+			if ($rt)
+				$this->session->set_userdata('rt', $rt);
+			else
+				$this->session->unset_userdata('rt');
+			redirect("first/statistik/$stat/$tipe");
+		}
+
 		$data = $this->includes;
 
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
 		$data['title'] = 'Statistik '. $data['heading'];
+
+		// Data untuk filter dusun/rw/rt
+		$this->load->model('wilayah_model');
+		$data['dusun'] = $this->session->userdata('dusun');
+		$data['rw'] = $this->session->userdata('rw');
+		$data['rt'] = $this->session->userdata('rt');
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
+		if ($data['dusun'])
+		{
+			$data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
+			if ($data['rw'])
+			{
+				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
+			}
+		}
+
 		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
 		$data['tipe'] = $tipe;
 		$data['st'] = $stat;
