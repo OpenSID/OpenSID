@@ -593,6 +593,7 @@ class Penduduk extends Admin_Controller {
 			case 16: $session = 'cara_kb_id'; $kategori = 'CARA KB : '; break;
 			case 17: $session = 'akta_kelahiran'; $kategori = 'AKTA KELAHIRAN : UMUR '; break;
 			case 19: $session = 'id_asuransi'; $kategori = 'JENIS ASURANSI : '; break;
+			case 20: $session = 'umur_detail'; $kategori = 'UMUR (DETAIL) : '; break;
 			case 'hubungan_kk': $session = 'hubungan'; $kategori = 'HUBUNGAN DALAM KK : '; break;
 			case 'covid': $session = 'status_covid'; $kategori = 'STATUS COVID : '; break;
 			case 'bantuan_penduduk': $session = 'penerima_bantuan'; $kategori = 'PENERIMA BANTUAN PENDUDUK : '; break;

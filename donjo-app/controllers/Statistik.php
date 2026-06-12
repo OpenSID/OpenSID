@@ -208,6 +208,65 @@ class Statistik extends Admin_Controller {
 		redirect('statistik/rentang_umur');
 	}
 
+	public function kategori_umur()
+	{
+		$data['lap'] = 15;
+		$data['main'] = $this->laporan_penduduk_model->list_data_kategori();
+		$data['stat_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
+		$data['stat_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
+		$data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
+		$data['stat_bantuan'] = $this->program_bantuan_model->list_program(0);
+		$data['judul_kelompok'] = "Jenis Kelompok";
+		$this->get_data_stat($data, $data['lap']);
+
+		$this->render('statistik/kategori_umur', $data);
+	}
+
+	public function form_kategori($id = 0)
+	{
+		if ($id == 0)
+		{
+			$data['form_action'] = site_url("statistik/kategori_insert");
+			$data['kategori'] = array(
+				'dari' => "",
+				'sampai' => "",
+				'nama' => ""
+			);
+		}
+		else
+		{
+			$data['form_action'] = site_url("statistik/kategori_update/$id");
+			$data['kategori'] = $this->laporan_penduduk_model->get_kategori($id);
+		}
+		$this->load->view('statistik/ajax_kategori_form', $data);
+	}
+
+	public function kategori_insert()
+	{
+		$this->laporan_penduduk_model->insert_kategori();
+		redirect('statistik/kategori_umur');
+	}
+
+	public function kategori_update($id = 0)
+	{
+		$this->laporan_penduduk_model->update_kategori($id);
+		redirect('statistik/kategori_umur');
+	}
+
+	public function kategori_delete($id = 0)
+	{
+		$this->redirect_hak_akses('h');
+		$this->laporan_penduduk_model->delete_kategori($id);
+		redirect('statistik/kategori_umur');
+	}
+
+	public function delete_all_kategori()
+	{
+		$this->redirect_hak_akses('h');
+		$this->laporan_penduduk_model->delete_all_kategori();
+		redirect('statistik/kategori_umur');
+	}
+
 	public function dusun($lap = 0)
 	{
 		if ($lap) $this->session->lap = $lap;
