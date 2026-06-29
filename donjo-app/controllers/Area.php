@@ -129,20 +129,69 @@ class Area extends Admin_Controller
     public function form($parent = 0, $id = '')
     {
         isCan('u');
+
         $data['area']        = null;
         $data['form_action'] = ci_route('area.insert', $parent);
         $data['foto_area']   = null;
         $data['parent']      = $parent;
 
         if ($id) {
-            $data['area']        = AreaModel::find($id);
+            $data['area']        = AreaModel::findOrFail($id);
             $data['form_action'] = ci_route('area.update', implode('/', [$parent, $id]));
+
+            // Ambil parent dari ref_polygon saat edit
+            if ($data['area']->ref_polygon) {
+                $currentPolygon = Polygon::find($data['area']->ref_polygon);
+                if ($currentPolygon && $currentPolygon->parrent) {
+                    $data['parent'] = $currentPolygon->parrent;
+                }
+            }
         }
 
-        $data['list_polygon'] = empty($parent) ? Polygon::subPolygon()->whereHas('parent')->get() : Polygon::child($parent)->whereHas('parent')->get();
-        $data['tip']          = $this->tip;
+        // Ambil semua data Root/Jenis untuk dropdown pertama
+        $data['list_jenis'] = Polygon::root()->get();
+
+        // Ambil data Child/Kategori untuk dropdown kedua
+        if ($data['parent'] > 0) {
+            $data['list_kategori'] = Polygon::child($data['parent'])->get();
+        } else {
+            $data['list_kategori'] = collect([]);
+        }
+
+        $data['tip'] = $this->tip;
 
         return view('admin.peta.area.form', $data);
+    }
+
+    /**
+     * AJAX untuk mengambil kategori berdasarkan jenis yang dipilih
+     */
+    public function ajax_get_kategori()
+    {
+        if ($this->input->is_ajax_request()) {
+            $jenis_id = $this->input->get('jenis_id');
+
+            if ($jenis_id) {
+                $kategori = Polygon::child($jenis_id)->get()->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'nama' => $item->nama,
+                    ];
+                });
+
+                return json([
+                    'success' => true,
+                    'data'    => $kategori,
+                ]);
+            }
+
+            return json([
+                'success' => false,
+                'data'    => [],
+            ]);
+        }
+
+        return show_404();
     }
 
     public function ajax_area_maps($parent, int $id)

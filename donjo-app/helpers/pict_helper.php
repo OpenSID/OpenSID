@@ -307,6 +307,10 @@ function UploadGallery(string $fupload_name, $old_foto = '', $tipe_file = ''): b
 
 function AmbilFotoArtikel(string $foto, string $ukuran)
 {
+    if (filter_var($foto, FILTER_VALIDATE_URL)) {
+        return $foto;
+    }
+
     return base_url(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto);
 }
 
@@ -339,6 +343,13 @@ function HapusArtikel(?string $gambar): bool
     unlink($vfile_upload);
     $vfile_upload = $vdir_upload . 'kecil_' . $gambar;
     unlink($vfile_upload);
+
+    // Hapus semua kemungkinan cache OG image
+    $cacheBase = FCPATH . 'desa/upload/cache/' . pathinfo($gambar, PATHINFO_FILENAME) . '_og';
+
+    foreach (['.png', '.jpg', '.jpeg', '.webp', '.gif'] as $ext) {
+        @unlink($cacheBase . $ext);
+    }
 
     return true;
 }

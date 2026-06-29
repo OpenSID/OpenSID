@@ -119,7 +119,7 @@ class KodeIsianSurat
                 'case_sentence' => true,
                 'judul'         => 'QRCode BSrE',
                 'isian'         => 'qr_bsre',
-                'data'          => '[qr_bsre]',
+                'data'          => setting('tte') && $this->dataSurat['surat']['qr_code_tte'] == 1 ? '[qr_bsre]' : '',
             ],
             [
                 'case_sentence' => true,

@@ -151,7 +151,7 @@
             <label for="kk_level">Hubungan Dalam Keluarga</label>
             @php
                 // Disable jika penduduk adalah Kepala Keluarga atau belum punya id_kk
-                $disableKkLevel = ($penduduk['kk_level'] == \App\Enums\SHDKEnum::KEPALA_KELUARGA) || empty($penduduk['id_kk']);
+                $disableKkLevel = (($penduduk['kk_level'] == \App\Enums\SHDKEnum::KEPALA_KELUARGA) && $penduduk['id_kk']);
             @endphp
             @if ($jenis_peristiwa == 1)
                 <select id="kk_level" class="form-control input-sm required select2" name="kk_level"
@@ -429,9 +429,7 @@
             <label for="adat">Wilayah Adat</label>
             @if ($status_pantau)
             <select class="form-control input-sm" data-placeholder="Pilih Adat" id="adat" name="adat">
-                @if ($penduduk)
-                <option value="{{ $penduduk['adat'] ?? '' }}" selected>{{ $penduduk['adat'] ?? '' }}</option>
-                @endif
+                <option value=""></option>
             </select>
             @else
             <select class="form-control input-sm select2-tags nama_adat" id="adat" name="adat">
@@ -452,9 +450,6 @@
             @if ($status_pantau)
                 <select class="form-control input-sm" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
                     <option value="">-- Pilih / Kosongkan --</option>
-                    @if ($penduduk)
-                        <option value="{{ $penduduk['suku'] ?? '' }}" selected>{{ $penduduk['suku'] ?? '' }}</option>
-                    @endif
                 </select>
             @else
                 <select class="form-control input-sm select2-tags nama_suku" id="suku" name="suku">
@@ -478,9 +473,7 @@
             <label for="marga">Marga</label>
             @if ($status_pantau)
             <select class="form-control input-sm" data-placeholder="Pilih Marga" id="marga" name="marga">
-                @if ($penduduk)
-                <option value="{{ $penduduk['marga'] ?? '' }}" selected>{{ $penduduk['marga'] ?? '' }}</option>
-                @endif
+                <option value=""></option>
             </select>
             @else
             <select class="form-control input-sm select2-tags nama_suku" id="marga" name="marga">
@@ -605,7 +598,7 @@
     <div class='col-sm-12'>
         <div class='form-group'>
             <label for="alamat">Alamat KK </label>
-            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk" maxlength="200" type="text"
+            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk required" maxlength="200" type="text"
                 placeholder="Alamat di Kartu Keluarga" value="{{ $penduduk['alamat'] }}"></input>
         </div>
     </div>
@@ -938,13 +931,6 @@
         </div>
     </div>
 </div>
-@push('css')
-<style>
-    .select2-results__option[aria-disabled=true] {
-        display: none;
-    }
-</style>
-@endpush
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function() {
@@ -958,6 +944,7 @@
             @if ($status_pantau)
                 // Adat select2
                 $('#adat').select2({
+                    dropdownParent: $('#modal-ubah-biodata').length ? $('#modal-ubah-biodata .modal-content') : undefined,
                     tags: true,
                     minimumInputLength: 2,
                     placeholder: 'Pilih Adat',
@@ -1025,16 +1012,9 @@
                     }
                 });
 
-                // --- Jika ada adat dari penduduk, set sebagai selected ---
-                @if ($penduduk && !empty($penduduk['adat']))
-                    $('#adat').append(
-                        new Option('{{ $penduduk["adat"] }}', '{{ $penduduk["adat"] }}', true, true)
-                    ).trigger('change');
-                @endif
-
-
                 // Suku select2, tergantung adat
                 $('#suku').select2({
+                    dropdownParent: $('#modal-ubah-biodata').length ? $('#modal-ubah-biodata .modal-content') : undefined,
                     tags: true,
                     placeholder: 'Pilih Suku/Etnis',
                     allowClear: true,
@@ -1120,16 +1100,9 @@
                     }
                 });
 
-                // --- Jika ada suku dari penduduk, tampilkan sebagai selected ---
-                @if ($penduduk && !empty($penduduk['suku']))
-                    $('#suku').append(
-                        new Option('{{ $penduduk["suku"] }}', '{{ $penduduk["suku"] }}', true, true)
-                    ).trigger('change');
-                @endif
-
-
                 // --- Inisialisasi Select2 untuk field Marga ---
                 $('#marga').select2({
+                    dropdownParent: $('#modal-ubah-biodata').length ? $('#modal-ubah-biodata .modal-content') : undefined,
                     tags: true,
                     placeholder: 'Pilih Marga',
                     allowClear: true,
@@ -1190,15 +1163,9 @@
                     },
                 });
 
-                // --- Jika ada marga dari penduduk, tampilkan sebagai terpilih di awal ---
-                @if ($penduduk && !empty($penduduk['marga']))
-                    $('#marga').append(
-                        new Option('{{ $penduduk["marga"] }}', '{{ $penduduk["marga"] }}', true, true)
-                    ).trigger('change');
-                @endif
-
                 // Pekerja Migran select2
                 $('#pekerja_migran').select2({
+                    dropdownParent: $('#modal-ubah-biodata').length ? $('#modal-ubah-biodata .modal-content') : undefined,
                     tags: true,
                     minimumInputLength: 0,
                     placeholder: 'Pilih Pekerja Migran',
@@ -1254,23 +1221,39 @@
                         cache: true
                     },
                 });
+
+                // --- Set initial values ---
+                @if ($penduduk && !empty($penduduk['adat']))
+                    $('#adat').append(new Option('{{ $penduduk["adat"] }}', '{{ $penduduk["adat"] }}', true, true)).trigger('change');
+                @endif
+                @if ($penduduk && !empty($penduduk['suku']))
+                    $('#suku').append(new Option('{{ $penduduk["suku"] }}', '{{ $penduduk["suku"] }}', true, true)).trigger('change');
+                @endif
+                @if ($penduduk && !empty($penduduk['marga']))
+                    $('#marga').append(new Option('{{ $penduduk["marga"] }}', '{{ $penduduk["marga"] }}', true, true)).trigger('change');
+                @endif
+
             @else
                 $('#adat').select2({
+                    dropdownParent: $('#modal-ubah-biodata').length ? $('#modal-ubah-biodata .modal-content') : undefined,
                     tags: true,
                     placeholder: 'Pilih Adat',
                     minimumInputLength: 2,
                 });
                 $('#suku').select2({
+                    dropdownParent: $('#modal-ubah-biodata').length ? $('#modal-ubah-biodata .modal-content') : undefined,
                     tags: true,
                     placeholder: 'Pilih Suku/Etnis',
                     minimumInputLength: 2,
                 });
                 $('#marga').select2({
+                    dropdownParent: $('#modal-ubah-biodata').length ? $('#modal-ubah-biodata .modal-content') : undefined,
                     tags: true,
                     placeholder: 'Pilih Marga',
                     minimumInputLength: 2,
                 });
                 $('#pekerja_migran').select2({
+                    dropdownParent: $('#modal-ubah-biodata').length ? $('#modal-ubah-biodata .modal-content') : undefined,
                     tags: true,
                     placeholder: 'Pilih Pekerja Migran',
                     minimumInputLength: 0,

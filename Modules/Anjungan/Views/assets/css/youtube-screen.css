@@ -1,0 +1,39 @@
+.video-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55); /* gelap */
+    backdrop-filter: blur(6px);      /* efek blur */
+    -webkit-backdrop-filter: blur(6px); /* untuk Safari */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    display: none; /* default disembunyikan */
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden; /* penting agar blur tidak bocor keluar */
+}
+
+.play-icon {
+    width: 85px;
+    height: 85px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.play-icon:before {
+    content: '';
+    margin-left: 6px;
+    border-style: solid;
+    border-width: 18px 0 18px 30px;
+    border-color: transparent transparent transparent black;
+}

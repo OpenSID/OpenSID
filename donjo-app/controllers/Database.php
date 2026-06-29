@@ -56,6 +56,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 use STS\ZipStream\Facades\Zip;
 use Symfony\Component\Process\Process;
 
@@ -127,16 +128,33 @@ class Database extends Admin_Controller
 
     public function exec_backup()
     {
-        if (! Arr::get(Sistem::cekKebutuhanSistem(), 'memory_limit.result')) {
-            return show_404();
-        }
-        if (setting('multi_desa')) {
-            session_error('Backup database tidak diizinkan');
-            redirect('database');
-        }
-        $dbName = (new Ekspor())->backup();
+        try {
+            if (! Arr::get(Sistem::cekKebutuhanSistem(), 'memory_limit.result')) {
+                throw new Exception('Memory limit tidak mencukupi untuk melakukan backup. Silakan periksa konfigurasi server.');
+            }
 
-        $this->downloadFile($dbName);
+            // Parameter force_all untuk backup semua desa (hanya valid untuk super admin, bukan database gabungan)
+            $forceAll = $this->input->get('force_all') === '1' && super_admin() && ! setting('multi_desa');
+
+            if ($forceAll) {
+                $dbName = (new Ekspor())->backup();
+            } else {
+                // Backup database desa saat ini (database gabungan)
+                $configId = identitas('id');
+                $dbName   = (new Ekspor())->setConfigId($configId)->backup();
+            }
+
+            if (! file_exists($dbName)) {
+                throw new Exception('File backup gagal dibuat. Silakan coba lagi.');
+            }
+
+            return $this->downloadFile($dbName);
+        } catch (Exception $e) {
+            logger()->error($e);
+            session_error('Backup gagal: ' . $e->getMessage());
+
+            return redirect('database');
+        }
     }
 
     public function desa_backup()
@@ -156,7 +174,12 @@ class Database extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables(LogBackup::query())
                 ->addIndexColumn()
-                ->addColumn('aksi', static fn ($row): string => '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ')
+                ->addColumn('aksi', static function ($row): string {
+                    return View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('database.inkremental_delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
+                })
                 ->rawColumns(['aksi'])
                 ->make();
         }

@@ -39,6 +39,7 @@ use App\Models\Pamong;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
+use App\Services\MasaAktifAkunService;
 use App\Traits\UploadFotoUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
@@ -52,12 +53,15 @@ class Man_user extends Admin_Controller
 
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'pengguna';
-    private int $tab_ini  = 10;
+    protected MasaAktifAkunService $masaAktifAkunService;
+    private int $tab_ini = 10;
 
     public function __construct()
     {
+        // Pastikan MasaAktifAkunService diinisialisasi di sini
         parent::__construct();
         isCan('b');
+        $this->masaAktifAkunService = new MasaAktifAkunService();
         $this->form_validation->set_error_delimiters('', '');
     }
 
@@ -95,9 +99,10 @@ class Man_user extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . site_url("man_user/form/{$row->id}") . '" class="btn bg-orange btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'man_user/form/' . $row->id,
+                    ])->render();
+
                     if ($row->id != super_admin()) {
                         if (can('u')) {
                             $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
@@ -105,9 +110,10 @@ class Man_user extends Admin_Controller
                                 'active' => $row->active,
                             ])->render();
                         }
-                        if (can('h')) {
-                            $aksi .= '<a href="#" data-href="' . site_url("man_user/delete/{$row->id}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                        }
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => site_url("man_user/delete/{$row->id}"),
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;
@@ -117,7 +123,7 @@ class Man_user extends Admin_Controller
                     : '<span class="label label-info">Bukan Staf</span>')
                 ->editColumn('last_login', static fn ($row) => tgl_indo2($row->last_login))
                 ->editColumn('email_verified_at', static fn ($row) => tgl_indo2($row->email_verified_at))
-                ->rawColumns(['ceklist', 'aksi', 'pamong_status'])
+                ->rawColumns(['ceklist', 'aksi', 'pamong_status', 'status_label'])
                 ->make();
         }
 
@@ -252,7 +258,20 @@ class Man_user extends Admin_Controller
     {
         isCan('u');
 
-        User::findOrFail($id)->update(['active' => 0]);
+        $user = User::findOrFail($id);
+
+        if ($user->id == super_admin()) {
+            redirect_with('error', 'Tidak dapat menonaktifkan akun Super Admin.');
+        }
+
+        $user->update(['active' => 0]);
+
+        try {
+            $this->masaAktifAkunService->sendAccountActivatedNotification($user);
+            set_session('success', 'Notifikasi aktivasi akun berhasil dikirim.');
+        } catch (Exception $e) {
+            log_message('error', 'Failed to send account activation notification: ' . $e->getMessage());
+        }
 
         redirect_with('success', 'Berhasil Ubah Data');
     }
@@ -261,9 +280,17 @@ class Man_user extends Admin_Controller
     {
         isCan('u');
 
-        User::findOrFail($id)->update(['active' => 1]);
+        $user = User::findOrFail($id);
+        $user->update(['active' => 1]);
 
+        try {
+            $this->masaAktifAkunService->sendAccountActivatedNotification($user);
+            set_session('success', 'Notifikasi aktivasi akun berhasil dikirim.');
+        } catch (Exception $e) {
+            log_message('error', 'Failed to send account activation notification: ' . $e->getMessage());
+        }
         redirect_with('success', 'Berhasil Ubah Data');
+
     }
 
     protected function delete_user($id = '')
@@ -281,8 +308,9 @@ class Man_user extends Admin_Controller
 
     protected function validate($request = [], $id = ''): array
     {
-        $data = [
-            'active'         => (int) ($request['aktif'] ?? 0),
+        $isSuperAdmin = $id && (int) $id === super_admin();
+        $data         = [
+            'active'         => $isSuperAdmin ? 1 : (int) ($request['aktif'] ?? 0),
             'username'       => isset($request['username']) ? alfanumerik($request['username']) : null,
             'nama'           => isset($request['nama']) ? strip_tags((string) nama($request['nama'])) : null,
             'phone'          => isset($request['phone']) ? htmlentities((string) $request['phone']) : null,

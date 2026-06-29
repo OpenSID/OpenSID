@@ -142,7 +142,20 @@
                                                         target="confirm-status" 
                                                         confirmMessage="Apakah Anda yakin ingin memecah Data Keluarga ini?" 
                                                     />
-                                                    <x-btn-button :url="ci_route('keluarga.ajax_pecah_kk', [$kk, $data['id']])" type="bg-yellow" icon="fa fa-plus-square" judul="Pisah KK" modal="true" buttonOnly="true" modalTarget="modalBox"  />
+                                                @else
+                                                    <x-confirm-button 
+                                                        url="{{ ci_route('keluarga.delete_anggota.' . $kk, $data['id']) }}" 
+                                                        type="bg-purple" 
+                                                        icon="fa fa-cut" 
+                                                        judul="Pecah KK" 
+                                                        target="confirm-status" 
+                                                        confirmMessage="<p>Tindakan ini <strong>tidak dapat dibatalkan</strong>.</p>
+                                                                        <p>KK yang dipecah oleh Kepala Keluarga <strong>tidak dapat digunakan kembali serta semua anggota keluarga akan ikut dipecah</strong>.</p>
+                                                                        <p>Apakah Anda yakin ingin melanjutkan proses ini?</p>" 
+                                                    />
+                                                @endif
+                                                @if ($data['bisaGabungKK'])
+                                                    <x-btn-button :url="ci_route('keluarga.ajax_gabung_kk', [$kk, $data['id']])" type="bg-yellow" icon="fa fa-plus-square" judul="Gabung KK" modal="true" buttonOnly="true" modalTarget="modalBox"  />
                                                 @endif
                                                 @if ($kepala_kk['status_dasar'] == 1 && $data['kk_level'] != 1)
                                                     <x-edit-hubungan-button url="{{ ci_route('keluarga.edit_anggota.' . $kk, $data['id']) }}" />

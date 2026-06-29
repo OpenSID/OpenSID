@@ -37,6 +37,7 @@
 
  use App\Enums\FirebaseEnum;
 use App\Enums\StatusEnum;
+use App\Events\Surat\PermohonanSuratVerified;
 use App\Libraries\TinyMCE;
 use App\Models\Dokumen;
 use App\Models\FcmToken;
@@ -168,7 +169,8 @@ class Keluar extends Admin_Controller
                 'id_pend',
                 'nama_non_warga',
                 'nik_non_warga',
-                'keterangan',
+                'input',
+                'keterangan as ket',
                 'nama_pamong',
                 'tanggal',
                 'id_user',
@@ -216,7 +218,7 @@ class Keluar extends Admin_Controller
                 ->when($state == 'tolak', static fn ($q) => $q->ditolak())
                 ->whereNull('deleted_at'))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($state, $canUpdate, $canDelete, $operator, $jabatanId, $idJabatanKades, $idJabatanSekdes, $redirectDelete): string {
+                ->addColumn('aksi', static function ($row) use ($state, $canUpdate, $operator, $jabatanId, $idJabatanKades, $idJabatanSekdes, $redirectDelete): string {
                     $aksi          = '';
                     $statusPeriksa = $row->statusPeriksa($jabatanId, $idJabatanKades, $idJabatanSekdes);
                     if ($state == 'arsip' && $canUpdate) {
@@ -228,11 +230,15 @@ class Keluar extends Admin_Controller
                             ])->render();
                         }
                         if (! in_array($row->formatSuratArsip->jenis, FormatSurat::RTF) && $row->status == 0) {
-                            $aksi .= '<a href="' . ci_route('surat.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
-                            // hapus surat draft
-                            if ($canDelete) {
-                                $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=' . $redirectDelete . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                            }
+                            $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                                'url'   => 'surat/cetak/' . $row->id,
+                                'blank' => true,
+                            ])->render();
+
+                            $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                                'url'           => "/keluar/delete/{$row->id}?redirect={$redirectDelete}",
+                                'confirmDelete' => true,
+                            ])->render();
                         }
                         if (User::superAdmin() && ! setting('tte') && $row->status != 0) {
                             if ($row->lock !== StatusEnum::YA) {
@@ -242,7 +248,14 @@ class Keluar extends Admin_Controller
                                     'judul' => 'Ubah Surat',
                                     'modal' => true,
                                 ])->render();
-                                $aksi .= '<a href="#" onclick="lockSurat(' . $row->id . ')" title="Konfirmasi Surat" class="lock-surat btn bg-purple btn-sm"><i class="fa fa-lock"></i></a> ';
+                                $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                    'url'        => '#',
+                                    'type'       => 'bg-purple',
+                                    'judul'      => 'Konfirmasi Surat',
+                                    'icon'       => 'fa fa-lock',
+                                    'buttonOnly' => true,
+                                    'attribut'   => 'onclick=lockSurat(' . $row->id . ')',
+                                ])->render();
                             }
                         }
                     }
@@ -255,13 +268,22 @@ class Keluar extends Admin_Controller
                                 'modal' => true,
                             ])->render();
                         } elseif ($row->status == 0 || $row->verifikasi == '-1') {
-                            $aksi .= '<a href="' . ci_route('surat.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
+                            $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                                'url'   => 'surat/cetak/' . $row->id,
+                                'blank' => true,
+                            ])->render();
                         }
                         if ($row->verifikasi == '-1' && $row->mandiri == '1') {
                             $aksi .= '<button data-id="' . $row->id . '" type="button" class="btn bg-blue btn-sm kembalikan" title="Kembalikan"> <i class="fa fa-undo"></i></button> ';
                         }
                         if ($statusPeriksa == 0 && $row->status != 0) {
-                            $aksi .= '<a href="' . ci_route('keluar.periksa', $row->id) . '" class="btn bg-olive btn-sm" title="verifikasi"><i class="fa fa-check-square-o"></i></a> ';
+                            $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                'url'        => ci_route('keluar.periksa', $row->id),
+                                'judul'      => 'Verifikasi',
+                                'icon'       => 'fa fa-check-square-o',
+                                'type'       => 'bg-olive',
+                                'buttonOnly' => true,
+                            ])->render();
                         }
                         if ($statusPeriksa == 2) {
                             $aksi .= '<button data-id="' . $row->id . '" type="button" class="btn bg-blue btn-sm passphrase " title="passphrase"> <i class="fa fa-key"></i></button> ';
@@ -272,23 +294,58 @@ class Keluar extends Admin_Controller
                     if ($row->status == '1') {
                         if (in_array($row->formatSuratArsip->jenis, FormatSurat::RTF)) {
                             if (is_file($row->rtfFile())) {
-                                $aksi .= '<a href="' . ci_route('keluar.unduh.rtf', $row->id) . '" class="btn bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i></a> ';
+                                $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                    'url'        => ci_route('keluar.unduh.rtf', $row->id),
+                                    'judul'      => 'Unduh Surat RTF',
+                                    'icon'       => 'fa fa-file-word-o',
+                                    'type'       => 'bg-purple',
+                                    'buttonOnly' => true,
+                                    'blank'      => true,
+                                ])->render();
                             }
                             if (is_file($row->pdfFile())) {
-                                $aksi .= '<a href="' . ci_route('keluar.unduh.pdf', $row->id) . '" class="btn bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a> ';
+                                $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                    'url'        => ci_route('keluar.unduh.pdf', $row->id),
+                                    'judul'      => 'Cetak Surat PDF',
+                                    'icon'       => 'fa fa-file-pdf-o',
+                                    'type'       => 'bg-fuchsia',
+                                    'buttonOnly' => true,
+                                    'blank'      => true,
+                                ])->render();
                             }
                             if (is_file($row->lampiranFile())) {
-                                $aksi .= '<a href="' . ci_route('keluar.unduh.lampiran', $row->id) . '" target="_blank" class="btn btn-social bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a> ';
+                                $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                    'url'   => ci_route('keluar.unduh.lampiran', $row->id),
+                                    'judul' => 'Lampiran',
+                                    'icon'  => 'fa fa-paperclip',
+                                    'type'  => 'bg-olive',
+                                    'blank' => true,
+                                ])->render();
                             }
                         }
                         if ($row->urls_id) {
                             if (! $row->log_verifikasi) {
-                                $aksi .= '<a href="' . ci_route('keluar.qrcode', $row->urls_id) . '" title="QR Code" data-size="modal-sm" class="viewQR btn bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a> ';
+                                $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                    'url'        => ci_route('keluar.qrcode', $row->urls_id),
+                                    'judul'      => 'QR Code',
+                                    'icon'       => 'fa fa-qrcode',
+                                    'type'       => 'bg-aqua',
+                                    'modal'      => true,
+                                    'buttonOnly' => true,
+                                    'attribut'   => 'class="viewQR" data-size="modal-sm"',
+                                ])->render();
                             }
                         }
                         if ($row->verifikasi == '1' && ! $row->log_verifikasi) {
                             if (! in_array($row->formatSuratArsip->jenis, FormatSurat::RTF)) {
-                                $aksi .= '<a href="' . ci_route('keluar.unduh.tinymce', $row->id) . '" class="btn bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a> ';
+                                $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                    'url'        => ci_route('keluar.unduh.tinymce', $row->id),
+                                    'judul'      => 'Cetak Surat PDF',
+                                    'icon'       => 'fa fa-file-pdf-o',
+                                    'type'       => 'bg-fuchsia',
+                                    'blank'      => true,
+                                    'buttonOnly' => true,
+                                ])->render();
                             }
                         }
 
@@ -312,9 +369,10 @@ class Keluar extends Admin_Controller
                         }
 
                         // hapus surat -->
-                        if ($canDelete) {
-                            $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=' . $redirectDelete . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                        }
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('keluar.delete', $row->id) . '?redirect=' . $redirectDelete,
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;
@@ -322,7 +380,7 @@ class Keluar extends Admin_Controller
                 ->addColumn('kode_surat', static fn ($row) => $row->formatSuratArsip->kode_surat ?? '')
                 ->editColumn('id_format_surat', static fn ($row) => $row->formatSuratArsip->nama ?? '')
                 ->editColumn('id_user', static fn ($row) => $row->user->nama ?? '')
-                ->editColumn('keterangan', static fn ($row) => $row->keterangan ?? '-')
+                ->editColumn('keterangan', static fn ($row) => $row->ket ?? '-')
                 ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
                 ->editColumn('penduduk_non_warga', static fn ($row) => $row->penduduk->nama ?? ($row->nama_non_warga ? '<strong>Non-warga: </strong>' . $row->nama_non_warga . '<br><strong>NIK: </strong>' . $row->nik_non_warga : ''))
                 ->addColumn('pemohon', static function ($row) {
@@ -564,15 +622,6 @@ class Keluar extends Admin_Controller
             $judul      = 'Pengajuan Surat - ' . $pesan['[judul_surat]'];
             $payload    = '/permohonan/surat/periksa/' . $id . '/Periksa Surat';
 
-            $allToken = FcmToken::whereHas('user.pamong', static function ($query) use ($next) {
-                if ($next === 'verifikasi_sekdes') {
-                    return $query->where('jabatan_id', '=', sekdes()->id)->where('pamong_ttd', '=', '1');
-                }
-                if ($next === 'verifikasi_kades') {
-                    return $query->where('jabatan_id', '=', kades()->id);
-                }
-            })->get();
-
             // log ke notifikasi
             $isi_notifikasi = [
                 'judul'      => $judul,
@@ -583,45 +632,8 @@ class Keluar extends Admin_Controller
             ];
             $this->create_log_notifikasi_admin($next, $isi_notifikasi);
 
-            if (cek_koneksi_internet() && setting('telegram_token')) {
-                if ($kirim_telegram != null) {
-                    try {
-                        $telegram = new Telegram(setting('telegram_token'));
-
-                        // Data pesan telegram yang akan digantikan
-                        $kirimPesan = str_replace(array_keys($pesan), array_values($pesan), $kirimPesan);
-
-                        $telegram->sendMessage([
-                            'chat_id'      => $kirim_telegram->id_telegram,
-                            'text'         => $kirimPesan,
-                            'parse_mode'   => 'Markdown',
-                            'reply_markup' => json_encode([
-                                'inline_keyboard' => [[
-                                    ['text' => 'Lihat detail', 'url' => ci_route("keluar/periksa/{$id}")],
-                                ]],
-                            ]),
-                        ]);
-                    } catch (Exception $e) {
-                        log_message('error', $e->getMessage());
-                    }
-                }
-
-                // kirim ke aplikasi android admin.
-                try {
-                    $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                    $notification = new Fcm\Push\Notification();
-
-                    $notification
-                        ->addRecipient($allToken->pluck('token')->all())
-                        ->setTitle($judul)
-                        ->setBody($kirimFCM)
-                        ->addData('payload', '/permohonan/surat/periksa/' . $id . '/Periksa Surat');
-                    $client->send($notification);
-                } catch (Exception $e) {
-                    log_message('error', $e->getMessage());
-                }
-                // bagian akhir kirim ke aplikasi android admin.
-            }
+            // Dispatch event to send notifications
+            event(new PermohonanSuratVerified($log_surat, $next, $pesan));
         }
     }
 
@@ -887,13 +899,27 @@ class Keluar extends Admin_Controller
             return datatables()->of(LogSurat::selectRaw('*')
                 ->withOnly(['formatSurat', 'penduduk', 'pamong', 'user'])->whereNull('deleted_at'))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
+                ->addColumn('aksi', static function ($row) use ($canUpdate): string {
                     $aksi = '';
                     if (is_file($row->rtfFile())) {
-                        $aksi .= '<a href="' . ci_route($row->rtfFile()) . '" class="btn bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'buttonOnly' => true,
+                            'url'        => ci_route($row->rtfFile()),
+                            'type'       => 'bg-purple',
+                            'icon'       => 'fa fa-file-word-o',
+                            'blank'      => true,
+                            'judul'      => 'Unduh Surat RTF',
+                        ])->render();
                     }
                     if (is_file($row->pdfFile())) {
-                        $aksi .= '<a href="' . ci_route($row->pdfFile()) . '" class="btn bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'buttonOnly' => true,
+                            'url'        => ci_route($row->pdfFile()),
+                            'type'       => 'bg-fuchsia',
+                            'icon'       => 'fa fa-file-pdf-o',
+                            'blank'      => true,
+                            'judul'      => 'Cetak Surat PDF',
+                        ])->render();
                     }
 
                     // if (is_file($row->qrFile())):
@@ -902,7 +928,14 @@ class Keluar extends Admin_Controller
                     // endif;
 
                     if (is_file($row->lampiranFile())) {
-                        $aksi .= '<a href="' . ci_route($row->lampiranFile()) . '" target="_blank" class="btn btn-social bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'   => ci_route($row->lampiranFile()),
+                            'type'  => 'bg-olive',
+                            'icon'  => 'fa fa-paperclip',
+                            'blank' => true,
+                            'judul' => 'Lampiran',
+                            'title' => 'Unduh Lampiran',
+                        ])->render();
                     }
                     if ($canUpdate) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
@@ -911,9 +944,10 @@ class Keluar extends Admin_Controller
                             'modal' => true,
                         ])->render();
                     }
-                    if ($canDelete) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=perorangan" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('keluar.delete', $row->id) . '?redirect=perorangan',
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

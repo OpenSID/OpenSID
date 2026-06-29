@@ -46,6 +46,8 @@ Route::group('anjungan', ['namespace' => 'Anjungan/BackEnd'], static function ()
     Route::get('/delete/{id?}', 'AnjunganController@delete')->name('admin.anjungan.delete');
     Route::post('/delete', 'AnjunganController@delete')->name('admin.anjungan.delete-all');
     Route::get('/kunci/{id?}/{val?}', 'AnjunganController@kunci')->name('admin.anjungan.kunci');
+    Route::get('/verify', 'AnjunganController@verify')->name('admin.anjungan.verify');
+    Route::get('/delete_device/{uuid?}', 'AnjunganController@delete_device')->name('admin.anjungan.delete_device');
 });
 
 // Anjungan > Menu

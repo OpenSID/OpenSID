@@ -35,28 +35,64 @@
  *
  */
 
-class Security_header
+namespace App\Notifications;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
+
+abstract class BaseNotification extends Notification
 {
+    use Queueable;
+
     /**
-     * @var CI_Controller
+     * Judul notifikasi
      */
-    protected $ci;
+    abstract public function getTitle(): string;
 
-    public function __construct()
+    /**
+     * Get notification slug
+     */
+    abstract public function getNotificationSlug(): string;
+
+    /**
+     * Message notifikasi
+     */
+    abstract public function getMessage(): string;
+
+    /**
+     * Data tambahan notifikasi
+     */
+    abstract public function getData(): array;
+
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param mixed $notifiable
+     */
+    public function via($notifiable): array
     {
-        $this->ci = &get_instance();
-
-        $this->ci->load->config('security/headers', true);
+        return ['database'];
     }
 
-    public function handle(): void
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param mixed $notifiable
+     */
+    public function toArray($notifiable): array
     {
-        foreach ($this->ci->config->item('security/headers') as $key => $value) {
-            if ($key === 'Strict-Transport-Security' && ! is_https()) {
-                continue;
-            }
+        $slug   = $this->getNotificationSlug();
+        $config = config("notifications.categories.{$slug}", []);
 
-            $this->ci->output->set_header("{$key}: {$value}");
-        }
+        return [
+            'category' => $config['slug'] ?? $slug,
+            'label'    => $config['label'] ?? 'Notifikasi',
+            'icon'     => $config['icon'] ?? 'fa-bell',
+            'color'    => $config['color'] ?? '#666',
+            'url'      => method_exists($this, 'getUrl') ? $this->getUrl() : (isset($config['route']) ? ci_route($config['route']) : '#'),
+            'title'    => $this->getTitle(),
+            'message'  => $this->getMessage(),
+            'data'     => $this->getData(),
+        ];
     }
 }

@@ -31,17 +31,34 @@
                             <input name="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" value="{{ $area->nama }}" />
                         </div>
                     </div>
+                    
+                    <!-- DROPDOWN JENIS (ROOT) -->
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Jenis</label>
+                        <div class="col-sm-7">
+                            <select class="form-control input-sm select2 required" id="jenis" name="jenis">
+                                <option value="">Pilih Jenis</option>
+                                @foreach ($list_jenis as $data)
+                                    <option value="{{ $data->id }}" @selected($data->id == $parent)>{{ $data->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- DROPDOWN KATEGORI (CHILD) -->
                     <div class="form-group">
                         <label class="control-label col-sm-3">Kategori</label>
                         <div class="col-sm-7">
                             <select class="form-control input-sm select2 required" id="ref_polygon" name="ref_polygon">
                                 <option value="">Pilih Kategori</option>
-                                @foreach ($list_polygon as $data)
+                                @foreach ($list_kategori as $data)
                                     <option value="{{ $data->id }}" @selected($data->id == $area->ref_polygon)>{{ $data->nama }}</option>
                                 @endforeach
                             </select>
+                            <p class="help-block small text-muted">Pilih Jenis terlebih dahulu untuk menampilkan Kategori</p>
                         </div>
                     </div>
+                    
                     <?php if ($area->foto_area) : ?>
                     <div class="form-group">
                         <label class="control-label col-sm-3"></label>
@@ -93,4 +110,87 @@
             </form>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        $(document).ready(function() {
+            // Simpan nilai kategori yang harus di-select (dari database saat edit)
+            var selectedKategori = '{{ $area->ref_polygon ?? "" }}';
+
+            // Function untuk load kategori berdasarkan jenis
+            function loadKategori(jenisId) {
+                var $kategori = $('#ref_polygon');
+
+                // Show loading state
+                $kategori.html('<option value="">Memuat...</option>').prop('disabled', true);
+
+                if (!jenisId) {
+                    $kategori.html('<option value="">Pilih Kategori</option>').prop('disabled', false);
+                    return;
+                }
+
+                // AJAX untuk mengambil kategori
+                $.ajax({
+                    url: "{{ ci_route('area.ajax_get_kategori') }}",
+                    type: 'GET',
+                    data: {
+                        jenis_id: jenisId
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        // Reset dropdown
+                        $kategori.html('<option value="">Pilih Kategori</option>');
+
+                        if (response.success && response.data.length > 0) {
+                            // Loop dan tambahkan option
+                            $.each(response.data, function(key, value) {
+                                var isSelected = (selectedKategori && value.id == selectedKategori);
+                                var option = $('<option></option>')
+                                    .attr('value', value.id)
+                                    .text(value.nama);
+
+                                // Set selected jika sesuai dengan data yang harus dipilih
+                                if (isSelected) {
+                                    option.prop('selected', true);
+                                }
+
+                                $kategori.append(option);
+                            });
+                        } else {
+                            $kategori.html('<option value="">Tidak ada kategori</option>');
+                        }
+
+                        // Enable dropdown dan refresh select2
+                        $kategori.prop('disabled', false);
+
+                        // Refresh select2 dengan nilai yang sudah dipilih
+                        if (typeof $kategori.select2 === 'function') {
+                            $kategori.select2().trigger('change');
+                        } else {
+                            $kategori.trigger('change');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading kategori:', error);
+                        $kategori.html('<option value="">Error memuat data</option>').prop('disabled', false);
+                    }
+                });
+            }
+
+            // Event saat dropdown Jenis berubah
+            $('#jenis').on('change', function() {
+                var jenisId = $(this).val();
+                loadKategori(jenisId);
+            });
+
+            // Auto-load kategori saat edit (jika parent sudah ada)
+            @if($parent > 0)
+            var jenisId = $('#jenis').val();
+            if (jenisId) {
+                loadKategori(jenisId);
+            }
+            @endif
+        });
+    </script>
+    @endpush
 @endsection

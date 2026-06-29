@@ -465,8 +465,9 @@ class LogSurat extends BaseModel
         $jabatanKadesId  = $listJabatan['jabatan_kades_id'];
         $jabatanSekdesId = $listJabatan['jabatan_sekdes_id'];
 
-        return $query->when($jabatanId == $jabatanKadesId, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where(static fn ($r) => $r->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0)))
-            ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '0')))
+        return $query
+            ->when($jabatanId == $jabatanKadesId, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where(static fn ($r) => $r->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0)))
+                ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '0')))
             ->when($jabatanId == $jabatanSekdesId, static fn ($q) => $q->where('verifikasi_sekdes', '=', '0'))
             ->when($isAdmin == null || ! in_array($jabatanId, [$jabatanKadesId, $jabatanSekdesId]), static fn ($q) => $q->where('verifikasi_operator', '=', '0'));
     }
@@ -494,11 +495,6 @@ class LogSurat extends BaseModel
     public function logPerubahanSurat()
     {
         return $this->hasMany(LogPerubahanSurat::class, 'log_surat_id');
-    }
-
-    public function setKeteranganAttribute(): void
-    {
-        $this->attributes['keterangan'] = null;
     }
 
     public function getKeteranganAttribute()

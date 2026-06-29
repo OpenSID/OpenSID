@@ -49,7 +49,7 @@ class Anjungan extends Gawai
     use LogsActivity;
 
     protected $attributes = [
-        'tipe' => self::ANJUNGAN,
+        'tipe' => '[1]', // Default ANJUNGAN as JSON string
     ];
 
     /**
@@ -60,7 +60,9 @@ class Anjungan extends Gawai
     protected static function booted()
     {
         static::addGlobalScope('tipe', static function (Builder $builder) {
-            $builder->where('tipe', self::ANJUNGAN);
+            $builder
+                ->whereJsonContains('tipe', self::ANJUNGAN)
+                ->orwhereJsonContains('tipe', self::KEHADIRAN);
         });
     }
 

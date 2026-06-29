@@ -353,10 +353,10 @@ class Migrasi_2025110171
             'key'        => 'login_otp',
             'value'      => AktifEnum::AKTIF,
             'keterangan' => 'Aktifkan fitur login dengan OTP (One-Time Password) untuk keamanan tambahan',
-            'jenis'      => 'select-boolean',
+            'jenis'      => 'boolean',
             'option'     => null,
             'kategori'   => 'auth',
-            'attribute'  => json_encode([]),
+            'attribute'  => null,
         ]);
 
         $this->createSetting([

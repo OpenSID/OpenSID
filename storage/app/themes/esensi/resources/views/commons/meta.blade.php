@@ -50,8 +50,8 @@
     @if (trim($single_artikel['gambar']) != '')
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image" content="{{ base_url(LOKASI_FOTO_ARTIKEL . 'kecil_' . $single_artikel['gambar']) }}?v={{ time() }}" />
-        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image" content="{{ site_url('og-image/' . $single_artikel['gambar']) }}">
+        <meta property="og:image:type" content="image/png">
         <meta itemprop="image" content="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar']) }}?v={{ time() }}" />
     @endif
     <meta property='og:description' content="{{ str_replace('"', "'", substr(strip_tags($single_artikel['isi']), 0, 150)) }}" />
@@ -70,7 +70,7 @@
 <link rel="shortcut icon" href="{{ favico_desa() }}" />
 <noscript>You must have JavaScript enabled in order to use this theme. Please enable JavaScript and then reload this page in order to continue.</noscript>
 @if (cek_koneksi_internet())
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 @endif
 <script>
     var BASE_URL = '{{ base_url() }}';

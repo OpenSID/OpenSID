@@ -36,6 +36,7 @@
  */
 
 use App\Enums\Statistik\StatistikEnum;
+use App\Events\Komentar\KomentarSubmitted;
 use App\Libraries\AnalisisImport;
 use App\Libraries\Keuangan;
 use App\Models\Artikel;
@@ -50,11 +51,6 @@ class First extends Web_Controller
     public function __construct()
     {
         parent::__construct();
-        parent::clear_cluster_session();
-
-        // $this->load->library('security/security_header', null, 'security_header');
-        // $this->security_header->handle();
-
         // $this->load->library('security/security_trusted_host', null, 'security_trusted_host');
         // $this->security_trusted_host->handle();
 
@@ -119,6 +115,9 @@ class First extends Web_Controller
                     'id_artikel' => $id,
                 ];
                 $res = Komentar::create($data);
+
+                // Dispatch event to send notifications
+                event(new KomentarSubmitted($res));
 
                 if ($res) {
                     $respon = [
@@ -186,28 +185,21 @@ class First extends Web_Controller
     {
         $redirect_link = $this->input->get('redirectLink');
 
-        if ($this->session->inside_retry == false) {
-            // Untuk kondisi SEBELUM autentikasi dan SETELAH RETRY hit API
-            if ($this->input->get('outsideRetry') == 'true') {
-                $this->session->inside_retry = true;
-            }
+        $result = (new AnalisisImport())->importGform($redirect_link);
 
-            $result = (new AnalisisImport())->importGform($redirect_link);
-
-            $this->session->set_userdata([
-                'data_import' => $result,
-                'success'     => 5,
-            ]);
-
-            return redirect('analisis_master');
+        // Jika result adalah redirect (dari redirect_with), akan langsung dikirim
+        // Jika result adalah data, simpan ke session
+        if (! is_array($result)) {
+            // Kemungkinan sudah redirect
+            return $result;
         }
-            // Untuk kondisi SESAAT setelah Autentikasi
-            $redirect_link = $this->session->inside_redirect_link;
 
-            $this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
+        $this->session->set_userdata([
+            'data_import' => $result,
+            'success'     => 5,
+        ]);
 
-            header("Location: {$redirect_link}?outsideRetry=true&code={$this->input->get('code')}&formId={$this->session->google_form_id}");
-
+        return redirect('analisis_master');
     }
 
     public function utama(): void

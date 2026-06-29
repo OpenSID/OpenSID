@@ -41,6 +41,7 @@ use App\Enums\StatusEnum;
 use App\Services\Auth\Traits\Authorizable;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use App\Traits\StatusTrait;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -62,6 +63,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     use MustVerifyEmail;
     use Notifiable;
     use HasOneTimePasswords;
+    use StatusTrait;
 
     /**
      * The timestamps for the model.
@@ -70,7 +72,8 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      */
     public $timestamps = false;
 
-    protected $table = 'user';
+    protected $table           = 'user';
+    protected $statusColumName = 'active';
 
     /**
      * {@inheritDoc}
@@ -129,6 +132,16 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         static::deleting(static function ($model): void {
             static::deleteFile($model, 'foto', true);
         });
+    }
+
+    /**
+     * Get the entity's notifications.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function notifications()
+    {
+        return $this->morphMany(DatabaseNotification::class, 'notifiable')->latest();
     }
 
     /**

@@ -1087,22 +1087,40 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return usia($this->tanggallahir, null, '%y');
     }
 
-    public function getAlamatWilayahAttribute(): string
+    public function getAlamatWilayahAttribute()
     {
-        if ($this->id_kk != null) {
-            return $this->keluarga->alamat . ' RT ' . $this->keluarga->wilayah->rt . ' / RW ' . $this->keluarga->wilayah->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->keluarga->wilayah->dusun);
+        // Cek relasi keluarga sudah loaded sebelum akses untuk mencegah N+1 query
+        if ($this->id_kk != null && $this->relationLoaded('keluarga') && $this->keluarga) {
+            if ($this->keluarga->relationLoaded('wilayah') && $this->keluarga->wilayah) {
+                return $this->keluarga->alamat . ' RT ' . $this->keluarga->wilayah->rt . ' / RW ' . $this->keluarga->wilayah->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->keluarga->wilayah->dusun);
+            }
+
+            return $this->keluarga->alamat;
         }
 
-        return $this->alamat_sekarang . ' RT ' . $this->wilayah->rt . ' / RW ' . $this->wilayah->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->wilayah->dusun);
+        if ($this->relationLoaded('Wilayah') && $this->Wilayah) {
+            return $this->alamat_sekarang . ' RT ' . $this->Wilayah->rt . ' / RW ' . $this->Wilayah->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->Wilayah->dusun);
+        }
+
+        return $this->alamat_sekarang;
     }
 
-    public function getAlamatWilayahKartuKeluargaAttribute(): string
+    public function getAlamatWilayahKartuKeluargaAttribute()
     {
-        if ($this->id_kk != null) {
-            return $this->keluarga->alamat . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->keluarga->wilayah->dusun);
+        // Cek relasi keluarga sudah loaded sebelum akses untuk mencegah N+1 query
+        if ($this->id_kk != null && $this->relationLoaded('keluarga') && $this->keluarga) {
+            if ($this->keluarga->relationLoaded('wilayah') && $this->keluarga->wilayah) {
+                return $this->keluarga->alamat . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->keluarga->wilayah->dusun);
+            }
+
+            return $this->keluarga->alamat;
         }
 
-        return $this->alamat_sekarang . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->wilayah->dusun);
+        if ($this->relationLoaded('Wilayah') && $this->Wilayah) {
+            return $this->alamat_sekarang . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->Wilayah->dusun);
+        }
+
+        return $this->alamat_sekarang;
     }
 
     public function scopeKepalaKeluarga($query)
@@ -1321,9 +1339,10 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
     public function getLokasiAttribute()
     {
-        if ($this->rtm->nik_kepala != null) {
+        // Cek apakah relasi rtm sudah loaded dan memiliki nik_kepala
+        if ($this->relationLoaded('rtm') && $this->rtm && $this->rtm->nik_kepala != null) {
             $id = $this->rtm->nik_kepala;
-        } elseif ($this->keluarga != '[]' && $this->keluarga != null) {
+        } elseif ($this->relationLoaded('keluarga') && $this->keluarga != '[]' && $this->keluarga != null) {
             $id = $this->keluarga->nik_kepala;
         } else {
             $id = $this->id;
@@ -1404,8 +1423,10 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
         return $query->where(['status_dasar' => 1, 'status' => 1, 'warganegara_id' => 1])
             ->where(static function ($q) use ($tglPemilihan) {
-                return $q->whereRaw(DB::raw("(DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('{$tglPemilihan}','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 ) >= 17"))
-                    ->orWhereIn('status_kawin', [2, 3, 4]);
+                return $q->whereRaw(
+                    "(DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE(?,'%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 ) >= 17",
+                    [$tglPemilihan]
+                )->orWhereIn('status_kawin', [2, 3, 4]);
             })->whereNotIn('pekerjaan_id', ['6', '7']);
     }
 
@@ -1439,7 +1460,10 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $umurMax = 1000;
         }
 
-        return $query->whereRaw(DB::raw("TIMESTAMPDIFF({$satuan}, tanggallahir, STR_TO_DATE('{$tglPemilihan}','%d-%m-%Y')) between {$umurMin} and {$umurMax}"));
+        return $query->whereRaw(
+            "TIMESTAMPDIFF({$satuan}, tanggallahir, STR_TO_DATE(?,'%d-%m-%Y')) between ? and ?",
+            [$tglPemilihan, $umurMin, $umurMax]
+        );
     }
 
     protected function scopeWajibKtp($query)

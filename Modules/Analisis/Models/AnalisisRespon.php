@@ -257,6 +257,11 @@ class AnalisisRespon extends BaseModel
         }
     }
 
+    public function indikator()
+    {
+        return $this->belongsTo(AnalisisIndikator::class, 'id_indikator');
+    }
+
     public function import_respon($idMaster, $periode, $subjekTipe, $op, $mapSubjek)
     {
         $configID = identitas('id');
@@ -298,8 +303,9 @@ class AnalisisRespon extends BaseModel
                 }
             }
             if ($ketemu == 1) {
-                $dels = '';
-                $true = 0;
+                // Gunakan array untuk menyimpan id_subjek yang akan dihapus
+                $id_subjek_list = [];
+                $true           = 0;
 
                 for ($i = $br; $i <= $baris; $i++) {
                     $id_subjek = $data->val($i, $kl - 1, $s);
@@ -315,15 +321,22 @@ class AnalisisRespon extends BaseModel
                         $j++;
                     }
                     if ($true == 1) {
-                        $dels .= $id_subjek . ',';
-                        $true = 0;
+                        // Simpan ke array,
+                        $id_subjek_list[] = $id_subjek;
+                        $true             = 0;
                     }
                 }
 
-                $dels .= '9999999';
-                //cek ada row
-                self::where('id_periode', $per)->whereRaw("id_subjek in({$dels})")->delete();
-                $dels = '';
+                // Hapus hanya data yang sesuai dengan master dan periode ini
+                // filter berdasarkan id_master melalui relasi indikator
+                if (! empty($id_subjek_list)) {
+                    self::where('id_periode', $per)
+                        ->whereIn('id_subjek', $id_subjek_list)
+                        ->whereHas('indikator', static function ($query) use ($mas) {
+                            $query->where('id_master', $mas);
+                        })
+                        ->delete();
+                }
 
                 for ($i = $br; $i <= $baris; $i++) {
                     $id_subjek = $data->val($i, $kl - 1, $s);
@@ -424,21 +437,37 @@ class AnalisisRespon extends BaseModel
     {
         $subjekTipe = $this->subjekTipe;
 
+        // Filter data berdasarkan id_master melalui relasi indikator
         $data = AnalisisRespon::selectRaw("DISTINCT({$subjekTipe}) as id")
+            ->whereHas('indikator', static function ($query) use ($idMaster) {
+                $query->where('id_master', $idMaster);
+            })
             ->where('id_periode', $per)
             ->pluck('id')
             ->filter()
             ->all();
 
-        AnalisisResponHasil::where(static function ($query) use ($subjekTipe) {
-            $query->whereNull('id_subjek')->orWhereNull($subjekTipe);
-        })->delete();
+        AnalisisResponHasil::where('id_master', $idMaster)
+            ->where('id_periode', $per)
+            ->where(static function ($query) use ($subjekTipe) {
+                $query->whereNull('id_subjek')->orWhereNull($subjekTipe);
+            })
+            ->delete();
 
-        AnalisisRespon::where(static function ($query) use ($subjekTipe) {
-            $query->whereNull('id_subjek')->orWhereNull($subjekTipe);
-        })->delete();
+        // Tambahkan filter id_periode dan whereHas untuk memastikan hanya data dari master ini yang dihapus
+        AnalisisRespon::where('id_periode', $per)
+            ->where(static function ($query) use ($subjekTipe) {
+                $query->whereNull('id_subjek')->orWhereNull($subjekTipe);
+            })
+            ->whereHas('indikator', static function ($query) use ($idMaster) {
+                $query->where('id_master', $idMaster);
+            })
+            ->delete();
 
-        AnalisisResponHasil::where('id_periode', $per)->delete();
+        // Hapus hanya hasil yang terkait dengan id_master DAN id_periode ini
+        AnalisisResponHasil::where('id_master', $idMaster)
+            ->where('id_periode', $per)
+            ->delete();
 
         if (empty($data)) {
             return;
@@ -447,11 +476,13 @@ class AnalisisRespon extends BaseModel
         $upx = [];
 
         foreach ($data as $id) {
+            // Tambahkan filter id_master pada query perhitungan
             $jml = DB::table('analisis_respon as r')
                 ->selectRaw('SUM(i.bobot * nilai) as jml')
                 ->leftJoin('analisis_indikator as i', 'r.id_indikator', '=', 'i.id')
                 ->leftJoin('analisis_parameter as z', 'r.id_parameter', '=', 'z.id')
                 ->where('r.id_subjek', $id)
+                ->where('i.id_master', $idMaster)  // Filter berdasarkan id_master
                 ->where('i.act_analisis', 1)
                 ->where('r.id_periode', $per)
                 ->value('jml');

@@ -86,7 +86,9 @@ $app->singleton(
 $app->configure('app');
 $app->configure('datatables');
 $app->configure('mail');
+$app->configure('notifications');
 $app->configure('user_agents');
+$app->configure('security');
 
 /*
 |--------------------------------------------------------------------------

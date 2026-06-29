@@ -47,8 +47,8 @@ class AnalisisPeriode extends BaseModel
 {
     use ConfigId;
 
-    public const UNLOCK = 0;
-    public const LOCK   = 1;
+    public const UNLOCK = 1;
+    public const LOCK   = 0;
 
     public $timestamps = false;
 

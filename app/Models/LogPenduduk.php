@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\PeristiwaKeluargaEnum;
 use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
 use App\Enums\SHDKEnum;
@@ -307,7 +308,7 @@ class LogPenduduk extends BaseModel
                         if ($pindah->id_kk) {
                             LogKeluarga::create([
                                 'id_kk'           => $pindah->id_kk,
-                                'id_peristiwa'    => 3,
+                                'id_peristiwa'    => PeristiwaKeluargaEnum::KEPALA_KELUARGA_PINDAH->value,
                                 'updated_by'      => ci_auth()->id,
                                 'id_log_penduduk' => $pendudukPindah->id,
                             ]);
@@ -371,7 +372,7 @@ class LogPenduduk extends BaseModel
             if ($penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) {
                 $logKeluarga = [
                     'id_kk'         => $penduduk->id_kk,
-                    'id_peristiwa'  => LogKeluarga::KELUARGA_BARU_DATANG,
+                    'id_peristiwa'  => PeristiwaKeluargaEnum::KELUARGA_BARU_DATANG->value,
                     'tgl_peristiwa' => rev_tgl($data['tgl_lapor'], null),
                     'updated_by'    => ci_auth()->id,
                     'config_id'     => $this->config_id,

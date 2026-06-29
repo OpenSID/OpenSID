@@ -71,7 +71,7 @@ class JamKerjaController extends AdminModulController
                          ])->render();
                     }
                 })
-                ->editColumn('status', static fn ($row): string => ($row->status == 1) ? '<span class="label label-success">Hari Kerja</span>' : '<span class="label label-danger">Hari Libur</span>')
+                ->editColumn('status', static fn ($row): string => $row->statusIkutiHariLibur ? '<span class="label label-danger">Hari Libur</span>' : '<span class="label label-success">Hari Kerja</span>')
                 ->editColumn('jam_masuk', static fn ($row): string => date('H:i', strtotime($row->jam_masuk)))
                 ->editColumn('jam_keluar', static fn ($row): string => date('H:i', strtotime($row->jam_keluar)))
                 ->rawColumns(['aksi', 'status'])

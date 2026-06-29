@@ -23,14 +23,9 @@
             <div class="box box-info">
                 <?php if (can('u')) : ?>
                 <div class="box-header with-border">
-                    @if (can('u'))
-                        <a href="{{ ci_route('man_user/form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
-                    @endif
-                    @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ ci_route('man_user/delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                class='fa fa-trash-o'
-                            ></i> Hapus</a>
-                    @endif
+                    <x-tambah-button :url="'man_user/form'" />
+                    <x-hapus-button confirmDelete="true" selectData="true" :url="'man_user/delete_all'" />
+                    
                 </div>
                 @endif
                 <div class="box-body">
@@ -66,6 +61,7 @@
                                     <th>Staf</th>
                                     <th>Group</th>
                                     <th>Login Terakhir</th>
+                                    <th>Status</th>
                                     <th>Tanggal Verifikasi</th>
                                 </tr>
                             </thead>
@@ -139,6 +135,13 @@
                     {
                         data: 'last_login',
                         name: 'last_login',
+                        class: 'padat',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'status_label',
+                        name: 'active',
                         class: 'padat',
                         searchable: true,
                         orderable: true

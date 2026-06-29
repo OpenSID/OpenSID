@@ -74,6 +74,7 @@ use App\Models\PendudukSaja;
 use App\Models\RentangUmur;
 use App\Models\StatusKtp;
 use App\Models\SyaratSurat;
+use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;
@@ -674,7 +675,7 @@ class Penduduk extends Admin_Controller
         }
 
         // Validasi: Jangan biarkan ubah kk_level jika Kepala Keluarga atau id_kk null
-        if (($penduduk->id_kk && $penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) || empty($penduduk->id_kk)) {
+        if ($penduduk->id_kk && $penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) {
             unset($data['kk_level']);
         }
 
@@ -697,7 +698,7 @@ class Penduduk extends Admin_Controller
     public function delete($id = '', $semua = false): void
     {
         isCan('h');
-        if (data_lengkap() || ci_auth()->id != super_admin()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
         }
         akun_demo($id);
@@ -1360,7 +1361,7 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || ci_auth()->id != super_admin()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
         }
 
@@ -1381,9 +1382,8 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || ci_auth()->id != super_admin()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
-
         }
 
         isCan('u');
@@ -1399,7 +1399,7 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || ci_auth()->id != super_admin()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
 
         }
@@ -1429,15 +1429,12 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || ci_auth()->id != super_admin()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
 
         }
-
-        isCan('u');
-
         // TODO: Sederhanakan query ini, pindahkan ke model
-        if (PendudukModel::count() > 0) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('error', 'Tidak dapat mengimpor BIP ketika data penduduk telah ada', 'penduduk/impor_bip');
         }
 
@@ -1991,6 +1988,18 @@ class Penduduk extends Admin_Controller
                     }
                 }
 
+                $birthDay   = $advanceSearch['birth_day'] ?? null;
+                $birthMonth = $advanceSearch['birth_month'] ?? null;
+                $birthYear  = $advanceSearch['birth_year'] ?? null;
+
+                if ($birthDay && $birthMonth) {
+                    $q->whereRaw('DAY(tanggallahir) = ? AND MONTH(tanggallahir) = ?', [$birthDay, $birthMonth]);
+
+                    if ($birthYear) {
+                        $q->whereYear('tanggallahir', $birthYear);
+                    }
+                }
+
                 return $q->batasiUmur(date('d-m-Y'), $umurObj)
                     ->where($resultMap);
             })
@@ -2059,6 +2068,14 @@ class Penduduk extends Admin_Controller
         $data['suku']                 = $post['suku'];
         $data['marga']                = $post['marga'];
         $data['kepemilikan_bpjs']     = $post['kepemilikan_bpjs'];
+
+        // Pencarian berdasarkan tanggal lahir: hari, bulan, tahun (tahun opsional)
+        $data['birth_day']   = isset($post['birth_day']) ? bilangan($post['birth_day']) : null;
+        $data['birth_month'] = isset($post['birth_month']) ? bilangan($post['birth_month']) : null;
+        $data['birth_year']  = null;
+        if (! empty($post['include_birth_year']) && ! empty($post['birth_year'])) {
+            $data['birth_year'] = bilangan($post['birth_year']);
+        }
 
         return $data;
     }

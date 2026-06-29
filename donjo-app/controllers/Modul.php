@@ -38,6 +38,7 @@
 use App\Enums\OfflineModeEnum;
 use App\Models\Modul as ModulModel;
 use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -82,20 +83,32 @@ class Modul extends Admin_Controller
             return datatables()->of(ModulModel::with(['children'])->whereParent($parent)->whereNotIn('modul', ModulModel::SELALU_AKTIF)
                 ->when(! $order, static fn ($q) => $q->orderBy('urut', 'asc')))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $lockParent): string {
+                ->addColumn('aksi', static function ($row) use ($parent, $lockParent): string {
                     $aksi = '';
-                    if ($canUpdate) {
-                        $aksi .= '<a href="' . ci_route('modul.form', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah Data" ><i class="fa fa-edit"></i></a> ';
-                        if (! $lockParent && $row->isLock()) {
-                            $aksi .= '<a href="' . ci_route('modul.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
-                        }
 
-                        if (! $row->isLock()) {
-                            $aksi .= '<a href="' . ci_route('modul.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                        }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'modul/form/' . $row->id,
+                    ])->render();
+
+                    if (! $lockParent && $row->isLock()) {
+                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                            'url'    => ci_route('modul.lock', $row->id),
+                            'active' => 0,
+                        ])->render();
                     }
+
+                    if (! $row->isLock()) {
+                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                            'url'    => ci_route('modul.lock', $row->id),
+                            'active' => 1,
+                        ])->render();
+                    }
+
                     if (! $parent && $row->children->count()) {
-                        $aksi .= '<a href="' . ci_route('modul.index', $row->id) . '" class="btn bg-olive btn-sm" title="Lihat Sub Modul" ><i class="fa fa-list"></i></a>';
+                        $aksi .= View::make('admin.layouts.components.tombol_detail', [
+                            'url'   => ci_route('modul.index', $row->id),
+                            'judul' => 'Lihat Sub Modul',
+                        ])->render();
                     }
 
                     return $aksi;

@@ -273,6 +273,9 @@ img:hover {
 	-o-transition:all 0.5s;
 	transition:all 0.5s
 }
+.dropdown-menu {
+	z-index: 100000;
+}
 .dropdown-menu > li > a {
 	color:#fff;
 	font-family:"Oswald",sans-serif;

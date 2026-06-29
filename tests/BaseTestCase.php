@@ -46,6 +46,8 @@ abstract class BaseTestCase extends OrchestraTestCase
     {
         parent::setUp();
 
+        $this->withoutMiddleware();
+
         defined('BASEPATH') || define('BASEPATH', __DIR__ . '/..');
 
         // load migrasi berdasarkan file, misalkan migrasi-seeder.php

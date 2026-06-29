@@ -46,6 +46,7 @@ use App\Enums\HamilEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\PeristiwaKeluargaEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
@@ -641,7 +642,7 @@ class Import
             // Tulis Log Keluarga Baru
             $log_keluarga = [
                 'id_kk'           => $isiBaris['id_kk'],
-                'id_peristiwa'    => 1,
+                'id_peristiwa'    => PeristiwaKeluargaEnum::KELUARGA_BARU->value,
                 'tgl_peristiwa'   => date('Y-m-d H:i:s'),
                 'id_pend'         => null,
                 'id_log_penduduk' => null,

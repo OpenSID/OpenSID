@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Enums\FirebaseEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
@@ -86,7 +87,12 @@ class Surat extends Admin_Controller
 
             $kepalaDesa = Pamong::kepalaDesa()->exists();
 
-            return datatables()->of((new FormatSurat())->kunci(FormatSurat::KUNCI_DISABLE)->orderBy('favorit', 'desc')->latest('updated_at'))
+            $query = FormatSurat::withCount('logSurat')
+                ->kunci(FormatSurat::KUNCI_DISABLE)
+                ->orderBy('favorit', 'desc')
+                ->latest('updated_at');
+
+            return datatables()->of($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($kepalaDesa): string {
                     $aksi = '';
@@ -321,8 +327,8 @@ class Surat extends Admin_Controller
             if (isset($log_surat['input']['id_pengikut_pi'])) {
 
                 // Ambil SEMUA anggota keluarga dari pemohon untuk tabel pertama
-                $pemohon       = Penduduk::with(['wilayah', 'keluarga'])->find($log_surat['id_pend']);
-                $semua_anggota = Penduduk::where('id_kk', $pemohon->id_kk)->orderKeluarga()->get();
+                $pemohon       = Penduduk::with(['wilayah', 'keluarga.anggota'])->find($log_surat['id_pend']);
+                $semua_anggota = $pemohon->keluarga->anggota;
 
                 // Ambil data pengikut yang DICENTANG (yang datanya diubah)
                 $pengikut_diubah = Penduduk::whereIn('id', $log_surat['input']['id_pengikut_pi'])->orderKeluarga()->get();
@@ -354,6 +360,10 @@ class Surat extends Admin_Controller
             $isi_surat = $this->tinymce->gantiKodeIsian($log_surat, false);
             $lampiran  = $this->tinymce->generateLampiran($log_surat['id_pend'], $log_surat, $log_surat['input'], true);
 
+            // Replace Gambar
+            $data_gambar = KodeIsianGambar::set($surat, $isi_surat, null);
+            $isi_surat   = $data_gambar['result'];
+
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;
 
@@ -363,7 +373,7 @@ class Surat extends Admin_Controller
             $id_surat = $surat->id;
 
             $font_option = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
-            $margins     = json_decode((string) setting('surat_margin'), null) ?? FormatSurat::MARGINS;
+            $margins     = json_decode($surat->margin_global == AktifEnum::AKTIF ? (string) setting('surat_margin') : $surat->margin) ?? FormatSurat::MARGINS;
 
             return view('admin.surat.konsep', [
                 'penduduk'    => Penduduk::select('id', 'nik', 'nama')->find($this->request['nik']),
@@ -491,7 +501,7 @@ class Surat extends Admin_Controller
                 ]
                 : $cetak['surat']['margin_cm_to_mm'];
 
-            if ($cetak['surat']['margin_global'] == '1' && ! $this->session->has_userdata('pengaturan_surat')) {
+            if ($cetak['surat']['margin_global'] == AktifEnum::AKTIF && ! $this->session->has_userdata('pengaturan_surat')) {
                 $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
             }
 
@@ -935,17 +945,17 @@ class Surat extends Admin_Controller
 
     private function pengikutSuratKIS(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
+        return Keluarga::with('anggota')->find($data['individu']['id_kk'])->anggota;
     }
 
     private function pengikutSuratPerubahanKependudukan(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
+        return Keluarga::with('anggota')->find($data['individu']['id_kk'])->anggota;
     }
 
     private function pengikutPindah(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
+        return Keluarga::with('anggota')->find($data['individu']['id_kk'])->anggota;
     }
 
     private function notifikasiMobile($cetak, $id)

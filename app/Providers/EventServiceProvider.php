@@ -73,6 +73,26 @@ class EventServiceProvider extends ServiceProvider
             \App\Listeners\LockoutAdminListener::class,
         ],
         \Illuminate\Auth\Events\PasswordReset::class => [],
+
+        // Notifications Events
+        \App\Events\Pesan\PesanMasukSubmitted::class => [
+            \App\Listeners\Pesan\SendPesanMasukNotification::class,
+        ],
+        \App\Events\Pesan\PesanOpenDKReceived::class => [
+            \App\Listeners\Pesan\SendPesanOpenDKNotification::class,
+        ],
+        \App\Events\Surat\PermohonanSuratSubmitted::class => [
+            \App\Listeners\Surat\SendPermohonanSuratNotification::class,
+        ],
+        \App\Events\Surat\PermohonanSuratVerified::class => [
+            \App\Listeners\Surat\SendPermohonanSuratVerificationNotification::class,
+        ],
+        \App\Events\Komentar\KomentarSubmitted::class => [
+            \App\Listeners\Komentar\SendKomentarNotification::class,
+        ],
+        \App\Events\BukuTamu\TamuSubmitted::class => [
+            \App\Listeners\BukuTamu\SendTamuNotification::class,
+        ],
     ];
 
     /**

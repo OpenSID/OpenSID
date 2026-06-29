@@ -31,6 +31,7 @@
                             <th>NAMA SURAT</th>
                             <th class="padat">KODE / KLASIFIKASI</th>
                             <th class="padat">LAMPIRAN</th>
+                            <th class="padat">TERCETAK</th>
                         </tr>
                     </thead>
                 </table>
@@ -105,6 +106,13 @@
                         searchable: true,
                         orderable: true
                     },
+                    {
+                        data: 'log_surat_count',
+                        name: 'log_surat_count',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: true
+                    }
                 ],
                 order: [
                     [2, 'asc']

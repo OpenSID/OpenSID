@@ -217,6 +217,36 @@
                 </label>
             </div>
         </div>
+        
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Tampilkan QR Code TTE</label>
+            <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                <label id="lq1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($suratDinas->qr_code_tte)">
+                    <input
+                        id="iq1"
+                        type="radio"
+                        name="qr_code_tte"
+                        class="form-check-input"
+                        type="radio"
+                        value="1"
+                        @checked($suratDinas->qr_code_tte)
+                        autocomplete="off"
+                    >Ya
+                </label>
+                <label id="lq2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$suratDinas->qr_code_tte)">
+                    <input
+                        id="iq2"
+                        type="radio"
+                        name="qr_code_tte"
+                        class="form-check-input"
+                        type="radio"
+                        value="0"
+                        @checked(!$suratDinas->qr_code_tte)
+                        autocomplete="off"
+                    >Tidak
+                </label>
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="col-sm-3 control-label">Tampilkan Header</label>

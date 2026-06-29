@@ -9,7 +9,6 @@
     <meta name="author" content="OpenDesa">
     <meta name="keywords" content="anjungan, opensid, mandiri, desa">
     <title>{{ setting('sebutan_anjungan_mandiri') }}</title>
-
     <link rel="shortcut icon" type="image/x-icon" href="{{ favico_desa() }}">
 
     <link href="{{ module_asset('anjungan', 'css/bootstrap.min.css') }}" rel="stylesheet">
@@ -21,8 +20,8 @@
     <link href="{{ module_asset('anjungan', 'css/darkmode.css') }}" rel="stylesheet">
     <link href="{{ module_asset('anjungan', 'css/style.css') }}" rel="stylesheet">
     <link href="{{ module_asset('anjungan', 'css/screen.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('anjungan', 'css/youtube-screen.css') }}" rel="stylesheet">
     @stack('css')
-
     <!-- jQuery 3 -->
     <script src="{{ module_asset('anjungan', 'js/jquery.min.js') }}"></script>
     <script src="{{ module_asset('anjungan', 'js/bootstrap.bundle.min.js') }}"></script>
@@ -111,16 +110,21 @@
                                 </div>
                             </div>
                         @else
-                            <div class="video-container">
-                                <iframe class="video-view" 
-                                    src="https://www.youtube.com/embed/{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=1&loop=1" 
-                                    frameborder="0" 
-                                    allow="autoplay; encrypted-media" 
-                                    allowfullscreen>
-                                </iframe>
-                            </div>
-                        @endif
+                        <div class="video-container">
+                            <iframe class="video-view"
+                                id="yt-video"
+                                src="https://www.youtube.com/embed/{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=0&rel=0&enablejsapi=1"
+                                frameborder="0"
+                                allow="autoplay; encrypted-media"
+                                allowfullscreen>
+                            </iframe>
 
+                            <!-- Overlay muncul saat video selesai -->
+                            <div id="video-overlay" class="video-overlay">
+                                <div class="play-icon"></div>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     <!-- Mulai Video/Slider -->
 
@@ -233,6 +237,7 @@
 </script>
 
 <script src="{{ module_asset('anjungan', 'js/support.js') }}"></script>
+<script src="{{ module_asset('anjungan', 'js/youtube-screen.js') }}"></script>
 
 <script>
     var count = -1;

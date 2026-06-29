@@ -568,8 +568,16 @@ class Keluarga extends Admin_Controller
 
     public function kartu_keluarga($id): void
     {
-        $data['id_kk']       = $id;
-        $keluarga            = KeluargaModel::with(['anggota' => static fn ($q) => $q->orderBy('kk_level'), 'kepalaKeluarga'])->find($id);
+        $data['id_kk'] = $id;
+        $keluarga      = KeluargaModel::with([
+            'wilayah', // ← Tambahkan relasi wilayah untuk keluarga
+            'anggota'        => static fn ($q) => $q->with('wilayah')->without(['keluarga', 'rtm'])->orderBy('kk_level'),
+            'kepalaKeluarga' => static fn ($q) => $q->with([
+                'wilayah',
+                'keluarga' => static fn ($r) => $r->with('wilayah'),
+            ])->without(['rtm']),
+        ])->find($id);
+
         $data['main']        = $keluarga->toArray();
         $data['kepala_kk']   = $keluarga->kepalaKeluarga ? $keluarga->kepalaKeluarga->toArray() : null;
         $data['form_action'] = ci_route('keluarga.print');
@@ -587,7 +595,7 @@ class Keluarga extends Admin_Controller
         $datas = KeluargaModel::dataCetak($this->request['id_cb'] ?? [$id] );
 
         foreach ($datas as $data) {
-            $berkas_kk[] = $this->buat_berkas_kk($data);
+            $berkas_kk[] = $this->buat_berkas_kk($data, $this->input->get('format'));
         }
         if (count($datas) > 1) {
             // Masukkan semua berkas ke dalam zip
@@ -798,7 +806,15 @@ class Keluarga extends Admin_Controller
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        $query = KeluargaModel::with(['wilayah', 'kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])
+        $query = KeluargaModel::with([
+            'wilayah',
+            // Eager load base relasi kepalaKeluarga terlebih dahulu
+            'kepalaKeluarga',
+            // Kemudian eager load nested relasi dari kepalaKeluarga
+            'kepalaKeluarga.keluarga',
+            'kepalaKeluarga.keluarga.wilayah',
+            'kepalaKeluarga.rtm',
+        ])
             ->leftJoin('tweb_penduduk as kepala_keluarga', 'tweb_keluarga.nik_kepala', '=', 'kepala_keluarga.id')
             ->withCount('anggota')->when($status != null, static fn ($q) => $q->whereHas('kepalaKeluarga', static function ($r) use ($status) {
                 switch($status) {

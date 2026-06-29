@@ -136,6 +136,10 @@ class Identitas_desa extends Admin_Controller
     {
         isCan('u');
 
+        if (! empty($this->request['email_desa']) && ! filter_var($this->request['email_desa'], FILTER_VALIDATE_EMAIL)) {
+            return json(['status' => false, 'message' => 'Alamat email tidak valid.']);
+        }
+
         $id       = $this->identitas_desa['id'];
         $config   = Config::find($id);
         $validate = $this->validate($this->request, $config);

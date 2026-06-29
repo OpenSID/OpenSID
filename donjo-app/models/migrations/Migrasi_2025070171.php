@@ -74,6 +74,43 @@ class Migrasi_2025070171
 
     public function hapusTabelKeuangan()
     {
+        $configId = identitas('id');
+
+        // Cek apakah tabel sumber ada dan berisi data. Jika salah satu kosong, jangan lanjutkan.
+        $manualRinciExists = Schema::hasTable('keuangan_manual_rinci') && DB::table('keuangan_manual_rinci')->where('config_id', $configId)->exists();
+        $rabRinciExists    = Schema::hasTable('keuangan_ta_rab_rinci') && DB::table('keuangan_ta_rab_rinci')->where('config_id', $configId)->exists();
+
+        if ($manualRinciExists || $rabRinciExists) {
+            // Jika salah satu atau kedua tabel sumber tidak ada atau kosong, batalkan penghapusan.
+            return;
+        }
+
+        // Cek migrasi dari keuangan_manual_rinci
+        if (Schema::hasTable('keuangan_manual_rinci')) {
+            $tahunManual = DB::table('keuangan_manual_rinci')->where('config_id', $configId)->distinct()->pluck('tahun');
+
+            foreach ($tahunManual as $tahun) {
+                $migrated = DB::table('keuangan')->where('config_id', $configId)->where('tahun', $tahun)->exists();
+                if (! $migrated) {
+                    // Data untuk tahun ini belum dimigrasikan, batalkan penghapusan
+                    return;
+                }
+            }
+        }
+
+        // Cek migrasi dari keuangan_ta_rab_rinci
+        if (Schema::hasTable('keuangan_ta_rab_rinci')) {
+            $tahunTaRab = DB::table('keuangan_ta_rab_rinci')->where('config_id', $configId)->distinct()->pluck('Tahun');
+
+            foreach ($tahunTaRab as $tahun) {
+                $migrated = DB::table('keuangan')->where('config_id', $configId)->where('tahun', $tahun)->exists();
+                if (! $migrated) {
+                    // Data untuk tahun ini belum dimigrasikan, batalkan penghapusan
+                    return;
+                }
+            }
+        }
+
         $skipIfHasData = [
             'keuangan_manual_rinci',
             'keuangan_ta_rab_rinci',

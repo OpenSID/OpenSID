@@ -334,7 +334,7 @@ class UrlGenerator
             'signature' => hash_hmac(
                 'sha256',
                 $this->route($name, $parameters, $absolute),
-                is_array($key) ? $key[0] : $key
+                is_array($key) ? $key[0] : trim((string) $key)
             ),
         ], $absolute);
     }
@@ -401,12 +401,11 @@ class UrlGenerator
         $original = rtrim($url . '?' . $queryString, '?');
 
         $keys = ($this->keyResolver)();
-
         $keys = is_array($keys) ? $keys : [$keys];
 
         foreach ($keys as $key) {
             if (hash_equals(
-                hash_hmac('sha256', $original, (string) $key),
+                hash_hmac('sha256', $original, trim((string) $key)),
                 (string) $request->query('signature', '')
             )) {
                 return true;

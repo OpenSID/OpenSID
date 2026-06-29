@@ -49,6 +49,11 @@ class InformasiPublikTransformer extends TransformerAbstract
     {
         $informasiPublik->kategori = KategoriPublicEnum::valueOf($informasiPublik->kategori);
 
+        // Konversi tanggal upload ke format lokal
+        if ($informasiPublik->tgl_upload) {
+            $informasiPublik->tgl_upload = tgl_indo2($informasiPublik->tgl_upload);
+        }
+
         if ($informasiPublik->tipe != 2) {
             $path = LOKASI_DOKUMEN . $informasiPublik->satuan;
             if ($informasiPublik->satuan && file_exists($path) && is_file($path)) {

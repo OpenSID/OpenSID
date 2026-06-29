@@ -285,9 +285,11 @@ $(document).ready(function()
 			},
 			dataType: 'json',
 			data: function(params) {
+				const filterStatus = $(this).data('filter-status');
 				return {
 					q: params.term || '',
 					page: params.page || 1,
+					filter_status: filterStatus,
 				};
 			},
 			cache: true

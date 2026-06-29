@@ -65,9 +65,15 @@ class Pengguna extends Admin_Controller
         $userData      = User::findOrFail(ci_auth()->id);
         $botUsername   = null;
         $telegramError = false;
+        $isChatStarted = false;
 
         try {
             $botUsername = setting('telegram_notifikasi') ? $this->otpService->getBotUsername() : null;
+            // Jika username bot berhasil didapat dan pengguna memiliki id_telegram,
+            // periksa apakah chat sudah dimulai.
+            if (! empty($userData->id_telegram) && $botUsername) {
+                $isChatStarted = $this->otpService->verifyTelegramChatId($userData->id_telegram);
+            }
         } catch (Exception $e) {
             $telegramError = true;
         }
@@ -78,6 +84,7 @@ class Pengguna extends Admin_Controller
             'userData'            => $userData,
             'telegramBotUsername' => $botUsername,
             'telegramError'       => $telegramError,
+            'isChatStarted'       => $isChatStarted,
         ]);
 
     }
@@ -161,7 +168,7 @@ class Pengguna extends Admin_Controller
         if (User::where('id_telegram', '=', $id_telegram)->where('id', '!=', ci_auth()->id)->exists()) {
             return json([
                 'status'  => false,
-                'message' => 'Id telegram harus unik',
+                'message' => 'ID telegram harus unik. ID telegram yang Anda masukkan sudah digunakan oleh pengguna lain',
             ]);
         }
 
@@ -183,8 +190,8 @@ class Pengguna extends Admin_Controller
             ]);
         } catch (Exception $e) {
             return json([
-                'status'   => false,
-                'messages' => $e->getMessage(),
+                'status'  => false,
+                'message' => $e->getMessage(),
             ]);
         }
     }

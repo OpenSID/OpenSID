@@ -42,10 +42,14 @@ use App\Models\BaseModel;
 use App\Models\RefJabatan;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class TamuModel extends BaseModel
 {
     use ConfigId;
+
+    public const BARU    = 0;
+    public const SELESAI = 1;
 
     /**
      * The table associated with the model.
@@ -94,6 +98,10 @@ class TamuModel extends BaseModel
             $query->whereBetween(DB::raw('DATE(created_at)'), [$awal, $akhir]);
         }
 
+        if (isset($filters['status']) && $filters['status'] !== '') {
+            $query->where('status', (int) $filters['status']);
+        }
+
         return $query;
     }
 
@@ -113,5 +121,14 @@ class TamuModel extends BaseModel
     public function getJenisKelaminAttribute()
     {
         return JenisKelaminEnum::valueOf($this->attributes['jenis_kelamin']);
+    }
+
+    public function scopeBaru($query)
+    {
+        if (Schema::hasColumn($this->getTable(), 'status')) {
+            return $query->where('status', self::BARU);
+        }
+
+        return $query;
     }
 }

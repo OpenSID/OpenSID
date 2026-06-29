@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('opendk_pesan'), 'label' => 'Pesan'])
+            <x-kembali-button judul="Kembali Ke Daftar Pesan" url="opendk_pesan" />
 
         </div>
         <div class="box-body">

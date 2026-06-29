@@ -27,7 +27,7 @@
         </tr>
         <tr>
             <td class="text-center">
-                <h4>BUKU KARTU TANDA PENDUDUK DAN BUKU KARTU KELUARGA {{ strtoupper(getBulan(date('m'))) }} TAHUN {{ date('Y') }}</h4>
+                <h4>BUKU KARTU TANDA PENDUDUK DAN BUKU KARTU KELUARGA {{ strtoupper(getBulan($filters['bulan'] ?? date('m'))) }} TAHUN {{ $filters['tahun'] ?? date('Y') }}</h4>
             </td>
         </tr>
         <tr>

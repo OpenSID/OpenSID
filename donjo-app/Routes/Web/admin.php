@@ -65,6 +65,18 @@ Route::group('siteman', static function (): void {
 // MAIN
 Route::get('main', 'Main@index');
 
+// Notifikasi (Database Notifications)
+Route::group('notifikasi', static function (): void {
+    Route::get('/', 'NotifikasiController@index')->name('notifikasi.index');
+    Route::get('/datatables', 'NotifikasiController@datatables')->name('notifikasi.datatables');
+    Route::get('/show/{id}', 'NotifikasiController@show')->name('notifikasi.show');
+    Route::get('/mark-as-read/{id}', 'NotifikasiController@markAsRead')->name('notifikasi.mark-as-read');
+    Route::post('/mark-all-read', 'NotifikasiController@markAllAsRead')->name('notifikasi.mark-all-read');
+    Route::get('/mark-category-read/{category}', 'NotifikasiController@markCategoryAsRead')->name('notifikasi.mark-category-read');
+    Route::get('/delete/{id}', 'NotifikasiController@delete')->name('notifikasi.delete');
+    Route::post('/deleteAll', 'NotifikasiController@deleteAll')->name('notifikasi.delete-all');
+});
+
 // Notif
 Route::group('notif', static function (): void {
     Route::get('/', 'Notif@index');
@@ -102,6 +114,9 @@ Route::group('periksa', static function (): void {
 });
 Route::group('periksaKlasifikasiSurat', static function (): void {
     Route::get('/hapus', 'PeriksaKlasifikasiSurat@hapus')->name('periksaKlasifikasiSurat.hapus');
+});
+Route::group('periksaKepalaRtm', static function (): void {
+    Route::get('/hapus', 'PeriksaKepalaRtm@hapus')->name('periksaKepalaRtm.hapus');
 });
 Route::group('periksaLogKeluarga', static function (): void {
     Route::get('/', 'PeriksaLogKeluarga@index')->name('periksaLogKeluarga.index');
@@ -271,13 +286,13 @@ Route::group('keluarga', static function (): void {
     Route::post('delete_all', 'Keluarga@delete_all')->name('keluarga.delete_all');
     Route::get('anggota/{id}', 'AnggotaKeluarga@index')->name('keluarga.anggota');
     Route::get('ajax_add_anggota/{id?}', 'AnggotaKeluarga@ajax_add_anggota')->name('keluarga.ajax_add_anggota');
-    Route::get('ajax_pecah_kk/{kk?}/{id?}', 'AnggotaKeluarga@ajax_pecah_kk')->name('keluarga.ajax_pecah_kk');
+    Route::get('ajax_gabung_kk/{kk?}/{id?}', 'AnggotaKeluarga@ajax_gabung_kk')->name('keluarga.ajax_gabung_kk');
     Route::get('edit_anggota/{id_kk?}/{id?}', 'AnggotaKeluarga@edit_anggota')->name('keluarga.edit_anggota');
     Route::get('kartu_keluarga/{id?}', 'Keluarga@kartu_keluarga')->name('keluarga.kartu_keluarga');
     Route::match(['GET', 'POST'], 'cetak_kk/{id?}', 'Keluarga@cetak_kk')->name('keluarga.cetak_kk');
     Route::match(['GET', 'POST'], 'doc_kk/{id?}', 'Keluarga@doc_kk')->name('keluarga.doc_kk');
     Route::post('add_anggota/{id?}', 'AnggotaKeluarga@add_anggota')->name('keluarga.add_anggota');
-    Route::post('pecah_kk/{kk?}/{id?}', 'AnggotaKeluarga@pecah_kk')->name('keluarga.pecah_kk');
+    Route::post('gabung_kk/{kk?}/{id?}', 'AnggotaKeluarga@gabung_kk')->name('keluarga.gabung_kk');
     Route::post('update_anggota/{id_kk?}/{id?}', 'AnggotaKeluarga@update_anggota')->name('keluarga.update_anggota');
     Route::get('delete_anggota/{kk?}/{id?}', 'AnggotaKeluarga@delete_anggota')->name('keluarga.delete_anggota');
     Route::get('keluarkan_anggota/{kk?}/{id?}', 'AnggotaKeluarga@keluarkan_anggota')->name('keluarga.keluarkan_anggota');
@@ -959,11 +974,13 @@ Route::group('klasifikasi', static function (): void {
 Route::group('', ['namespace' => 'buku_umum'], static function (): void {
     // Bumindes umum
     Route::get('bumindes_umum', static function (): void {
-        redirect('dokumen_sekretariat/perdes/3');
+        redirect('dokumen_sekretariat/peraturan');
     });
 
     // Dokumen Sekretariat
     Route::group('dokumen_sekretariat', static function (): void {
+        Route::get('/keputusan', 'Dokumen_sekretariat@keputusan')->name('buku-umum.dokumen_sekretariat.keputusan');
+        Route::get('/peraturan', 'Dokumen_sekretariat@peraturan')->name('buku-umum.dokumen_sekretariat.peraturan');
         Route::get('/perdes/{kat?}', 'Dokumen_sekretariat@perdes')->name('buku-umum.dokumen_sekretariat.perdes');
         Route::get('/tambah_perdes', 'Dokumen_sekretariat@tambah_perdes')->name('buku-umum.dokumen_sekretariat.tambah_perdes');
         Route::get('/ubah_perdes/{id}', 'Dokumen_sekretariat@ubah_perdes')->name('buku-umum.dokumen_sekretariat.ubah_perdes');
@@ -1436,6 +1453,7 @@ Route::group('plan', static function (): void {
     Route::get('/index/{parent}', 'Plan@index')->name('plan.index-2');
     Route::get('/datatables', 'Plan@datatables')->name('plan.datatables');
     Route::get('/form/{parent?}/{id?}', 'Plan@form')->name('plan.form');
+    Route::get('/ajax_get_kategori', 'Plan@ajax_get_kategori')->name('plan.ajax_get_kategori');
     Route::get('/ajax_lokasi_maps/{parent?}/{id?}', 'Plan@ajax_lokasi_maps')->name('plan.ajax_lokasi_maps');
     Route::post('/update_maps/{parent}/{id}', 'Plan@update_maps')->name('plan.update_maps');
     Route::post('/insert/{parent}', 'Plan@insert')->name('plan.insert');
@@ -1475,6 +1493,7 @@ Route::group('garis', static function (): void {
     Route::get('/index/{parent?}', 'Garis@index')->name('garis.index-2');
     Route::get('/datatables', 'Garis@datatables')->name('garis.datatables');
     Route::get('/form/{parent}/{id?}', 'Garis@form')->name('garis.form');
+    Route::get('/ajax_get_kategori', 'Garis@ajax_get_kategori')->name('garis.ajax_get_kategori');
     Route::get('/ajax_garis_maps/{parent}/{id}', 'Garis@ajax_garis_maps')->name('garis.ajax_garis_maps');
     Route::post('/update_maps/{parent}/{id}', 'Garis@update_maps')->name('garis.update_maps');
     Route::get('/kosongkan/{parent}/{id}', 'Garis@kosongkan')->name('garis.kosongkan');
@@ -1505,6 +1524,7 @@ Route::group('area', static function (): void {
     Route::get('/datatables', 'Area@datatables')->name('area.datatables');
     Route::get('/form', 'Area@form')->name('area.form-default');
     Route::get('/form/{parent}/{id?}', 'Area@form')->name('area.form');
+    Route::get('/ajax_get_kategori', 'Area@ajax_get_kategori')->name('area.ajax_get_kategori');
     Route::get('/ajax_area_maps/{parent}/{id}', 'Area@ajax_area_maps')->name('area.ajax_area_maps');
     Route::post('/update_maps/{parent}/{id}', 'Area@update_maps')->name('area.update_maps');
     Route::get('/kosongkan/{parent}/{id}', 'Area@kosongkan')->name('area.kosongkan');
@@ -1619,6 +1639,7 @@ Route::group('man_user', static function (): void {
     Route::get('/syarat_sandi/{str}', 'Man_user@syarat_sandi')->name('man_user.syarat_sandi');
     Route::post('/update/{id?}', 'Man_user@update')->name('man_user.update');
     Route::get('/delete/{id?}', 'Man_user@delete')->name('man_user.delete');
+    Route::get('/trigger_masa_aktif_akun', 'Man_user@trigger_masa_aktif_akun')->name('man_user.trigger_masa_aktif_akun');
     Route::post('/delete_all', 'Man_user@delete_all')->name('man_user.delete_all');
     Route::get('/user_lock/{id?}', 'Man_user@user_lock')->name('man_user.user_lock');
     Route::get('/user_unlock/{id?}', 'Man_user@user_unlock')->name('man_user.user_unlock');
@@ -1687,6 +1708,15 @@ Route::group('/info_sistem', static function (): void {
     Route::post('/set_permission_desa', 'Info_sistem@set_permission_desa')->name('info_sistem.set_permission_desa');
     Route::get('file_desa', 'Info_sistem@fileDesa')->name('info_sistem.file_desa');
     Route::get('datatables-log', 'Info_sistem@datatablesLogAktifitas')->name('info_sistem.datatables-log');
+
+    // Security Scanner Routes
+    Route::post('security_generate_baseline', 'Info_sistem@security_generate_baseline')->name('info_sistem.security_generate_baseline');
+    Route::post('security_check_integrity', 'Info_sistem@security_check_integrity')->name('info_sistem.security_check_integrity');
+    Route::post('security_full_scan', 'Info_sistem@security_full_scan')->name('info_sistem.security_full_scan');
+    Route::post('security_delete_baseline', 'Info_sistem@security_delete_baseline')->name('info_sistem.security_delete_baseline');
+    Route::get('security_reports', 'Info_sistem@security_reports')->name('info_sistem.security_reports');
+    Route::get('security_view_report/{filename}', 'Info_sistem@security_view_report')->name('info_sistem.security_view_report');
+    Route::post('security_delete_report/{filename}', 'Info_sistem@security_delete_report')->name('info_sistem.security_delete_report');
 });
 
 // Pengaturan > QR Code

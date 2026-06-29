@@ -146,15 +146,35 @@ class Theme extends Admin_Controller
 
     public function unduh()
     {
+        isCan('u');
+
+        $serverLayanan = config_item('server_layanan');
+        $serverHost    = parse_url($serverLayanan, PHP_URL_HOST);
+
         $data = $this->validated(request(), [
-            'url'  => 'required|url',
+            'url' => [
+                'required',
+                'url',
+                static function ($attribute, $value, $fail) use ($serverHost) {
+                    $urlScheme = parse_url($value, PHP_URL_SCHEME);
+                    $urlHost   = parse_url($value, PHP_URL_HOST);
+
+                    if ($urlScheme !== 'https') {
+                        $fail('URL harus menggunakan HTTPS');
+                    }
+
+                    if ($urlHost !== $serverHost) {
+                        $fail("Domain URL harus sama dengan {$serverHost}");
+                    }
+                },
+            ],
             'nama' => [
                 'required',
                 'string',
-                static function ($attribute, $value, $fail) {
+                static function ($attribute, $value, $fail) use ($serverLayanan) {
                     $response = Http::withToken(setting('layanan_opendesa_token'))
                         ->acceptJson()
-                        ->post(config_item('server_layanan') . '/api/v1/themes', [$attribute => $value]);
+                        ->post("{$serverLayanan}/api/v1/themes", [$attribute => $value]);
 
                     if ($response->failed()) {
                         $errorMessage = $response->json('message', 'Data pemesanan tidak terdaftar / salah');

@@ -42,6 +42,7 @@ use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\User;
 use App\Models\Widget;
+use App\Repositories\SettingAplikasiRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -84,10 +85,14 @@ if (! function_exists('can')) {
      *
      * @return array|bool
      */
-    function can($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false)
+    function can($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false, ?User $user = null)
     {
         if (null === $slugModul) {
             $slugModul = ci()->akses_modul ?? (ci()->sub_modul_ini ?? ci()->modul_ini);
+        }
+
+        if (null !== $user) {
+            return Gate::forUser($user)->allows("{$slugModul}:{$akses}", [$akses, $slugModul, $adminOnly, $demoOnly]);
         }
 
         return Gate::allows("{$slugModul}:{$akses}", [$akses, $slugModul, $adminOnly, $demoOnly]);
@@ -103,15 +108,15 @@ if (! function_exists('isCan')) {
      * @param bool        $adminOnly
      * @param mixed       $demoOnly
      */
-    function isCan($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false): void
+    function isCan($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false, ?User $user = null): void
     {
         $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
-        if (! can('b', $slugModul, $adminOnly, $demoOnly)) {
+        if (! can('b', $slugModul, $adminOnly, $demoOnly, $user)) {
             set_session('error', $pesan);
             session_error($pesan);
 
             redirect('beranda');
-        } elseif (! can($akses, $slugModul, $adminOnly, $demoOnly)) {
+        } elseif (! can($akses, $slugModul, $adminOnly, $demoOnly, $user)) {
             set_session('error', $pesan);
             session_error($pesan);
 
@@ -230,17 +235,21 @@ if (! function_exists('setting')) {
      */
     function setting($key = null, $value = null)
     {
-        $getSetting = ci()->setting;
-
-        if ($key === null) {
-            return $getSetting;
+        if (! ci()->setting) {
+            SettingAplikasiRepository::applySettingCI(ci());
         }
 
-        if ($value === null) {
-            return $getSetting->{$key} ?? null;
+        $setting = ci()->setting;
+
+        if (null === $key) {
+            return $setting;
         }
 
-        return $getSetting->{$key} = $value;
+        if (null === $value) {
+            return $setting->{$key} ?? null;
+        }
+
+        return $setting->{$key} = $value;
     }
 }
 

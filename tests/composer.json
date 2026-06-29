@@ -1,0 +1,19 @@
+{
+    "name": "opendesa/opensid-tests",
+    "description": "Testing dependencies for OpenSID (terpisah dari production)",
+    "require-dev": {
+        "orchestra/testbench": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tests\\": ".",
+            "App\\": "../app/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}

@@ -77,12 +77,25 @@ class Garis extends Admin_Controller
             $line    = $this->input->get('line') ?? null;
             $parent  = $this->input->get('parent') ?? 0;
 
-            return datatables()->of(GarisModel::status($status)
-                ->when($line, static fn ($q) => $q->whereIn('ref_line', static fn ($q) => $q->select('id')->from('line')->whereParrent($line)))
+            // Tidak filter data invalid, tampilkan semua
+            $query = GarisModel::status($status)
+                // Filter berdasarkan line (jenis) yang dipilih
+                ->when($line, static function ($q) use ($line) {
+                    return $q->whereHas('line', static function ($query) use ($line) {
+                        $query->where('parrent', $line);
+                    });
+                })
+                // Filter berdasarkan subline (kategori) yang dipilih
                 ->when($subline, static fn ($q) => $q->whereRefLine($subline))
-                ->with([
-                    'line' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
-                ]))
+                // Eager load dengan validasi
+                ->with(['line' => static function ($q) {
+                    $q->select(['id', 'nama', 'parrent', 'tipe'])
+                        ->with(['parent' => static function ($r) {
+                            $r->select(['id', 'nama', 'tipe']);
+                        }]);
+                }]);
+
+            return datatables()->of($query)
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -91,26 +104,75 @@ class Garis extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($parent): string {
                     $aksi = '';
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('garis.form', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                    }
-                    $aksi .= '<a href="' . ci_route('garis.ajax_garis_maps', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+
+                    // Ambil parent_id untuk URL
+                    $parentId = ($row->line && $row->line->parrent) ? $row->line->parrent : $parent;
+
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => '/garis/form/' . implode('/', [$parentId, $row->id]),
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'        => ci_route('garis.ajax_garis_maps', implode('/', [$parentId, $row->id])),
+                        'judul'      => 'Lokasi ' . $row->nama,
+                        'icon'       => 'fa fa-map',
+                        'type'       => 'bg-olive',
+                        'buttonOnly' => true,
+                    ])->render();
 
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                        'url'    => ci_route('garis.lock', implode('/', [$row->line->parent->id ?? $parent, $row->id])),
+                        'url'    => ci_route('garis.lock', implode('/', [$parentId, $row->id])),
                         'active' => $row->enabled,
                     ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('garis.delete', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => '/garis/delete/' . implode('/', [$parentId, $row->id]),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
                 ->editColumn('enabled', static fn ($row): string => $row->enabled == AktifEnum::AKTIF ? 'Ya' : 'Tidak')
-                ->editColumn('ref_line', static fn ($row) => $row->line->parent->nama ?? '')
-                ->editColumn('kategori', static fn ($row) => $row->line->nama ?? '')
-                ->rawColumns(['aksi', 'ceklist'])
+                // KOLOM JENIS - Tampilkan label jika invalid
+                ->editColumn('ref_line', static function ($row) {
+                    // Validasi parent-child relationship
+                    if (! $row->line) {
+                        return '<span class="label label-danger" title="Line dengan ID ' . $row->ref_line . ' tidak ditemukan">Data Tidak Valid</span>';
+                    }
+
+                    // Line harus CHILD (tipe = 2)
+                    if ($row->line->tipe != Line::CHILD) {
+                        return '<span class="label label-warning" title="Line adalah ROOT, seharusnya CHILD">Data Tidak Valid</span>';
+                    }
+
+                    // Parent harus ada
+                    if (! $row->line->parent) {
+                        return '<span class="label label-danger" title="Parent dengan ID ' . $row->line->parrent . ' tidak ditemukan">Data Tidak Valid</span>';
+                    }
+
+                    // Parent harus ROOT (tipe = 0)
+                    if ($row->line->parent->tipe != Line::ROOT) {
+                        return '<span class="label label-warning" title="Parent bukan ROOT">Data Tidak Valid</span>';
+                    }
+
+                    // Jika valid, tampilkan nama parent (JENIS)
+                    return $row->line->parent->nama;
+                })
+                // KOLOM KATEGORI - Tampilkan label jika invalid
+                ->editColumn('kategori', static function ($row) {
+                    // Validasi
+                    if (! $row->line) {
+                        return '<span class="label label-danger" title="Line tidak ditemukan">Data Tidak Valid</span>';
+                    }
+
+                    if ($row->line->tipe != Line::CHILD) {
+                        return '<span class="label label-warning" title="Line bukan CHILD">Data Tidak Valid</span>';
+                    }
+
+                    // Jika valid, tampilkan nama line (KATEGORI)
+                    return $row->line->nama;
+                })
+                ->rawColumns(['aksi', 'ceklist', 'ref_line', 'kategori'])
                 ->make();
         }
 
@@ -120,20 +182,69 @@ class Garis extends Admin_Controller
     public function form($parent = 0, $id = '')
     {
         isCan('u');
+
         $data['garis']       = null;
         $data['form_action'] = ci_route('garis.insert', $parent);
         $data['foto_garis']  = null;
         $data['parent']      = $parent;
 
         if ($id) {
-            $data['garis']       = GarisModel::find($id);
+            $data['garis']       = GarisModel::findOrFail($id);
             $data['form_action'] = ci_route('garis.update', implode('/', [$parent, $id]));
+
+            // Ambil parent dari ref_line saat edit
+            if ($data['garis']->ref_line) {
+                $currentLine = Line::find($data['garis']->ref_line);
+                if ($currentLine && $currentLine->parrent) {
+                    $data['parent'] = $currentLine->parrent;
+                }
+            }
         }
 
-        $data['list_line'] = empty($parent) ? Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get() : Line::child($parent)->whereHas('parent')->get();
-        $data['tip']       = $this->tip;
+        // Ambil semua data Root/Jenis untuk dropdown pertama
+        $data['list_jenis'] = Line::root()->get();
+
+        // Ambil data Child/Kategori untuk dropdown kedua
+        if ($data['parent'] > 0) {
+            $data['list_kategori'] = Line::child($data['parent'])->get();
+        } else {
+            $data['list_kategori'] = collect([]);
+        }
+
+        $data['tip'] = $this->tip;
 
         return view('admin.peta.garis.form', $data);
+    }
+
+    /**
+     * AJAX untuk mengambil kategori berdasarkan jenis yang dipilih
+     */
+    public function ajax_get_kategori()
+    {
+        if ($this->input->is_ajax_request()) {
+            $jenis_id = $this->input->get('jenis_id');
+
+            if ($jenis_id) {
+                $kategori = Line::child($jenis_id)->get()->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'nama' => $item->nama,
+                    ];
+                });
+
+                return json([
+                    'success' => true,
+                    'data'    => $kategori,
+                ]);
+            }
+
+            return json([
+                'success' => false,
+                'data'    => [],
+            ]);
+        }
+
+        return show_404();
     }
 
     public function ajax_garis_maps($parent, int $id)

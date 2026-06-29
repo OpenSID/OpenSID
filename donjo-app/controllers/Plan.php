@@ -78,11 +78,25 @@ class Plan extends Admin_Controller
             $point    = $this->input->get('point') ?? null;
             $parent   = $this->input->get('parent') ?? 0;
 
-            return datatables()->of(Lokasi::status($status)
-                ->when($point, static fn ($q) => $q->whereIn('ref_point', static fn ($q) => $q->select('id')->from('point')->whereParrent($point)))
+            // Tidak filter data invalid, tampilkan semua
+            $query = Lokasi::status($status)
+                // Filter berdasarkan point (jenis) yang dipilih
+                ->when($point, static function ($q) use ($point) {
+                    return $q->whereHas('point', static function ($query) use ($point) {
+                        $query->where('parrent', $point);
+                    });
+                })
+                // Filter berdasarkan subpoint (kategori) yang dipilih
                 ->when($subpoint, static fn ($q) => $q->whereRefPoint($subpoint))
-                ->with(['point' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
-                ]))
+                // Eager load dengan validasi
+                ->with(['point' => static function ($q) {
+                    $q->select(['id', 'nama', 'parrent', 'tipe'])
+                        ->with(['parent' => static function ($r) {
+                            $r->select(['id', 'nama', 'tipe']);
+                        }]);
+                }]);
+
+            return datatables()->of($query)
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -91,26 +105,86 @@ class Plan extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($parent): string {
                     $aksi = '';
+
+                    // Ambil parent_id untuk URL
+                    // Gunakan parent dari point jika ada, kalau tidak gunakan parent parameter
+                    $parentId = ($row->point && $row->point->parrent) ? $row->point->parrent : $parent;
+
+                    // Tombol edit - selalu tampil
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'plan/form/' . implode('/', [$parentId, $row->id]),
+                    ])->render();
+
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('plan.form', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                        $aksi .= '<a href="' . ci_route('plan.ajax_lokasi_maps', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url' => ci_route(
+                                'plan.ajax_lokasi_maps',
+                                implode('/', [$parentId, $row->id])
+                            ),
+                            'icon'       => 'fa fa-map',
+                            'judul'      => 'Lokasi ' . $row->nama,
+                            'type'       => 'bg-olive',
+                            'buttonOnly' => true,
+                        ])->render();
                     }
 
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                        'url'    => ci_route('plan.lock', implode('/', [$row->point->parent->id ?? $parent, $row->id])),
+                        'url'    => ci_route('plan.lock', implode('/', [$parentId, $row->id])),
                         'active' => $row->enabled,
                     ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('plan.delete', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    // Tombol hapus - selalu tampil
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url' => ci_route(
+                            'plan.delete',
+                            implode('/', [$parentId, $row->id])
+                        ),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
                 ->editColumn('enabled', static fn ($row): string => $row->enabled == AktifEnum::AKTIF ? 'Ya' : 'Tidak')
-                ->editColumn('ref_point', static fn ($row) => $row->point->parent->nama ?? '')
-                ->editColumn('kategori', static fn ($row) => $row->point->nama ?? '')
-                ->rawColumns(['aksi', 'ceklist'])
+                // KOLOM JENIS - Tampilkan label jika invalid
+                ->editColumn('ref_point', static function ($row) {
+                    // Validasi parent-child relationship
+                    if (! $row->point) {
+                        return '<span class="label label-danger" title="Point dengan ID ' . $row->ref_point . ' tidak ditemukan">Data Tidak Valid</span>';
+                    }
+
+                    // Point harus CHILD (tipe = 2)
+                    if ($row->point->tipe != Point::CHILD) {
+                        return '<span class="label label-warning" title="Point adalah ROOT, seharusnya CHILD">Data Tidak Valid</span>';
+                    }
+
+                    // Parent harus ada
+                    if (! $row->point->parent) {
+                        return '<span class="label label-danger" title="Parent dengan ID ' . $row->point->parrent . ' tidak ditemukan">Data Tidak Valid</span>';
+                    }
+
+                    // Parent harus ROOT (tipe = 0)
+                    if ($row->point->parent->tipe != Point::ROOT) {
+                        return '<span class="label label-warning" title="Parent bukan ROOT">Data Tidak Valid</span>';
+                    }
+
+                    // Jika valid, tampilkan nama parent (JENIS)
+                    return $row->point->parent->nama;
+                })
+                // KOLOM KATEGORI - Tampilkan label jika invalid
+                ->editColumn('kategori', static function ($row) {
+                    // Validasi
+                    if (! $row->point) {
+                        return '<span class="label label-danger" title="Point tidak ditemukan">Data Tidak Valid</span>';
+                    }
+
+                    if ($row->point->tipe != Point::CHILD) {
+                        return '<span class="label label-warning" title="Point bukan CHILD">Data Tidak Valid</span>';
+                    }
+
+                    // Jika valid, tampilkan nama point (KATEGORI)
+                    return $row->point->nama;
+                })
+                ->rawColumns(['aksi', 'ceklist', 'ref_point', 'kategori'])
                 ->make();
         }
 
@@ -129,12 +203,61 @@ class Plan extends Admin_Controller
         if ($id) {
             $data['plan']        = Lokasi::findOrFail($id);
             $data['form_action'] = ci_route('plan.update', implode('/', [$parent, $id]));
+
+            // Ambil parent dari ref_point saat edit
+            if ($data['plan']->ref_point) {
+                $currentPoint = Point::find($data['plan']->ref_point);
+                if ($currentPoint && $currentPoint->parrent) {
+                    $data['parent'] = $currentPoint->parrent;
+                }
+            }
         }
 
-        $data['list_point'] = empty($parent) ? Point::root()->get() : Point::child($parent)->whereHas('parent')->get();
-        $data['tip']        = $this->tip;
+        // Ambil semua data Root/Jenis untuk dropdown pertama
+        $data['list_jenis'] = Point::root()->get();
+
+        // Ambil data Child/Kategori untuk dropdown kedua
+        // Jika ada parent, ambil child-nya
+        if ($data['parent'] > 0) {
+            $data['list_kategori'] = Point::child($data['parent'])->get();
+        } else {
+            $data['list_kategori'] = collect([]); // kosong jika belum pilih jenis
+        }
+
+        $data['tip'] = $this->tip;
 
         return view('admin.peta.lokasi.form', $data);
+    }
+
+    /**
+     * AJAX untuk mengambil kategori berdasarkan jenis yang dipilih
+     */
+    public function ajax_get_kategori()
+    {
+        if ($this->input->is_ajax_request()) {
+            $jenis_id = $this->input->get('jenis_id');
+
+            if ($jenis_id) {
+                $kategori = Point::child($jenis_id)->get()->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'nama' => $item->nama,
+                    ];
+                });
+
+                return json([
+                    'success' => true,
+                    'data'    => $kategori,
+                ]);
+            }
+
+            return json([
+                'success' => false,
+                'data'    => [],
+            ]);
+        }
+
+        return show_404();
     }
 
     public function ajax_lokasi_maps($parent, int $id)

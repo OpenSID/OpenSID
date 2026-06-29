@@ -1,0 +1,61 @@
+<?php
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+return [
+
+    'enabled' => true,
+
+    'headers' => [
+
+        'Strict-Transport-Security' => 'max-age=31536000; includeSubDomains',
+
+        'X-Content-Type-Options' => 'nosniff',
+
+        'Content-Security-Policy' => "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: *.jsdelivr.net *.cloudflare.com code.jquery.com cdn.ckeditor.com unpkg.com uicdn.toast.com toast.com *.googleapis.com *.github.io *.facebook.net platform.twitter.com cdn.datatables.net www.google.com www.gstatic.com; worker-src 'self' blob:; child-src 'self' blob:; style-src 'self' 'unsafe-inline' fonts.googleapis.com *.gstatic.com *.jsdelivr.net *.cloudflare.com unpkg.com uicdn.toast.com toast.com cdn.datatables.net; img-src 'self' data: *; font-src 'self' data: fonts.gstatic.com *.cloudflare.com *.jsdelivr.net; connect-src 'self' api.ipify.org *.cloudflare.com unpkg.com api.mapbox.com *.mapbox.com www.google.com www.gstatic.com; frame-src 'self' *.google.com www.google.com www.gstatic.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self';",
+
+        'X-Permitted-Cross-Domain-Policies' => 'none',
+
+        'Permissions-Policy' => 'accelerometer=(),camera=(),microphone=()',
+
+        'Cross-Origin-Embedder-Policy' => 'same-origin',
+        'Cross-Origin-Resource-Policy' => 'same-origin',
+        'Cross-Origin-Opener-Policy'   => 'same-origin',
+
+        'X-Frame-Options' => 'SAMEORIGIN',
+    ],
+
+];

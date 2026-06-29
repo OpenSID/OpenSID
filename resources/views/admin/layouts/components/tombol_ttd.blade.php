@@ -2,10 +2,10 @@
     @if ($active == 0)
         <a href="{{ $url }}" 
            class="btn bg-purple btn-sm" 
-           title="Jadikan TTD a.n">a.n</a>
+           title="Jadikan TTD {{ $label }}">{{ $label }}</a>
     @else
         <a href="{{ $url }}" 
            class="btn bg-navy btn-sm" 
-           title="Bukan TTD a.n">a.n</a>
+           title="Bukan TTD {{ $label }}">{{ $label }}</a>
     @endif
 @endif

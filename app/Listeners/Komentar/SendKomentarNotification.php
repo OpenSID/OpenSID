@@ -35,24 +35,30 @@
  *
  */
 
-use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
+namespace App\Listeners\Komentar;
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use App\Events\Komentar\KomentarSubmitted;
+use App\Models\User;
+use App\Notifications\Komentar\KomentarBaru;
 
-class Migrasi_2025111851
+class SendKomentarNotification
 {
-    use Migrator;
-
-    public function up()
+    /**
+     * Create the event listener.
+     */
+    public function __construct()
     {
-        $this->ubahDataShortcut();
-
-        shortcut_cache();
     }
 
-    public function ubahDataShortcut()
+    /**
+     * Handle the event.
+     */
+    public function handle(KomentarSubmitted $event): void
     {
-        DB::table('shortcut')->where('raw_query', 'Verifikasi Layanan Mandiri')->update(['raw_query' => 'Verifikasi Layanan Mandiri (Semua)']);
+        // Send notifications to users with komentar access
+        User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'komentar', user: $user))
+            ->each(static function (User $user) use ($event) {
+                $user->notify(new KomentarBaru(komentar: $event->komentar));
+            });
     }
 }

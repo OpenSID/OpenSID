@@ -811,6 +811,39 @@
                                 </div>
                             </div>
                             @endif
+                            
+                            @if (in_array('kepala_rtm_ganda', $masalah))
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <strong>Terdeteksi kepala RTM ganda / tidak valid</strong><br><br>
+                                    <p>
+                                        Sistem mendeteksi data Kepala Rumah Tangga (RTM) yang ganda atau tidak valid.
+                                        Data berikut <strong>perlu dihapus</strong> agar tidak mengganggu keakuratan data.
+                                    </p>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <th>Nomor Rumah Tangga</th>
+                                                <th>Kepala Rumah Tangga</th>
+                                                <th>Tanggal Terdaftar</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                            @foreach ($kepala_rtm_ganda as $rtm)
+                                            <tr>
+                                                <td>{{ $rtm['no_kk'] }}</td>
+                                                <td>{{ $rtm['nama_penduduk'] }}</td>
+                                                <td>{{ $rtm['tgl_daftar'] }}</td>
+                                                <td><button
+                                                        onclick="$.get('periksaKepalaRtm/hapus', {id: {{ $rtm['id'] }}},function(){$(event.target).replaceWith(`<button class='btn btn-sm btn-success'><i class='fa fa-check'></i> Sudah dihapus</button>`)},'json')"
+                                                        type="button" class="btn btn-sm btn-danger"><i
+                                                            class="fa fa-trash"></i> Hapus </button></td>
+                                            </tr>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
 
                             @if (in_array('tgllahir_null_kosong', $masalah))
                             <div class="panel panel-default">
@@ -929,7 +962,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="4">
-                                                    <form id="form-datanull" action="{{ ci_route('periksa.datanull') }}"
+                                                    <form class="form-datanull" action="{{ ci_route('periksa.datanull') }}"
                                                         method="post" class="p-3 mb-3 border rounded bg-light">
                                                         <input type="hidden" name="id" value="{{ $data['id'] }}"><br>
                                                         <div class="row">
@@ -1573,14 +1606,12 @@
             });
         });
 
-        $('#form-datanull').submit(function(e) {
+        $('.form-datanull').on('submit', function(e) {
             e.preventDefault();
 
-            // Ambil csrf token dari Laravel (pastikan blade directives diproses di server)
             let csrfTokenName = '{{ $token_name }}';
             let csrfTokenValue = '{{ $token_value }}';
 
-            // Tambahkan CSRF token ke dalam data form
             let formData = $(this).serializeArray();
             formData.push({
                 name: csrfTokenName,
@@ -1599,11 +1630,12 @@
                         alert('Data gagal diperbarui');
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function() {
                     alert('Data gagal diperbarui');
                 }
             });
         });
+
 
         $('#form-datacluster').submit(function(e) {
             e.preventDefault();

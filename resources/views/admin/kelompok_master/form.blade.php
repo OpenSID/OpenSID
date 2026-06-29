@@ -18,7 +18,10 @@
 @section('content')
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => site_url($ci->controller), 'label' => 'Kategori ' . $tipe])
+            <x-kembali-button 
+                :url="$ci->controller"
+                :judul="'Kembali Ke Daftar Kategori ' . $tipe"
+            />
         </div>
         <form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
             <div class="box-body">

@@ -59,6 +59,8 @@ final class CoreHelperTest extends BaseTestCase
         //     }
         // }
 
+        // Load opensid_helper terlebih dahulu untuk VERSION dan VERSI_DATABASE
+        require_once __DIR__ . '/../../../donjo-app/helpers/opensid_helper.php';
         require_once __DIR__ . '/../../../donjo-app/helpers/core_helper.php';
     }
 

@@ -36,7 +36,9 @@
  */
 
 use App\Enums\JawabanKepuasanEnum;
+use App\Enums\JawabanKepuasanEnum;
 use App\Enums\StatusEnum;
+use App\Events\BukuTamu\TamuSubmitted;
 use App\Models\RefJabatan;
 use Carbon\Carbon;
 use Modules\BukuTamu\Models\KeperluanModel;
@@ -87,8 +89,33 @@ class BukuTamuController extends WebModulController
 
             if ($cek_registrasi) {
                 set_session('error', 'Registrasi Gagal Disimpan<br>Anda Sudah Melakukan Registrasi Hari Ini');
-            } elseif (TamuModel::create($post)) {
+            } elseif ($tamu = TamuModel::create($post)) {
                 set_session('success', 'Registrasi Berhasil Disimpan');
+                event(new TamuSubmitted($tamu));
+
+                // Kirim notifikasi ke Telegram
+                $pesan = '<b>Registrasi Buku Tamu Baru</b>' . "\n\n"
+                    . '<b>Nama:</b> ' . $tamu->nama . "\n"
+                    . '<b>Telepon:</b> ' . $tamu->telepon . "\n"
+                    . '<b>Instansi:</b> ' . $tamu->instansi . "\n"
+                    . '<b>Jenis Kelamin:</b> ' . $tamu->jenis_kelamin . "\n"
+                    . '<b>Alamat:</b> ' . $tamu->alamat . "\n"
+                    . '<b>Bertemu:</b> ' . $tamu->bidang . "\n"
+                    . '<b>Keperluan:</b> ' . $tamu->keperluan;
+
+                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
+                    try {
+                        $telegram = new Telegram(setting('telegram_token'));
+                        $telegram->sendMessage([
+                            'text'       => $pesan,
+                            'parse_mode' => 'HTML',
+                            'chat_id'    => setting('telegram_user_id'),
+                        ]);
+                    } catch (Exception $e) {
+                        log_message('error', $e->getMessage());
+                    }
+                }
+
             } else {
                 set_session('error', 'Registrasi Gagal Disimpan');
             }

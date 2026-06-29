@@ -124,7 +124,7 @@ class TinyMCE
         <li style="font-size: 6pt;"><span style="font-size: 6pt;">Surat ini dapat dibuktikan keasliannya dengan menggunakan qr code yang telah tersedia.</span></li>
         </ul>
         </td>
-        <td style="width: 25%; text-align: center;">[qr_bsre]</td>
+        <td style="width: 25%; text-align: center;"></td>
         </tr>
         </tbody>
         </table>
@@ -179,7 +179,7 @@ class TinyMCE
         <li style="font-size: 6pt;"><span style="font-size: 6pt;">Surat ini dapat dibuktikan keasliannya dengan menggunakan qr code yang telah tersedia.</span></li>
         </ul>
         </td>
-        <td style="width: 25%; text-align: center;">[qr_bsre]</td>
+        <td style="width: 25%; text-align: center;"></td>
         </tr>
         </tbody>
         </table>

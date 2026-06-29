@@ -38,6 +38,7 @@
 namespace App\Console;
 
 use App\Console\Commands\AcakDataCommand;
+use App\Console\Commands\DeactivateInactiveAccounts;
 use App\Console\Commands\DesaBaruCommand;
 use App\Console\Commands\ModuleCommand;
 use App\Console\Commands\Modules\MigrationMakeCommand;
@@ -99,6 +100,7 @@ class Kernel implements KernelContract
         SeedMakeCommand::class,
         SetupCommand::class,
         ViewClearCommand::class,
+        DeactivateInactiveAccounts::class,
     ];
 
     /**

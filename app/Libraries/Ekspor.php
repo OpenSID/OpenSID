@@ -38,6 +38,7 @@
 namespace App\Libraries;
 
 use App\Models\Config;
+use Exception;
 use Illuminate\Support\Facades\File;
 use MySQLDump;
 use mysqli;
@@ -47,6 +48,7 @@ class Ekspor
 {
     private readonly mysqli $db;
     private array $config;
+    private ?int $configId = null;
 
     public function __construct()
     {
@@ -55,20 +57,58 @@ class Ekspor
         $this->db           = new mysqli($this->config['host'], $this->config['username'], $this->config['password'], $this->config['database'], $this->config['port']);
     }
 
+    /**
+     * Set config_id untuk backup per desa.
+     *
+     * @param int $configId ID dari tabel config (desa) yang akan di-backup
+     */
+    public function setConfigId(int $configId): self
+    {
+        $this->configId = $configId;
+
+        return $this;
+    }
+
     public function backup(): string
     {
-        $dump = new MySQLDump($this->db);
-        // Save backup to file
-        $backupDir = DESAPATH . '/backup';
-        if (! is_dir($backupDir)) {
-            mkdir($backupDir, 0777, true);
-        } else {
-            File::cleanDirectory($backupDir);
-        }
-        $dbName = $backupDir . '/backup-on-' . date('Y-m-d-H-i-s') . '.sql.gz';
-        $dump->save($dbName);
+        try {
+            $dump = new MySQLDump($this->db, 'utf8mb4', $this->configId);
 
-        return $dbName;
+            // Daftarkan tabel config sebagai master table jika backup per desa
+            if ($this->configId !== null) {
+                $dump->addMasterTable('config', 'id');
+            }
+
+            // Save backup to file
+            $backupDir = DESAPATH . '/backup';
+            if (! is_dir($backupDir)) {
+                if (! mkdir($backupDir, 0777, true)) {
+                    throw new Exception("Gagal membuat direktori backup: {$backupDir}");
+                }
+            } else {
+                File::cleanDirectory($backupDir);
+            }
+
+            // Naming untuk file backup
+            $timestamp = date('Y-m-d-H-i-s');
+            if ($this->configId !== null) {
+                $desa     = identitas();
+                $desaName = $desa ? str_slug($desa->nama_desa) : 'desa';
+                $dbName   = "{$backupDir}/backup-desa-{$this->configId}-{$desaName}-{$timestamp}.sql.gz";
+            } else {
+                $dbName = "{$backupDir}/backup-on-{$timestamp}.sql.gz";
+            }
+
+            $dump->save($dbName);
+
+            if (! file_exists($dbName)) {
+                throw new Exception("File backup gagal dibuat di: {$dbName}");
+            }
+
+            return $dbName;
+        } catch (Exception $e) {
+            throw new Exception('Backup database gagal: ' . $e->getMessage(), 0, $e);
+        }
     }
 
     public function restore(string $filename): bool
