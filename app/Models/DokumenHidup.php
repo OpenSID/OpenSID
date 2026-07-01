@@ -129,8 +129,15 @@ class DokumenHidup extends BaseModel
     public function scopePeraturanDesa($query, $kat, $tahun = '')
     {
         $query->where('kategori', $kat);
-        if ($kat == 3 && $tahun != '') {
-            $query->whereRaw("JSON_EXTRACT(attr, '$.tgl_ditetapkan') LIKE ?", ["%{$tahun}%"]);
+
+        if ($tahun != '') {
+            if ($kat == 2) {
+                // Filter SK Kades berdasarkan tahun dari tgl_kep_kades
+                $query->whereRaw("JSON_EXTRACT(attr, '$.tgl_kep_kades') LIKE ?", ["%{$tahun}%"]);
+            } elseif ($kat == 3) {
+                // Filter Peraturan Desa berdasarkan tahun dari tgl_ditetapkan
+                $query->whereRaw("JSON_EXTRACT(attr, '$.tgl_ditetapkan') LIKE ?", ["%{$tahun}%"]);
+            }
         }
 
         return $query;
@@ -168,22 +175,19 @@ class DokumenHidup extends BaseModel
                     break;
 
                 case '2':
-                    // SK KADES
-                    $regex = '"tgl_kep_kades":"[[:digit:]]{2}-[[:digit:]]{2}-' . $tahun;
-                    $query->whereRaw("attr REGEXP '" . $regex . "'");
+                    // Filter SK Kades berdasarkan tahun dari tgl_kep_kades
+                    $query->whereRaw("JSON_EXTRACT(attr, '$.tgl_kep_kades') LIKE ?", ["%{$tahun}%"]);
                     break;
 
                 case '3':
-                    // PERDES
-                    $regex = '"tgl_ditetapkan":"[[:digit:]]{2}-[[:digit:]]{2}-' . $tahun;
-                    $query->whereRaw("attr REGEXP '" . $regex . "'");
+                    // Filter Peraturan Desa berdasarkan tahun dari tgl_ditetapkan
+                    $query->whereRaw("JSON_EXTRACT(attr, '$.tgl_ditetapkan') LIKE ?", ["%{$tahun}%"]);
                     break;
             }
         }
 
         if ($kat == 3 && $jenis_peraturan) {
-            $like = '"jenis_peraturan":"' . $jenis_peraturan . '"';
-            $query->where('attr', 'LIKE', "%{$like}%");
+            $query->whereRaw("JSON_EXTRACT(attr, '$.jenis_peraturan') = ?", [$jenis_peraturan]);
         }
 
         // Informasi publik termasuk kategori lainnya
@@ -276,7 +280,7 @@ class DokumenHidup extends BaseModel
                 DB::raw("IF(kategori=3, '1-3', IF(kategori=2, '1-2', '1-1')) as jenis"),
                 DB::raw("IF(kategori=3, 'perdes', IF(kategori=2, 'sk_kades', 'informasi_desa_lain')) as nama_jenis"),
                 'lokasi_arsip',
-                DB::raw("IF(kategori=3, 'dokumen_sekretariat/perdes/3', IF(kategori=2, 'dokumen_sekretariat/perdes/2', 'dokumen')) as modul_asli"),
+                DB::raw("IF(kategori=3, 'dokumen_sekretariat/peraturan', IF(kategori=2, 'dokumen_sekretariat/keputusan', 'dokumen')) as modul_asli"),
                 'tahun',
                 DB::raw("'dokumen_desa' as kategori"),
                 DB::raw('NULL as lampiran'),

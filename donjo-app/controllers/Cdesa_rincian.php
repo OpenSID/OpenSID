@@ -38,6 +38,7 @@
 use App\Models\Cdesa;
 use App\Models\Cdesa as CdesaModel;
 use App\Models\Persil;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -68,9 +69,26 @@ class Cdesa_rincian extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($rincian) {
 
-                    $aksi = '<a href="' . ci_route('cdesa.mutasi', [$rincian, $row->id]) . '" class="btn bg-maroon btn-sm" style="margin-right: 3px;"  title="Daftar Mutasi"><i class="fa fa-exchange"></i></a>';
+                    $aksi = '';
 
-                    $aksi .= '<a href="#" data-path="' . $row->path . '" class="btn bg-olive btn-sm area-map" title="Lihat Map" data-toggle="modal" style="margin-right: 3px;" data-target="#map-modal" ><i class="fa fa-map"></i></a>';
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'        => ci_route('cdesa.mutasi', [$rincian, $row->id]),
+                        'icon'       => 'fa fa-exchange',
+                        'judul'      => 'Daftar Mutasi',
+                        'type'       => 'bg-maroon',
+                        'buttonOnly' => true,
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'         => '#',
+                        'icon'        => 'fa fa-map',
+                        'judul'       => 'Lihat Map',
+                        'type'        => 'bg-olive',
+                        'modalTarget' => 'map-modal',
+                        'buttonOnly'  => true,
+                        'modal'       => true,
+                        'attributes'  => ['data-path' => $row->path, 'class' => 'area-map'],
+                    ])->render();
 
                     return $aksi;
                 })

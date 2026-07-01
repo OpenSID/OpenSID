@@ -37,6 +37,7 @@
 
 use App\Enums\StatusEnum;
 use App\Models\Gawai;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -79,7 +80,6 @@ class Gawai_layanan extends Admin_Controller
             'printer_port'  => bilangan($request['printer_port']),
             'keyboard'      => bilangan($request['keyboard']),
             'keterangan'    => htmlentities((string) $request['keterangan']),
-            'tipe'          => 2,
             'status'        => $request['status'] ?? 0,
         ];
 
@@ -109,20 +109,19 @@ class Gawai_layanan extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('gawai_layanan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        $url_kunci = site_url("gawai_layanan/kunci/{$row->id}");
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => '/gawai_layanan/form/' . $row->id,
+                    ])->render();
 
-                        if ($row->status) {
-                            $aksi .= '<a href="' . $url_kunci . '/' . StatusEnum::YA . '" class="btn bg-navy btn-sm" title="Nonaktifkan Gawai Layanan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . $url_kunci . '/' . StatusEnum::TIDAK . '" class="btn bg-navy btn-sm" title="Aktifkan Gawai Layanan"><i class="fa fa-lock"></i></a> ';
-                        }
-                    }
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => '/gawai_layanan/kunci/' . $row->id,
+                        'active' => $row->status,
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('gawai_layanan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => '/gawai_layanan/delete/' . $row->id,
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

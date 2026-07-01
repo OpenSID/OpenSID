@@ -140,6 +140,11 @@ class Rtm extends BaseModel
         return $data ?? null;
     }
 
+    public static function isNomorExist($nomor)
+    {
+        return self::where('no_kk', $nomor)->exists();
+    }
+
     /**
      * Define a one-to-one relationship.
      *
@@ -157,7 +162,7 @@ class Rtm extends BaseModel
      */
     public function anggota()
     {
-        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->status();
+        return $this->hasMany(PendudukSaja::class, 'id_rtm', 'no_kk')->status();
     }
 
     /**

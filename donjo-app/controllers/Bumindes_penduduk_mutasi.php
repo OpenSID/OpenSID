@@ -122,6 +122,7 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
         $data['aksi'] = $aksi;
         $data['main'] = $query->take($paramDatatable['length'])->get();
 
+        $data['filters']   = $paramDatatable;
         $data['tgl_cetak'] = $this->input->post('tgl_cetak');
         $data['file']      = 'Buku Mutasi Penduduk';
         $data['isi']       = 'admin.bumindes.penduduk.mutasi.cetak';

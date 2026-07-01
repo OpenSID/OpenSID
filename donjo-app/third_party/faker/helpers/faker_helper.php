@@ -39,11 +39,11 @@ use App\Enums\AgamaEnum;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
+use App\Enums\PeristiwaKeluargaEnum;
 use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Models\GolonganDarah;
-use App\Models\LogKeluarga;
 use App\Models\Pendidikan;
 use App\Models\PendidikanKK;
 use Illuminate\Support\Facades\DB;
@@ -336,7 +336,7 @@ function buatAnggota($configId, string $kodeKecamatan, $urut)
     $logKeluarga = [
         'config_id'     => $configId,
         'id_kk'         => $idKk,
-        'id_peristiwa'  => LogKeluarga::KELUARGA_BARU,
+        'id_peristiwa'  => PeristiwaKeluargaEnum::KELUARGA_BARU->value,
         'tgl_peristiwa' => $keluarga['tgl_daftar'],
     ];
 

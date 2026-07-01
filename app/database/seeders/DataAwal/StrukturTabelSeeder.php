@@ -40,7 +40,6 @@ namespace Database\Seeders\DataAwal;
 use App\Enums\AgamaEnum;
 use App\Enums\AsalTanahKasEnum;
 use App\Enums\AsuransiEnum;
-use App\Enums\BahasaEnum;
 use App\Enums\CacatEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
@@ -101,7 +100,7 @@ class StrukturTabelSeeder extends Seeder
         (new KlasifikasiSuratImports())->import();
     }
 
-    public function insertEnumToTable(string $tableName, string $enumClass): void
+    public function insertEnumToTable(string $tableName, string $enumClass, array $columns = ['id', 'nama']): void
     {
         if (! Schema::hasTable($tableName)) {
             return;
@@ -111,20 +110,52 @@ class StrukturTabelSeeder extends Seeder
 
         // Cek apakah enum menggunakan method all() (untuk legacy code)
         if (method_exists($enumClass, 'all')) {
-            foreach ($enumClass::all() as $id => $nama) {
-                $data[] = [
-                    'id'   => $id,
-                    'nama' => $nama,
-                ];
+            foreach ($enumClass::all() as $key => $value) {
+                $row = [];
+                if (count($columns) === 2) {
+                    // Default behavior: kolom pertama untuk key, kolom kedua untuk value
+                    $row[$columns[0]] = $key;
+                    $row[$columns[1]] = $value;
+                } else {
+                    // Custom behavior: jika value adalah array, map sesuai columns
+                    if (is_array($value)) {
+                        foreach ($columns as $index => $column) {
+                            $row[$column] = $value[$index] ?? null;
+                        }
+                    } else {
+                        // Fallback: gunakan key sebagai id dan value sebagai kolom pertama
+                        $row[$columns[0]] = $key;
+                        if (isset($columns[1])) {
+                            $row[$columns[1]] = $value;
+                        }
+                    }
+                }
+                $data[] = $row;
             }
         }
         // Cek apakah enum menggunakan method labels() (untuk enum PHP 8.1+)
         elseif (method_exists($enumClass, 'labels')) {
-            foreach ($enumClass::labels() as $id => $nama) {
-                $data[] = [
-                    'id'   => $id,
-                    'nama' => $nama,
-                ];
+            foreach ($enumClass::labels() as $key => $value) {
+                $row = [];
+                if (count($columns) === 2) {
+                    // Default behavior: kolom pertama untuk key, kolom kedua untuk value
+                    $row[$columns[0]] = $key;
+                    $row[$columns[1]] = $value;
+                } else {
+                    // Custom behavior: jika value adalah array, map sesuai columns
+                    if (is_array($value)) {
+                        foreach ($columns as $index => $column) {
+                            $row[$column] = $value[$index] ?? null;
+                        }
+                    } else {
+                        // Fallback: gunakan key sebagai id dan value sebagai kolom pertama
+                        $row[$columns[0]] = $key;
+                        if (isset($columns[1])) {
+                            $row[$columns[1]] = $value;
+                        }
+                    }
+                }
+                $data[] = $row;
             }
         } else {
             return;
@@ -477,8 +508,8 @@ class StrukturTabelSeeder extends Seeder
     private function addDataMaster()
     {
         $this->insertEnumToTable('analisis_ref_state', AnalisisRefStateEnum::class);
-        $this->insertEnumToTable('analisis_ref_subjek', AnalisisRefSubjekEnum::class);
-        $this->insertEnumToTable('analisis_tipe_indikator', AnalisisTipeIndikatorEnum::class);
+        $this->insertEnumToTable('analisis_ref_subjek', AnalisisRefSubjekEnum::class, ['id', 'subjek']);
+        $this->insertEnumToTable('analisis_tipe_indikator', AnalisisTipeIndikatorEnum::class, ['id', 'tipe']);
 
         DB::table('ref_persil_kelas')->insert([
             [
@@ -559,13 +590,14 @@ class StrukturTabelSeeder extends Seeder
             ['id' => 7, 'nama' => 'Selesai Isolasi'],
         ]);
 
-        $this->insertEnumToTable('ref_penduduk_bahasa', BahasaEnum::class);
-        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 1], ['inisial' => 'L']);
-        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 2], ['inisial' => 'D']);
-        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 3], ['inisial' => 'A']);
-        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 4], ['inisial' => 'AL']);
-        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 5], ['inisial' => 'AD']);
-        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 6], ['inisial' => 'ALD']);
+        DB::table('ref_penduduk_bahasa')->insert([
+            ['id' => 1, 'nama' => 'Latin', 'inisial' => 'L'],
+            ['id' => 2, 'nama' => 'Daerah', 'inisial' => 'D'],
+            ['id' => 3, 'nama' => 'Arab', 'inisial' => 'A'],
+            ['id' => 4, 'nama' => 'Arab dan Latin', 'inisial' => 'AL'],
+            ['id' => 5, 'nama' => 'Arab dan Daerah', 'inisial' => 'AD'],
+            ['id' => 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD'],
+        ]);
 
         $this->insertEnumToTable('ref_penduduk_bidang', PendudukBidangEnum::class);
         $this->insertEnumToTable('ref_penduduk_hamil', HamilEnum::class);

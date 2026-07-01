@@ -22,14 +22,9 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border">
-            @if (can('u'))
-                <a href="{{ route('cdesa.create_mutasi', ['id_cdesa' => $cdesa['id']]) }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Persil">
-                    <i class="fa fa-plus"></i>Tambah Mutasi Persil
-                </a>
-            @endif
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa'), 'label' => 'Daftar C-DESA'])
-
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa.rincian', $cdesa['id']), 'label' => 'Rincian C-DESA'])
+            <x-tambah-button url="cdesa/mutasi/{{ $cdesa['id'] }}/form" judul="Tambah Mutasi Persil"/>
+            <x-kembali-button judul="Kembali Ke Daftar C-DESA" url="cdesa"/>
+            <x-kembali-button judul="Kembali Ke Rincian C-Desa" url="cdesa/rincian/{{ $cdesa['id'] }}"/>
 
         </div>
         <div class="box-body">

@@ -41,6 +41,7 @@ use App\Models\Persil;
 use App\Models\RefPersilKelas;
 use App\Models\Wilayah;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -72,23 +73,33 @@ class Data_persil extends Admin_Controller
 
             return datatables()->of($this->sumberData())
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     if ($row->mutasi_count) {
-                        $aksi .= '<a href="' . ci_route('data_persil.rincian', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-bars"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.rincian', [
+                            'url' => "data_persil/rincian/{$row->id}",
+                        ])->render();
                     } else {
-                        $aksi .= '<a class="btn bg-purple btn-sm" disabled title="Rincian"><i class="fa fa-bars"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.rincian', [
+                            'url'      => '#',
+                            'attribut' => 'disabled',
+                        ])->render();
                     }
 
-                    if ($canUpdate) {
-                        $aksi .= '<a href="' . ci_route('data_persil.form', $row->id) . '" class="btn bg-orange btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
-                    if ($canDelete) {
-                        if ($row->mutasi_count) {
-                            $aksi .= '<a class="btn bg-maroon btn-sm" disabled><i class="fa fa-trash-o"></i></a>';
-                        } else {
-                            $aksi .= '<a href="#" data-href="' . ci_route('data_persil.delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
-                        }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'data_persil/form/' . $row->id,
+                    ])->render();
+
+                    if ($row->mutasi_count) {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'      => '#',
+                            'attribut' => 'disabled',
+                        ])->render();
+                    } else {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('data_persil.delete', $row->id),
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;

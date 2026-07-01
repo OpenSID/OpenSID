@@ -42,6 +42,7 @@ use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\User;
 use App\Models\Widget;
+use App\Repositories\SettingAplikasiRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -230,17 +231,21 @@ if (! function_exists('setting')) {
      */
     function setting($key = null, $value = null)
     {
-        $getSetting = ci()->setting;
-
-        if ($key === null) {
-            return $getSetting;
+        if (! ci()->setting) {
+            SettingAplikasiRepository::applySettingCI(ci());
         }
 
-        if ($value === null) {
-            return $getSetting->{$key} ?? null;
+        $setting = ci()->setting;
+
+        if (null === $key) {
+            return $setting;
         }
 
-        return $getSetting->{$key} = $value;
+        if (null === $value) {
+            return $setting->{$key} ?? null;
+        }
+
+        return $setting->{$key} = $value;
     }
 }
 

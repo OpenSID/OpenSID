@@ -68,9 +68,25 @@ class Dokumen_sekretariat extends Admin_Controller
     }
 
     // Mulai Perdes
+    public function keputusan(): void
+    {
+        $this->peraturan_desa(2);
+    }
+
+    public function peraturan(): void
+    {
+        $this->peraturan_desa(3);
+    }
+
     public function perdes($kat = 2): void
     {
-        $this->peraturan_desa($kat);
+        if ($kat == 2) {
+            redirect('dokumen_sekretariat/keputusan');
+        } elseif ($kat == 3) {
+            redirect('dokumen_sekretariat/peraturan');
+        } else {
+            show_404();
+        }
     }
     // End Perdes
 
@@ -170,6 +186,7 @@ class Dokumen_sekretariat extends Admin_Controller
 
                     return $data;
                 })
+                ->editColumn('tgl_upload', static fn ($row): string => tgl_indo2($row->tgl_upload))
                 ->rawColumns(['ceklist', 'aksi', 'additional'])
                 ->make();
         }

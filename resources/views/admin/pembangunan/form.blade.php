@@ -98,9 +98,17 @@
                                 <label class="col-sm-12 control-label">Tahun Pagu Anggaran</label>
                                 <div class="col-sm-12">
                                     <select class="form-control input-sm select2" id="tahun_anggaran" name="tahun_anggaran" style="width:100%;">
-                                        @foreach (tahun(1999) as $value)
-                                            <option value="{{ $value }}" @selected($value == $main->tahun_anggaran)>{{ $value }}</option>
-                                        @endforeach
+                                        @foreach (tahun(awal: 1999, tambah: 8) as $value)
+                                        <option value="{{ $value }}"
+                                            @selected(
+                                                $action === 'Tambah'
+                                                    ? $value == date('Y')
+                                                    : $value == $main->tahun_anggaran 
+                                            )
+                                        >
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
                                     </select>
                                 </div>
                             </div>

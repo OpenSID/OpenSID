@@ -50,8 +50,9 @@ class Gawai extends BaseModel
     use ConfigId;
     use StatusTrait;
 
-    public const ANJUNGAN = 1;
-    public const GAWAI    = 2;
+    public const ANJUNGAN  = 1;
+    public const GAWAI     = 2;
+    public const KEHADIRAN = 3;
 
     public $statusColumName = 'status';
 
@@ -73,6 +74,7 @@ class Gawai extends BaseModel
         'id_pengunjung',
         'keterangan',
         'status',
+        'orientasi_layar',
         'permohonan_surat_tanpa_akun',
         'status_alasan',
         'tipe',
@@ -92,6 +94,7 @@ class Gawai extends BaseModel
     protected $casts = [
         'status'   => 'boolean',
         'keyboard' => 'boolean',
+        'tipe'     => 'array',
     ];
 
     /**
@@ -100,7 +103,7 @@ class Gawai extends BaseModel
      * @var array
      */
     protected $attributes = [
-        'tipe' => self::GAWAI,
+        'tipe' => '[2]', // Default GAWAI as JSON string
     ];
 
     /**
@@ -119,7 +122,7 @@ class Gawai extends BaseModel
     protected static function booted()
     {
         static::addGlobalScope('tipe', static function (Builder $builder): void {
-            $builder->where('tipe', self::GAWAI);
+            $builder->whereJsonContains('tipe', self::GAWAI);
         });
     }
 

@@ -35,31 +35,34 @@
  *
  */
 
-    defined('BASEPATH') || exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-    define('MAX_ANGGOTA_F115', 10);
-    define('MAX_ANGGOTA_F101', 10);
-    $semuaAnggota = App\Models\PendudukSaja::where('id_kk', $individu['id_kk'])->hidup(1)->get();
-    $anggota      = $semuaAnggota->toArray();
-    $anggota_ikut = $semuaAnggota->filter(static fn($q) => !$q->isKepalaKeluarga())->values();
-    
-    switch (strtolower($input['alasan_permohonan'])) {
-        case 'karena membentuk rumah tangga baru':
-            $input['alasan_permohonan'] = 1;
-            break;
+use App\Enums\StatusDasarEnum;
 
-        case 'karena kartu keluarga hilang/rusak':
-            $input['alasan_permohonan'] = 2;
-            break;
+define('MAX_ANGGOTA_F115', 10);
+define('MAX_ANGGOTA_F101', 10);
 
-        case 'lainnya':
-            $input['alasan_permohonan'] = 3;
-            break;
+$semuaAnggota = App\Models\PendudukSaja::where('id_kk', $individu['id_kk'])->hidup(StatusDasarEnum::HIDUP)->get();
+$anggota      = $semuaAnggota->toArray();
+$anggota_ikut = $semuaAnggota->filter(static fn($q) => !$q->isKepalaKeluarga())->values();
 
-        default:
-            $input['alasan_permohonan'] = null;
-            break;
-    }
+switch (strtolower($input['alasan_permohonan'])) {
+    case 'karena membentuk rumah tangga baru':
+        $input['alasan_permohonan'] = 1;
+        break;
 
-    // include data F101
-    include STORAGEPATH . 'app/template/lampiran/f-1.01/data.php';
+    case 'karena kartu keluarga hilang/rusak':
+        $input['alasan_permohonan'] = 2;
+        break;
+
+    case 'lainnya':
+        $input['alasan_permohonan'] = 3;
+        break;
+
+    default:
+        $input['alasan_permohonan'] = null;
+        break;
+}
+
+// include data F101
+include STORAGEPATH . 'app/template/lampiran/f-1.01/data.php';

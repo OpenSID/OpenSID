@@ -97,7 +97,7 @@ class AnalisisPeriodeController extends AdminModulController
                     if ($canUpdate) {
                         $aksi .= '<a href="' . ci_route("analisis_periode.{$master}.form", $row->id) . '" class="btn bg-orange btn-sm"  title="Ubah Data"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data"><i class="fa fa-edit"></i></a> ';
 
-                        if ($row->isLock()) {
+                        if ($row->isUnlock()) {
                             $aksi .= '<a href="' . ci_route("analisis_periode.{$master}.lock", $row->id) . '" class="btn bg-navy btn-sm"  title="Nonaktikan"><i class="fa fa-unlock"></i></a> ';
                         } else {
                             $aksi .= '<a href="' . ci_route("analisis_periode.{$master}.lock", $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa fa-lock"></i></a> ';

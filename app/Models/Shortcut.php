@@ -340,32 +340,32 @@ class Shortcut extends BaseModel
                         'jumlah' => Bantuan::whereSasaran(SasaranEnum::KELOMPOK)->count(),
                     ],
                     'Buku Peraturan di Desa (Semua)' => [
-                        'link'   => 'dokumen_sekretariat/perdes/3',
+                        'link'   => 'dokumen_sekretariat/peraturan',
                         'akses'  => 'administrasi-umum',
                         'jumlah' => DokumenHidup::peraturanDesa(3)->count(),
                     ],
                     'Buku Peraturan di Desa (Aktif)' => [
-                        'link'   => 'dokumen_sekretariat/perdes/3?active=' . StatusEnum::YA,
+                        'link'   => 'dokumen_sekretariat/peraturan?active=' . StatusEnum::YA,
                         'akses'  => 'administrasi-umum',
                         'jumlah' => DokumenHidup::peraturanDesa(3)->active()->count(),
                     ],
                     'Buku Peraturan di Desa (Tidak Aktif)' => [
-                        'link'   => 'dokumen_sekretariat/perdes/3?active=2',
+                        'link'   => 'dokumen_sekretariat/peraturan?active=2',
                         'akses'  => 'administrasi-umum',
                         'jumlah' => DokumenHidup::peraturanDesa(3)->nonActive()->count(),
                     ],
                     'Buku Keputusan Kepala Desa (Semua)' => [
-                        'link'   => 'dokumen_sekretariat/perdes/2',
+                        'link'   => 'dokumen_sekretariat/keputusan',
                         'akses'  => 'administrasi-umum',
                         'jumlah' => DokumenHidup::peraturanDesa(2)->count(),
                     ],
                     'Buku Keputusan Kepala Desa (Aktif)' => [
-                        'link'   => 'dokumen_sekretariat/perdes/2?active=' . StatusEnum::YA,
+                        'link'   => 'dokumen_sekretariat/keputusan?active=' . StatusEnum::YA,
                         'akses'  => 'administrasi-umum',
                         'jumlah' => DokumenHidup::peraturanDesa(2)->active()->count(),
                     ],
                     'Buku Keputusan Kepala Desa (Tidak Aktif)' => [
-                        'link'   => 'dokumen_sekretariat/perdes/2?active=2',
+                        'link'   => 'dokumen_sekretariat/keputusan?active=2',
                         'akses'  => 'administrasi-umum',
                         'jumlah' => DokumenHidup::peraturanDesa(2)->nonActive()->count(),
                     ],

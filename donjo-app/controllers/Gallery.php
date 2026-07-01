@@ -84,7 +84,7 @@ class Gallery extends Admin_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
-                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $canDelete): string {
+                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate): string {
                     $aksi      = '';
                     $judul     = $parent > 0 ? 'Subgaleri' : 'Galeri';
                     $idEncrypt = encrypt($row->id);
@@ -94,26 +94,37 @@ class Gallery extends Admin_Controller
                             'label' => $judul,
                         ])->render();
                     }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'gallery/form/' . implode('/', [$row->parent->id ?? $parent, $idEncrypt]),
+                    ])->render();
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url' => ci_route('gallery.lock', implode('/', [
+                            $row->parent->id ?? $parent,
+                            $idEncrypt,
+                        ])),
+                        'active' => $row->isActive(),
+                    ])->render();
                     if ($canUpdate) {
-                        $aksi .= '<a href="' . ci_route('gallery.form', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-orange btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> ';
-                        if ($row->isActive()) {
-                            $aksi .= '<a href="' . ci_route('gallery.lock', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock">&nbsp;</i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('gallery.lock', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
-                        }
                         if ($parent == 0) {
-                            if ($row->isSlider()) {
-                                $aksi .= '<a href="' . ci_route('gallery.slider', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-gray btn-sm" title="Keluarkan Dari Slider"><i class="fa fa-play">&nbsp;</i></a> ';
-                            } else {
-                                $aksi .= '<a href="' . ci_route('gallery.slider', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-gray btn-sm" title="Tampilkan Di Slider"><i class="fa fa-eject"></i></a> ';
-                            }
+                            $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                'url' => ci_route('gallery.slider', implode('/', [
+                                    $row->parent->id ?? $parent,
+                                    $idEncrypt,
+                                ])),
+                                'icon'       => $row->isSlider() ? 'fa fa-play' : 'fa fa-eject',
+                                'judul'      => $row->isSlider() ? 'Keluarkan Dari Slider' : 'Tampilkan Di Slider',
+                                'type'       => 'bg-gray',
+                                'buttonOnly' => true,
+                            ])->render();
                         }
-
                     }
-
-                    if ($canDelete) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('gallery.delete', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url' => ci_route('gallery.delete', implode('/', [
+                            $row->parent->id ?? $parent,
+                            $idEncrypt,
+                        ])),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })->editColumn('nama', static function ($row) {

@@ -64,6 +64,7 @@ use App\Models\RefJabatan;
 use App\Models\Suplemen;
 use App\Models\SuratDinas;
 use App\Models\User;
+use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -82,7 +83,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2606.0.0');
+define('VERSION', '2607.0.0');
 
 /**
  * VERSI_DATABASE
@@ -93,7 +94,7 @@ define('VERSION', '2606.0.0');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2026060151');
+define('VERSI_DATABASE', '2026070151');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1783,6 +1784,16 @@ if (! function_exists('is_super_admin')) {
     }
 }
 
+if (! function_exists('is_group_administrator')) {
+    /**
+     * - Fungsi untuk mengecek apakah user login dalam group administrator.
+     */
+    function is_group_administrator(): bool
+    {
+        return (int) ci_auth()->id_grup === UserGrup::getGrupId(UserGrup::ADMINISTRATOR);
+    }
+}
+
 if (! function_exists('ref')) {
     /**
      * - Fungsi untuk mengambil data tabel refrensi.
@@ -2426,7 +2437,7 @@ if (! function_exists('getSuratBawaanDinasTinyMCE')) {
         $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json');
 
         return collect(json_decode($list_data, true))
-            ->when($url_surat, static fn ($collection) => $collection->where('url_surat', $url_surat))->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa', 'kunci')->toArray());
+            ->when($url_surat, static fn ($collection) => $collection->where('url_surat', $url_surat))->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa', 'kunci', 'qr_code_tte')->toArray());
     }
 }
 

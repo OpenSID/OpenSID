@@ -472,6 +472,9 @@ class DTKSRegsosEk2022k
         // save and sync dtks with dtks anggota
         $dtks->dtksAnggota()->saveMany($dtks_anggotas);
 
+        // Panggil generateDefaultDtks untuk memastikan id_keluarga di tabel dtks terisi
+        $this->generateDefaultDtks($dtks);
+
         return $this->syncKepesertaanProgramKeluarga($dtks);
     }
 

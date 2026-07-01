@@ -97,6 +97,10 @@ class JamKerja extends BaseModel
         'status' => 'boolean',
     ];
 
+    protected $appends = [
+        'status_ikuti_hari_libur',
+    ];
+
     public function scopeLibur($query)
     {
         return $query->where('status', 0)->where('nama_hari', $this->getNamaHari());
@@ -119,6 +123,13 @@ class JamKerja extends BaseModel
                     ->whereRaw('date_sub(jam_masuk, interval ? minute) > ?', [$masuk, $waktu])
                     ->orWhereRaw('date_add(jam_keluar, interval ? minute) < ?', [$keluar, $waktu]);
             });
+    }
+
+    public function getStatusIkutiHariLiburAttribute()
+    {
+        return ! $this->status
+            || (setting('ikuti_hari_libur_terdaftar')
+                && HariLibur::liburNasional($this->nama_hari)->exists());
     }
 
     protected function getNamaHari()

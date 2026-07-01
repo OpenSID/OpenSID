@@ -91,9 +91,21 @@ class Plan extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($parent): string {
                     $aksi = '';
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'plan/form/' .
+                            implode('/', [$row->point->parent->id ?? $parent, $row->id]),
+                    ])->render();
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('plan.form', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                        $aksi .= '<a href="' . ci_route('plan.ajax_lokasi_maps', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url' => ci_route(
+                                'plan.ajax_lokasi_maps',
+                                implode('/', [$row->point->parent->id ?? $parent, $row->id])
+                            ),
+                            'icon'       => 'fa fa-map',
+                            'judul'      => 'Lokasi ' . $row->nama,
+                            'type'       => 'bg-olive',
+                            'buttonOnly' => true,
+                        ])->render();
                     }
 
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
@@ -101,9 +113,13 @@ class Plan extends Admin_Controller
                         'active' => $row->enabled,
                     ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('plan.delete', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url' => ci_route(
+                            'plan.delete',
+                            implode('/', [$row->point->parent->id ?? $parent, $row->id])
+                        ),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

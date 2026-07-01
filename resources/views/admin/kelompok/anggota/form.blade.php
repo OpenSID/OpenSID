@@ -24,7 +24,10 @@
         <div class="col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url($controller . '/detail/' . $kelompok), 'label' => 'Anggota ' . $tipe])
+                    <x-kembali-button 
+                        :url="$controller . '/detail/' . $kelompok"
+                        :judul="'Kembali Ke Daftar Anggota ' . $tipe"
+                    />
 
                 </div>
                 <div class="box-body">

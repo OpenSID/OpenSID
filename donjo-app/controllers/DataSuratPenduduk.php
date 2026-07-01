@@ -238,17 +238,17 @@ class DataSuratPenduduk extends CI_Controller
 
     private function pengikutSuratKIS(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
+        return Keluarga::with('anggota')->find($data['individu']['id_kk'])->anggota;
     }
 
     private function pengikutSuratPI(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
+        return Keluarga::with('anggota')->find($data['individu']['id_kk'])->anggota;
     }
 
     private function pengikutPindah(array $data)
     {
-        return Penduduk::status()->where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
+        return Keluarga::with('anggota')->find($data['individu']['id_kk'])->anggota;
     }
 
     private function kategoriYangDikaitkan($id, $hubunganForm): array

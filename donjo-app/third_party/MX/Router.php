@@ -84,29 +84,32 @@ class MX_Router extends CI_Router
         // Before PHP 7.1.0, list() only worked on numerical arrays and assumes the numerical indices start at 0.
         [$module, $directory, $controller] = array_pad($segments, 3, null);
 
-        // check modules
         foreach (Modules::$locations as $location => $offset) {
-            // module exists?
-            if (is_dir($source = $location . $module . '/Http/Controllers/')) {
-                $this->module    = $module;
-                $this->directory = $offset . $module . '/Http/Controllers/';
+            $paths = [
+                $location . $module . '/app/Http/Controllers/',
+                $location . $module . '/Http/Controllers/',
+            ];
 
-                // module sub-controller exists?
+            foreach ($paths as $path) {
+                if (! is_dir($path)) continue;
+
+                $source          = $path;
+                $this->module    = $module;
+                $this->directory = str_replace($location, $offset, $path);
+
                 if ($directory) {
-                    // module sub-directory exists?
+
                     if (is_dir($source . $directory . '/')) {
                         $source          .= $directory . '/';
                         $this->directory .= $directory . '/';
 
-                        // module sub-directory controller exists?
-                        if ($controller) {
-                            if (is_file($source . ucfirst($controller) . $ext)) {
-                                $this->located = 3;
+                        if ($controller && is_file($source . ucfirst($controller) . $ext)) {
+                            $this->located = 3;
 
-                                return array_slice($segments, 2);
-                            }
-                            $this->located = -1;
+                            return array_slice($segments, 2);
                         }
+
+                        $this->located = -1;
                     } elseif (is_file($source . ucfirst($directory) . $ext)) {
                         $this->located = 2;
 
@@ -116,7 +119,6 @@ class MX_Router extends CI_Router
                     }
                 }
 
-                // module controller exists?
                 if (is_file($source . ucfirst($module) . $ext)) {
                     $this->located = 1;
 

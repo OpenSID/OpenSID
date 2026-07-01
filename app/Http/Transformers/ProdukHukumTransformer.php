@@ -48,6 +48,11 @@ class ProdukHukumTransformer extends TransformerAbstract
     {
         $produkHukum->kategori = $produkHukum->jenis_peraturan ?? $produkHukum->kategoriDokumen->nama;
 
+        // Konversi tanggal upload ke format lokal
+        if ($produkHukum->tgl_upload) {
+            $produkHukum->tgl_upload = tgl_indo2($produkHukum->tgl_upload);
+        }
+
         if ($produkHukum->tipe != 2) {
             $path = LOKASI_DOKUMEN . $produkHukum->satuan;
             if ($produkHukum->satuan && file_exists($path) && is_file($path)) {

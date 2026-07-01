@@ -85,6 +85,28 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-3 control-label" for="keyboard">Orientasi Layar</label>
+                    <div class="btn-group col-sm-7" data-toggle="buttons">
+                        <label id="sx5" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->orientasi_layar, '1', 'active') }}">
+                            <input type="radio" name="orientasi_layar" class="form-check-input" type="radio" value="1" {{ jecho($anjungan->orientasi_layar, '1', 'checked') }}> Lanskap
+                        </label>
+                        <label id="sx6" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->orientasi_layar != '1', true, 'active') }}">
+                            <input type="radio" name="orientasi_layar" class="form-check-input" type="radio" value="0" {{ jecho($anjungan->orientasi_layar != '1', true, 'checked') }}> Potret
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="tipe">Gunakan Sebagai Rekam Kehadiran</label>
+                    <div class="btn-group col-sm-7" data-toggle="buttons">
+                        <label id="sx7" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ is_array($anjungan->tipe ?? null) && in_array(3, $anjungan->tipe) ? 'active' : '' }}">
+                            <input type="radio" name="rekam_kehadiran" class="form-check-input" value="1" {{ is_array($anjungan->tipe ?? null) && in_array(3, $anjungan->tipe) ? 'checked' : '' }}> Aktif
+                        </label>
+                        <label id="sx8" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ !is_array($anjungan->tipe ?? null) || !in_array(3, $anjungan->tipe) ? 'active' : '' }}">
+                            <input type="radio" name="rekam_kehadiran" class="form-check-input" value="0" {{ !is_array($anjungan->tipe ?? null) || !in_array(3, $anjungan->tipe) ? 'checked' : '' }}> Tidak Aktif
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-3 control-label" for="keyboard">Keyboard Virtual</label>
                     <div class="btn-group col-sm-7" data-toggle="buttons">
                         <label id="sx1" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->keyboard, '1', 'active') }}">
@@ -167,6 +189,7 @@
         function reset_form() {
             var keyboard = "{{ $anjungan->keyboard }}";
             var status = "{{ $anjungan->status }}";
+            var orientasi_layar = "{{ $anjungan->orientasi_layar }}";
 
             if (keyboard == 1) {
                 $("#sx1").addClass('active');
@@ -182,6 +205,24 @@
             } else {
                 $("#sx3").removeClass('active');
                 $("#sx4").addClass('active');
+            }
+
+            if (orientasi_layar == 1) {
+                $("#sx5").addClass('active');
+                $("#sx6").removeClass('active');
+            } else {
+                $("#sx5").removeClass('active');
+                $("#sx6").addClass('active');
+            }
+
+            // Set radio rekam kehadiran sesuai tipe
+            var tipe = @json($anjungan->tipe ?? [1]);
+            if (Array.isArray(tipe) && tipe.includes(3)) {
+                $("#sx7 input").prop('checked', true);
+                $("#sx8 input").prop('checked', false);
+            } else {
+                $("#sx7 input").prop('checked', false);
+                $("#sx8 input").prop('checked', true);
             }
         };
 

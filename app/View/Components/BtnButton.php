@@ -62,6 +62,9 @@ class BtnButton extends Component
         public string $attribut = '',
         public string $tooltip = '',
         public string $formAction = '',
+        public bool $confirm = false,
+        public string $confirmTarget = '',
+        public string $onclick = '',
     ) {
     }
 

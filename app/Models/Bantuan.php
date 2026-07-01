@@ -450,6 +450,7 @@ class Bantuan extends BaseModel
                         'p.*',
                         'o.nama',
                         'o.sex',
+                        'kartu.sex as kartu_sex',
                         's.nama as status_dasar',
                         'w.rt',
                         'w.rw',
@@ -460,6 +461,7 @@ class Bantuan extends BaseModel
 
                 $query->select($select_sql)
                     ->rightJoin('tweb_penduduk as o', 'p.peserta', '=', 'o.nik')
+                    ->leftJoin('tweb_penduduk as kartu', 'p.kartu_nik', '=', 'kartu.nik')
                     ->leftJoin('tweb_status_dasar as s', 'o.status_dasar', '=', 's.id')
                     ->leftJoin('tweb_keluarga as k', 'k.id', '=', 'o.id_kk')
                     ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster');
@@ -476,6 +478,7 @@ class Bantuan extends BaseModel
                         'o.nik as nik_kk',
                         'o.sex',
                         'o.nama as nama_kk',
+                        'kartu.sex as kartu_sex',
                         'w.rt',
                         'w.rw',
                         'w.dusun',
@@ -486,8 +489,8 @@ class Bantuan extends BaseModel
                 $query->select($select_sql)
                     ->join('tweb_keluarga as k', 'p.peserta', '=', 'k.no_kk')
                     ->rightJoin('tweb_penduduk as o', 'k.nik_kepala', '=', 'o.id')
+                    ->leftJoin('tweb_penduduk as kartu', 'p.kartu_nik', '=', 'kartu.nik')
                     ->leftJoin('tweb_status_dasar as s', 'o.status_dasar', '=', 's.id')
-                    ->rightJoin('tweb_penduduk as kartu', 'p.kartu_id_pend', '=', 'kartu.id')
                     ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster');
                 break;
 
@@ -499,6 +502,7 @@ class Bantuan extends BaseModel
                         'o.nama',
                         'o.nik',
                         'o.sex',
+                        'kartu.sex as kartu_sex',
                         'r.no_kk',
                         'w.rt',
                         'w.rw',
@@ -510,6 +514,7 @@ class Bantuan extends BaseModel
                 $query->select($select_sql)
                     ->leftJoin('tweb_rtm as r', 'r.no_kk', '=', 'p.peserta')
                     ->rightJoin('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
+                    ->leftJoin('tweb_penduduk as kartu', 'p.kartu_nik', '=', 'kartu.nik')
                     ->leftJoin('tweb_status_dasar as s', 'o.status_dasar', '=', 's.id')
                     ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster');
                 break;
@@ -522,6 +527,7 @@ class Bantuan extends BaseModel
                         'o.nama',
                         'o.nik',
                         'o.sex',
+                        'kartu.sex as kartu_sex',
                         'k.no_kk',
                         'r.nama as nama_kelompok',
                         'w.rt',
@@ -534,6 +540,7 @@ class Bantuan extends BaseModel
                 $query->select($select_sql)
                     ->leftJoin('kelompok as r', 'r.id', '=', 'p.peserta')
                     ->rightJoin('tweb_penduduk as o', 'o.id', '=', 'r.id_ketua')
+                    ->leftJoin('tweb_penduduk as kartu', 'p.kartu_nik', '=', 'kartu.nik')
                     ->leftJoin('tweb_status_dasar as s', 'o.status_dasar', '=', 's.id')
                     ->leftJoin('tweb_keluarga as k', 'k.id', '=', 'o.id_kk')
                     ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster');
@@ -703,6 +710,8 @@ class Bantuan extends BaseModel
                 $item->nik          = $item->peserta;
                 $item->peserta_plus = $item->no_kk ?? '-';
                 $item->peserta_nama = $item->peserta;
+                $sexSource          = $item->kartu_sex ?? $item->sex;
+                $item->kartu_sex    = JenisKelaminEnum::valueToUpper($sexSource);
                 $item->sex          = JenisKelaminEnum::valueToUpper($item->sex);
                 $item->peserta_info = $item->nama;
                 $item->nama         = strtoupper($item->nama);
@@ -720,11 +729,14 @@ class Bantuan extends BaseModel
     {
         // Data KK
         if ($data) {
-            return collect($data)->map(static function ($item) {
+                return collect($data)->map(static function ($item) {
                 $item->nik          = $item->peserta;
                 $item->peserta_plus = $item->nik_kk;
                 $item->peserta_nama = $item->no_kk;
                 $item->peserta_info = $item->nama_kk;
+                $sexSource          = $item->kartu_sex ?? $item->sex;
+                $item->kartu_sex    = JenisKelaminEnum::valueToUpper($sexSource);
+                $item->sex          = JenisKelaminEnum::valueToUpper($item->sex);
                 $item->nama         = strtoupper($item->nama);
                 $item->info         = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
 
@@ -739,10 +751,12 @@ class Bantuan extends BaseModel
     {
         // Data RTM
         if ($data) {
-            return collect($data)->map(static function ($item) {
+                return collect($data)->map(static function ($item) {
                 $item->nik          = $item->peserta;
                 $item->peserta_nama = $item->no_kk;
                 $item->peserta_info = $item->nama_kk;
+                $sexSource          = $item->kartu_sex ?? $item->sex;
+                $item->sex          = JenisKelaminEnum::valueToUpper($sexSource);
                 $item->nama         = strtoupper($item->nama) . ' [' . $item->nik . ' - ' . $item->no_kk . ']';
                 $item->info         = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
 
@@ -757,10 +771,13 @@ class Bantuan extends BaseModel
     {
         // Data Kelompok
         if ($data) {
-            return collect($data)->map(static function ($item) {
+                return collect($data)->map(static function ($item) {
                 $item->nik          = $item->nama_kelompok;
                 $item->peserta_nama = $item->nama_kelompok;
                 $item->peserta_info = $item->nama;
+                $sexSource          = $item->kartu_sex ?? $item->sex;
+                $item->kartu_sex    = JenisKelaminEnum::valueToUpper($sexSource);
+                $item->sex          = JenisKelaminEnum::valueToUpper($item->sex);
                 $item->nama         = strtoupper($item->nama);
                 $item->info         = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
 

@@ -111,22 +111,35 @@ trait ModulTrait
      */
     protected function activate()
     {
-        // Check if the module is excluded from activation
+        // If module is not in the list of active modules, show warning instead of error
+        if (! $this->isModulePremiumActive()) {
+            // Set warning to session for graceful degradation
+            $message = sprintf(
+                'Modul %s belum bisa digunakan karena belum diaktivasi atau langganan Premium telah berakhir. Silakan <a href="%s" class="alert-link">aktifkan atau perpanjang langganan</a> untuk menggunakan fitur ini.',
+                $this->moduleName,
+                ci_route('pelanggan')
+            );
+
+            return redirect_with('warning', $message, ci_route('plugin'), true);
+        }
+    }
+
+    /**
+     * Check if module premium has active subscription
+     *
+     * @return bool True if module is active, false otherwise
+     */
+    protected function isModulePremiumActive(): bool
+    {
         if (in_array($this->moduleName, MODUL_BAWAAN)) {
             return true;
         }
 
-        // Check demo mode and other conditions
         if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
             return true;
         }
 
-        // If module is not in the list of active modules, show error and redirect
-        if (! in_array($this->moduleName, $this->getLayananModul())) {
-            set_session('error', 'Paket ' . $this->moduleName . ' belum bisa digunakan karena belum diaktivasi.');
-
-            redirect('plugin');
-        }
+        return in_array($this->moduleName, $this->getLayananModul());
     }
 
     /**

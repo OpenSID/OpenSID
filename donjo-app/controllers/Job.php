@@ -110,7 +110,7 @@ class Job extends CI_Controller
         3 = dibatalkan
         */
 
-        $lokasi      = ($lokasi == 'null') ? null : 'backup_inkremental';
+        $lokasi      = ($lokasi == 'null') ? sys_get_temp_dir() : 'backup_inkremental';
         $last_backup = LogBackup::latest()->first()->created_at;
         $last_backup = ($last_backup != null) ? $last_backup->format('Y-m-d') : '1990-01-01';
         $backup      = LogBackup::create(['permanen' => ($lokasi) ? 1 : 0, 'pid_process' => getmypid()]); // tandai backup sedang berlangsung
@@ -122,6 +122,8 @@ class Job extends CI_Controller
             $file_backup = get_file_info($path);
             $backup->update(['status' => 1, 'ukuran' => byte_format($file_backup['size']), 'path' => $path]); // update backup sudah selesai
         } catch (Exception $e) {
+            logger()->error($e);
+
             $backup->update(['status' => -1]); // update backup gagal
             printf($e);
         }

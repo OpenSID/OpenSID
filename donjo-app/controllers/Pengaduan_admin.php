@@ -37,6 +37,7 @@
 
 use App\Enums\StatusPengaduanEnum;
 use App\Models\Pengaduan;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -79,16 +80,23 @@ class Pengaduan_admin extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('pengaduan_admin.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Tanggapi Pengaduan"><i class="fa fa-mail-forward"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route('pengaduan_admin.form', $row->id),
+                            'icon'       => 'fa fa-mail-forward',
+                            'judul'      => 'Tanggapi Pengaduan',
+                            'type'       => 'btn-warning',
+                            'buttonOnly' => true,
+                        ])->render();
                     }
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('pengaduan_admin.detail', $row->id) . '" class="btn btn-info btn-sm"  title="Lihat Detail"><i class="fa fa-eye"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                        'url' => ci_route('pengaduan_admin.detail', $row->id),
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('pengaduan_admin.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('pengaduan_admin.delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

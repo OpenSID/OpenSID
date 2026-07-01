@@ -39,7 +39,7 @@
                 <select id="tahun" class="form-control input-sm select2">
                     <option value="">Pilih Tahun</option>
                     @foreach ($list_tahun as $value)
-                        <option value="{{ $value['tahun'] }}">{{ $value['tahun'] }}</option>
+                        <option @selected($value['tahun'] == date('Y')) value="{{ $value['tahun'] }}">{{ $value['tahun'] }}</option>
                     @endforeach
                 </select>
             </div>
@@ -47,7 +47,7 @@
                 <select id="bulan" class="form-control input-sm select2">
                     <option value="">Pilih Bulan</option>
                     @foreach (bulan() as $index => $value)
-                        <option value="{{ $index }}">{{ $value }}</option>
+                        <option @selected($index == date('m')) value="{{ $index }}">{{ $value }}</option>
                     @endforeach
                 </select>
             </div>

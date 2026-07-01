@@ -51,7 +51,7 @@ include STORAGEPATH . 'app/template/lampiran/kode_pelapor_saksi.php';
 
 $individu['umur'] = str_pad($individu['umur'], 3, '0', STR_PAD_LEFT);
 
-$ibu = (new PendudukSaja())->dataIbu($individu['id']);
+$ibu = (new PendudukSaja())->dataIbu($individu['id'], $input['id_pend_ibu'] ?? null);
 if ($ibu) {
     $input['nik_ibu']             = get_nik($ibu['nik']);
     $input['nama_ibu']            = $ibu['nama'];
@@ -73,7 +73,7 @@ if ($ibu) {
     $input['umur_ibu']        = str_pad($input['umur_ibu'], 3, '0', STR_PAD_LEFT);
 }
 
-$ayah = (new PendudukSaja())->dataAyah($individu['id']);
+$ayah = (new PendudukSaja())->dataAyah($individu['id'], $input['id_pend_ayah'] ?? null);
 if ($ayah) {
     $input['nik_ayah']             = get_nik($ayah['nik']);
     $input['nama_ayah']            = $ayah['nama'];

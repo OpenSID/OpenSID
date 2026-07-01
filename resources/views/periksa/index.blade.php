@@ -929,7 +929,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="4">
-                                                    <form id="form-datanull" action="{{ ci_route('periksa.datanull') }}"
+                                                    <form class="form-datanull" action="{{ ci_route('periksa.datanull') }}"
                                                         method="post" class="p-3 mb-3 border rounded bg-light">
                                                         <input type="hidden" name="id" value="{{ $data['id'] }}"><br>
                                                         <div class="row">
@@ -1573,14 +1573,12 @@
             });
         });
 
-        $('#form-datanull').submit(function(e) {
+        $('.form-datanull').on('submit', function(e) {
             e.preventDefault();
 
-            // Ambil csrf token dari Laravel (pastikan blade directives diproses di server)
             let csrfTokenName = '{{ $token_name }}';
             let csrfTokenValue = '{{ $token_value }}';
 
-            // Tambahkan CSRF token ke dalam data form
             let formData = $(this).serializeArray();
             formData.push({
                 name: csrfTokenName,
@@ -1599,11 +1597,12 @@
                         alert('Data gagal diperbarui');
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function() {
                     alert('Data gagal diperbarui');
                 }
             });
         });
+
 
         $('#form-datacluster').submit(function(e) {
             e.preventDefault();

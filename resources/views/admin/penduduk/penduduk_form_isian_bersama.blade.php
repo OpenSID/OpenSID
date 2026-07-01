@@ -151,7 +151,7 @@
             <label for="kk_level">Hubungan Dalam Keluarga</label>
             @php
                 // Disable jika penduduk adalah Kepala Keluarga atau belum punya id_kk
-                $disableKkLevel = ($penduduk['kk_level'] == \App\Enums\SHDKEnum::KEPALA_KELUARGA) || empty($penduduk['id_kk']);
+                $disableKkLevel = (($penduduk['kk_level'] == \App\Enums\SHDKEnum::KEPALA_KELUARGA) && $penduduk['id_kk']);
             @endphp
             @if ($jenis_peristiwa == 1)
                 <select id="kk_level" class="form-control input-sm required select2" name="kk_level"
@@ -605,7 +605,7 @@
     <div class='col-sm-12'>
         <div class='form-group'>
             <label for="alamat">Alamat KK </label>
-            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk" maxlength="200" type="text"
+            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk required" maxlength="200" type="text"
                 placeholder="Alamat di Kartu Keluarga" value="{{ $penduduk['alamat'] }}"></input>
         </div>
     </div>

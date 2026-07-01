@@ -48,6 +48,7 @@ Route::group('buku-tamu', ['namespace' => 'BukuTamu/FrontEnd'], static function 
 Route::group('buku_tamu', ['namespace' => 'BukuTamu/BackEnd'], static function (): void {
     Route::get('/', 'TamuController@index')->name('buku_tamu.index');
     Route::get('/edit/{id}', 'TamuController@edit')->name('buku_tamu.edit');
+    Route::get('/detail/{id}', 'TamuController@detail')->name('buku_tamu.detail');
     Route::post('/update/{id}', 'TamuController@update')->name('buku_tamu.update');
     Route::get('/delete/{id?}', 'TamuController@delete')->name('buku_tamu.delete');
     Route::post('/deleteAll', 'TamuController@delete')->name('buku_tamu.delete-all');

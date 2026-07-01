@@ -35,28 +35,48 @@
  *
  */
 
-class Security_header
+namespace App\Console\Commands;
+
+use App\Services\MasaAktifAkunService;
+use Illuminate\Console\Command;
+
+class DeactivateInactiveAccounts extends Command
 {
     /**
-     * @var CI_Controller
+     * {@inheritDoc}
      */
-    protected $ci;
+    protected $signature = 'opensid:deactivate-inactive-accounts';
 
-    public function __construct()
+    /**
+     * {@inheritDoc}
+     */
+    protected $description = 'Menonaktifkan akun pengguna yang tidak aktif berdasarkan pengaturan sistem.';
+
+    /**
+     * {@inheritDoc}
+     */
+    public function handle(MasaAktifAkunService $masaAktifAkunService)
     {
-        $this->ci = &get_instance();
+        if (! setting('masa_akun_pengguna')) {
+            $this->info('Fitur penonaktifan akun otomatis tidak aktif.');
 
-        $this->ci->load->config('security/headers', true);
-    }
-
-    public function handle(): void
-    {
-        foreach ($this->ci->config->item('security/headers') as $key => $value) {
-            if ($key === 'Strict-Transport-Security' && ! is_https()) {
-                continue;
-            }
-
-            $this->ci->output->set_header("{$key}: {$value}");
+            return 0;
         }
+
+        if (setting('jenis_trigger_nonaktifkan_akun') !== 'cron') {
+            $this->info('Trigger penonaktifkan akun diatur ke Manual. Cron job tidak akan berjalan.');
+
+            return 0;
+        }
+
+        $result = $masaAktifAkunService->deactivateInactiveAccounts();
+
+        if ($result['success']) {
+            $this->info($result['message']);
+        } else {
+            $this->error($result['message']);
+        }
+
+        return 0;
     }
 }

@@ -18,11 +18,41 @@
             <div class="row">
                 <div class="col-sm-12">
                     @if (can('h') && data_lengkap())
-                        <a href="#confirm-status" title="Kembalikan Status" onclick="aksiBorongan('mainform', '{{ ci_route('penduduk_log.kembalikan_status_all') }}')"
-                            class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"
-                        ><i class='fa fa-undo'></i> Kembalikan Status Terpilih</a>
+                        <x-btn-button
+                        url=""
+                        judul="Kembalikan Status Terpilih"
+                        icon="fa fa-undo"
+                        type="btn-success hapus-terpilih"
+                        modal="true"
+                        confirm="true"
+                        confirmTarget="confirm-delete"
+                        onclick="aksiBorongan('mainform', '{{ ci_route('penduduk_log.kembalikan_status_all') }}')"
+                    />
                     @endif
-                    @include('admin.layouts.components.tombol_cetak_unduh', ['cetak' => 'penduduk_log/ajax_cetak/cetak', 'unduh' => 'penduduk_log/ajax_cetak/unduh'])
+                    @php
+                        $listCetakUnduh = [
+                            [
+                                'url'   => "penduduk_log/ajax_cetak/cetak",
+                                'modal' => true,
+                                'judul' => "Cetak",
+                                'icon'  => "fa fa-print",
+                            ],
+                            [
+                                'url'   => "penduduk_log/ajax_cetak/unduh",
+                                'modal' => true,
+                                'judul' => "Unduh",
+                                'icon'  => "fa fa-download",
+                            ],
+                        ];
+                        @endphp
+
+                        <x-split-button 
+                            judul="Cetak/Unduh"
+                            :list="$listCetakUnduh"
+                            icon="fa fa-arrow-circle-down"
+                            type="bg-purple"
+                            target="true"
+                        />
                 </div>
             </div>
         </div>

@@ -40,7 +40,10 @@
             <div class="col-md-9">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url($ci->controller), 'label' => 'Daftar ' . $title])
+                        <x-kembali-button 
+                            :url="$ci->controller"
+                            :judul="'Kembali Ke Daftar ' . $title"
+                        />
                     </div>
                     <div class="box-body">
                         <div class="form-group">

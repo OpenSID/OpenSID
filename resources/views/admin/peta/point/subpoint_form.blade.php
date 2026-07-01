@@ -77,6 +77,16 @@
             />
         </div>
         <div class="form-group">
+            <label class="control-label" for="enabled">Status</label>
+            <select name="enabled" id="enabled" class="form-control input-sm required">
+                @foreach (\App\Enums\AktifEnum::all() as $value => $label)
+                <option value="{{ $value }}" @selected($point['enabled'] == $value)>
+                    {{ $label }}
+                </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
             <label for="nomor" class="control-label">Simbol</label>
             @if ($point['simbol'])
                 <img src="{{ base_url(LOKASI_SIMBOL_LOKASI) . $point['simbol'] }}" />

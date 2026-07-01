@@ -71,8 +71,24 @@ class HariLibur extends BaseModel
         'keterangan',
     ];
 
-    public function scopeLiburNasional($query)
+    public function scopeLiburNasional($query, $tanggal = null)
     {
-        return $query->where('tanggal', Carbon::today()->toDateString());
+        if ($tanggal) {
+            $tanggal = match (strtolower($tanggal)) {
+                'senin'  => 'Monday',
+                'selasa' => 'Tuesday',
+                'rabu'   => 'Wednesday',
+                'kamis'  => 'Thursday',
+                'jumat'  => 'Friday',
+                'sabtu'  => 'Saturday',
+                'minggu' => 'Sunday',
+                default  => $tanggal,
+            };
+            $tanggal = Carbon::parse($tanggal)->toDateString();
+        } else {
+            $tanggal = Carbon::today()->toDateString();
+        }
+
+        return $query->where('tanggal', $tanggal);
     }
 }

@@ -267,13 +267,14 @@ function getBulan(int $bln)
 }
 
 /**
- * @param mixed $asc
+ * @param mixed      $asc
+ * @param mixed|null $tambah
  *
  * @return string[]
  */
-function tahun(?int $awal = null, $asc = false): array
+function tahun(?int $awal = null, $asc = false, $tambah = null): array
 {
-    $akhir = date('Y');
+    $akhir = $tambah ? date('Y') + $tambah : date('Y');
     $awal ??= $akhir;
     $tahun = [];
 
