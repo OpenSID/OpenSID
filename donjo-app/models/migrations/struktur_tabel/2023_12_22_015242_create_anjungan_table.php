@@ -49,6 +49,8 @@ return new class () extends Migration {
     {
         Schema::create('anjungan', static function (Blueprint $table) {
             $table->integer('id', true);
+            $table->string('uuid')->unique()->nullable();
+            $table->text('user_agent')->nullable()->after('uuid');
             $table->integer('config_id')->nullable()->index('anjungan_config_fk');
             $table->string('ip_address', 100);
             $table->string('keterangan', 300)->nullable();

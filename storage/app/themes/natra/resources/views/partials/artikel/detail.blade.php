@@ -75,7 +75,7 @@
                         </div>
                     @endif
                     <div class="sampul">
-                        @if ($single_artikel['gambar'] != '' && is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar']))
+                        @if ($single_artikel['gambar'] != '')
                             <a data-fancybox="gallery" href="{{ AmbilFotoArtikel($single_artikel['gambar'], 'sedang') }}">
                                 <img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="{{ AmbilFotoArtikel($single_artikel['gambar'], 'sedang') }}" />
                             </a>

@@ -48,6 +48,7 @@ use App\Models\Menu;
 use App\Models\Migrasi;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
+use App\Models\Rtm;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
@@ -316,6 +317,12 @@ class Periksa
             $this->periksa['klasifikasi_surat_ganda'] = $klasifikasiSuratGanda->toArray();
         }
 
+        $kepalaRtmGanda = $this->deteksiKepalaRtmGanda();
+        if (! $kepalaRtmGanda->isEmpty()) {
+            $this->periksa['masalah'][]        = 'kepala_rtm_ganda';
+            $this->periksa['kepala_rtm_ganda'] = $kepalaRtmGanda->toArray();
+        }
+
         $tgllahirNullKosong = $this->deteksiTgllahirNullKosong();
         if (! $tgllahirNullKosong->isEmpty()) {
             $this->periksa['masalah'][]            = 'tgllahir_null_kosong';
@@ -424,6 +431,31 @@ class Periksa
         $configId = identitas('id');
 
         return KlasifikasiSurat::where(['config_id' => $configId])->whereIn('kode', static fn ($q) => $q->from('klasifikasi_surat')->select(['kode'])->where(['config_id' => $configId])->groupBy('kode')->having(DB::raw('count(kode)'), '>', 1))->orderBy('kode')->get();
+    }
+
+    private function deteksiKepalaRtmGanda()
+    {
+        $rtmGandaTidakSinkron = Rtm::with('kepalaKeluarga')
+            ->whereIn('nik_kepala', static function ($q) {
+                $q->select('nik_kepala')
+                    ->from('tweb_rtm')
+                    ->groupBy('nik_kepala')
+                    ->havingRaw('COUNT(*) > 1');
+            })
+            ->get()
+            ->filter(static function ($rtm) {
+                if (! $rtm->kepalaKeluarga) return true;
+
+                return $rtm->kepalaKeluarga->id_rtm != $rtm->no_kk;
+            })
+            ->map(static function ($rtm) {
+                $rtm->nama_penduduk = $rtm->kepalaKeluarga->nama ?? null;
+
+                return $rtm;
+            });
+
+        return $rtmGandaTidakSinkron;
+
     }
 
     private function deteksiTgllahirNullKosong()

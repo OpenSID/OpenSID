@@ -38,7 +38,7 @@
 namespace App\Models;
 
 use App\Libraries\UserAgent;
-use App\Traits\ConfigId;
+use App\Traits\ConfigIdNull;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -50,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Artikel extends BaseModel
 {
-    use ConfigId;
+    use ConfigIdNull;
 
     public const ENABLE              = 1;
     public const HEADLINE            = 1;
@@ -158,7 +158,7 @@ class Artikel extends BaseModel
     {
         $agent = new UserAgent();
 
-        $artikel = self::select('id')
+        $artikel = self::withoutConfigId()->select('id')
             ->berdasarkan($thn, $bln, $hr, $url)->where(static function ($q) use ($url): void {
                 $q->where('slug', $url)->orWhere('id', $url);
             })->first();
@@ -326,7 +326,8 @@ class Artikel extends BaseModel
      */
     public function author()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class, 'id_user')
+            ->withDefault(static fn () => new User(['nama' => 'ADMIN']));
     }
 
     /**
@@ -460,5 +461,10 @@ class Artikel extends BaseModel
             ->when($gambarUtama, static fn ($q) => $q->orderBy('tgl_upload', 'desc')->limit(10))
             ->where('enabled', 1)->where('slider', 1)
             ->where('tgl_upload', '<', date('Y-m-d H:i:s'));
+    }
+
+    public function scopeOpenKab($query)
+    {
+        return $query->whereNull('config_id');
     }
 }

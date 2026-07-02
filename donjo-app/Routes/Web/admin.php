@@ -65,6 +65,18 @@ Route::group('siteman', static function (): void {
 // MAIN
 Route::get('main', 'Main@index');
 
+// Notifikasi (Database Notifications)
+Route::group('notifikasi', static function (): void {
+    Route::get('/', 'NotifikasiController@index')->name('notifikasi.index');
+    Route::get('/datatables', 'NotifikasiController@datatables')->name('notifikasi.datatables');
+    Route::get('/show/{id}', 'NotifikasiController@show')->name('notifikasi.show');
+    Route::get('/mark-as-read/{id}', 'NotifikasiController@markAsRead')->name('notifikasi.mark-as-read');
+    Route::post('/mark-all-read', 'NotifikasiController@markAllAsRead')->name('notifikasi.mark-all-read');
+    Route::get('/mark-category-read/{category}', 'NotifikasiController@markCategoryAsRead')->name('notifikasi.mark-category-read');
+    Route::get('/delete/{id}', 'NotifikasiController@delete')->name('notifikasi.delete');
+    Route::post('/deleteAll', 'NotifikasiController@deleteAll')->name('notifikasi.delete-all');
+});
+
 // Notif
 Route::group('notif', static function (): void {
     Route::get('/', 'Notif@index');
@@ -102,6 +114,9 @@ Route::group('periksa', static function (): void {
 });
 Route::group('periksaKlasifikasiSurat', static function (): void {
     Route::get('/hapus', 'PeriksaKlasifikasiSurat@hapus')->name('periksaKlasifikasiSurat.hapus');
+});
+Route::group('periksaKepalaRtm', static function (): void {
+    Route::get('/hapus', 'PeriksaKepalaRtm@hapus')->name('periksaKepalaRtm.hapus');
 });
 Route::group('periksaLogKeluarga', static function (): void {
     Route::get('/', 'PeriksaLogKeluarga@index')->name('periksaLogKeluarga.index');
@@ -1438,6 +1453,7 @@ Route::group('plan', static function (): void {
     Route::get('/index/{parent}', 'Plan@index')->name('plan.index-2');
     Route::get('/datatables', 'Plan@datatables')->name('plan.datatables');
     Route::get('/form/{parent?}/{id?}', 'Plan@form')->name('plan.form');
+    Route::get('/ajax_get_kategori', 'Plan@ajax_get_kategori')->name('plan.ajax_get_kategori');
     Route::get('/ajax_lokasi_maps/{parent?}/{id?}', 'Plan@ajax_lokasi_maps')->name('plan.ajax_lokasi_maps');
     Route::post('/update_maps/{parent}/{id}', 'Plan@update_maps')->name('plan.update_maps');
     Route::post('/insert/{parent}', 'Plan@insert')->name('plan.insert');
@@ -1477,6 +1493,7 @@ Route::group('garis', static function (): void {
     Route::get('/index/{parent?}', 'Garis@index')->name('garis.index-2');
     Route::get('/datatables', 'Garis@datatables')->name('garis.datatables');
     Route::get('/form/{parent}/{id?}', 'Garis@form')->name('garis.form');
+    Route::get('/ajax_get_kategori', 'Garis@ajax_get_kategori')->name('garis.ajax_get_kategori');
     Route::get('/ajax_garis_maps/{parent}/{id}', 'Garis@ajax_garis_maps')->name('garis.ajax_garis_maps');
     Route::post('/update_maps/{parent}/{id}', 'Garis@update_maps')->name('garis.update_maps');
     Route::get('/kosongkan/{parent}/{id}', 'Garis@kosongkan')->name('garis.kosongkan');
@@ -1507,6 +1524,7 @@ Route::group('area', static function (): void {
     Route::get('/datatables', 'Area@datatables')->name('area.datatables');
     Route::get('/form', 'Area@form')->name('area.form-default');
     Route::get('/form/{parent}/{id?}', 'Area@form')->name('area.form');
+    Route::get('/ajax_get_kategori', 'Area@ajax_get_kategori')->name('area.ajax_get_kategori');
     Route::get('/ajax_area_maps/{parent}/{id}', 'Area@ajax_area_maps')->name('area.ajax_area_maps');
     Route::post('/update_maps/{parent}/{id}', 'Area@update_maps')->name('area.update_maps');
     Route::get('/kosongkan/{parent}/{id}', 'Area@kosongkan')->name('area.kosongkan');

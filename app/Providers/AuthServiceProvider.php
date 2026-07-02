@@ -210,8 +210,22 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function bootGateAccess()
     {
-        Gate::before(function ($user, $ability, $arguments) {
-            [$akses, $slugModul, $adminOnly, $demoOnly] = $arguments;
+        Gate::before(function ($user, $ability, $arguments = []) {
+            // Parse arguments - support 2 ways to call:
+            // 1. Helper: can('baca', 'dashboard') → [$akses, $slugModul, $adminOnly, $demoOnly]
+            // 2. Native: auth()->user()->can('dashboard:baca') → [] (empty)
+
+            [$akses, $slugModul, $adminOnly, $demoOnly] = array_pad($arguments, 4, null);
+
+            // If called from native Laravel method (empty arguments)
+            // Extract ability name: 'dashboard:baca' → slugModul='dashboard', akses='baca'
+            if (! is_array($arguments) || empty($arguments)) {
+                if (strpos($ability, ':') !== false) {
+                    [$slugModul, $akses] = explode(':', $ability, 2);
+                } else {
+                    return null; // Invalid ability format
+                }
+            }
 
             // Early return for demo-only mode
             if ($demoOnly && config_item('demo_mode')) {
@@ -228,17 +242,32 @@ class AuthServiceProvider extends ServiceProvider
                 return false;
             }
 
-            // Cache the user group access data, caching it by group ID
-            $accessData = cache()->remember("akses_grup_{$user->id_grup}", 604800, fn () => $this->getUserGroupAccessData($user->id_grup));
+            // Wildcard super admin access
+            if ($user->id == super_admin()) {
+                return true;
+            }
 
-            collect($accessData)->each(static function ($data, $modul): void {
-                Gate::define("{$modul}:baca", static fn () => $data['baca']);
-                Gate::define("{$modul}:ubah", static fn () => $data['ubah']);
-                Gate::define("{$modul}:hapus", static fn () => $data['hapus']);
-                Gate::define("{$modul}:b", static fn () => $data['baca']);
-                Gate::define("{$modul}:u", static fn () => $data['ubah']);
-                Gate::define("{$modul}:h", static fn () => $data['hapus']);
-            });
+            // Cache the user group access data, caching it by group ID
+            $accessData = cache()->remember(
+                "akses_grup_{$user->id_grup}",
+                604800,
+                fn () => $this->getUserGroupAccessData($user->id_grup)
+            );
+
+            if (empty($accessData) || ! isset($accessData[$slugModul])) {
+                return null; // Let other gates handle it
+            }
+
+            $moduleData = $accessData[$slugModul];
+
+            // Check access level based on ability type
+            // Return null instead of false to allow other gates to check
+            return match ($akses) {
+                'baca', 'b' => $moduleData['baca'] ?: null,
+                'ubah', 'u' => $moduleData['ubah'] ?: null,
+                'hapus', 'h' => $moduleData['hapus'] ?: null,
+                default => null,
+            };
         });
     }
 

@@ -28,6 +28,21 @@
     <!-- Loading Lazy -->
     <link rel="stylesheet" href="<?= asset('js/progressive-image/progressive-image.css') ?>">
     @stack('css')
+    <style>
+    @keyframes pulse-badge {
+        0%, 100% { 
+            transform: scale(1); 
+            box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+        }
+        50% { 
+            transform: scale(1.1); 
+            box-shadow: 0 0 0 5px rgba(255, 193, 7, 0);
+        }
+    }
+    .notification-badge {
+        animation: pulse-badge 2s infinite;
+    }
+    </style>
 </head>
 
 <body id="sidebar_collapse" class="{{ setting('warna_tema_admin') }} fixed sidebar-mini">

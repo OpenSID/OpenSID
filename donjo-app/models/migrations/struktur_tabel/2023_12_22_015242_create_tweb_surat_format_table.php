@@ -61,6 +61,7 @@ return new class () extends Migration {
             $table->integer('masa_berlaku')->nullable()->default(1);
             $table->string('satuan_masa_berlaku', 15)->nullable()->default('M');
             $table->boolean('qr_code')->default(false);
+            $table->boolean('qr_code_tte')->default(false);
             $table->boolean('logo_garuda')->default(false);
             $table->boolean('kecamatan')->default(false);
             $table->longText('syarat_surat')->nullable();

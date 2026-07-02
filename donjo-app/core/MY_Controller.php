@@ -324,8 +324,9 @@ class MY_Controller extends CI_Controller
      */
     private function cekAnjungan(): array
     {
-        $ip         = $this->input->ip_address();
-        $macAddress = $this->session->mac_address;
+        $ip           = $this->input->ip_address();
+        $macAddress   = $this->session->mac_address;
+        $anjunganUuid = $this->session->anjungan_uuid;
 
         try {
             $data = DB::table('anjungan')

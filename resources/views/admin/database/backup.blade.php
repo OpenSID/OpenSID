@@ -112,6 +112,7 @@
                                                 <li> Usahakan untuk melakukan backup secara rutin dan terjadwal. </li>
                                                 <li> Backup yang dihasilkan sebaiknya disimpan di komputer terpisah dari server SID. </li>
                                                 <li> Untuk restore database ke OpenSID Database Gabungan, bisa gunakan backup database <code>.sid</code></li>
+                                                <li>Perkiraan Ukuran File Backup SQL Berdasarkan Jumlah Tabel Dan Baris Data Adalah <code>{{ $size_sql }}</code></li>
                                             </ul>
                                         </div>
                                     </div>

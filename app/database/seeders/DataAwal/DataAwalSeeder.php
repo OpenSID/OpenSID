@@ -629,9 +629,14 @@ class DataAwalSeeder extends Seeder
     // Tambah template Tinymce
     protected function tambah_template_surat()
     {
-        $uratTinyMCE = getSuratBawaanTinyMCE()->toArray();
+        $uratTinyMCE  = getSuratBawaanTinyMCE()->toArray();
+        $hasQrCodeTte = Schema::hasColumn('tweb_surat_format', 'qr_code_tte');
 
         foreach ($uratTinyMCE as $value) {
+            if (! $hasQrCodeTte) {
+                unset($value['qr_code_tte']);
+            }
+
             $this->tambah_surat_tinymce($value);
         }
 

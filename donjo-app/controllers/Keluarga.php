@@ -595,7 +595,7 @@ class Keluarga extends Admin_Controller
         $datas = KeluargaModel::dataCetak($this->request['id_cb'] ?? [$id] );
 
         foreach ($datas as $data) {
-            $berkas_kk[] = $this->buat_berkas_kk($data);
+            $berkas_kk[] = $this->buat_berkas_kk($data, $this->input->get('format'));
         }
         if (count($datas) > 1) {
             // Masukkan semua berkas ke dalam zip

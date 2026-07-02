@@ -112,8 +112,9 @@
             "indent-style": "space"
         },
         "copy-file": {
+            "vendor/tinymce/tinymce": "assets/js/tinymce-72",
             "storage/app/vendor": "vendor",
-            "vendor/tinymce/tinymce": "assets/js/tinymce-72"
+            "storage/app/public/assets/js/tinymce-72/plugins/image": "assets/js/tinymce-72/plugins/image"
         },
         "google/apiclient-services": [
             "Drive",

@@ -1010,9 +1010,9 @@
             'dev_requirement' => false,
         ),
         'spatie/laravel-fractal' => array(
-            'pretty_version' => '6.3.2',
-            'version' => '6.3.2.0',
-            'reference' => 'd078aa670233100e1309a0a7096c42f5b605ef29',
+            'pretty_version' => '6.3.3',
+            'version' => '6.3.3.0',
+            'reference' => '5146a50e4f04d75db158e834789667ad28ec5f6d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/laravel-fractal',
             'aliases' => array(),

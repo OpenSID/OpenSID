@@ -37,13 +37,14 @@
                                 <th><input type="checkbox" id="checkall" /></th>
                                 <th class="padat">NO</th>
                                 <th class="padat">AKSI</th>
+                                <th class="padat">UUID</th>
                                 <th class="padat">IP ADDRESS</th>
                                 <th class="padat">MAC ADDRESS</th>
-                                <th class="padat">ID PENGUNJUNG</th>
                                 <th class="padat">IP ADDRESS PRINTER & PORT</th>
                                 <th class="padat">VIRTUAL KEYBOARD</th>
                                 <th class="padat">STATUS</th>
                                 <th class="padat">PERMOHONAN SURAT TANPA AKUN</th>
+                                <th>USER AGENT</th>
                                 <th>KETERANGAN</th>
                             </tr>
                         </thead>
@@ -83,6 +84,12 @@
                         orderable: false
                     },
                     {
+                        data: 'uuid',
+                        name: 'uuid',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
                         data: 'ip_address',
                         name: 'ip_address',
                         searchable: true,
@@ -91,12 +98,6 @@
                     {
                         data: 'mac_address',
                         name: 'mac_address',
-                        searchable: true,
-                        orderable: true
-                    },
-                    {
-                        data: 'id_pengunjung',
-                        name: 'id_pengunjung',
                         searchable: true,
                         orderable: true
                     },
@@ -124,6 +125,12 @@
                         orderable: false
                     },
                     {
+                        data: 'user_agent',
+                        name: 'user_agent',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
                         data: 'keterangan',
                         name: 'keterangan',
                         searchable: true,
@@ -142,6 +149,24 @@
             if (ubah == 0) {
                 TableData.column(2).visible(false);
             }
+
+            // Menangani event saat modal konfirmasi hapus ditampilkan
+            $('#confirm-delete').on('show.bs.modal', function(e) {
+                // Mengambil uuid dari tombol hapus yang diklik
+                var uuidToDelete = $(e.relatedTarget).data('uuid');
+
+                // Menangani klik pada tombol konfirmasi hapus di dalam modal
+                $(this).find('.btn-ok').off('click').on('click', function() {
+                    // Cek apakah anjungan_uuid di localStorage sama dengan yang akan dihapus
+                    if (localStorage.getItem('anjungan_uuid') === uuidToDelete) {
+                        // Hapus dari localStorage
+                        localStorage.removeItem('anjungan_uuid');
+                    }
+                    // Lanjutkan ke URL penghapusan di server
+                    window.location = $(e.relatedTarget).data('href');
+                });
+            });            
+
         });
     </script>
 @endpush

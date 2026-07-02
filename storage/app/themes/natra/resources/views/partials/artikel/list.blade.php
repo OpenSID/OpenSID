@@ -16,7 +16,7 @@
                     </span>
                 </div>
                 <a href="{{ $post->url_slug }}" title="Baca Selengkapnya" style="font-weight:bold">
-                    @if (is_file(LOKASI_FOTO_ARTIKEL . 'kecil_' . $post['gambar']))
+                    @if ($post['gambar'])
                         <img data-src="{{ AmbilFotoArtikel($post['gambar'], 'sedang') }}" src="{{ asset('images/img-loader.gif') }}" width="300" class="yall_lazy img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" alt="{{ $post['judul'] }}" />
                         <img data-src="{{ AmbilFotoArtikel($post['gambar'], 'sedang') }}" src="{{ asset('images/img-loader.gif') }}" width="100%" class="yall_lazy img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;" alt="{{ $post['judul'] }}" />
                     @else

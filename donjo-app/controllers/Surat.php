@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Enums\FirebaseEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
@@ -372,7 +373,7 @@ class Surat extends Admin_Controller
             $id_surat = $surat->id;
 
             $font_option = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
-            $margins     = json_decode((string) setting('surat_margin'), null) ?? FormatSurat::MARGINS;
+            $margins     = json_decode($surat->margin_global == AktifEnum::AKTIF ? (string) setting('surat_margin') : $surat->margin) ?? FormatSurat::MARGINS;
 
             return view('admin.surat.konsep', [
                 'penduduk'    => Penduduk::select('id', 'nik', 'nama')->find($this->request['nik']),
@@ -500,7 +501,7 @@ class Surat extends Admin_Controller
                 ]
                 : $cetak['surat']['margin_cm_to_mm'];
 
-            if ($cetak['surat']['margin_global'] == '1' && ! $this->session->has_userdata('pengaturan_surat')) {
+            if ($cetak['surat']['margin_global'] == AktifEnum::AKTIF && ! $this->session->has_userdata('pengaturan_surat')) {
                 $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
             }
 
