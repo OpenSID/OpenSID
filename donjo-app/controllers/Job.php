@@ -150,6 +150,19 @@ class Job extends CI_Controller
                 // Unzip path
                 $extractpath = DESAPATH . '..';
 
+                // Validasi ZipSlip: tolak entry dengan path traversal
+                // extractpath sudah di parent folder desa, jadi entry '../'
+                // bisa write ke lokasi mana pun - harus divalidasi ketat.
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $entry = $zip->getNameIndex($i);
+                    if (str_contains($entry, '..') || str_starts_with($entry, '/') || str_starts_with($entry, '\\')) {
+                        $zip->close();
+                        $restore->update(['status' => -1]);
+                        log_message('error', "Restore folder desa gagal: backup mengandung path ilegal: {$entry}");
+                        return;
+                    }
+                }
+
                 // Extract file
                 $zip->extractTo($extractpath);
                 $zip->close();
