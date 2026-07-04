@@ -1,8 +1,24 @@
----
 title: "Begini Cara Buka Blokir BRImo — Solusi Atasi Lupa PIN BRImo"
 date: 2026-07-04
 author: "Tim OpenSID"
----
+description: "Panduan langkah demi langkah untuk membuka blokir BRImo akibat lupa PIN atau OTP, termasuk cara reset lewat aplikasi, chat WhatsApp BRI, call center, dan kunjungan cabang."
+slug: "begini-cara-buka-blokir-brimo"
+tags:
+	- BRImo
+	- BRI
+	- Keamanan
+	- Lupa PIN
+keywords: "Cara buka blokir BRImo, lupa PIN BRImo, buka blokir BRImo"
+image: "assets/images/brimo-unlock-placeholder.jpg"
+canonical: "https://opensid.org/begini-cara-buka-blokir-brimo"
+og:
+	title: "Begini Cara Buka Blokir BRImo — Solusi Atasi Lupa PIN"
+	description: "Ikuti panduan praktis untuk mengembalikan akses BRImo akibat lupa PIN atau terblokir."
+	image: "https://opensid.org/assets/images/brimo-unlock-placeholder.jpg"
+twitter:
+	card: "summary_large_image"
+	title: "Begini Cara Buka Blokir BRImo"
+	description: "Panduan cepat untuk membuka blokir BRImo dan mengatasi lupa PIN."
 
 Pernah nggak sih, lagi buru-buru mau transfer, eh tiba-tiba aplikasi BRImo bilang akun terblokir? Tenang — masalah ini cukup sering terjadi dan biasanya bisa diselesaikan tanpa panik. Artikel ini akan membimbing langkah demi langkah supaya kamu bisa mengembalikan akses BRImo dengan aman dan cepat.
 
