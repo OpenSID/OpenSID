@@ -546,12 +546,14 @@ class First extends Web_Controller {
 		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
 		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
 		$list_kolom = array(
-			'arsip',
 			'w_cos'
 		);
 		foreach ($list_kolom as $kolom)
 		{
-			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
+			if (isset($data[$kolom]))
+			{
+				$data[$kolom] = $this->security->xss_clean($data[$kolom]);
+			}
 		}
 	}
 
