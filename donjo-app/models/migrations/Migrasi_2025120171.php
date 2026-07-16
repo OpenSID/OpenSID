@@ -263,7 +263,8 @@ class Migrasi_2025120171
 
     public function pindahkanPengaturanLayarAnjungan()
     {
-        if (! Schema::hasColumn('anjungan', 'orientasi_layar')) {
+        // Tabel `anjungan` kini milik add-on; lewati bila belum terpasang.
+        if (Schema::hasTable('anjungan') && ! Schema::hasColumn('anjungan', 'orientasi_layar')) {
             Schema::table('anjungan', static function (Blueprint $table) {
                 $table->boolean('orientasi_layar')->default(1)->after('permohonan_surat_tanpa_akun');
             });
@@ -280,6 +281,11 @@ class Migrasi_2025120171
 
     private function migrateAnjunganTipeToArray()
     {
+        // Tabel `anjungan` kini milik add-on; lewati bila belum terpasang.
+        if (! Schema::hasTable('anjungan')) {
+            return;
+        }
+
         Schema::table('anjungan', static function (Blueprint $table) {
             $table->text('tipe')->nullable()->change();
         });

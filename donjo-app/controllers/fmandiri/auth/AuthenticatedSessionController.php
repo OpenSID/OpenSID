@@ -43,7 +43,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Modules\Anjungan\Models\Anjungan;
 
 class AuthenticatedSessionController extends Web_Controller
 {
@@ -116,17 +115,15 @@ class AuthenticatedSessionController extends Web_Controller
         $request = request();
 
         if ($request->has('nik') || ($request->has('tag_id_card') && $request->has('password'))) {
-            if ($request->has('anjungan_uuid')) {
-                $anjungan = Anjungan::where('uuid', $request->anjungan_uuid)->first();
-                if (! $anjungan) {
-                    redirect_with('error', 'Anjungan tidak ditemukan.', ci_route('layanan-mandiri/masuk'));
-                }
+            if ($request->has('anjungan_uuid') && ! empty($request->anjungan_uuid)) {
+                // Validasi + penandaan sesi kios (mode Login) didelegasikan ke
+                // penyedia kios (modul). Core tak tahu model, flag sesi, maupun
+                // pesan spesifik modul.
+                $aktivasi = app(App\Services\Kiosk\KioskResolver::class)->activate((string) $request->anjungan_uuid, App\Services\Kiosk\KioskActivationMode::Login);
 
-                if (! $anjungan->status) {
-                    redirect_with('error', 'Anjungan belum diaktifkan oleh admin.', ci_route('layanan-mandiri/masuk'));
+                if ($aktivasi->status === App\Services\Kiosk\KioskActivation::Inactive) {
+                    redirect_with('error', $aktivasi->message ?? '', ci_route('layanan-mandiri/masuk'));
                 }
-
-                $this->session->set_userdata('anjungan_uuid', $request->anjungan_uuid);
             }
 
             // Login menggunakan NIK atau E-KTP dan password
@@ -150,10 +147,14 @@ class AuthenticatedSessionController extends Web_Controller
 
         $this->session->sess_regenerate();
 
-        if ($this->session->is_anjungan) {
-            redirect(route('anjungan.beranda.index'));
-        }
-        redirect(route('layanan-mandiri.beranda.index'));
+        // Landing pasca-login untuk sesi kios ditentukan add-on via entry('beranda');
+        // sesi non-kios → beranda LM default. Core menanyakan status sesi kios ke
+        // seam (flag milik modul), bukan membaca session->is_anjungan langsung.
+        $beranda = app(App\Services\Kiosk\KioskResolver::class)->isActiveSession()
+            ? app(App\Services\Mandiri\MandiriEntryResolver::class)->entry('beranda')
+            : null;
+
+        redirect($beranda ?? route('layanan-mandiri.beranda.index'));
     }
 
     public function destroy()
@@ -161,18 +162,12 @@ class AuthenticatedSessionController extends Web_Controller
         auth('penduduk')->logout();
         auth('pendudukGuest')->logout();
 
-        $redirect = 'layanan-mandiri/masuk';
+        // Landing pasca-logout ditentukan add-on via entry('logout') — add-on
+        // yang membaca flag sesinya sendiri (mis. tamu kios). Dibaca sebelum
+        // sess_destroy; default core = halaman masuk.
+        $redirect = app(App\Services\Mandiri\MandiriEntryResolver::class)->entry('logout') ?? 'layanan-mandiri/masuk';
 
-        if ($this->session->login_penduduk_guest) {
-            $redirect = 'anjungan-mandiri/penduduk-guest';
-        }
-
-        $this->session->unset_userdata([
-            'mandiri', 'is_login',
-            'is_anjungan', 'data_permohonan',
-            'auth_mandiri', 'login_ektp',
-            'login_penduduk_guest',
-        ]);
+        $this->session->sess_destroy();
 
         return redirect($redirect);
     }

@@ -39,7 +39,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function (): void {
     Route::get('/', static function (): void {
-        redirect(route('anjungan.index'));
+        // Titik-masuk root ditentukan add-on (mis. Anjungan mendaftarkan
+        // 'anjungan.index'); tanpa add-on → halaman masuk. Core tak lagi
+        // meng-hardcode route milik modul.
+        $entry = app(App\Services\Mandiri\MandiriEntryResolver::class)->entry('root');
+        redirect($entry ?? route('layanan-mandiri.masuk.index'));
     });
     Route::get('/masuk', 'auth/AuthenticatedSessionController@create')->name('layanan-mandiri.masuk.index');
     Route::post('/cek', 'auth/AuthenticatedSessionController@store')->name('layanan-mandiri.masuk.cek');

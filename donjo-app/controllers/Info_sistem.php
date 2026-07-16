@@ -68,7 +68,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\PathTraversalDetected;
 use Modules\Analisis\Models\AnalisisResponBukti;
-use Modules\Anjungan\Models\AnjunganMenu;
 use Modules\BukuTamu\Models\TamuModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -317,11 +316,15 @@ class Info_sistem extends Admin_Controller
             //LOKASI_PRODUK             => [Produk::class => ['foto']],
             LOKASI_PENGADUAN          => [Pengaduan::class => ['foto']],
             LOKASI_PENDAFTARAN        => [PendudukMandiri::class => ['scan_ktp', 'scan_kk', 'foto_selfie']],
-            LOKASI_ICON_MENU_ANJUNGAN => [AnjunganMenu::class => ['icon']],
             LOKASI_FOTO_DTKS          => [DtksLampiran::class => ['foto']],
             LOKASI_ICON_SOSMED        => [MediaSosial::class => ['gambar']],
             LOKASI_SINERGI_PROGRAM    => [SinergiProgram::class => ['gambar']],
         ];
+
+        // Ikon menu Anjungan hanya diperiksa bila add-on Anjungan terpasang.
+        if (class_exists(\Modules\Anjungan\Models\AnjunganMenu::class)) {
+            $mapLokasi[LOKASI_ICON_MENU_ANJUNGAN] = [\Modules\Anjungan\Models\AnjunganMenu::class => ['icon']];
+        }
         // tabel yang menyimpan gambar dengan nama file, tapi menampilkan gambar di web dengan tambahan prefix sedang_, kecil_ dst
         $hasPrefix = [
             Artikel::class,

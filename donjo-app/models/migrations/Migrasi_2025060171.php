@@ -287,7 +287,8 @@ class Migrasi_2025060171
 
     public function tambahPengaturanAnjunganSurat()
     {
-        if (! Schema::hasColumn('anjungan', 'permohonan_surat_tanpa_akun')) {
+        // Tabel `anjungan` kini milik add-on; lewati bila belum terpasang.
+        if (Schema::hasTable('anjungan') && ! Schema::hasColumn('anjungan', 'permohonan_surat_tanpa_akun')) {
             Schema::table('anjungan', static function (Blueprint $table) {
                 $table->boolean('permohonan_surat_tanpa_akun')->default(0)->after('status');
             });

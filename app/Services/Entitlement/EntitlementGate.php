@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,44 +29,49 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Services\Entitlement;
 
-return new class () extends Migration {
+/**
+ * Registry gerbang entitlement (langganan) fitur berbayar.
+ *
+ * Core TIDAK tahu fitur berbayar apa pun. Add-on mendaftarkan resolver
+ * boolean-nya lewat {@see register()} saat boot; core bertanya lewat
+ * {@see allows()}. Fitur tanpa resolver terdaftar → `false` (tidak berhak).
+ *
+ * Inilah titik penegakan terbuka pengganti gerbang `PREMIUM` tersembunyi:
+ * status entitlement menjadi urusan add-on (mis. add-on Layanan), bukan core.
+ */
+class EntitlementGate
+{
     /**
-     * Run the migrations.
-     *
-     * @return void
+     * @var array<string, callable(): bool>
      */
-    public function up()
-    {
-        // Tabel `anjungan` kini milik add-on (migrasinya membuat tabel + FK
-        // bentuk akhir). Lewati bila add-on belum terpasang.
-        if (! Schema::hasTable('anjungan')) {
-            return;
-        }
+    private array $resolvers = [];
 
-        Schema::table('anjungan', static function (Blueprint $table) {
-            $table->foreign(['config_id'], 'anjungan_config_fk')->references(['id'])->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
-        });
+    /**
+     * Daftarkan resolver entitlement untuk sebuah fitur.
+     *
+     * @param callable(): bool $resolver
+     */
+    public function register(string $feature, callable $resolver): void
+    {
+        $this->resolvers[$feature] = $resolver;
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Apakah fitur ini berhak (berlangganan aktif)? Default `false` bila
+     * tak ada add-on yang mendaftarkan resolver-nya.
      */
-    public function down()
+    public function allows(string $feature): bool
     {
-        Schema::table('anjungan', static function (Blueprint $table) {
-            $table->dropForeign('anjungan_config_fk');
-        });
+        $resolver = $this->resolvers[$feature] ?? null;
+
+        return $resolver !== null && (bool) $resolver();
     }
-};
+}

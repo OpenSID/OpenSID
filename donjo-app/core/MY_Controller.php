@@ -320,40 +320,15 @@ class MY_Controller extends CI_Controller
     }
 
     /**
-     * Daftar anjungan sesuai cookie atau mac addres.
+     * Sesi kios/anjungan aktif (bila ada modul yang mendaftarkan penyedia kios).
+     *
+     * Logika spesifik Anjungan telah dipindah ke modul Anjungan dan didaftarkan
+     * lewat {@see \App\Services\Kiosk\KioskResolver}. Core tidak lagi mengetahui
+     * tabel `anjungan` — tanpa modul terpasang, hasilnya `[]` (bukan sesi kios).
      */
     private function cekAnjungan(): array
     {
-        $ip           = $this->input->ip_address();
-        $macAddress   = $this->session->mac_address;
-        $anjunganUuid = $this->session->anjungan_uuid;
-
-        try {
-            $data = DB::table('anjungan')
-                ->where(static function ($query) use ($macAddress, $ip) {
-                    if ($macAddress) {
-                        $query->orWhere('mac_address', $macAddress);
-                    }
-                    if (isset($_COOKIE['pengunjung'])) {
-                        $query->orWhere('id_pengunjung', $_COOKIE['pengunjung']);
-                    }
-                    if ($ip) {
-                        $query->orWhere('ip_address', $ip);
-                    }
-                })
-                ->where('status', StatusEnum::YA)
-                ->where('config_id', identitas('id'))
-                ->orderBy('tipe')
-                ->first();
-
-            if ($data) {
-                $data->tipe = json_decode($data->tipe, true) ?? [];
-            }
-
-            return (array) ($data ?? []);
-        } catch (Exception $e) {
-            return [];
-        }
+        return app(\App\Services\Kiosk\KioskResolver::class)->resolve();
     }
 }
 

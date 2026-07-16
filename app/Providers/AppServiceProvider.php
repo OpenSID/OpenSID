@@ -55,6 +55,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Registry titik-ekstensi kios/entitlement/Layanan Mandiri (diisi add-on).
+        $this->app->singleton(\App\Services\Kiosk\KioskResolver::class);
+        $this->app->singleton(\App\Services\Entitlement\EntitlementGate::class);
+        $this->app->singleton(\App\Services\Mandiri\MandiriEntryResolver::class);
+
         $this->loadModuleServiceProvider();
 
         // hanya daftarkan Type global

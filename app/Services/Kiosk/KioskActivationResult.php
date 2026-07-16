@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,44 +29,39 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Services\Kiosk;
 
-return new class () extends Migration {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+/**
+ * Hasil {@see KioskProvider::activate()}: status + pesan (opsional) dari add-on.
+ *
+ * Pesan dimiliki add-on (mis. "belum diaktifkan admin") — core hanya menampilkan
+ * apa pun yang disuplai, tanpa teks spesifik-modul.
+ */
+final class KioskActivationResult
+{
+    public function __construct(
+        public readonly KioskActivation $status,
+        public readonly ?string $message = null,
+    ) {}
+
+    public static function none(): self
     {
-        // Tabel `anjungan` kini milik add-on (migrasinya membuat tabel + FK
-        // bentuk akhir). Lewati bila add-on belum terpasang.
-        if (! Schema::hasTable('anjungan')) {
-            return;
-        }
-
-        Schema::table('anjungan', static function (Blueprint $table) {
-            $table->foreign(['config_id'], 'anjungan_config_fk')->references(['id'])->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
-        });
+        return new self(KioskActivation::None);
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public static function inactive(string $message): self
     {
-        Schema::table('anjungan', static function (Blueprint $table) {
-            $table->dropForeign('anjungan_config_fk');
-        });
+        return new self(KioskActivation::Inactive, $message);
     }
-};
+
+    public static function active(): self
+    {
+        return new self(KioskActivation::Active);
+    }
+}

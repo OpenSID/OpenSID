@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,44 +29,39 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Services\Kiosk;
 
-return new class () extends Migration {
+/**
+ * Kontrak penyedia kios (didaftarkan add-on ke {@see KioskResolver}).
+ */
+interface KioskProvider
+{
     /**
-     * Run the migrations.
+     * Data sesi kios dari sesi/cookie saat ini, atau `[]` bila bukan sesi kios.
      *
-     * @return void
+     * @return array<string, mixed>
      */
-    public function up()
-    {
-        // Tabel `anjungan` kini milik add-on (migrasinya membuat tabel + FK
-        // bentuk akhir). Lewati bila add-on belum terpasang.
-        if (! Schema::hasTable('anjungan')) {
-            return;
-        }
-
-        Schema::table('anjungan', static function (Blueprint $table) {
-            $table->foreign(['config_id'], 'anjungan_config_fk')->references(['id'])->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
-        });
-    }
+    public function resolve(): array;
 
     /**
-     * Reverse the migrations.
+     * Validasi & aktifkan sesi kios dari pengenal (uuid) yang dikirim client.
      *
-     * @return void
+     * @param KioskActivationMode $mode {@see KioskActivationMode::DeviceCheck}
+     *              (hanya kios "utama" mis. ANJUNGAN, tanpa menandai sesi) atau
+     *              {@see KioskActivationMode::Login} (semua tipe kios + tandai
+     *              sesi sebagai sesi kios).
      */
-    public function down()
-    {
-        Schema::table('anjungan', static function (Blueprint $table) {
-            $table->dropForeign('anjungan_config_fk');
-        });
-    }
-};
+    public function activate(string $uuid, KioskActivationMode $mode): KioskActivationResult;
+
+    /**
+     * Apakah sesi saat ini adalah sesi kios (ditandai oleh add-on saat login)?
+     * Flag sesi dimiliki add-on; core menanyakannya lewat method ini.
+     */
+    public function isActiveSession(): bool;
+}

@@ -11,7 +11,7 @@
             </div>
         </div>
         <input type="hidden" name="anjungan_uuid" id="anjungan_uuid">
-        <div class="form-group form-login" style="{{ jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', false, 'width: 0; height: 0; overflow: hidden;') }}">
+        <div class="form-group form-login" style="{{ jecho(empty($cek_anjungan) || ENVIRONMENT == 'development', false, 'width: 0; height: 0; overflow: hidden;') }}">
             <input
                 name="tag_id_card"
                 id="tag"
@@ -47,23 +47,13 @@
                 <button type="button" class="btn btn-block bg-green"><b>LUPA PIN</b></button>
             </a>
         </div>
-        @if (in_array(\Modules\Anjungan\Models\Anjungan::ANJUNGAN, $cek_anjungan['tipe'] ?? []))
-            <div class="form-group">
-                <a href="{{ route('anjungan.index') }}">
-                    <button type="button" class="btn btn-block bg-green"><b>ANJUNGAN</b></button>
-                </a>
-            </div>
-        @endif
+        <div id="anjungan-button-container">
+            {{-- Tombol Anjungan akan dimuat di sini oleh JavaScript add-on --}}
+        </div>
     </form>
 @endsection
-@push('script')
-    <script type="text/javascript">
-        $('document').ready(function() {
-            // Get UUID from local storage and set it to the hidden input
-            const anjungan_uuid = localStorage.getItem('anjungan_uuid');
-            if (anjungan_uuid) {
-                $('#anjungan_uuid').val(anjungan_uuid);
-            }
-        });
-    </script>
-@endpush
+
+{{-- Skrip deteksi kios disediakan add-on Anjungan bila terpasang; core tak menyertakan apa pun bila tidak. --}}
+@if (view()->exists('anjungan::auth.anjungan-ajax'))
+    @include('anjungan::auth.anjungan-ajax')
+@endif

@@ -5,7 +5,7 @@
     
     <form id="validasi" autocomplete="off" action="{{ $form_action }}" method="post" class="login-form">
         <div class="form-group form-login">
-            <input type="text" autocomplete="off" class="form-control angka required {!! jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') !!}" name="nik" maxlength="16" placeholder="NIK">
+            <input type="text" autocomplete="off" class="form-control angka required {!! jecho(($cek_anjungan['keyboard'] ?? 0) == 1, true, 'kbvnumber') !!}" name="nik" maxlength="16" placeholder="NIK">
         </div>
         {{-- Hidden input for UUID from local storage --}}
         <input type="hidden" name="anjungan_uuid" id="anjungan_uuid">
@@ -13,7 +13,7 @@
             <input
                 type="password"
                 autocomplete="off"
-                class="form-control angka required {!! jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') !!}"
+                class="form-control angka required {!! jecho(($cek_anjungan['keyboard'] ?? 0) == 1, true, 'kbvnumber') !!}"
                 name="password"
                 placeholder="PIN"
                 id="pin"
@@ -43,15 +43,16 @@
                 <button type="button" class="btn btn-block bg-green"><b>LUPA PIN</b></button>
             </a>
         </div>
-        @if (in_array(\Modules\Anjungan\Models\Anjungan::ANJUNGAN, $cek_anjungan['tipe'] ?? []))
-            <div class="form-group">
-                <a href="<?= route('anjungan.index') ?>">
-                    <button type="button" class="btn btn-block bg-green"><b>ANJUNGAN</b></button>
-                </a>
-            </div>
-        @endif
+        <div id="anjungan-button-container">
+            {{-- Tombol Anjungan akan dimuat di sini oleh JavaScript add-on --}}
+        </div>
     </form>
 @endsection
+
+{{-- Skrip deteksi kios disediakan add-on Anjungan bila terpasang; core tak menyertakan apa pun bila tidak. --}}
+@if (view()->exists('anjungan::auth.anjungan-ajax'))
+    @include('anjungan::auth.anjungan-ajax')
+@endif
 
 @push('script')
     <script type="text/javascript">
@@ -64,12 +65,6 @@
                     pass.attr('type', 'password')
                 }
             });
-            
-            // Get UUID from local storage and set it to the hidden input
-            const anjungan_uuid = localStorage.getItem('anjungan_uuid');
-            if (anjungan_uuid) {
-                $('#anjungan_uuid').val(anjungan_uuid);
-            }
         });
     </script>
 @endpush
