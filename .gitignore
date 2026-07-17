@@ -10,6 +10,9 @@ sftp-config.json
 /.htaccess
 *.sql
 *.sql.gz
+# dev-seed: data awal DEV — di-track ke branch, tapi dikecualikan dari arsip rilis
+# lewat `.gitattributes` (export-ignore). Kecualikan dari aturan *.sql di atas.
+!/dev-seed/*.sql
 mitra
 generate-route.php
 index.php
