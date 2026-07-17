@@ -2,7 +2,7 @@
     <div class="callout callout-info">
         <p style="margin-bottom:0">
             <i class="fa fa-flask"></i> <strong>Riwayat ambil/lepas (get/release) marketplace lokal.</strong>
-            Setiap pengajuan/pemasangan (get) dan penghapusan (release) modul lokal tercatat di sini.
+            Setiap pengajuan/pemasangan (get) dan penghapusan (release) paket lokal tercatat di sini.
         </p>
     </div>
 
@@ -14,7 +14,7 @@
                         <thead>
                             <tr>
                                 <th class="padat">No</th>
-                                <th>Modul</th>
+                                <th>Paket</th>
                                 <th>Aksi</th>
                                 <th>Strategi / Ref</th>
                                 <th>Waktu</th>
@@ -43,7 +43,7 @@
                                 <tr>
                                     <td colspan="5">
                                         <div class="alert alert-warning" style="margin:10px">
-                                            Belum ada riwayat. Ajukan modul di tab <strong>Form Pendaftaran</strong> atau pasang dari
+                                            Belum ada riwayat. Ajukan paket di tab <strong>Form Pendaftaran</strong> atau pasang dari
                                             <strong>Paket Tersedia</strong>.
                                         </div>
                                     </td>

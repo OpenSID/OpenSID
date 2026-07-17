@@ -52,8 +52,8 @@ class Dev_modul extends Admin_Controller
     }
 
     /**
-     * Tab "Sumber": toggle mode + opsi strategi/ref/fetch, dirender di dalam
-     * kerangka tab halaman Paket Tambahan (act_tab = 5).
+     * Tab "Sumber": toggle mode + opsi strategi/ref/fetch + pendaftaran paket ke
+     * marketplace lokal, dirender di dalam kerangka tab Paket Tambahan (act_tab=5).
      */
     public function index(): void
     {
@@ -65,9 +65,12 @@ class Dev_modul extends Admin_Controller
             'lokal'          => LocalMarketplace::aktif(),
             'opsi'           => $market->opsi(),
             'repo_base'      => (string) config_item('module_dev_repo_base'),
-            'modul_repo'     => $market->repos(),
+            'paket_repo'     => $market->repos(),
+            'kandidat'       => $market->kandidat(),
             'server_layanan' => (string) config_item('server_layanan'),
             'form_action'    => site_url('dev-modul/sumber'),
+            'form_daftar'    => site_url('dev-modul/daftar'),
+            'form_batal'     => site_url('dev-modul/batal-daftar'),
         ];
 
         view('admin.plugin.index', $data);
@@ -88,10 +91,49 @@ class Dev_modul extends Admin_Controller
         LocalMarketplace::setel($lokal, $strategy, $ref, $fetch);
 
         $pesan = $lokal
-            ? 'Sumber modul dialihkan ke marketplace repo lokal (simulasi Layanan).'
-            : 'Sumber modul dikembalikan ke Layanan (server nyata).';
+            ? 'Sumber paket dialihkan ke marketplace repo lokal (simulasi Layanan).'
+            : 'Sumber paket dikembalikan ke Layanan (server nyata).';
 
         return redirect_with('success', $pesan, 'plugin');
+    }
+
+    /**
+     * Daftarkan paket ke marketplace lokal (salin snapshot ke gudang).
+     */
+    public function daftar()
+    {
+        isCan('u');
+
+        try {
+            $path = trim((string) ($this->input->post('path') ?? ''));
+            $name = app(LocalMarketplace::class)->daftarkan($path);
+
+            return redirect_with('success', "Paket {$name} didaftarkan ke marketplace lokal.", 'dev-modul');
+        } catch (Throwable $e) {
+            log_message('error', 'Dev_modul daftar: ' . $e->getMessage());
+
+            return redirect_with('error', 'Gagal mendaftarkan paket: ' . $e->getMessage(), 'dev-modul');
+        }
+    }
+
+    /**
+     * Batalkan pendaftaran paket dari marketplace lokal (hapus dari gudang).
+     */
+    public function batalDaftar()
+    {
+        isCan('u');
+
+        $name = (string) ($this->input->post('name') ?? '');
+
+        try {
+            app(LocalMarketplace::class)->batalDaftar($name);
+
+            return redirect_with('success', "Paket {$name} dikeluarkan dari marketplace lokal.", 'dev-modul');
+        } catch (Throwable $e) {
+            log_message('error', 'Dev_modul batalDaftar: ' . $e->getMessage());
+
+            return redirect_with('error', "Gagal mengeluarkan paket {$name}: " . $e->getMessage(), 'dev-modul');
+        }
     }
 
     /**

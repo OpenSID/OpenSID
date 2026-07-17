@@ -80,7 +80,7 @@ class AppServiceProvider extends ServiceProvider
             if ($isDev && class_exists(\App\Services\Module\LocalMarketplace::class)
                 && class_exists(\App\Services\Module\LocalRepoSource::class)) {
                 return \App\Services\Module\LocalMarketplace::aktif()
-                    ? $app->make(\App\Services\Module\LocalMarketplace::class)->sumber()
+                    ? $app->make(\App\Services\Module\LocalMarketplace::class)
                     : new \App\Services\Module\LayananHttpSource();
             }
 

@@ -104,7 +104,7 @@ class Plugin extends Admin_Controller
                 'content'     => 'admin.dev_modul.pendaftaran',
                 'act_tab'     => 3,
                 'opsi'        => $market->opsi(),
-                'modul_repo'  => $market->repos(),
+                'paket_repo'  => $market->repos(),
                 'form_action' => site_url('plugin/pendaftaran/store'),
             ];
 
@@ -168,7 +168,7 @@ class Plugin extends Admin_Controller
             try {
                 isCan('u');
                 app(\App\Services\Module\LocalMarketplace::class)->ajukan($name);
-                redirect_with('success', "Modul {$name} diajukan & dipasang dari marketplace lokal. Silakan aktifkan.", 'plugin/pemesanan');
+                redirect_with('success', "Paket {$name} diajukan & dipasang dari marketplace lokal. Silakan aktifkan.", 'plugin/pemesanan');
             } catch (Throwable $e) {
                 log_message('error', 'Pengajuan modul lokal gagal: ' . $e->getMessage());
                 redirect_with('error', 'Gagal mengajukan modul: ' . $e->getMessage(), 'plugin/pendaftaran');
