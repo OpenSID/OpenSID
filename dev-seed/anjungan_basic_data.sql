@@ -21,7 +21,17 @@
 -- (Butuh entitlement aktif: situs mode development ATAU langganan Anjungan aktif.)
 -- =============================================================================
 
-SET NAMES utf8mb4 COLLATE utf8mb4_general_ci;   -- cocokkan collation kolom (hindari "illegal mix")
+SET NAMES utf8mb4;
+-- Perbandingan string (uuid, key setting) pakai operator BINARY agar tahan-collation:
+-- kolom bisa utf8mb4_general_ci (Umum) atau utf8mb4_unicode_ci (Premium); BINARY
+-- membandingkan byte (nilai ASCII) sehingga tak memicu "illegal mix of collations".
+
+-- Longgarkan strict mode utk sesi ini. Skema dua core sedikit beda (mis. Premium
+-- punya kolom NOT NULL tanpa default seperti `created_by`/`updated_by` yang di Umum
+-- ~6 bln lebih tua belum ada). Non-strict → kolom itu terisi default implisit (0/''),
+-- aman untuk data seed dev. Dikembalikan di akhir berkas.
+SET @old_sql_mode := @@SESSION.sql_mode;
+SET SESSION sql_mode = '';
 
 -- config_id desa aktif (diambil dinamis; di verify-Umum = 2, di banyak install = 1)
 SET @cfg := (SELECT id FROM config ORDER BY id LIMIT 1);
@@ -45,7 +55,7 @@ SET @album_id := 990001;   -- "parrent" galeri slider = nilai setting anjungan_s
 -- Bersihkan baris seed lama (idempoten). Urut: anak dulu, induk belakangan.
 -- --------------------------------------------------------------------------
 UPDATE tweb_keluarga SET nik_kepala = NULL WHERE id = @kk_id;
-DELETE FROM anjungan             WHERE id = @anj_id OR uuid = @dev_uuid;
+DELETE FROM anjungan             WHERE id = @anj_id OR uuid = BINARY @dev_uuid;
 DELETE FROM tweb_penduduk        WHERE id IN (@p1, @p2, @p3);
 DELETE FROM tweb_keluarga        WHERE id = @kk_id;
 DELETE FROM tweb_wil_clusterdesa WHERE id = @wil_id;
@@ -123,13 +133,16 @@ VALUES
   (@gal2, @cfg, 'Slide 2', 'kosong.jpg', @album_id, 1, 1, NOW(), 1);
 
 UPDATE setting_aplikasi SET value = @album_id
-  WHERE `key` = 'anjungan_slide';
+  WHERE `key` = BINARY 'anjungan_slide';
 UPDATE setting_aplikasi SET value = 'Selamat datang di Anjungan Mandiri Desa — silakan gunakan layanan mandiri.'
-  WHERE `key` = 'anjungan_teks_berjalan';
+  WHERE `key` = BINARY 'anjungan_teks_berjalan';
 
 -- Selesai. Verifikasi cepat: SELECT dari anjungan / tweb_penduduk / artikel di bawah.
 SELECT
-  (SELECT COUNT(*) FROM anjungan      WHERE uuid = @dev_uuid) AS kios,
+  (SELECT COUNT(*) FROM anjungan      WHERE uuid = BINARY @dev_uuid) AS kios,
   (SELECT COUNT(*) FROM tweb_penduduk WHERE id IN (@p1,@p2,@p3)) AS warga,
   (SELECT COUNT(*) FROM artikel       WHERE id IN (@art1,@art2,@art3)) AS artikel,
   (SELECT COUNT(*) FROM gambar_gallery WHERE id IN (@gal1,@gal2)) AS galeri;
+
+-- Kembalikan sql_mode semula (bila berkas ini di-source ke sesi yang sudah ada).
+SET SESSION sql_mode = @old_sql_mode;

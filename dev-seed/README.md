@@ -92,6 +92,12 @@ curl -sk -b "anjungan_uuid=$UUID" https://test-umum.test/index.php/anjungan-mand
 grep -c "Selamat Datang di Anjungan Desa" /tmp/kios.html   # >0 = artikel seed tampil
 ```
 
+> **Artikel seed tak muncul di kios?** Kios menyaring arsip lewat setting
+> `anjungan_artikel` (daftar id kategori). Bila setting itu terisi dan tak memuat
+> kategori artikel seed, artikel tak tampil (kios tetap jalan). Solusi: kosongkan
+> `anjungan_artikel` (tampilkan semua) atau tambahkan kategori artikel seed ke daftar.
+> Di verify-Umum setting ini `NULL` → artikel seed langsung tampil.
+
 ### 4. Membersihkan / mengulang
 
 Skrip idempoten — cukup jalankan ulang untuk mengembalikan data seed. Untuk menghapus:
