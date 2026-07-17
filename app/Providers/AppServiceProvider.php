@@ -66,6 +66,32 @@ class AppServiceProvider extends ServiceProvider
             $app->make(\App\Services\Entitlement\EntitlementGate::class),
         ));
 
+        // Sumber berkas add-on. Default: klien Layanan (unduh HTTP — komponen
+        // terbuka, selalu di rilis). Di lingkungan `development`, bila
+        // `module_dev_repo_base` diset dan adapter dev tersedia, paket diambil
+        // langsung dari repo lokal (simulasi Layanan tanpa server berjalan).
+        // LocalRepoSource di-export-ignore → guard class_exists menjaga rilis
+        // tanpa berkas itu tetap jatuh ke LayananHttpSource.
+        $this->app->singleton(\App\Services\Module\ModuleSource::class, static function () {
+            $devConfig = static fn (string $env, string $cfg, string $default): string => (string) (getenv($env)
+                ?: (function_exists('config_item') ? config_item($cfg) : '')
+                ?: $default);
+
+            $base  = $devConfig('MODULE_DEV_REPO_BASE', 'module_dev_repo_base', '');
+            $isDev = (defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development';
+
+            if ($isDev && $base !== '' && class_exists(\App\Services\Module\LocalRepoSource::class)) {
+                return new \App\Services\Module\LocalRepoSource(
+                    $base,
+                    $devConfig('MODULE_DEV_REPO_STRATEGY', 'module_dev_repo_strategy', 'working-tree'),
+                    $devConfig('MODULE_DEV_REPO_REF', 'module_dev_repo_ref', 'HEAD'),
+                    filter_var($devConfig('MODULE_DEV_REPO_FETCH', 'module_dev_repo_fetch', ''), FILTER_VALIDATE_BOOLEAN),
+                );
+            }
+
+            return new \App\Services\Module\LayananHttpSource();
+        });
+
         $this->loadModuleServiceProvider();
 
         // hanya daftarkan Type global

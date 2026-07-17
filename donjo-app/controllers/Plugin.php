@@ -36,7 +36,6 @@
  */
 
 use App\Services\Module\ModuleManager;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 
@@ -215,46 +214,40 @@ class Plugin extends Admin_Controller
 
     public function pasang()
     {
-        $serverLayanan = config_item('server_layanan');
-        $serverHost    = parse_url($serverLayanan, PHP_URL_HOST);
-        $domain        = request()->getSchemeAndHttpHost();
-        $tanggal_waktu = date('Y-m-d H:i:s');
+        try {
+            $parts = explode('___', (string) $this->request['pasang']);
 
-        [$name, $url, $version] = explode('___', (string) $this->request['pasang']);
-        $pasangBaru             = true;
-
-        // Validasi URL
-        $urlScheme = parse_url($url, PHP_URL_SCHEME);
-        $urlHost   = parse_url($url, PHP_URL_HOST);
-
-        if ($urlScheme !== 'https') {
-            return redirect_with('error', 'URL harus menggunakan HTTPS', 'plugin');
-        }
-
-        if ($urlHost !== $serverHost) {
-            return redirect_with('error', "Domain URL harus sama dengan {$serverHost}", 'plugin');
-        }
-
-        // Hanya set pasangBaru = false jika modul sudah ada
-        if (File::exists($this->modulesDirectory . $name)) {
-            forceRemoveDir($this->modulesDirectory . $name);
-            $pasangBaru = false;
-        }
-
-        $this->pasangPaket($name, $url);
-
-        if ($pasangBaru) {
-            try {
-                // hit ke url install module untuk update total yang terinstall dengan versi tertentu
-                $urlHitModule = config_item('server_layanan') . '/api/v1/modules/install';
-                $token        = setting('layanan_opendesa_token');
-                $response     = Http::withToken($token)->post($urlHitModule, ['module_name' => $name, 'version' => $version, 'domain' => $domain, 'tanggal_waktu' => $tanggal_waktu]);
-                log_message('error', $response->body());
-            } catch (Exception $e) {
-                log_message('error', $e->getMessage());
+            if (count($parts) < 3) {
+                throw new RuntimeException('Parameter paket tidak valid.');
             }
+
+            [$name, $url, $version] = $parts;
+
+            if (! preg_match('/^[a-zA-Z0-9_\-]+$/', $name)) {
+                throw new RuntimeException('Nama paket mengandung karakter tidak diizinkan.');
+            }
+
+            // Ambil ZIP dari sumber terikat (Layanan di produksi, repo lokal di
+            // pengembangan), ekstrak, tegakkan min_core, lalu migrasi — seluruhnya
+            // di ModuleManager (add-on-agnostik).
+            $isInstalasiAwal = app(ModuleManager::class)->installFromSource($name, $url);
+
+            if ($isInstalasiAwal) {
+                app(ModuleManager::class)->reportInstall($name, $version);
+            }
+
+            set_session('success', "Paket tambahan {$name} berhasil diinstall, silakan aktifkan paket tersebut");
+
+            return redirect('plugin');
+        } catch (RuntimeException $e) {
+            log_message('error', 'Gagal memasang paket: ' . $e->getMessage());
+
+            return redirect_with('error', $e->getMessage(), 'plugin');
+        } catch (Exception $e) {
+            log_message('error', 'Gagal memasang paket (unexpected): ' . $e->getMessage());
+
+            return redirect_with('error', 'Terjadi kesalahan tidak terduga saat memasang paket.', 'plugin');
         }
-        redirect('plugin');
     }
 
     public function hapus(): void
@@ -304,54 +297,5 @@ class Plugin extends Admin_Controller
         }
 
         return $terpasang;
-    }
-
-    /**
-     * Fungsi untuk memasang paket
-     */
-    private function pasangPaket(string $name, string $url)
-    {
-        try {
-            $zipFilePath     = $this->modulesDirectory . $name . '.zip';
-            $extractedDir    = $this->modulesDirectory . $name;
-            $tmpExtractedDir = $this->modulesDirectory;
-
-            if (File::exists($extractedDir . '/modules.json')) {
-                return redirect_with('error', "Paket {$name} sudah ada", 'plugin');
-            }
-
-            if (file_put_contents($zipFilePath, file_get_contents($url)) === false) {
-                return redirect_with('error', "Gagal mengunduh paket dari {$url}", 'plugin');
-            }
-
-            $zip = new ZipArchive();
-            if ($zip->open($zipFilePath) !== true) {
-                return redirect_with('error', "Gagal membuka file ZIP: {$zipFilePath}", 'plugin');
-            }
-
-            $subfolder = rtrim($zip->getNameIndex(0), '/');
-            $sourceDir = $tmpExtractedDir . $subfolder;
-            $zip->extractTo($tmpExtractedDir);
-            $zip->close();
-
-            if (File::exists($extractedDir)) {
-                File::deleteDirectory($extractedDir);
-            }
-
-            if (! File::exists($sourceDir)) {
-                return redirect_with('error', "Direktori sumber tidak ditemukan: {$sourceDir}", 'plugin');
-            }
-
-            if (! File::move($sourceDir, $extractedDir)) {
-                return redirect_with('error', "Gagal memindahkan direktori dari {$sourceDir} ke {$extractedDir}", 'plugin');
-            }
-
-            app(ModuleManager::class)->install($name);
-            set_session('success', "Paket tambahan {$name} berhasil diinstall, silakan aktifkan paket tersebut");
-            unlink($zipFilePath);
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            set_session('error', $e->getMessage());
-        }
     }
 }

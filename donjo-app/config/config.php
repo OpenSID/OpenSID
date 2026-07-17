@@ -642,6 +642,36 @@ $config['server_layanan'] = 'https://layanan.opendesa.id';
 
 /*
 |--------------------------------------------------------------------------
+| Basis repo modul untuk pengembangan (simulasi Layanan)
+|--------------------------------------------------------------------------
+|
+| Hanya berdampak di lingkungan `development`. Bila diisi path direktori induk
+| yang memuat checkout repo modul (mis. `.../modul-anjungan`), maka pasang
+| add-on lewat aplikasi mengambil ZIP langsung dari repo lokal alih-alih
+| mengunduh dari server Layanan — memungkinkan uji pasang/uninstall tanpa
+| Layanan yang berjalan. Kosong = nonaktif (pakai klien Layanan). Dapat pula
+| diatur lewat variabel lingkungan MODULE_DEV_REPO_BASE.
+|
+| Strategi pembungkusan (module_dev_repo_strategy):
+|   - 'working-tree' (default): bungkus berkas working-tree apa adanya
+|     (termasuk perubahan belum-commit) — iterasi cepat saat menyunting modul.
+|   - 'git-archive': `git archive <ref>` langsung dari repo modul (pohon
+|     tercommit, menghormati export-ignore repo) — reprodusibel, untuk
+|     memverifikasi PEMBARUAN modul. Ref default dari module_dev_repo_ref
+|     (mis. 'HEAD'/tag/cabang); dapat ditimpa per-pasang lewat field tengah
+|     parameter, mis. `install_modul pasang Anjungan___v1.2.0___2609`.
+| Keduanya dapat diatur lewat env MODULE_DEV_REPO_STRATEGY / MODULE_DEV_REPO_REF.
+|
+*/
+$config['module_dev_repo_base']     = '';
+$config['module_dev_repo_strategy'] = 'working-tree';
+$config['module_dev_repo_ref']      = 'HEAD';
+// git-archive: tarik pembaruan remote (`git fetch`) sebelum mengarsip, agar ref
+// seperti 'origin/main' menunjuk versi terbaru remote (paksa-perbarui).
+$config['module_dev_repo_fetch']    = false;
+
+/*
+|--------------------------------------------------------------------------
 | URL Rilis
 |--------------------------------------------------------------------------
 |

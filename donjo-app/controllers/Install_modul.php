@@ -59,16 +59,20 @@ class Install_modul extends CI_Controller
      */
     public function pasang(string $namaModulVersi): void
     {
-        [$name, $url, $version] = explode('___', $namaModulVersi);
+        [$name, $url, $version] = array_pad(explode('___', $namaModulVersi), 3, '');
 
-        // Folder modul diasumsikan sudah ada; instalasi baru bila belum pernah ada.
         $pasangBaru = ! File::exists($this->modulesDirectory . $name);
+        $manager    = app(ModuleManager::class);
 
-        $manager = app(ModuleManager::class);
-
-        // Tegakkan min_core + migrasi via implementasi tunggal ModuleManager.
         try {
-            $manager->install($name);
+            if ($pasangBaru) {
+                // Folder belum ada: ambil dari sumber terikat (repo lokal saat
+                // pengembangan, Layanan di produksi), ekstrak, min_core, migrasi.
+                $manager->installFromSource($name, $url);
+            } else {
+                // Folder sudah ada (siappakai): cukup tegakkan min_core + migrasi.
+                $manager->install($name);
+            }
         } catch (RuntimeException $e) {
             log_message('error', "Paket {$name} tidak dipasang: {$e->getMessage()}");
 

@@ -40,3 +40,10 @@
 /rector.php           export-ignore
 /tests                export-ignore
 /dev-seed             export-ignore
+# Adapter sumber modul khusus-pengembangan (simulasi Layanan dari repo lokal);
+# tak ikut rilis — pengikatan dijaga class_exists → jatuh ke LayananHttpSource.
+/app/Services/Module/LocalRepoSource.php export-ignore
+# Panel pengembangan "Sumber Modul" (controller + rute + view) — dev-only, tak ikut rilis.
+/donjo-app/controllers/Dev_modul.php export-ignore
+/donjo-app/Routes/Web/dev.php export-ignore
+/resources/views/admin/dev_modul export-ignore

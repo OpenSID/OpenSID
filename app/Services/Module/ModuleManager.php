@@ -41,8 +41,11 @@ use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Services\Entitlement\EntitlementGate;
 use App\Traits\ModuleMigrations;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
+use Throwable;
+use ZipArchive;
 
 /**
  * Pemilik tunggal siklus-hidup modul (add-on-agnostik).
@@ -86,11 +89,16 @@ class ModuleManager
      *                                         (mis. lingkungan development/demo).
      *                                         Bila null, memakai default runtime
      *                                         core — dapat diinjeksi pada uji.
+     * @param ModuleSource|null $source        Sumber berkas paket untuk
+     *                                         {@see installFromSource()}. Bila null,
+     *                                         diresolusi lewat container saat
+     *                                         dibutuhkan — dapat diinjeksi pada uji.
      */
     public function __construct(
         private readonly EntitlementGate $gate,
         private readonly ?string $modulesPath = null,
         private $entitlementBypass = null,
+        private readonly ?ModuleSource $source = null,
     ) {}
 
     /**
@@ -370,6 +378,64 @@ class ModuleManager
     }
 
     /**
+     * Pasang modul dari sebuah {@see ModuleSource}: ambil ZIP, ekstrak (dengan
+     * cadangan bila memperbarui modul lama), lalu {@see install()}.
+     *
+     * Ini alur pasang add-on yang sebenarnya (web & CLI): _dari mana_ paket
+     * berasal ditentukan sumber terinjeksi/terikat — Layanan di produksi, repo
+     * lokal saat pengembangan.
+     *
+     * @param string            $name           Nama modul (mis. `Anjungan`).
+     * @param string            $locator        Petunjuk lokasi khusus-sumber (mis. URL Layanan).
+     * @param ModuleSource|null $sourceOverride Sumber khusus untuk pemanggilan ini
+     *                                          (mengabaikan sumber terikat) — dipakai
+     *                                          panel pengembangan yang memilih sumber
+     *                                          per-pasang.
+     *
+     * @return bool `true` bila ini instalasi pertama (bukan pembaruan).
+     *
+     * @throws RuntimeException|Throwable
+     */
+    public function installFromSource(string $name, string $locator = '', ?ModuleSource $sourceOverride = null): bool
+    {
+        $modulDir  = $this->modulesPath() . $name;
+        $isBaru    = ! is_dir($modulDir);
+        $backupDir = null;
+
+        if (! $isBaru) {
+            $backupDir = $modulDir . '_backup_' . time();
+            if (! @rename($modulDir, $backupDir)) {
+                throw new RuntimeException("Gagal membuat cadangan modul {$name} sebelum pembaruan.");
+            }
+        }
+
+        $zipPath = ($sourceOverride ?? $this->source())->fetch($name, $locator);
+
+        try {
+            $this->extractPackage($name, $zipPath);
+            $this->install($name);
+        } catch (Throwable $e) {
+            // Pulihkan cadangan bila pembaruan gagal (buang sisa ekstrak parsial).
+            if ($backupDir !== null && is_dir($backupDir)) {
+                File::deleteDirectory($modulDir);
+                @rename($backupDir, $modulDir);
+            }
+
+            throw $e;
+        } finally {
+            if (is_file($zipPath)) {
+                @unlink($zipPath);
+            }
+        }
+
+        if ($backupDir !== null && is_dir($backupDir)) {
+            File::deleteDirectory($backupDir);
+        }
+
+        return $isBaru;
+    }
+
+    /**
      * Pasang modul yang folder-nya SUDAH ada di disk: tegakkan min_core lalu
      * migrasi up. Implementasi tunggal dipakai `Plugin::pasang` (web) &
      * `Install_modul::pasang` (CLI).
@@ -420,6 +486,58 @@ class ModuleManager
             log_message('notice', "reportInstall {$name}: " . $response->body());
         } catch (\Exception $e) {
             log_message('error', "reportInstall {$name}: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Sumber berkas paket aktif (terinjeksi atau diresolusi dari container).
+     */
+    private function source(): ModuleSource
+    {
+        return $this->source ?? app(ModuleSource::class);
+    }
+
+    /**
+     * Ekstrak ZIP paket ke direktori modul, pindahkan folder puncaknya ke
+     * tujuan bernama `$name`. Menolak entri path-traversal (Zip Slip).
+     *
+     * @throws RuntimeException
+     */
+    private function extractPackage(string $name, string $zipPath): void
+    {
+        $modulesDir = $this->modulesPath();
+        $target     = $modulesDir . $name;
+
+        $zip = new ZipArchive();
+        if ($zip->open($zipPath) !== true) {
+            throw new RuntimeException("Gagal membuka berkas ZIP paket {$name}.");
+        }
+
+        if (function_exists('validate_zip_entries') && ($entry = validate_zip_entries($zip)) !== true) {
+            $zip->close();
+
+            throw new RuntimeException("Paket {$name} mengandung path ilegal ({$entry}).");
+        }
+
+        $subfolder = rtrim((string) $zip->getNameIndex(0), '/');
+        $source    = $modulesDir . $subfolder;
+        $zip->extractTo($modulesDir);
+        $zip->close();
+
+        if ($subfolder === '' || ! is_dir($source)) {
+            throw new RuntimeException("Ekstraksi paket {$name} gagal: direktori sumber tak ditemukan.");
+        }
+
+        if ($source === $target) {
+            return;
+        }
+
+        if (is_dir($target)) {
+            File::deleteDirectory($target);
+        }
+
+        if (! @rename($source, $target)) {
+            throw new RuntimeException("Gagal memindahkan direktori paket {$name}.");
         }
     }
 
