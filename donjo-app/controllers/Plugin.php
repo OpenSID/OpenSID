@@ -57,12 +57,13 @@ class Plugin extends Admin_Controller
 
     public function index(): void
     {
-        $data = [
+        $market = $this->marketplace();
+        $data   = [
             'content'         => 'admin.plugin.paket_tersedia',
             'act_tab'         => 1,
-            'url_marketplace' => config_item('server_layanan') . '/api/v1/modules',
+            'url_marketplace' => $market['url'],
             'paket_terpasang' => json_encode($this->paketTerpasang()),
-            'token_layanan'   => setting('layanan_opendesa_token'),
+            'token_layanan'   => $market['token'],
         ];
 
         view('admin.plugin.index', $data);
@@ -70,14 +71,15 @@ class Plugin extends Admin_Controller
 
     public function installed(): void
     {
+        $market    = $this->marketplace();
         $terpasang = $this->paketTerpasang();
         $data      = [
             'content'           => 'admin.plugin.paket_terinstall',
             'act_tab'           => 2,
-            'url_marketplace'   => config_item('server_layanan') . '/api/v1/modules',
+            'url_marketplace'   => $market['url'],
             'paket_terpasang'   => $terpasang ? json_encode(array_keys($terpasang)) : null,
             'paket_bawaan'      => json_encode(app(ModuleManager::class)->nonRemovable()),
-            'token_layanan'     => setting('layanan_opendesa_token'),
+            'token_layanan'     => $market['token'],
             'default_thumbnail' => URL::signedRoute('storage.desa', [
                 'path'        => 'images/404-image-not-found.jpg',
                 'default'     => 'images/404-image-not-found.jpg',
@@ -93,6 +95,22 @@ class Plugin extends Admin_Controller
         if (config_item('demo_mode')) {
             $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
             redirect_with('error', $msg);
+        }
+
+        // Mode lokal: "pendaftaran" jadi pengajuan (get) modul dari repo lokal.
+        if ($this->marketplace()['lokal']) {
+            $market = app(\App\Services\Module\LocalMarketplace::class);
+            $data   = [
+                'content'     => 'admin.dev_modul.pendaftaran',
+                'act_tab'     => 3,
+                'opsi'        => $market->opsi(),
+                'modul_repo'  => $market->repos(),
+                'form_action' => site_url('plugin/pendaftaran/store'),
+            ];
+
+            view('admin.plugin.index', $data);
+
+            return;
         }
 
         $data = [
@@ -113,6 +131,19 @@ class Plugin extends Admin_Controller
             redirect_with('error', $msg);
         }
 
+        // Mode lokal: riwayat pemesanan get/release dari log marketplace lokal.
+        if ($this->marketplace()['lokal']) {
+            $data = [
+                'content' => 'admin.dev_modul.pemesanan',
+                'act_tab' => 4,
+                'pesanan' => app(\App\Services\Module\LocalMarketplace::class)->pesanan(),
+            ];
+
+            view('admin.plugin.index', $data);
+
+            return;
+        }
+
         $data = [
             'content'       => 'admin.plugin.pemesanan',
             'act_tab'       => 4,
@@ -127,6 +158,23 @@ class Plugin extends Admin_Controller
         if (config_item('demo_mode')) {
             $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
             redirect_with('error', $msg);
+        }
+
+        // Mode lokal: pengajuan = pasang (get) langsung dari marketplace lokal,
+        // lalu catat pesanannya (tanpa kirim order/pembayaran ke Layanan).
+        if ($this->marketplace()['lokal']) {
+            $name = (string) $this->input->post('module_name');
+
+            try {
+                isCan('u');
+                app(\App\Services\Module\LocalMarketplace::class)->ajukan($name);
+                redirect_with('success', "Modul {$name} diajukan & dipasang dari marketplace lokal. Silakan aktifkan.", 'plugin/pemesanan');
+            } catch (Throwable $e) {
+                log_message('error', 'Pengajuan modul lokal gagal: ' . $e->getMessage());
+                redirect_with('error', 'Gagal mengajukan modul: ' . $e->getMessage(), 'plugin/pendaftaran');
+            }
+
+            return;
         }
 
         try {
@@ -267,12 +315,44 @@ class Plugin extends Admin_Controller
             }
 
             app(ModuleManager::class)->uninstall($name, true);
+
+            // Mode lokal: catat pelepasan (release) agar riwayat get/release utuh
+            // — modul harus diajukan ulang dari marketplace lokal untuk dipasang.
+            if ($this->marketplace()['lokal']) {
+                app(\App\Services\Module\LocalMarketplace::class)->lepas($name);
+            }
+
             set_session('success', 'Paket ' . $name . ' berhasil dihapus');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             set_session('error', 'Paket ' . $name . ' gagal dihapus (' . $e->getMessage() . ')');
         }
         redirect('plugin/installed');
+    }
+
+    /**
+     * Sumber marketplace aktif. Di rilis / luar `development` — atau bila servis
+     * dev di-export-ignore hingga absen — `lokal` selalu false dan halaman
+     * berperilaku persis seperti semula (Layanan).
+     *
+     * @return array{lokal: bool, url: string, token: string}
+     */
+    private function marketplace(): array
+    {
+        $lokal = (defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development'
+            && class_exists(\App\Services\Module\LocalMarketplace::class)
+            && \App\Services\Module\LocalMarketplace::aktif();
+
+        if ($lokal) {
+            // Rute eksplisit hifen (auto-routing CI3 nonaktif → bentuk underscore 404).
+            return ['lokal' => true, 'url' => site_url('dev-modul/katalog'), 'token' => ''];
+        }
+
+        return [
+            'lokal' => false,
+            'url'   => config_item('server_layanan') . '/api/v1/modules',
+            'token' => setting('layanan_opendesa_token'),
+        ];
     }
 
     private function validasi(array &$data): void

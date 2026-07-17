@@ -67,18 +67,29 @@ class AppServiceProvider extends ServiceProvider
         ));
 
         // Sumber berkas add-on. Default: klien Layanan (unduh HTTP — komponen
-        // terbuka, selalu di rilis). Di lingkungan `development`, bila
-        // `module_dev_repo_base` diset dan adapter dev tersedia, paket diambil
-        // langsung dari repo lokal (simulasi Layanan tanpa server berjalan).
-        // LocalRepoSource di-export-ignore → guard class_exists menjaga rilis
-        // tanpa berkas itu tetap jatuh ke LayananHttpSource.
-        $this->app->singleton(\App\Services\Module\ModuleSource::class, static function () {
+        // terbuka, selalu di rilis). Di lingkungan `development`, bila mode
+        // marketplace lokal aktif (toggle tab "Sumber" / `module_dev_repo_base`
+        // diset), paket diambil langsung dari repo lokal (simulasi Layanan tanpa
+        // server berjalan). LocalMarketplace/LocalRepoSource di-export-ignore →
+        // guard class_exists menjaga rilis tanpa berkas itu tetap ke Layanan.
+        $this->app->singleton(\App\Services\Module\ModuleSource::class, static function ($app) {
+            $isDev = (defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development';
+
+            // Sumber ditentukan marketplace lokal (mode + opsi dari sesi) bila
+            // adapter dev tersedia. Toggle "Layanan" → jatuh ke LayananHttpSource.
+            if ($isDev && class_exists(\App\Services\Module\LocalMarketplace::class)
+                && class_exists(\App\Services\Module\LocalRepoSource::class)) {
+                return \App\Services\Module\LocalMarketplace::aktif()
+                    ? $app->make(\App\Services\Module\LocalMarketplace::class)->sumber()
+                    : new \App\Services\Module\LayananHttpSource();
+            }
+
             $devConfig = static fn (string $env, string $cfg, string $default): string => (string) (getenv($env)
                 ?: (function_exists('config_item') ? config_item($cfg) : '')
                 ?: $default);
 
-            $base  = $devConfig('MODULE_DEV_REPO_BASE', 'module_dev_repo_base', '');
-            $isDev = (defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development';
+            // Fallback (tanpa LocalMarketplace): perilaku config-driven lama.
+            $base = $devConfig('MODULE_DEV_REPO_BASE', 'module_dev_repo_base', '');
 
             if ($isDev && $base !== '' && class_exists(\App\Services\Module\LocalRepoSource::class)) {
                 return new \App\Services\Module\LocalRepoSource(

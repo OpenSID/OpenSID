@@ -27,7 +27,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 if ((defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development') {
     Route::group('dev-modul', static function (): void {
         Route::get('/', 'Dev_modul@index')->name('dev_modul.index');
-        Route::post('/pasang', 'Dev_modul@pasang')->name('dev_modul.pasang');
-        Route::post('/hapus', 'Dev_modul@hapus')->name('dev_modul.hapus');
+        Route::get('/katalog', 'Dev_modul@katalog')->name('dev_modul.katalog');
+        Route::post('/sumber', 'Dev_modul@sumber')->name('dev_modul.sumber');
     });
 }
