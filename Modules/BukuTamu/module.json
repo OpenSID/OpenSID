@@ -6,5 +6,8 @@
     "priority": 0,
     "providers": [],
     "files": [],
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "requires_entitlement": false,
+    "removable": false,
+    "menu_slug": "buku-tamu"
 }

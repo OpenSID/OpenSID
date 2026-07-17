@@ -89,11 +89,6 @@ final class CoreHelperTest extends BaseTestCase
         $this->assertTrue(defined('WEBSITE_DEMO'));
     }
 
-    public function testModulBawaanDefined()
-    {
-        $this->assertTrue(defined('MODUL_BAWAAN'));
-    }
-
     public function testCekAnjunganInDevelopment()
     {
         define('ENVIRONMENT', 'development');

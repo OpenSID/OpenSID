@@ -50,7 +50,11 @@ class Migrasi_module
         $modules     = File::directories($modulesPath);
 
         foreach ($modules as $modulePath) {
-            if (in_array($module = basename($modulePath), MODUL_BAWAAN)) {
+            $module = basename($modulePath);
+
+            // Lewati modul bundled (non-removable) — sifat dari module.json,
+            // bukan konstanta MODUL_BAWAAN (dihapus, premium#6682).
+            if (! app(\App\Services\Module\ModuleManager::class)->isRemovable($module)) {
                 continue;
             }
 

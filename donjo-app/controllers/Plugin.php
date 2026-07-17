@@ -35,7 +35,7 @@
  *
  */
 
-use App\Traits\Migrator;
+use App\Services\Module\ModuleManager;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
@@ -44,8 +44,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plugin extends Admin_Controller
 {
-    use Migrator;
-
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'paket-tambahan';
     private int|string $modulesDirectory;
@@ -79,7 +77,7 @@ class Plugin extends Admin_Controller
             'act_tab'           => 2,
             'url_marketplace'   => config_item('server_layanan') . '/api/v1/modules',
             'paket_terpasang'   => $terpasang ? json_encode(array_keys($terpasang)) : null,
-            'paket_bawaan'      => json_encode(MODUL_BAWAAN),
+            'paket_bawaan'      => json_encode(app(ModuleManager::class)->nonRemovable()),
             'token_layanan'     => setting('layanan_opendesa_token'),
             'default_thumbnail' => URL::signedRoute('storage.desa', [
                 'path'        => 'images/404-image-not-found.jpg',
@@ -268,14 +266,14 @@ class Plugin extends Admin_Controller
                 redirect('plugin/installed');
             }
 
-            // Validasi: Cegah penghapusan paket bawaan
-            if (in_array($name, MODUL_BAWAAN)) {
+            // Validasi: cegah penghapusan paket non-removable (bawaan) — sifat
+            // dibaca dari module.json, bukan konstanta MODUL_BAWAAN.
+            if (! app(ModuleManager::class)->isRemovable($name)) {
                 set_session('error', 'Paket bawaan tidak dapat dihapus');
                 redirect('plugin/installed');
             }
 
-            $this->jalankanMigrasiModule($name, 'down');
-            forceRemoveDir($this->modulesDirectory . $name);
+            app(ModuleManager::class)->uninstall($name, true);
             set_session('success', 'Paket ' . $name . ' berhasil dihapus');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -348,7 +346,7 @@ class Plugin extends Admin_Controller
                 return redirect_with('error', "Gagal memindahkan direktori dari {$sourceDir} ke {$extractedDir}", 'plugin');
             }
 
-            $this->jalankanMigrasiModule($name, 'up');
+            app(ModuleManager::class)->install($name);
             set_session('success', "Paket tambahan {$name} berhasil diinstall, silakan aktifkan paket tersebut");
             unlink($zipFilePath);
         } catch (Exception $e) {

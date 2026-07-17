@@ -52,6 +52,10 @@ use Illuminate\Support\Str;
 
 trait Migrator
 {
+    // Mekanik pemasangan modul add-on (migrasi paket + penegakan min_core).
+    // Dipisah agar dapat dipakai ulang oleh App\Services\Module\ModuleManager.
+    use ModuleMigrations;
+
     /**
      * Menjalankan migrasi Laravel secara manual.
      *
@@ -689,46 +693,4 @@ trait Migrator
         $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
     }
 
-    /**
-     * Jalankan migrasi modul.
-     */
-    private function jalankanMigrasiModule(string $name, string $action = 'up'): void
-    {
-        Log::info("Migrasi Module {$name}");
-
-        $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
-        $dirOld           = "{$modulesDirectory}/{$name}/Database/Migrations";
-        $dirNew           = "{$modulesDirectory}/{$name}/database/migrations";
-
-        if (is_dir($dirOld)) {
-            $directoryTable = $dirOld;
-        } elseif (is_dir($dirNew)) {
-            $directoryTable = $dirNew;
-        } else {
-            Log::info("Folder migrations tidak ditemukan: {$dirOld} dan {$dirNew}");
-
-            return;
-        }
-
-        $migrations = File::files($directoryTable);
-
-        if ($action === 'up') {
-            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
-        } else {
-            usort($migrations, static fn ($a, $b): int => strcmp($b->getFilename(), $a->getFilename()));
-        }
-
-        foreach ($migrations as $migrate) {
-            $migrateFile = require $migrate->getPathname();
-
-            match ($action) {
-                'down'  => $migrateFile->down(),
-                default => $migrateFile->up(),
-            };
-
-            Log::info("Migrasi {$action} {$migrate->getFilename()} berhasil dijalankan.");
-        }
-
-        cache()->flush();
-    }
 }

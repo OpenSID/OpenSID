@@ -60,6 +60,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Services\Entitlement\EntitlementGate::class);
         $this->app->singleton(\App\Services\Mandiri\MandiriEntryResolver::class);
 
+        // Pemilik tunggal siklus-hidup modul (add-on-agnostik); membaca sifat
+        // modul dari module.json + entitlement lewat EntitlementGate.
+        $this->app->singleton(\App\Services\Module\ModuleManager::class, static fn ($app) => new \App\Services\Module\ModuleManager(
+            $app->make(\App\Services\Entitlement\EntitlementGate::class),
+        ));
+
         $this->loadModuleServiceProvider();
 
         // hanya daftarkan Type global

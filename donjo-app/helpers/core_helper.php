@@ -65,16 +65,9 @@ define('WEBSITE_DEMO', [
     '127.0.0.1',
 ]);
 
-// Modul bawaan OpenSID
-define('MODUL_BAWAAN', [
-    // 'Anjungan' bukan lagi modul bawaan: kini add-on yang dipasang dinamis
-    // (repo modul-anjungan / Layanan) dan di-gate langganan. Lihat premium#6682.
-    'Analisis',
-    'BukuTamu',
-    'Kehadiran',
-    'Pelanggan',
-    'Lapak',
-]);
+// Catatan: konstanta MODUL_BAWAAN dihapus (premium#6682). Sifat modul —
+// butuh entitlement & boleh dihapus — kini dibaca dari module.json tiap modul
+// via App\Services\Module\ModuleManager; core tak lagi menyimpan daftar nama modul.
 
 if (! function_exists('cek_anjungan')) {
     /**

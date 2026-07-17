@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Services\Module\ModuleManager;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -178,6 +179,11 @@ class Modul extends BaseModel
     {
         $superAdmin = is_super_admin();
 
+        // Degradasi modul-absen: sembunyikan menu induk milik modul yang
+        // folder-nya tak lagi terpasang (baris menu tertinggal). Berlaku untuk
+        // semua peran — link ke modul absen selalu rusak.
+        $hiddenSlugs = app(ModuleManager::class)->hiddenMenuSlugs();
+
         $modul = $this->with(['childrens' => static function ($q) use ($grupId, $superAdmin) {
                 $q->select(['id', 'parent', 'modul', 'slug', 'url', 'ikon'])
                     ->when(! UserGrup::isAdministrator($grupId), static function ($query) use ($grupId) {
@@ -204,6 +210,7 @@ class Modul extends BaseModel
             ->when(! $superAdmin, static function ($query) {
                 $query->isActive();
             })
+            ->when($hiddenSlugs, static fn ($query) => $query->whereNotIn('slug', $hiddenSlugs))
             ->orderBy('urut')
             ->get();
 
