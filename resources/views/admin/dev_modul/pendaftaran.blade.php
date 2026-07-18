@@ -2,9 +2,8 @@
     <div class="callout callout-info">
         <p style="margin-bottom:0">
             <i class="fa fa-flask"></i> <strong>Marketplace lokal.</strong> Mengajukan paket = mengambilnya (get) dari
-            marketplace lokal lalu memasangnya — tanpa order/pembayaran ke Layanan. Sumber paket repo hidup:
-            <strong>{{ $opsi['strategy'] }}</strong>@if ($opsi['strategy'] === 'git-archive') <code>{{ $opsi['ref'] }}</code>@if ($opsi['fetch']) (tarik remote)@endif @endif.
-            Ubah strategi/ref, atau daftarkan paket baru, di tab <strong>Sumber</strong>.
+            gudang ZIP marketplace lalu memasangnya — tanpa order/pembayaran ke Layanan. Daftarkan paket baru
+            (dari URL repo) di tab <strong>Sumber</strong>.
         </p>
     </div>
 

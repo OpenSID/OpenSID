@@ -103,7 +103,6 @@ class Plugin extends Admin_Controller
             $data   = [
                 'content'     => 'admin.dev_modul.pendaftaran',
                 'act_tab'     => 3,
-                'opsi'        => $market->opsi(),
                 'paket_repo'  => $market->repos(),
                 'form_action' => site_url('plugin/pendaftaran/store'),
             ];

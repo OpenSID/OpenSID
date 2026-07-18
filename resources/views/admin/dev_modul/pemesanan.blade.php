@@ -16,7 +16,6 @@
                                 <th class="padat">No</th>
                                 <th>Paket</th>
                                 <th>Aksi</th>
-                                <th>Strategi / Ref</th>
                                 <th>Waktu</th>
                             </tr>
                         </thead>
@@ -34,14 +33,11 @@
                                             <span class="label label-default">{{ $p['status'] ?? '-' }}</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <code>{{ $p['strategy'] ?? '-' }}</code>@if (($p['strategy'] ?? '') === 'git-archive') / <code>{{ $p['ref'] ?? 'HEAD' }}</code>@if (! empty($p['fetch'])) <span class="label label-info">fetch</span>@endif @endif
-                                    </td>
                                     <td>{{ $p['waktu'] ?? '-' }}</td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="4">
                                         <div class="alert alert-warning" style="margin:10px">
                                             Belum ada riwayat. Ajukan paket di tab <strong>Form Pendaftaran</strong> atau pasang dari
                                             <strong>Paket Tersedia</strong>.

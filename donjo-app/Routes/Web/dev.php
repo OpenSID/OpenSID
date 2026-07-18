@@ -30,6 +30,7 @@ if ((defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development')
         Route::get('/katalog', 'Dev_modul@katalog')->name('dev_modul.katalog');
         Route::post('/sumber', 'Dev_modul@sumber')->name('dev_modul.sumber');
         Route::post('/daftar', 'Dev_modul@daftar')->name('dev_modul.daftar');
+        Route::post('/daftar-lokal', 'Dev_modul@daftarLokal')->name('dev_modul.daftar_lokal');
         Route::post('/batal-daftar', 'Dev_modul@batalDaftar')->name('dev_modul.batal_daftar');
     });
 }

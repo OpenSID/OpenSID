@@ -2,9 +2,10 @@
     <div class="callout callout-warning">
         <h4><i class="fa fa-flask"></i> Mode Pengembangan — bukan bagian rilis</h4>
         <p style="margin-bottom:0">
-            Pilih <strong>dari mana</strong> halaman Paket Tambahan mengambil paket. Mode <em>Lokal</em> menjadikan
-            seluruh tab (Paket Tersedia, Form Pendaftaran, Riwayat Pemesanan) beroperasi atas marketplace repo lokal
-            sebagai simulasi Layanan — untuk menguji alur ambil/lepas (get/release) tanpa server Layanan.
+            Marketplace lokal adalah <strong>gudang ZIP paket</strong> (seperti Layanan). Isi lewat
+            <strong>Daftarkan paket</strong> di bawah, lalu pilih sumber <em>Marketplace lokal</em> agar seluruh
+            tab (Paket Tersedia, Form Pendaftaran, Riwayat Pemesanan) beroperasi atasnya — untuk menguji alur
+            ambil/lepas (get/release) tanpa server Layanan.
         </p>
     </div>
 
@@ -31,48 +32,8 @@
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="lokal" value="lokal" {{ $lokal ? 'checked' : '' }}>
-                        Marketplace repo lokal
+                        Marketplace lokal (gudang ZIP)
                     </label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Strategi (paket repo hidup)</label>
-                <div class="col-sm-9">
-                    <label class="radio-inline">
-                        <input type="radio" name="strategy" value="working-tree" {{ $opsi['strategy'] !== 'git-archive' ? 'checked' : '' }}>
-                        <em>working-tree</em> (berkas apa adanya, termasuk belum-commit)
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="strategy" value="git-archive" {{ $opsi['strategy'] === 'git-archive' ? 'checked' : '' }}>
-                        <em>git-archive</em> (pohon tercommit pada ref)
-                    </label>
-                    <p class="help-block" style="margin-bottom:0">
-                        Berlaku untuk paket repo hidup di bawah <code>module_dev_repo_base</code>. Paket terdaftar
-                        (gudang) selalu dibungkus <em>working-tree</em> dari snapshot-nya.
-                    </p>
-                </div>
-            </div>
-
-            <div id="opsi-git">
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Ref git</label>
-                    <div class="col-sm-4">
-                        <input type="text" name="ref" class="form-control input-sm" value="{{ $opsi['ref'] }}"
-                               placeholder="HEAD / origin/main / v1.2.0">
-                        <small class="text-muted">Versi terbaru remote: <code>origin/&lt;cabang&gt;</code> + centang di bawah.</small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">&nbsp;</label>
-                    <div class="col-sm-6">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="fetch" value="1" {{ $opsi['fetch'] ? 'checked' : '' }}>
-                                Tarik pembaruan remote dulu (<code>git fetch</code>)
-                            </label>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -87,28 +48,62 @@
     @if (can('u'))
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Daftarkan paket ke marketplace lokal</h3>
+                <h3 class="box-title">Daftarkan paket dari URL repo</h3>
             </div>
-            {!! form_open($form_daftar, 'class="form-horizontal" id="form-daftar"') !!}
+            {!! form_open($form_daftar, 'class="form-horizontal" id="form-daftar-url"') !!}
             <div class="box-body">
                 <p class="help-block">
-                    Menyalin snapshot paket ke gudang marketplace (<code>storage/app/dev-marketplace</code>) supaya
-                    tersedia untuk diajukan (get) &amp; tetap ada walau dihapus (release).
+                    Mengunduh ZIP repo (mis. GitHub) ke gudang marketplace (<code>storage/app/dev-marketplace</code>) —
+                    seperti Layanan menyimpan ZIP paket. Repo privat memakai <code>gh</code> (login GitHub Anda).
                 </p>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Paket (kandidat)</label>
-                    <div class="col-sm-6">
-                        <select id="kandidat" class="form-control input-sm">
-                            <option value="">-- pilih paket terpasang / repo --</option>
-                            @foreach ($kandidat as $k)
-                                <option value="{{ $k['path'] }}">{{ $k['name'] }} — {{ $k['asal'] === 'terpasang' ? 'terpasang' : 'repo' }} ({{ $k['path'] }})</option>
-                            @endforeach
-                        </select>
-                        <small class="text-muted">Atau isi path folder paket (berisi <code>module.json</code>) di bawah.</small>
+                    <label class="col-sm-3 control-label">URL repo</label>
+                    <div class="col-sm-7">
+                        <input type="text" name="url" class="form-control input-sm" required
+                               placeholder="https://github.com/OpenSID/modul-anjungan">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Path paket</label>
+                    <label class="col-sm-3 control-label">Ref (opsional)</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="ref" class="form-control input-sm" placeholder="cabang/tag (mis. rilis-dev)">
+                        <small class="text-muted">Kosong = cabang utama repo. Isi tag/cabang untuk versi spesifik.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-social btn-success btn-sm pull-right"><i class="fa fa-download"></i> Unduh &amp; daftarkan</button>
+            </div>
+            {!! form_close() !!}
+        </div>
+
+        <div class="box box-default collapsed-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Daftarkan dari folder lokal (opsional)</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+            {!! form_open($form_daftar_lokal, 'class="form-horizontal" id="form-daftar-lokal"') !!}
+            <div class="box-body">
+                <p class="help-block">
+                    Snapshot <em>working-tree</em> folder paket lokal (berisi <code>module.json</code>, termasuk perubahan
+                    belum-commit) ke gudang. Berguna saat Anda sendiri sedang menggarap paket itu.
+                </p>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Paket terpasang</label>
+                    <div class="col-sm-6">
+                        <select id="kandidat" class="form-control input-sm">
+                            <option value="">-- pilih paket terpasang --</option>
+                            @foreach ($kandidat as $k)
+                                <option value="{{ $k['path'] }}">{{ $k['name'] }} ({{ $k['path'] }})</option>
+                            @endforeach
+                        </select>
+                        <small class="text-muted">Atau isi path folder paket di bawah.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Path folder paket</label>
                     <div class="col-sm-6">
                         <input type="text" name="path" id="path-daftar" class="form-control input-sm"
                                placeholder="/path/ke/modul-anjungan">
@@ -116,7 +111,7 @@
                 </div>
             </div>
             <div class="box-footer">
-                <button type="submit" class="btn btn-social btn-success btn-sm pull-right"><i class="fa fa-plus"></i> Daftarkan</button>
+                <button type="submit" class="btn btn-social btn-default btn-sm pull-right"><i class="fa fa-plus"></i> Snapshot &amp; daftarkan</button>
             </div>
             {!! form_close() !!}
         </div>
@@ -124,39 +119,28 @@
 
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 class="box-title">Isi marketplace lokal</h3>
+            <h3 class="box-title">Isi marketplace lokal (gudang ZIP)</h3>
         </div>
         <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Paket</th>
-                        <th>Asal</th>
-                        <th>Git</th>
                         <th>Versi</th>
+                        <th>Sumber</th>
+                        <th>Ref</th>
                         <th>Status</th>
+                        <th>Didaftarkan</th>
                         <th class="text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($paket_repo as $m)
                         <tr>
-                            <td><strong>{{ $m['name'] }}</strong> <code>{{ $m['folder'] }}</code></td>
-                            <td>
-                                @if ($m['terdaftar'])
-                                    <span class="label label-success">terdaftar (gudang)</span>
-                                @else
-                                    <span class="label label-info">repo hidup</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($m['is_git'])
-                                    <span class="label label-info">git {{ $m['head'] }}</span>
-                                @else
-                                    <span class="label label-default">—</span>
-                                @endif
-                            </td>
+                            <td><strong>{{ $m['name'] }}</strong></td>
                             <td>{{ $m['version'] !== '' ? $m['version'] : '-' }}</td>
+                            <td><code>{{ $m['sumber'] !== '' ? $m['sumber'] : '-' }}</code></td>
+                            <td>{{ $m['ref'] !== '' ? $m['ref'] : '-' }}</td>
                             <td>
                                 @if ($m['installed'])
                                     <span class="label label-success">terpasang</span>
@@ -164,8 +148,9 @@
                                     <span class="label label-default">belum</span>
                                 @endif
                             </td>
+                            <td>{{ $m['waktu'] !== '' ? $m['waktu'] : '-' }}</td>
                             <td class="text-right">
-                                @if ($m['terdaftar'] && can('u'))
+                                @if (can('u'))
                                     {!! form_open($form_batal, 'style="display:inline" onsubmit="return confirm(\'Keluarkan paket ' . $m['name'] . ' dari marketplace lokal?\')"') !!}
                                     <button type="submit" name="name" value="{{ $m['name'] }}" class="btn btn-danger btn-xs">
                                         <i class="fa fa-times"></i> Keluarkan
@@ -176,11 +161,10 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 <div class="alert alert-warning" style="margin:10px">
-                                    Marketplace lokal kosong. Daftarkan paket di atas (mis. <code>Anjungan</code> dari
-                                    paket terpasang), atau atur <code>module_dev_repo_base</code> ke direktori berisi
-                                    checkout repo paket.
+                                    Marketplace lokal kosong. Daftarkan paket dari URL repo di atas — mis.
+                                    <code>https://github.com/OpenSID/modul-anjungan</code>.
                                 </div>
                             </td>
                         </tr>
@@ -200,12 +184,6 @@
 @push('scripts')
     <script>
         $(function () {
-            function toggleOpsiGit() {
-                $('#opsi-git').toggle($('input[name="strategy"]:checked').val() === 'git-archive');
-            }
-            $('input[name="strategy"]').on('change', toggleOpsiGit);
-            toggleOpsiGit();
-
             $('#kandidat').on('change', function () {
                 if ($(this).val()) {
                     $('#path-daftar').val($(this).val());

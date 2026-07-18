@@ -52,65 +52,80 @@ class Dev_modul extends Admin_Controller
     }
 
     /**
-     * Tab "Sumber": toggle mode + opsi strategi/ref/fetch + pendaftaran paket ke
-     * marketplace lokal, dirender di dalam kerangka tab Paket Tambahan (act_tab=5).
+     * Tab "Sumber": toggle mode Layanan/lokal + pendaftaran paket ke marketplace
+     * (URL repo atau folder lokal), dirender di kerangka tab Paket Tambahan (act_tab=5).
      */
     public function index(): void
     {
         $market = app(LocalMarketplace::class);
 
         $data = [
-            'content'        => 'admin.dev_modul.sumber',
-            'act_tab'        => 5,
-            'lokal'          => LocalMarketplace::aktif(),
-            'opsi'           => $market->opsi(),
-            'repo_base'      => (string) config_item('module_dev_repo_base'),
-            'paket_repo'     => $market->repos(),
-            'kandidat'       => $market->kandidat(),
-            'server_layanan' => (string) config_item('server_layanan'),
-            'form_action'    => site_url('dev-modul/sumber'),
-            'form_daftar'    => site_url('dev-modul/daftar'),
-            'form_batal'     => site_url('dev-modul/batal-daftar'),
+            'content'          => 'admin.dev_modul.sumber',
+            'act_tab'          => 5,
+            'lokal'            => LocalMarketplace::aktif(),
+            'paket_repo'       => $market->repos(),
+            'kandidat'         => $market->kandidat(),
+            'server_layanan'   => (string) config_item('server_layanan'),
+            'form_action'      => site_url('dev-modul/sumber'),
+            'form_daftar'      => site_url('dev-modul/daftar'),
+            'form_daftar_lokal' => site_url('dev-modul/daftar-lokal'),
+            'form_batal'       => site_url('dev-modul/batal-daftar'),
         ];
 
         view('admin.plugin.index', $data);
     }
 
     /**
-     * Setel mode + opsi, lalu kembali ke Paket Tersedia dengan sumber terpilih.
+     * Setel mode sumber (Layanan/lokal), lalu kembali ke Paket Tersedia.
      */
     public function sumber()
     {
         isCan('u');
 
-        $lokal    = $this->input->post('lokal') === 'lokal';
-        $strategy = (string) ($this->input->post('strategy') ?? 'working-tree');
-        $ref      = trim((string) ($this->input->post('ref') ?? '')) ?: 'HEAD';
-        $fetch    = filter_var($this->input->post('fetch'), FILTER_VALIDATE_BOOLEAN);
-
-        LocalMarketplace::setel($lokal, $strategy, $ref, $fetch);
+        $lokal = $this->input->post('lokal') === 'lokal';
+        LocalMarketplace::setel($lokal);
 
         $pesan = $lokal
-            ? 'Sumber paket dialihkan ke marketplace repo lokal (simulasi Layanan).'
+            ? 'Sumber paket dialihkan ke marketplace lokal (simulasi Layanan).'
             : 'Sumber paket dikembalikan ke Layanan (server nyata).';
 
         return redirect_with('success', $pesan, 'plugin');
     }
 
     /**
-     * Daftarkan paket ke marketplace lokal (salin snapshot ke gudang).
+     * Daftarkan paket dari URL repo (unduh ZIP ke gudang marketplace).
      */
     public function daftar()
     {
         isCan('u');
 
         try {
-            $path = trim((string) ($this->input->post('path') ?? ''));
-            $name = app(LocalMarketplace::class)->daftarkan($path);
+            $url  = trim((string) ($this->input->post('url') ?? ''));
+            $ref  = trim((string) ($this->input->post('ref') ?? ''));
+            $name = app(LocalMarketplace::class)->daftarkanUrl($url, $ref);
 
-            return redirect_with('success', "Paket {$name} didaftarkan ke marketplace lokal.", 'dev-modul');
+            return redirect_with('success', "Paket {$name} diunduh & didaftarkan ke marketplace lokal.", 'dev-modul');
         } catch (Throwable $e) {
-            log_message('error', 'Dev_modul daftar: ' . $e->getMessage());
+            log_message('error', 'Dev_modul daftar URL: ' . $e->getMessage());
+
+            return redirect_with('error', 'Gagal mendaftarkan paket: ' . $e->getMessage(), 'dev-modul');
+        }
+    }
+
+    /**
+     * Daftarkan paket dari folder lokal (snapshot working-tree ke gudang).
+     */
+    public function daftarLokal()
+    {
+        isCan('u');
+
+        try {
+            $path = trim((string) ($this->input->post('path') ?? ''));
+            $name = app(LocalMarketplace::class)->daftarkanLokal($path);
+
+            return redirect_with('success', "Paket {$name} didaftarkan ke marketplace lokal (snapshot lokal).", 'dev-modul');
+        } catch (Throwable $e) {
+            log_message('error', 'Dev_modul daftar lokal: ' . $e->getMessage());
 
             return redirect_with('error', 'Gagal mendaftarkan paket: ' . $e->getMessage(), 'dev-modul');
         }

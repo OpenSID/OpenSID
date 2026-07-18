@@ -2,37 +2,40 @@
 
 namespace App\Services\Module;
 
+use Illuminate\Support\Facades\Http;
 use RuntimeException;
+use Symfony\Component\Process\Process;
 use Throwable;
+use ZipArchive;
 
 /**
- * Marketplace surrogat berbasis repo lokal — simulasi Layanan untuk
- * PENGEMBANGAN. Menjadikan halaman "Paket Tambahan" (controller Plugin)
- * beroperasi atas paket lokal ketika mode "lokal" aktif: katalog, pengajuan
- * (get), dan riwayat pemesanan get/release dilayani dari sini.
+ * Marketplace surrogat berbasis GUDANG ZIP — simulasi Layanan untuk
+ * PENGEMBANGAN. Sama seperti Layanan, marketplace lokal hanyalah **kumpulan
+ * berkas ZIP paket**. Halaman "Paket Tambahan" (controller Plugin) beroperasi
+ * atasnya ketika mode "lokal" aktif: katalog, pengajuan (get), dan riwayat
+ * pemesanan get/release dilayani dari sini.
  *
- * Marketplace diisi lewat UI: "daftarkan paket" menyalin sumbernya (repo lokal
- * atau paket terpasang) ke gudang `storage/app/dev-marketplace/<Nama>/`, sehingga
- * paket tetap ada di marketplace walau nanti dihapus (bisa diajukan ulang).
- * Repo di bawah `module_dev_repo_base` juga otomatis ikut sebagai paket "hidup".
+ * Diisi lewat UI dengan **menempel URL repo** (mis. `https://github.com/OpenSID/
+ * modul-anjungan`): sistem mengunduh ZIP repo (via `gh` untuk repo privat) ke
+ * gudang `storage/app/dev-marketplace/<Nama>.zip` + sidecar `<Nama>.json`.
+ * Mendukung verifikasi paket garapan orang lain tanpa checkout lokal. Bisa juga
+ * mendaftarkan dari folder lokal (snapshot working-tree).
  *
  * DEV-ONLY & di-`export-ignore` (tak ikut rilis). Guard `class_exists` di inti
  * (Plugin + AppServiceProvider) memastikan rilis tanpa berkas ini jatuh ke
  * jalur Layanan biasa. Kelas ini SENDIRI adalah {@see ModuleSource}: `fetch()`
- * meresolusi paket dari gudang (working-tree) atau repo basis (opsi strategi).
+ * menyajikan ZIP tersimpan dari gudang.
  */
 class LocalMarketplace implements ModuleSource
 {
-    /** Kunci sesi CI untuk state mode + opsi. */
+    /** Kunci sesi CI untuk state mode. */
     private const SESI = 'dev_modul_sumber';
-
-    private const ABAIKAN = ['.git', '.github', 'node_modules', 'vendor', '.DS_Store'];
 
     private const ABAIKAN_TIPE_PREMIUM = 'premium';
 
     /**
-     * Apakah mode marketplace lokal aktif. Default (sesi kosong): aktif bila ada
-     * paket terdaftar di gudang atau `module_dev_repo_base` dikonfigurasi.
+     * Apakah mode marketplace lokal aktif. Default (sesi kosong): aktif bila
+     * gudang sudah berisi paket.
      */
     public static function aktif(): bool
     {
@@ -42,53 +45,36 @@ class LocalMarketplace implements ModuleSource
             return (bool) $state['lokal'];
         }
 
-        return self::repoBase() !== '' || is_dir(self::storeDir());
+        return (glob(self::storeDir() . '/*.zip') ?: []) !== [];
     }
 
     /**
-     * Setel mode + opsi (dipanggil dari tab "Sumber").
+     * Setel mode (dipanggil dari tab "Sumber").
      */
-    public static function setel(bool $lokal, string $strategy = 'working-tree', string $ref = 'HEAD', bool $fetch = false): void
+    public static function setel(bool $lokal): void
     {
-        self::simpanState([
-            'lokal'    => $lokal,
-            'strategy' => in_array($strategy, ['working-tree', 'git-archive'], true) ? $strategy : 'working-tree',
-            'ref'      => $ref !== '' ? $ref : 'HEAD',
-            'fetch'    => $fetch,
-        ]);
+        $state          = self::state();
+        $state['lokal'] = $lokal;
+        self::simpanState($state);
     }
 
     /**
-     * Opsi aktif (strategi/ref/fetch), dengan default dari config.
-     *
-     * @return array{strategy: string, ref: string, fetch: bool}
-     */
-    public function opsi(): array
-    {
-        $state = self::state();
-
-        return [
-            'strategy' => (string) ($state['strategy'] ?? (config_item('module_dev_repo_strategy') ?: 'working-tree')),
-            'ref'      => (string) ($state['ref'] ?? (config_item('module_dev_repo_ref') ?: 'HEAD')),
-            'fetch'    => array_key_exists('fetch', $state)
-                ? (bool) $state['fetch']
-                : filter_var(config_item('module_dev_repo_fetch'), FILTER_VALIDATE_BOOLEAN),
-        ];
-    }
-
-    /**
-     * {@see ModuleSource}: sediakan ZIP paket `$name`. Paket terdaftar (gudang)
-     * dibungkus working-tree; paket repo basis memakai opsi strategi/ref/fetch.
+     * {@see ModuleSource}: sediakan ZIP paket `$name` dari gudang (salinan tmp
+     * agar berkas gudang tak terpindah saat diekstrak inti).
      */
     public function fetch(string $name, string $locator = ''): string
     {
-        if (self::resolveDir(self::storeDir(), $name) !== null) {
-            return (new LocalRepoSource(self::storeDir(), 'working-tree'))->fetch($name, '');
+        $zip = self::storeDir() . '/' . $name . '.zip';
+        if (! is_file($zip)) {
+            throw new RuntimeException("Paket {$name} tak ada di marketplace lokal. Daftarkan dulu lewat tab Sumber.");
         }
 
-        $opsi = $this->opsi();
+        $tmp = rtrim(sys_get_temp_dir(), '/\\') . '/mp-' . $name . '-' . uniqid('', true) . '.zip';
+        if (! @copy($zip, $tmp)) {
+            throw new RuntimeException("Gagal menyiapkan ZIP paket {$name}.");
+        }
 
-        return (new LocalRepoSource(self::repoBase(), $opsi['strategy'], $opsi['ref'], $opsi['fetch']))->fetch($name, $locator);
+        return $tmp;
     }
 
     /**
@@ -123,54 +109,62 @@ class LocalMarketplace implements ModuleSource
     }
 
     /**
-     * Isi marketplace lokal: paket terdaftar (gudang) + repo hidup di bawah
-     * `module_dev_repo_base`, digabung & dedup per nama (terdaftar diutamakan).
+     * Isi marketplace: paket ZIP tersimpan di gudang (dari sidecar).
      *
-     * @return list<array{name: string, folder: string, is_git: bool, head: string, version: string, description: string, installed: bool, terdaftar: bool}>
+     * @return list<array{name: string, version: string, description: string, sumber: string, ref: string, waktu: string, installed: bool}>
      */
     public function repos(): array
     {
         $daftar = [];
 
-        foreach ($this->pindaiDir(self::storeDir()) as $entri) {
-            $entri['terdaftar']    = true;
-            $daftar[$entri['name']] = $entri;
-        }
-
-        foreach ($this->pindaiDir(self::repoBase()) as $entri) {
-            if (! isset($daftar[$entri['name']])) {
-                $entri['terdaftar']     = false;
-                $daftar[$entri['name']] = $entri;
+        foreach (glob(self::storeDir() . '/*.json') ?: [] as $sidecar) {
+            $meta = json_decode((string) file_get_contents($sidecar), true);
+            if (! is_array($meta) || empty($meta['name'])) {
+                continue;
             }
+
+            $name = (string) $meta['name'];
+
+            $daftar[] = [
+                'name'        => $name,
+                'version'     => (string) ($meta['version'] ?? ''),
+                'description' => (string) ($meta['description'] ?? ''),
+                'sumber'      => (string) ($meta['sumber'] ?? ''),
+                'ref'         => (string) ($meta['ref'] ?? ''),
+                'waktu'       => (string) ($meta['waktu'] ?? ''),
+                'installed'   => is_dir(self::modulesDir() . $name),
+            ];
         }
 
-        return array_values($daftar);
+        return $daftar;
     }
 
     /**
-     * Kandidat paket yang bisa didaftarkan ke marketplace: paket terpasang
-     * (folder `Modules/`) + repo di bawah basis — yang belum ada di gudang.
+     * Kandidat pendaftaran-lokal: paket terpasang (`Modules/`) yang belum ada di
+     * gudang — untuk snapshot cepat tanpa URL.
      *
-     * @return list<array{name: string, path: string, asal: string}>
+     * @return list<array{name: string, path: string}>
      */
     public function kandidat(): array
     {
-        $sudah  = [];
-        foreach ($this->pindaiDir(self::storeDir()) as $entri) {
+        $sudah = [];
+        foreach ($this->repos() as $entri) {
             $sudah[$entri['name']] = true;
         }
 
         $kandidat = [];
-        foreach ([['dir' => self::modulesDir(), 'asal' => 'terpasang'], ['dir' => self::repoBase(), 'asal' => 'repo']] as $sumber) {
-            foreach ($this->pindaiDir($sumber['dir']) as $entri) {
-                if (isset($sudah[$entri['name']])) {
+        $modulesDir = rtrim(self::modulesDir(), '/\\');
+        if ($modulesDir !== '' && is_dir($modulesDir)) {
+            foreach (glob($modulesDir . '/*', GLOB_ONLYDIR) ?: [] as $dir) {
+                if (! is_file($dir . '/module.json')) {
                     continue;
                 }
-                $kandidat[$entri['name'] . '|' . $sumber['asal']] = [
-                    'name' => $entri['name'],
-                    'path' => rtrim($sumber['dir'], '/\\') . '/' . $entri['folder'],
-                    'asal' => $sumber['asal'],
-                ];
+                $meta = json_decode((string) file_get_contents($dir . '/module.json'), true);
+                $name = is_array($meta) ? (string) ($meta['name'] ?? basename($dir)) : basename($dir);
+                if (isset($sudah[$name])) {
+                    continue;
+                }
+                $kandidat[$name] = ['name' => $name, 'path' => $dir];
             }
         }
 
@@ -178,12 +172,33 @@ class LocalMarketplace implements ModuleSource
     }
 
     /**
-     * Daftarkan paket ke marketplace: salin sumbernya ke gudang (snapshot yang
-     * tahan-hapus). `$path` = folder paket berisi `module.json`.
+     * Daftarkan paket dari URL repo (mis. GitHub) ke marketplace: unduh ZIP repo
+     * dan simpan ke gudang. `$ref` opsional (cabang/tag; default cabang utama).
+     *
+     * @throws RuntimeException bila URL/unduhan/manifest tak valid.
+     */
+    public function daftarkanUrl(string $url, string $ref = ''): string
+    {
+        [$owner, $repo, $refDariUrl] = $this->uraikanUrlGithub($url);
+        $ref = $ref !== '' ? $ref : $refDariUrl;
+
+        $tmp = rtrim(sys_get_temp_dir(), '/\\') . '/mp-unduh-' . uniqid('', true) . '.zip';
+
+        try {
+            $this->unduhZipGithub($owner, $repo, $ref, $tmp);
+
+            return $this->simpanKeGudang($tmp, 'url:' . $owner . '/' . $repo, $ref ?: 'default');
+        } finally {
+            @unlink($tmp);
+        }
+    }
+
+    /**
+     * Daftarkan paket dari folder lokal (snapshot working-tree) ke marketplace.
      *
      * @throws RuntimeException bila path/manifest tak valid.
      */
-    public function daftarkan(string $path): string
+    public function daftarkanLokal(string $path): string
     {
         $path = rtrim($path, '/\\');
         if ($path === '' || ! is_dir($path) || ! is_file($path . '/module.json')) {
@@ -192,20 +207,22 @@ class LocalMarketplace implements ModuleSource
 
         $meta = json_decode((string) file_get_contents($path . '/module.json'), true);
         $name = is_array($meta) ? (string) ($meta['name'] ?? basename($path)) : basename($path);
-
         if (! preg_match('/^[a-zA-Z0-9_\-]+$/', $name)) {
             throw new RuntimeException('Nama paket pada module.json tidak valid.');
         }
 
-        $tujuan = self::storeDir() . '/' . $name;
-        $this->hapusDir($tujuan);
-        $this->salinDir($path, $tujuan);
+        // Bungkus working-tree jadi ZIP (top folder <Nama>-src/) lalu simpan.
+        $zip = (new LocalRepoSource(dirname($path), 'working-tree'))->fetch($name);
 
-        return $name;
+        try {
+            return $this->simpanKeGudang($zip, 'lokal:' . $path, '');
+        } finally {
+            @unlink($zip);
+        }
     }
 
     /**
-     * Batalkan pendaftaran paket dari marketplace (hapus dari gudang).
+     * Batalkan pendaftaran paket dari marketplace (hapus ZIP + sidecar).
      */
     public function batalDaftar(string $name): void
     {
@@ -213,14 +230,12 @@ class LocalMarketplace implements ModuleSource
             throw new RuntimeException('Nama paket tidak valid.');
         }
 
-        $dir = self::resolveDir(self::storeDir(), $name);
-        if ($dir !== null) {
-            $this->hapusDir($dir);
-        }
+        @unlink(self::storeDir() . '/' . $name . '.zip');
+        @unlink(self::storeDir() . '/' . $name . '.json');
     }
 
     /**
-     * Ajukan (GET) sebuah paket dari marketplace lokal: pasang via sumber ini
+     * Ajukan (GET) sebuah paket dari marketplace lokal: pasang via ZIP gudang
      * dan catat pesanannya. Melempar bila gagal.
      */
     public function ajukan(string $name): bool
@@ -231,7 +246,7 @@ class LocalMarketplace implements ModuleSource
 
         $baru = app(ModuleManager::class)->installFromSource($name, '', $this);
 
-        $this->catat($name, 'terpasang', $this->opsi());
+        $this->catat($name, 'terpasang');
 
         return $baru;
     }
@@ -242,7 +257,7 @@ class LocalMarketplace implements ModuleSource
      */
     public function lepas(string $name): void
     {
-        $this->catat($name, 'dihapus', $this->opsi());
+        $this->catat($name, 'dihapus');
     }
 
     /**
@@ -263,9 +278,125 @@ class LocalMarketplace implements ModuleSource
     }
 
     /**
-     * @param array{strategy: string, ref: string, fetch: bool} $opsi
+     * Pindahkan ZIP terunduh/terbungkus ke gudang sebagai `<Nama>.zip` + sidecar.
+     * Nama & versi dibaca dari `module.json` di dalam ZIP.
+     *
+     * @throws RuntimeException bila ZIP tak memuat module.json valid.
      */
-    private function catat(string $name, string $status, array $opsi): void
+    private function simpanKeGudang(string $zipPath, string $sumber, string $ref): string
+    {
+        $meta = $this->bacaManifestZip($zipPath);
+        $name = (string) ($meta['name'] ?? '');
+        if (! preg_match('/^[a-zA-Z0-9_\-]+$/', $name)) {
+            throw new RuntimeException('ZIP tidak memuat module.json dengan nama paket yang valid.');
+        }
+
+        $store = self::storeDir();
+        @mkdir($store, 0777, true);
+
+        if (! @copy($zipPath, $store . '/' . $name . '.zip')) {
+            throw new RuntimeException("Gagal menyimpan ZIP paket {$name} ke gudang.");
+        }
+
+        @file_put_contents($store . '/' . $name . '.json', json_encode([
+            'name'        => $name,
+            'version'     => (string) ($meta['version'] ?? ''),
+            'description' => (string) ($meta['description'] ?? ''),
+            'sumber'      => $sumber,
+            'ref'         => $ref,
+            'waktu'       => date('Y-m-d H:i:s'),
+        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        return $name;
+    }
+
+    /**
+     * Baca module.json dari folder puncak sebuah ZIP paket.
+     *
+     * @return array<string, mixed>
+     */
+    private function bacaManifestZip(string $zipPath): array
+    {
+        $zip = new ZipArchive();
+        if ($zip->open($zipPath) !== true) {
+            throw new RuntimeException('Berkas ZIP tidak dapat dibuka.');
+        }
+
+        $isi = null;
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $entry = (string) $zip->getNameIndex($i);
+            if (preg_match('#^[^/]+/module\.json$#', $entry)) {
+                $isi = $zip->getFromIndex($i);
+                break;
+            }
+        }
+        $zip->close();
+
+        if ($isi === null || $isi === false) {
+            throw new RuntimeException('ZIP tidak memuat module.json di folder puncak paket.');
+        }
+
+        $meta = json_decode((string) $isi, true);
+
+        return is_array($meta) ? $meta : [];
+    }
+
+    /**
+     * Uraikan URL repo GitHub → [owner, repo, ref]. Mendukung bentuk
+     * `https://github.com/o/r`, `.../o/r.git`, `.../o/r/tree/<ref>`, `git@…`.
+     *
+     * @return array{0: string, 1: string, 2: string}
+     */
+    private function uraikanUrlGithub(string $url): array
+    {
+        $url = trim($url);
+        if (! preg_match('#github\.com[/:]([^/]+)/([^/]+?)(?:\.git)?(?:/tree/([^/\s]+))?/?$#i', $url, $m)) {
+            throw new RuntimeException('URL repo GitHub tidak dikenali (contoh: https://github.com/OpenSID/modul-anjungan).');
+        }
+
+        return [$m[1], $m[2], $m[3] ?? ''];
+    }
+
+    /**
+     * Unduh ZIP arsip repo GitHub ke `$tujuan`. Utamakan `gh` (mendukung repo
+     * privat via auth pengguna); jika absen, HTTP dengan `GITHUB_TOKEN`.
+     *
+     * @throws RuntimeException bila unduhan gagal.
+     */
+    private function unduhZipGithub(string $owner, string $repo, string $ref, string $tujuan): void
+    {
+        $path = "repos/{$owner}/{$repo}/zipball" . ($ref !== '' ? '/' . $ref : '');
+
+        try {
+            $proc = new Process(['gh', 'api', $path]);
+            $proc->setTimeout(180);
+            $proc->run();
+
+            if ($proc->isSuccessful()) {
+                $keluaran = $proc->getOutput();
+                if ($keluaran !== '' && @file_put_contents($tujuan, $keluaran) !== false) {
+                    return;
+                }
+            }
+
+            $ghError = trim($proc->getErrorOutput());
+        } catch (Throwable $e) {
+            $ghError = $e->getMessage();
+        }
+
+        // Fallback HTTP (repo publik, atau privat bila GITHUB_TOKEN diset).
+        $token = (string) getenv('GITHUB_TOKEN');
+        $req   = $token !== '' ? Http::withToken($token) : Http::withHeaders([]);
+        $resp  = $req->withOptions(['sink' => $tujuan, 'timeout' => 180])
+            ->get("https://api.github.com/repos/{$owner}/{$repo}/zipball" . ($ref !== '' ? '/' . $ref : ''));
+
+        if (! $resp->successful() || ! is_file($tujuan) || filesize($tujuan) === 0) {
+            throw new RuntimeException('Gagal mengunduh ZIP repo (gh: ' . $ghError
+                . '; HTTP ' . $resp->status() . '). Untuk repo privat, pastikan `gh auth login` atau GITHUB_TOKEN.');
+        }
+    }
+
+    private function catat(string $name, string $status): void
     {
         $file = self::fileLog();
         $isi  = [];
@@ -275,133 +406,12 @@ class LocalMarketplace implements ModuleSource
         }
 
         $isi[] = [
-            'name'     => $name,
-            'status'   => $status,
-            'strategy' => $opsi['strategy'],
-            'ref'      => $opsi['ref'],
-            'fetch'    => $opsi['fetch'],
-            'waktu'    => date('Y-m-d H:i:s'),
+            'name'   => $name,
+            'status' => $status,
+            'waktu'  => date('Y-m-d H:i:s'),
         ];
 
         @file_put_contents($file, json_encode($isi, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-    }
-
-    /**
-     * Pindai sebuah direktori untuk subfolder paket (punya module.json).
-     *
-     * @return list<array{name: string, folder: string, is_git: bool, head: string, version: string, description: string, installed: bool}>
-     */
-    private function pindaiDir(string $base): array
-    {
-        $base = rtrim($base, '/\\');
-        if ($base === '' || ! is_dir($base)) {
-            return [];
-        }
-
-        $daftar = [];
-
-        foreach (glob($base . '/*', GLOB_ONLYDIR) ?: [] as $dir) {
-            $manifest = $dir . '/module.json';
-            if (! is_file($manifest)) {
-                continue;
-            }
-
-            $meta  = json_decode((string) file_get_contents($manifest), true);
-            $meta  = is_array($meta) ? $meta : [];
-            $name  = (string) ($meta['name'] ?? basename($dir));
-            $isGit = is_dir($dir . '/.git');
-
-            $daftar[] = [
-                'name'        => $name,
-                'folder'      => basename($dir),
-                'is_git'      => $isGit,
-                'head'        => $isGit ? $this->gitHead($dir) : '',
-                'version'     => (string) ($meta['version'] ?? ''),
-                'description' => (string) ($meta['description'] ?? ''),
-                'installed'   => is_dir(self::modulesDir() . $name),
-            ];
-        }
-
-        return $daftar;
-    }
-
-    /**
-     * Resolusi folder paket `$name` di bawah `$base` (varian nama repo modul).
-     */
-    private static function resolveDir(string $base, string $name): ?string
-    {
-        $base = rtrim($base, '/\\');
-        if ($base === '' || ! is_dir($base)) {
-            return null;
-        }
-
-        foreach ([$name, 'modul-' . strtolower($name), strtolower($name)] as $kandidat) {
-            $dir = $base . '/' . $kandidat;
-            if (is_file($dir . '/module.json')) {
-                return $dir;
-            }
-        }
-
-        return null;
-    }
-
-    private function salinDir(string $src, string $dst): void
-    {
-        @mkdir($dst, 0777, true);
-
-        $iter = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($src, \FilesystemIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-
-        foreach ($iter as $item) {
-            $rel = substr((string) $item->getPathname(), strlen($src) + 1);
-
-            $segments = explode(DIRECTORY_SEPARATOR, $rel);
-            if (array_intersect($segments, self::ABAIKAN) !== []) {
-                continue;
-            }
-
-            $target = $dst . '/' . $rel;
-            if ($item->isDir()) {
-                @mkdir($target, 0777, true);
-            } else {
-                @mkdir(dirname($target), 0777, true);
-                @copy((string) $item->getPathname(), $target);
-            }
-        }
-    }
-
-    private function hapusDir(string $dir): void
-    {
-        if (! is_dir($dir)) {
-            return;
-        }
-
-        $iter = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::CHILD_FIRST
-        );
-
-        foreach ($iter as $item) {
-            $item->isDir() ? @rmdir((string) $item->getPathname()) : @unlink((string) $item->getPathname());
-        }
-
-        @rmdir($dir);
-    }
-
-    private function gitHead(string $dir): string
-    {
-        $out  = [];
-        $code = 0;
-        @exec('git -C ' . escapeshellarg($dir) . ' rev-parse --short HEAD 2>/dev/null', $out, $code);
-
-        return $code === 0 ? trim((string) ($out[0] ?? '')) : '';
-    }
-
-    private static function repoBase(): string
-    {
-        return rtrim((string) config_item('module_dev_repo_base'), '/\\');
     }
 
     private static function modulesDir(): string
