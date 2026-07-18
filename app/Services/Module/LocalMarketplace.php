@@ -9,8 +9,8 @@ use Throwable;
 use ZipArchive;
 
 /**
- * Marketplace surrogat berbasis GUDANG ZIP — simulasi Layanan untuk
- * PENGEMBANGAN. Sama seperti Layanan, marketplace lokal hanyalah **kumpulan
+ * Bursa paket surrogat berbasis GUDANG ZIP — simulasi Layanan untuk
+ * PENGEMBANGAN. Sama seperti Layanan, bursa paket lokal hanyalah **kumpulan
  * berkas ZIP paket**. Halaman "Paket Tambahan" (controller Plugin) beroperasi
  * atasnya ketika mode "lokal" aktif: katalog, pengajuan (get), dan riwayat
  * pemesanan get/release dilayani dari sini.
@@ -34,7 +34,7 @@ class LocalMarketplace implements ModuleSource
     private const ABAIKAN_TIPE_PREMIUM = 'premium';
 
     /**
-     * Apakah mode marketplace lokal aktif. Default (sesi kosong): aktif bila
+     * Apakah mode bursa paket lokal aktif. Default (sesi kosong): aktif bila
      * gudang sudah berisi paket.
      */
     public static function aktif(): bool
@@ -66,7 +66,7 @@ class LocalMarketplace implements ModuleSource
     {
         $zip = self::storeDir() . '/' . $name . '.zip';
         if (! is_file($zip)) {
-            throw new RuntimeException("Paket {$name} tak ada di marketplace lokal. Daftarkan dulu lewat tab Sumber.");
+            throw new RuntimeException("Paket {$name} tak ada di bursa paket lokal. Daftarkan dulu lewat tab Sumber.");
         }
 
         $tmp = rtrim(sys_get_temp_dir(), '/\\') . '/mp-' . $name . '-' . uniqid('', true) . '.zip';
@@ -85,14 +85,23 @@ class LocalMarketplace implements ModuleSource
      */
     public function katalog(int $page = 1, string $tipe = ''): array
     {
+        // Thumbnail bawaan (ikon kubus paket) sebagai data-URI — mandiri, tak
+        // butuh berkas aset, mengganti <img src=""> yang tampil sebagai ikon rusak.
+        $thumb = 'data:image/svg+xml;base64,' . base64_encode(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 24 24" fill="none" '
+            . 'stroke="#3c8dbc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'
+            . '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>'
+            . '<polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>'
+        );
+
         // Semua paket lokal diperlakukan gratis; filter "premium" → kosong.
-        $data = $tipe === self::ABAIKAN_TIPE_PREMIUM ? [] : array_map(static function (array $m): array {
+        $data = $tipe === self::ABAIKAN_TIPE_PREMIUM ? [] : array_map(static function (array $m) use ($thumb): array {
             return [
                 'name'         => $m['name'],
                 'url'          => 'local://' . $m['name'],
                 'version'      => $m['version'] !== '' ? $m['version'] : '0.0.0',
-                'description'  => $m['description'] !== '' ? $m['description'] : 'Paket lokal (marketplace pengembangan).',
-                'thumbnail'    => '',
+                'description'  => $m['description'] !== '' ? $m['description'] : 'Paket lokal (bursa paket pengembangan).',
+                'thumbnail'    => $thumb,
                 'price'        => 'Gratis',
                 'totalInstall' => 0,
             ];
@@ -194,7 +203,7 @@ class LocalMarketplace implements ModuleSource
     }
 
     /**
-     * Daftarkan paket dari folder lokal (snapshot working-tree) ke marketplace.
+     * Daftarkan paket dari folder lokal (snapshot working-tree) ke bursa paket.
      *
      * @throws RuntimeException bila path/manifest tak valid.
      */
@@ -222,7 +231,7 @@ class LocalMarketplace implements ModuleSource
     }
 
     /**
-     * Batalkan pendaftaran paket dari marketplace (hapus ZIP + sidecar).
+     * Batalkan pendaftaran paket dari bursa paket (hapus ZIP + sidecar).
      */
     public function batalDaftar(string $name): void
     {
@@ -235,7 +244,7 @@ class LocalMarketplace implements ModuleSource
     }
 
     /**
-     * Ajukan (GET) sebuah paket dari marketplace lokal: pasang via ZIP gudang
+     * Ajukan (GET) sebuah paket dari bursa paket lokal: pasang via ZIP gudang
      * dan catat pesanannya. Melempar bila gagal.
      */
     public function ajukan(string $name): bool
@@ -350,11 +359,18 @@ class LocalMarketplace implements ModuleSource
     private function uraikanUrlGithub(string $url): array
     {
         $url = trim($url);
-        if (! preg_match('#github\.com[/:]([^/]+)/([^/]+?)(?:\.git)?(?:/tree/([^/\s]+))?/?$#i', $url, $m)) {
-            throw new RuntimeException('URL repo GitHub tidak dikenali (contoh: https://github.com/OpenSID/modul-anjungan).');
+
+        // URL penuh GitHub (https://…, git@…, dengan/atau tanpa /tree/<ref>).
+        if (preg_match('#github\.com[/:]([^/]+)/([^/]+?)(?:\.git)?(?:/tree/([^/\s]+))?/?$#i', $url, $m)) {
+            return [$m[1], $m[2], $m[3] ?? ''];
         }
 
-        return [$m[1], $m[2], $m[3] ?? ''];
+        // Bentuk ringkas "owner/repo[/tree/<ref>]" (dari prefix https://github.com/).
+        if (preg_match('#^([^/\s]+)/([^/\s]+?)(?:\.git)?(?:/tree/([^/\s]+))?/?$#', $url, $m)) {
+            return [$m[1], $m[2], $m[3] ?? ''];
+        }
+
+        throw new RuntimeException('URL repo GitHub tidak dikenali (contoh: OpenSID/modul-anjungan).');
     }
 
     /**

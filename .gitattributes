@@ -40,6 +40,7 @@
 /rector.php           export-ignore
 /tests                export-ignore
 /dev-seed             export-ignore
+/documents            export-ignore
 # Adapter/marketplace sumber modul khusus-pengembangan (simulasi Layanan dari
 # repo lokal); tak ikut rilis — guard class_exists → jatuh ke LayananHttpSource.
 /app/Services/Module/LocalRepoSource.php export-ignore

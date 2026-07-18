@@ -270,6 +270,36 @@ class ModuleManager
     }
 
     /**
+     * Apakah modul dikelola fitur Paket / bursa paket (add-on)?
+     *
+     * Dibaca dari `module.json` (`marketplace`, **default `true`**). Modul inti
+     * OSS (Analisis/Kehadiran/Lapak) & infrastruktur (Pelanggan) MENYATAKAN
+     * `marketplace:false` agar dikecualikan dari tab Paket Tersedia/Terpasang;
+     * add-on (mis. Anjungan/BukuTamu/DTSEN) — termasuk yang dipasang dari repo
+     * eksternal tanpa mendeklarasikan flag — dikelola secara default. Opt-out ini
+     * membuat add-on tak "hilang" dari Paket Terpasang hanya karena manifes-nya
+     * lupa menyetel flag.
+     */
+    public function isMarketplaceManaged(string $name): bool
+    {
+        return (bool) ($this->manifest($name)['marketplace'] ?? true);
+    }
+
+    /**
+     * Nama modul TERPASANG yang dikelola marketplace (add-on) — sumber daftar
+     * tab Paket Terpasang. Modul OSS/infrastruktur dikecualikan.
+     *
+     * @return list<string>
+     */
+    public function installedMarketplace(): array
+    {
+        return array_values(array_filter(
+            array_keys($this->installed()),
+            fn (string $name): bool => $this->isMarketplaceManaged($name)
+        ));
+    }
+
+    /**
      * Slug menu induk (`setting_modul`) milik modul.
      *
      * Dibaca dari `module.json` (`menu_slug`); jatuh ke konvensi nama huruf

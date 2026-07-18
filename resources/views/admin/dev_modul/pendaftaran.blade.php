@@ -1,8 +1,8 @@
 <div class="tab-pane active">
     <div class="callout callout-info">
         <p style="margin-bottom:0">
-            <i class="fa fa-flask"></i> <strong>Marketplace lokal.</strong> Mengajukan paket = mengambilnya (get) dari
-            gudang ZIP marketplace lalu memasangnya — tanpa order/pembayaran ke Layanan. Daftarkan paket baru
+            <i class="fa fa-flask"></i> <strong>Bursa paket lokal.</strong> Mengajukan paket = mengambilnya (get) dari
+            gudang ZIP bursa paket lalu memasangnya — tanpa order/pembayaran ke Layanan. Daftarkan paket baru
             (dari URL repo) di tab <strong>Sumber</strong>.
         </p>
     </div>
@@ -24,7 +24,7 @@
                                 @endforeach
                             </select>
                             @if (empty($paket_repo))
-                                <small class="text-danger">Marketplace lokal kosong. Daftarkan paket di tab <strong>Sumber</strong>.</small>
+                                <small class="text-danger">Bursa paket lokal kosong. Daftarkan paket di tab <strong>Sumber</strong>.</small>
                             @endif
                         </div>
                     </div>

@@ -12,5 +12,6 @@
     "version": "2412.0.0",
     "requires_entitlement": false,
     "removable": false,
+    "marketplace": false,
     "menu_slug": "lapak"
 }

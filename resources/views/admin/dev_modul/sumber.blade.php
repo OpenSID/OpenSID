@@ -2,8 +2,8 @@
     <div class="callout callout-warning">
         <h4><i class="fa fa-flask"></i> Mode Pengembangan — bukan bagian rilis</h4>
         <p style="margin-bottom:0">
-            Marketplace lokal adalah <strong>gudang ZIP paket</strong> (seperti Layanan). Isi lewat
-            <strong>Daftarkan paket</strong> di bawah, lalu pilih sumber <em>Marketplace lokal</em> agar seluruh
+            Bursa paket lokal adalah <strong>gudang ZIP paket</strong> (seperti Layanan). Isi lewat
+            <strong>Daftarkan paket</strong> di bawah, lalu pilih sumber <em>Bursa paket lokal</em> agar seluruh
             tab (Paket Tersedia, Form Pendaftaran, Riwayat Pemesanan) beroperasi atasnya — untuk menguji alur
             ambil/lepas (get/release) tanpa server Layanan.
         </p>
@@ -16,7 +16,7 @@
             <div class="pull-right">
                 Aktif:
                 @if ($lokal)
-                    <span class="label label-warning">Marketplace lokal</span>
+                    <span class="label label-warning">Bursa paket lokal</span>
                 @else
                     <span class="label label-default">Layanan (server nyata)</span>
                 @endif
@@ -26,14 +26,18 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Sumber</label>
                 <div class="col-sm-9">
-                    <label class="radio-inline">
-                        <input type="radio" name="lokal" value="layanan" {{ $lokal ? '' : 'checked' }}>
-                        Layanan (server nyata: <code>{{ $server_layanan !== '' ? $server_layanan : '(belum diatur)' }}</code>)
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="lokal" value="lokal" {{ $lokal ? 'checked' : '' }}>
-                        Marketplace lokal (gudang ZIP)
-                    </label>
+                    <div class="radio" style="margin-top:5px">
+                        <label>
+                            <input type="radio" name="lokal" value="layanan" {{ $lokal ? '' : 'checked' }}>
+                            Layanan (server nyata: <code>{{ $server_layanan !== '' ? $server_layanan : '(belum diatur)' }}</code>)
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="lokal" value="lokal" {{ $lokal ? 'checked' : '' }}>
+                            Bursa paket lokal (gudang ZIP)
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,14 +57,18 @@
             {!! form_open($form_daftar, 'class="form-horizontal" id="form-daftar-url"') !!}
             <div class="box-body">
                 <p class="help-block">
-                    Mengunduh ZIP repo (mis. GitHub) ke gudang marketplace (<code>storage/app/dev-marketplace</code>) —
+                    Mengunduh ZIP repo (mis. GitHub) ke bursa paket (<code>storage/app/dev-marketplace</code>) —
                     seperti Layanan menyimpan ZIP paket. Repo privat memakai <code>gh</code> (login GitHub Anda).
                 </p>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">URL repo</label>
                     <div class="col-sm-7">
-                        <input type="text" name="url" class="form-control input-sm" required
-                               placeholder="https://github.com/OpenSID/modul-anjungan">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon">https://github.com/</span>
+                            <input type="text" name="url" class="form-control" required
+                                   placeholder="OpenSID/modul-anjungan">
+                        </div>
+                        <small class="text-muted">Cukup <code>owner/repo</code> (atau tempel URL lengkap / bentuk <code>owner/repo/tree/&lt;ref&gt;</code>).</small>
                     </div>
                 </div>
                 <div class="form-group">
@@ -119,7 +127,7 @@
 
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 class="box-title">Isi marketplace lokal (gudang ZIP)</h3>
+            <h3 class="box-title">Isi bursa paket lokal (gudang ZIP)</h3>
         </div>
         <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
@@ -151,7 +159,7 @@
                             <td>{{ $m['waktu'] !== '' ? $m['waktu'] : '-' }}</td>
                             <td class="text-right">
                                 @if (can('u'))
-                                    {!! form_open($form_batal, 'style="display:inline" onsubmit="return confirm(\'Keluarkan paket ' . $m['name'] . ' dari marketplace lokal?\')"') !!}
+                                    {!! form_open($form_batal, 'style="display:inline" onsubmit="return confirm(\'Keluarkan paket ' . $m['name'] . ' dari bursa paket lokal?\')"') !!}
                                     <button type="submit" name="name" value="{{ $m['name'] }}" class="btn btn-danger btn-xs">
                                         <i class="fa fa-times"></i> Keluarkan
                                     </button>
@@ -163,7 +171,7 @@
                         <tr>
                             <td colspan="7">
                                 <div class="alert alert-warning" style="margin:10px">
-                                    Marketplace lokal kosong. Daftarkan paket dari URL repo di atas — mis.
+                                    Bursa paket lokal kosong. Daftarkan paket dari URL repo di atas — mis.
                                     <code>https://github.com/OpenSID/modul-anjungan</code>.
                                 </div>
                             </td>

@@ -9,5 +9,6 @@
     "version": "1.0.0",
     "requires_entitlement": false,
     "removable": false,
+    "marketplace": true,
     "menu_slug": "buku-tamu"
 }

@@ -9,5 +9,6 @@
     "version": "1.0.1",
     "requires_entitlement": false,
     "removable": false,
+    "marketplace": false,
     "menu_slug": "kehadiran"
 }

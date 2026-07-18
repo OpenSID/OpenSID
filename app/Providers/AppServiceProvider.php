@@ -68,14 +68,14 @@ class AppServiceProvider extends ServiceProvider
 
         // Sumber berkas add-on. Default: klien Layanan (unduh HTTP — komponen
         // terbuka, selalu di rilis). Di lingkungan `development`, bila mode
-        // marketplace lokal aktif (toggle tab "Sumber" / `module_dev_repo_base`
+        // bursa paket lokal aktif (toggle tab "Sumber" / `module_dev_repo_base`
         // diset), paket diambil langsung dari repo lokal (simulasi Layanan tanpa
         // server berjalan). LocalMarketplace/LocalRepoSource di-export-ignore →
         // guard class_exists menjaga rilis tanpa berkas itu tetap ke Layanan.
         $this->app->singleton(\App\Services\Module\ModuleSource::class, static function ($app) {
             $isDev = (defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development';
 
-            // Sumber ditentukan marketplace lokal (mode + opsi dari sesi) bila
+            // Sumber ditentukan bursa paket lokal (mode + opsi dari sesi) bila
             // adapter dev tersedia. Toggle "Layanan" → jatuh ke LayananHttpSource.
             if ($isDev && class_exists(\App\Services\Module\LocalMarketplace::class)
                 && class_exists(\App\Services\Module\LocalRepoSource::class)) {

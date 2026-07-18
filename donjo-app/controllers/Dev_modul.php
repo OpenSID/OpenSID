@@ -28,7 +28,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
  * Tab "Sumber (Pengembangan)" pada halaman Paket Tambahan: mengalihkan seluruh
- * halaman antara marketplace Layanan (nyata) dan marketplace repo lokal
+ * halaman antara bursa paket Layanan (nyata) dan bursa paket repo lokal
  * (simulasi), plus melayani katalog lokal untuk tab Paket Tersedia/Pendaftaran.
  *
  * DEV-ONLY: konstruktor menolak selain `ENVIRONMENT=development`. Berkas ini,
@@ -52,7 +52,7 @@ class Dev_modul extends Admin_Controller
     }
 
     /**
-     * Tab "Sumber": toggle mode Layanan/lokal + pendaftaran paket ke marketplace
+     * Tab "Sumber": toggle mode Layanan/lokal + pendaftaran paket ke bursa paket
      * (URL repo atau folder lokal), dirender di kerangka tab Paket Tambahan (act_tab=5).
      */
     public function index(): void
@@ -86,14 +86,14 @@ class Dev_modul extends Admin_Controller
         LocalMarketplace::setel($lokal);
 
         $pesan = $lokal
-            ? 'Sumber paket dialihkan ke marketplace lokal (simulasi Layanan).'
+            ? 'Sumber paket dialihkan ke bursa paket lokal (simulasi Layanan).'
             : 'Sumber paket dikembalikan ke Layanan (server nyata).';
 
         return redirect_with('success', $pesan, 'plugin');
     }
 
     /**
-     * Daftarkan paket dari URL repo (unduh ZIP ke gudang marketplace).
+     * Daftarkan paket dari URL repo (unduh ZIP ke bursa paket).
      */
     public function daftar()
     {
@@ -104,7 +104,7 @@ class Dev_modul extends Admin_Controller
             $ref  = trim((string) ($this->input->post('ref') ?? ''));
             $name = app(LocalMarketplace::class)->daftarkanUrl($url, $ref);
 
-            return redirect_with('success', "Paket {$name} diunduh & didaftarkan ke marketplace lokal.", 'dev-modul');
+            return redirect_with('success', "Paket {$name} diunduh & didaftarkan ke bursa paket lokal.", 'dev-modul');
         } catch (Exception $e) {
             log_message('error', 'Dev_modul daftar URL: ' . $e->getMessage());
 
@@ -123,7 +123,7 @@ class Dev_modul extends Admin_Controller
             $path = trim((string) ($this->input->post('path') ?? ''));
             $name = app(LocalMarketplace::class)->daftarkanLokal($path);
 
-            return redirect_with('success', "Paket {$name} didaftarkan ke marketplace lokal (snapshot lokal).", 'dev-modul');
+            return redirect_with('success', "Paket {$name} didaftarkan ke bursa paket lokal (snapshot lokal).", 'dev-modul');
         } catch (Exception $e) {
             log_message('error', 'Dev_modul daftar lokal: ' . $e->getMessage());
 
@@ -132,7 +132,7 @@ class Dev_modul extends Admin_Controller
     }
 
     /**
-     * Batalkan pendaftaran paket dari marketplace lokal (hapus dari gudang).
+     * Batalkan pendaftaran paket dari bursa paket lokal (hapus dari gudang).
      */
     public function batalDaftar()
     {
@@ -143,7 +143,7 @@ class Dev_modul extends Admin_Controller
         try {
             app(LocalMarketplace::class)->batalDaftar($name);
 
-            return redirect_with('success', "Paket {$name} dikeluarkan dari marketplace lokal.", 'dev-modul');
+            return redirect_with('success', "Paket {$name} dikeluarkan dari bursa paket lokal.", 'dev-modul');
         } catch (Exception $e) {
             log_message('error', 'Dev_modul batalDaftar: ' . $e->getMessage());
 
@@ -152,7 +152,7 @@ class Dev_modul extends Admin_Controller
     }
 
     /**
-     * Katalog marketplace lokal dalam bentuk API Layanan — dikonsumsi JS tab
+     * Katalog bursa paket lokal dalam bentuk API Layanan — dikonsumsi JS tab
      * "Paket Tersedia"/"Form Pendaftaran" saat mode lokal aktif.
      */
     public function katalog()

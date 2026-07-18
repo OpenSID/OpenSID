@@ -1,7 +1,7 @@
 <div class="tab-pane active">
     <div class="callout callout-info">
         <p style="margin-bottom:0">
-            <i class="fa fa-flask"></i> <strong>Riwayat ambil/lepas (get/release) marketplace lokal.</strong>
+            <i class="fa fa-flask"></i> <strong>Riwayat ambil/lepas (get/release) bursa paket lokal.</strong>
             Setiap pengajuan/pemasangan (get) dan penghapusan (release) paket lokal tercatat di sini.
         </p>
     </div>

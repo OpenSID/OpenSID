@@ -71,15 +71,39 @@ class Plugin extends Admin_Controller
 
     public function installed(): void
     {
-        $market    = $this->marketplace();
-        $terpasang = $this->paketTerpasang();
-        $data      = [
-            'content'           => 'admin.plugin.paket_terinstall',
-            'act_tab'           => 2,
-            'url_marketplace'   => $market['url'],
-            'paket_terpasang'   => $terpasang ? json_encode(array_keys($terpasang)) : null,
-            'paket_bawaan'      => json_encode(app(ModuleManager::class)->nonRemovable()),
-            'token_layanan'     => $market['token'],
+        $market = $this->marketplace();
+
+        // Tab Paket Terpasang hanya menampilkan add-on bursa paket yang TERPASANG
+        // (module.json `marketplace:true`). Modul OSS inti (Analisis/Kehadiran/
+        // Lapak) & infrastruktur (Pelanggan) dikecualikan — mereka bagian core,
+        // bukan paket yang dikelola. Daftar digerakkan pemindaian folder (bukan
+        // respons Layanan) agar add-on terpasang tetap tampil walau Layanan mati.
+        $terpasangMarket = app(ModuleManager::class)->installedMarketplace();
+
+        // Add-on yang hak-pakainya bisa DIVERIFIKASI sumber aktif. Mode lokal:
+        // yang terdaftar di bursa paket. Mode Layanan: dibiarkan kosong —
+        // klien menentukan dari respons Layanan (paket yang dikembalikan =
+        // langganan aktif). Add-on terpasang di luar daftar ini → "belum
+        // terverifikasi" (mis. BukuTamu/DTSEN terpasang tapi belum didaftarkan).
+        $terverifikasi = [];
+        if ($market['lokal'] && class_exists(\App\Services\Module\LocalMarketplace::class)) {
+            $terverifikasi = array_column(app(\App\Services\Module\LocalMarketplace::class)->repos(), 'name');
+        }
+
+        // Di mode lokal, hak-pakai bisa dipastikan server-side: add-on terpasang
+        // yang TAK terdaftar di bursa paket lokal = belum terverifikasi. (Mode
+        // Layanan: dibiarkan ke klien via respons Layanan.)
+        $belumVerif = $market['lokal'] ? array_values(array_diff($terpasangMarket, $terverifikasi)) : [];
+
+        $data = [
+            'content'               => 'admin.plugin.paket_terinstall',
+            'act_tab'               => 2,
+            'url_marketplace'       => $market['url'],
+            'paket_terpasang'       => $terpasangMarket !== [] ? json_encode($terpasangMarket) : null,
+            'paket_tersedia_sumber' => json_encode(array_values($terverifikasi)),
+            'paket_belum_verif'     => json_encode($belumVerif),
+            'paket_bawaan'          => json_encode(app(ModuleManager::class)->nonRemovable()),
+            'token_layanan'         => $market['token'],
             'default_thumbnail' => URL::signedRoute('storage.desa', [
                 'path'        => 'images/404-image-not-found.jpg',
                 'default'     => 'images/404-image-not-found.jpg',
@@ -130,7 +154,7 @@ class Plugin extends Admin_Controller
             redirect_with('error', $msg);
         }
 
-        // Mode lokal: riwayat pemesanan get/release dari log marketplace lokal.
+        // Mode lokal: riwayat pemesanan get/release dari log bursa paket lokal.
         if ($this->marketplace()['lokal']) {
             $data = [
                 'content' => 'admin.dev_modul.pemesanan',
@@ -159,7 +183,7 @@ class Plugin extends Admin_Controller
             redirect_with('error', $msg);
         }
 
-        // Mode lokal: pengajuan = pasang (get) langsung dari marketplace lokal,
+        // Mode lokal: pengajuan = pasang (get) langsung dari bursa paket lokal,
         // lalu catat pesanannya (tanpa kirim order/pembayaran ke Layanan).
         if ($this->marketplace()['lokal']) {
             $name = (string) $this->input->post('module_name');
@@ -167,7 +191,7 @@ class Plugin extends Admin_Controller
             try {
                 isCan('u');
                 app(\App\Services\Module\LocalMarketplace::class)->ajukan($name);
-                redirect_with('success', "Paket {$name} diajukan & dipasang dari marketplace lokal. Silakan aktifkan.", 'plugin/pemesanan');
+                redirect_with('success', "Paket {$name} diajukan & dipasang dari bursa paket lokal. Silakan aktifkan.", 'plugin/pemesanan');
             } catch (Exception $e) {
                 log_message('error', 'Pengajuan modul lokal gagal: ' . $e->getMessage());
                 redirect_with('error', 'Gagal mengajukan modul: ' . $e->getMessage(), 'plugin/pendaftaran');
@@ -316,7 +340,7 @@ class Plugin extends Admin_Controller
             app(ModuleManager::class)->uninstall($name, true);
 
             // Mode lokal: catat pelepasan (release) agar riwayat get/release utuh
-            // — modul harus diajukan ulang dari marketplace lokal untuk dipasang.
+            // — modul harus diajukan ulang dari bursa paket lokal untuk dipasang.
             if ($this->marketplace()['lokal']) {
                 app(\App\Services\Module\LocalMarketplace::class)->lepas($name);
             }
@@ -330,7 +354,7 @@ class Plugin extends Admin_Controller
     }
 
     /**
-     * Sumber marketplace aktif. Di rilis / luar `development` — atau bila servis
+     * Sumber bursa paket aktif. Di rilis / luar `development` — atau bila servis
      * dev di-export-ignore hingga absen — `lokal` selalu false dan halaman
      * berperilaku persis seperti semula (Layanan).
      *
