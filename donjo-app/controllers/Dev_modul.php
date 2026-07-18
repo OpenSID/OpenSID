@@ -105,7 +105,7 @@ class Dev_modul extends Admin_Controller
             $name = app(LocalMarketplace::class)->daftarkanUrl($url, $ref);
 
             return redirect_with('success', "Paket {$name} diunduh & didaftarkan ke marketplace lokal.", 'dev-modul');
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
             log_message('error', 'Dev_modul daftar URL: ' . $e->getMessage());
 
             return redirect_with('error', 'Gagal mendaftarkan paket: ' . $e->getMessage(), 'dev-modul');
@@ -124,7 +124,7 @@ class Dev_modul extends Admin_Controller
             $name = app(LocalMarketplace::class)->daftarkanLokal($path);
 
             return redirect_with('success', "Paket {$name} didaftarkan ke marketplace lokal (snapshot lokal).", 'dev-modul');
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
             log_message('error', 'Dev_modul daftar lokal: ' . $e->getMessage());
 
             return redirect_with('error', 'Gagal mendaftarkan paket: ' . $e->getMessage(), 'dev-modul');
@@ -144,7 +144,7 @@ class Dev_modul extends Admin_Controller
             app(LocalMarketplace::class)->batalDaftar($name);
 
             return redirect_with('success', "Paket {$name} dikeluarkan dari marketplace lokal.", 'dev-modul');
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
             log_message('error', 'Dev_modul batalDaftar: ' . $e->getMessage());
 
             return redirect_with('error', "Gagal mengeluarkan paket {$name}: " . $e->getMessage(), 'dev-modul');

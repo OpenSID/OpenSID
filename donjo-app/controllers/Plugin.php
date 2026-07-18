@@ -168,7 +168,7 @@ class Plugin extends Admin_Controller
                 isCan('u');
                 app(\App\Services\Module\LocalMarketplace::class)->ajukan($name);
                 redirect_with('success', "Paket {$name} diajukan & dipasang dari marketplace lokal. Silakan aktifkan.", 'plugin/pemesanan');
-            } catch (Throwable $e) {
+            } catch (Exception $e) {
                 log_message('error', 'Pengajuan modul lokal gagal: ' . $e->getMessage());
                 redirect_with('error', 'Gagal mengajukan modul: ' . $e->getMessage(), 'plugin/pendaftaran');
             }
