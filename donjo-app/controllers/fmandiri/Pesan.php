@@ -126,7 +126,10 @@ class Pesan extends Mandiri_Controller
 
     public function baca($kat = 2, $id = '')
     {
-        $pesan = PesanMandiri::findOrFail($id);
+        $pesan = PesanMandiri::where('uuid', $id)
+            ->where('penduduk_id', $this->is_login->id_pend)
+            ->firstOrFail();
+
         if ($kat == 2) {
             $pesan->status = PesanMandiri::READ;
             $pesan->save();
