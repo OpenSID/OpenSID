@@ -45,6 +45,7 @@ use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
+use App\Services\LayananSuratCetakService;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\Printer;
 
@@ -52,11 +53,14 @@ class Surat extends Mandiri_Controller
 {
     protected TinyMCE $tinymce;
 
+    private LayananSuratCetakService $layananSuratCetak;
+
     public function __construct()
     {
         parent::__construct();
 
-        $this->tinymce = new TinyMCE();
+        $this->tinymce           = new TinyMCE();
+        $this->layananSuratCetak = new LayananSuratCetakService();
     }
 
     public function index()
@@ -355,7 +359,7 @@ class Surat extends Mandiri_Controller
 
     public function cetak($id)
     {
-        $surat = LogSurat::find($id);
+        $surat = $this->layananSuratCetak->milikPenduduk($id, $this->is_login->id_pend);
 
         // Cek ada file
         if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
