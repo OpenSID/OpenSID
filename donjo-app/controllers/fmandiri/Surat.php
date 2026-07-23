@@ -300,7 +300,10 @@ class Surat extends Mandiri_Controller
 
     public function proses($id = ''): void
     {
-        $permohanan         = PermohonanSurat::with(['surat'])->find($id);
+        $permohanan = PermohonanSurat::with(['surat'])
+            ->where('id', $id)
+            ->milikPenduduk($this->is_login->id_pend)
+            ->firstOrFail();
         $permohanan->status = PermohonanSurat::DIBATALKAN;
         $permohanan->save();
 
