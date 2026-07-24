@@ -71,7 +71,7 @@ class AuthenticatedSessionController extends Web_Controller
         $token      = $this->input->get('token_layanan', true);
 
         // TODO: apa masih digunakan untuk autentikasi dengan mac address?
-        if (($macAddress && $token == setting('layanan_opendesa_token')) || Auth::guard($this->guard)->check()) {
+        if (($macAddress && app(\App\Services\Mandiri\TokenPerangkatMandiri::class)->cocok($token)) || Auth::guard($this->guard)->check()) {
             $this->session->mac_address = $macAddress;
 
             return redirect('layanan-mandiri/beranda');
@@ -93,7 +93,7 @@ class AuthenticatedSessionController extends Web_Controller
         $macAddress = $this->input->get('mac_address', true);
         $token      = $this->input->get('token_layanan', true);
 
-        if (($macAddress && $token == setting('layanan_opendesa_token')) || Auth::guard($this->guard)->check()) {
+        if (($macAddress && app(\App\Services\Mandiri\TokenPerangkatMandiri::class)->cocok($token)) || Auth::guard($this->guard)->check()) {
             $this->session->mac_address = $macAddress;
 
             return redirect('layanan-mandiri/beranda');
@@ -119,9 +119,9 @@ class AuthenticatedSessionController extends Web_Controller
                 // Validasi + penandaan sesi kios (mode Login) didelegasikan ke
                 // penyedia kios (modul). Core tak tahu model, flag sesi, maupun
                 // pesan spesifik modul.
-                $aktivasi = app(App\Services\Kiosk\KioskResolver::class)->activate((string) $request->anjungan_uuid, App\Services\Kiosk\KioskActivationMode::Login);
+                $aktivasi = app(App\Services\Anjungan\PenentuanAnjungan::class)->aktifkan((string) $request->anjungan_uuid, App\Services\Anjungan\ModeAktivasiAnjungan::Login);
 
-                if ($aktivasi->status === App\Services\Kiosk\KioskActivation::Inactive) {
+                if ($aktivasi->status === App\Services\Anjungan\AktivasiAnjungan::Inactive) {
                     redirect_with('error', $aktivasi->message ?? '', ci_route('layanan-mandiri/masuk'));
                 }
             }
@@ -150,8 +150,8 @@ class AuthenticatedSessionController extends Web_Controller
         // Landing pasca-login untuk sesi kios ditentukan add-on via entry('beranda');
         // sesi non-kios → beranda LM default. Core menanyakan status sesi kios ke
         // seam (flag milik modul), bukan membaca session->is_anjungan langsung.
-        $beranda = app(App\Services\Kiosk\KioskResolver::class)->isActiveSession()
-            ? app(App\Services\Mandiri\MandiriEntryResolver::class)->entry('beranda')
+        $beranda = app(App\Services\Anjungan\PenentuanAnjungan::class)->sesiAktif()
+            ? app(App\Services\Mandiri\PenentuanMasukMandiri::class)->titikMasuk('beranda')
             : null;
 
         redirect($beranda ?? route('layanan-mandiri.beranda.index'));
@@ -165,7 +165,7 @@ class AuthenticatedSessionController extends Web_Controller
         // Landing pasca-logout ditentukan add-on via entry('logout') — add-on
         // yang membaca flag sesinya sendiri (mis. tamu kios). Dibaca sebelum
         // sess_destroy; default core = halaman masuk.
-        $redirect = app(App\Services\Mandiri\MandiriEntryResolver::class)->entry('logout') ?? 'layanan-mandiri/masuk';
+        $redirect = app(App\Services\Mandiri\PenentuanMasukMandiri::class)->titikMasuk('logout') ?? 'layanan-mandiri/masuk';
 
         $this->session->sess_destroy();
 

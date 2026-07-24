@@ -39,13 +39,13 @@ namespace App\Libraries;
 
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
+use App\Services\Penjaga\PenjagaPermintaan;
 use App\Traits\Migration;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
-use Modules\Pelanggan\Services\CekService;
 
 class Database
 {
@@ -53,9 +53,6 @@ class Database
 
     public string $minimumVersion = MINIMUM_VERSI;
 
-    /**
-     * @var CekService
-     */
     public $premium;
 
     private string $engine    = 'InnoDB';
@@ -171,10 +168,8 @@ class Database
 
     public function checkMigration($install = false): void
     {
-        $premium = new CekService();
-
         $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
-        if (($premium->validasiVersi($install) || $install) && Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
+        if ((app(PenjagaPermintaan::class)->izinkanMigrasi($install) || $install) && Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
             $this->migrateDatabase($install);
         }
     }

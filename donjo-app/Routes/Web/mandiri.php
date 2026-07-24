@@ -42,7 +42,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
         // Titik-masuk root ditentukan add-on (mis. Anjungan mendaftarkan
         // 'anjungan.index'); tanpa add-on → halaman masuk. Core tak lagi
         // meng-hardcode route milik modul.
-        $entry = app(App\Services\Mandiri\MandiriEntryResolver::class)->entry('root');
+        $entry = app(App\Services\Mandiri\PenentuanMasukMandiri::class)->titikMasuk('root');
         redirect($entry ?? route('layanan-mandiri.masuk.index'));
     });
     Route::get('/masuk', 'auth/AuthenticatedSessionController@create')->name('layanan-mandiri.masuk.index');

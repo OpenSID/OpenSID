@@ -323,12 +323,12 @@ class MY_Controller extends CI_Controller
      * Sesi kios/anjungan aktif (bila ada modul yang mendaftarkan penyedia kios).
      *
      * Logika spesifik Anjungan telah dipindah ke modul Anjungan dan didaftarkan
-     * lewat {@see \App\Services\Kiosk\KioskResolver}. Core tidak lagi mengetahui
+     * lewat {@see \App\Services\Anjungan\PenentuanAnjungan}. Core tidak lagi mengetahui
      * tabel `anjungan` — tanpa modul terpasang, hasilnya `[]` (bukan sesi kios).
      */
     private function cekAnjungan(): array
     {
-        return app(\App\Services\Kiosk\KioskResolver::class)->resolve();
+        return app(\App\Services\Anjungan\PenentuanAnjungan::class)->tentukan();
     }
 }
 

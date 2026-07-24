@@ -38,8 +38,7 @@
 use App\Libraries\Release;
 use App\Libraries\Saas;
 use App\Models\Shortcut;
-use Modules\Pelanggan\Services\CekService;
-use Modules\Pelanggan\Services\PelangganService;
+use App\Services\Pengumuman\SumberPengumuman;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -59,12 +58,13 @@ class Beranda extends Admin_Controller
     {
         get_pesan_opendk(); // ambil pesan baru di opendk
 
-        $notif_langganan = PelangganService::statusLangganan();
+        $notices         = collect(app(SumberPengumuman::class)->pengumuman());
+        $notif_langganan = $notices->firstWhere('jenis', 'langganan');
         $notif_percobaan = null;
 
         // hanya cek percobaan kalau premium kosong
         if (empty($notif_langganan)) {
-            $notif_percobaan = PelangganService::statusPercobaan();
+            $notif_percobaan = $notices->firstWhere('jenis', 'percobaan');
         }
 
         $data = [

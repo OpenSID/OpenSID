@@ -36,7 +36,6 @@
  */
 
 use App\Models\Config;
-use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -74,12 +73,28 @@ if (! function_exists('cek_anjungan')) {
      * Cek status entitlement (langganan) fitur Anjungan.
      *
      * Logika spesifik Anjungan telah dipindah ke modul Anjungan dan didaftarkan
-     * lewat {@see \App\Services\Entitlement\EntitlementGate}. Core tidak lagi
+     * lewat {@see \App\Services\Kapabilitas\GerbangFitur}. Core tidak lagi
      * memanggil PelangganService langsung — tanpa modul terpasang → `false`.
      */
     function cek_anjungan(): bool
     {
-        return app(App\Services\Entitlement\EntitlementGate::class)->allows('anjungan');
+        return app(App\Services\Kapabilitas\GerbangFitur::class)->mengizinkan('anjungan');
+    }
+}
+
+if (! function_exists('token_bursa')) {
+    /**
+     * Token autentikasi ke bursa (marketplace) add-on.
+     *
+     * Accessor netral yang memusatkan pembacaan token pemasang add-on core
+     * (Plugin/ModuleManager/LayananHttpSource). Call-site core memanggil accessor
+     * ini alih-alih menyematkan pengetahuan kunci setting langganan secara langsung.
+     * Bootstrap-kritis: dipakai saat mengunduh add-on apa pun (termasuk modul
+     * konektor layanan itu sendiri), sehingga tetap tinggal di core.
+     */
+    function token_bursa(): string
+    {
+        return (string) setting('layanan_opendesa_token');
     }
 }
 

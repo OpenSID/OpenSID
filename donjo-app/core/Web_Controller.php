@@ -53,9 +53,9 @@ use App\Models\Widget;
 use App\Services\LaporanPenduduk;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
+use App\Services\Kapabilitas\PerbaruiLangganan;
 use Modules\Kehadiran\Models\HariLibur;
 use Modules\Kehadiran\Models\JamKerja;
-use Modules\Pelanggan\Services\PelangganService;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -202,7 +202,7 @@ class Web_Controller extends MY_Controller
             if (empty($data->body->pemesanan)) {
                 app('ci')->header['desa']                 = collect(identitas())->toArray();
                 app('ci')->header['perbaharui_langganan'] = true;
-                PelangganService::perbaruiLangganan();
+                app(PerbaruiLangganan::class)->refresh();
                 $data = app('ci')->cache->file->get('status_langganan');
             }
 

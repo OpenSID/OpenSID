@@ -35,48 +35,43 @@
  *
  */
 
-namespace App\Services\Mandiri;
+namespace App\Services\Kapabilitas;
 
 /**
- * Registry titik-masuk (landing) Layanan Mandiri, ber-kunci.
+ * Registry gerbang entitlement (langganan) fitur berbayar.
  *
- * Sebelumnya core meng-hardcode route/URL milik modul Anjungan pada beberapa
- * titik (root LM, beranda pasca-login kios, redirect logout tamu). Kini core
- * menanyakan resolver ini per-kunci; add-on mendaftarkan URL/route-nya (dan
- * boleh memutuskannya sendiri, mis. berdasarkan flag sesi miliknya). Tanpa
- * add-on → `null` (core pakai default masing-masing).
+ * Core TIDAK tahu fitur berbayar apa pun. Add-on mendaftarkan resolver
+ * boolean-nya lewat {@see register()} saat boot; core bertanya lewat
+ * {@see allows()}. Fitur tanpa resolver terdaftar → `false` (tidak berhak).
  *
- * Kunci yang dipakai core: `root` (root LM), `beranda` (pasca-login kios),
- * `logout` (landing setelah logout, mis. tamu kios).
+ * Inilah titik penegakan terbuka pengganti gerbang `PREMIUM` tersembunyi:
+ * status entitlement menjadi urusan add-on (mis. add-on Layanan), bukan core.
  */
-class MandiriEntryResolver
+class GerbangFitur
 {
     /**
-     * @var array<string, list<callable(): ?string>>
+     * @var array<string, callable(): bool>
      */
-    private array $providers = [];
+    private array $resolvers = [];
 
     /**
-     * @param callable(): ?string $provider
+     * Daftarkan resolver entitlement untuk sebuah fitur.
+     *
+     * @param callable(): bool $resolver
      */
-    public function register(string $key, callable $provider): void
+    public function daftarkan(string $feature, callable $resolver): void
     {
-        $this->providers[$key][] = $provider;
+        $this->resolvers[$feature] = $resolver;
     }
 
     /**
-     * URL landing pertama yang tersedia untuk `$key`, atau `null` bila tak ada
-     * add-on yang mendaftarkannya (atau semua mengembalikan kosong).
+     * Apakah fitur ini berhak (berlangganan aktif)? Default `false` bila
+     * tak ada add-on yang mendaftarkan resolver-nya.
      */
-    public function entry(string $key): ?string
+    public function mengizinkan(string $feature): bool
     {
-        foreach ($this->providers[$key] ?? [] as $provider) {
-            $url = $provider();
-            if (! empty($url)) {
-                return (string) $url;
-            }
-        }
+        $resolver = $this->resolvers[$feature] ?? null;
 
-        return null;
+        return $resolver !== null && (bool) $resolver();
     }
 }

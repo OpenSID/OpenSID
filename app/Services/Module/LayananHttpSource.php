@@ -50,13 +50,14 @@ use RuntimeException;
  * mengurangi proteksi.
  *
  * Kepercayaan-asal ditegakkan di sini: URL unduh wajib HTTPS dan host-nya harus
- * sama dengan host `server_layanan` (mencegah unduhan dari domain sembarang).
+ * sama dengan host penyedia bursa (`config('bursa.url_penyedia')`) — mencegah
+ * unduhan dari domain sembarang.
  */
 class LayananHttpSource implements ModuleSource
 {
     /**
-     * @param string|null $serverLayanan Basis URL server Layanan; bila null
-     *                                   dibaca dari `config_item('server_layanan')`.
+     * @param string|null $serverLayanan Basis URL penyedia bursa; bila null
+     *                                   dibaca dari `config('bursa.url_penyedia')`.
      * @param string|null $modulesDir    Direktori modul tujuan unduhan; bila null
      *                                   diresolusi dari `config_item('modules_locations')`.
      */
@@ -70,7 +71,7 @@ class LayananHttpSource implements ModuleSource
         $this->validasiUrlPaket($locator);
 
         $zipPath  = $this->modulesDir() . $name . '.zip';
-        $token    = (string) setting('layanan_opendesa_token');
+        $token    = token_bursa();
         $response = Http::withToken($token)
             ->withOptions(['sink' => $zipPath, 'timeout' => 120])
             ->get($locator);
@@ -92,7 +93,7 @@ class LayananHttpSource implements ModuleSource
     private function serverLayanan(): string
     {
         return $this->serverLayanan
-            ?? (function_exists('config_item') ? (string) config_item('server_layanan') : '');
+            ?? (string) config('bursa.url_penyedia');
     }
 
     /**

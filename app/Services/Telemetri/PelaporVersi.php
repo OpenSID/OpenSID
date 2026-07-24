@@ -35,33 +35,40 @@
  *
  */
 
-namespace App\Services\Kiosk;
+namespace App\Services\Telemetri;
 
 /**
- * Hasil {@see KioskProvider::activate()}: status + pesan (opsional) dari add-on.
+ * Pelapor versi terpasang ke penyedia hulu milik add-on.
  *
- * Pesan dimiliki add-on (mis. "belum diaktifkan admin") — core hanya menampilkan
- * apa pun yang disuplai, tanpa teks spesifik-modul.
+ * Sebelumnya core (helper `kirim_versi_opensid`, dipanggil Tracker) mem-POST
+ * versi ke `server_layanan/api/v1/pelanggan/catat-versi` langsung. Kini core
+ * hanya memicu registry ini; add-on (mis. modul Pelanggan) memasang pelapornya
+ * saat boot. Tanpa add-on → {@see lapor()} no-op (core OSS tak melapor ke hulu
+ * berbayar mana pun).
  */
-final class KioskActivationResult
+class PelaporVersi
 {
-    public function __construct(
-        public readonly KioskActivation $status,
-        public readonly ?string $message = null,
-    ) {}
+    /**
+     * @var (callable(string): void)|null
+     */
+    private $pelapor = null;
 
-    public static function none(): self
+    /**
+     * @param callable(string): void $pelapor
+     */
+    public function register(callable $pelapor): void
     {
-        return new self(KioskActivation::None);
+        $this->pelapor = $pelapor;
     }
 
-    public static function inactive(string $message): self
+    /**
+     * Laporkan versi terpasang untuk suatu kode desa. No-op bila tak ada pelapor
+     * terpasang (mis. modul Pelanggan absen di rilis Umum).
+     */
+    public function lapor(string $kodeDesa): void
     {
-        return new self(KioskActivation::Inactive, $message);
-    }
-
-    public static function active(): self
-    {
-        return new self(KioskActivation::Active);
+        if ($this->pelapor !== null) {
+            ($this->pelapor)($kodeDesa);
+        }
     }
 }

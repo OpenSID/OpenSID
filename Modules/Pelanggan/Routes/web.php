@@ -40,6 +40,13 @@ Route::group('peringatan', ['namespace' => 'Pelanggan'], static function (): voi
     Route::get('/', 'PelangganController@peringatan');
 });
 
+// Halaman perbarui token berlangganan (dituju saat token kosong/kedaluwarsa
+// via CekService::validasiVersi). Dipindah dari core (Fase D).
+Route::group('token', ['namespace' => 'Pelanggan'], static function (): void {
+    Route::get('/', 'TokenController@index')->name('token.index');
+    Route::post('/update', 'TokenController@update')->name('token.update');
+});
+
  // Info Desa - Pelanggan
 Route::group('pelanggan', ['namespace' => 'Pelanggan'], static function (): void {
     Route::get('/', 'PelangganController@index')->name('pelanggan.index');

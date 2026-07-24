@@ -55,15 +55,54 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Registry titik-ekstensi kios/entitlement/Layanan Mandiri (diisi add-on).
-        $this->app->singleton(\App\Services\Kiosk\KioskResolver::class);
-        $this->app->singleton(\App\Services\Entitlement\EntitlementGate::class);
-        $this->app->singleton(\App\Services\Mandiri\MandiriEntryResolver::class);
+        // Registry titik-ekstensi kios/anjungan Layanan Mandiri (diisi oleh add-on).
+        $this->app->singleton(\App\Services\Anjungan\PenentuanAnjungan::class);
+
+        // Gerbang entitlement fitur berbayar (diisi oleh add-on).
+        $this->app->singleton(\App\Services\Kapabilitas\GerbangFitur::class);
+
+        // Sumber status keaktifan fitur berbasis data langganan (diisi oleh
+        // add-on penyedia langganan, mis. modul Pelanggan). Default: nonaktif.
+        $this->app->singleton(\App\Services\Kapabilitas\SumberStatusFitur::class);
+
+        // Sumber tingkat (tier) layanan aktif desa (diisi oleh add-on penyedia
+        // langganan, mis. modul Pelanggan). Default: 'umum'.
+        $this->app->singleton(\App\Services\Kapabilitas\LayananAktif::class);
+
+        // Registry banner status admin (diisi oleh add-on). Default: tanpa banner.
+        $this->app->singleton(\App\Services\Pengumuman\SumberPengumuman::class);
+
+        // Registry penjaga akses request/migrasi (diisi oleh add-on). Default: boleh.
+        $this->app->singleton(\App\Services\Penjaga\PenjagaPermintaan::class);
+
+        // Penyegar cache status langganan (diisi oleh add-on). Default: no-op.
+        $this->app->singleton(\App\Services\Kapabilitas\PerbaruiLangganan::class);
+
+        // Sumber data pemesanan tema premium (diisi oleh add-on). Default: null.
+        $this->app->singleton(\App\Services\Theme\SumberTemaBursa::class);
+
+        // Bursa tema: katalog + unduhan tema dari penyedia add-on (diisi oleh
+        // add-on penyedia langganan). Default: katalog kosong, unduhan gagal.
+        $this->app->singleton(\App\Services\Theme\BursaTema::class);
+
+        // Registry kunci setting yang dipertahankan saat restore DB (diisi oleh
+        // add-on, mis. token langganan). Default: tak ada yang dipertahankan.
+        $this->app->singleton(\App\Services\Database\SetelanDipertahankan::class);
+
+        // Titik-masuk root Layanan Mandiri (diisi oleh add-on, mis. Anjungan).
+        $this->app->singleton(\App\Services\Mandiri\PenentuanMasukMandiri::class);
+
+        // Pemeriksa token perangkat Layanan Mandiri (diisi oleh add-on penyedia
+        // langganan). Default: nonaktif (autentikasi token perangkat mati).
+        $this->app->singleton(\App\Services\Mandiri\TokenPerangkatMandiri::class);
+
+        // Pelapor versi terpasang ke penyedia hulu (diisi oleh add-on). Default: no-op.
+        $this->app->singleton(\App\Services\Telemetri\PelaporVersi::class);
 
         // Pemilik tunggal siklus-hidup modul (add-on-agnostik); membaca sifat
-        // modul dari module.json + entitlement lewat EntitlementGate.
+        // modul dari module.json + entitlement lewat GerbangFitur.
         $this->app->singleton(\App\Services\Module\ModuleManager::class, static fn ($app) => new \App\Services\Module\ModuleManager(
-            $app->make(\App\Services\Entitlement\EntitlementGate::class),
+            $app->make(\App\Services\Kapabilitas\GerbangFitur::class),
         ));
 
         // Sumber berkas add-on. Default: klien Layanan (unduh HTTP — komponen

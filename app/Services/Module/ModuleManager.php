@@ -39,7 +39,7 @@ namespace App\Services\Module;
 
 use App\Models\Modul;
 use App\Models\SettingAplikasi;
-use App\Services\Entitlement\EntitlementGate;
+use App\Services\Kapabilitas\GerbangFitur;
 use App\Traits\ModuleMigrations;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
@@ -53,13 +53,13 @@ use ZipArchive;
  * Core TIDAK menyimpan daftar nama modul. Sifat tiap modul — apakah butuh
  * entitlement (langganan) dan boleh dihapus — dibaca dari `module.json`-nya,
  * bukan dari konstanta core seperti MODUL_BAWAAN (dihapus). Status entitlement
- * ditanyakan ke {@see EntitlementGate} yang diisi add-on Layanan.
+ * ditanyakan ke {@see GerbangFitur} yang diisi add-on Layanan.
  *
  * Empat status modul yang dipisah tegas (lihat master doc §11):
  *   - terpasang (installed): folder + `module.json` ada di disk → {@see isInstalled()}
  *   - terdaftar (registered): baris `setting_modul`/`grup_akses` (di-seed migrasi add-on)
  *   - aktif/nonaktif (enabled): flag `setting_modul.aktif` (toggle admin)
- *   - berhak (entitled): resolver {@see EntitlementGate} → {@see isEntitled()}
+ *   - berhak (entitled): resolver {@see GerbangFitur} → {@see isEntitled()}
  *
  * Tahap ini menyediakan sisi-baca + entitlement; verb install/uninstall/
  * enable/disable menyusul saat controller di-shim ke service ini.
@@ -95,7 +95,7 @@ class ModuleManager
      *                                         dibutuhkan — dapat diinjeksi pada uji.
      */
     public function __construct(
-        private readonly EntitlementGate $gate,
+        private readonly GerbangFitur $gate,
         private readonly ?string $modulesPath = null,
         private $entitlementBypass = null,
         private readonly ?ModuleSource $source = null,
@@ -177,7 +177,7 @@ class ModuleManager
     }
 
     /**
-     * Kunci fitur entitlement modul untuk {@see EntitlementGate}, atau `null`
+     * Kunci fitur entitlement modul untuk {@see GerbangFitur}, atau `null`
      * bila modul tak butuh entitlement.
      *
      * Default kunci = manifest `entitlement`, jatuh ke slug modul (nama huruf
@@ -199,7 +199,7 @@ class ModuleManager
      *
      * Modul tanpa syarat entitlement → selalu `true`. Selain itu: lingkungan
      * development/demo dilewati (lihat {@see bypassEntitlement()}), lalu
-     * ditanyakan ke {@see EntitlementGate}; tanpa resolver add-on → `false`.
+     * ditanyakan ke {@see GerbangFitur}; tanpa resolver add-on → `false`.
      */
     public function isEntitled(string $name): bool
     {
@@ -209,7 +209,7 @@ class ModuleManager
             return true;
         }
 
-        return $this->bypassEntitlement() || $this->gate->allows($feature);
+        return $this->bypassEntitlement() || $this->gate->mengizinkan($feature);
     }
 
     /**
@@ -502,9 +502,9 @@ class ModuleManager
     public function reportInstall(string $name, string $version): void
     {
         try {
-            $token    = (string) setting('layanan_opendesa_token');
+            $token    = token_bursa();
             $response = Http::withToken($token)->post(
-                config_item('server_layanan') . '/api/v1/modules/install',
+                config('bursa.url_penyedia') . '/api/v1/modules/install',
                 [
                     'module_name'   => $name,
                     'version'       => $version,

@@ -35,43 +35,62 @@
  *
  */
 
-namespace App\Services\Entitlement;
+namespace App\Services\Penjaga;
 
 /**
- * Registry gerbang entitlement (langganan) fitur berbayar.
+ * Registry penjaga (guard) akses request & migrasi milik add-on.
  *
- * Core TIDAK tahu fitur berbayar apa pun. Add-on mendaftarkan resolver
- * boolean-nya lewat {@see register()} saat boot; core bertanya lewat
- * {@see allows()}. Fitur tanpa resolver terdaftar → `false` (tidak berhak).
+ * Sebelumnya core memanggil langsung `CekService::validasi()/validasiAkses()`
+ * (saat request admin/publik) dan `validasiVersi()` (saat cek migrasi) untuk
+ * menegakkan batas versi/langganan premium. Kini core hanya bertanya ke registry
+ * ini; add-on (mis. modul Pelanggan) mendaftarkan penjaganya saat boot.
  *
- * Inilah titik penegakan terbuka pengganti gerbang `PREMIUM` tersembunyi:
- * status entitlement menjadi urusan add-on (mis. add-on Layanan), bukan core.
+ * Tiap penjaga menerima konteks `(bool $migration, bool $install)` dan
+ * mengembalikan `true` untuk MEMBOLEHKAN. Semua penjaga harus setuju (AND).
+ * Tanpa add-on → selalu `true` (core OSS tak membatasi apa pun).
  */
-class EntitlementGate
+class PenjagaPermintaan
 {
     /**
-     * @var array<string, callable(): bool>
+     * @var list<callable(bool, bool): bool>
      */
-    private array $resolvers = [];
+    private array $guards = [];
 
     /**
-     * Daftarkan resolver entitlement untuk sebuah fitur.
+     * Daftarkan penjaga. `$migration` = konteks cek migrasi (vs request biasa);
+     * `$install` = apakah sedang instalasi (hanya relevan saat migrasi).
      *
-     * @param callable(): bool $resolver
+     * @param callable(bool, bool): bool $guard
      */
-    public function register(string $feature, callable $resolver): void
+    public function daftarkan(callable $guard): void
     {
-        $this->resolvers[$feature] = $resolver;
+        $this->guards[] = $guard;
     }
 
     /**
-     * Apakah fitur ini berhak (berlangganan aktif)? Default `false` bila
-     * tak ada add-on yang mendaftarkan resolver-nya.
+     * Apakah request saat ini boleh diproses? Default `true` bila tak ada penjaga.
      */
-    public function allows(string $feature): bool
+    public function izinkanPermintaan(): bool
     {
-        $resolver = $this->resolvers[$feature] ?? null;
+        return $this->evaluate(false, false);
+    }
 
-        return $resolver !== null && (bool) $resolver();
+    /**
+     * Apakah migrasi boleh dijalankan? Default `true` bila tak ada penjaga.
+     */
+    public function izinkanMigrasi(bool $install): bool
+    {
+        return $this->evaluate(true, $install);
+    }
+
+    private function evaluate(bool $migration, bool $install): bool
+    {
+        foreach ($this->guards as $guard) {
+            if (! $guard($migration, $install)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

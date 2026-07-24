@@ -50,6 +50,7 @@ use App\Models\LogRestoreDesa;
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use App\Models\User;
+use App\Services\Database\SetelanDipertahankan;
 use App\Traits\Download;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -237,7 +238,13 @@ class Database extends Admin_Controller
         // isSiapPakai();
         isCan('u', 'database', true, true);
 
-        $token   = setting('layanan_opendesa_token');
+        // Setting milik add-on yang harus dipertahankan lintas-restore (mis. token
+        // langganan), didaftarkan ke registry netral oleh modul. Core tak lagi tahu
+        // kunci spesifik langganan.
+        $kunciDipertahankan = app(SetelanDipertahankan::class)->kunci();
+        $nilaiDipertahankan = SettingAplikasi::whereIn('key', $kunciDipertahankan)
+            ->pluck('value', 'key')
+            ->all();
         $pesan   = 'Proses restore database berhasil';
         $success = false;
 
@@ -258,8 +265,8 @@ class Database extends Admin_Controller
             $this->session->sedang_restore = 0;
             $pesan                         = $e->getMessage();
         } finally {
-            if ($this->input->post('hapus_token') == 'N') {
-                SettingAplikasi::where('key', 'layanan_opendesa_token')->update(['value' => $token]);
+            foreach ($nilaiDipertahankan as $key => $value) {
+                SettingAplikasi::where('key', $key)->update(['value' => $value]);
             }
             $this->session->sedang_restore = 0;
             if ($success) {

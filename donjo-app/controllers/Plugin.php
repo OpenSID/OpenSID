@@ -139,8 +139,8 @@ class Plugin extends Admin_Controller
         $data = [
             'content'         => 'admin.plugin.pendaftaran',
             'act_tab'         => 3,
-            'url_marketplace' => config_item('server_layanan') . '/api/v1/modules',
-            'token_layanan'   => setting('layanan_opendesa_token'),
+            'url_marketplace' => config('bursa.url_penyedia') . '/api/v1/modules',
+            'token_layanan'   => token_bursa(),
             'form_action'     => site_url('plugin/pendaftaran/store'),
         ];
 
@@ -170,7 +170,7 @@ class Plugin extends Admin_Controller
         $data = [
             'content'       => 'admin.plugin.pemesanan',
             'act_tab'       => 4,
-            'token_layanan' => setting('layanan_opendesa_token'),
+            'token_layanan' => token_bursa(),
         ];
 
         view('admin.plugin.index', $data);
@@ -241,8 +241,8 @@ class Plugin extends Admin_Controller
             }
 
             // Kirim ke API
-            $url      = config_item('server_layanan') . '/api/v1/pemesanan';
-            $response = Http::withToken(setting('layanan_opendesa_token'))
+            $url      = config('bursa.url_penyedia') . '/api/v1/pemesanan';
+            $response = Http::withToken(token_bursa())
                 ->asMultipart()
                 ->post($url, $multipartData);
 
@@ -373,8 +373,8 @@ class Plugin extends Admin_Controller
 
         return [
             'lokal' => false,
-            'url'   => config_item('server_layanan') . '/api/v1/modules',
-            'token' => setting('layanan_opendesa_token'),
+            'url'   => config('bursa.url_penyedia') . '/api/v1/modules',
+            'token' => token_bursa(),
         ];
     }
 

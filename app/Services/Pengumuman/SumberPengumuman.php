@@ -35,77 +35,55 @@
  *
  */
 
-namespace App\Services\Kiosk;
+namespace App\Services\Pengumuman;
 
 /**
- * Registry titik-ekstensi untuk penyedia sesi "kios/anjungan" Layanan Mandiri.
+ * Registry banner/pemberitahuan admin milik add-on.
  *
- * Core TIDAK tahu implementasi kios apa pun. Add-on (mis. modul Anjungan)
- * mendaftarkan {@see KioskProvider}-nya lewat {@see register()} saat boot.
- * Core memanggil {@see resolve()} (data sesi kios saat ini) atau
- * {@see activate()} (aktifkan dari uuid client).
+ * Sebelumnya core (Admin_Controller/Beranda) memanggil langsung
+ * `PelangganService::statusLangganan()` / `statusPercobaan()` untuk merakit
+ * banner status langganan. Kini core hanya menanyakan registry ini; add-on
+ * (mis. modul Pelanggan) mendaftarkan penyedia banner-nya saat boot.
+ *
+ * Tiap penyedia mengembalikan satu notice (array data banner) atau nilai
+ * kosong/`null` bila tak ada yang perlu ditampilkan. Tanpa add-on →
+ * {@see notices()} mengembalikan `[]` (core OSS tak menampilkan banner apa pun).
  */
-class KioskResolver
+class SumberPengumuman
 {
     /**
-     * @var list<KioskProvider>
+     * @var list<callable(): mixed>
      */
     private array $providers = [];
 
     /**
-     * Daftarkan penyedia kios. Dipanggil oleh ServiceProvider add-on.
+     * Daftarkan penyedia banner admin.
+     *
+     * @param callable(): mixed $provider
      */
-    public function register(KioskProvider $provider): void
+    public function daftarkan(callable $provider): void
     {
         $this->providers[] = $provider;
     }
 
     /**
-     * Kembalikan data sesi kios pertama yang tidak kosong, atau `[]` bila tak ada.
+     * Kumpulan notice non-kosong dari semua penyedia terdaftar, dalam urutan
+     * pendaftaran. Default `[]` bila tak ada penyedia.
      *
-     * @return array<string, mixed>
+     * @return list<mixed>
      */
-    public function resolve(): array
+    public function pengumuman(): array
     {
+        $notices = [];
+
         foreach ($this->providers as $provider) {
-            $data = $provider->resolve();
-            if ($data !== []) {
-                return $data;
+            $notice = $provider();
+
+            if (! empty($notice)) {
+                $notices[] = $notice;
             }
         }
 
-        return [];
-    }
-
-    /**
-     * Aktifkan sesi kios dari uuid client via penyedia terdaftar pertama yang
-     * mengenalinya. Status {@see KioskActivation::None} bila tak ada yang mengenali.
-     *
-     * @param KioskActivationMode $mode lihat {@see KioskProvider::activate()}
-     */
-    public function activate(string $uuid, KioskActivationMode $mode): KioskActivationResult
-    {
-        foreach ($this->providers as $provider) {
-            $result = $provider->activate($uuid, $mode);
-            if ($result->status !== KioskActivation::None) {
-                return $result;
-            }
-        }
-
-        return KioskActivationResult::none();
-    }
-
-    /**
-     * Apakah sesi saat ini sesi kios menurut salah satu penyedia terdaftar?
-     */
-    public function isActiveSession(): bool
-    {
-        foreach ($this->providers as $provider) {
-            if ($provider->isActiveSession()) {
-                return true;
-            }
-        }
-
-        return false;
+        return $notices;
     }
 }

@@ -1968,11 +1968,6 @@ Route::group('dtks', static function (): void {
     Route::post('/remove/{id}', 'Dtks@remove')->name('dtks.remove');
 });
 
-Route::group('token', static function (): void {
-    Route::get('/', 'Token@index')->name('token.index');
-    Route::post('/update', 'Token@update')->name('token.update');
-});
-
 Route::group('plugin', static function (): void {
     Route::get('/', 'Plugin@index')->name('plugin.index');
     Route::get('/installed', 'Plugin@installed')->name('plugin.installed');

@@ -35,33 +35,20 @@
  *
  */
 
-namespace App\Services\Kiosk;
+return [
 
-/**
- * Kontrak penyedia kios (didaftarkan add-on ke {@see KioskResolver}).
- */
-interface KioskProvider
-{
-    /**
-     * Data sesi kios dari sesi/cookie saat ini, atau `[]` bila bukan sesi kios.
-     *
-     * @return array<string, mixed>
-     */
-    public function resolve(): array;
+    /*
+    |--------------------------------------------------------------------------
+    | URL penyedia bursa add-on
+    |--------------------------------------------------------------------------
+    |
+    | Basis URL penyedia katalog/instalasi add-on (bursa modul & tema). Core
+    | OSS memakai nilai netral yang DAPAT DI-OVERRIDE ini alih-alih meng-hardcode
+    | vendor tertentu, sehingga rilis pihak ketiga bisa mengarahkan bursa ke
+    | penyedianya sendiri lewat env `BURSA_URL_PENYEDIA`. Default menunjuk ke
+    | penyedia OpenDesa hanya sebagai nilai bawaan.
+    |
+    */
 
-    /**
-     * Validasi & aktifkan sesi kios dari pengenal (uuid) yang dikirim client.
-     *
-     * @param KioskActivationMode $mode {@see KioskActivationMode::DeviceCheck}
-     *              (hanya kios "utama" mis. ANJUNGAN, tanpa menandai sesi) atau
-     *              {@see KioskActivationMode::Login} (semua tipe kios + tandai
-     *              sesi sebagai sesi kios).
-     */
-    public function activate(string $uuid, KioskActivationMode $mode): KioskActivationResult;
-
-    /**
-     * Apakah sesi saat ini adalah sesi kios (ditandai oleh add-on saat login)?
-     * Flag sesi dimiliki add-on; core menanyakannya lewat method ini.
-     */
-    public function isActiveSession(): bool;
-}
+    'url_penyedia' => env('BURSA_URL_PENYEDIA', 'https://layanan.opendesa.id'),
+];

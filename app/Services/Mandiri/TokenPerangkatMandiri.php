@@ -35,19 +35,39 @@
  *
  */
 
-namespace App\Services\Kiosk;
+namespace App\Services\Mandiri;
 
 /**
- * Hasil upaya aktivasi sesi kios dari uuid client.
+ * Pemeriksa token perangkat Layanan Mandiri milik add-on.
+ *
+ * Sebelumnya core (AuthenticatedSessionController) membandingkan token perangkat
+ * kios langsung dengan `setting('layanan_opendesa_token')`. Kini core hanya
+ * bertanya ke registry ini; add-on (mis. modul Pelanggan) memasang pemeriksanya
+ * saat boot. Tanpa add-on → {@see cocok()} selalu `false` (core OSS tak punya
+ * token berlangganan; autentikasi perangkat via token dinonaktifkan, hanya
+ * guard biasa yang berlaku).
  */
-enum KioskActivation
+class TokenPerangkatMandiri
 {
-    /** Tidak ada perangkat kios cocok dengan uuid. */
-    case None;
+    /**
+     * @var (callable(?string): bool)|null
+     */
+    private $pemeriksa = null;
 
-    /** Perangkat ditemukan namun belum diaktifkan admin. */
-    case Inactive;
+    /**
+     * @param callable(?string): bool $pemeriksa
+     */
+    public function register(callable $pemeriksa): void
+    {
+        $this->pemeriksa = $pemeriksa;
+    }
 
-    /** Perangkat aktif; sesi kios telah di-set. */
-    case Active;
+    /**
+     * Apakah token perangkat yang diberikan cocok dengan token sah. Default
+     * `false` bila tak ada pemeriksa terpasang (mis. modul Pelanggan absen).
+     */
+    public function cocok(?string $token): bool
+    {
+        return $this->pemeriksa !== null && ($this->pemeriksa)($token);
+    }
 }

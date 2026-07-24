@@ -65,7 +65,7 @@ class Dev_modul extends Admin_Controller
             'lokal'            => LocalMarketplace::aktif(),
             'paket_repo'       => $market->repos(),
             'kandidat'         => $market->kandidat(),
-            'server_layanan'   => (string) config_item('server_layanan'),
+            'server_layanan'   => (string) config('bursa.url_penyedia'),
             'form_action'      => site_url('dev-modul/sumber'),
             'form_daftar'      => site_url('dev-modul/daftar'),
             'form_daftar_lokal' => site_url('dev-modul/daftar-lokal'),

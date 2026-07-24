@@ -35,16 +35,48 @@
  *
  */
 
-namespace App\Services\Kiosk;
+namespace App\Services\Mandiri;
 
 /**
- * Konteks pemanggilan {@see KioskProvider::activate()}.
+ * Registry titik-masuk (landing) Layanan Mandiri, ber-kunci.
+ *
+ * Sebelumnya core meng-hardcode route/URL milik modul Anjungan pada beberapa
+ * titik (root LM, beranda pasca-login kios, redirect logout tamu). Kini core
+ * menanyakan resolver ini per-kunci; add-on mendaftarkan URL/route-nya (dan
+ * boleh memutuskannya sendiri, mis. berdasarkan flag sesi miliknya). Tanpa
+ * add-on → `null` (core pakai default masing-masing).
+ *
+ * Kunci yang dipakai core: `root` (root LM), `beranda` (pasca-login kios),
+ * `logout` (landing setelah logout, mis. tamu kios).
  */
-enum KioskActivationMode
+class PenentuanMasukMandiri
 {
-    /** Pemeriksaan perangkat (mis. endpoint AJAX): hanya validasi + set identitas. */
-    case DeviceCheck;
+    /**
+     * @var array<string, list<callable(): ?string>>
+     */
+    private array $providers = [];
 
-    /** Aktivasi saat login: validasi + tandai sesi sebagai sesi kios. */
-    case Login;
+    /**
+     * @param callable(): ?string $provider
+     */
+    public function daftarkan(string $key, callable $provider): void
+    {
+        $this->providers[$key][] = $provider;
+    }
+
+    /**
+     * URL landing pertama yang tersedia untuk `$key`, atau `null` bila tak ada
+     * add-on yang mendaftarkannya (atau semua mengembalikan kosong).
+     */
+    public function titikMasuk(string $key): ?string
+    {
+        foreach ($this->providers[$key] ?? [] as $provider) {
+            $url = $provider();
+            if (! empty($url)) {
+                return (string) $url;
+            }
+        }
+
+        return null;
+    }
 }
