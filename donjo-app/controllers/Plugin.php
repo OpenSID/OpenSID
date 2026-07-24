@@ -331,6 +331,16 @@ class Plugin extends Admin_Controller
                 return redirect_with('error', "Gagal membuka file ZIP: {$zipFilePath}", 'plugin');
             }
 
+            // Validasi ZipSlip: tolak entry dengan path traversal
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $entry = $zip->getNameIndex($i);
+                if (str_contains($entry, '..') || str_starts_with($entry, '/') || str_starts_with($entry, '\\')) {
+                    $zip->close();
+                    unlink($zipFilePath);
+                    return redirect_with('error', 'Paket mengandung path ilegal: ' . $entry, 'plugin');
+                }
+            }
+
             $subfolder = rtrim($zip->getNameIndex(0), '/');
             $sourceDir = $tmpExtractedDir . $subfolder;
             $zip->extractTo($tmpExtractedDir);
