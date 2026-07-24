@@ -76,6 +76,9 @@
                                         <div class="checkbox">
                                             <label><input type="checkbox" data-id="nama_ibu"> Nama Ibu</label>
                                         </div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" data-id="no_kk"> No. KK</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
