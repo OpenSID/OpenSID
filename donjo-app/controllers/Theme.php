@@ -338,6 +338,22 @@ class Theme extends Admin_Controller
             ];
         }
 
+        // Validasi ZipSlip: tolak entry dengan path traversal
+        // ZipArchive::extractTo() tidak sanitasi '../' secara default,
+        // sehingga entry seperti '../../shell.php' bisa keluar dari folder tujuan.
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $entry = $zip->getNameIndex($i);
+            if (str_contains($entry, '..') || str_starts_with($entry, '/') || str_starts_with($entry, '\\')) {
+                $zip->close();
+                unlink($upload['full_path']);
+
+                return [
+                    'status' => false,
+                    'data'   => 'Tema mengandung path ilegal: ' . $entry,
+                ];
+            }
+        }
+
         $lokasi_ekstrak = FCPATH . 'desa/themes/';
         $subfolder      = $zip->getNameIndex(0);
         $zip->extractTo($lokasi_ekstrak);
