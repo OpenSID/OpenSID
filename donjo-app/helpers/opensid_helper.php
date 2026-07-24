@@ -1368,8 +1368,16 @@ function idm($kode_desa, $tahun)
 
     // Periksa apakah file cache ada dan tidak kadaluarsa
     if (file_exists($cache_path)) {
-        $data = unserialize(file_get_contents($cache_path));
-        $ci->cache->save($cache, $data['data'], YEAR); // Ubah ke satu tahun
+        $raw  = file_get_contents($cache_path);
+        $data = json_decode($raw, true);
+
+        // Hapus cache corrupt (format lama PHP serialized atau JSON invalid)
+        if (! is_array($data) || ! isset($data['data'])) {
+            @unlink($cache_path);
+            $data = null;
+        } else {
+            $ci->cache->save($cache, $data['data'], YEAR); // Ubah ke satu tahun
+        }
     }
 
     // Ambil cache IDM
@@ -1429,8 +1437,16 @@ function sdgs()
 
     // Periksa apakah file cache ada dan perbaharui cache jika kadaluarsa
     if (file_exists($cache_path)) {
-        $data = unserialize(file_get_contents($cache_path));
-        $ci->cache->save($cache, $data['data'], YEAR); // Ubah ke satu tahun
+        $raw  = file_get_contents($cache_path);
+        $data = json_decode($raw, true);
+
+        // Hapus cache corrupt (format lama PHP serialized atau JSON invalid)
+        if (! is_array($data) || ! isset($data['data'])) {
+            @unlink($cache_path);
+            $data = null;
+        } else {
+            $ci->cache->save($cache, $data['data'], YEAR); // Ubah ke satu tahun
+        }
     }
 
     // Ambil cache SDGs
