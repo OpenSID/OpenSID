@@ -1921,17 +1921,6 @@ Route::group('mandiri', static function (): void {
     Route::post('/kirim/{id_pend?}', 'Mandiri@kirim')->name('mandiri.kirim');
 });
 
-// Layanan Mandiri > Gawai Layanan
-Route::group('gawai_layanan', static function (): void {
-    Route::get('/', 'Gawai_layanan@index')->name('gawai_layanan.index');
-    Route::get('/datatables', 'Gawai_layanan@datatables')->name('gawai_layanan.datatables');
-    Route::get('/form/{id?}', 'Gawai_layanan@form')->name('gawai_layanan.form');
-    Route::post('/insert', 'Gawai_layanan@insert')->name('gawai_layanan.insert');
-    Route::post('/update/{id?}', 'Gawai_layanan@update')->name('gawai_layanan.update');
-    Route::get('/delete/{id?}', 'Gawai_layanan@delete')->name('gawai_layanan.delete');
-    Route::post('/delete', 'Gawai_layanan@delete')->name('gawai_layanan.delete-all');
-    Route::get('/kunci/{id?}/{val?}', 'Gawai_layanan@kunci')->name('gawai_layanan.kunci');
-});
 
 // Layanan Mandiri > Pendapat
 Route::group('pendapat', static function (): void {

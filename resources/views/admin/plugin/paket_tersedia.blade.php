@@ -29,25 +29,13 @@
 <div class="modal fade" id="modalPersetujuanPaket" tabindex="-1" role="dialog" aria-labelledby="modalPersetujuanLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-warning">
+            <div class="modal-header bg-warning" id="modalPersetujuanHeader">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="modalPersetujuanLabel">
-                    <i class="fa fa-exclamation-triangle"></i> &nbsp;Perhatian: Paket Premium
-                </h4>
+                <h4 class="modal-title" id="modalPersetujuanLabel"></h4>
             </div>
-            <div class="modal-body">
-                <div class="alert alert-warning">
-                    <i class="fa fa-info-circle"></i> <strong>Penting:</strong> Pastikan Anda siap melanjutkan langganan Premium untuk terus mendapatkan manfaat penuh dari modul ini.
-                </div>
-                <h5>Paket Premium: <strong id="paketNamaPendaftaran"></strong></h5>
-                <p>Modul ini memerlukan <strong>Langganan Premium yang Aktif</strong>. Berikut yang perlu Anda ketahui:</p>
-                <ul>
-                    <li><strong>Dengan Premium Aktif:</strong> Akses penuh ke modul dengan update versi terbaru</li>
-                    <li><strong>Premium Berakhir:</strong> Modul tidak akan menerima update versi terbaru</li>
-                </ul>
-            </div>
+            <div class="modal-body" id="modalPersetujuanBody"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i>
+                <button type="button" class="btn btn-social btn-default btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i>
                     Tutup
                 </button>
                 <button type="button" class="btn btn-social btn-success btn-sm" id="btnSetujuPasang">
@@ -62,6 +50,48 @@
     <script>
         $(function() {
             let pendingInstallValue = null;
+
+            // Susun isi modal instalasi sesuai jenis paket:
+            // - klien Layanan (Pelanggan): pengelola layanan non-aplikasi (hosting,
+            //   pasang/pembaruan, verifikasi langganan & lisensi modul);
+            // - modul berlisensi (mis. Anjungan): butuh "Lisensi <fitur>"
+            //   (sekali bayar, berlaku selamanya);
+            // - modul gratis lain: konfirmasi sederhana.
+            function kontenModalPaket(nama, info) {
+                const esc = (s) => $('<div>').text(s).html();
+                if (info.isClient) {
+                    return {
+                        header: 'bg-info',
+                        judul: '<i class="fa fa-plug"></i> &nbsp;Aktifkan Layanan Desa',
+                        body: `<p>Modul <strong>${esc(nama)}</strong> adalah <strong>klien Layanan</strong> desa Anda. Memasangnya mengaktifkan pengelolaan layanan non-aplikasi:</p>
+                            <ul>
+                                <li>Langganan <strong>hosting</strong> desa</li>
+                                <li>Layanan <strong>pemasangan &amp; pembaruan</strong> aplikasi</li>
+                                <li>Verifikasi <strong>langganan/lisensi</strong> &amp; pengelolaan lisensi modul berbayar (mis. Anjungan)</li>
+                            </ul>
+                            <p class="text-muted">Modul ini gratis dan menjadi prasyarat sebelum memasang modul berlisensi.</p>`,
+                    };
+                }
+                if (info.requiresEntitlement) {
+                    const kunci = info.entitlement || nama;
+                    const lisensi = 'Lisensi ' + kunci.charAt(0).toUpperCase() + kunci.slice(1);
+                    return {
+                        header: 'bg-info',
+                        judul: '<i class="fa fa-key"></i> &nbsp;Modul Berlisensi',
+                        body: `<div class="alert alert-info"><i class="fa fa-info-circle"></i> Modul ini memerlukan <strong>${esc(lisensi)}</strong> — sekali bayar, berlaku selamanya.</div>
+                            <p>Modul <strong>${esc(nama)}</strong> memerlukan <strong>${esc(lisensi)}</strong>. Lisensi ini cukup dibeli satu kali dan berlaku permanen — tanpa perpanjangan maupun langganan berkala. Aktivasi lisensi dilakukan melalui modul <strong>Layanan (Pelanggan)</strong>.</p>
+                            <ul>
+                                <li><strong>Sekali bayar</strong> — lisensi berlaku selamanya, tanpa masa berlaku.</li>
+                                <li>Lisensi tersendiri, dikelola lewat modul <strong>Layanan (Pelanggan)</strong>.</li>
+                            </ul>`,
+                    };
+                }
+                return {
+                    header: 'bg-info',
+                    judul: '<i class="fa fa-download"></i> &nbsp;Pasang Modul',
+                    body: `<p>Pasang modul <strong>${esc(nama)}</strong>?</p>`,
+                };
+            }
 
             function compareVersions(version1, version2) {
                 const splitVersion1 = version1.split('.');
@@ -143,8 +173,10 @@
 
             function loadModule(page, tipe) {
                 let paketTerpasang = {!! $paket_terpasang ?? '{}' !!}
+                let klienTerpasang = {!! ($klien_terpasang ?? true) ? 'true' : 'false' !!}
                 let cardView = [],
                     disabledPaket, buttonInstall, versionCheck, templateTmp
+                let paketInfo = {}
                 let urlModule = '{{ $url_marketplace }}'
                 const templateCard = `@include('admin.plugin.item')`
                 $('div#list-paket').find('form').empty()
@@ -176,6 +208,11 @@
                             templateTmp = templateCard
                             disabledPaket = ''
                             const installValue = `${data[i].name}___${data[i].url}___${data[i].version}`
+                            paketInfo[data[i].name] = {
+                                requiresEntitlement: !!data[i].requires_entitlement,
+                                entitlement: data[i].entitlement || '',
+                                isClient: !!data[i].is_client,
+                            }
                             buttonInstall = `<button type="button" ${disabledPaket} name="pasang" value="${installValue}" class="btn btn-primary btn-pasang-paket">Pasang</button>`
                             if (paketTerpasang[data[i].name] !== undefined) {
                                 versionCheck = compareVersions(data[i].version, paketTerpasang[data[i].name].version)
@@ -185,6 +222,12 @@
                                     disabledPaket = 'disabled'
                                     buttonInstall = `<button type="button" ${disabledPaket} name="pasang" value="${installValue}" class="btn btn-primary">Pasang</button>`
                                 }
+                            }
+
+                            // Prasyarat: modul berbayar terkunci sampai klien langganan
+                            // (Layanan) terpasang. Klien sendiri tak berbayar → tak terkunci.
+                            if (!klienTerpasang && data[i].requires_entitlement && paketTerpasang[data[i].name] === undefined) {
+                                buttonInstall = `<button type="button" disabled class="btn btn-default btn-terkunci" title="Perlu Layanan aktif — pasang paket klien langganan lebih dulu"><i class="fa fa-lock"></i> Perlu Layanan</button>`
                             }
 
                             templateTmp = templateTmp.replace('__name__', data[i].name)
@@ -203,9 +246,12 @@
                             e.preventDefault();
                             const paketName = $(this).val().split('___')[0];
                             pendingInstallValue = $(this).val();
-                            
-                            // Tampilkan modal persetujuan
-                            $('#paketNamaPendaftaran').text(paketName);
+
+                            // Isi modal sesuai jenis paket (klien Layanan / berlisensi / gratis)
+                            const isi = kontenModalPaket(paketName, paketInfo[paketName] || {});
+                            $('#modalPersetujuanHeader').removeClass('bg-warning bg-info bg-primary').addClass(isi.header);
+                            $('#modalPersetujuanLabel').html(isi.judul);
+                            $('#modalPersetujuanBody').html(isi.body);
                             $('#modalPersetujuanPaket').modal('show');
                         });
 

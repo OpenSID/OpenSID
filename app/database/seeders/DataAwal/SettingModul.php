@@ -1590,18 +1590,6 @@ class SettingModul extends Seeder
                 'parent'     => 337,
             ],
             [
-                'modul'      => 'Gawai Layanan',
-                'slug'       => 'gawai-layanan',
-                'url'        => 'gawai_layanan',
-                'aktif'      => 1,
-                'ikon'       => 'fa-desktop',
-                'urut'       => 3,
-                'level'      => 2,
-                'hidden'     => 0,
-                'ikon_kecil' => 'fa-desktop',
-                'parent'     => 14,
-            ],
-            [
                 'modul'      => 'DTKS',
                 'slug'       => 'dtks',
                 'url'        => 'dtks',

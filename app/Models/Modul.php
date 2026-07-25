@@ -184,7 +184,7 @@ class Modul extends BaseModel
         // semua peran — link ke modul absen selalu rusak.
         $hiddenSlugs = app(ModuleManager::class)->hiddenMenuSlugs();
 
-        $modul = $this->with(['childrens' => static function ($q) use ($grupId, $superAdmin) {
+        $modul = $this->with(['childrens' => static function ($q) use ($grupId, $superAdmin, $hiddenSlugs) {
                 $q->select(['id', 'parent', 'modul', 'slug', 'url', 'ikon'])
                     ->when(! UserGrup::isAdministrator($grupId), static function ($query) use ($grupId) {
                         $query->whereIn('id', static function ($query) use ($grupId) {
@@ -198,6 +198,9 @@ class Modul extends BaseModel
                     ->when(! $superAdmin, static function ($query) {
                         $query->isActive();
                     })
+                    // Sembunyikan sub-menu milik modul yang folder-nya absen
+                    // (mis. add-on berbayar belum dipasang) — sejajar filter induk.
+                    ->when($hiddenSlugs, static fn ($query) => $query->whereNotIn('slug', $hiddenSlugs))
                     ->orderBy('urut');
             }])
             ->select(['id', 'parent', 'modul', 'slug', 'url', 'ikon'])

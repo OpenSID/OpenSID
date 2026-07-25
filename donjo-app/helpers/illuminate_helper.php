@@ -57,6 +57,15 @@ if (! function_exists('app')) {
 
         $container->singleton('ci', static fn () => $ci);
 
+        // Bind instance CI3 hidup ke tipe \CI_Controller agar resolusi berbasis-tipe
+        // (mis. constructor-injection add-on: `?\CI_Controller $ci = null` +
+        // `app()->make(\CI_Controller::class)`) mendapatkan controller aktif — sejajar
+        // Premium (donjo-app/core/Controller.php). Tanpa ini, make(\CI_Controller) akan
+        // mereflect-instantiate controller baru → rekursi bootstrap CI3 → crash.
+        if ($ci instanceof CI_Controller) {
+            $container->instance(CI_Controller::class, $ci);
+        }
+
         // Set config setelah instance ci
         $container['config']->set('mail.default', $ci?->setting?->email_protocol);
         $container['config']->set("mail.mailers.{$ci?->setting?->email_protocol}.transport", $ci?->setting?->email_protocol);

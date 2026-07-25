@@ -64,6 +64,7 @@ class Plugin extends Admin_Controller
             'url_marketplace' => $market['url'],
             'paket_terpasang' => json_encode($this->paketTerpasang()),
             'token_layanan'   => $market['token'],
+            'klien_terpasang' => app(ModuleManager::class)->klienLanggananTerpasang(),
         ];
 
         view('admin.plugin.index', $data);

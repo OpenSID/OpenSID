@@ -31,7 +31,8 @@ class LocalMarketplace implements ModuleSource
     /** Kunci sesi CI untuk state mode. */
     private const SESI = 'dev_modul_sumber';
 
-    private const ABAIKAN_TIPE_PREMIUM = 'premium';
+    private const TIPE_PREMIUM = 'premium';
+    private const TIPE_GRATIS  = 'gratis';
 
     /**
      * Apakah mode bursa paket lokal aktif. Default (sesi kosong): aktif bila
@@ -94,18 +95,35 @@ class LocalMarketplace implements ModuleSource
             . '<polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>'
         );
 
-        // Semua paket lokal diperlakukan gratis; filter "premium" → kosong.
-        $data = $tipe === self::ABAIKAN_TIPE_PREMIUM ? [] : array_map(static function (array $m) use ($thumb): array {
+        // Petakan paket → bentuk katalog. Tipe ditentukan `requires_entitlement`:
+        // modul berbayar (butuh entitlement) = "Premium", selain itu "Gratis".
+        $semua = array_map(static function (array $m) use ($thumb): array {
             return [
                 'name'         => $m['name'],
                 'url'          => 'local://' . $m['name'],
                 'version'      => $m['version'] !== '' ? $m['version'] : '0.0.0',
                 'description'  => $m['description'] !== '' ? $m['description'] : 'Paket lokal (bursa paket pengembangan).',
                 'thumbnail'    => $thumb,
-                'price'        => 'Gratis',
+                'price'        => $m['requires_entitlement'] ? 'Premium' : 'Gratis',
                 'totalInstall' => 0,
+                // Sinyal prasyarat untuk UI: modul berbayar dikunci sampai klien
+                // langganan terpasang (lihat paket_tersedia.blade + ModuleManager).
+                'requires_entitlement' => $m['requires_entitlement'],
+                // Kunci lisensi (mis. 'anjungan' → "Lisensi Anjungan") + penanda
+                // apakah paket ini klien Layanan (Pelanggan) — dipakai modal instalasi
+                // untuk menampilkan pesan sesuai jenis paket, bukan pesan generik.
+                'entitlement'          => $m['entitlement'],
+                'is_client'            => in_array(ModuleManager::KAPABILITAS_KLIEN, $m['provides'], true),
             ];
         }, $this->repos());
+
+        // Filter tab tipe: Premium → hanya berbayar; Gratis → hanya gratis;
+        // kosong ('-Pilih tipe-') → semua.
+        $data = match ($tipe) {
+            self::TIPE_PREMIUM => array_values(array_filter($semua, static fn (array $m): bool => $m['requires_entitlement'])),
+            self::TIPE_GRATIS  => array_values(array_filter($semua, static fn (array $m): bool => ! $m['requires_entitlement'])),
+            default            => $semua,
+        };
 
         return [
             'data' => $data,
@@ -120,7 +138,7 @@ class LocalMarketplace implements ModuleSource
     /**
      * Isi marketplace: paket ZIP tersimpan di gudang (dari sidecar).
      *
-     * @return list<array{name: string, version: string, description: string, sumber: string, ref: string, waktu: string, installed: bool}>
+     * @return list<array{name: string, version: string, description: string, sumber: string, ref: string, waktu: string, installed: bool, requires_entitlement: bool, entitlement: string, provides: list<string>}>
      */
     public function repos(): array
     {
@@ -142,6 +160,9 @@ class LocalMarketplace implements ModuleSource
                 'ref'         => (string) ($meta['ref'] ?? ''),
                 'waktu'       => (string) ($meta['waktu'] ?? ''),
                 'installed'   => is_dir(self::modulesDir() . $name),
+                'requires_entitlement' => (bool) ($meta['requires_entitlement'] ?? false),
+                'entitlement'          => (string) ($meta['entitlement'] ?? ''),
+                'provides'             => is_array($meta['provides'] ?? null) ? $meta['provides'] : [],
             ];
         }
 
@@ -311,6 +332,9 @@ class LocalMarketplace implements ModuleSource
             'name'        => $name,
             'version'     => (string) ($meta['version'] ?? ''),
             'description' => (string) ($meta['description'] ?? ''),
+            'requires_entitlement' => (bool) ($meta['requires_entitlement'] ?? false),
+            'entitlement' => (string) ($meta['entitlement'] ?? ''),
+            'provides'    => is_array($meta['provides'] ?? null) ? array_values($meta['provides']) : [],
             'sumber'      => $sumber,
             'ref'         => $ref,
             'waktu'       => date('Y-m-d H:i:s'),

@@ -13,5 +13,6 @@
     "requires_entitlement": false,
     "removable": false,
     "marketplace": false,
+    "provides": ["klien-langganan"],
     "menu_slug": "layanan-pelanggan"
 }

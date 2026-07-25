@@ -218,7 +218,11 @@ class PerangkatController extends WebModulController
         $ip_address    = (setting('ip_adress_kehadiran') === $this->ip && setting('ip_adress_kehadiran') !== null);
         $mac_adress    = (setting('mac_adress_kehadiran') === $this->mac && setting('mac_adress_kehadiran') !== null);
         $id_pengunjung = (setting('id_pengunjung_kehadiran') === $this->pengunjung && setting('id_pengunjung_kehadiran') !== null);
-        $anjungan      = in_array(Anjungan::KEHADIRAN, $this->cek_anjungan['tipe'] ?? []);
+        // Perangkat tipe-anjungan (kios) bersifat opsional: hanya bila add-on
+        // Anjungan terpasang. Tanpa add-on, deteksi bergantung pada setelan
+        // perangkat kehadiran sendiri (ip/mac/id) di atas.
+        $anjungan      = class_exists(Anjungan::class)
+            && in_array(Anjungan::KEHADIRAN, $this->cek_anjungan['tipe'] ?? []);
         $cek_gawai     = ($ip_address || $mac_adress || $id_pengunjung || $anjungan);
         $cek_hari      = HariLibur::where('tanggal', '=', date('Y-m-d'))->first();
         $cek_weekend   = JamKerja::libur()->first();

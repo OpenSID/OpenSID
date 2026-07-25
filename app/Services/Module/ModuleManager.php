@@ -79,6 +79,14 @@ class ModuleManager
     private const MENU_MAP_KEY = 'modul_menu_map';
 
     /**
+     * Kapabilitas netral yang dideklarasikan modul "klien langganan" (entry point
+     * Layanan) lewat manifest `provides`. Inti tak mengenal nama modul tertentu;
+     * ia hanya tahu bahwa modul berbayar butuh SEBUAH penyedia kapabilitas ini
+     * terpasang lebih dulu (prasyarat). Rebrander dapat menyediakannya sendiri.
+     */
+    public const KAPABILITAS_KLIEN = 'klien-langganan';
+
+    /**
      * @param string|null   $modulesPath       Direktori dasar modul (berakhiran
      *                                         pemisah opsional). Bila null,
      *                                         di-resolve dari konfigurasi CI3
@@ -174,6 +182,45 @@ class ModuleManager
     public function requiresEntitlement(string $name): bool
     {
         return (bool) ($this->manifest($name)['requires_entitlement'] ?? false);
+    }
+
+    /**
+     * Apakah SEBUAH modul terpasang menyediakan kapabilitas "klien langganan"
+     * ({@see KAPABILITAS_KLIEN}) via manifest `provides`? Ini prasyarat netral
+     * memasang modul berbayar — inti tak menyebut nama modul apa pun.
+     */
+    public function klienLanggananTerpasang(): bool
+    {
+        foreach ($this->installed() as $manifest) {
+            $provides = $manifest['provides'] ?? [];
+            if (is_array($provides) && in_array(self::KAPABILITAS_KLIEN, $provides, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Prasyarat pemasangan: modul berbayar (`requires_entitlement`) menuntut klien
+     * langganan sudah terpasang lebih dulu. Klien sendiri (`requires_entitlement`
+     * false) selalu boleh — ia adalah entry point. Bersifat STRUKTURAL: tak
+     * dilewati mode dev/demo (beda dari cek entitlement langganan {@see isEntitled()}),
+     * agar alur "pasang klien dulu" konsisten di semua lingkungan.
+     *
+     * @throws RuntimeException bila prasyarat tak terpenuhi.
+     */
+    private function pastikanPrasyaratKlien(string $name): void
+    {
+        if (! $this->requiresEntitlement($name)) {
+            return;
+        }
+
+        if (! $this->klienLanggananTerpasang()) {
+            throw new RuntimeException(
+                "Paket {$name} memerlukan Layanan aktif. Pasang paket klien langganan lebih dulu."
+            );
+        }
     }
 
     /**
@@ -443,12 +490,19 @@ class ModuleManager
 
         try {
             $this->extractPackage($name, $zipPath);
+            // Prasyarat klien langganan dicek setelah ekstrak (manifest terbaca)
+            // namun sebelum migrasi — gagal di sini membuang ekstrak tanpa efek DB.
+            $this->pastikanPrasyaratKlien($name);
             $this->install($name);
         } catch (Throwable $e) {
             // Pulihkan cadangan bila pembaruan gagal (buang sisa ekstrak parsial).
             if ($backupDir !== null && is_dir($backupDir)) {
                 File::deleteDirectory($modulDir);
                 @rename($backupDir, $modulDir);
+            } elseif ($isBaru) {
+                // Modul baru yang gagal (mis. prasyarat) — buang ekstrak parsial
+                // (no-op bila folder belum sempat dibuat).
+                File::deleteDirectory($modulDir);
             }
 
             throw $e;
@@ -480,6 +534,12 @@ class ModuleManager
 
         $this->migrate($name, 'up');
         $this->rememberMenuSlug($name);
+
+        // Segarkan menu admin: sidebar di-cache `rememberForever` per-grup
+        // (admin_menu()); tanpa flush, menu modul yang baru dipasang tak muncul
+        // sampai cache dibersihkan. `flushQueryCache` no-op di driver file (butuh
+        // tag), jadi flush penuh — sejajar setMenuAktif().
+        cache()->flush();
     }
 
     /**
@@ -493,6 +553,9 @@ class ModuleManager
         if ($removeFiles && function_exists('forceRemoveDir')) {
             forceRemoveDir($this->modulesPath() . $name);
         }
+
+        // Segarkan sidebar (lihat install()) agar menu modul yang dicopot hilang.
+        cache()->flush();
     }
 
     /**
