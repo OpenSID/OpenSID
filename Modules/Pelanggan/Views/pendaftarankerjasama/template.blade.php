@@ -95,8 +95,8 @@
             <tr>
                 <td width="31" valign="top"></td>
                 <td width="282" valign="top">
-                    <p align="justify">
-                        <strong>LUSIANTO, S.Kom., M.Si</strong>
+                    <p align="justify" style="white-space: nowrap;">
+                        <strong>AHMAD NGUDI PRANOTO, S.Kom., M.M</strong>
                     </p>
                 </td>
                 <td width="18" valign="top">
@@ -420,8 +420,8 @@
                     </p>
                 </td>
                 <td>
-                    <p align="center">
-                        <strong>LUSIANTO, S.Kom., M.Si</strong>
+                    <p align="center" style="white-space: nowrap;">
+                        <strong>AHMAD NGUDI PRANOTO, S.Kom., M.M</strong>
                     </p>
                 </td>
             </tr>

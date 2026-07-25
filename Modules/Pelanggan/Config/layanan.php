@@ -37,9 +37,8 @@
 
 /*
  | Pembaca env yang portabel lintas-core: memakai getenv() (bukan helper env()
- | Laravel) agar berkas config yang sama bisa dimuat di core tanpa .env/phpoption
- | (mis. rilis Umum yang tak membundel phpoption). Fallback ke $_ENV/$_SERVER
- | untuk mode Dotenv immutable (Premium).
+ | Laravel) agar modul yang sama bisa dijatuhkan ke core tanpa .env/phpoption
+ | (mis. rilis Umum). Fallback ke $_ENV/$_SERVER untuk mode Dotenv immutable.
  */
 $bacaEnv = static function (string $kunci, $bawaan = null) {
     $nilai = getenv($kunci);
@@ -55,16 +54,32 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | URL penyedia bursa add-on
+    | Verifikasi Token Berlangganan
     |--------------------------------------------------------------------------
     |
-    | Basis URL penyedia katalog/instalasi add-on (bursa modul & tema). Core
-    | OSS memakai nilai netral yang DAPAT DI-OVERRIDE ini alih-alih meng-hardcode
-    | vendor tertentu, sehingga rilis pihak ketiga bisa mengarahkan bursa ke
-    | penyedianya sendiri lewat env `BURSA_URL_PENYEDIA`. Default menunjuk ke
-    | penyedia OpenDesa hanya sebagai nilai bawaan.
+    | Token berlangganan dari server layanan (OpenDesa) saat ini belum
+    | ditandatangani (alg=none), sehingga verifikasi signature kriptografis
+    | belum bisa diaktifkan dari sisi klien. Begitu server layanan menandatangani
+    | token (RS256) dan public key-nya tersedia, isi JWT_PUBLIC_KEY & JWT_ALGO
+    | pada .env agar Modules\Pelanggan\Services\TokenDecoder otomatis memverifikasi
+    | signature alih-alih hanya memvalidasi struktur token.
     |
     */
 
-    'url_penyedia' => $bacaEnv('BURSA_URL_PENYEDIA', 'https://layanan.opendesa.id'),
+    'jwt_public_key' => $bacaEnv('JWT_PUBLIC_KEY'),
+
+    'jwt_algo' => $bacaEnv('JWT_ALGO', 'RS256'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tolak Token alg=none
+    |--------------------------------------------------------------------------
+    |
+    | Saat verifikasi signature belum aktif, tetap tolak token dengan header
+    | alg=none untuk menutup vektor forgery yang paling mudah dieksploitasi.
+    |
+    */
+
+    'tolak_alg_none' => filter_var($bacaEnv('LAYANAN_TOLAK_ALG_NONE', true), FILTER_VALIDATE_BOOLEAN),
+
 ];

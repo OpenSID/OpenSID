@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  *
  * File ini bagian dari:
@@ -12,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -30,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -44,45 +43,53 @@ use App\Events\KapabilitasModulDiperbarui;
 use App\Repositories\SettingAplikasiRepository;
 use CI_Controller;
 use Exception;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class PelangganService
 {
-    /**
-     * @var Client HTTP Client
-     */
-    protected Client $client;
-
-    public function __construct()
-    {
-        $this->client = new Client();
-    }
+    // Konstanta untuk kategori layanan
+    public const KATEGORI_SIAPPAKAI = StatusLangganan::KATEGORI_SIAPPAKAI;
+    public const KATEGORI_PREMIUM   = StatusLangganan::KATEGORI_PREMIUM;
 
     /**
      * Ambil status langganan dari api layanan.opendeda.id
      */
     public static function statusLangganan(): ?array
     {
-        if (empty($response = self::apiPelangganPemesanan()) || config_item('demo_mode')) {
+        if (empty($response = self::apiPelangganPemesanan()) || self::isDemoMode()) {
             return null;
         }
 
-        $tgl_akhir = $response->body->tanggal_berlangganan->akhir;
+        $statusLangganan = StatusLangganan::dariResponse($response);
 
-        if (empty($tgl_akhir)) { // pemesanan bukan premium
-            if ($response->body->pemesanan) {
-                foreach ($response->body->pemesanan as $pemesanan) {
-                    $akhir[] = $pemesanan->tgl_akhir;
-                }
+        // Peringatan hosting expired paling baru (null bila SiapPakai aktif / tak ada).
+        if (($hosting = $statusLangganan->hostingExpiredTerbaru()) !== null) {
+            $layanan     = $hosting['layanan'];
+            $pemesanan   = $hosting['pemesanan'];
+            $daysOverdue = abs($hosting['sisa_hari']); // Ubah ke nilai positif
 
-                $masa_berlaku = calculate_date_intervals($akhir);
-            }
-        } else { // pemesanan premium
-            $tgl_akhir    = strtotime($tgl_akhir);
-            $masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
+            // Buat pesan peringatan yang detail dan informatif
+            $pesan = sprintf(
+                'Layanan Hosting %s Anda telah berakhir sejak %d hari yang lalu (Faktur: %s). Hubungi pelaksana layanan untuk informasi biaya. Segera perpanjang untuk menghindari gangguan.',
+                $layanan->nama,
+                $daysOverdue,
+                $pemesanan->faktur
+            );
+
+            // Buat link langsung ke halaman perpanjangan layanan
+            $link = site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . config_item('server_layanan') . '&invoice=' . $pemesanan->faktur . '&token=' . setting('layanan_opendesa_token'));
+
+            // Return data peringatan
+            return [
+                'status_key' => 'hosting_expired',
+                'warna'      => 'red',
+                'ikon'       => 'fa-exclamation-triangle',
+                'pesan'      => $pesan,
+                'link'       => $link,
+            ];
         }
+
+        $masa_berlaku = $statusLangganan->masaBerlaku();
 
         $status = match (true) {
             $masa_berlaku > 30 => ['status' => 1, 'warna' => 'lightgreen', 'ikon' => 'fa-battery-full'],
@@ -160,15 +167,10 @@ class PelangganService
 
         if ($perbaharui) {
             try {
-                $response = Http::withHeaders([
-                    'Authorization'    => "Bearer {$ci->list_setting->firstWhere('key', 'layanan_opendesa_token')?->value}",
-                    'X-Requested-With' => 'XMLHttpRequest',
-                    'Accept'           => 'application/json',
-                ])
-                    ->throw()
-                    ->post(config_item('server_layanan') . '/api/v1/pelanggan/pemesanan');
+                $token = (string) $ci->list_setting->firstWhere('key', 'layanan_opendesa_token')?->value;
+                $body  = app(LayananClient::class)->ambilPemesanan($token);
 
-                static::pemesanan($ci, (object) ['body' => $response->object()]);
+                static::pemesanan($ci, (object) ['body' => $body]);
             } catch (Exception $e) {
                 Log::error($e);
             }
@@ -196,7 +198,7 @@ class PelangganService
             return;
         }
 
-        if (config_item('demo_mode')) {
+        if (self::isDemoMode()) {
             logger()->error('Tidak dapat mengganti token pada website demo.');
 
             return;
@@ -233,11 +235,30 @@ class PelangganService
         // Simpan cache baru
         $ci->cache->pakai_cache(static fn () => $data, 'status_langganan', 60 * 60 * 24 * 365 * 30); // 30 tahun (forever)
 
-        // Beri tahu modul lain (mis. Anjungan) bahwa kapabilitas langganan
-        // diperbarui — alih-alih menyentuh model milik modul lain secara langsung
-        // (kopling-terbalik lama). Modul terkait memasang listener sendiri.
+        // Beri tahu modul yang berkepentingan bahwa langganan baru saja diperbarui.
+        // Modul Anjungan (bila terpasang) memasang listener untuk mereaktivasi
+        // barisnya sendiri — Pelanggan tak lagi menyentuh model modul lain.
         event(new KapabilitasModulDiperbarui());
 
         logger()->info('Token berhasil tersimpan.');
+    }
+
+    /**
+     * Menentukan layanan yang aktif milik desa
+     * Pengecekan tertinggi adalah layanan siappakai (kategori_id = 9),
+     * kemudian premium (kategori_id = 4), dan jika tidak keduanya maka dianggap umum
+     * Status aktif ditentukan berdasarkan tanggal_akhir >= tanggal hari ini
+     *
+     * @return string 'siappakai', 'premium', atau 'umum'
+     */
+    public function getLayananAktifTier(): string
+    {
+        return StatusLangganan::dariResponse(self::apiPelangganPemesanan())->tier();
+    }
+
+    private static function isDemoMode(): bool
+    {
+        return app()->environment(['development', 'testing'])
+            || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO));
     }
 }

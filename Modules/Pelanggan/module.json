@@ -14,5 +14,6 @@
     "removable": false,
     "marketplace": false,
     "provides": ["klien-langganan"],
+    "min_core": "2609.0.0",
     "menu_slug": "layanan-pelanggan"
 }

@@ -35,6 +35,10 @@
  *
  */
 
-return [
-    'name' => 'Pelanggan',
-];
+namespace Modules\Pelanggan\Services\Exceptions;
+
+use RuntimeException;
+
+class TokenTidakValidException extends RuntimeException
+{
+}

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,26 +39,35 @@ namespace Modules\Pelanggan\Services;
 
 use DateTime;
 use Exception;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Modules\Pelanggan\Services\Exceptions\TokenTidakValidException;
 
 class CekService
 {
-    /**
-     * @var CI_Controller
-     */
-    protected $ci;
+    public \CI_Controller $ci;
+
+    protected TokenDecoder $decoder;
+    protected LayananClient $layananClient;
 
     protected $token;
     protected $kecuali = [
         'beranda', 'identitas_desa',  'pengguna', 'pelanggancontroller', 'pendaftarankerjasamacontroller', 'setting', 'notif', 'main', 'info_sistem',
     ];
 
-    public function __construct()
-    {
-        $this->ci = app('ci');
-
-        $this->token = $this->ci->setting->layanan_opendesa_token;
+    /**
+     * Dependensi di-*inject* (dengan fallback resolusi container) agar CekService
+     * dapat diuji unit dengan CI/decoder/klien palsu — tanpa jaringan/CI nyata.
+     */
+    public function __construct(
+        ?\CI_Controller $ci = null,
+        ?TokenDecoder $decoder = null,
+        ?LayananClient $layananClient = null,
+        ?string $token = null
+    ) {
+        $this->ci            = $ci ?? app()->make(\CI_Controller::class);
+        $this->decoder       = $decoder ?? app(TokenDecoder::class);
+        $this->layananClient = $layananClient ?? new LayananClient();
+        $this->token         = $token ?? setting('layanan_opendesa_token');
 
         if (! isset($this->ci->header['desa'])) {
             $this->ci->header['desa'] = identitas()->toArray();
@@ -168,10 +177,13 @@ class CekService
 
     public function decodeTokenPayload($token)
     {
-        $tokenParts   = explode('.', $token);
-        $tokenPayload = base64_decode($tokenParts[1], true);
-
-        return json_decode($tokenPayload, null);
+        try {
+            return $this->decoder->decode((string) $token);
+        } catch (TokenTidakValidException $e) {
+            // Pertahankan perilaku lama: token yang tidak bisa diuraikan
+            // diperlakukan sebagai token kosong/tidak valid, bukan fatal error.
+            return null;
+        }
     }
 
     private function isExceptController(): bool
@@ -181,7 +193,8 @@ class CekService
 
     private function isDemoMode(): bool
     {
-        return ENVIRONMENT === 'development' || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)));
+        return app()->environment(['development', 'testing'])
+            || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO));
     }
 
     private function isUmum(): bool
@@ -262,19 +275,15 @@ class CekService
             $os = $this->ci->agent->platform();
 
             try {
-                $client = new Client();
-                $client->post(config_item('server_layanan') . '/api/v1/pelanggan/daftarhitam', [
-                    'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
-                    'form_params' => [
-                        'kode_desa'  => kode_wilayah($this->ci->header['desa']['kode_desa']),
-                        'ip_address' => $this->ci->input->ip_address(),
-                        'token'      => $this->ci->setting->layanan_opendesa_token,
-                        'waktu'      => date('Y-m-d h:i:sa'),
-                        'browser'    => $browser,
-                        'os'         => $os,
-                        'domain'     => get_domain(APP_URL),
-                    ],
-                ])->getBody();
+                $this->layananClient->laporDaftarHitam([
+                    'kode_desa'  => kode_wilayah($this->ci->header['desa']['kode_desa']),
+                    'ip_address' => $this->ci->input->ip_address(),
+                    'token'      => $this->ci->setting->layanan_opendesa_token,
+                    'waktu'      => date('Y-m-d h:i:sa'),
+                    'browser'    => $browser,
+                    'os'         => $os,
+                    'domain'     => get_domain(APP_URL),
+                ]);
             } catch (ClientException $cx) {
                 log_message('error', $cx);
             } catch (Exception $e) {

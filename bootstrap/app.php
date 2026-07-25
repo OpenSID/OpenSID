@@ -89,6 +89,7 @@ $app->configure('mail');
 $app->configure('notifications');
 $app->configure('user_agents');
 $app->configure('security');
+$app->configure('bursa');
 
 /*
 |--------------------------------------------------------------------------

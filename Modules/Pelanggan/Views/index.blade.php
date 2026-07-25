@@ -123,50 +123,81 @@
                 $notifikasiLayanan = collect();
             @endphp
 
-            {{-- Kumpulkan semua layanan yang akan/sudah kadaluarsa --}}
+            {{-- Kumpulkan semua layanan dari pemesanan aktif untuk diproses notifikasi --}}
             @foreach ($response->body->pemesanan as $pemesanan)
+                {{-- Proses hanya pemesanan dengan status aktif --}}
+                @if ($pemesanan->status_pemesanan !== 'aktif')
+                    @continue
+                @endif
+
                 @php
-                    // Filter layanan bukan premium (kategori_id != 4)
-                    $pemesananBukanPremium = collect($pemesanan->layanan)->filter(static fn($q) => $q->kategori_id != 4);
-                    
-                    // Filter untuk layanan yang akan kadaluarsa dalam 30 hari atau sudah kadaluarsa
-                    $layananAkanKadaluarsa = $pemesananBukanPremium->filter(function($layanan) use ($hariNotifikasi) {
-                        // Skip jika tidak ada tanggal akhir atau unlimited
+                    // Filter layanan non-premium (kategori_id != 4)
+                    $pemesananBukanPremium = collect($pemesanan->layanan ?? [])
+                        ->filter(static fn($q) => $q->kategori_id != 4);
+
+                    // Filter layanan yang memiliki tanggal akhir valid dan tidak unlimited
+                    $semuaLayanan = $pemesananBukanPremium->filter(function($layanan) {
+                        // Skip layanan tanpa tanggal akhir atau dengan tanggal unlimited
                         if (!isset($layanan->tanggal_akhir) || $layanan->tanggal_akhir == '9999-12-31') {
                             return false;
                         }
-                        
+
+                        // Validasi format tanggal untuk mencegah error di tahap processing
                         try {
-                            $today = \Illuminate\Support\Carbon::now();
-                            $tanggalAkhir = \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
-                            $sisaHari = $today->diffInDays($tanggalAkhir, false);
-                            
-                            // Tampilkan jika akan kadaluarsa dalam 30 hari atau sudah kadaluarsa
-                            return $sisaHari <= $hariNotifikasi;
+                            \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
+                            return true;
                         } catch (\Exception $e) {
                             return false;
                         }
                     });
-                    
-                    // Map data untuk ditampilkan
-                    $layananDiproses = $layananAkanKadaluarsa->map(function($layanan) use ($pemesanan) {
-                        $today = \Illuminate\Support\Carbon::now();
-                        $tanggalAkhir = \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
-                        $sisaHari = $today->diffInDays($tanggalAkhir, false);
-                        
+
+                    // Transformasi data layanan dengan perhitungan sisa hari
+                    $layananDiproses = $semuaLayanan->map(function($layanan) use ($pemesanan) {
+                        $today = \Illuminate\Support\Carbon::now()->startOfDay();
+                        $tanggalAkhir = \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir)->startOfDay();
+                        $sisaHari = (int) $today->diffInDays($tanggalAkhir, false); 
+
                         return [
                             'layanan' => $layanan,
                             'pemesanan' => $pemesanan,
                             'sisa_hari' => $sisaHari,
                             'tanggal_akhir' => $tanggalAkhir,
-                            'sudah_kadaluarsa' => $sisaHari < 0
+                            'sudah_kadaluarsa' => $sisaHari < 0,
+                            'tanggal_akhir_value' => strtotime($layanan->tanggal_akhir)
                         ];
                     });
-                    
-                    // Gabungkan ke collection utama
+
+                    // Akumulasi layanan dari semua pemesanan
                     $notifikasiLayanan = $notifikasiLayanan->merge($layananDiproses);
                 @endphp
             @endforeach
+
+            {{-- Deduplikasi layanan: hanya pertahankan entry terbaru untuk setiap nama layanan --}}
+            @php
+                if ($notifikasiLayanan->isNotEmpty()) {
+                    // Deduplication mapping untuk memastikan satu layanan hanya ditampilkan sekali dengan versi terbaru
+                    $dedupMap = [];
+
+                    foreach ($notifikasiLayanan as $item) {
+                        $namaLayanan = $item['layanan']->nama;
+                        $tanggalValue = $item['tanggal_akhir_value'];
+
+                        // Pertahankan entry dengan tanggal akhir terbaru untuk layanan yang sama
+                        if (!isset($dedupMap[$namaLayanan]) || $tanggalValue > $dedupMap[$namaLayanan]['tanggal_akhir_value']) {
+                            $dedupMap[$namaLayanan] = $item;
+                        }
+                    }
+
+                    // Konversi hasil deduplication kembali ke collection
+                    $notifikasiLayanan = collect($dedupMap);
+
+                    // Filter notifikasi yang akan ditampilkan berdasarkan rentang waktu 30 hari
+                    $notifikasiLayanan = $notifikasiLayanan->filter(function($item) use ($hariNotifikasi) {
+                        // Tampilkan notifikasi hanya jika layanan dalam rentang 30 hari sebelum dan sesudah kadaluarsa
+                        return $item['sisa_hari'] > -$hariNotifikasi && $item['sisa_hari'] <= $hariNotifikasi;
+                    });
+                }
+            @endphp
 
             {{-- Tampilkan Notifikasi --}}
             @if($notifikasiLayanan->isNotEmpty())
@@ -177,7 +208,7 @@
                         $sisaHari = $notif['sisa_hari'];
                         $tanggalAkhir = $notif['tanggal_akhir'];
                         $sudahKadaluarsa = $notif['sudah_kadaluarsa'];
-                        
+
                         // Tentukan warna alert berdasarkan status
                         if ($sudahKadaluarsa) {
                             $alertClass = 'alert-warning';
@@ -202,7 +233,7 @@
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                             <h4><i class="icon fa {{ $iconClass }}"></i> {{ $judulStatus }}</h4>
                             <p>
-                                Layanan <strong>{{ $layanan->nama }}</strong> 
+                                Layanan <strong>{{ $layanan->nama }}</strong>
                                 <strong>{{ $pesanStatus }}</strong>
                             </p>
                             <div style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.2); border-radius: 3px;">
@@ -217,19 +248,27 @@
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-file-text-o"></i> Faktur</td>
-                                        <td>: {{ $pemesanan->faktur }}</td>
+                                        <td>: <code>{{ $pemesanan->faktur }}</code></td>
                                     </tr>
-                                    @if($layanan->harga > 0)
                                     <tr>
-                                        <td><i class="fa fa-money"></i> Biaya Perpanjangan</td>
-                                        <td>: Rp {{ number_format($layanan->harga, 0, ',', '.') }}</td>
+                                        <td><i class="fa fa-clock-o"></i> Periode Pemesanan</td>
+                                        <td>: {{ tgl_indo($pemesanan->tgl_mulai ?? 'N/A') }} - {{ tgl_indo($pemesanan->tgl_akhir ?? 'N/A') }}</td>
                                     </tr>
-                                    @endif
+                                    <tr>
+                                        <td><i class="fa fa-info-circle"></i> Info Perpanjangan</td>
+                                        <td>:
+                                            @if(($layanan->kategori_id ?? null) == 9 || ($layanan->nama_kategori ?? '') === 'Dasbor SiapPakai')
+                                                <em>Hubungi Pelaksana Layanan SiapPakai untuk informasi perpanjangan.</em>
+                                            @else
+                                                <em>Hubungi pelaksana layanan untuk informasi biaya.</em>
+                                            @endif
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                             <div style="margin-top: 15px;">
                                 <i class="fa fa-info-circle"></i> <strong>Segera melakukan perpanjangan pemesanan.</strong>
-                                <a href="{{ site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) }}" 
+                                <a href="{{ site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) }}"
                                 class="btn btn-success btn-sm pull-right">
                                     <i class="fa fa-refresh"></i> Perpanjang Sekarang
                                 </a>
@@ -306,7 +345,12 @@
                             <tr>
                                 <td>{{ strtoupper(setting('sebutan_desa')) }}</td>
                                 <td> : </td>
-                                <td>{{ "Desa {$response->body->desa->nama_desa}, Kecamatan {$response->body->desa->nama_kec}, Kabupaten {$response->body->desa->nama_kab}, Provinsi {$response->body->desa->nama_prov}" }}</td>
+                                <td>
+                                    {{ ucwords(strtolower(setting('sebutan_desa'))) }} {{ Str::FormatNamaWilayah($response->body->desa->nama_desa) }},
+                                    {{ ucwords(strtolower(setting('sebutan_kecamatan'))) }} {{ Str::FormatNamaWilayah($response->body->desa->nama_kec) }},
+                                    {{ ucwords(strtolower(setting('sebutan_kabupaten'))) }} {{ Str::FormatNamaWilayah($response->body->desa->nama_kab) }},
+                                    Provinsi {{ Str::FormatNamaWilayah($response->body->desa->nama_prov) }}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Domain Desa</td>
@@ -374,9 +418,17 @@
                             @foreach ($response->body->pemesanan as $number => $pemesanan)
                                 @php
                                     $pemesananPremium = 0;
+                                    $sisaHariPremium = null;
+                                    $perluPerpanjangPremium = false;
                                     foreach ($pemesanan->layanan as $layanan) {
                                         if ($layanan->kategori_id == 4) {
                                             $pemesananPremium++;
+                                            if (isset($layanan->tanggal_akhir) && $layanan->tanggal_akhir !== '9999-12-31') {
+                                                $sisaHariPremium = round((strtotime($layanan->tanggal_akhir) - time()) / 86400);
+                                                if ($sisaHariPremium <= 30) {
+                                                    $perluPerpanjangPremium = true;
+                                                }
+                                            }
                                         }
                                     }
                                 @endphp
@@ -389,13 +441,13 @@
                                     <td class="padat">{{ $counter }}</td>
                                     <td class="aksi">
                                         @if (($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar') || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi')
-                                            @if($pemesanan->tampilkan_faktur ?? 1)
+                                            @if(($pemesanan->tampilkan_faktur ?? 1) && empty($pemesanan->mitra_id))
                                             <a target="_blank" href="{{ "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" }}" class="btn btn-social bg-purple btn-sm" title="Cetak Nota Faktur">
                                                 <i class="fa fa-print"></i> Cetak Nota Faktur
                                             </a>
                                             @endif
                                         @endif
-                                        @if ($notif_langganan['warna'] == 'orange')
+                                        @if ($perluPerpanjangPremium)
                                             <a href="{{ site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) }}" class="btn btn-social bg-green btn-sm" title="Perpanjang Layanan">
                                                 <i class="fa fa-refresh"></i> Perpanjang
                                             </a>
@@ -424,7 +476,7 @@
                                     <td class="padat">{{ $tanggalMulaiPremium }}</td>
                                     <td class="padat">{{ $tanggalAkhirPremium }}</td>
                                     <td class="padat">
-                                        @if ($notif_langganan['warna'] == 'orange')
+                                        @if ($sisaHariPremium !== null && $sisaHariPremium >= 0 && $sisaHariPremium <= 30)
                                             <span class="label label-warning">perlu diperpanjang</span>
                                         @else
                                             <span class="label label-{{ $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' }}">{{ $pemesanan->status_pemesanan }}</span>
@@ -472,6 +524,17 @@
                                     $pemesananBukanPremium = collect($pemesanan->layanan)->filter(static fn($q) => $q->kategori_id != 4);
                                     $totalLayanan = $pemesananBukanPremium->count();
                                     $pemesananLainnya += $totalLayanan;
+
+                                    $perluPerpanjangLainnya = false;
+                                    foreach ($pemesananBukanPremium as $l) {
+                                        if (isset($l->tanggal_akhir) && $l->tanggal_akhir !== '9999-12-31') {
+                                            $sHari = round((strtotime($l->tanggal_akhir) - time()) / 86400);
+                                            if ($sHari <= 30) {
+                                                $perluPerpanjangLainnya = true;
+                                                break;
+                                            }
+                                        }
+                                    }
                                 @endphp
 
                                 @if ($totalLayanan > 0)
@@ -481,13 +544,13 @@
                                                 <td rowspan="{{ $totalLayanan }}" class="padat">{{ $index }}</td>
                                                 <td rowspan="{{ $totalLayanan }}" class="aksi">
                                                     @if (($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar') || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi')
-                                                        @if($pemesanan->tampilkan_faktur ?? 1)
+                                                        @if(($pemesanan->tampilkan_faktur ?? 1) && empty($pemesanan->mitra_id))
                                                         <a target="_blank" href="{{ "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" }}" class="btn btn-social bg-purple btn-sm" title="Cetak Nota Faktur">
                                                             <i class="fa fa-print"></i> Cetak Nota Faktur
                                                         </a>
                                                         @endif
                                                     @endif
-                                                    @if (!\Illuminate\Support\Carbon::parse($layanan->tanggal_akhir)->isFuture())
+                                                    @if ($perluPerpanjangLainnya)
                                                         <a href="{{ site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) }}" class="btn btn-social bg-green btn-sm" title="Perpanjang Layanan">
                                                             <i class="fa fa-refresh"></i> Perpanjang
                                                         </a>
@@ -502,7 +565,12 @@
                                             <td class="padat">{{ tgl_indo($layanan->tanggal_mulai) }}</td>
                                             <td class="padat">{{ tgl_indo($layanan->tanggal_akhir) }}</td>
                                             <td class="padat">
-                                                @if ($notif_langganan['warna'] == 'orange')
+                                                @php
+                                                    $sisaHariLayanan = isset($layanan->tanggal_akhir) && $layanan->tanggal_akhir !== '9999-12-31'
+                                                        ? round((strtotime($layanan->tanggal_akhir) - time()) / 86400)
+                                                        : null;
+                                                @endphp
+                                                @if ($sisaHariLayanan !== null && $sisaHariLayanan >= 0 && $sisaHariLayanan <= 30)
                                                     <span class="label label-warning">perlu diperpanjang</span>
                                                 @else
                                                     <span class="label label-{{ $layanan->tanggal_akhir >= date('Y-m-d') ? 'success' : 'danger' }}">
@@ -547,7 +615,13 @@
                                 <div class="modal-body">
                                     <div class="box box-success">
                                         <div class="box-header with-border">
-                                            <div class="text-center"><b>Ketentuan {{ $layanan->nama }} ( {{ rupiah($layanan->harga) }} )</b></div>
+                                            <div class="text-center">
+                                                <b>Ketentuan {{ $layanan->nama }}
+                                                @if(($pemesanan->tampilkan_faktur ?? 1) && empty($pemesanan->mitra_id))
+                                                    ( {{ rupiah($layanan->harga) }} )
+                                                @endif
+                                                </b>
+                                            </div>
                                         </div>
                                         <div class="box-body">
                                             {!! $layanan->ketentuan ?? 'Belum tersedia' !!}
@@ -574,7 +648,7 @@
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
 
     <script type="text/javascript">
-        var token_layanan = "{{ config_item('demo_mode') ? '' : $list_setting->firstWhere('key', 'layanan_opendesa_token')?->value }}";
+        var token_layanan = @json(config_item('demo_mode') ? '' : $list_setting->firstWhere('key', 'layanan_opendesa_token')?->value);
         $('#copy').on('click', function() {
             $('#token').select();
             document.execCommand('copy');
@@ -615,7 +689,7 @@
                                 "Authorization": `Bearer ${token}`,
                                 "X-Requested-With": `XMLHttpRequest`,
                             },
-                            method: 'post',
+                            method: 'GET',
                         })
                         .then(response => {
                             if (!response.ok) {
@@ -696,7 +770,7 @@
                         "Authorization": `Bearer ` + token_layanan,
                         "X-Requested-With": `XMLHttpRequest`,
                     },
-                    type: 'Post',
+                    type: 'GET',
                 })
                 .done(function(response) {
                     let data = {
