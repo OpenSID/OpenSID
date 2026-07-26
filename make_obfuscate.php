@@ -54,8 +54,6 @@ $onlyDirectory = [
     'Modules/BukuTamu/Http/Controllers',
     'Modules/Kehadiran/Http/Controllers',
     'Modules/Lapak/Http/Controllers',
-    'Modules/Pelanggan/Http/Controllers',
-    'Modules/Pelanggan/Services',
 ];
 
 $exceptDirectory = [
@@ -86,9 +84,6 @@ $onlyFile = [
     'Modules/BukuTamu/Http/Controllers/BackEnd/KepuasanController.php',
     'Modules/BukuTamu/Http/Controllers/BackEnd/PertanyaanController.php',
     'Modules/BukuTamu/Http/Controllers/BackEnd/TamuController.php',
-    'Modules/Pelanggan/Http/Controllers/PelangganController.php',
-    'Modules/Pelanggan/Http/Controllers/PendaftaranKerjasamaController.php',
-    'Modules/Pelanggan/Services/PelangganService.php'
 ];
 
 $exceptFile = [
