@@ -50,6 +50,42 @@
     {!! form_close() !!}
 
     @if (can('u'))
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title">Data langganan pelanggan (simulasi Layanan)</h3>
+                <div class="pull-right">
+                    Status:
+                    @if ($langganan_aktif)
+                        <span class="label label-success">Terisi</span>
+                    @else
+                        <span class="label label-default">Kosong</span>
+                    @endif
+                </div>
+            </div>
+            <div class="box-body">
+                <p class="help-block" style="margin-bottom:10px">
+                    Mengisi cache <code>status_langganan</code> dengan data pemesanan simulasi (Premium + Hosting)
+                    yang dibangun dari identitas desa ini — cache yang sama yang dibaca halaman
+                    <a href="{{ $link_pelanggan }}"><strong>Info Desa &raquo; Pelanggan</strong></a>. Dengan begitu
+                    halaman menampilkan status langganan <em>seolah datang dari Layanan</em>, tanpa server Layanan nyata.
+                </p>
+            </div>
+            <div class="box-footer">
+                {!! form_open($form_langganan, 'style="display:inline"') !!}
+                <button type="submit" class="btn btn-social btn-warning btn-sm">
+                    <i class="fa fa-magic"></i> Isi data langganan simulasi
+                </button>
+                {!! form_close() !!}
+                @if ($langganan_aktif)
+                    {!! form_open($form_langganan_kosong, 'style="display:inline"') !!}
+                    <button type="submit" class="btn btn-social btn-default btn-sm">
+                        <i class="fa fa-eraser"></i> Kosongkan
+                    </button>
+                    {!! form_close() !!}
+                @endif
+            </div>
+        </div>
+
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Daftarkan paket dari URL repo</h3>

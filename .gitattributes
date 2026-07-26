@@ -45,6 +45,12 @@
 # repo lokal); tak ikut rilis — guard class_exists → jatuh ke LayananHttpSource.
 /app/Services/Module/LocalRepoSource.php export-ignore
 /app/Services/Module/LocalMarketplace.php export-ignore
+# Emulator Layanan lokal (simulasi server Layanan dari gudang lokal) — dev-only,
+# tak ikut rilis; aktif saat "Sumber paket" = bursa lokal. Guard class_exists +
+# ENVIRONMENT di hooks.php/AppServiceProvider → rilis jatuh ke Layanan nyata.
+/app/Services/Layanan/LocalLayanan.php export-ignore
+/app/Services/Layanan/PengalihLayananLokal.php export-ignore
+/donjo-app/controllers/Layanan_lokal.php export-ignore
 # Tab dev "Sumber" pada Paket Tambahan (controller + rute + view) — dev-only, tak ikut rilis.
 /donjo-app/controllers/Dev_modul.php export-ignore
 /donjo-app/Routes/Web/dev.php export-ignore

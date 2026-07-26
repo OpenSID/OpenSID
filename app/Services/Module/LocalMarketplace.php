@@ -28,35 +28,39 @@ use ZipArchive;
  */
 class LocalMarketplace implements ModuleSource
 {
-    /** Kunci sesi CI untuk state mode. */
-    private const SESI = 'dev_modul_sumber';
+    /** Berkas penanda mode (persisten, terbaca sejak `pre_controller`). */
+    private const MODE_FILE = '.mode';
 
     private const TIPE_PREMIUM = 'premium';
     private const TIPE_GRATIS  = 'gratis';
 
     /**
-     * Apakah mode bursa paket lokal aktif. Default (sesi kosong): aktif bila
-     * gudang sudah berisi paket.
+     * Apakah mode bursa paket lokal aktif. Sumber-kebenaran = berkas penanda
+     * `.mode` (persisten, **bukan** sesi) agar dapat dibaca sedini `pre_controller`
+     * — sebelum controller & sesi ada — untuk mengalihkan base-URL Layanan ke
+     * emulator lokal. Default (belum di-toggle): aktif bila gudang sudah berisi
+     * paket.
      */
     public static function aktif(): bool
     {
-        $state = self::state();
+        $modeFile = self::storeDir() . '/' . self::MODE_FILE;
 
-        if (array_key_exists('lokal', $state)) {
-            return (bool) $state['lokal'];
+        if (is_file($modeFile)) {
+            return trim((string) file_get_contents($modeFile)) === '1';
         }
 
         return (glob(self::storeDir() . '/*.zip') ?: []) !== [];
     }
 
     /**
-     * Setel mode (dipanggil dari tab "Sumber").
+     * Setel mode (dipanggil dari tab "Sumber"). Ditulis ke berkas penanda agar
+     * persisten lintas-request & terbaca sejak `pre_controller`.
      */
     public static function setel(bool $lokal): void
     {
-        $state          = self::state();
-        $state['lokal'] = $lokal;
-        self::simpanState($state);
+        $store = self::storeDir();
+        @mkdir($store, 0777, true);
+        @file_put_contents($store . '/' . self::MODE_FILE, $lokal ? '1' : '0');
     }
 
     /**
@@ -467,42 +471,5 @@ class LocalMarketplace implements ModuleSource
     private static function fileLog(): string
     {
         return storage_path('app/dev-marketplace-pesanan.json');
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private static function state(): array
-    {
-        $sesi = self::sesi();
-        if ($sesi === null) {
-            return [];
-        }
-
-        $state = $sesi->userdata(self::SESI);
-
-        return is_array($state) ? $state : [];
-    }
-
-    /**
-     * @param array<string, mixed> $state
-     */
-    private static function simpanState(array $state): void
-    {
-        self::sesi()?->set_userdata(self::SESI, $state);
-    }
-
-    /**
-     * Sesi CI3 (hidup di konteks web; null di artisan murni).
-     */
-    private static function sesi(): ?object
-    {
-        try {
-            $ci = function_exists('get_instance') ? get_instance() : null;
-        } catch (Throwable) {
-            return null;
-        }
-
-        return $ci && isset($ci->session) ? $ci->session : null;
     }
 }

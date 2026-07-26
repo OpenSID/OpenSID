@@ -103,8 +103,12 @@ class SettingAplikasiRepository
             $ci->setting->footer_surat_tte = TinyMCE::FOOTER_TTE;
         }
 
-        // Ganti token_layanan sesuai config untuk mempermudah development
-        if ((ENVIRONMENT == 'development') || config_item('token_layanan')) {
+        // Override token_layanan HANYA bila disediakan lewat config (mis. untuk
+        // menyetel token spesifik saat development). Sebelumnya `development` selalu
+        // memaksa nilai config — mem-blank token DB saat config kosong (dev-mode
+        // bukan mode-spesial; ia harus berperilaku seperti produksi: pakai token DB
+        // kecuali config meng-override).
+        if (config_item('token_layanan')) {
             $ci->setting->layanan_opendesa_token = config_item('token_layanan');
         }
 

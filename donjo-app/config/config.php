@@ -524,6 +524,11 @@ $config['csrf_cookie_name']  = 'sidcsrf';
 $config['csrf_expire']       = 7200;
 $config['csrf_regenerate']   = true;
 $config['csrf_exclude_uris'] = ['api.*+', 'external_api.*+', 'internal_api.*+', 'playwright.*+', 'pelanggan/pemesanan'];
+// DEV-ONLY: emulator Layanan lokal ditembak server-to-server (self-HTTP tanpa
+// token CSRF), meniru server Layanan eksternal. Rute ini hanya ada di dev.
+if ((defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development') {
+    $config['csrf_exclude_uris'][] = 'layanan-lokal/.*+';
+}
 
 /*
 |--------------------------------------------------------------------------

@@ -258,7 +258,12 @@ class PelangganService
 
     private static function isDemoMode(): bool
     {
-        return app()->environment(['development', 'testing'])
+        // Mode-dev BUKAN mode-demo: 'development' sengaja dikeluarkan agar di
+        // pengembangan langganan berperilaku nyata (data dilayani emulator lokal
+        // saat "Sumber paket" = bursa lokal). 'testing' dipertahankan agar suite
+        // tes tak menembak jaringan. "Demo" kini sinyal eksplisit (config +
+        // domain WEBSITE_DEMO), lepas dari ENVIRONMENT.
+        return app()->environment('testing')
             || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO));
     }
 }

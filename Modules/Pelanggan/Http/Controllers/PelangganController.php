@@ -91,6 +91,12 @@ class PelangganController extends AdminModulController
             'notif_langganan' => $notif_langganan,
             'server'          => config_item('server_layanan'),
             'token'           => setting('layanan_opendesa_token'),
+            // View pelanggan::index memakai $error_premium/$pesan (blok error).
+            // index() bukan alur peringatan → default kosong. Wajib di-set: var
+            // blade tak-terdefinisi melempar di lingkungan ini (error_reporting
+            // E_ALL) → halaman blank. peringatan() mengisinya dari sesi.
+            'error_premium'   => $this->session->error_premium,
+            'pesan'           => $this->session->error_premium_pesan,
         ]);
     }
 

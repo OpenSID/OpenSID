@@ -22,6 +22,7 @@
  *
  */
 
+use App\Services\Layanan\LocalLayanan;
 use App\Services\Module\LocalMarketplace;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -65,11 +66,17 @@ class Dev_modul extends Admin_Controller
             'lokal'            => LocalMarketplace::aktif(),
             'paket_repo'       => $market->repos(),
             'kandidat'         => $market->kandidat(),
-            'server_layanan'   => (string) config('bursa.url_penyedia'),
+            // URL Layanan NYATA (bukan URL emulator hasil override request-scoped
+            // saat mode lokal aktif) untuk label radio "Layanan (server nyata)".
+            'server_layanan'   => \App\Services\Layanan\PengalihLayananLokal::urlLayananAsli(),
             'form_action'      => site_url('dev-modul/sumber'),
             'form_daftar'      => site_url('dev-modul/daftar'),
             'form_daftar_lokal' => site_url('dev-modul/daftar-lokal'),
             'form_batal'       => site_url('dev-modul/batal-daftar'),
+            'langganan_aktif'  => setting('layanan_opendesa_token') != '',
+            'form_langganan'   => site_url('dev-modul/simulasi-langganan'),
+            'form_langganan_kosong' => site_url('dev-modul/kosongkan-langganan'),
+            'link_pelanggan'   => site_url('pelanggan'),
         ];
 
         view('admin.plugin.index', $data);
@@ -85,9 +92,14 @@ class Dev_modul extends Admin_Controller
         $lokal = $this->input->post('lokal') === 'lokal';
         LocalMarketplace::setel($lokal);
 
+        // Buang cache status langganan agar sumber baru (emulator lokal vs Layanan
+        // nyata) di-fetch ulang pada request berikutnya. Tanpa ini cache "lengket"
+        // → halaman Pelanggan menampilkan data sumber lama meski mode berganti.
+        hapus_cache('status_langganan');
+
         $pesan = $lokal
-            ? 'Sumber paket dialihkan ke bursa paket lokal (simulasi Layanan).'
-            : 'Sumber paket dikembalikan ke Layanan (server nyata).';
+            ? 'Sumber paket dialihkan ke bursa paket lokal (simulasi Layanan). Cache langganan dikosongkan.'
+            : 'Sumber paket dikembalikan ke Layanan (server nyata). Cache langganan dikosongkan.';
 
         return redirect_with('success', $pesan, 'plugin');
     }
@@ -148,6 +160,44 @@ class Dev_modul extends Admin_Controller
             log_message('error', 'Dev_modul batalDaftar: ' . $e->getMessage());
 
             return redirect_with('error', "Gagal mengeluarkan paket {$name}: " . $e->getMessage(), 'dev-modul');
+        }
+    }
+
+    /**
+     * Isi data langganan simulasi (surrogat Layanan) ke cache `status_langganan`
+     * agar halaman Pelanggan (`/pelanggan`) menampilkan status langganan seolah
+     * datang dari Layanan — tanpa server Layanan nyata.
+     */
+    public function simulasiLangganan()
+    {
+        isCan('u');
+
+        try {
+            app(LocalLayanan::class)->simulasikan();
+
+            return redirect_with('success', 'Data langganan simulasi diisi. Buka menu Info Desa > Pelanggan untuk melihatnya.', 'dev-modul');
+        } catch (Exception $e) {
+            log_message('error', 'Dev_modul simulasiLangganan: ' . $e->getMessage());
+
+            return redirect_with('error', 'Gagal mengisi data langganan simulasi: ' . $e->getMessage(), 'dev-modul');
+        }
+    }
+
+    /**
+     * Kosongkan data langganan simulasi (hapus cache `status_langganan`).
+     */
+    public function kosongkanLangganan()
+    {
+        isCan('u');
+
+        try {
+            app(LocalLayanan::class)->kosongkan();
+
+            return redirect_with('success', 'Data langganan simulasi dikosongkan.', 'dev-modul');
+        } catch (Exception $e) {
+            log_message('error', 'Dev_modul kosongkanLangganan: ' . $e->getMessage());
+
+            return redirect_with('error', 'Gagal mengosongkan data langganan simulasi: ' . $e->getMessage(), 'dev-modul');
         }
     }
 
