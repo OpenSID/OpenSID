@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,30 +29,23 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-namespace App\Listeners\BukuTamu;
+namespace Modules\BukuTamu\Listeners;
 
 use App\Enums\JenisKelaminEnum;
-use App\Events\BukuTamu\TamuSubmitted;
+use Modules\BukuTamu\Events\TamuSubmitted;
 use App\Models\User;
-use App\Notifications\BukuTamu\TamuBaru;
+use Modules\BukuTamu\Notifications\TamuBaru;
 use Exception;
 use NotificationChannels\Telegram\Telegram;
 
 class SendTamuNotification
 {
-    /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-    }
-
     /**
      * Handle the event.
      */
@@ -60,7 +53,7 @@ class SendTamuNotification
     {
         // Send database notifications to users with data-tamu access
         User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'data-tamu', user: $user))
-            ->each(static function (User $user) use ($event) {
+            ->each(static function (User $user) use ($event): void {
                 $user->notify(new TamuBaru(tamu: $event->tamu));
             });
 

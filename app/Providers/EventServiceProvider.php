@@ -90,9 +90,8 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\Komentar\KomentarSubmitted::class => [
             \App\Listeners\Komentar\SendKomentarNotification::class,
         ],
-        \App\Events\BukuTamu\TamuSubmitted::class => [
-            \App\Listeners\BukuTamu\SendTamuNotification::class,
-        ],
+        // Listener BukuTamu didaftarkan oleh BukuTamuServiceProvider::boot()
+        // lewat Event::listen saat modul terpasang.
     ];
 
     /**

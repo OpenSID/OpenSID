@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,27 +29,43 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-namespace App\Events\BukuTamu;
+namespace Modules\BukuTamu\Http\Requests;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
-use Modules\BukuTamu\Models\TamuModel;
+use Illuminate\Foundation\Http\FormRequest;
 
-class TamuSubmitted
+class TamuRequest extends FormRequest
 {
-    use InteractsWithSockets; use SerializesModels;
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return can('u');
+    }
 
     /**
-     * Create a new event instance.
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
      */
-    public function __construct(
-        public TamuModel $tamu
-    ) {
+    public function rules()
+    {
+        return [
+            'nama'          => 'required|string|min:3|max:255',
+            'telepon'       => 'required|string|min:10|max:20',
+            'instansi'      => 'required|string|min:3|max:255',
+            'jenis_kelamin' => 'required|integer',
+            'alamat'        => 'required|string|min:3|max:500',
+            'bidang'        => 'required|integer',
+            'keperluan'     => 'required|string|min:3|max:500',
+        ];
     }
 }

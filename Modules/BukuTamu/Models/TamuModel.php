@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,8 +42,19 @@ use App\Models\BaseModel;
 use App\Models\RefJabatan;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
+/**
+ * @property int         $id
+ * @property string      $nama
+ * @property string      $telepon
+ * @property string      $instansi
+ * @property int         $jenis_kelamin
+ * @property string|null $alamat
+ * @property string|null $foto
+ * @property string      $keperluan
+ * @property string|null $bidang
+ * @property int         $status
+ */
 class TamuModel extends BaseModel
 {
     use ConfigId;
@@ -73,6 +84,7 @@ class TamuModel extends BaseModel
     protected $appends = [
         'jenis_kelamin_id',
         'url_foto',
+        'bertemu',
     ];
 
     /**
@@ -113,6 +125,11 @@ class TamuModel extends BaseModel
         $this->attributes['bidang'] = RefJabatan::find($value)->nama ?? null;
     }
 
+    public function getBertemuAttribute()
+    {
+        return $this->attributes['bidang'] ?? null;
+    }
+
     public function getJenisKelaminIdAttribute()
     {
         return $this->attributes['jenis_kelamin'];
@@ -125,10 +142,6 @@ class TamuModel extends BaseModel
 
     public function scopeBaru($query)
     {
-        if (Schema::hasColumn($this->getTable(), 'status')) {
-            return $query->where('status', self::BARU);
-        }
-
-        return $query;
+        return $query->where('status', self::BARU);
     }
 }

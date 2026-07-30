@@ -52,7 +52,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('buku_keperluan') }}",
+                ajax: {
+                    url: "{{ ci_route('buku_keperluan') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

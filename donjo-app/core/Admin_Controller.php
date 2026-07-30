@@ -51,7 +51,6 @@ use App\Services\Kapabilitas\PerbaruiLangganan;
 use App\Services\Pengumuman\SumberPengumuman;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
-use Modules\BukuTamu\Models\TamuModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -203,7 +202,9 @@ class Admin_Controller extends MY_Controller
         $this->header['notif_langganan']        = collect(app(SumberPengumuman::class)->pengumuman())->firstWhere('jenis', 'langganan');
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = ($kode_desa || $force) ? null : $this->cek_pengumuman();
-        $this->header['notif_buku_tamu']        = TamuModel::baru()->count();
+        $this->header['notif_buku_tamu'] = class_exists(\Modules\BukuTamu\Models\TamuModel::class)
+            ? \Modules\BukuTamu\Models\TamuModel::baru()->count()
+            : 0;
         $isAdmin                                = $this->session->isAdmin->pamong;
 
         $listJabatan = [

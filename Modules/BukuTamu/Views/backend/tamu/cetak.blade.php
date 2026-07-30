@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
     <link href="{{ asset('css/report.css') }}" rel="stylesheet">
 </head>
-
+@php $judulTabel = json_decode(setting('buku_tamu_judul_tabel'), true); @endphp
 <body onload="window.print()">
     <table>
         <tbody>
@@ -41,14 +41,30 @@
                         <thead>
                             <tr class="border thick">
                                 <th nowrap>NO</th>
+                                @if(in_array('hari_tanggal', $judulTabel))
                                 <th nowrap>HARI / TANGGAL </th>
+                                @endif
+                                @if(in_array('nama', $judulTabel))
                                 <th nowrap>NAMA</th>
+                                @endif
+                                @if(in_array('telepon', $judulTabel))
                                 <th nowrap>TELEPON</th>
+                                @endif
+                                @if(in_array('instansi', $judulTabel))
                                 <th nowrap>INSTANSI</th>
+                                @endif
+                                @if(in_array('jenis_kelamin', $judulTabel))
                                 <th nowrap>JENIS KELAMIN</th>
+                                @endif
+                                @if(in_array('alamat', $judulTabel))
                                 <th nowrap>ALAMAT</th>
-                                <th nowrap>BETEMU</th>
+                                @endif
+                                @if(in_array('bertemu', $judulTabel))
+                                <th nowrap>BERTEMU</th>
+                                @endif
+                                @if(in_array('keperluan', $judulTabel))
                                 <th nowrap>KEPERLUAN</th>
+                                @endif
                                 <th nowrap>FOTO</th>
                             </tr>
                         </thead>
@@ -56,16 +72,32 @@
                             @foreach ($data_tamu as $no => $tamu)
                                 <tr>
                                     <td width="1%"class="text-center">{{ $no + 1 }}</td>
+                                    @if(in_array('hari_tanggal', $judulTabel))
                                     <td width="15%">
                                         {{ \Carbon\Carbon::parse($tamu->created_at)->dayName . ' / ' . tgl_indo($tamu->created_at) . ' - ' . \Carbon\Carbon::parse($tamu->created_at)->format('H:i:s') }}
                                     </td>
+                                    @endif
+                                    @if(in_array('nama', $judulTabel))
                                     <td width="20%">{{ $tamu->nama }}</td>
+                                    @endif
+                                    @if(in_array('telepon', $judulTabel))
                                     <td width="15%">{{ $tamu->telepon }}</td>
+                                    @endif
+                                    @if(in_array('instansi', $judulTabel))
                                     <td>{{ $tamu->instansi }}</td>
+                                    @endif
+                                    @if(in_array('jenis_kelamin', $judulTabel))
                                     <td width="5%">{{ $tamu->jenis_kelamin }}</td>
+                                    @endif
+                                    @if(in_array('alamat', $judulTabel))
                                     <td>{{ $tamu->alamat }}</td>
-                                    <td>{{ $tamu->bidang }}</td>
+                                    @endif
+                                    @if(in_array('bertemu', $judulTabel))
+                                    <td>{{ $tamu->bertemu }}</td>
+                                    @endif
+                                    @if(in_array('keperluan', $judulTabel))
                                     <td>{{ $tamu->keperluan }}</td>
+                                    @endif
                                     <td width="1%"class="text-center"><img src="{{ $tamu->url_foto }}" alt="foto" width="50px"></td>
                                 </tr>
                             @endforeach

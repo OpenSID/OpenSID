@@ -37,8 +37,8 @@
 
 namespace Tests\Feature\Helpers;
 
+use App\Services\Kapabilitas\GerbangFitur;
 use Tests\BaseTestCase;
-use Illuminate\Support\Facades\Cache;
 
 final class CoreHelperTest extends BaseTestCase
 {
@@ -89,31 +89,19 @@ final class CoreHelperTest extends BaseTestCase
         $this->assertTrue(defined('WEBSITE_DEMO'));
     }
 
-    public function testCekAnjunganInDevelopment()
+    public function testCekAnjunganTanpaModulTerdaftar(): void
     {
-        define('ENVIRONMENT', 'development');
-
-        $this->assertTrue(cek_anjungan());
+        // Tanpa add-on Anjungan → GerbangFitur tidak punya resolver → false
+        $this->assertFalse(cek_anjungan());
     }
 
-    public function testCekAnjunganInDemo()
+    public function testCekAnjunganDenganModulTerdaftar(): void
     {
-        define('APP_URL', 'opensid.test');
+        $gerbang = new GerbangFitur();
+        $gerbang->daftarkan('anjungan', fn () => true);
+        $this->app->bind(GerbangFitur::class, fn () => $gerbang);
 
-        $this->asserttrue(cek_anjungan());
-    }
-
-    public function testCekAnjunganWithCacheTrue()
-    {
-        Cache::put('license_anjungan', true, 60);
-
-        $this->assertTrue(cek_anjungan());
-    }
-
-    public function testCekAnjunganWithCacheFalse()
-    {
-        Cache::put('license_anjungan', false, 60);
-
+        $this->assertSame($gerbang, app(GerbangFitur::class));
         $this->assertTrue(cek_anjungan());
     }
 

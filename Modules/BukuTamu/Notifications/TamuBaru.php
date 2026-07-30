@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,38 +29,49 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-use Modules\BukuTamu\Models\KeperluanModel;
+namespace Modules\BukuTamu\Notifications;
 
-class Migrasi_25010171
+use App\Notifications\BaseNotification;
+use Modules\BukuTamu\Models\TamuModel;
+
+class TamuBaru extends BaseNotification
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function __construct(private readonly TamuModel $tamu)
     {
-        Schema::create('buku_keperluan', static function (Blueprint $table) {
-            $table->id();
-            $table->config();
-            $table->string('keperluan', 100);
-            $table->status();
-            $table->timestamps();
-        });
     }
 
-    public function down(): void
+    public function getNotificationSlug(): string
     {
-        Schema::dropIfExistsDBGabungan('buku_keperluan', static function () {
-            KeperluanModel::withoutConfigId(identitas('id'))->delete();
-        });
+        return 'buku_tamu';
+    }
+
+    public function getTitle(): string
+    {
+        return 'Buku Tamu';
+    }
+
+    public function getMessage(): string
+    {
+        return "Registrasi buku tamu baru atas nama: {$this->tamu->nama}";
+    }
+
+    public function getUrl(): string
+    {
+        return ci_route('buku_tamu') . '?status=' . TamuModel::BARU;
+    }
+
+    public function getData(): array
+    {
+        return [
+            'tamu_id'   => $this->tamu->id,
+            'nama'      => $this->tamu->nama,
+            'keperluan' => $this->tamu->keperluan,
+        ];
     }
 }

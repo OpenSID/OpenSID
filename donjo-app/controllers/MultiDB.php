@@ -59,6 +59,7 @@ class MultiDB extends Admin_Controller
         'keuangan_ta_rab_rinci',
         'keuangan_template',
         'keuangan_manual_rinci_tpl',
+        'buku_tamu',
     ];
 
     /**
@@ -133,7 +134,6 @@ class MultiDB extends Admin_Controller
         'urls',
         'tweb_surat_format',
         'buku_pertanyaan',
-        'buku_tamu',
         'surat_keluar',
         'cdesa',
         'anjungan',

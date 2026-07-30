@@ -40,7 +40,7 @@ use App\Models\LogSurat;
 use App\Models\PermohonanSurat;
 use App\Models\PesanMandiri;
 use App\Models\User;
-use App\Notifications\BukuTamu\TamuBaru;
+use Modules\BukuTamu\Notifications\TamuBaru;
 use App\Notifications\Komentar\KomentarBaru;
 use App\Notifications\Pesan\PesanMasuk;
 use App\Notifications\Surat\PermohonanSuratBaru;

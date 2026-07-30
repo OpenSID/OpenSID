@@ -51,7 +51,6 @@ $onlyDirectory = [
     'donjo-app/third_party/MX',
     'Modules/Analisis/Http/Controllers',
     'Modules/Anjungan/Http/Controllers',
-    'Modules/BukuTamu/Http/Controllers',
     'Modules/Kehadiran/Http/Controllers',
     'Modules/Lapak/Http/Controllers',
 ];
@@ -79,11 +78,6 @@ $onlyFile = [
     'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganController.php',
     'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganMenuController.php',
     'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganPengaturanController.php',
-    'Modules/BukuTamu/Http/Controllers/BackEnd/AnjunganBaseController.php',
-    'Modules/BukuTamu/Http/Controllers/BackEnd/KeperluanController.php',
-    'Modules/BukuTamu/Http/Controllers/BackEnd/KepuasanController.php',
-    'Modules/BukuTamu/Http/Controllers/BackEnd/PertanyaanController.php',
-    'Modules/BukuTamu/Http/Controllers/BackEnd/TamuController.php',
 ];
 
 $exceptFile = [

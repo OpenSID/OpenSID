@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -38,7 +38,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Modules\BukuTamu\Models\KepuasanModel;
 
 return new class () extends Migration {
     /**
@@ -46,30 +45,33 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('pelapak', static function (Blueprint $table) {
-            $table->id();
-            $table->config();
-            $table->unsignedBigInteger('id_nama')->nullable();
-            $table->unsignedBigInteger('id_pertanyaan')->nullable();
-            $table->unsignedBigInteger('id_jawaban');
-            $table->mediumText('pertanyaan_statis')->nullable();
-            $table->timestamps();
+        try {
+            if (! Schema::hasTable('buku_kepuasan')) {
+                Schema::create('buku_kepuasan', static function (Blueprint $table) {
+                    $table->integer('id', true);
+                    $table->configId();
+                    $table->integer('id_nama')->nullable();
+                    $table->integer('id_pertanyaan')->nullable();
+                    $table->integer('id_jawaban');
+                    $table->text('pertanyaan_statis')->nullable();
+                    $table->timestamps();
 
-            $table->foreign('id_nama')
-                ->references('id')
-                ->on('buku_tamu')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                    $table->foreign('id_nama', 'buku_kepuasan_nama_fk')
+                        ->references('id')
+                        ->on('buku_tamu')
+                        ->onUpdate('cascade')
+                        ->onDelete('cascade');
 
-            $table->foreign('id_pertanyaan')
-                ->references('id')
-                ->on('buku_pertanyaan')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->index('id_nama', 'buku_kepuasan_nama_fk');
-            $table->index('id_pertanyaan', 'buku_kepuasan_pertanyaan_fk');
-        });
+                    $table->foreign('id_pertanyaan', 'buku_kepuasan_pertanyaan_fk')
+                        ->references('id')
+                        ->on('buku_pertanyaan')
+                        ->onUpdate('cascade')
+                        ->onDelete('cascade');
+                });
+            }
+        } catch (Throwable $th) {
+            log_message('error', 'Migrasi Buku Kepuasan Gagal: ' . $th->getMessage());
+        }
     }
 
     /**
@@ -77,8 +79,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExistsDBGabungan('pelapak', static function () {
-            KepuasanModel::withoutConfigId(identitas('id'))->delete();
-        });
+        Schema::dropIfExists('buku_kepuasan');
     }
 };

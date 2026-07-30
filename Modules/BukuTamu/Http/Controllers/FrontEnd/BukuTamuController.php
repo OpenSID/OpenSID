@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,18 +29,19 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
 use App\Enums\JawabanKepuasanEnum;
-use App\Enums\JawabanKepuasanEnum;
 use App\Enums\StatusEnum;
-use App\Events\BukuTamu\TamuSubmitted;
+use Modules\BukuTamu\Events\TamuSubmitted;
 use App\Models\RefJabatan;
+use App\Rules\NotSpam;
 use Carbon\Carbon;
+use Illuminate\Validation\ValidationException;
 use Modules\BukuTamu\Models\KeperluanModel;
 use Modules\BukuTamu\Models\KepuasanModel;
 use Modules\BukuTamu\Models\PertanyaanModel;
@@ -75,60 +76,113 @@ class BukuTamuController extends WebModulController
         ]);
     }
 
-    public function registrasi(): void
+    public function registrasi()
     {
-        if (request()->post()) {
-            $post = $this->validate($this->request);
+        $validated = $this->validated(request(), [
+            'nama'              => ['required', 'string', 'min:3', 'max:50', 'regex:/^[\p{L}\s\.\,\-\']+$/u', 'not_regex:/<[^>]*>/', new NotSpam(threshold: 70)],
+            'telepon'           => ['required', 'regex:/^[0-9]{9,20}$/', 'max:20'],
+            'instansi'          => ['required', 'string', 'max:100', 'not_regex:/<[^>]*>/', new NotSpam(threshold: 70)],
+            'jenis_kelamin'     => 'required|in:1,2',
+            'alamat'            => ['nullable', 'string', 'max:500', 'not_regex:/<[^>]*>/', new NotSpam(threshold: 70)],
+            'keperluan'         => ['required', 'string', 'max:500'],
+            'keperluan_lainnya' => ['nullable', 'string', 'max:500', 'not_regex:/<[^>]*>/', new NotSpam(threshold: 70)],
+            'id_bidang'         => ['required', 'numeric'],
+            'foto'              => 'nullable|string',
+        ]);
 
-            // Identifikasi registrasi yang sama
-            // Cek nama, telepon dan jenis kelamin pada hari yang sama
-            $cek_registrasi = TamuModel::whereNama($post['nama'])
-                ->whereTelepon($post['telepon'])
-                ->whereJenisKelamin($post['jenis_kelamin'])
-                ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
-                ->first();
+        $duplikat = TamuModel::whereNama(nama(bersihkan_xss($validated['nama'])))
+            ->whereTelepon(bilangan($validated['telepon']))
+            ->whereJenisKelamin(bilangan($validated['jenis_kelamin']))
+            ->whereDate('created_at', Carbon::today())
+            ->exists();
 
-            if ($cek_registrasi) {
-                set_session('error', 'Registrasi Gagal Disimpan<br>Anda Sudah Melakukan Registrasi Hari Ini');
-            } elseif ($tamu = TamuModel::create($post)) {
-                set_session('success', 'Registrasi Berhasil Disimpan');
-
-                // Kirim notifikasi ke Telegram
-                $pesan = '<b>Registrasi Buku Tamu Baru</b>' . "\n\n"
-                    . '<b>Nama:</b> ' . $tamu->nama . "\n"
-                    . '<b>Telepon:</b> ' . $tamu->telepon . "\n"
-                    . '<b>Instansi:</b> ' . $tamu->instansi . "\n"
-                    . '<b>Jenis Kelamin:</b> ' . $tamu->jenis_kelamin . "\n"
-                    . '<b>Alamat:</b> ' . $tamu->alamat . "\n"
-                    . '<b>Bertemu:</b> ' . $tamu->bidang . "\n"
-                    . '<b>Keperluan:</b> ' . $tamu->keperluan;
-
-                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-                    try {
-                        $telegram = new Telegram(setting('telegram_token'));
-                        $telegram->sendMessage([
-                            'text'       => $pesan,
-                            'parse_mode' => 'HTML',
-                            'chat_id'    => setting('telegram_user_id'),
-                        ]);
-                    } catch (Exception $e) {
-                        log_message('error', $e->getMessage());
-                    }
-                }
-
-            } else {
-                set_session('error', 'Registrasi Gagal Disimpan');
-            }
-        } else {
-            set_session('error', 'Akses Tidak Tersedia');
+        if ($duplikat) {
+            return redirect_with('error', 'Registrasi Gagal Disimpan<br>Anda Sudah Melakukan Registrasi Hari Ini', 'buku-tamu');
         }
 
-        redirect('buku-tamu/kepuasan');
+        $data = [
+            'nama'          => nama(bersihkan_xss($validated['nama'])),
+            'telepon'       => bilangan($validated['telepon']),
+            'instansi'      => bersihkan_xss($validated['instansi']),
+            'jenis_kelamin' => bilangan($validated['jenis_kelamin']),
+            'alamat'        => bersihkan_xss($validated['alamat'] ?? ''),
+            'keperluan'     => $this->resolveKeperluan($validated),
+            'bidang'        => bilangan($validated['id_bidang']),
+            'foto'          => $this->foto($validated['foto'] ?? null),
+        ];
+
+        $tamu = TamuModel::create($data);
+
+        if (! $tamu) {
+            return redirect_with('error', 'Registrasi Gagal Disimpan', 'buku-tamu');
+        }
+
+        event(new TamuSubmitted($tamu));
+
+        if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
+            $this->sendTelegramNotification($tamu);
+        }
+
+        return redirect_with('success', 'Registrasi Berhasil Disimpan', 'buku-tamu/kepuasan');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function invalid($request, ValidationException $exception)
+    {
+        $firstError = collect($exception->errors())->flatten()->first();
+
+        return redirect_with('error', $firstError, 'buku-tamu/kepuasan');
+    }
+
+    /**
+     * Resolve keperluan: gunakan keperluan_lainnya jika keperluan == '0' (Temuan #1)
+     *
+     * Perbandingan string '0', bukan cast (int) yang akan mengubah teks apapun jadi 0
+     */
+    private function resolveKeperluan(array $validated): string
+    {
+        $keperluan = (string) $validated['keperluan'];
+
+        if ($keperluan === '0' && ! empty($validated['keperluan_lainnya'])) {
+            return bersihkan_xss($validated['keperluan_lainnya']);
+        }
+
+        return bersihkan_xss($keperluan);
+    }
+
+    /**
+     * Kirim notifikasi registrasi ke Telegram
+     */
+    private function sendTelegramNotification($tamu): void
+    {
+        try {
+            $pesan = <<<HTML
+<b>Registrasi Buku Tamu Baru</b>
+
+<b>Nama:</b> {$tamu->nama}
+<b>Telepon:</b> {$tamu->telepon}
+<b>Instansi:</b> {$tamu->instansi}
+<b>Jenis Kelamin:</b> {$tamu->jenis_kelamin}
+<b>Alamat:</b> {$tamu->alamat}
+<b>Bertemu:</b> {$tamu->bidang}
+<b>Keperluan:</b> {$tamu->keperluan}
+HTML;
+
+            $telegram = new Telegram(setting('telegram_token'));
+            $telegram->sendMessage([
+                'text'       => $pesan,
+                'parse_mode' => 'HTML',
+                'chat_id'    => setting('telegram_user_id'),
+            ]);
+        } catch (Exception $e) {
+            log_message('error', 'Telegram notification failed: ' . $e->getMessage());
+        }
     }
 
     public function kepuasan($id = null)
     {
-        // Jangan tampilkan kalau belum ada daftar pertanyaan
         $data['ada_pertanyaan'] = PertanyaanModel::whereStatus(StatusEnum::YA)->exists();
 
         if ($data['ada_pertanyaan']) {
@@ -137,7 +191,6 @@ class BukuTamuController extends WebModulController
                 $data['id']         = $id;
                 $view               = 'bukutamu::frontend.pertanyaan';
             } else {
-                // Tamu yang belum isi indeks kepuasan
                 $kepuasan              = KepuasanModel::whereDate('created_at', Carbon::today())->pluck('id_nama');
                 $data['tamu_hari_ini'] = TamuModel::whereNotIn('id', $kepuasan)->whereDate('created_at', Carbon::today())->latest()->get();
                 $view                  = 'bukutamu::frontend.kepuasan';
@@ -169,7 +222,6 @@ class BukuTamuController extends WebModulController
             // jika masih ada pertanyaan
             if ($this->cek_pertanyaan($id)) {
                 set_session('success', '<h1>Jawaban Berhasil Disimpan</h1><br><br>Ke Pertanyaan Selanjutnya');
-
                 redirect('buku-tamu/kepuasan/' . $id);
             }
         }
@@ -190,38 +242,65 @@ class BukuTamuController extends WebModulController
         return $pertanyaan;
     }
 
-    private function validate($request = [])
+    /**
+     * Simpan foto dari webcam capture (base64) dengan validasi ketat
+     *
+     * @param string|null $base64
+     * @return string|null Nama file jika berhasil, null jika gagal
+     */
+    private function foto(?string $base64 = null): ?string
     {
-        $validate = [
-            'nama'          => htmlentities($request['nama']),
-            'telepon'       => htmlentities($request['telepon']),
-            'instansi'      => htmlentities($request['instansi']),
-            'jenis_kelamin' => bilangan($request['jenis_kelamin']),
-            'alamat'        => htmlentities($request['alamat']),
-            'bidang'        => bilangan($request['id_bidang']),
-            'keperluan'     => htmlentities($request['keperluan']),
-            'foto'          => $this->foto($request['foto']),
-        ];
-
-        if ($validate['keperluan'] === '0') {
-            $validate['keperluan'] = htmlentities($request['keperluan_lainnya']);
+        if (! $base64) {
+            return null;
         }
 
-        return $validate;
-    }
+        try {
 
-    private function foto($base64 = null)
-    {
-        $nama_file = null;
+            $base64    = preg_replace('#^data:image/\w+;base64,#', '', $base64);
+            $imageData = base64_decode($base64, true);
 
-        if ($base64) {
-            $nama_file = time() . random_int(10000, 999999) . '.jpg';
-            $base64    = str_replace('data:image/png;base64,', '', $base64);
-            $base64    = base64_decode($base64, true);
+            if ($imageData === false) {
+                log_message('warning', 'Invalid base64 foto data');
+                return null;
+            }
 
-            file_put_contents(FCPATH . LOKASI_FOTO_BUKU_TAMU . $nama_file, $base64);
+            $imageInfo = @getimagesizefromstring($imageData);
+            if ($imageInfo === false) {
+                log_message('warning', 'Uploaded data is not a valid image');
+                return null;
+            }
+
+            if (strlen($imageData) > 5 * 1024 * 1024) {
+                log_message('warning', 'Foto size exceeds 5MB limit');
+                return null;
+            }
+
+            $allowedMimes = ['image/jpeg', 'image/png', 'image/webp'];
+            $mimeType     = $imageInfo['mime'] ?? '';
+            if (! in_array($mimeType, $allowedMimes, true)) {
+                log_message('warning', 'Invalid image MIME type: ' . $mimeType);
+                return null;
+            }
+
+            $extension = match ($mimeType) {
+                'image/jpeg' => 'jpg',
+                'image/png'  => 'png',
+                'image/webp' => 'webp',
+                default      => 'jpg',
+            };
+
+            $namaFile = time() . random_int(10000, 999999) . '.' . $extension;
+            $filePath = FCPATH . LOKASI_FOTO_BUKU_TAMU . $namaFile;
+
+            if (file_put_contents($filePath, $imageData) !== false) {
+                return $namaFile;
+            }
+
+            log_message('error', 'Failed to save foto file');
+            return null;
+        } catch (Exception $e) {
+            log_message('error', 'Foto processing error: ' . $e->getMessage());
+            return null;
         }
-
-        return $nama_file;
     }
 }

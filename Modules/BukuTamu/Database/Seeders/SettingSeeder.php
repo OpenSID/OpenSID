@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -55,7 +55,40 @@ class SettingSeeder extends Seeder
     {
         Model::unguard();
 
-        $id = identitas('id');
+        $optionsJudul = [
+            [
+                'id'   => 'hari_tanggal',
+                'nama' => 'Hari/Tanggal',
+            ],
+            [
+                'id'   => 'nama',
+                'nama' => 'Nama',
+            ],
+            [
+                'id'   => 'telepon',
+                'nama' => 'Telepon',
+            ],
+            [
+                'id'   => 'instansi',
+                'nama' => 'Instansi',
+            ],
+            [
+                'id'   => 'jenis_kelamin',
+                'nama' => 'Jenis Kelamin',
+            ],
+            [
+                'id'   => 'alamat',
+                'nama' => 'Alamat',
+            ],
+            [
+                'id'   => 'bertemu',
+                'nama' => 'Bertemu',
+            ],
+            [
+                'id'   => 'keperluan',
+                'nama' => 'Keperluan',
+            ],
+        ];
 
         $this->createSettings([
             [
@@ -64,7 +97,19 @@ class SettingSeeder extends Seeder
                 'value'      => StatusEnum::YA,
                 'keterangan' => 'Gunakan kamera untuk proses registrasi',
                 'jenis'      => 'boolean',
-                'kategori'   => 'buku-tamu',
+                'kategori'   => 'Buku Tamu',
+            ],
+            [
+                'judul'      => 'Judul Tabel Data Tamu',
+                'key'        => 'buku_tamu_judul_tabel',
+                'value'      => json_encode(array_column($optionsJudul, 'id')),
+                'keterangan' => 'Menyesuaikan judul tabel data tamu yang akan ditampilkan',
+                'jenis'      => 'select-multiple-array',
+                'option'     => json_encode($optionsJudul),
+                'attribute'  => json_encode([
+                    'class' => 'required',
+                ]),
+                'kategori' => 'Buku Tamu',
             ],
         ]);
     }

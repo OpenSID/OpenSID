@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -38,7 +38,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Modules\BukuTamu\Models\PertanyaanModel;
+use Modules\BukuTamu\Models\TamuModel;
 
 return new class () extends Migration {
     /**
@@ -46,13 +46,28 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('buku_pertanyaan', static function (Blueprint $table) {
-            $table->id();
-            $table->config();
-            $table->mediumText('pertanyaan')->nullable();
-            $table->status();
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('buku_tamu')) {
+            Schema::create('buku_tamu', static function (Blueprint $table) {
+                $table->integer('id', true);
+                $table->configId();
+                $table->string('nama', 50);
+                $table->string('telepon', 20);
+                $table->string('instansi', 100);
+                $table->boolean('jenis_kelamin')->default(true);
+                $table->text('alamat')->nullable();
+                $table->string('bidang', 100)->nullable();
+                $table->string('keperluan', 100)->nullable();
+                $table->tinyInteger('status')->default(0)->comment('0: Baru, 1: Selesai');
+                $table->string('foto', 50)->nullable();
+                $table->timestamps();
+            });
+        }
+
+        if (Schema::hasTable('buku_tamu') && ! Schema::hasColumn('buku_tamu', 'status')) {
+            Schema::table('buku_tamu', static function (Blueprint $table) {
+                $table->string('status')->default('terkirim')->after('alamat');
+            });
+        }
     }
 
     /**
@@ -60,8 +75,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExistsDBGabungan('buku_pertanyaan', static function () {
-            PertanyaanModel::withoutConfigId(identitas('id'))->delete();
+        Schema::dropIfExistsDBGabungan('buku_tamu', static function () {
+            TamuModel::withoutConfigId(identitas('id'))->delete();
         });
     }
 };

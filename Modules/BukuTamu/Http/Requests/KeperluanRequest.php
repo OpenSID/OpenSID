@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,46 +29,39 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-use Modules\BukuTamu\Models\TamuModel;
+namespace Modules\BukuTamu\Http\Requests;
 
-return new class () extends Migration {
+use App\Enums\StatusEnum;
+use Illuminate\Foundation\Http\FormRequest;
+
+class KeperluanRequest extends FormRequest
+{
     /**
-     * Run the migrations.
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
-    public function up(): void
+    public function authorize()
     {
-        Schema::create('buku_tamu', static function (Blueprint $table) {
-            $table->id();
-            $table->config();
-            $table->string('nama', 50);
-            $table->string('telepon', 20);
-            $table->string('instansi', 100);
-            $table->boolean('jenis_kelamin')->default(1);
-            $table->mediumText('alamat')->nullable();
-            $table->string('bidang', 100)->nullable();
-            $table->string('keperluan', 100)->nullable();
-            $table->string('foto', 50)->nullable();
-            $table->timestamps();
-        });
-
+        return can('u');
     }
 
     /**
-     * Reverse the migrations.
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
      */
-    public function down(): void
+    public function rules()
     {
-        Schema::dropIfExistsDBGabungan('buku_tamu', static function () {
-            TamuModel::withoutConfigId(identitas('id'))->delete();
-        });
+        return [
+            'keperluan' => 'required|string|min:3|max:500',
+            'status'    => 'required|in:' . implode(',', StatusEnum::keys()),
+        ];
     }
-};
+}

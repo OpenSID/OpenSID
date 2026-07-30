@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,49 +29,60 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-namespace App\Notifications\BukuTamu;
+namespace Modules\BukuTamu\FolderDesa;
 
-use App\Notifications\BaseNotification;
-use Modules\BukuTamu\Models\TamuModel;
+use App\Services\FolderDesaCleaner\AbstractCleanupRule;
 
-class TamuBaru extends BaseNotification
+/**
+ * Finds orphaned photos in desa/upload/buku_tamu/.
+ *
+ * Guest book photos are actively displayed in the admin interface with a
+ * gender-based avatar fallback (Modules/BukuTamu TamuModel::getUrlFotoAttribute).
+ * Only files with no matching DB row are candidates.
+ *
+ * Referenced by: buku_tamu.foto
+ */
+class OrphanBukuTamuRule extends AbstractCleanupRule
 {
-    public function __construct(private TamuModel $tamu)
+    public function key(): string
     {
+        return 'orphan_buku_tamu';
     }
 
-    public function getNotificationSlug(): string
+    protected function folderLabel(): string
     {
-        return 'buku_tamu';
+        return 'desa/upload/buku_tamu/';
     }
 
-    public function getTitle(): string
+    protected function description(): string
     {
-        return 'Buku Tamu';
+        return 'Foto buku tamu tidak dirujuk oleh database — aktif ditampilkan di admin buku tamu';
     }
 
-    public function getMessage(): string
+    protected function scan(): array
     {
-        return "Registrasi buku tamu baru atas nama: {$this->tamu->nama}";
-    }
+        $dir = $this->absPath('desa/upload/buku_tamu');
 
-    public function getUrl(): string
-    {
-        return ci_route('buku_tamu') . '?status=' . TamuModel::BARU;
-    }
+        if (! is_dir($dir)) {
+            return [];
+        }
 
-    public function getData(): array
-    {
-        return [
-            'tamu_id'   => $this->tamu->id,
-            'nama'      => $this->tamu->nama,
-            'keperluan' => $this->tamu->keperluan,
-        ];
+        $referenced = $this->referencedBasenames('buku_tamu', 'foto');
+
+        $candidates = [];
+
+        foreach (glob($dir . DIRECTORY_SEPARATOR . '*') ?: [] as $path) {
+            if (is_file($path) && ! isset($referenced[basename($path)])) {
+                $candidates += $this->fileEntry($path);
+            }
+        }
+
+        return $candidates;
     }
 }

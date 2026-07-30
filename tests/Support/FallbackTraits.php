@@ -228,16 +228,15 @@ if (! function_exists('desa_storage')) {
 
 /**
  * Fallback untuk function cek_anjungan() - OpenSID
- * Pada test environment, selalu return true untuk memudahkan testing
+ * Mendelegasikan ke GerbangFitur (sama dengan implementasi di core_helper.php).
  */
 if (! function_exists('cek_anjungan')) {
     function cek_anjungan(): bool
     {
-        // Return true di test environment
-        if (defined('ENVIRONMENT') && ENVIRONMENT === 'testing') {
-            return true;
+        if (! class_exists('App\Services\Kapabilitas\GerbangFitur')) {
+            return false;
         }
-        return false;
+        return app('App\Services\Kapabilitas\GerbangFitur')->mengizinkan('anjungan');
     }
 }
 

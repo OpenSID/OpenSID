@@ -6,9 +6,11 @@
     "priority": 0,
     "providers": [],
     "files": [],
-    "version": "1.0.0",
+    "version": "2607.0.0",
+    "min_core": "2607.0.0",
     "requires_entitlement": false,
-    "removable": false,
+    "membutuhkan": ["Anjungan"],
+    "removable": true,
     "marketplace": true,
     "menu_slug": "buku-tamu"
 }

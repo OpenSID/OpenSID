@@ -97,14 +97,7 @@ return [
             'modul' => 'pesan',
         ],
 
-        'buku_tamu' => [
-            'slug'  => 'buku_tamu',
-            'label' => 'Buku Tamu',
-            'icon'  => 'fa-book',
-            'color' => '#27ae60',
-            'route' => 'buku_tamu',
-            'modul' => 'data-tamu',
-            'query' => 'status=' . Modules\BukuTamu\Models\TamuModel::BARU,
-        ],
+        // Kategori 'buku_tamu' disumbang add-on BukuTamu lewat
+        // BukuTamuServiceProvider::boot() (merge ke config saat modul terpasang).
     ],
 ];

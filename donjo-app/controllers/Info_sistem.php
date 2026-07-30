@@ -68,7 +68,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\PathTraversalDetected;
 use Modules\Analisis\Models\AnalisisResponBukti;
-use Modules\BukuTamu\Models\TamuModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -304,7 +303,6 @@ class Info_sistem extends Admin_Controller
             LOKASI_FOTO_LEMBAGA   => [KelompokAnggota::class => ['foto']],
             LOKASI_GALERI         => [PembangunanDokumentasi::class => ['gambar'], Galery::class => ['gambar'], Pembangunan::class => ['foto']],
             LOKASI_FOTO_ARTIKEL   => [Artikel::class => ['gambar', 'gambar1', 'gambar2', 'gambar3']],
-            LOKASI_FOTO_BUKU_TAMU => [TamuModel::class => ['foto']],
             LOKASI_FOTO_LOKASI    => [Lokasi::class => ['foto']],
             LOKASI_FOTO_AREA      => [Area::class => ['foto']],
             LOKASI_FOTO_GARIS     => [Garis::class => ['foto']],
@@ -320,6 +318,10 @@ class Info_sistem extends Admin_Controller
             LOKASI_ICON_SOSMED        => [MediaSosial::class => ['gambar']],
             LOKASI_SINERGI_PROGRAM    => [SinergiProgram::class => ['gambar']],
         ];
+        // Foto buku tamu hanya diperiksa bila add-on BukuTamu terpasang
+        if (class_exists(\Modules\BukuTamu\Models\TamuModel::class)) {
+            $mapLokasi[LOKASI_FOTO_BUKU_TAMU] = [\Modules\BukuTamu\Models\TamuModel::class => ['foto']];
+        }
 
         // Ikon menu Anjungan hanya diperiksa bila add-on Anjungan terpasang.
         if (class_exists(\Modules\Anjungan\Models\AnjunganMenu::class)) {
