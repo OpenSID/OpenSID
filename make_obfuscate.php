@@ -67,18 +67,13 @@ $exceptDirectory = [
     'config',
 ];
 
-$onlyFile = [
-    // 'general_helper.php',
-    'donjo-app/core/Admin_Controller.php',
-    'donjo-app/core/AdminModulController.php',
-    'donjo-app/core/WebModulController.php',
-    'donjo-app/core/ModulTrait.php',
-    'donjo-app/helpers/core_helper.php',
-    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganBaseController.php',
-    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganController.php',
-    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganMenuController.php',
-    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganPengaturanController.php',
-];
+// Arsitektur add-on dinamis menggantikan obfuscasi per-file:
+// - Group A (Admin_Controller, core_helper, dll.) sudah dinetralkan dari logika premium.
+// - Group C Anjungan diekstraksi ke modul-anjungan (folder tidak di-tracked).
+// - Group C BukuTamu diekstraksi ke modul-bukutamu (folder tidak di-tracked).
+// - Group B Pelanggan diekstraksi ke modul-pelanggan.
+// Tidak ada lagi file yang perlu diobfuscasi secara individual.
+$onlyFile = [];
 
 $exceptFile = [
     'general_helper.php',

@@ -157,18 +157,20 @@ class Migrasi_beta
                 });
             });
 
-        // Buku Tamu
-        TamuModel::baru()->get()->each(function (TamuModel $tamu) {
-            $this->getUserAccessNotifications(modul: 'data-tamu')->each(function (User $user) use ($tamu) {
-                $this->notifyIfNotExists(
-                    user: $user,
-                    notification: new TamuBaru(tamu: $tamu),
-                    notificationClass: TamuBaru::class,
-                    dataKey: 'tamu_id',
-                    uniqueId: $tamu->id
-                );
+        // Buku Tamu — hanya bila add-on terpasang (class_exists guard)
+        if (class_exists(TamuModel::class)) {
+            TamuModel::baru()->get()->each(function (TamuModel $tamu) {
+                $this->getUserAccessNotifications(modul: 'data-tamu')->each(function (User $user) use ($tamu) {
+                    $this->notifyIfNotExists(
+                        user: $user,
+                        notification: new TamuBaru(tamu: $tamu),
+                        notificationClass: TamuBaru::class,
+                        dataKey: 'tamu_id',
+                        uniqueId: $tamu->id
+                    );
+                });
             });
-        });
+        }
     }
 
     public function addNullableConfigIdArtikel()

@@ -167,7 +167,7 @@ class Migrasi_2025120171
 
     public function tambahKolomStatusBukuTamu()
     {
-        if (! Schema::hasColumn('buku_tamu', 'status')) {
+        if (Schema::hasTable('buku_tamu') && ! Schema::hasColumn('buku_tamu', 'status')) {
             Schema::table('buku_tamu', static function ($table) {
                 $table->tinyInteger('status')->after('keperluan')->default(0)->comment('0: Baru, 1: Selesai');
             });
