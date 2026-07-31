@@ -139,6 +139,9 @@ Modules/*
 !Modules/.htaccess
 !Modules/index.html
 
+# Catatan pengembang lokal (tidak ikut rilis)
+/dokumentasi_lokal
+
 # Ignore PHPUnit result cache file
 .phpunit.result.cache
 
