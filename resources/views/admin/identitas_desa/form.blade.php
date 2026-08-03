@@ -173,29 +173,6 @@
                         contentType: false,
                     })
                     .done(function(response) {
-                        if (demo == false) {
-                            $.ajax({
-                                    url: `{{ config_item('server_layanan') }}/api/v1/pelanggan/pemesanan`,
-                                    headers: {
-                                        "Authorization": `Bearer {{ $list_setting->firstWhere('key', 'layanan_opendesa_token')?->value }}`,
-                                        "X-Requested-With": `XMLHttpRequest`,
-                                    },
-                                    type: 'Post',
-                                })
-                                .done(function(response) {
-                                    let data = {
-                                        body: response
-                                    }
-
-                                    $.ajax({
-                                        url: `${SITE_URL}pelanggan/pemesanan`,
-                                        type: 'Post',
-                                        dataType: 'json',
-                                        data: data,
-                                    })
-                                })
-                        }
-
                         if (response.status) {
                             Swal.fire({
                                 icon: 'success',

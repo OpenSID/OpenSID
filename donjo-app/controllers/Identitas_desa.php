@@ -35,6 +35,7 @@
  *
  */
 
+use App\Events\IdentitasDesaDisimpan;
 use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\ProfilDesa;
@@ -146,6 +147,8 @@ class Identitas_desa extends Admin_Controller
         $cek      = $this->cek_kode_wilayah($validate);
 
         if ($cek['status'] && $config->update($validate)) {
+            event(new IdentitasDesaDisimpan());
+
             if (Schema::hasTable('profil_desa')) {
                 $dataProfil = array_intersect_key($this->request, array_flip([
                     'jenis_tanah',
