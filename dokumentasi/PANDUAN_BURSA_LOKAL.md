@@ -15,6 +15,8 @@ Admin UI (tab Sumber)
 
 pre_controller hook (setiap request)
   └─▶ LocalMarketplace::aktif() baca .mode
+       ├─▶ CekService::isDemoMode() → true → lewati pemeriksaan token premium
+       ├─▶ is_demo_mode() → true → lewati pemeriksaan status demo
        └─▶ PengalihLayananLokal: override config
             ├─▶ server_layanan   → https://<domain-lokal>/layanan-lokal
             └─▶ bursa.url_penyedia → https://<domain-lokal>/layanan-lokal
@@ -25,6 +27,8 @@ Modul memanggil API Layanan
 ```
 
 Katalog, pengajuan GET/RELEASE, dan seluruh endpoint `/api/v1/pelanggan/*` dilayani oleh controller `Layanan_lokal` dan layanan `LocalLayanan` — bukan server `layanan.opendesa.id`.
+
+> **Penting — validasi token:** Selama mode bursa lokal **aktif** (`.mode = 1`), pemeriksaan token premium per-request (`CekService`) dan pemeriksaan mode demo (`is_demo_mode()`) keduanya di-bypass secara otomatis. Artinya Anda tidak memerlukan token Layanan yang valid untuk mengakses fitur berbayar di lingkungan dev. Jika mode dinonaktifkan (`.mode = 0` atau file tidak ada dan tidak ada ZIP di gudang), token asli dari `layanan.opendesa.id` tetap diperiksa meski di `ENVIRONMENT=development`.
 
 ---
 
