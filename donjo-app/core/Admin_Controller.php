@@ -224,7 +224,7 @@ class Admin_Controller extends MY_Controller
 
     private function cek_pengumuman()
     {
-        if (config_item('demo_mode') || ENVIRONMENT === 'development') {
+        if (is_demo_mode()) {
             return null;
         }
 

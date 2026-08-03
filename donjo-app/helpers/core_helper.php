@@ -166,3 +166,18 @@ if (! function_exists('isSiapPakai')) {
         }
     }
 }
+
+if (! function_exists('is_demo_mode')) {
+    function is_demo_mode(): bool
+    {
+        $demo_mode = config('opensid.demo_mode')
+            || (function_exists('config_item') && config_item('demo_mode'));
+
+        $isLocalMode = class_exists(\App\Services\Module\LocalMarketplace::class)
+            && \App\Services\Module\LocalMarketplace::aktif();
+
+        return $isLocalMode
+            || app()->environment('testing')
+            || ($demo_mode && in_array(get_domain(APP_URL), WEBSITE_DEMO));
+    }
+}

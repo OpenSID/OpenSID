@@ -222,7 +222,7 @@ class Man_user extends Admin_Controller
             $data = $this->validate($this->input->post(), $id);
 
             // Untuk demo jangan ubah username atau password
-            if ($id == UserGrup::where('slug', UserGrup::ADMINISTRATOR)->first()->id && (config_item('demo_mode') || ENVIRONMENT === 'development')) {
+            if ($id == UserGrup::where('slug', UserGrup::ADMINISTRATOR)->first()->id && is_demo_mode()) {
                 unset($data['username'], $data['password']);
             }
 
