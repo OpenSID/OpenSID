@@ -120,17 +120,12 @@ php.ini
 Modules/*
 /assets/modules/*
 
-# Do not ignore Anjungan folder and its contents
-!Modules/Anjungan/
-!Modules/Anjungan/**
 !Modules/Analisis/
 !Modules/Analisis/**
 !Modules/Kehadiran/
 !Modules/Kehadiran/**
 !Modules/Lapak/
 !Modules/Lapak/**
-!Modules/Pelanggan/
-!Modules/Pelanggan/**
 
 # Do not ignore specific files
 !Modules/.gitkeep
