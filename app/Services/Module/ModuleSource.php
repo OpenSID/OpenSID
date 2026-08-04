@@ -43,8 +43,7 @@ namespace App\Services\Module;
  * Port ini memisahkan {@see ModuleManager} dari _cara_ paket diambil. Adapter
  * default {@see LayananHttpSource} mengunduhnya dari server Layanan (klien
  * Layanan — komponen terbuka, bukan add-on berbayar); adapter pengembangan
- * {@see LocalRepoSource} membuat ZIP langsung dari checkout repo modul di disk
- * sehingga instalasi bisa diuji tanpa Layanan yang berjalan.
+ * dapat di-bind oleh modul dev sehingga instalasi bisa diuji tanpa Layanan.
  *
  * Core tidak menyimpan pengetahuan modul tertentu maupun endpoint Layanan pada
  * waktu-kompilasi: yang dikirim ke rilis hanyalah antarmuka generik ini plus

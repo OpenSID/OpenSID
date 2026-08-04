@@ -105,42 +105,10 @@ class AppServiceProvider extends ServiceProvider
             $app->make(\App\Services\Kapabilitas\GerbangFitur::class),
         ));
 
-        // Sumber berkas add-on. Default: klien Layanan (unduh HTTP — komponen
-        // terbuka, selalu di rilis). Di lingkungan `development`, bila mode
-        // bursa paket lokal aktif (toggle tab "Sumber" / `module_dev_repo_base`
-        // diset), paket diambil langsung dari repo lokal (simulasi Layanan tanpa
-        // server berjalan). LocalMarketplace/LocalRepoSource di-export-ignore →
-        // guard class_exists menjaga rilis tanpa berkas itu tetap ke Layanan.
-        $this->app->singleton(\App\Services\Module\ModuleSource::class, static function ($app) {
-            $isDev = (defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development';
-
-            // Sumber ditentukan bursa paket lokal (mode + opsi dari sesi) bila
-            // adapter dev tersedia. Toggle "Layanan" → jatuh ke LayananHttpSource.
-            if ($isDev && class_exists(\App\Services\Module\LocalMarketplace::class)
-                && class_exists(\App\Services\Module\LocalRepoSource::class)) {
-                return \App\Services\Module\LocalMarketplace::aktif()
-                    ? $app->make(\App\Services\Module\LocalMarketplace::class)
-                    : new \App\Services\Module\LayananHttpSource();
-            }
-
-            $devConfig = static fn (string $env, string $cfg, string $default): string => (string) (getenv($env)
-                ?: (function_exists('config_item') ? config_item($cfg) : '')
-                ?: $default);
-
-            // Fallback (tanpa LocalMarketplace): perilaku config-driven lama.
-            $base = $devConfig('MODULE_DEV_REPO_BASE', 'module_dev_repo_base', '');
-
-            if ($isDev && $base !== '' && class_exists(\App\Services\Module\LocalRepoSource::class)) {
-                return new \App\Services\Module\LocalRepoSource(
-                    $base,
-                    $devConfig('MODULE_DEV_REPO_STRATEGY', 'module_dev_repo_strategy', 'working-tree'),
-                    $devConfig('MODULE_DEV_REPO_REF', 'module_dev_repo_ref', 'HEAD'),
-                    filter_var($devConfig('MODULE_DEV_REPO_FETCH', 'module_dev_repo_fetch', ''), FILTER_VALIDATE_BOOLEAN),
-                );
-            }
-
-            return new \App\Services\Module\LayananHttpSource();
-        });
+        // Sumber berkas add-on. Default: klien Layanan (unduh HTTP). Adaptor dev
+        // lokal (LocalMarketplace/LocalRepoSource) sudah dipindah ke modul-pelanggan
+        // dan tidak lagi ada di core Umum.
+        $this->app->singleton(\App\Services\Module\ModuleSource::class, \App\Services\Module\LayananHttpSource::class);
 
         $this->loadModuleServiceProvider();
 

@@ -87,14 +87,7 @@ class Plugin extends Admin_Controller
         // langganan aktif). Add-on terpasang di luar daftar ini → "belum
         // terverifikasi" (mis. BukuTamu/DTSEN terpasang tapi belum didaftarkan).
         $terverifikasi = [];
-        if ($market['lokal'] && class_exists(\App\Services\Module\LocalMarketplace::class)) {
-            $terverifikasi = array_column(app(\App\Services\Module\LocalMarketplace::class)->repos(), 'name');
-        }
-
-        // Di mode lokal, hak-pakai bisa dipastikan server-side: add-on terpasang
-        // yang TAK terdaftar di bursa paket lokal = belum terverifikasi. (Mode
-        // Layanan: dibiarkan ke klien via respons Layanan.)
-        $belumVerif = $market['lokal'] ? array_values(array_diff($terpasangMarket, $terverifikasi)) : [];
+        $belumVerif    = [];
 
         $data = [
             'content'               => 'admin.plugin.paket_terinstall',
@@ -122,21 +115,6 @@ class Plugin extends Admin_Controller
             redirect_with('error', $msg);
         }
 
-        // Mode lokal: "pendaftaran" jadi pengajuan (get) modul dari repo lokal.
-        if ($this->marketplace()['lokal']) {
-            $market = app(\App\Services\Module\LocalMarketplace::class);
-            $data   = [
-                'content'     => 'admin.dev_modul.pendaftaran',
-                'act_tab'     => 3,
-                'paket_repo'  => $market->repos(),
-                'form_action' => site_url('plugin/pendaftaran/store'),
-            ];
-
-            view('admin.plugin.index', $data);
-
-            return;
-        }
-
         $data = [
             'content'         => 'admin.plugin.pendaftaran',
             'act_tab'         => 3,
@@ -155,19 +133,6 @@ class Plugin extends Admin_Controller
             redirect_with('error', $msg);
         }
 
-        // Mode lokal: riwayat pemesanan get/release dari log bursa paket lokal.
-        if ($this->marketplace()['lokal']) {
-            $data = [
-                'content' => 'admin.dev_modul.pemesanan',
-                'act_tab' => 4,
-                'pesanan' => app(\App\Services\Module\LocalMarketplace::class)->pesanan(),
-            ];
-
-            view('admin.plugin.index', $data);
-
-            return;
-        }
-
         $data = [
             'content'       => 'admin.plugin.pemesanan',
             'act_tab'       => 4,
@@ -182,23 +147,6 @@ class Plugin extends Admin_Controller
         if (config_item('demo_mode')) {
             $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
             redirect_with('error', $msg);
-        }
-
-        // Mode lokal: pengajuan = pasang (get) langsung dari bursa paket lokal,
-        // lalu catat pesanannya (tanpa kirim order/pembayaran ke Layanan).
-        if ($this->marketplace()['lokal']) {
-            $name = (string) $this->input->post('module_name');
-
-            try {
-                isCan('u');
-                app(\App\Services\Module\LocalMarketplace::class)->ajukan($name);
-                redirect_with('success', "Paket {$name} diajukan & dipasang dari bursa paket lokal. Silakan aktifkan.", 'plugin/pemesanan');
-            } catch (Exception $e) {
-                log_message('error', 'Pengajuan modul lokal gagal: ' . $e->getMessage());
-                redirect_with('error', 'Gagal mengajukan modul: ' . $e->getMessage(), 'plugin/pendaftaran');
-            }
-
-            return;
         }
 
         try {
@@ -340,12 +288,6 @@ class Plugin extends Admin_Controller
 
             app(ModuleManager::class)->uninstall($name, true);
 
-            // Mode lokal: catat pelepasan (release) agar riwayat get/release utuh
-            // — modul harus diajukan ulang dari bursa paket lokal untuk dipasang.
-            if ($this->marketplace()['lokal']) {
-                app(\App\Services\Module\LocalMarketplace::class)->lepas($name);
-            }
-
             set_session('success', 'Paket ' . $name . ' berhasil dihapus');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -355,23 +297,10 @@ class Plugin extends Admin_Controller
     }
 
     /**
-     * Sumber bursa paket aktif. Di rilis / luar `development` — atau bila servis
-     * dev di-export-ignore hingga absen — `lokal` selalu false dan halaman
-     * berperilaku persis seperti semula (Layanan).
-     *
      * @return array{lokal: bool, url: string, token: string}
      */
     private function marketplace(): array
     {
-        $lokal = (defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development'
-            && class_exists(\App\Services\Module\LocalMarketplace::class)
-            && \App\Services\Module\LocalMarketplace::aktif();
-
-        if ($lokal) {
-            // Rute eksplisit hifen (auto-routing CI3 nonaktif → bentuk underscore 404).
-            return ['lokal' => true, 'url' => site_url('dev-modul/katalog'), 'token' => ''];
-        }
-
         return [
             'lokal' => false,
             'url'   => config('bursa.url_penyedia') . '/api/v1/modules',

@@ -51,24 +51,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 $moduleLocations = $CFG->item('modules_locations');
 $hook            = getHooks(['modules_location' => $moduleLocations]);
 
-// DEV-ONLY: saat mode bursa lokal aktif, alihkan base-URL Layanan ke emulator
-// in-app SEBELUM controller dibangun (Admin_Controller menyegarkan langganan di
-// __construct). Di-guard ENVIRONMENT + class_exists → no-op di rilis (kelas
-// PengalihLayananLokal di-export-ignore).
-$hook['pre_controller'][] = static function (): void {
-    if ((defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development'
-        && class_exists(\App\Services\Layanan\PengalihLayananLokal::class)) {
-        // Umum menyediakan helper Laravel (storage_path/base_path) lewat helper CI
-        // `illuminate` yang baru di-autoload saat konstruksi controller — SESUDAH
-        // pre_controller. Muat lebih dulu agar LocalMarketplace::storeDir() (dan
-        // PengalihLayananLokal) tak fatal "undefined function storage_path()".
-        // (Di Premium helper ini dari composer autoload → selalu tersedia.)
-        if (! function_exists('storage_path') && is_file(APPPATH . 'helpers/illuminate_helper.php')) {
-            require_once APPPATH . 'helpers/illuminate_helper.php';
-        }
-        \App\Services\Layanan\PengalihLayananLokal::terapkan();
-    }
-};
+
 
 /*
 |--------------------------------------------------------------------------
