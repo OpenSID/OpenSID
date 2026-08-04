@@ -67,4 +67,17 @@ return [
     */
 
     'url_penyedia' => $bacaEnv('BURSA_URL_PENYEDIA', 'https://layanan.opendesa.id'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Path endpoint bootstrap token
+    |--------------------------------------------------------------------------
+    |
+    | Path relatif dari url_penyedia yang mengembalikan daftar modul yang harus
+    | dipasang otomatis saat token Layanan pertama kali disimpan. Override via
+    | env `BURSA_BOOTSTRAP_PATH` bila penyedia pihak ketiga memakai path berbeda.
+    |
+    */
+
+    'bootstrap_path' => $bacaEnv('BURSA_BOOTSTRAP_PATH', '/api/v1/token/bootstrap'),
 ];

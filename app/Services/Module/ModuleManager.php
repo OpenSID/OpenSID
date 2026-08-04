@@ -559,6 +559,55 @@ class ModuleManager
     }
 
     /**
+     * Panggil endpoint bootstrap Layanan untuk token yang baru disimpan, lalu
+     * pasang modul yang dikembalikan bila belum terpasang.
+     *
+     * Kegagalan (token tidak valid, jaringan error, parsifail) hanya dicatat —
+     * tidak melempar: token mungkin tetap sah; jangan blokir penyimpanan setting.
+     *
+     * @return list<string> Nama modul yang berhasil dipasang dalam panggilan ini.
+     */
+    public function jalankanBootstrap(string $token): array
+    {
+        $url = rtrim((string) config('bursa.url_penyedia'), '/') . config('bursa.bootstrap_path');
+
+        try {
+            $response = Http::withToken($token)->timeout(15)->get($url);
+
+            if (! $response->successful()) {
+                log_message('notice', "bootstrap Layanan: token tidak valid atau ditolak (status {$response->status()})");
+
+                return [];
+            }
+
+            $dipasang = [];
+
+            foreach ((array) $response->json('modules', []) as $modul) {
+                $name    = isset($modul['name']) ? (string) $modul['name'] : '';
+                $locator = isset($modul['url']) ? (string) $modul['url'] : '';
+
+                if ($name === '' || $this->isInstalled($name)) {
+                    continue;
+                }
+
+                try {
+                    $this->installFromSource($name, $locator);
+                    $dipasang[] = $name;
+                    log_message('notice', "bootstrap Layanan: modul {$name} berhasil dipasang.");
+                } catch (Throwable $e) {
+                    log_message('error', "bootstrap Layanan: gagal pasang modul {$name} — " . $e->getMessage());
+                }
+            }
+
+            return $dipasang;
+        } catch (\Exception $e) {
+            log_message('error', 'bootstrap Layanan: error koneksi — ' . $e->getMessage());
+
+            return [];
+        }
+    }
+
+    /**
      * Laporkan instalasi modul ke server Layanan (telemetri; kegagalan tak fatal,
      * hanya dicatat di log). Implementasi tunggal untuk web & CLI.
      */

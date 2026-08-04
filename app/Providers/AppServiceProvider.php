@@ -128,6 +128,8 @@ class AppServiceProvider extends ServiceProvider
         $this->registerDoctrineTypeMappings();
 
         $this->app->make(QueryDetector::class)->boot();
+
+        \App\Models\SettingAplikasi::observe(\App\Observers\SettingAplikasiObserver::class);
     }
 
     private function registerDoctrineTypes(): void
