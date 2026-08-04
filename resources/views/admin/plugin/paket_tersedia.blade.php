@@ -1,4 +1,14 @@
 <div class="tab-pane active">
+    @if (!$klien_terpasang && !empty($token_layanan))
+    <div class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <strong><i class="fa fa-exclamation-triangle"></i> Modul klien langganan belum terpasang.</strong>
+        Token Layanan tersimpan tetapi Layanan tidak dapat dihubungi saat token disimpan. Pastikan server memiliki akses internet lalu klik tombol di bawah untuk mencoba ulang.
+        {!! form_open(ci_route('plugin.bootstrap_ulang'), 'style="display:inline;margin-left:8px"') !!}
+            <button type="submit" class="btn btn-xs btn-warning"><i class="fa fa-refresh"></i> Coba Pasang Sekarang</button>
+        </form>
+    </div>
+    @endif
     <div class="search">
         <div class="box box-info">
             <div class="box-header">

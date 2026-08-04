@@ -1965,6 +1965,7 @@ Route::group('plugin', static function (): void {
     Route::post('/pendaftaran/store', 'Plugin@pendaftaranStore')->name('plugin.pendaftaran.store');
     Route::post('/pasang', 'Plugin@pasang')->name('plugin.pasang');
     Route::post('/hapus', 'Plugin@hapus')->name('plugin.hapus');
+    Route::post('/bootstrap-ulang', 'Plugin@bootstrapUlang')->name('plugin.bootstrap_ulang');
 });
 
 // Pengaturan > Shortcut

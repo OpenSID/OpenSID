@@ -297,6 +297,39 @@ class Plugin extends Admin_Controller
     }
 
     /**
+     * Coba ulang bootstrap Layanan — berguna bila Layanan tidak dapat dihubungi
+     * saat token pertama kali disimpan sehingga modul klien belum terpasang.
+     */
+    public function bootstrapUlang(): void
+    {
+        isCan('u');
+
+        $token = token_bursa();
+
+        if (empty($token)) {
+            redirect_with('error', 'Token Layanan belum diisi. Masukkan token di Pengaturan Aplikasi terlebih dahulu.', 'plugin');
+
+            return;
+        }
+
+        $dipasang = app(ModuleManager::class)->jalankanBootstrap($token);
+
+        if ($dipasang !== []) {
+            redirect_with('success', 'Berhasil memasang: ' . implode(', ', $dipasang) . '.', 'plugin');
+
+            return;
+        }
+
+        if (! app(ModuleManager::class)->klienLanggananTerpasang()) {
+            redirect_with('error', 'Layanan tidak dapat dihubungi atau token tidak valid. Periksa koneksi internet server dan keabsahan token, lalu coba lagi.', 'plugin');
+
+            return;
+        }
+
+        redirect_with('success', 'Semua modul bootstrap sudah terpasang.', 'plugin');
+    }
+
+    /**
      * @return array{lokal: bool, url: string, token: string}
      */
     private function marketplace(): array
