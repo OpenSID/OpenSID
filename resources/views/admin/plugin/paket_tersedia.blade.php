@@ -1,5 +1,21 @@
 <div class="tab-pane active">
-    @if (!$klien_terpasang && !empty($token_layanan))
+    @if (!$klien_terpasang && empty($token_layanan))
+    <div class="alert alert-info">
+        <h4><i class="fa fa-key"></i> Aktifkan Layanan Desa</h4>
+        <p>Masukkan Token Layanan dari <strong>layanan.opendesa.id</strong> untuk mengaktifkan pengelolaan langganan (hosting, pembaruan, dll.).</p>
+        {!! form_open(ci_route('plugin.simpan_token'), 'class="form-inline"') !!}
+            <div class="input-group" style="width:100%">
+                <input type="text" name="token_layanan" class="form-control"
+                    placeholder="Token Layanan dari layanan.opendesa.id" required>
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-check"></i> Simpan &amp; Aktifkan
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+    @elseif (!$klien_terpasang && !empty($token_layanan))
     <div class="alert alert-warning alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <strong><i class="fa fa-exclamation-triangle"></i> Modul klien langganan belum terpasang.</strong>

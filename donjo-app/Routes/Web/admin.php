@@ -1966,6 +1966,7 @@ Route::group('plugin', static function (): void {
     Route::post('/pasang', 'Plugin@pasang')->name('plugin.pasang');
     Route::post('/hapus', 'Plugin@hapus')->name('plugin.hapus');
     Route::post('/bootstrap-ulang', 'Plugin@bootstrapUlang')->name('plugin.bootstrap_ulang');
+    Route::post('/simpan-token', 'Plugin@simpanToken')->name('plugin.simpan_token');
 });
 
 // Pengaturan > Shortcut

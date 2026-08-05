@@ -297,6 +297,27 @@ class Plugin extends Admin_Controller
     }
 
     /**
+     * Simpan token Layanan untuk pertama kali (sebelum modul klien terpasang).
+     * Menyimpan token memicu SettingAplikasiObserver → bootstrap → pasang Pelanggan.
+     */
+    public function simpanToken(): void
+    {
+        isCan('u');
+
+        $token = trim((string) $this->input->post('token_layanan'));
+
+        if (empty($token)) {
+            redirect_with('error', 'Token tidak boleh kosong.', 'plugin');
+
+            return;
+        }
+
+        (new \App\Repositories\SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $token);
+
+        redirect_with('success', 'Token tersimpan. Modul Layanan dipasang otomatis — muat ulang halaman bila belum muncul.', 'plugin');
+    }
+
+    /**
      * Coba ulang bootstrap Layanan — berguna bila Layanan tidak dapat dihubungi
      * saat token pertama kali disimpan sehingga modul klien belum terpasang.
      */
