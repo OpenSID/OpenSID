@@ -347,7 +347,16 @@ class Laravel extends Container
             return;
         }
 
-        array_walk($this->loadedProviders, fn ($provider) => $this->bootProvider($provider));
+        // Catch per-provider boot failures so a single broken provider
+        // (e.g., a module that calls CI3 helpers before CI3 is ready)
+        // does not prevent the remaining providers from booting.
+        array_walk($this->loadedProviders, function ($provider): void {
+            try {
+                $this->bootProvider($provider);
+            } catch (Throwable $e) {
+                $this->make(ExceptionHandler::class)->report($e);
+            }
+        });
 
         $this->booted = true;
     }
@@ -987,7 +996,36 @@ class Laravel extends Container
     protected function registerSessionBindings()
     {
         $this->singleton('session', fn () => $this->loadComponent('session', SessionServiceProvider::class, 'session'));
-        $this->singleton('session.store', fn () => $this->loadComponent('session', SessionServiceProvider::class, 'session.store'));
+        $this->singleton('session.store', function () {
+            $store = $this->loadComponent('session', SessionServiceProvider::class, 'session.store');
+
+            // Use PHP's native session_id() when available (set by CI3 after session_start()),
+            // otherwise fall back to the ci_session cookie value.
+            $sessionId = (function_exists('session_id') && session_id() !== '')
+                ? session_id()
+                : ($this->make(Request::class)->cookies->get(
+                    $this->make('config')->get('session.cookie', 'ci_session')
+                ) ?? '');
+
+            if ($sessionId !== '') {
+                $store->setId($sessionId);
+            }
+
+            $store->start();
+
+            // Save at end of request; re-sync ID in case CI3's sess_regenerate() ran.
+            register_shutdown_function(static function () use ($store): void {
+                if ($store->isStarted()) {
+                    $currentId = function_exists('session_id') ? session_id() : '';
+                    if ($currentId !== '' && $currentId !== $store->getId()) {
+                        $store->setId($currentId);
+                    }
+                    $store->save();
+                }
+            });
+
+            return $store;
+        });
     }
 
     /**

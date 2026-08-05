@@ -129,6 +129,12 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->make(QueryDetector::class)->boot();
 
+        // DatabaseServiceProvider::boot() sets Model::$dispatcher later in the boot walk;
+        // set it now so observers can register their listeners immediately.
+        if (! \Illuminate\Database\Eloquent\Model::getEventDispatcher()) {
+            \Illuminate\Database\Eloquent\Model::setEventDispatcher($this->app['events']);
+        }
+
         \App\Models\SettingAplikasi::observe(\App\Observers\SettingAplikasiObserver::class);
     }
 

@@ -19,7 +19,7 @@
  * asal tunduk pada syarat berikut:
  *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * setiap salinan atau mendistribusikan Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
  *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
@@ -37,114 +37,9 @@
 
 namespace App\Services\Auth;
 
-use CI_Session;
-use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Support\Timebox;
-use Symfony\Component\HttpFoundation\Request;
-
+// Auth token is stored in the Laravel session store (not CI3 session).
+// registerSessionBindings() syncs the Laravel store to CI3's session ID so the
+// token survives across requests even though CI3 owns the session cookie.
 class SessionGuard extends \Illuminate\Auth\SessionGuard
 {
-    /**
-     * Overwrite to ci session used by the guard.
-     *
-     * @var CI_Session
-     */
-    protected $session;
-
-    public function __construct(
-        $name,
-        UserProvider $provider,
-        Session $session,
-        ?Request $request = null,
-        ?Timebox $timebox = null,
-    ) {
-        parent::__construct(
-            $name,
-            $provider,
-            $session,
-            $request,
-            $timebox
-        );
-
-        $this->session = app('ci')->session;
-    }
-
-    public function user()
-    {
-        if ($this->loggedOut) {
-            return;
-        }
-
-        // Return the user if already retrieved for the current request
-        if (null !== $this->user) {
-            return $this->user;
-        }
-
-        $id = $this->session->userdata($this->getName());
-
-        // Attempt to retrieve the user by session identifier
-        if (null !== $id) {
-            $this->user = $this->provider->retrieveById($id);
-
-            if ($this->user) {
-                $this->fireAuthenticatedEvent($this->user);
-
-                return $this->user;
-            }
-        }
-
-        // Attempt to retrieve the user by remember me cookie if session retrieval fails
-        if (null === $this->user) {
-            $recaller = $this->recaller();
-
-            if (null !== $recaller) {
-                $this->user = $this->userFromRecaller($recaller);
-
-                if ($this->user) {
-                    $this->updateSession($this->user->getAuthIdentifier());
-                    $this->fireLoginEvent($this->user, true);
-
-                    return $this->user;
-                }
-            }
-        }
-
-        return $this->user;
-    }
-
-    public function id()
-    {
-        if ($this->loggedOut) {
-            return null;
-        }
-
-        return $this->user()
-            ? $this->user()->getAuthIdentifier()
-            : $this->session->userdata($this->getName());
-    }
-
-    protected function updateSession($id)
-    {
-        $this->session->set_userdata($this->getName(), $id);
-        $this->session->sess_regenerate(true);
-    }
-
-    /**
-     * Remove the user data from the session and cookies.
-     *
-     * @return void
-     */
-    protected function clearUserDataFromStorage()
-    {
-        $this->session->unset_userdata($this->getName());
-
-        $this->getCookieJar()->unqueue($this->getRecallerName());
-
-        if (null !== $this->recaller()) {
-            $this->getCookieJar()->queue(
-                $this->getCookieJar()->forget($this->getRecallerName())
-            );
-        }
-    }
 }

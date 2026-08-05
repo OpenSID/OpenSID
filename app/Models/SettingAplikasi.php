@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use App\Models\Galery as Galeri;
 use App\Traits\ConfigId;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\Activitylog\ActivityLogStatus;
@@ -180,15 +181,17 @@ class SettingAplikasi extends BaseModel
     {
         parent::boot();
 
-        cache()->forget('setting_aplikasi');
-
         static::updating(static function ($model): void {
+            Cache::forget('setting_aplikasi');
+
             if (is_string($model->value)) {
                 static::deleteFile($model, $model->value);
             }
         });
 
         static::deleting(static function ($model): void {
+            Cache::forget('setting_aplikasi');
+
             if (is_string($model->value)) {
                 static::deleteFile($model, $model->value, true);
             }

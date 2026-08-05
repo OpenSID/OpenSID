@@ -114,17 +114,19 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->callAfterResolving('events', function (Dispatcher $events): void {
-            foreach ($this->listens() as $event => $listeners) {
-                foreach ($listeners as $listener) {
-                    $events->listen($event, $listener);
-                }
-            }
+        // callAfterResolving is unreliable in the custom Lumen-like container
+        // (App\Services\Laravel). Register directly against the resolved Dispatcher.
+        $events = $this->app->make('events');
 
-            foreach ($this->subscribe as $subscriber) {
-                $events->subscribe($subscriber);
+        foreach ($this->listens() as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                $events->listen($event, $listener);
             }
-        });
+        }
+
+        foreach ($this->subscribe as $subscriber) {
+            $events->subscribe($subscriber);
+        }
     }
 
     /**

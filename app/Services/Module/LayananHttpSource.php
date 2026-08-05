@@ -68,6 +68,23 @@ class LayananHttpSource implements ModuleSource
 
     public function fetch(string $name, string $locator = ''): string
     {
+        // Mode dev: locator kosong (mis. dari emulator bootstrap) → coba toko lokal.
+        // Memungkinkan pemasangan Pelanggan dari bootstrap tanpa Pelanggan lebih dulu
+        // terpasang (tidak ada loop ayam-telur). Tidak berlaku di luar development.
+        if ($locator === '' && (defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development') {
+            $storeZip = storage_path('app/dev-marketplace/' . $name . '.zip');
+
+            if (is_file($storeZip)) {
+                $tmp = rtrim(sys_get_temp_dir(), '/\\') . DIRECTORY_SEPARATOR . 'mp-' . $name . '-' . uniqid('', true) . '.zip';
+
+                if (@copy($storeZip, $tmp)) {
+                    return $tmp;
+                }
+            }
+
+            throw new RuntimeException("Locator kosong: paket {$name} tidak ada di toko lokal (storage/app/dev-marketplace/{$name}.zip).");
+        }
+
         $this->validasiUrlPaket($locator);
 
         $zipPath  = $this->modulesDir() . $name . '.zip';

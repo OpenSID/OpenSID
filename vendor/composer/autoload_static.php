@@ -47,6 +47,7 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
         '72b1e3f4a2af9b30b3f137b3ec2057fc' => __DIR__ . '/..' . '/spatie/laravel-activitylog/src/helpers.php',
         'ab9b68c5b1def6f80e89be13eb0a4be3' => __DIR__ . '/..' . '/spatie/laravel-fractal/src/helpers.php',
         '0b47d6d4a00ca9112ba3953b49e7c9a4' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/helper.php',
+        'baf39eaa435b538f950baf94911c2f2a' => __DIR__ . '/../..' . '/donjo-app/helpers/illuminate_helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
