@@ -173,7 +173,11 @@ if (! function_exists('is_demo_mode')) {
         $demo_mode = config('opensid.demo_mode')
             || (function_exists('config_item') && config_item('demo_mode'));
 
-        return app()->environment('testing')
+        $isLocalMode = app()->bound('bursa.lokal')
+            && app('bursa.lokal')::aktif();
+
+        return $isLocalMode
+            || app()->environment('testing')
             || ($demo_mode && in_array(get_domain(APP_URL), WEBSITE_DEMO));
     }
 }

@@ -76,8 +76,7 @@ class Plugin extends Admin_Controller
 
         // Tab Paket Terpasang hanya menampilkan add-on bursa paket yang TERPASANG
         // (module.json `marketplace:true`). Modul OSS inti (Analisis/Kehadiran/
-        // Lapak) & infrastruktur (Pelanggan) dikecualikan — mereka bagian core,
-        // bukan paket yang dikelola. Daftar digerakkan pemindaian folder (bukan
+        // Lapak) dikecualikan. Daftar digerakkan pemindaian folder (bukan
         // respons Layanan) agar add-on terpasang tetap tampil walau Layanan mati.
         $terpasangMarket = app(ModuleManager::class)->installedMarketplace();
 
