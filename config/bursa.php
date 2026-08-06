@@ -80,4 +80,16 @@ return [
     */
 
     'bootstrap_path' => $bacaEnv('BURSA_BOOTSTRAP_PATH', '/api/v1/token/bootstrap'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | URL bursa staging
+    |--------------------------------------------------------------------------
+    |
+    | URL server Layanan staging untuk verifikasi di lingkungan dev sebelum rilis.
+    | Override via env `BURSA_STAGING_URL` bila alamat staging berubah.
+    |
+    */
+
+    'staging_url' => $bacaEnv('BURSA_STAGING_URL', 'https://devlayanan.opendesa.id'),
 ];

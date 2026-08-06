@@ -6,29 +6,49 @@ Fitur ini **hanya tersedia pada `ENVIRONMENT=development`** dan tidak ikut rilis
 
 ---
 
+## Mode Sumber Paket
+
+Tab Sumber menyediakan tiga pilihan sumber yang bisa dipilih sesuai kebutuhan:
+
+| Mode | Nilai `.mode` | Kapan digunakan |
+|---|---|---|
+| **Layanan produksi** | `produksi` | Default. Gunakan di PR review atau sebelum rilis; token asli diverifikasi server nyata |
+| **Layanan staging** | `staging` | Verifikasi integrasi dengan server Layanan nyata tanpa risiko ke data produksi |
+| **Bursa paket lokal** | `lokal` | Iterasi cepat tanpa server eksternal; token premium di-bypass |
+
+Nilai lama `1` (lokal) dan `0` (produksi) tetap dibaca secara backward-compatible.
+
+---
+
 ## Cara Kerja
 
 ```
-Admin UI (tab Sumber)
-  └─▶ setel "Bursa paket lokal"
-       └─▶ tulis storage/app/dev-marketplace/.mode = 1
+Admin UI (tab Sumber) → pilih mode → Terapkan sumber
+  └─▶ LocalMarketplace::setel($mode)
+       └─▶ tulis storage/app/dev-marketplace/.mode = "lokal"|"staging"|"produksi"
 
 pre_controller hook (setiap request)
-  └─▶ LocalMarketplace::aktif() baca .mode
-       ├─▶ CekService::isDemoMode() → true → lewati pemeriksaan token premium
-       ├─▶ is_demo_mode() → true → lewati pemeriksaan status demo
-       └─▶ PengalihLayananLokal: override config
-            ├─▶ server_layanan   → https://<domain-lokal>/layanan-lokal
-            └─▶ bursa.url_penyedia → https://<domain-lokal>/layanan-lokal
+  └─▶ LocalMarketplace::mode() baca .mode → PengalihLayananLokal::terapkan()
 
-Modul memanggil API Layanan
+  ┌─ MODE PRODUKSI → no-op (config tidak disentuh)
+  │
+  ├─ MODE STAGING  → config['server_layanan'] = config('bursa.staging_url')
+  │                  config['bursa.url_penyedia'] = staging URL
+  │                  (default: https://devlayanan.opendesa.id)
+  │
+  └─ MODE LOKAL    → config['server_layanan'] = site_url('layanan-lokal')
+                     config['bursa.url_penyedia'] = site_url('layanan-lokal')
+                     CekService::isDemoMode() → true → lewati pemeriksaan token premium
+                     is_demo_mode() → true → lewati pemeriksaan status demo
+
+MODE LOKAL: Modul memanggil API Layanan
   └─▶ Guzzle menembak Layanan_lokal controller (self-HTTP)
        └─▶ LocalLayanan::body() menyusun respons dari identitas desa lokal
 ```
 
 Katalog, pengajuan GET/RELEASE, dan seluruh endpoint `/api/v1/pelanggan/*` dilayani oleh controller `Layanan_lokal` dan layanan `LocalLayanan` — bukan server `layanan.opendesa.id`.
 
-> **Penting — validasi token:** Selama mode bursa lokal **aktif** (`.mode = 1`), pemeriksaan token premium per-request (`CekService`) dan pemeriksaan mode demo (`is_demo_mode()`) keduanya di-bypass secara otomatis. Artinya Anda tidak memerlukan token Layanan yang valid untuk mengakses fitur berbayar di lingkungan dev. Jika mode dinonaktifkan (`.mode = 0` atau file tidak ada dan tidak ada ZIP di gudang), token asli dari `layanan.opendesa.id` tetap diperiksa meski di `ENVIRONMENT=development`.
+> **Penting — bypass token:** Bypass token premium (`CekService` dan `is_demo_mode()`) **hanya aktif di mode lokal** (`.mode = lokal`). Di mode staging, token asli dari server staging tetap diverifikasi per-request. Di mode produksi, tidak ada override sama sekali — perilaku identik dengan rilis produksi.
 
 ---
 
@@ -103,13 +123,25 @@ Jika repo sudah diperbarui (ada commit baru), daftarkan ulang URL yang sama — 
 
 ---
 
-## Langkah 3 — Aktifkan Mode Bursa Lokal
+## Langkah 3 — Pilih Mode Sumber
 
-Di kotak **Sumber paket**, pilih radio **Bursa paket lokal**, lalu klik **Terapkan sumber**.
+Di kotak **Sumber paket**, pilih salah satu dari tiga radio, lalu klik **Terapkan sumber**:
 
-Setelah ini, setiap request mewarisi override URL — semua panggilan API modul ke server Layanan dialihkan ke emulator lokal.
+### Opsi 1: Layanan produksi (default)
 
-Untuk kembali ke server produksi nyata: pilih **Layanan (server nyata)** → Terapkan.
+Tidak ada override config. Semua panggilan API menuju `layanan.opendesa.id` seperti di produksi. Gunakan ini saat memverifikasi dengan token dan data produksi nyata.
+
+### Opsi 2: Layanan staging
+
+URL diarahkan ke `config('bursa.staging_url')` (default: `https://devlayanan.opendesa.id`, dapat di-override via env `BURSA_STAGING_URL`). Token Layanan asli tetap diverifikasi — bypass tidak aktif. Gunakan untuk:
+- Memverifikasi integrasi API dengan server Layanan nyata sebelum rilis
+- Menguji endpoint baru di staging tanpa menyentuh produksi
+
+### Opsi 3: Bursa paket lokal
+
+URL diarahkan ke emulator in-app (`layanan-lokal`). Token premium di-bypass otomatis. Gunakan untuk iterasi cepat saat mengembangkan modul baru tanpa perlu token Layanan yang valid.
+
+Setelah memilih dan menerapkan, setiap request mewarisi override URL via `PengalihLayananLokal` (hook `pre_controller`).
 
 ---
 
@@ -164,6 +196,8 @@ Di tab Sumber, blok **"Data langganan pelanggan (simulasi Layanan)"**:
 
 Simulasi ini bekerja karena emulator `Layanan_lokal` melayani endpoint `/api/v1/pelanggan/pemesanan` dengan data yang dibangun oleh `LocalLayanan::body()` — respons identik dengan yang dikirim server produksi.
 
+> **Perlu mode lokal:** blok simulasi data langganan hanya bermakna di mode lokal. Di mode staging/produksi, data langganan datang dari server Layanan nyata.
+
 ---
 
 ## Verifikasi Setelah Pemasangan
@@ -203,14 +237,14 @@ Paket dapat dihapus dari gudang lokal (ZIP + sidecar) melalui tombol **Batalkan*
 | Path | Keterangan |
 |---|---|
 | `storage/app/dev-marketplace/` | Gudang ZIP paket + sidecar JSON |
-| `storage/app/dev-marketplace/.mode` | Berkas penanda mode: `1` = bursa lokal, `0` = Layanan |
+| `storage/app/dev-marketplace/.mode` | Penanda mode: `lokal` / `staging` / `produksi` (lama: `1`=lokal, `0`=produksi) |
 | `storage/app/dev-marketplace-pesanan.json` | Log riwayat get/release |
 | `donjo-app/controllers/Layanan_lokal.php` | Emulator endpoint API Layanan (dev-only) |
 | `donjo-app/Routes/Web/dev.php` | Rute emulator — hanya dimuat di `ENVIRONMENT=development` |
-| `app/Services/Module/LocalMarketplace.php` | Logika gudang, katalog, unduhan |
-| `app/Services/Layanan/LocalLayanan.php` | Pembangkit isi respons simulasi |
-| `app/Services/Layanan/PengalihLayananLokal.php` | Override URL Layanan ke emulator |
-| `config/bursa.php` | `url_penyedia` — di-override saat mode lokal aktif |
+| `Modules/Pelanggan/Services/Dev/LocalMarketplace.php` | Mode tristate, gudang ZIP, katalog, unduhan |
+| `Modules/Pelanggan/Services/Dev/LocalLayanan.php` | Pembangkit isi respons simulasi |
+| `Modules/Pelanggan/Services/Dev/PengalihLayananLokal.php` | Override URL Layanan sesuai mode |
+| `config/bursa.php` | `url_penyedia` (default), `staging_url` (default: `https://devlayanan.opendesa.id`) |
 
 ---
 
@@ -227,6 +261,10 @@ Jalankan `gh auth login` terlebih dulu dan pastikan akun GitHub Anda memiliki ak
 ### Anjungan terpasang tetapi fitur terkunci / halaman anjungan tidak muncul
 
 Data langganan simulasi belum diisi. Buka tab Sumber → klik **Isi data langganan simulasi**. Jika sudah diisi tetapi masih terkunci, coba hapus cache: `php artisan cache:clear`.
+
+### Ingin menguji terhadap server Layanan nyata tanpa menyentuh produksi
+
+Gunakan mode **Layanan staging** — arahkan ke `https://devlayanan.opendesa.id` (atau set `BURSA_STAGING_URL` di `.env` ke URL staging lain). Di mode ini token Layanan asli tetap diverifikasi; tidak ada bypass.
 
 ### Paket di gudang sudah usang (commit lama)
 

@@ -32,5 +32,17 @@
 // Load fallback traits terlebih dahulu
 require_once __DIR__ . '/Support/FallbackTraits.php';
 
-// Load autoload dari vendor tests
+// Load autoload dari vendor tests (Orchestra Testbench + test-only deps)
 require_once __DIR__ . '/vendor/autoload.php';
+
+// Daftarkan namespace Modules\\ dari root Composer agar class di Modules/ bisa di-test
+// tanpa memuat seluruh root vendor (menghindari konflik versi PHPUnit)
+spl_autoload_register(static function (string $class): void {
+    if (str_starts_with($class, 'Modules\\')) {
+        $rel  = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, strlen('Modules\\')));
+        $file = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Modules' . DIRECTORY_SEPARATOR . $rel . '.php';
+        if (is_file($file)) {
+            require_once $file;
+        }
+    }
+});
