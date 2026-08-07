@@ -109,18 +109,16 @@
 
             function loadModule() {
                 let urlModule = '{{ $url_marketplace }}'
-                let token = '{{ $token_layanan }}'
+                let token = @json($token_layanan)
 
-                // Jika token tidak ada, tampilkan dari cache atau data lokal
-                if (!token) {
-                    // Coba gunakan cached data terlebih dahulu
+                // Jika tidak ada URL marketplace sama sekali, gunakan cache/fallback
+                if (!urlModule) {
                     let cachedPackages = []
                     for (let i in paketTerpasangNames) {
                         let packageName = paketTerpasangNames[i]
                         if (paketCachedData[packageName]) {
                             cachedPackages.push(paketCachedData[packageName])
                         } else {
-                            // Jika tidak ada cache, buat data minimal dari nama paket
                             let isDefault = paketBawaan.includes(packageName)
                             cachedPackages.push({
                                 name: packageName,
@@ -136,6 +134,12 @@
                     return
                 }
 
+                // Mode lokal tidak butuh token; mode Layanan membutuhkan Bearer token.
+                let ajaxHeaders = { 'Accept': 'application/json' }
+                if (token) {
+                    ajaxHeaders['Authorization'] = 'Bearer ' + token
+                }
+
                 $.ajax({
                     url: urlModule,
                     data: {
@@ -143,10 +147,7 @@
                         list_module: paketTerpasangNames
                     },
                     method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                        'Accept': 'application/json'
-                    },
+                    headers: ajaxHeaders,
                     error: function(response) {
                         // Jika token expired atau gagal koneksi, tampilkan dari cache atau data lokal
                         let cachedPackages = []
