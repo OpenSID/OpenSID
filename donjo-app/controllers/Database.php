@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Exceptions\Database\MultiTenantRestoreNotSupportedException;
 use App\Libraries\Acak;
 use App\Libraries\Database as LibrariesDatabase;
 use App\Libraries\Ekspor;
@@ -237,6 +238,16 @@ class Database extends Admin_Controller
         // isMultiDB();
         // isSiapPakai();
         isCan('u', 'database', true, true);
+
+        // Jaring pengaman: restore whole-database tidak aman pada Database Gabungan
+        // (Ekspor::restore() men-DROP TABLE seluruh tabel, menghapus data desa lain).
+        // Tolak sebelum file upload diproses — lihat MultiDB::restore() untuk jalur
+        // restore per-desa yang aman. (Mirror OpenSID/premium#6800.)
+        if (is_database_gabungan()) {
+            redirect_with('error', MultiTenantRestoreNotSupportedException::PESAN, 'database');
+
+            return;
+        }
 
         // Setting milik add-on yang harus dipertahankan lintas-restore (mis. token
         // langganan), didaftarkan ke registry netral oleh modul. Core tak lagi tahu

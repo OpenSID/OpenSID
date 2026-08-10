@@ -38,7 +38,6 @@
 namespace App\Repositories;
 
 use App\Libraries\TinyMCE;
-use App\Models\Config;
 use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
 use App\Services\OtpService;
@@ -122,7 +121,7 @@ class SettingAplikasiRepository
         $ci->setting->sebutan_sekretaris_desa = sekdes()->nama;
 
         // Setting Multi Desa untuk OpenKab
-        $ci->setting->multi_desa = Config::count() > 1;
+        $ci->setting->multi_desa = is_database_gabungan();
 
         // Setting Multi Database untuk OpenKab
         $ci->setting->multi_database = count(config('database.connections')) >= 2;

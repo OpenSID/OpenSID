@@ -147,6 +147,19 @@ if (! function_exists('identitas')) {
     }
 }
 
+if (! function_exists('is_database_gabungan')) {
+    /**
+     * Apakah koneksi database saat ini menampung lebih dari satu desa (Database
+     * Gabungan)? Definitif via penanda file (survive DROP TABLE saat restore
+     * whole-database, lihat Ekspor::restore()), dengan fallback deteksi live
+     * untuk instalasi yang belum diprovisioning dengan penanda ini.
+     */
+    function is_database_gabungan(): bool
+    {
+        return Config::count() > 1 || is_file(DESAPATH . 'config/database_gabungan');
+    }
+}
+
 if (! function_exists('isSiapPakai')) {
     /**
      * Cek apakah digunakan untuk desa siap pakai.

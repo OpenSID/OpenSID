@@ -37,6 +37,7 @@
 
 namespace App\Libraries;
 
+use App\Exceptions\Database\MultiTenantRestoreNotSupportedException;
 use App\Models\Config;
 use Exception;
 use Illuminate\Support\Facades\File;
@@ -113,6 +114,15 @@ class Ekspor
 
     public function restore(string $filename): bool
     {
+        // Jaring pengaman kedua (Database::restore() sudah menolak lebih dulu untuk
+        // jalur web) — melindungi caller lain (CLI, job) yang memanggil restore()
+        // langsung tanpa lewat controller. Restore whole-database tidak aman pada
+        // Database Gabungan — restore per-desa yang aman ada di MultiDB::restore().
+        // (Mirror OpenSID/premium#6800.)
+        if (is_database_gabungan()) {
+            throw new MultiTenantRestoreNotSupportedException();
+        }
+
         $import = new MySQLImport($this->db);
         $import->load($filename);
         // Clear cache and reset app key
