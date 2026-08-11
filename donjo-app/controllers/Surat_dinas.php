@@ -119,7 +119,7 @@ class Surat_dinas extends Admin_Controller
 
         return view('admin.surat_dinas.pengaturan.index', [
             'jenisSurat'       => SuratDinas::JENIS_SURAT,
-            'suratDinasBawaan' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json')),
+            'suratDinasBawaan' => storage_desa_url('impor/template-surat-dinas-tinymce.json'),
         ]);
     }
 

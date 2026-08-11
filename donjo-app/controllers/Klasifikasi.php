@@ -188,8 +188,8 @@ class Klasifikasi extends Admin_Controller
     {
         isCan('u');
         $data['form_action']       = ci_route('klasifikasi.proses_impor');
-        $data['format_impor']      = ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-klasifikasi-surat.xlsx'));
-        $data['klasifikasi_surat'] = ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'klasifikasi-surat.xlsx'));
+        $data['format_impor']      = storage_desa_url('impor/format-impor-klasifikasi-surat.xlsx');
+        $data['klasifikasi_surat'] = storage_desa_url('impor/klasifikasi-surat.xlsx');
 
         return view('admin.klasifikasi.import', $data);
     }

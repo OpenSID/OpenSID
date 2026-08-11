@@ -51,10 +51,14 @@ class ServeFileController extends Controller
     private const ALLOWED_DISKS = ['assets', 'public'];
 
     /**
-     * Folder dalam disk desa yang boleh diakses publik.
-     * Perluasan akses cukup dengan menambah prefix folder baru di sini.
+     * Pemetaan prefix path → disk.
+     *
+     * Perluasan akses cukup dengan menambah pasangan prefix/folder baru di sini.
      */
-    private const ALLOWED_DESA_PREFIXES = ['upload/'];
+    private const DISK_BY_PREFIX = [
+        'upload/' => 'desa',
+        'impor/'  => 'template',
+    ];
 
     /**
      * Ekstensi file yang diizinkan sebagai fallback default.
@@ -65,10 +69,15 @@ class ServeFileController extends Controller
     ];
 
     /**
+     * Ekstensi file yang diizinkan di area template impor (`impor/`).
+     */
+    private const ALLOWED_TEMPLATE_EXTENSIONS = ['json', 'xls', 'xlsx', 'xlsm'];
+
+    /**
      * Sajikan file storage secara streaming.
      *
      * Route dilindungi middleware `signed`. Jika file utama tidak ditemukan di
-     * disk `desa`, diambil fallback dari `?default=` pada disk `?defaultDisk=`
+     * disk terpilih, diambil fallback dari `?default=` pada disk `?defaultDisk=`
      * yang dibatasi pada disk statis.
      */
     public function index(Request $request): Response
@@ -76,22 +85,23 @@ class ServeFileController extends Controller
         $path = (string) $request->query('path', '');
 
         try {
-            if (! $this->isAllowedDesaPath($path)) {
+            $diskName = $this->resolveDiskName($path);
+
+            if ($diskName === null) {
                 abort(404);
             }
 
-            $primaryDisk = Storage::disk('desa');
-            $disk        = $primaryDisk;
+            $disk = Storage::disk($diskName);
 
-            if (! $primaryDisk->fileExists($path)) {
+            if (! $disk->fileExists($path)) {
                 $defaultPath = preg_replace('/\?.*$/', '', (string) $request->query('default'));
-                $diskName    = $request->query('defaultDisk', 'assets');
+                $defaultDisk = $request->query('defaultDisk', 'assets');
 
-                if (! in_array($diskName, self::ALLOWED_DISKS, true) || ! $this->isAllowedAsset($defaultPath)) {
+                if (! in_array($defaultDisk, self::ALLOWED_DISKS, true) || ! $this->isAllowedAsset($defaultPath)) {
                     abort(404);
                 }
 
-                $disk = Storage::disk($diskName);
+                $disk = Storage::disk($defaultDisk);
 
                 if (! $disk->fileExists($defaultPath)) {
                     abort(404);
@@ -120,25 +130,44 @@ class ServeFileController extends Controller
     }
 
     /**
-     * Path utama harus berada dalam salah satu prefix yang diizinkan.
+     * Resolusi disk utama dari prefix path pertama yang cocok; `null` bila
+     * tidak ada prefix yang diizinkan atau path tidak lolos aturan area.
      *
      * Segmen `..` ditolak eksplisit karena normalizer Flysystem mengizinkan
      * relative path: `upload/../app_key` dicollapse menjadi `app_key` tanpa
      * memicu PathTraversalDetected.
      */
-    private function isAllowedDesaPath(string $path): bool
+    private function resolveDiskName(string $path): ?string
     {
         if (str_contains($path, '..')) {
-            return false;
+            return null;
         }
 
-        foreach (self::ALLOWED_DESA_PREFIXES as $prefix) {
-            if (str_starts_with($path, $prefix)) {
-                return true;
+        foreach (self::DISK_BY_PREFIX as $prefix => $diskName) {
+            if (! str_starts_with($path, $prefix)) {
+                continue;
             }
+
+            if ($prefix === 'impor/' && ! $this->hasAllowedTemplateExtension($path)) {
+                return null;
+            }
+
+            return $diskName;
         }
 
-        return false;
+        return null;
+    }
+
+    /**
+     * Area template impor hanya melayani file dengan ekstensi yang
+     * diizinkan sehingga skrip (PHP) dan file tanpa ekstensi tidak pernah
+     * terlayani.
+     */
+    private function hasAllowedTemplateExtension(string $path): bool
+    {
+        $extension = strtolower((string) pathinfo($path, PATHINFO_EXTENSION));
+
+        return $extension !== '' && in_array($extension, self::ALLOWED_TEMPLATE_EXTENSIONS, true);
     }
 
     /**

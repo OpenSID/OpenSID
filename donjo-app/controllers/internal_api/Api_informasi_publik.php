@@ -67,10 +67,9 @@ class Api_informasi_publik extends Api_Controller
                 ],
             ];
         } else {
-            $jenis_kirim    = empty($get['tgl_dari']) ? 'semua' : 'perubahan';
-            $kodeDesa       = setting('kode_desa');
-            $lokasi_dokumen = base_url('dokumen_web/unduh_berkas/');
-            $data           = DokumenHidup::selectRaw("id, '{$kodeDesa}' as kode_desa, CONCAT('{$lokasi_dokumen}', id) as dokumen, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun,
+            $jenis_kirim = empty($get['tgl_dari']) ? 'semua' : 'perubahan';
+            $kodeDesa    = setting('kode_desa');
+            $data        = DokumenHidup::selectRaw("id, '{$kodeDesa}' as kode_desa, satuan, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun,
                 (CASE when deleted = 1
                     then '3'
                     else
@@ -80,6 +79,14 @@ class Api_informasi_publik extends Api_Controller
                         end
                     end) as aksi
             ")->whereRaw(DB::raw("DATE(updated_at) > STR_TO_DATE('{$tgl_dari}', '%d-%m-%Y')"))->get()->toArray();
+
+            $data = array_map(static function (array $row): array {
+                $satuan = $row['satuan'] ?? '';
+                unset($row['satuan']);
+                $row['dokumen'] = $satuan === '' ? null : storage_desa_url('upload/dokumen/' . $satuan);
+
+                return $row;
+            }, $data);
 
             $json_send = ['status' => 'success',
                 'data'             => ['ppid' => $data,

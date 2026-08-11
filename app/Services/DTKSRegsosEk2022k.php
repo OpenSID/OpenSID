@@ -129,7 +129,7 @@ class DTKSRegsosEk2022k
     public function impor()
     {
         return view('admin.dtks.2.impor', [
-            'formatImpor' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-dtks-regsosek2022k.xlsx')),
+            'formatImpor' => storage_desa_url('impor/format-impor-dtks-regsosek2022k.xlsx'),
         ]);
     }
 

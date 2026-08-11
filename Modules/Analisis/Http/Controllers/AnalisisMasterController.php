@@ -199,8 +199,8 @@ class AnalisisMasterController extends AdminModulController
 
         return view('analisis::master.import', [
             'form_action' => ci_route('analisis_master.import'),
-            'formatImpor' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'analisis.xlsx')),
-            'formatPpls2' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'ppls2.xlsx')),
+            'formatImpor' => storage_desa_url('impor/analisis.xlsx'),
+            'formatPpls2' => storage_desa_url('impor/ppls2.xlsx'),
         ]);
     }
 

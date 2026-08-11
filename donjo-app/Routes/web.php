@@ -87,15 +87,7 @@ Route::group('/first', static function (): void {
     Route::get('/get_form_info', 'First@get_form_info')->name('first.get_form_info');
 });
 
-// Captcha
-Route::get('captcha', 'Securimage@show');
-
-// Dokumen web
-Route::group('/dokumen_web', static function (): void {
-    Route::get('/tampil/{slug?}', 'Dokumen_web@tampil');
-    Route::get('/unduh/{slug?}', 'Dokumen_web@unduh');
-    Route::get('/unduh_berkas/{id_dokumen}', 'Dokumen_web@unduh_berkas');
-});
+// Statistik web
 
 Route::group('/statistik_web', static function (): void {
     Route::get('/load_chart_gis/{lap?}', 'Statistik_web@load_chart_gis');
@@ -110,10 +102,6 @@ Route::group('/statistik_web', static function (): void {
     Route::get('/chart_gis_kadus/{id_kepala?}', 'Statistik_web@chart_gis_kadus');
     Route::get('/load_kadus/{tipe?}/{lap?}', 'Statistik_web@load_kadus');
 });
-
-// Tampil assets
-Route::get('/tampil/{slug?}', 'Dokumen_web@tampil');
-Route::get('/unduh/{slug?}', 'Dokumen_web@unduh');
 
 // Koneksi database
 Route::get('koneksi-database', 'Koneksi_database@index');

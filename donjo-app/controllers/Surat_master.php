@@ -120,7 +120,7 @@ class Surat_master extends Admin_Controller
     {
         return view('admin.pengaturan_surat.index', [
             'jenisSurat'         => FormatSurat::JENIS_SURAT,
-            'suratLayananBawaan' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json')),
+            'suratLayananBawaan' => storage_desa_url('impor/template-surat-tinymce.json'),
         ]);
     }
 
