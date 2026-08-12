@@ -1,3 +1,6 @@
+cara membatalkan pinjaman indosaku 
+
+segera hubungi layanan costumer service melalui live chat whatsapp di nomor (0813•3056•2323)-(0851•7811•8676) siapkan data diri anda terutama ktp, lalu jelaskan alasan anda ingin membatalkan pinjaman dan ikuti instruksi yang diarahkan oleh costumer service guna mempercepat proses pembatalan pinjaman.
 <h1 align="center">Selamat datang di OpenSID! 👋</h1>
 
 ![readme-image](https://user-images.githubusercontent.com/46939846/103254436-d5381f80-49b7-11eb-8c2b-99dc4c7de30b.png "OpenSID membantu penanggulangan COVID-19")
