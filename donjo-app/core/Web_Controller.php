@@ -196,14 +196,14 @@ class Web_Controller extends MY_Controller
         $expired = 60 * 60 * 24 * 7; // 7 hari
 
         return cache()->remember('tema_premium', $expired, static function () use ($expired) {
-            $data = app('ci')->cache->file->get('status_langganan');
+            $data = cache()->store('subscription')->get('status_langganan');
 
             // safety check kalau data kosong
             if (empty($data->body->pemesanan)) {
                 app('ci')->header['desa']                 = collect(identitas())->toArray();
                 app('ci')->header['perbaharui_langganan'] = true;
                 app(PerbaruiLangganan::class)->refresh();
-                $data = app('ci')->cache->file->get('status_langganan');
+                $data = cache()->store('subscription')->get('status_langganan');
             }
 
             $pemesanan = collect($data->body->pemesanan)

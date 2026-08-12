@@ -70,6 +70,12 @@ return [
             'driver' => 'file',
             'path'   => storage_path('framework/cache/data'),
         ],
+
+        'subscription' => [
+            'driver'    => 'file',
+            'path'      => storage_path('framework/cache/subscription'),
+            'lock_path' => storage_path('framework/cache/subscription'),
+        ],
     ],
 
     /*

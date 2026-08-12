@@ -48,7 +48,7 @@ class Saas
      */
     public static function peringatan()
     {
-        if ($layanan = app('ci')->cache->file->get('status_langganan')) {
+        if ($layanan = cache()->store('subscription')->get('status_langganan')) {
 
             return collect($layanan->body->pemesanan)
                 ->map(static function ($data) {
