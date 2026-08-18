@@ -67,7 +67,19 @@ class Theme extends Admin_Controller
         $currentPage = request()->get('page', 1);
         $perPage     = 10;
 
+        // status_pemesanan (aktif/tidak aktif) melekat pada objek Pemesanan
+        // INDUK, bukan tiap baris $layanan -- HARUS difilter di sini,
+        // sebelum flatMap membuang objek induknya, sama seperti pola yang
+        // sudah benar di ModulTrait::getLayananModul() (Premium). Tanpa ini,
+        // tema berlangganan berbatas waktu (mis. Lestari, lihat
+        // Layanan#1341) akan tetap tampil sebagai "sudah dipesan, bisa
+        // diunduh" bahkan setelah langganannya kedaluwarsa -- filter lama
+        // cuma memastikan nama_kategori 'Tema', tak pernah memeriksa apakah
+        // pesanannya masih aktif (perilaku ini tak pernah ketahuan karena
+        // semua tema sebelum Lestari berlisensi perpetual, jadi
+        // status_pemesanan selalu 'aktif').
         $themeOrder = collect(app(SumberTemaBursa::class)->pemesanan()?->body?->pemesanan ?? [])
+            ->filter(static fn ($item) => ($item->status_pemesanan ?? null) === 'aktif')
             ->flatMap(static fn ($item) => collect($item?->layanan ?? [])
                 ->map(static fn ($layanan) => (array) $layanan))
             ->filter(static fn ($layanan) => ($layanan['nama_kategori'] ?? null) === 'Tema');
