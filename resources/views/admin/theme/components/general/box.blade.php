@@ -4,7 +4,7 @@
         <div class="ribbon-wrapper">
             @php
                 $ribbonClass = $status == 1 ? 'btn-success' : ($sistem == 1 ? 'btn-info' : 'btn-danger');
-                $ribbonText = $status == 1 ? 'Aktif' : ($sistem == 1 ? 'Umum' : 'Premium');
+                $ribbonText = $status == 1 ? 'Aktif' : ($sistem == 1 ? 'Umum' : 'Tema Pro');
             @endphp
             <div class="{{ $ribbonClass }} ribbon">
                 {{ $ribbonText }}

@@ -31,7 +31,7 @@
                         <select id="kategori" name="kategori" class="form-control input-sm select2">
                             <option value="">Pilih Tipe</option>
                             <option @selected($kategori === 'umum') value="umum">Umum</option>
-                            <option @selected($kategori === 'premium') value="premium">Premium</option>
+                            <option @selected($kategori === 'premium') value="premium">Tema Pro</option>
                         </select>
                     </div>
                 </div>
