@@ -60,9 +60,16 @@ class Theme extends BaseModel
      * folder. Tanpa `theme.json`/field `kategori`, fallback ke default lama
      * (`sistem` ? UMUM : PREMIUM) -- lihat theme_scan() di
      * donjo-app/helpers/theme_helper.php. Padanan Premium.
+     *
+     * KATEGORI_PREMIUM_EKSKLUSIF: SAMA tab filter "Tema Pro" dgn
+     * KATEGORI_PREMIUM -- beda HANYA di teks ribbon kartu (box.blade.php):
+     * "Premium" (bukan "Tema Pro"), krn tema ini eksklusif bonus langganan
+     * OpenSID Premium (mis. Wira), tak bisa dibeli satuan spt tema
+     * KATEGORI_PREMIUM lain (mis. Lestari).
      */
-    public const KATEGORI_UMUM    = 'umum';
-    public const KATEGORI_PREMIUM = 'premium';
+    public const KATEGORI_UMUM              = 'umum';
+    public const KATEGORI_PREMIUM           = 'premium';
+    public const KATEGORI_PREMIUM_EKSKLUSIF = 'premium-eksklusif';
 
     public $cacheFor = -1;
 

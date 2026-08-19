@@ -7,10 +7,15 @@
                 // (lokasi folder). Padanan Premium. Tema hasil merge bursa
                 // (belum terpasang) tak punya kolom `kategori` -- default ke
                 // Tema Pro, sama seperti perilaku lama ($sistem selalu 0).
+                // KATEGORI_PREMIUM_EKSKLUSIF (mis. Wira) sama tab filter
+                // "Tema Pro" dgn KATEGORI_PREMIUM -- beda hanya teks ribbon:
+                // "Premium" (bonus eksklusif langganan) vs "Tema Pro" (bisa
+                // dibeli satuan).
                 $kategoriTema = $kategori ?? \App\Models\Theme::KATEGORI_PREMIUM;
                 $isKategoriUmum = $kategoriTema === \App\Models\Theme::KATEGORI_UMUM;
+                $isKategoriEksklusif = $kategoriTema === \App\Models\Theme::KATEGORI_PREMIUM_EKSKLUSIF;
                 $ribbonClass = $status == 1 ? 'btn-success' : ($isKategoriUmum ? 'btn-info' : 'btn-danger');
-                $ribbonText = $status == 1 ? 'Aktif' : ($isKategoriUmum ? 'Umum' : 'Tema Pro');
+                $ribbonText = $status == 1 ? 'Aktif' : ($isKategoriUmum ? 'Umum' : ($isKategoriEksklusif ? 'Premium' : 'Tema Pro'));
             @endphp
             <div class="{{ $ribbonClass }} ribbon">
                 {{ $ribbonText }}

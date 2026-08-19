@@ -89,10 +89,12 @@ class Theme extends Admin_Controller
         // (label distribusi, dari theme.json paket tema) -- BUKAN `sistem`
         // (lokasi folder, tetap dipakai utk urutan + proteksi hapus/edit).
         // Padanan Premium -- lihat App\Models\Theme::KATEGORI_UMUM/
-        // KATEGORI_PREMIUM.
+        // KATEGORI_PREMIUM. Tab "Tema Pro" mencakup KEDUA KATEGORI_PREMIUM
+        // (bisa dibeli satuan) dan KATEGORI_PREMIUM_EKSKLUSIF (bonus
+        // eksklusif langganan Premium, mis. Wira) -- beda hanya teks ribbon.
         $themeModel = ThemeModel::query()
             ->when($kategori == 'umum', static fn ($query) => $query->where('kategori', ThemeModel::KATEGORI_UMUM))
-            ->when($kategori == 'premium', static fn ($query) => $query->where('kategori', ThemeModel::KATEGORI_PREMIUM))
+            ->when($kategori == 'premium', static fn ($query) => $query->whereIn('kategori', [ThemeModel::KATEGORI_PREMIUM, ThemeModel::KATEGORI_PREMIUM_EKSKLUSIF]))
             ->orderBy('sistem', 'desc')
             ->orderBy('versi', 'desc')
             ->get();
