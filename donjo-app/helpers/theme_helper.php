@@ -198,6 +198,29 @@ if (! function_exists('theme_view')) {
     }
 }
 
+if (! function_exists('theme_kategori_dari_paket')) {
+    /**
+     * Baca `kategori` ("umum"/"premium") dari `theme.json` di dalam folder
+     * tema, bila ada -- artefak rilis GitHub tema (dipakai bersama oleh
+     * ThemeCatalogSyncService di sisi Layanan). `null` bila `theme.json`
+     * tak ada atau nilainya tak dikenal, supaya pemanggil (theme_scan())
+     * jatuh ke default lama berbasis `sistem`. Padanan Premium.
+     */
+    function theme_kategori_dari_paket(string $tema): ?string
+    {
+        $path = FCPATH . $tema . '/theme.json';
+
+        if (! is_file($path)) {
+            return null;
+        }
+
+        $json     = json_decode(file_get_contents($path), true);
+        $kategori = $json['kategori'] ?? null;
+
+        return in_array($kategori, [Theme::KATEGORI_UMUM, Theme::KATEGORI_PREMIUM], true) ? $kategori : null;
+    }
+}
+
 // pindai semua folder tema
 if (! function_exists('theme_scan')) {
     /**
@@ -218,6 +241,7 @@ if (! function_exists('theme_scan')) {
                 $nama       = str_replace('-', ' ', explode('/', $composer['name'])[1]);
                 $slug       = Str::slug(($sistem ? '' : 'desa ') . $nama);
                 $keterangan = $composer['description'];
+                $kategori   = theme_kategori_dari_paket($tema) ?? ($sistem ? Theme::KATEGORI_UMUM : Theme::KATEGORI_PREMIUM);
 
                 return [
                     'config_id'  => identitas('id'),
@@ -225,6 +249,7 @@ if (! function_exists('theme_scan')) {
                     'slug'       => $slug,
                     'versi'      => $versi,
                     'sistem'     => $sistem,
+                    'kategori'   => $kategori,
                     'path'       => $tema,
                     'keterangan' => $keterangan ?: (preg_match('/storage/', $tema) ? 'Tema bawaan sistem' : 'Tema buatan desa'),
                     'created_at' => Carbon::now(),

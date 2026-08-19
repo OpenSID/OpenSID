@@ -3,8 +3,14 @@
         <strong>{{ $nama }}</strong>
         <div class="ribbon-wrapper">
             @php
-                $ribbonClass = $status == 1 ? 'btn-success' : ($sistem == 1 ? 'btn-info' : 'btn-danger');
-                $ribbonText = $status == 1 ? 'Aktif' : ($sistem == 1 ? 'Umum' : 'Tema Pro');
+                // Label kategori pakai `kategori` (distribusi), BUKAN `sistem`
+                // (lokasi folder). Padanan Premium. Tema hasil merge bursa
+                // (belum terpasang) tak punya kolom `kategori` -- default ke
+                // Tema Pro, sama seperti perilaku lama ($sistem selalu 0).
+                $kategoriTema = $kategori ?? \App\Models\Theme::KATEGORI_PREMIUM;
+                $isKategoriUmum = $kategoriTema === \App\Models\Theme::KATEGORI_UMUM;
+                $ribbonClass = $status == 1 ? 'btn-success' : ($isKategoriUmum ? 'btn-info' : 'btn-danger');
+                $ribbonText = $status == 1 ? 'Aktif' : ($isKategoriUmum ? 'Umum' : 'Tema Pro');
             @endphp
             <div class="{{ $ribbonClass }} ribbon">
                 {{ $ribbonText }}

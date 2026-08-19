@@ -52,6 +52,18 @@ class Theme extends BaseModel
     public const PATH_SISTEM   = 'storage/app/themes/';
     public const PATH_DESA     = 'desa/themes/';
 
+    /**
+     * Nilai kolom `kategori` -- tab katalog admin `/theme` ("Umum"/"Tema Pro").
+     * BEDA dari `sistem` (lokasi folder, menentukan proteksi hapus/edit +
+     * urutan) -- `kategori` murni label distribusi, dibaca dari `theme.json`
+     * milik paket tema (bila ada) saat `theme_scan()`, bukan dari lokasi
+     * folder. Tanpa `theme.json`/field `kategori`, fallback ke default lama
+     * (`sistem` ? UMUM : PREMIUM) -- lihat theme_scan() di
+     * donjo-app/helpers/theme_helper.php. Padanan Premium.
+     */
+    public const KATEGORI_UMUM    = 'umum';
+    public const KATEGORI_PREMIUM = 'premium';
+
     public $cacheFor = -1;
 
     /**

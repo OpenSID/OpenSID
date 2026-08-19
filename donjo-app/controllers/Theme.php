@@ -85,9 +85,14 @@ class Theme extends Admin_Controller
             ->filter(static fn ($layanan) => ($layanan['nama_kategori'] ?? null) === 'Tema');
 
         // Fetch all themes from database without pagination
+        // Filter kategori (tab "Umum"/"Tema Pro") pakai kolom `kategori`
+        // (label distribusi, dari theme.json paket tema) -- BUKAN `sistem`
+        // (lokasi folder, tetap dipakai utk urutan + proteksi hapus/edit).
+        // Padanan Premium -- lihat App\Models\Theme::KATEGORI_UMUM/
+        // KATEGORI_PREMIUM.
         $themeModel = ThemeModel::query()
-            ->when($kategori == 'umum', static fn ($query) => $query->where('sistem', 1))
-            ->when($kategori == 'premium', static fn ($query) => $query->where('sistem', 0))
+            ->when($kategori == 'umum', static fn ($query) => $query->where('kategori', ThemeModel::KATEGORI_UMUM))
+            ->when($kategori == 'premium', static fn ($query) => $query->where('kategori', ThemeModel::KATEGORI_PREMIUM))
             ->orderBy('sistem', 'desc')
             ->orderBy('versi', 'desc')
             ->get();
