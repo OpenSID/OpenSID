@@ -35,6 +35,7 @@
  *
  */
 
+use App\Actions\Theme\ActivateTheme;
 use App\Models\Theme as ThemeModel;
 use App\Services\Theme\BursaTema;
 use App\Services\Theme\SumberTemaBursa;
@@ -289,10 +290,12 @@ class Theme extends Admin_Controller
     {
         isCan('u');
 
-        $status = ThemeModel::findOrFail($id);
-        $status->update(['status' => 1]);
-
-        ThemeModel::where('id', '!=', $id)->update(['status' => 0]);
+        // rencana-refaktor-tema-siappakai.md §1.4/Fase 7: dipindah ke
+        // App\Actions\Theme\ActivateTheme (padanan Premium, diporting di sini
+        // krn Umum sebelumnya mengaktifkan tema inline tanpa gerbang
+        // entitlement apa pun -- perlu SEKARANG krn Umum juga bisa dihost
+        // SiapPakai, Opensid::UMUM, yang menjalankan Fase 1 sync yang sama).
+        (new ActivateTheme())->handle($id);
 
         redirect_with('success', 'Berhasil Ubah Data');
     }

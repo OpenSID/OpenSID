@@ -58,6 +58,11 @@ class SumberTemaBursa
     private $provider = null;
 
     /**
+     * @var (callable(): array<int, string>)|null
+     */
+    private $penyediaTemaProDipesan = null;
+
+    /**
      * Pasang provider data pemesanan tema premium.
      *
      * @param callable(): mixed $provider
@@ -76,5 +81,37 @@ class SumberTemaBursa
     public function pemesanan()
     {
         return $this->provider !== null ? ($this->provider)() : null;
+    }
+
+    /**
+     * Pasang provider daftar nama Tema Pro yang sudah dibeli desa ini, dibaca
+     * dari klaim `tema_pro` pada token langganan (add-on, mis. modul Pelanggan,
+     * {@see \Modules\Pelanggan\Services\CekService::temaProDipesan()}).
+     *
+     * Sengaja provider TERPISAH dari {@see setelPenyedia()}: itu membaca data
+     * dari API/cache 'status_langganan' (dipakai menyortir katalog bursa),
+     * ini membaca klaim JWT lokal langsung -- dipakai gerbang entitlement
+     * `App\Actions\Theme\ActivateTheme` khusus tenant SiapPakai (lihat
+     * dasbor-siappakai/dokumentasi/rencana-refaktor-tema-siappakai.md §1.4).
+     *
+     * @param callable(): array<int, string> $provider
+     */
+    public function setelPenyediaTemaProDipesan(callable $provider): void
+    {
+        $this->penyediaTemaProDipesan = $provider;
+    }
+
+    /**
+     * Nama-nama Tema Pro yang sudah dibeli desa ini, atau array kosong bila
+     * tak ada provider terpasang -- fail-closed, sama semangat
+     * {@see \App\Services\Kapabilitas\GerbangFitur::mengizinkan()}: tanpa
+     * add-on penyedia langganan, TIDAK ADA tema Tema Pro yang dianggap
+     * berhak diaktifkan.
+     *
+     * @return array<int, string>
+     */
+    public function temaProDipesan(): array
+    {
+        return $this->penyediaTemaProDipesan !== null ? (array) ($this->penyediaTemaProDipesan)() : [];
     }
 }

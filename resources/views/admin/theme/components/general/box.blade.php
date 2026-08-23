@@ -55,8 +55,20 @@
                     </form>
                 @endif
             @else
-                @if (can('u'))
+                @php
+                    // rencana-refaktor-tema-siappakai.md §1.4/Fase 2/Fase 7:
+                    // padanan Premium -- Umum juga bisa dihost SiapPakai
+                    // (Opensid::UMUM), yang menjalankan Fase 1 sync yang sama.
+                    $berhakAktivasi = \App\Actions\Theme\ActivateTheme::berhakAktivasi($kategoriTema, $slug, $nama);
+                @endphp
+                @if ($berhakAktivasi && can('u'))
                     <a href="{{ site_url('theme/aktifkan/' . $id) }}" class="btn btn-info btn-sm" title="Aktifkan Tema"><i class="fa fa-star-o"></i></a>
+                @elseif (! $berhakAktivasi)
+                    {{-- Belum berhak (khusus SiapPakai) -- tautan pemesanan,
+                         bukan penolakan tanpa jalan keluar. TODO: sama seperti
+                         Premium, Layanan belum punya checkout mandiri per-tema
+                         yang bisa diakses desa langsung. --}}
+                    <a href="{{ config_item('website') . '/tema-pro-opensid' }}" class="btn btn-social btn-warning btn-sm" target="_blank" title="Pesan Tema Ini"><i class="fa fa-info"></i>Hubungi</a>
                 @endif
                 @if (!cache('siappakai') && !setting('multi_desa') && can('h') && $sistem !== 1)
                     <a href="#" data-href="{{ site_url('theme/delete/' . $id) }}" class="btn btn-danger btn-sm" title="Hapus Tema" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a>
