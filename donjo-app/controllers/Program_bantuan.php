@@ -46,6 +46,7 @@ use App\Models\Kelompok;
 use App\Models\Penduduk;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Row;
@@ -84,7 +85,7 @@ class Program_bantuan extends Admin_Controller
         $data['list_status']  = AktifEnum::all();
         $data['list_sasaran'] = SasaranEnum::all();
         $data['func']         = 'index';
-        $data['formatImpor']  = storage_desa_url('impor/format-impor-program-bantuan.xlsx');
+        $data['formatImpor']  = URL::signedRoute('storage.desa', ['path' => 'impor/format-impor-program-bantuan.xlsx']);
         $data['filterColumn'] = $this->filterColumn;
 
         view('admin.program_bantuan.program', $data);

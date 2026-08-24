@@ -10,3 +10,4 @@ Rilis versi 2607.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 6. [#6674](https://github.com/OpenSID/premium/issues/6674) Perbaikan keamanan IDOR — Citizen Portal (fmandiri) Pesan Baca, Read Any Citizen's Messages.
 7. [#6341](https://github.com/OpenSID/premium/issues/6341) Perbaikan keamanan Unauthenticated Arbitrary Artisan Command Execution via PlaywrightController.
 8. [#6793](https://github.com/OpenSID/premium/issues/6793) Perbaikan celah LFI pada endpoint theme_asset, module_asset, dan file storage-desa.
+9. [#6807](https://github.com/OpenSID/premium/issues/6807) Perbaikan RCE via Insecure Deserialization pada endpoint /index.php/tampil/ dan unduh.

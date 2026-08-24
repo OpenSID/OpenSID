@@ -38,6 +38,7 @@
 use App\Models\Pamong;
 use App\Models\Penduduk;
 
+use Illuminate\Support\Facades\URL;
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Vaksin_covid extends Admin_Controller
@@ -102,7 +103,7 @@ class Vaksin_covid extends Admin_Controller
             'func'         => 'index',
             'p'            => $p,
             'selected_nav' => 'daftar',
-            'formatImpor'  => storage_desa_url('impor/format-impor-vaksin.xlsx'),
+            'formatImpor'  => URL::signedRoute('storage.desa', ['path' => 'impor/format-impor-vaksin.xlsx']),
         ];
 
         foreach ($this->_list_session as $list) {

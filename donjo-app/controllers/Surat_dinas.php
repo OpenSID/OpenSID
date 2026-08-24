@@ -52,6 +52,7 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 
+use Illuminate\Support\Facades\URL;
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_dinas extends Admin_Controller
@@ -119,7 +120,7 @@ class Surat_dinas extends Admin_Controller
 
         return view('admin.surat_dinas.pengaturan.index', [
             'jenisSurat'       => SuratDinas::JENIS_SURAT,
-            'suratDinasBawaan' => storage_desa_url('impor/template-surat-dinas-tinymce.json'),
+            'suratDinasBawaan' => URL::signedRoute('storage.desa', ['path' => 'impor/template-surat-dinas-tinymce.json']),
         ]);
     }
 

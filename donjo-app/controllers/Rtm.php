@@ -51,6 +51,7 @@ use App\Models\Wilayah;
 use App\Services\DtksService;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use OpenSpout\Reader\XLSX\Reader;
 
@@ -95,7 +96,7 @@ class Rtm extends Admin_Controller
             'wilayah'         => Wilayah::treeAccess(),
             'judul_statistik' => $this->judulStatistik,
             'filterColumn'    => $this->filterColumn,
-            'formatImpor'     => storage_desa_url('impor/format-impor-rtm.xlsx'),
+            'formatImpor'     => URL::signedRoute('storage.desa', ['path' => 'impor/format-impor-rtm.xlsx']),
         ];
         view('admin.penduduk.rtm.index', $data);
     }

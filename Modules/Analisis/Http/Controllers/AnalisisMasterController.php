@@ -39,6 +39,7 @@ use App\Enums\StatusEnum;
 use App\Models\KelompokMaster;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Libraries\Gform;
@@ -199,8 +200,8 @@ class AnalisisMasterController extends AdminModulController
 
         return view('analisis::master.import', [
             'form_action' => ci_route('analisis_master.import'),
-            'formatImpor' => storage_desa_url('impor/analisis.xlsx'),
-            'formatPpls2' => storage_desa_url('impor/ppls2.xlsx'),
+            'formatImpor' => URL::signedRoute('storage.desa', ['path' => 'impor/analisis.xlsx']),
+            'formatPpls2' => URL::signedRoute('storage.desa', ['path' => 'impor/ppls2.xlsx']),
         ]);
     }
 

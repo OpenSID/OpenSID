@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Exports\KlasifikasiSuratExport;
 use App\Imports\KlasifikasiSuratImports;
 use App\Models\KlasifikasiSurat;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 
 class Klasifikasi extends Admin_Controller
@@ -188,8 +189,8 @@ class Klasifikasi extends Admin_Controller
     {
         isCan('u');
         $data['form_action']       = ci_route('klasifikasi.proses_impor');
-        $data['format_impor']      = storage_desa_url('impor/format-impor-klasifikasi-surat.xlsx');
-        $data['klasifikasi_surat'] = storage_desa_url('impor/klasifikasi-surat.xlsx');
+        $data['format_impor']      = URL::signedRoute('storage.desa', ['path' => 'impor/format-impor-klasifikasi-surat.xlsx']);
+        $data['klasifikasi_surat'] = URL::signedRoute('storage.desa', ['path' => 'impor/klasifikasi-surat.xlsx']);
 
         return view('admin.klasifikasi.import', $data);
     }

@@ -37,6 +37,7 @@
 
 use App\Models\DokumenHidup;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -83,7 +84,7 @@ class Api_informasi_publik extends Api_Controller
             $data = array_map(static function (array $row): array {
                 $satuan = $row['satuan'] ?? '';
                 unset($row['satuan']);
-                $row['dokumen'] = $satuan === '' ? null : storage_desa_url('upload/dokumen/' . $satuan);
+                $row['dokumen'] = $satuan === '' ? null : URL::signedRoute('storage.desa', ['path' => 'upload/dokumen/' . $satuan]);
 
                 return $row;
             }, $data);

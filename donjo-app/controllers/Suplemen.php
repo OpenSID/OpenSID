@@ -44,6 +44,7 @@ use App\Models\Penduduk;
 use App\Models\Suplemen as ModelSuplemen;
 use App\Models\SuplemenTerdata;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Border;
@@ -447,7 +448,7 @@ class Suplemen extends Admin_Controller
         return view('admin.suplemen.impor', [
             'suplemen'    => ModelSuplemen::findOrFail($id),
             'form_action' => ci_route('suplemen.impor'),
-            'formatImpor' => storage_desa_url('impor/format-impor-suplemen.xlsx'),
+            'formatImpor' => URL::signedRoute('storage.desa', ['path' => 'impor/format-impor-suplemen.xlsx']),
         ]);
     }
 

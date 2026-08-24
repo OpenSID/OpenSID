@@ -50,6 +50,7 @@ use App\Models\SettingAplikasi;
 use App\Models\SyaratSurat;
 use App\Models\User;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -120,7 +121,7 @@ class Surat_master extends Admin_Controller
     {
         return view('admin.pengaturan_surat.index', [
             'jenisSurat'         => FormatSurat::JENIS_SURAT,
-            'suratLayananBawaan' => storage_desa_url('impor/template-surat-tinymce.json'),
+            'suratLayananBawaan' => URL::signedRoute('storage.desa', ['path' => 'impor/template-surat-tinymce.json']),
         ]);
     }
 

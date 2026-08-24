@@ -59,6 +59,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
@@ -129,7 +130,7 @@ class DTKSRegsosEk2022k
     public function impor()
     {
         return view('admin.dtks.2.impor', [
-            'formatImpor' => storage_desa_url('impor/format-impor-dtks-regsosek2022k.xlsx'),
+            'formatImpor' => URL::signedRoute('storage.desa', ['path' => 'impor/format-impor-dtks-regsosek2022k.xlsx']),
         ]);
     }
 
