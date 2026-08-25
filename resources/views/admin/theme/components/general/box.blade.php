@@ -65,9 +65,11 @@
                     <a href="{{ site_url('theme/aktifkan/' . $id) }}" class="btn btn-info btn-sm" title="Aktifkan Tema"><i class="fa fa-star-o"></i></a>
                 @elseif (! $berhakAktivasi)
                     {{-- Belum berhak (khusus SiapPakai) -- tautan pemesanan,
-                         bukan penolakan tanpa jalan keluar. TODO: sama seperti
-                         Premium, Layanan belum punya checkout mandiri per-tema
-                         yang bisa diakses desa langsung. --}}
+                         bukan penolakan tanpa jalan keluar. TODO
+                         (Layanan_OpenDESA#1371): sama seperti Premium --
+                         endpoint pemesanan mandiri self-service ADA
+                         (POST /api/v1/pemesanan) tapi belum mendukung tema,
+                         dan belum ada client produksi yang memanggilnya. --}}
                     <a href="{{ config_item('website') . '/tema-pro-opensid' }}" class="btn btn-social btn-warning btn-sm" target="_blank" title="Pesan Tema Ini"><i class="fa fa-info"></i>Hubungi</a>
                 @endif
                 @if (!cache('siappakai') && !setting('multi_desa') && can('h') && $sistem !== 1)
