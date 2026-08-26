@@ -161,14 +161,66 @@ class Database extends Admin_Controller
 
     public function desa_backup()
     {
-        return Zip::create(
+        $zip = Zip::create(
             name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
             files: collect(Storage::disk('desa')->allFiles())
                 ->mapWithKeys(static fn ($file) => [base_path("desa/{$file}") => $file])
                 ->toArray()
-        )
-            ->response()
-            ->send();
+        );
+
+        // premium#6964: Storage::disk('desa') (config 'links' => 'skip') sudah
+        // melewati symlink otomatis (mis. `desa/themes/<tema>` kategori C SiapPakai
+        // → folder master `master-tema-pro/` dibagi banyak tenant) — tak pernah
+        // muncul di allFiles() sama sekali, jadi aman dari korupsi tapi silently
+        // hilang tanpa jejak. Catat di manifest arsip agar staf tahu symlink apa
+        // yang perlu dibuat ulang secara manual saat memulihkan ke server lain.
+        $symlinkDilewati = $this->symlinkDesaDilewati();
+        if ($symlinkDilewati !== []) {
+            $zip->addRaw(
+                json_encode($symlinkDilewati, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
+                'SYMLINK_DILEWATI.json'
+            );
+        }
+
+        return $zip->response()->send();
+    }
+
+    /**
+     * Scan `desa/` langsung dari disk untuk symlink. Storage::disk('desa') (links
+     * => skip) membuat symlink tak pernah muncul di allFiles() sama sekali,
+     * sehingga tak bisa dideteksi lewat API Storage — perlu scan filesystem asli.
+     *
+     * @return array<string, string> path-relatif-di-desa => target symlink asli
+     */
+    private function symlinkDesaDilewati(): array
+    {
+        $root  = rtrim(Storage::disk('desa')->path(''), '/\\');
+        $hasil = [];
+
+        $scan = static function (string $dir) use (&$scan, &$hasil, $root): void {
+            foreach (scandir($dir) ?: [] as $item) {
+                if ($item === '.' || $item === '..') {
+                    continue;
+                }
+
+                $path = $dir . DIRECTORY_SEPARATOR . $item;
+
+                if (is_link($path)) {
+                    $relatif         = ltrim(substr($path, strlen($root)), '/\\');
+                    $hasil[$relatif] = (string) readlink($path);
+
+                    continue;
+                }
+
+                if (is_dir($path)) {
+                    $scan($path);
+                }
+            }
+        };
+
+        $scan($root);
+
+        return $hasil;
     }
 
     public function desa_inkremental()
