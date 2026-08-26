@@ -43,6 +43,7 @@ use App\Models\SettingAplikasi;
 use App\Models\User;
 use App\Models\Widget;
 use App\Repositories\SettingAplikasiRepository;
+use App\Services\Module\ModuleManager;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -1122,7 +1123,16 @@ if (! function_exists('admin_menu')) {
     {
         $grupId = ci_auth()->id_grup;
 
-        return cache()->rememberForever("{$grupId}_admin_menu", static fn () => (new Modul())->tree($grupId)->toArray());
+        // premium#6877: rememberForever tanpa fingerprint state modul di kunci cache
+        // berarti perubahan Modules/ dari LUAR siklus request tenant ini (mis. proses
+        // sentral SiapPakai yang menyinkronkan folder Modules/ yang dibagi lintas
+        // tenant) tidak pernah membuat cache nav tenant yang sudah hangat jadi basi.
+        // Menyertakan installedFingerprint() (murah — glob() sekali per request) di
+        // kunci cache membuat cache lama otomatis tak terpakai lagi begitu ADA folder
+        // modul yang ditambah/dihapus, siapa pun/proses apa pun pelakunya.
+        $fingerprint = app(ModuleManager::class)->installedFingerprint();
+
+        return cache()->rememberForever("{$grupId}_admin_menu_{$fingerprint}", static fn () => (new Modul())->tree($grupId)->toArray());
     }
 }
 

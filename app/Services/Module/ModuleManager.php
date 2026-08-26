@@ -173,6 +173,28 @@ class ModuleManager
     }
 
     /**
+     * Fingerprint ringan dari modul yang genuinely terpasang di disk saat ini —
+     * berubah setiap kali sebuah folder modul ditambah/dihapus, TERLEPAS dari
+     * siapa/proses apa yang melakukannya (premium#6877).
+     *
+     * Dipakai sebagai bagian kunci cache nav sidebar ({@see \admin_menu()},
+     * `general_helper.php`) supaya perubahan `Modules/` dari LUAR siklus request
+     * tenant manapun (mis. proses sentral SiapPakai yang menyinkronkan folder
+     * `Modules/` yang dibagi lintas tenant) otomatis membuat cache nav tenant yang
+     * sudah hangat jadi basi, tanpa proses sentral itu perlu tahu cara memberi tahu
+     * cache tenant mana pun secara eksplisit. Hanya mencerminkan KEBERADAAN folder
+     * (bukan status aktif/nonaktif per tenant — itu sudah benar ditangani baris
+     * `setting_modul` + `cache()->flush()` saat tenant sendiri yang beraksi).
+     */
+    public function installedFingerprint(): string
+    {
+        $names = array_keys($this->installed());
+        sort($names);
+
+        return md5(implode(',', $names));
+    }
+
+    /**
      * Apakah modul mensyaratkan entitlement (langganan)?
      *
      * Dibaca dari `module.json` (`requires_entitlement`, default `false`).
