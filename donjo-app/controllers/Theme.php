@@ -39,6 +39,7 @@ use App\Actions\Theme\ActivateTheme;
 use App\Models\Theme as ThemeModel;
 use App\Services\Theme\BursaTema;
 use App\Services\Theme\SumberTemaBursa;
+use App\Services\Theme\ThemeZipExtractor;
 use App\Traits\Upload;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\Image\Image;
@@ -357,41 +358,16 @@ class Theme extends Admin_Controller
         ];
     }
 
+    /**
+     * @param array{full_path: string} $upload
+     *
+     * @return array{status: bool, data: string}
+     */
     protected function extractAndValidateTheme($upload)
     {
-        $zip = new ZipArchive();
-
-        if ($zip->open($upload['full_path']) !== true) {
-            unlink($upload['full_path']);
-
-            return [
-                'status' => false,
-                'data'   => 'Tema tidak valid',
-            ];
-        }
-
-        $lokasi_ekstrak = FCPATH . 'desa/themes/';
-        $subfolder      = $zip->getNameIndex(0);
-        $zip->extractTo($lokasi_ekstrak);
-        $zip->close();
-
-        $lokasi_tema = $lokasi_ekstrak . substr($subfolder, 0, -1);
-
-        if (! file_exists($lokasi_tema . '/resources/views/template.blade.php')) {
-            delete_files($lokasi_tema, true);
-
-            return [
-                'status' => false,
-                'data'   => 'Tema tidak valid',
-            ];
-        }
-
-        theme_scan();
-
-        return [
-            'status' => true,
-            'data'   => 'Berhasil Unggah Tema',
-        ];
+        // Logika sesungguhnya ada di ThemeZipExtractor (app/Services/Theme/) —
+        // dipindah ke sana supaya bisa diuji langsung tanpa boot CI3 (mirror premium#6790).
+        return app(ThemeZipExtractor::class)->extract($upload);
     }
 
     protected function validateOpsi($opsi, $tema)
