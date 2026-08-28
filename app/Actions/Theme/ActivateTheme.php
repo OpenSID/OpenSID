@@ -123,11 +123,22 @@ class ActivateTheme
     public static function berhakAktivasi(?string $kategori, ?string $slug, string $nama): bool
     {
         if ($kategori === Theme::KATEGORI_PREMIUM_EKSKLUSIF) {
-            // Sama persis PenjagaTemaEksklusif -- dipanggil PREVENTIF di sini
-            // juga (bukan cuma reaktif di Web_Controller pada request publik
-            // berikutnya), supaya aktivasi gagal cepat. Berlaku SAMA di
-            // instalasi mandiri MAUPUN SiapPakai -- tak ada perubahan
-            // perilaku, gerbang ini sudah ada & aktif di kedua konteks hari ini.
+            if (! cache('siappakai')) {
+                // Instalasi mandiri: TIDAK berubah, izinkan tanpa syarat --
+                // sama seperti cabang KATEGORI_PREMIUM di bawah. Penegakan
+                // tema premium-free tetap REAKTIF lewat PenjagaTemaEksklusif
+                // di Web_Controller tiap request publik (turunkan ke tema
+                // gratis bila langganan tak aktif), bukan Exception yang
+                // mematikan proses. Tanpa carve-out ini, DataDinamisSeeder::
+                // theme() (mengaktifkan 'wira') melempar Exception di wizard
+                // /install/migrations pada instalasi baru yang belum
+                // memasukkan token Premium (#6977).
+                return true;
+            }
+
+            // Tenant SiapPakai: gerbang PREVENTIF seperti PenjagaTemaEksklusif
+            // -- dipanggil di sini juga (bukan cuma reaktif di request publik
+            // berikutnya) supaya aktivasi gagal cepat.
             return app(GerbangFitur::class)->mengizinkan('premium');
         }
 
