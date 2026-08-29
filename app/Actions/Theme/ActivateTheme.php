@@ -122,6 +122,15 @@ class ActivateTheme
      */
     public static function berhakAktivasi(?string $kategori, ?string $slug, string $nama): bool
     {
+        if ($kategori === Theme::KATEGORI_MITRA) {
+            // Tema mitra kabupaten/kota (mis. Tema Tabanan) -- gratis untuk
+            // SEMUA desa, tanpa gerbang apa pun, termasuk tenant SiapPakai.
+            // Eksplisit walau cabang KATEGORI_PREMIUM di bawah juga akan
+            // lolos: menegaskan niat, dan kebal bila kelak `mitra` ikut tab
+            // filter "premium". Padanan Premium.
+            return true;
+        }
+
         if ($kategori === Theme::KATEGORI_PREMIUM_EKSKLUSIF) {
             if (! cache('siappakai')) {
                 // Instalasi mandiri: TIDAK berubah, izinkan tanpa syarat --

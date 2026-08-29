@@ -217,7 +217,7 @@ if (! function_exists('theme_kategori_dari_paket')) {
         $json     = json_decode(file_get_contents($path), true);
         $kategori = $json['kategori'] ?? null;
 
-        $nilaiValid = [Theme::KATEGORI_UMUM, Theme::KATEGORI_PREMIUM, Theme::KATEGORI_PREMIUM_EKSKLUSIF];
+        $nilaiValid = [Theme::KATEGORI_UMUM, Theme::KATEGORI_PREMIUM, Theme::KATEGORI_PREMIUM_EKSKLUSIF, Theme::KATEGORI_MITRA];
 
         return in_array($kategori, $nilaiValid, true) ? $kategori : null;
     }

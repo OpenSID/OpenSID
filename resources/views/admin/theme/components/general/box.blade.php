@@ -11,11 +11,16 @@
                 // "Tema Pro" dgn KATEGORI_PREMIUM -- beda hanya teks ribbon:
                 // "Premium" (bonus eksklusif langganan) vs "Tema Pro" (bisa
                 // dibeli satuan).
+                // KATEGORI_MITRA (mis. Tema Tabanan): tema kerja sama
+                // kabupaten/kota -- gratis untuk semua (ribbon biru seperti
+                // "Umum"), teks ribbon "Tema Mitra". Padanan Premium.
                 $kategoriTema = $kategori ?? \App\Models\Theme::KATEGORI_PREMIUM;
                 $isKategoriUmum = $kategoriTema === \App\Models\Theme::KATEGORI_UMUM;
+                $isKategoriMitra = $kategoriTema === \App\Models\Theme::KATEGORI_MITRA;
                 $isKategoriEksklusif = $kategoriTema === \App\Models\Theme::KATEGORI_PREMIUM_EKSKLUSIF;
-                $ribbonClass = $status == 1 ? 'btn-success' : ($isKategoriUmum ? 'btn-info' : 'btn-danger');
-                $ribbonText = $status == 1 ? 'Aktif' : ($isKategoriUmum ? 'Umum' : ($isKategoriEksklusif ? 'Premium' : 'Tema Pro'));
+                $isKategoriGratis = $isKategoriUmum || $isKategoriMitra;
+                $ribbonClass = $status == 1 ? 'btn-success' : ($isKategoriGratis ? 'btn-info' : 'btn-danger');
+                $ribbonText = $status == 1 ? 'Aktif' : ($isKategoriMitra ? 'Tema Mitra' : ($isKategoriUmum ? 'Umum' : ($isKategoriEksklusif ? 'Premium' : 'Tema Pro')));
             @endphp
             <div class="{{ $ribbonClass }} ribbon">
                 {{ $ribbonText }}

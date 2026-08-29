@@ -44,6 +44,7 @@ use App\Console\Commands\ModuleCommand;
 use App\Console\Commands\Modules\MigrationMakeCommand;
 use App\Console\Commands\Modules\SeedMakeCommand;
 use App\Console\Commands\SetupCommand;
+use App\Console\Commands\TerapkanTemaBawaanWilayahCommand;
 use App\Console\Commands\ViewClearCommand;
 use App\Exceptions\Handler;
 use App\Services\Laravel;
@@ -99,6 +100,7 @@ class Kernel implements KernelContract
         ModuleCommand::class,
         SeedMakeCommand::class,
         SetupCommand::class,
+        TerapkanTemaBawaanWilayahCommand::class,
         ViewClearCommand::class,
         DeactivateInactiveAccounts::class,
     ];
@@ -288,7 +290,10 @@ class Kernel implements KernelContract
      */
     protected function schedule(Schedule $schedule)
     {
-
+        // Susul tema mitra kabupaten/kota bila desa berada di wilayah mitra
+        // (premium#6991) -- mis. desa yang baru pindah kab/kota, atau tema
+        // mitra yang baru terbit di katalog Layanan. Padanan Premium.
+        $schedule->command('tema:terapkan-bawaan-wilayah')->daily();
     }
 
     /**

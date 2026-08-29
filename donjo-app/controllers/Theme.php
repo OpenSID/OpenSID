@@ -95,7 +95,7 @@ class Theme extends Admin_Controller
         // (bisa dibeli satuan) dan KATEGORI_PREMIUM_EKSKLUSIF (bonus
         // eksklusif langganan Premium, mis. Wira) -- beda hanya teks ribbon.
         $themeModel = ThemeModel::query()
-            ->when($kategori == 'umum', static fn ($query) => $query->where('kategori', ThemeModel::KATEGORI_UMUM))
+            ->when($kategori == 'umum', static fn ($query) => $query->whereIn('kategori', [ThemeModel::KATEGORI_UMUM, ThemeModel::KATEGORI_MITRA]))
             ->when($kategori == 'premium', static fn ($query) => $query->whereIn('kategori', [ThemeModel::KATEGORI_PREMIUM, ThemeModel::KATEGORI_PREMIUM_EKSKLUSIF]))
             ->orderBy('sistem', 'desc')
             ->orderBy('versi', 'desc')

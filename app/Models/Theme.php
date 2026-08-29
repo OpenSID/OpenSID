@@ -71,6 +71,20 @@ class Theme extends BaseModel
     public const KATEGORI_PREMIUM           = 'premium';
     public const KATEGORI_PREMIUM_EKSKLUSIF = 'premium-eksklusif';
 
+    /**
+     * KATEGORI_MITRA: tema hasil kerja sama OpenDesa dengan pemerintah
+     * kabupaten/kota (mis. Tema Tabanan, Tema Bima). Untuk gerbang akses,
+     * ribbon, dan tab filter, tema ini diperlakukan SAMA seperti
+     * KATEGORI_UMUM -- gratis dipasang & diaktifkan siapa pun. Bedanya HANYA:
+     * (1) teks ribbon kartu ("Tema Mitra") supaya asal kemitraan terlihat,
+     * (2) untuk desa yang wilayahnya cocok dengan wilayah mitra, tema ini
+     *     dipasang otomatis & dijadikan default oleh
+     *     App\Services\Theme\PenyelesaiTemaBawaan (mengalahkan tema default
+     *     rilis). Lihat dokumentasi/MANAJEMEN_TEMA.md §7a (repo Premium) dan
+     *     premium#6991 / Layanan_OpenDESA#1382. Padanan Premium.
+     */
+    public const KATEGORI_MITRA = 'mitra';
+
     public $cacheFor = -1;
 
     /**

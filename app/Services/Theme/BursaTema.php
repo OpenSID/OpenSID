@@ -72,6 +72,11 @@ class BursaTema
     private ?Closure $penyediaUnduh = null;
 
     /**
+     * @var (Closure(string): (array<string, mixed>|null))|null
+     */
+    private ?Closure $penyediaTemaBawaanWilayah = null;
+
+    /**
      * Pasang penyedia katalog tema bursa.
      *
      * @param Closure(?string): array<int, array<string, mixed>> $penyedia
@@ -99,6 +104,19 @@ class BursaTema
     public function setUnduh(Closure $penyedia): void
     {
         $this->penyediaUnduh = $penyedia;
+    }
+
+    /**
+     * Pasang penyedia "tema bawaan wilayah": diberi kode desa, kembalikan
+     * deskriptor tema mitra kabupaten/kota yang jadi bawaan untuk wilayah
+     * desa itu (`['nama' => ..., 'alias' => ..., 'url' => ...]`), atau `null`
+     * bila tak ada. Dipakai {@see \App\Services\Theme\PenyelesaiTemaBawaan}.
+     *
+     * @param Closure(string): (array<string, mixed>|null) $penyedia
+     */
+    public function setTemaBawaanWilayah(Closure $penyedia): void
+    {
+        $this->penyediaTemaBawaanWilayah = $penyedia;
     }
 
     /**
@@ -131,5 +149,24 @@ class BursaTema
     public function unduh(string $url): ?string
     {
         return $this->penyediaUnduh !== null ? ($this->penyediaUnduh)($url) : null;
+    }
+
+    /**
+     * Deskriptor tema mitra kabupaten/kota yang jadi bawaan untuk wilayah
+     * desa `$kodeDesa`, atau `null` bila tak ada / tak ada provider (modul
+     * Pelanggan absen — rilis Umum tanpa modul tak pernah auto-pasang tema
+     * mitra).
+     *
+     * @return array<string, mixed>|null
+     */
+    public function temaBawaanWilayah(string $kodeDesa): ?array
+    {
+        if ($this->penyediaTemaBawaanWilayah === null) {
+            return null;
+        }
+
+        $hasil = ($this->penyediaTemaBawaanWilayah)($kodeDesa);
+
+        return is_array($hasil) && $hasil !== [] ? $hasil : null;
     }
 }
