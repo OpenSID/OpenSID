@@ -40,6 +40,7 @@ namespace App\Actions\Theme;
 use App\Enums\AktifEnum;
 use App\Models\Theme;
 use App\Services\Kapabilitas\GerbangFitur;
+use App\Services\Theme\KompatibilitasCoreTema;
 use App\Services\Theme\SumberTemaBursa;
 use Exception;
 use Illuminate\Support\Facades\Artisan;
@@ -49,11 +50,21 @@ class ActivateTheme
     /**
      * Mengaktifkan tema dan menonaktifkan tema lainnya.
      *
-     * @param int|string $idOrSlug ID atau slug tema
+     * @param int|string $idOrSlug           ID atau slug tema
+     * @param bool       $lewatiKompatibilitas Lewati gerbang kompatibilitas core
+     *                                        (premium#7026). true HANYA untuk
+     *                                        jalur sistem yang WAJIB berhasil:
+     *                                        penurunan darurat ke tema bawaan
+     *                                        dan seeder wizard instalasi -- tema
+     *                                        bawaan selalu dirilis bersama core
+     *                                        yang cocok. Di Umum belum ada
+     *                                        pemanggil yang memakainya; argumen
+     *                                        dipertahankan agar sebentuk dengan
+     *                                        Premium.
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function handle(int|string $idOrSlug): Theme
+    public function handle(int|string $idOrSlug, bool $lewatiKompatibilitas = false): Theme
     {
         $theme = Theme::where(static function ($q) use ($idOrSlug): void {
                 $q->where('id', $idOrSlug)
@@ -65,6 +76,9 @@ class ActivateTheme
             throw new Exception("Theme tidak ditemukan: {$idOrSlug}");
         }
 
+        if (! $lewatiKompatibilitas) {
+            $this->pastikanKompatibelCore($theme);
+        }
         $this->pastikanBerhakAktivasi($theme);
 
         $theme->update(['status' => AktifEnum::AKTIF]);
@@ -76,6 +90,25 @@ class ActivateTheme
         cache()->flush();
 
         return $theme;
+    }
+
+    /**
+     * @throws Exception bila versi core di luar rentang `min_core`/`max_core`
+     *                   yang dideklarasikan `theme.json` tema (premium#7026).
+     *                   Dilewati pada `ENVIRONMENT=development`.
+     */
+    private function pastikanKompatibelCore(Theme $theme): void
+    {
+        $folder = (string) $theme->full_path;
+        if ($folder === '') {
+            return;
+        }
+
+        // theme.json ada di dalam folder tema; full_path relatif terhadap root aplikasi.
+        $pesan = KompatibilitasCoreTema::periksa(base_path($folder));
+        if ($pesan !== null) {
+            throw new Exception("Tema \"{$theme->nama}\" tidak dapat diaktifkan: {$pesan}");
+        }
     }
 
     /**

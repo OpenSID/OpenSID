@@ -102,6 +102,19 @@ class ThemeZipExtractor
             ];
         }
 
+        // Gerbang kompatibilitas core (premium#7026): tolak ZIP tema yang
+        // min_core/max_core-nya (theme.json) mengecualikan versi core ini
+        // SEBELUM tema lama diganti. Dilewati pada ENVIRONMENT=development.
+        if (($pesan = KompatibilitasCoreTema::periksa($lokasi_staging_tema)) !== null) {
+            delete_files($staging, true);
+            rmdir($staging);
+
+            return [
+                'status' => false,
+                'data'   => $pesan,
+            ];
+        }
+
         if (is_dir($lokasi_tema)) {
             delete_files($lokasi_tema, true);
             rmdir($lokasi_tema);

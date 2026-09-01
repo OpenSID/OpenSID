@@ -100,6 +100,37 @@ class ThemeZipExtractorTest extends BaseTestCase
         $this->assertSame([], glob(FCPATH . 'desa/themes/_staging_*') ?: []);
     }
 
+    public function test_zip_dengan_min_core_di_luar_rentang_ditolak_dan_tak_menimpa_tema_lama(): void
+    {
+        if ((defined('ENVIRONMENT') ? constant('ENVIRONMENT') : null) === 'development') {
+            $this->markTestSkipped('Gerbang kompatibilitas core dilewati pada ENVIRONMENT=development.');
+        }
+        if (! defined('VERSION')) {
+            $this->markTestSkipped('Konstanta VERSION tak tersedia di harness terisolasi Umum.');
+        }
+
+        $extractor = new ThemeZipExtractor();
+
+        $hasil1 = $extractor->extract(['full_path' => $this->buatZipTema([
+            'resources/views/template.blade.php' => '<div>versi berjalan</div>',
+        ])]);
+        $this->assertTrue($hasil1['status'], $hasil1['data']);
+
+        $hasil2 = $extractor->extract(['full_path' => $this->buatZipTema([
+            'resources/views/template.blade.php' => '<div>v2</div>',
+            'theme.json'                         => json_encode(['min_core' => '9999.0.0']),
+        ])]);
+
+        $this->assertFalse($hasil2['status']);
+        $this->assertStringContainsString('minimal versi 9999.0.0', $hasil2['data']);
+        $this->assertSame(
+            '<div>versi berjalan</div>',
+            file_get_contents($this->lokasiTema . '/resources/views/template.blade.php'),
+            'Tema lama yang masih berjalan tidak boleh diganti oleh unduhan yang tak kompatibel core'
+        );
+        $this->assertSame([], glob(FCPATH . 'desa/themes/_staging_*') ?: [], 'Folder staging harus dibersihkan setelah penolakan kompatibilitas');
+    }
+
     /**
      * @param array<string, string> $files path relatif di dalam folder tema => isi
      */
