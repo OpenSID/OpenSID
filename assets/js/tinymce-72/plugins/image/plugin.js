@@ -525,7 +525,133 @@
 
     // TODO: Figure out if these would ever be something other than numbers. This was added in: #TINY-1350
     const parseIntAndGetMax = (val1, val2) => Math.max(parseInt(val1, 10), parseInt(val2, 10));
+    
+    // Validasi URL untuk mencegah SSRF attack
+    // Whitelist domain untuk image CDN dan cloud storage
+    const getAllowedImageDomains = () => {
+        const appUrl = window.location.origin;
+        const appDomain = appUrl.replace(/^https?:\/\//, '').split(':')[0].toLowerCase();
+        
+        return [
+            // App domain sendiri
+            appDomain,
+            ...(appDomain.includes('localhost') ? [] : [`*.${appDomain}`]),
+            
+            // CDN publik
+            'cloudinary.com',
+            'cdn.cloudinary.com',
+            'res.cloudinary.com',
+            'imgur.com',
+            'i.imgur.com',
+            'giphy.com',
+            'media.giphy.com',
+            'cdn.pixabay.com',
+            'images.unsplash.com',
+            'images.pexels.com',
+            'cdn.pexels.com',
+            
+            // Cloud storage
+            'drive.google.com',
+            'onedrive.live.com',
+            'onedrive.com',
+            '1drv.ms',
+            'dropbox.com',
+            'www.dropbox.com',
+            'dl.dropboxusercontent.com',
+            'box.com',
+            'app.box.com',
+            'mega.nz',
+            'mega.co.nz',
+            
+            // AWS S3
+            'amazonaws.com',
+            's3.amazonaws.com',
+            's3-website.amazonaws.com',
+            'cloudfront.net',
+            
+            // Azure
+            'azurewebsites.net',
+            'blob.core.windows.net',
+            
+            // Other cloud providers
+            'wasabisys.com',
+            'backblazeb2.com',
+            'digitaloceanspaces.com',
+            'linode.com'
+        ];
+    };
+    
+    const isDomainAllowed = (hostname) => {
+        const allowedDomains = getAllowedImageDomains();
+        const lowerHostname = hostname.toLowerCase();
+        
+        return allowedDomains.some(domain => {
+            const domainPattern = domain
+                .replace(/\./g, '\\.')
+                .replace(/\*/g, '[a-zA-Z0-9-]*');
+            const regex = new RegExp(`^${domainPattern}$`);
+            return regex.test(lowerHostname);
+        });
+    };
+    
+    const isValidImageUrl = (url) => {
+        try {
+            const urlObj = new URL(url, window.location.href);
+            const protocol = urlObj.protocol.toLowerCase();
+            
+            // Whitelist protokol yang aman untuk image
+            const allowedProtocols = ['http:', 'https:', 'data:', 'blob:'];
+            if (!allowedProtocols.includes(protocol)) {
+                return false;
+            }
+            
+            // Data URLs dan blob URLs tidak perlu validasi domain lebih lanjut
+            if (protocol === 'data:' || protocol === 'blob:') {
+                return true;
+            }
+            
+            // Reject private IP addresses dan localhost
+            const hostname = urlObj.hostname.toLowerCase();
+            const privateIpPatterns = [
+                /^localhost$/,
+                /^127\./,
+                /^192\.168\./,
+                /^10\./,
+                /^172\.(1[6-9]|2[0-9]|3[01])\./,
+                /^169\.254\./,
+                /^\[::1\]$/,
+                /^\[::\]$/,
+                /^::1$/
+            ];
+            
+            if (privateIpPatterns.some(pattern => pattern.test(hostname))) {
+                return false;
+            }
+            
+            // Reject reserved hostnames
+            const reservedHostnames = ['localhost', 'example.com', 'example.org', 'example.net'];
+            if (reservedHostnames.includes(hostname)) {
+                return false;
+            }
+            
+            // Validate domain is in whitelist
+            if (!isDomainAllowed(hostname)) {
+                return false;
+            }
+            
+            return true;
+        } catch (e) {
+            return false;
+        }
+    };
+    
     const getImageSize = (url) => new Promise((callback) => {
+        // Validasi URL sebelum membuat request
+        if (!isValidImageUrl(url)) {
+            callback(Promise.reject(`Invalid image URL: ${url}`));
+            return;
+        }
+        
         const img = document.createElement('img');
         const done = (dimensions) => {
             if (img.parentNode) {
@@ -533,13 +659,24 @@
             }
             callback(dimensions);
         };
+        
+        // Timeout untuk mencegah hanging request (SSRF blind attack)
+        const timeout = setTimeout(() => {
+            done(Promise.reject(`Timeout loading image: ${url}`));
+            if (img.parentNode) {
+                img.parentNode.removeChild(img);
+            }
+        }, 10000); // 10 detik timeout
+        
         img.addEventListener('load', () => {
+            clearTimeout(timeout);
             const width = parseIntAndGetMax(img.width, img.clientWidth);
             const height = parseIntAndGetMax(img.height, img.clientHeight);
             const dimensions = { width, height };
             done(Promise.resolve(dimensions));
         });
         img.addEventListener('error', () => {
+            clearTimeout(timeout);
             done(Promise.reject(`Failed to get image dimensions for: ${url}`));
         });
         const style = img.style;
@@ -1393,6 +1530,20 @@
         api.setData({ images: image.map((entry) => entry.value).getOr('') });
     };
     const changeSrc = (helpers, info, state, api) => {
+        const data = api.getData();
+        const url = data.src.value;
+        
+        // Validasi URL sebelum proceed
+        if (url && !isValidImageUrl(url)) {
+            // Show error message ke user
+            helpers.alertErr('URL tidak diizinkan. Gunakan domain publik yang terdaftar atau cloud storage yang mendukung.', () => {
+                api.focus('src');
+            });
+            // Clear URL yang invalid
+            api.setData({ src: { value: '', meta: {} } });
+            return;
+        }
+        
         addPrependUrl(info, api);
         formFillFromMeta(info, api);
         calculateImageSize(helpers, info, state, api);
@@ -1516,12 +1667,23 @@
         if (!isSafeImageUrl(editor, url)) {
             return Promise.resolve({ width: '', height: '' });
         }
-        else {
-            return getImageSize(editor.documentBaseURI.toAbsolute(url)).then((dimensions) => ({
-                width: String(dimensions.width),
-                height: String(dimensions.height)
-            }));
+        
+        const absoluteUrl = editor.documentBaseURI.toAbsolute(url);
+        
+        // Additional validation untuk mencegah SSRF
+        if (!isValidImageUrl(absoluteUrl)) {
+            return Promise.resolve({ width: '', height: '' });
         }
+        
+        return getImageSize(absoluteUrl).then((dimensions) => ({
+            width: String(dimensions.width),
+            height: String(dimensions.height)
+        })).catch((err) => {
+            // Silently fail and return empty dimensions on error
+            // eslint-disable-next-line no-console
+            console.warn('Image size fetch error:', err);
+            return { width: '', height: '' };
+        });
     };
     const createBlobCache = (editor) => (file, blobUri, dataUrl) => {
         var _a;

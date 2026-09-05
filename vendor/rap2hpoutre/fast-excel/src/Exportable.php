@@ -3,20 +3,23 @@
 namespace Rap2hpoutre\FastExcel;
 
 use DateTimeInterface;
-use Generator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
+use OpenSpout\Common\Entity\Cell;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Writer\Common\AbstractOptions;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Writer\WriterInterface;
+use OpenSpout\Writer\XLSX\Entity\SheetView;
+use OpenSpout\Writer\XLSX\Writer;
+use Traversable;
 
 /**
  * Trait Exportable.
  *
  * @property bool                           $transpose
  * @property bool                           $with_header
+ * @property callable|null                  $writer_configurator
  * @property \Illuminate\Support\Collection $data
  */
 trait Exportable
@@ -28,7 +31,22 @@ trait Exportable
     private $rows_style;
 
     /** @var Style[] */
+    private $header_column_styles = [];
+
+    /** @var Style[] */
     private $column_styles = [];
+
+    /** @var bool */
+    private $string_values = false;
+
+    /** @var array<string, string> */
+    private $column_formats = [];
+
+    /** @var string|null */
+    private $hidden_column_prefix = null;
+
+    /** @var bool */
+    private $right_to_left = false;
 
     /**
      * @param AbstractOptions $options
@@ -37,10 +55,75 @@ trait Exportable
      */
     abstract protected function setOptions(&$options);
 
+    /**
+     * Exclude columns whose key starts with the given prefix from the exported
+     * file (both the header row and every data row). This is opt-in: without
+     * calling it, every column is exported, so existing columns that happen to
+     * start with an underscore keep working as before.
+     *
+     * It is meant for callback-only data (lookups, computed flags, etc.) that
+     * you need inside the export callback but do not want in the output:
+     *
+     *     (new FastExcel($users))->hideColumnsPrefixedWith()->export('users.xlsx', fn ($user) => [
+     *         'Name'  => $user->name,
+     *         '_role' => $user->role, // used for logic, never written to the file
+     *     ]);
+     *
+     * Only string keys are considered, so positional/list rows are never
+     * affected. Column styles are matched against the remaining (visible)
+     * columns.
+     *
+     * @param string $prefix
+     */
+    public function hideColumnsPrefixedWith(string $prefix = '_'): static
+    {
+        $this->hidden_column_prefix = $prefix;
+
+        return $this;
+    }
+
+    /** @param Style[] $styles */
+    public function setHeaderColumnStyles($styles): static
+    {
+        $this->header_column_styles = $styles;
+
+        return $this;
+    }
+
     /** @param Style[] $styles */
     public function setColumnStyles($styles): static
     {
         $this->column_styles = $styles;
+
+        return $this;
+    }
+
+    /**
+     * Export every scalar value as a string (text cell). Useful to preserve
+     * leading zeros or long numeric IDs (e.g. phone numbers) that would
+     * otherwise be written as numbers. Per-column setColumnFormat() rules take
+     * precedence over this flag.
+     *
+     * @param bool $enabled
+     */
+    public function stringValues(bool $enabled = true): static
+    {
+        $this->string_values = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Force the cell type for specific columns, keyed by column name, e.g.
+     * ['phone' => 'string', 'price' => 'number']. A 'string' column is written
+     * as text; a 'number' column casts numeric strings back to int/float. These
+     * rules win over stringValues().
+     *
+     * @param array<string, string> $formats
+     */
+    public function setColumnFormat(array $formats): static
+    {
+        $this->column_formats = $formats;
 
         return $this;
     }
@@ -56,7 +139,7 @@ trait Exportable
      *
      * @return string
      */
-    public function export($path, callable $callback = null)
+    public function export($path, ?callable $callback = null)
     {
         self::exportOrDownload($path, 'openToFile', $callback);
 
@@ -74,7 +157,7 @@ trait Exportable
      *
      * @return \Symfony\Component\HttpFoundation\StreamedResponse|string
      */
-    public function download($path, callable $callback = null)
+    public function download($path, ?callable $callback = null)
     {
         if (method_exists(response(), 'streamDownload')) {
             return response()->streamDownload(function () use ($path, $callback) {
@@ -97,46 +180,97 @@ trait Exportable
      * @throws \OpenSpout\Writer\Exception\WriterNotOpenedException
      * @throws \OpenSpout\Common\Exception\SpoutException
      */
-    private function exportOrDownload($path, $function, callable $callback = null)
+    private function exportOrDownload($path, $function, ?callable $callback = null)
     {
-        if (Str::endsWith($path, 'csv')) {
-            $options = new \OpenSpout\Writer\CSV\Options();
-            $writer = new \OpenSpout\Writer\CSV\Writer($options);
-        } elseif (Str::endsWith($path, 'ods')) {
-            $options = new \OpenSpout\Writer\ODS\Options();
-            $writer = new \OpenSpout\Writer\ODS\Writer($options);
-        } else {
-            $options = new \OpenSpout\Writer\XLSX\Options();
-            $writer = new \OpenSpout\Writer\XLSX\Writer($options);
-        }
-
-        $this->setOptions($options);
-        /* @var \OpenSpout\Writer\WriterInterface $writer */
-        $writer->$function($path);
+        $writer = $this->makeWriter($path);
 
         $has_sheets = ($writer instanceof \OpenSpout\Writer\XLSX\Writer || $writer instanceof \OpenSpout\Writer\ODS\Writer);
+
+        // CSV (and any other single-sheet format) cannot hold multiple sheets.
+        // Fail with a clear message instead of a cryptic "undefined method
+        // ...::getCurrentSheet()" fatal further down.
+        if (!$has_sheets && $this->data instanceof SheetCollection && $this->data->count() > 1) {
+            throw new InvalidArgumentException(
+                'The "'.pathinfo($path, PATHINFO_EXTENSION).'" format does not support multiple sheets; use xlsx or ods.'
+            );
+        }
+
+        $writer->$function($path);
+
+        if ($this->right_to_left && $writer instanceof Writer) {
+            $sheetView = new SheetView();
+            $sheetView->setRightToLeft(true);
+            $writer->getCurrentSheet()->setSheetView($sheetView);
+        }
 
         // It can export one sheet (Collection) or N sheets (SheetCollection)
         $data = $this->transpose ? $this->transposeData() : ($this->data instanceof SheetCollection ? $this->data : collect([$this->data]));
 
+        $last_key = $data->keys()->last();
+
         foreach ($data as $key => $collection) {
             if ($collection instanceof Collection) {
                 $this->writeRowsFromCollection($writer, $collection, $callback);
-            } elseif ($collection instanceof Generator) {
+            } elseif ($collection instanceof Traversable) {
                 $this->writeRowsFromGenerator($writer, $collection, $callback);
             } elseif (is_array($collection)) {
                 $this->writeRowsFromArray($writer, $collection, $callback);
             } else {
                 throw new InvalidArgumentException('Unsupported type for $data');
             }
-            if (is_string($key)) {
+            if ($has_sheets && is_string($key)) {
                 $writer->getCurrentSheet()->setName($key);
             }
-            if ($has_sheets && $data->keys()->last() !== $key) {
+            if ($has_sheets && $last_key !== $key) {
                 $writer->addNewSheetAndMakeItCurrent();
+            }
+            if ($this->right_to_left && $writer instanceof Writer) {
+                $sheetView = new SheetView();
+                $sheetView->setRightToLeft(true);
+                $writer->getCurrentSheet()->setSheetView($sheetView);
             }
         }
         $writer->close();
+    }
+
+    private function makeWriter(string $path): WriterInterface
+    {
+        $extension = $this->resolveWriterExtension($path);
+
+        $options = match ($extension) {
+            'csv'   => new \OpenSpout\Writer\CSV\Options(),
+            'ods'   => new \OpenSpout\Writer\ODS\Options(),
+            default => new \OpenSpout\Writer\XLSX\Options(),
+        };
+
+        $this->setOptions($options);
+
+        if (is_callable($this->writer_configurator ?? null)) {
+            $writer = call_user_func($this->writer_configurator, $options, $extension);
+
+            if ($writer instanceof WriterInterface) {
+                return $writer;
+            }
+        }
+
+        return match ($extension) {
+            'csv'   => new \OpenSpout\Writer\CSV\Writer($options),
+            'ods'   => new \OpenSpout\Writer\ODS\Writer($options),
+            default => new \OpenSpout\Writer\XLSX\Writer($options),
+        };
+    }
+
+    private function resolveWriterExtension(string $path): string
+    {
+        if (str_ends_with($path, 'csv')) {
+            return 'csv';
+        }
+
+        if (str_ends_with($path, 'ods')) {
+            return 'ods';
+        }
+
+        return 'xlsx';
     }
 
     /**
@@ -152,15 +286,7 @@ trait Exportable
         foreach ($data as $key => $collection) {
             foreach ($collection as $row => $columns) {
                 foreach ($columns as $column => $value) {
-                    data_set(
-                        $transposedData,
-                        implode('.', [
-                            $key,
-                            $column,
-                            $row,
-                        ]),
-                        $value
-                    );
+                    $transposedData[$key][$column][$row] = $value;
                 }
             }
         }
@@ -168,6 +294,11 @@ trait Exportable
         return new SheetCollection($transposedData);
     }
 
+    /**
+     * Write collection rows to the writer, streaming row by row.
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     private function writeRowsFromCollection($writer, Collection $collection, ?callable $callback = null)
     {
         // Apply callback
@@ -176,6 +307,15 @@ trait Exportable
                 return $callback($value);
             });
         }
+
+        if ($collection->isEmpty()) {
+            if ($this->data instanceof SheetCollection) {
+                $this->writePlaceholderRowForEmptySheet($writer);
+            }
+
+            return;
+        }
+
         // Prepare collection (i.e remove non-string)
         $this->prepareCollection($collection);
         // Add header row.
@@ -183,37 +323,40 @@ trait Exportable
             $this->writeHeader($writer, $collection->first());
         }
 
-        // createRowFromArray works only with arrays
-        if (!is_array($collection->first())) {
-            $collection = $collection->map(function ($value) {
-                return $value->toArray();
-            });
-        }
+        $use_styles = $this->rows_style || $this->column_styles;
 
-        // is_array($first_row) ? $first_row : $first_row->toArray())
-        $all_rows = $collection->map(function ($value) {
-            return Row::fromValues($value);
-        })->toArray();
-        if ($this->rows_style || count($this->column_styles)) {
-            $this->addRowsWithStyle($writer, $all_rows, $this->rows_style, $this->column_styles);
-        } else {
-            $writer->addRows($all_rows);
+        // Write rows one by one so Row objects can be garbage-collected as
+        // they are written, instead of materializing them all up front.
+        foreach ($collection as $values) {
+            // Row::fromValues works only with arrays
+            if (!is_array($values)) {
+                $values = $values->toArray();
+            }
+
+            $values = $this->removeHiddenColumns($values);
+
+            if ($use_styles) {
+                // Column styles are matched against the value keys; use positional
+                // keys so numeric style indexes work with associative rows.
+                $writer->addRow($this->createRow(array_values($values), $this->rows_style, $this->column_styles));
+            } elseif ($this->rowHasCell($values)) {
+                // Row::fromValues() cannot accept Cell instances; build the row
+                // manually so pre-built cells are written through as-is. We
+                // already know it has a cell, so call the builder directly
+                // instead of createRow() to avoid a second rowHasCell() scan.
+                $writer->addRow($this->buildRowFromCells(array_values($values)));
+            } else {
+                $writer->addRow(Row::fromValues($values));
+            }
         }
     }
 
-    private function addRowsWithStyle($writer, $all_rows, $rows_style, $column_styles)
+    private function writeRowsFromGenerator($writer, Traversable $generator, ?callable $callback = null)
     {
-        $styled_rows = [];
-        // Style rows one by one
-        foreach ($all_rows as $row) {
-            $styled_rows[] = $this->createRow($row->toArray(), $rows_style, $column_styles);
-        }
-        $writer->addRows($styled_rows);
-    }
+        $hasRows = false;
 
-    private function writeRowsFromGenerator($writer, Generator $generator, ?callable $callback = null)
-    {
         foreach ($generator as $key => $item) {
+            $hasRows = true;
             // Apply callback
             if ($callback) {
                 $item = $callback($item);
@@ -221,13 +364,18 @@ trait Exportable
 
             // Prepare row (i.e remove non-string)
             $item = $this->transformRow($item);
+            $item = $this->removeHiddenColumns($item);
 
             // Add header row.
             if ($this->with_header && $key === 0) {
                 $this->writeHeader($writer, $item);
             }
             // Write rows (one by one).
-            $writer->addRow($this->createRow($item->toArray(), $this->rows_style, $this->column_styles));
+            $writer->addRow($this->createRow($item, $this->rows_style, $this->column_styles));
+        }
+
+        if (!$hasRows && $this->data instanceof SheetCollection) {
+            $this->writePlaceholderRowForEmptySheet($writer);
         }
     }
 
@@ -235,10 +383,14 @@ trait Exportable
     {
         $collection = collect($array);
 
-        if (is_object($collection->first()) || is_array($collection->first())) {
-            // provided $array was valid and could be converted to a collection
-            $this->writeRowsFromCollection($writer, $collection, $callback);
+        // Rows must be arrays or objects; anything else (e.g. a flat list of
+        // scalars) is silently skipped, as before. Empty-sheet placeholder
+        // handling is done by writeRowsFromCollection.
+        if ($collection->isNotEmpty() && !is_object($collection->first()) && !is_array($collection->first())) {
+            return;
         }
+
+        $this->writeRowsFromCollection($writer, $collection, $callback);
     }
 
     private function writeHeader($writer, $first_row)
@@ -247,9 +399,35 @@ trait Exportable
             return;
         }
 
-        $keys = array_keys(is_array($first_row) ? $first_row : $first_row->toArray());
-        $writer->addRow($this->createRow($keys, $this->header_style));
-//        $writer->addRow(WriterEntityFactory::createRowFromArray($keys, $this->header_style));
+        $row = is_array($first_row) ? $first_row : $first_row->toArray();
+        $keys = array_keys($this->removeHiddenColumns($row));
+        $writer->addRow($this->createRow($keys, $this->header_style, $this->header_column_styles));
+    }
+
+    /**
+     * Remove "hidden" columns from a row before it is written. Does nothing
+     * unless hideColumnsPrefixedWith() has been called, so exports are
+     * unchanged by default. Because the header is derived from the first row's
+     * keys, hidden columns are dropped from the header automatically as well.
+     *
+     * Numeric keys are always kept, so positional/list rows are left untouched.
+     *
+     * @param array $row
+     *
+     * @return array
+     */
+    private function removeHiddenColumns(array $row): array
+    {
+        $prefix = $this->hidden_column_prefix;
+        if ($prefix === null || $prefix === '') {
+            return $row;
+        }
+
+        return array_filter(
+            $row,
+            static fn ($key) => !is_string($key) || !str_starts_with($key, $prefix),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     /**
@@ -267,33 +445,53 @@ trait Exportable
         foreach ($first_row as $item) {
             if (!is_string($item)) {
                 $need_conversion = true;
+                break;
             }
         }
-        if ($need_conversion) {
-            $this->transform($collection);
+        if ($need_conversion || $this->string_values || $this->column_formats) {
+            $collection->transform(fn ($data) => $this->transformRow($data));
         }
-    }
-
-    /**
-     * Transform the collection.
-     */
-    private function transform(Collection $collection)
-    {
-        $collection->transform(function ($data) {
-            return $this->transformRow($data);
-        });
     }
 
     /**
      * Transform one row (i.e remove non-string).
      */
-    private function transformRow($data)
+    private function transformRow($data): array
     {
-        return collect($data)->map(function ($value) {
-            return is_null($value) ? (string) $value : $value;
-        })->filter(function ($value) {
-            return is_string($value) || is_int($value) || is_float($value) || $value instanceof DateTimeInterface;
-        });
+        $row = [];
+        foreach (is_array($data) ? $data : collect($data)->all() as $key => $value) {
+            $value = is_null($value) ? '' : $this->formatValue($value, $key);
+            if (is_string($value) || is_int($value) || is_float($value) || $value instanceof DateTimeInterface || $value instanceof Cell) {
+                $row[$key] = $value;
+            }
+        }
+
+        return $row;
+    }
+
+    /**
+     * Apply the configured export format to a single value. A per-column rule
+     * (setColumnFormat) wins over the global stringValues() flag. Dates and
+     * non-numeric strings are always left untouched.
+     *
+     * @param mixed      $value
+     * @param int|string $key
+     *
+     * @return mixed
+     */
+    private function formatValue($value, $key)
+    {
+        $format = $this->column_formats[$key] ?? ($this->string_values ? 'string' : null);
+
+        if ($format === 'string' && (is_int($value) || is_float($value))) {
+            return (string) $value;
+        }
+
+        if ($format === 'number' && is_string($value) && is_numeric($value)) {
+            return $value + 0;
+        }
+
+        return $value;
     }
 
     /**
@@ -321,12 +519,66 @@ trait Exportable
     }
 
     /**
+     * OpenSpout multi-sheet workbooks require at least one non-empty row per worksheet.
+     * Empty rows are skipped by the XLSX writer and would otherwise produce a corrupt file.
+     *
+     * @param \OpenSpout\Writer\WriterInterface $writer
+     */
+    private function writePlaceholderRowForEmptySheet($writer): void
+    {
+        if (!$writer instanceof \OpenSpout\Writer\XLSX\Writer && !$writer instanceof \OpenSpout\Writer\ODS\Writer) {
+            return;
+        }
+
+        $writer->addRow($this->createRow([' ']));
+    }
+
+    /**
      * Create openspout row from values with optional row and cell styling.
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
     private function createRow(array $values = [], ?Style $rows_style = null, array $column_styles = []): Row
     {
-        return Row::fromValuesWithStyles($values, $rows_style, $column_styles);
+        // Fast path: no pre-built cells, let OpenSpout build them from scalars.
+        if (!$this->rowHasCell($values)) {
+            return Row::fromValuesWithStyles($values, $rows_style, $column_styles);
+        }
+
+        return $this->buildRowFromCells($values, $rows_style, $column_styles);
+    }
+
+    /**
+     * Build a Row when at least one value is already a Cell: use those cells
+     * as-is and convert the remaining scalars, preserving any per-column style.
+     * Row::fromValuesWithStyles() cannot be used here because it calls
+     * Cell::fromValue() on every value.
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    private function buildRowFromCells(array $values, ?Style $rows_style = null, array $column_styles = []): Row
+    {
+        $cells = [];
+        foreach ($values as $key => $value) {
+            $cells[] = $value instanceof Cell
+                ? $value
+                : Cell::fromValue($value, $column_styles[$key] ?? null);
+        }
+
+        return new Row($cells, $rows_style);
+    }
+
+    /**
+     * Whether any value in the given row is already an OpenSpout Cell instance.
+     */
+    private function rowHasCell(array $row): bool
+    {
+        foreach ($row as $value) {
+            if ($value instanceof Cell) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

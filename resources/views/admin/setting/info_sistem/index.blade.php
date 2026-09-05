@@ -402,7 +402,7 @@
                             <input type="text" class="form-control" value="{{ str_replace(['\\', '//'], ['/', '/'], config('cache.stores.file.path')) }}" readonly>
                             @if (can('u'))
                                 <span class="input-group-btn">
-                                    <a href="{{ route($controller . '.cache_desa') }}" class="btn btn-info btn-flat">Bersihkan</a>
+                                    <a href="{{ ci_route('info_sistem.cache_desa') }}" class="btn btn-info btn-flat">Bersihkan</a>
                                 </span>
                             @endif
                         </div>
@@ -411,7 +411,7 @@
                             <input type="text" class="form-control" value="{{ str_replace(['\\', '//'], ['/', '/'], config('view.compiled')) }}" readonly>
                             @if (can('u'))
                                 <span class="input-group-btn">
-                                    <a href="{{ route($controller . '.cache_blade') }}" class="btn btn-info btn-flat">Bersihkan</a>
+                                    <a href="{{ ci_route('info_sistem.cache_blade') }}" class="btn btn-info btn-flat">Bersihkan</a>
                                 </span>
                             @endif
                         </div>

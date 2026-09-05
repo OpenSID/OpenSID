@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the Nette Framework (https://nette.org)
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
-
-declare(strict_types=1);
 
 namespace Nette\Schema\Elements;
 
@@ -23,10 +21,10 @@ trait Base
 	private bool $required = false;
 	private mixed $default = null;
 
-	/** @var ?callable */
-	private $before;
+	/** @var ?\Closure(mixed): mixed */
+	private ?\Closure $before = null;
 
-	/** @var callable[] */
+	/** @var list<\Closure(mixed, Context): mixed> */
 	private array $transforms = [];
 	private ?string $deprecated = null;
 
@@ -45,29 +43,44 @@ trait Base
 	}
 
 
+	/**
+	 * Sets a pre-normalization callback applied to the raw input value before any validation.
+	 * @param  callable(mixed): mixed  $handler
+	 */
 	public function before(callable $handler): self
 	{
-		$this->before = $handler;
+		$this->before = $handler(...);
 		return $this;
 	}
 
 
+	/**
+	 * Casts the validated value to a built-in type or instantiates the given class.
+	 */
 	public function castTo(string $type): self
 	{
 		return $this->transform(Helpers::getCastStrategy($type));
 	}
 
 
+	/**
+	 * Adds a post-validation transformation callback. The handler may also report errors via Context.
+	 * @param  callable(mixed, Context): mixed  $handler
+	 */
 	public function transform(callable $handler): self
 	{
-		$this->transforms[] = $handler;
+		$this->transforms[] = $handler(...);
 		return $this;
 	}
 
 
+	/**
+	 * Adds a custom validation assertion; optionally describe it for error messages.
+	 * @param  callable(mixed): bool  $handler
+	 */
 	public function assert(callable $handler, ?string $description = null): self
 	{
-		$expected = $description ?: (is_string($handler) ? "$handler()" : '#' . count($this->transforms));
+		$expected = $description ?? (is_string($handler) ? "$handler()" : '#' . count($this->transforms));
 		return $this->transform(function ($value, Context $context) use ($handler, $description, $expected) {
 			if ($handler($value)) {
 				return $value;
@@ -77,11 +90,14 @@ trait Base
 				Nette\Schema\Message::FailedAssertion,
 				['value' => $value, 'assertion' => $expected],
 			);
+			return null;
 		});
 	}
 
 
-	/** Marks as deprecated */
+	/**
+	 * Marks the item as deprecated; emits a warning with the given message when the item is used.
+	 */
 	public function deprecated(string $message = 'The item %path% is deprecated.'): self
 	{
 		$this->deprecated = $message;
@@ -137,7 +153,7 @@ trait Base
 	}
 
 
-	/** @deprecated use Nette\Schema\Validators::validateType() */
+	/** @deprecated use Nette\Schema\Helpers::validateType() */
 	private function doValidate(mixed $value, string $expected, Context $context): bool
 	{
 		$isOk = $context->createChecker();
@@ -146,7 +162,10 @@ trait Base
 	}
 
 
-	/** @deprecated use Nette\Schema\Validators::validateRange() */
+	/**
+	 * @deprecated use Nette\Schema\Helpers::validateRange()
+	 * @param  array{?float, ?float}  $range
+	 */
 	private static function doValidateRange(mixed $value, array $range, Context $context, string $types = ''): bool
 	{
 		$isOk = $context->createChecker();

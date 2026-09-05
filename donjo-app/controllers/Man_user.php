@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,7 +42,6 @@ use App\Models\Wilayah;
 use App\Services\MasaAktifAkunService;
 use App\Traits\UploadFotoUser;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -144,18 +143,10 @@ class Man_user extends Admin_Controller
             $data['action']      = 'Tambah';
         }
 
-        if (Schema::hasColumn('user', 'batasi_wilayah') && Schema::hasColumn('user', 'akses_wilayah')) {
-            $data['wilayah'] = Wilayah::tree();
-        }
-
-        $data['user_group'] = UserGrup::status()
-            ->when(super_admin() == $id, static function ($query): void {
-                $query->where('slug', UserGrup::ADMINISTRATOR);
-            })
-            ->when(! is_super_admin(), static function ($query): void {
-                $query->where('slug', '!=', UserGrup::ADMINISTRATOR);
-            })
-            ->get(['id', 'nama']);
+        $data['wilayah']    = Wilayah::tree();
+        $data['user_group'] = UserGrup::status()->when(super_admin() == $id, static function ($query): void {
+                                            $query->where('slug', UserGrup::ADMINISTRATOR);
+                                        })->get(['id', 'nama']);
         $data['akses']               = (new UserGrup())->getGrupSistem();
         $data['pamong']              = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
         $data['notifikasi_telegram'] = setting('telegram_notifikasi');
@@ -314,22 +305,13 @@ class Man_user extends Admin_Controller
     protected function validate($request = [], $id = ''): array
     {
         $isSuperAdmin = $id && (int) $id === super_admin();
-        // Cegah privilege escalation: hanya Super Admin yang boleh menetapkan grup Administrator
-        $idGrupRequest = $request['id_grup'] ?? null;
-        if (! empty($idGrupRequest)) {
-            $adminGrupId = UserGrup::where('slug', UserGrup::ADMINISTRATOR)->value('id');
-
-            if ((int) $idGrupRequest === (int) $adminGrupId && ! is_super_admin()) {
-                redirect_with('error', 'Hanya Super Admin yang dapat menetapkan grup Administrator.');
-            }
-        }
         $data         = [
             'active'         => $isSuperAdmin ? 1 : (int) ($request['aktif'] ?? 0),
             'username'       => isset($request['username']) ? alfanumerik($request['username']) : null,
             'nama'           => isset($request['nama']) ? strip_tags((string) nama($request['nama'])) : null,
             'phone'          => isset($request['phone']) ? htmlentities((string) $request['phone']) : null,
             'email'          => empty($request['email']) ? null : htmlentities((string) $request['email']),
-            'id_grup'        => $idGrupRequest,
+            'id_grup'        => $request['id_grup'] ?? null,
             'pamong_id'      => empty($request['pamong_id']) ? null : $request['pamong_id'],
             'foto'           => isset($request['foto']) ? $this->urusFoto($id) : null,
             'notif_telegram' => (int) ($request['notif_telegram'] ?? 0),

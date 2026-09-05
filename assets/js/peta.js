@@ -1315,14 +1315,20 @@ function setMarkerCustom(marker, layercustom, tampil_luas) {
         onEachFeature: function (feature, layer) {
           layer.bindPopup(feature.properties.content);
 
-          // Bind tooltip untuk semua layer
-          layer.bindTooltip(feature.properties.content, {
-            sticky: true,
-            direction: "top",
-          });
-
-          // Setup TextPath untuk nama jalan
-          setupRoadNameTextPath(feature, layer);
+          // Jika ini adalah jalan yang memiliki nama, tampilkan sebagai label permanen.
+          if (feature.properties.showLabel && feature.properties.nama_jalan) {
+            layer.bindTooltip(feature.properties.nama_jalan, {
+                permanent: true, // Selalu terlihat
+                direction: 'center',
+                className: 'road-label' // Class untuk styling kustom jika perlu
+            });
+          } else {
+            // Untuk fitur lain, gunakan tooltip standar (muncul saat hover).
+            layer.bindTooltip(feature.properties.content, {
+              sticky: true,
+              direction: "top",
+            });
+          }
         },
         style: function (feature) {
           if (feature.properties.style) {
@@ -1345,14 +1351,20 @@ function setMarkerCustom(marker, layercustom, tampil_luas) {
         onEachFeature: function (feature, layer) {
           layer.bindPopup(feature.properties.content);
 
-          // Bind tooltip untuk semua layer
-          layer.bindTooltip(feature.properties.content, {
-            sticky: true,
-            direction: "top",
-          });
-
-          // Setup TextPath untuk nama jalan
-          setupRoadNameTextPath(feature, layer);
+          // Jika ini adalah jalan yang memiliki nama, tampilkan sebagai label permanen.
+          if (feature.properties.showLabel && feature.properties.nama_jalan) {
+            layer.bindTooltip(feature.properties.nama_jalan, {
+                permanent: true, // Selalu terlihat
+                direction: 'center',
+                className: 'road-label' // Class untuk styling kustom jika perlu
+            });
+          } else {
+            // Untuk fitur lain, gunakan tooltip standar (muncul saat hover).
+            layer.bindTooltip(feature.properties.content, {
+              sticky: true,
+              direction: "top",
+            });
+          }
         },
         style: function (feature) {
           if (feature.properties.style) {
@@ -1388,19 +1400,32 @@ function setupRoadNameTextPath(feature, layer) {
   ) {
     layer.on('add', function() {
       try {
-        layer.setText(feature.properties.nama_jalan, {
-          repeat: false,
-          center: true,
-          below: false,
-          attributes: {
-            'fill': '#2c3e50',
-            'font-weight': 'bold',
-            'font-size': '12px',
-            'font-family': 'Arial, sans-serif'
+        // Delay to ensure layer is fully initialized
+        setTimeout(() => {
+          if (layer._map) { // Check if layer is still on map
+            layer.setText(feature.properties.nama_jalan, {
+              repeat: false,
+              center: true,
+              below: false,
+              attributes: {
+                'fill': '#2c3e50',
+                'font-weight': 'bold',
+                'font-size': '12px',
+                'font-family': 'Arial, sans-serif'
+              }
+            });
           }
-        });
+        }, 100);
       } catch (e) {
         console.warn('Error setting text path for road:', feature.properties.nama_jalan, e);
+      }
+    });
+
+    layer.on('remove', function() {
+      try {
+        layer.setText(null);
+      } catch (e) {
+        console.warn('Error removing text path for road:', feature.properties.nama_jalan, e);
       }
     });
   }

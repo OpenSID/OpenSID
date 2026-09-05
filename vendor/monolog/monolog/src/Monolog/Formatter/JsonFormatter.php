@@ -160,6 +160,10 @@ class JsonFormatter extends NormalizerFormatter
      */
     protected function normalize(mixed $data, int $depth = 0): mixed
     {
+        if (is_null($data) || is_scalar($data)) {
+            return $data;
+        }
+
         if ($depth > $this->maxNormalizeDepth) {
             return 'Over '.$this->maxNormalizeDepth.' levels deep, aborting normalization';
         }
@@ -195,7 +199,11 @@ class JsonFormatter extends NormalizerFormatter
             }
 
             if ($data instanceof Stringable) {
-                return $data->__toString();
+                try {
+                    return $data->__toString();
+                } catch (Throwable) {
+                    return $data::class;
+                }
             }
 
             if (\get_class($data) === '__PHP_Incomplete_Class') {
@@ -205,11 +213,7 @@ class JsonFormatter extends NormalizerFormatter
             return $data;
         }
 
-        if (\is_resource($data)) {
-            return parent::normalize($data);
-        }
-
-        return $data;
+        return parent::normalize($data);
     }
 
     /**

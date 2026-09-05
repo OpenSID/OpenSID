@@ -215,11 +215,16 @@ $(document).ready(function() {
 		return this.optional(element) || luas_valid;
 	}, "Harus Berisi Angka dan untuk koma gunakan \"titik\"");
 
-	jQuery.validator.addMethod("nama", function(value, element) {
-		valid = /^[a-zA-Z '\.,\-]+$/.test(value);
+	jQuery.validator.addMethod("nama_baru_lahir", function (value, element) {
+		var valid = /^[a-zA-Z .,\-]+$/.test(value);
 		return this.optional(element) || valid;
-	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
-	
+	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, dan strip");
+
+	jQuery.validator.addMethod("nama", function (value, element) {
+		var valid = /^[a-zA-Z '\.,\-]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda kutip dan strip");
+
 	jQuery.validator.addMethod("nama_desa", function(value, element) {
 		valid = /^[a-zA-Z0-9 '\.,`\-\/\(\)]+$/.test(value);
 		return this.optional(element) || valid;

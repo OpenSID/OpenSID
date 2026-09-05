@@ -10,10 +10,9 @@ sftp-config.json
 /.htaccess
 *.sql
 *.sql.gz
-
-# Fixture DB suite smoke-2701 (OpenSID/OpenSID#11931 Fase 2) — dikecualikan
-# dari aturan *.sql di atas.
-!/tests/playwright/storage/database/*.sql
+# dev-seed: data awal DEV — di-track ke branch, tapi dikecualikan dari arsip rilis
+# lewat `.gitattributes` (export-ignore). Kecualikan dari aturan *.sql di atas.
+!/dev-seed/*.sql
 mitra
 generate-route.php
 index.php
@@ -56,10 +55,51 @@ vendor/tinymce/*
 vendor/_laravel_ide
 vendor/libreoffice/*
 vendor/mikey179/*
+
+# Dev-only dependencies (installed via require-dev, tidak di-commit)
+vendor/bin/php-cs-fixer
+vendor/bin/php-parse
+vendor/bin/phpstan
+vendor/bin/phpstan.phar
+vendor/bin/phpunit
+vendor/bin/rector
+vendor/bin/validate-json
+vendor/clue/
+vendor/composer/pcre/
+vendor/composer/semver/
+vendor/composer/xdebug-handler/
+vendor/doctrine/instantiator/
+vendor/ergebnis/
+vendor/evenement/
+vendor/fakerphp/
+vendor/fidry/
+vendor/friendsofphp/
+vendor/hamcrest/
+vendor/justinrainbow/
+vendor/localheinz/
+vendor/marc-mabe/
+vendor/mockery/
+vendor/myclabs/
+vendor/nikic/
+vendor/phar-io/
+vendor/phpstan/
+vendor/phpunit/
+vendor/react/
+vendor/rector/
+vendor/sebastian/
+vendor/symfony/filesystem/
+vendor/symfony/options-resolver/
+vendor/symfony/polyfill-php81/
+vendor/symfony/polyfill-php84/
+vendor/symfony/stopwatch/
+vendor/theseer/
 .vscode/*
 /node_modules
 .cache-rector/*
 !.cache-rector/.gitkeep
+
+# Artefak emulator bursa lokal (data runtime, tumbuh saat dev-marketplace jalan)
+storage/app/dev-marketplace/
 
 storage/framework/cache/*
 storage/framework/views/*
@@ -81,23 +121,20 @@ Modules/*
 /assets/modules/*
 
 # Do not ignore Anjungan folder and its contents
-!Modules/Anjungan/
-!Modules/Anjungan/**
 !Modules/Analisis/
 !Modules/Analisis/**
-!Modules/BukuTamu/
-!Modules/BukuTamu/**
 !Modules/Kehadiran/
 !Modules/Kehadiran/**
 !Modules/Lapak/
 !Modules/Lapak/**
-!Modules/Pelanggan/
-!Modules/Pelanggan/**
 
 # Do not ignore specific files
 !Modules/.gitkeep
 !Modules/.htaccess
 !Modules/index.html
+
+# Catatan pengembang lokal (tidak ikut rilis)
+/dokumentasi_lokal
 
 # Ignore PHPUnit result cache file
 .phpunit.result.cache
@@ -133,3 +170,7 @@ tests/playwright/.env
 tests/vendor/
 .phpunit.cache/
 tests/.phpunit.cache/
+
+# Fixture DB suite smoke-2701 (OpenSID/OpenSID#11931 Fase 2) — dikecualikan
+# dari aturan *.sql di atas.
+!/tests/playwright/storage/database/*.sql

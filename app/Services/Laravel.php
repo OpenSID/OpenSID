@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -347,7 +347,16 @@ class Laravel extends Container
             return;
         }
 
-        array_walk($this->loadedProviders, fn ($provider) => $this->bootProvider($provider));
+        // Catch per-provider boot failures so a single broken provider
+        // (e.g., a module that calls CI3 helpers before CI3 is ready)
+        // does not prevent the remaining providers from booting.
+        array_walk($this->loadedProviders, function ($provider): void {
+            try {
+                $this->bootProvider($provider);
+            } catch (Throwable $e) {
+                $this->make(ExceptionHandler::class)->report($e);
+            }
+        });
 
         $this->booted = true;
     }
@@ -840,7 +849,7 @@ class Laravel extends Container
      */
     protected function registerComposerBindings()
     {
-        $this->singleton('composer', fn ($app): \Illuminate\Support\Composer => new Composer($app->make('files'), $this->basePath()));
+        $this->singleton('composer', fn ($app): Composer => new Composer($app->make('files'), $this->basePath()));
     }
 
     /**
@@ -850,7 +859,7 @@ class Laravel extends Container
      */
     protected function registerConfigBindings()
     {
-        $this->singleton('config', static fn (): \Illuminate\Config\Repository => new Repository());
+        $this->singleton('config', static fn (): Repository => new Repository());
     }
 
     /**
@@ -915,7 +924,7 @@ class Laravel extends Container
      */
     protected function registerFilesBindings()
     {
-        $this->singleton('files', static fn (): \Illuminate\Filesystem\Filesystem => new Filesystem());
+        $this->singleton('files', static fn (): Filesystem => new Filesystem());
     }
 
     /**

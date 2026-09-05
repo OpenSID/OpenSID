@@ -11,14 +11,16 @@ trait ProcessConfigs
         }
 
         foreach ($this->package->configFileNames as $configFileName) {
-            $vendorConfig = $this->package->basePath("/../config/{$configFileName}.php");
+            $configFilePath = $this->normalizeConfigPath($configFileName);
+            $vendorConfig = $this->package->basePath("/../config/{$configFilePath}.php");
 
             // Only mergeConfigFile if a .php file and not if a stub file
             if (! is_file($vendorConfig)) {
                 continue;
             }
 
-            $this->mergeConfigFrom($vendorConfig, $configFileName);
+            $normalizedConfigKey = $this->normalizeConfigKey($configFileName);
+            $this->mergeConfigFrom($vendorConfig, $normalizedConfigKey);
         }
 
         return $this;
@@ -31,21 +33,33 @@ trait ProcessConfigs
         }
 
         foreach ($this->package->configFileNames as $configFileName) {
+            $configFilePath = $this->normalizeConfigPath($configFileName);
+
             $vendorConfig ;
             if (
-                ! is_file($vendorConfig = $this->package->basePath("/../config/{$configFileName}.php"))
+                ! is_file($vendorConfig = $this->package->basePath("/../config/{$configFilePath}.php"))
                 &&
-                ! is_file($vendorConfig = $this->package->basePath("/../config/{$configFileName}.php.stub"))
+                ! is_file($vendorConfig = $this->package->basePath("/../config/{$configFilePath}.php.stub"))
             ) {
                 continue;
             }
 
             $this->publishes(
-                [$vendorConfig => config_path("{$configFileName}.php")],
+                [$vendorConfig => config_path("{$configFilePath}.php")],
                 "{$this->package->shortName()}-config"
             );
         }
 
         return $this;
+    }
+
+    protected function normalizeConfigKey(string $configFileName): string
+    {
+        return str_replace(['/', '\\'], '.', $configFileName);
+    }
+
+    protected function normalizeConfigPath(string $configFileName): string
+    {
+        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $configFileName);
     }
 }

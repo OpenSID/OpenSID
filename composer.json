@@ -93,7 +93,10 @@
             "Database\\Seeders\\": "app/database/seeders/",
             "Modules\\": "Modules/",
             "Illuminate\\Routing\\": "app/Illuminate/Routing/"
-        }
+        },
+        "files": [
+            "donjo-app/helpers/illuminate_helper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -40,7 +40,6 @@ use App\Models\Pamong;
 use App\Models\ProfilDesa;
 use App\Models\Wilayah;
 use App\Traits\Upload;
-use Illuminate\Support\Facades\Schema;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -70,13 +69,8 @@ class Identitas_desa extends Admin_Controller
      */
     public function index(): void
     {
-        $cek_profil_desa = false;
-        $profil_desa     = null;
-
-        if (Schema::hasTable('profil_desa')) {
-            $profil_desa     = ProfilDesa::get()->groupBy('kategori');
-            $cek_profil_desa = $profil_desa->isNotEmpty();
-        }
+        $profil_desa     = ProfilDesa::get()->groupBy('kategori');
+        $cek_profil_desa = $profil_desa->isNotEmpty();
 
         view('admin.identitas_desa.index', [
             'main'            => $this->identitas_desa,
@@ -92,17 +86,12 @@ class Identitas_desa extends Admin_Controller
     public function form(): void
     {
         isCan('u');
-        $data['main']          = $this->identitas_desa;
-        $data['cek_kades']     = $this->cek_kades;
-        $data['form_action']   = ci_route('identitas_desa.update');
-        $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
-        if (Schema::hasTable('profil_desa')) {
-            $data['profil_desa']     = ProfilDesa::pluck('value', 'key')->toArray();
-            $data['cek_profil_desa'] = true;
-        } else {
-            $data['profil_desa']     = null;
-            $data['cek_profil_desa'] = false;
-        }
+        $data['main']            = $this->identitas_desa;
+        $data['cek_kades']       = $this->cek_kades;
+        $data['form_action']     = ci_route('identitas_desa.update');
+        $data['status_pantau']   = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
+        $data['profil_desa']     = ProfilDesa::pluck('value', 'key')->toArray();
+        $data['cek_profil_desa'] = true;
 
         view('admin.identitas_desa.form', $data);
     }
@@ -146,44 +135,42 @@ class Identitas_desa extends Admin_Controller
         $cek      = $this->cek_kode_wilayah($validate);
 
         if ($cek['status'] && $config->update($validate)) {
-            if (Schema::hasTable('profil_desa')) {
-                $dataProfil = array_intersect_key($this->request, array_flip([
-                    'jenis_tanah',
-                    'topografi',
-                    'sumber_daya_alam',
-                    'flora_fauna',
-                    'rawan_bencana',
-                    'kearifan_lokal',
-                    'jenis_jaringan',
-                    'provider_internet',
-                    'cakupan_wilayah',
-                    'kecepatan_internet',
-                    'akses_publik',
-                    'status_desa',
-                    'lembaga_adat',
-                    'struktur_adat',
-                    'wilayah_adat',
-                    'peraturan_adat',
-                    'regulasi_penetapan_kampung_adat',
-                    'dokumen_regulasi_penetapan_kampung_adat',
-                ]));
+            $dataProfil = array_intersect_key($this->request, array_flip([
+                'jenis_tanah',
+                'topografi',
+                'sumber_daya_alam',
+                'flora_fauna',
+                'rawan_bencana',
+                'kearifan_lokal',
+                'jenis_jaringan',
+                'provider_internet',
+                'cakupan_wilayah',
+                'kecepatan_internet',
+                'akses_publik',
+                'status_desa',
+                'lembaga_adat',
+                'struktur_adat',
+                'wilayah_adat',
+                'peraturan_adat',
+                'regulasi_penetapan_kampung_adat',
+                'dokumen_regulasi_penetapan_kampung_adat',
+            ]));
 
-                $oldProfil = ProfilDesa::whereIn('key', ['dokumen_regulasi_penetapan_kampung_adat', 'struktur_adat'])
-                    ->pluck('value', 'key')
-                    ->toArray();
+            $oldProfil = ProfilDesa::whereIn('key', ['dokumen_regulasi_penetapan_kampung_adat', 'struktur_adat'])
+                ->pluck('value', 'key')
+                ->toArray();
 
-                $dataProfil['dokumen_regulasi_penetapan_kampung_adat'] = $this->upload_dokumen(
-                    'dokumen_regulasi_penetapan_kampung_adat',
-                    $oldProfil['dokumen_regulasi_penetapan_kampung_adat']
-                );
+            $dataProfil['dokumen_regulasi_penetapan_kampung_adat'] = $this->upload_dokumen(
+                'dokumen_regulasi_penetapan_kampung_adat',
+                $oldProfil['dokumen_regulasi_penetapan_kampung_adat']
+            );
 
-                $dataProfil['struktur_adat'] = $this->upload_dokumen(
-                    'struktur_adat',
-                    $oldProfil['struktur_adat']
-                );
+            $dataProfil['struktur_adat'] = $this->upload_dokumen(
+                'struktur_adat',
+                $oldProfil['struktur_adat']
+            );
 
-                ProfilDesa::simpanData($dataProfil, $config->id);
-            }
+            ProfilDesa::simpanData($dataProfil, $config->id);
 
             return json(['status' => true]);
         }
@@ -290,12 +277,8 @@ class Identitas_desa extends Admin_Controller
             'nama_kontak'       => nama($request['nama_kontak']),
             'hp_kontak'         => bilangan($request['hp_kontak']),
             'jabatan_kontak'    => nama($request['jabatan_kontak']),
+            'kode_desa_bps'     => substr((string) bilangan($request['kode_desa_bps']), 0, 10),
         ];
-
-        // Catatan: Ditambahkan pada bagian ini karena terjadi error saat tambah/ubah identitas desa pada instalasi baru
-        if (Schema::hasColumn('config', 'kode_desa_bps')) {
-            $validate['kode_desa_bps'] = substr((string) bilangan($request['kode_desa_bps']), 0, 10);
-        }
 
         return $validate;
     }

@@ -97,7 +97,9 @@ class Replies extends \Google\Service\Resource
    *
    * @opt_param bool includeDeleted Whether to include deleted replies. Deleted
    * replies don't include their original content.
-   * @opt_param int pageSize The maximum number of replies to return per page.
+   * @opt_param int pageSize The maximum number of replies to return. The service
+   * may return fewer than this value. If unspecified, at most 20 replies will be
+   * returned. The maximum value is 100; values above 100 will be coerced to 100.
    * @opt_param string pageToken The token for continuing a previous list request
    * on the next page. This should be set to the value of `nextPageToken` from the
    * previous response.

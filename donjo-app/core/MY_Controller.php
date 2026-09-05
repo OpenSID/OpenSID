@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\FirebaseEnum;
 use App\Enums\StatusEnum;
-use App\Http\Middleware\SecurityHeaders;
 use App\Libraries\Database;
 use App\Libraries\Tracker;
 use App\Models\Config;
@@ -76,6 +75,7 @@ class MY_Controller extends CI_Controller
     public $includes;
     public $theme;
     public $template;
+    public \OpenSID\Middleware|null $middleware = null;
 
     /**
      * Ambil item dari array POST.
@@ -116,7 +116,12 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
 
-        // SecurityHeaders::handle();
+        if ($this->middleware === null) {
+            $this->middleware = new OpenSID\Middleware();
+        }
+
+        // throttle requests
+        $this->middleware->run('ThrottleRequests');
 
         $error = $this->session->db_error;
         if ($error['code'] == 1049 && ! $this->db) {
@@ -330,12 +335,12 @@ class MY_Controller extends CI_Controller
 
         try {
             $data = DB::table('anjungan')
-                ->where(static function ($query) use ($macAddress, $ip) {
+                ->where(static function ($query) use ($macAddress, $ip, $anjunganUuid) {
                     if ($macAddress) {
                         $query->orWhere('mac_address', $macAddress);
                     }
-                    if (isset($_COOKIE['pengunjung'])) {
-                        $query->orWhere('id_pengunjung', $_COOKIE['pengunjung']);
+                    if ($anjunganUuid) {
+                        $query->orWhere('uuid', $anjunganUuid);
                     }
                     if ($ip) {
                         $query->orWhere('ip_address', $ip);

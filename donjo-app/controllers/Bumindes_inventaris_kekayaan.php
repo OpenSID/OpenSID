@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -66,39 +66,50 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-        $tahun = $this->input->get('tahun') ?? date('Y');
 
-        return datatables()->of($this->sumberData($tahun))
-            ->addIndexColumn()
-            ->editColumn('keterangan', static function (array $row): string {
-                $html = '';
+            $tahun = $tahun = $this->input->get('tahun') ?? date('Y');
 
-                foreach ($row['keterangan'] as $ket) {
-                    $html .= '<li>' . $ket . '</li>';
-                }
+            return datatables()->of($this->sumberData($tahun))
+                ->addIndexColumn()
+                ->editColumn('keterangan', static function (array $row): string {
+                    $html = '';
 
-                return $html;
-            })
-            ->editColumn('tgl_hapus', static fn ($row) => tgl_indo($row['tgl_hapus']))
-            ->rawColumns(['aksi', 'keterangan'])
-            ->make();
+                    foreach ($row['keterangan'] as $ket) {
+                        $html .= '<li>' . $ket . '</li>';
+                    }
+
+                    return $html;
+                })
+                ->editColumn('tgl_hapus', static fn ($row) => tgl_indo($row['tgl_hapus']))
+                ->rawColumns(['aksi', 'keterangan'])
+                ->make();
         }
 
         return show_404();
     }
 
-    public function cetak($aksi = '')
+    public function dialog($aksi = 'cetak')
     {
-        $tahun        = date('Y');
-        $query        = $this->sumberData($tahun);
-        $data         = $this->modal_penandatangan();
-        $data['aksi'] = $aksi;
-        $data['main'] = $query;
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('bumindes_inventaris_kekayaan.cetak', $aksi);
 
-        $data['bulan']     = date('m');
-        $data['tahun']     = date('Y');
+        return view('admin.bumindes.umum.dialog', $data);
+    }
+
+    public function cetak($aksi = 'cetak')
+    {
+        // Terima parameter 'tahun' baik dari GET maupun POST agar modal/form cetak
+        // yang mengirim POST tetap menghasilkan output sesuai filter.
+        $tahun = $this->input->get('tahun') ?? $this->input->post('tahun') ?? date('Y');
+        $query = datatables($this->sumberData($tahun));
+
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $query->collection ?? collect();
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
         $data['isi']       = 'admin.dokumen.inventaris_kekayaan.cetak';
         $data['letak_ttd'] = ['1', '1', '23'];
+        $data['tahun']     = $tahun;
 
         return view('admin.layouts.components.format_cetak', $data);
     }

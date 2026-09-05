@@ -27,7 +27,10 @@ use Symfony\Component\CssSelector\Parser\Tokenizer\Tokenizer;
  */
 class Parser implements ParserInterface
 {
+    private const NESTING_LIMIT = 16;
+
     private Tokenizer $tokenizer;
+    private int $nestingDepth = 0;
 
     public function __construct(?Tokenizer $tokenizer = null)
     {
@@ -57,9 +60,9 @@ class Parser implements ParserInterface
             }
         }
 
-        $joined = trim(implode('', array_map(fn (Token $token) => $token->getValue(), $tokens)));
+        $joined = trim(implode('', array_map(static fn (Token $token) => $token->getValue(), $tokens)));
 
-        $int = function ($string) {
+        $int = static function ($string) {
             if (!is_numeric($string)) {
                 throw SyntaxErrorException::stringAsFunctionArgument();
             }
@@ -87,13 +90,17 @@ class Parser implements ParserInterface
         ];
     }
 
-    private function parseSelectorList(TokenStream $stream): array
+    private function parseSelectorList(TokenStream $stream, bool $isArgument = false): array
     {
         $stream->skipWhitespace();
         $selectors = [];
 
         while (true) {
-            $selectors[] = $this->parserSelectorNode($stream);
+            if ($isArgument && $stream->getPeek()->isDelimiter([')'])) {
+                break;
+            }
+
+            $selectors[] = $this->parserSelectorNode($stream, $isArgument);
 
             if ($stream->getPeek()->isDelimiter([','])) {
                 $stream->getNext();
@@ -106,15 +113,19 @@ class Parser implements ParserInterface
         return $selectors;
     }
 
-    private function parserSelectorNode(TokenStream $stream): Node\SelectorNode
+    private function parserSelectorNode(TokenStream $stream, bool $isArgument = false): Node\SelectorNode
     {
-        [$result, $pseudoElement] = $this->parseSimpleSelector($stream);
+        [$result, $pseudoElement] = $this->parseSimpleSelector($stream, false, $isArgument);
 
         while (true) {
             $stream->skipWhitespace();
             $peek = $stream->getPeek();
 
-            if ($peek->isFileEnd() || $peek->isDelimiter([','])) {
+            if (
+                $peek->isFileEnd()
+                || $peek->isDelimiter([','])
+                || ($isArgument && $peek->isDelimiter([')']))
+            ) {
                 break;
             }
 
@@ -129,7 +140,7 @@ class Parser implements ParserInterface
                 $combinator = ' ';
             }
 
-            [$nextSelector, $pseudoElement] = $this->parseSimpleSelector($stream);
+            [$nextSelector, $pseudoElement] = $this->parseSimpleSelector($stream, false, $isArgument);
             $result = new Node\CombinedSelectorNode($result, $combinator, $nextSelector);
         }
 
@@ -141,7 +152,7 @@ class Parser implements ParserInterface
      *
      * @throws SyntaxErrorException
      */
-    private function parseSimpleSelector(TokenStream $stream, bool $insideNegation = false): array
+    private function parseSimpleSelector(TokenStream $stream, bool $insideNegation = false, bool $isArgument = false): array
     {
         $stream->skipWhitespace();
 
@@ -154,7 +165,7 @@ class Parser implements ParserInterface
             if ($peek->isWhitespace()
                 || $peek->isFileEnd()
                 || $peek->isDelimiter([',', '+', '>', '~'])
-                || ($insideNegation && $peek->isDelimiter([')']))
+                || ($isArgument && $peek->isDelimiter([')']))
             ) {
                 break;
             }
@@ -182,7 +193,7 @@ class Parser implements ParserInterface
                 }
 
                 $identifier = $stream->getNextIdentifier();
-                if (\in_array(strtolower($identifier), ['first-line', 'first-letter', 'before', 'after'])) {
+                if (\in_array(strtolower($identifier), ['first-line', 'first-letter', 'before', 'after'], true)) {
                     // Special case: CSS 2.1 pseudo-elements can have a single ':'.
                     // Any new pseudo-element must have two.
                     $pseudoElement = $identifier;
@@ -215,7 +226,7 @@ class Parser implements ParserInterface
                         throw SyntaxErrorException::nestedNot();
                     }
 
-                    [$argument, $argumentPseudoElement] = $this->parseSimpleSelector($stream, true);
+                    [$argument, $argumentPseudoElement] = $this->parseSimpleSelector($stream, true, true);
                     $next = $stream->getNext();
 
                     if (null !== $argumentPseudoElement) {
@@ -227,6 +238,24 @@ class Parser implements ParserInterface
                     }
 
                     $result = new Node\NegationNode($result, $argument);
+                } elseif ('is' === strtolower($identifier)) {
+                    $selectors = $this->parseNestedSelectorList($stream, 'is');
+
+                    $next = $stream->getNext();
+                    if (!$next->isDelimiter([')'])) {
+                        throw SyntaxErrorException::unexpectedToken('")"', $next);
+                    }
+
+                    $result = new Node\MatchingNode($result, $selectors);
+                } elseif ('where' === strtolower($identifier)) {
+                    $selectors = $this->parseNestedSelectorList($stream, 'where');
+
+                    $next = $stream->getNext();
+                    if (!$next->isDelimiter([')'])) {
+                        throw SyntaxErrorException::unexpectedToken('")"', $next);
+                    }
+
+                    $result = new Node\SpecificityAdjustmentNode($result, $selectors);
                 } else {
                     $arguments = [];
                     $next = null;
@@ -264,6 +293,26 @@ class Parser implements ParserInterface
         }
 
         return [$result, $pseudoElement];
+    }
+
+    /**
+     * @return Node\SelectorNode[]
+     *
+     * @throws SyntaxErrorException
+     */
+    private function parseNestedSelectorList(TokenStream $stream, string $identifier): array
+    {
+        if ($this->nestingDepth >= self::NESTING_LIMIT) {
+            throw new SyntaxErrorException(\sprintf('Got too deeply nested :%s().', $identifier));
+        }
+
+        ++$this->nestingDepth;
+
+        try {
+            return $this->parseSelectorList($stream, true);
+        } finally {
+            --$this->nestingDepth;
+        }
     }
 
     private function parseElementNode(TokenStream $stream): Node\ElementNode

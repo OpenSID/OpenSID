@@ -14,6 +14,7 @@ namespace Symfony\Component\Mailer\Transport\Smtp;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Envelope;
+use Symfony\Component\Mailer\Exception\InvalidArgumentException;
 use Symfony\Component\Mailer\Exception\LogicException;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -107,6 +108,10 @@ class SmtpTransport extends AbstractTransport
      */
     public function setLocalDomain(string $domain): static
     {
+        if (preg_match('/[\x00-\x1F\x7F]/', $domain)) {
+            throw new InvalidArgumentException('The local domain name must not contain control characters.');
+        }
+
         if ('' !== $domain && '[' !== $domain[0]) {
             if (filter_var($domain, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {
                 $domain = '['.$domain.']';
@@ -137,10 +142,20 @@ class SmtpTransport extends AbstractTransport
             $message = parent::send($message, $envelope);
         } catch (TransportExceptionInterface $e) {
             if ($this->started) {
-                try {
-                    $this->executeCommand("RSET\r\n", [250]);
-                } catch (TransportExceptionInterface) {
-                    // ignore this exception as it probably means that the server error was final
+                if ($e instanceof UnexpectedResponseException) {
+                    // The server replied with an unexpected code: the connection is
+                    // still in sync, so it can be reused after resetting the session.
+                    try {
+                        $this->executeCommand("RSET\r\n", [250]);
+                    } catch (TransportExceptionInterface) {
+                        // ignore this exception as it probably means that the server error was final
+                    }
+                } else {
+                    // Any other failure (timeout, broken pipe, ...) may have left an
+                    // unread reply in the socket buffer. Reusing the connection would
+                    // desync every following command, so close it and reconnect on the
+                    // next message.
+                    $this->stop();
                 }
             }
 

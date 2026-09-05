@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -293,7 +293,7 @@ class Import
                         'gagal'  => $gagal,
                         'ganda'  => $ganda,
                         'pesan'  => $pesan,
-                        'sukses' => ($barisData - 1) - $gagal,
+                        'sukses' => ($barisData - 2) - $gagal,
                     ];
 
                     set_session('pesan_impor', $pesan_impor);
@@ -393,14 +393,18 @@ class Import
             'agama_id'             => ['required', 'integer', 'between:1,7'],
             'pendidikan_kk_id'     => ['required', 'integer', 'between:1,10'],
             'pendidikan_sedang_id' => ['nullable', 'integer', 'between:1,18'],
-            'pekerjaan_id'         => ['required', 'integer', 'between:1,89'],
+            'pekerjaan_id'         => ['nullable', static function ($attribute, $value, $fail): void {
+                if (! in_array((int) $value, PekerjaanEnum::keys())) {
+                    $fail("kode pekerjaan {$value} tidak dikenal");
+                }
+            }],
             'status_kawin'         => ['required', 'integer', 'between:1,4'],
             'kk_level'             => ['required', 'integer', 'between:1,11'],
             'warganegara_id'       => ['required', 'integer', 'between:1,3'],
             'golongan_darah_id'    => ['required', 'integer', 'between:1,13'],
             'cacat_id'             => ['nullable', 'integer', 'between:1,7'],
             'cara_kb_id'           => ['nullable', static function ($attribute, $value, $fail): void {
-                if (! in_array($value, array_merge(range(1, 8), ['99']))) {
+                if (! in_array((int) $value, CaraKBEnum::keys())) {
                     $fail("kode cara_kb {$value}  tidak dikenal");
                 }
             }],

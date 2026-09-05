@@ -75,9 +75,7 @@
                     </div>
                 </div>
             @endif
-            @if ($data_form_isian)
-                @include('admin.suplemen.form_isian')
-            @endif
+            @include('admin.suplemen.form_isian')
             <div class="form-group">
                 <label class=" col-sm-3 control-label" for="keterangan">Keterangan</label>
                 <div class="col-sm-9">

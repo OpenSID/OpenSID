@@ -414,7 +414,7 @@
                     collapsed: true
                 }).addTo(peta);
                 var customlayer = L.control.groupedLayers('', layerCustom, {
-                    groupCheckboxes: true,
+                    groupCheckboxes: false,
                     position: 'topleft',
                     collapsed: true
                 }).addTo(peta);

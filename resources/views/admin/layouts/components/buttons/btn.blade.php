@@ -29,6 +29,6 @@
     @elseif($formAction)
         <a href="#" @if ($tooltip) title="{{ $tooltip }}" id="kirim" onclick="formAction('mainform','{{ $url }}')" @endif class="btn btn-social {{ $type }} btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block aksi-terpilih"><i class="{{ $icon }} "></i>{{ $judul }}</a>
     @else
-        <a href="{{ $slug ? $url : ($file ? base_url($url) : ($url ? site_url($url) : '#')) }}" @if ($disabled) disabled @endif @if ($tooltip) title="{{ $tooltip }}" @endif class="btn btn-social {{ $type }} btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="{{ $judul }} Data" @if ($blank) target="_blank" @endif><i class="{{ $icon }} "></i>{{ $judul }}</a>
+        <a href="{{ $slug ? $url : ($file ? base_url($url) : ($url && $url !== '#' ? site_url($url) : '#')) }}" @if ($disabled) disabled @endif @if ($tooltip) title="{{ $tooltip }}" @endif class="btn btn-social {{ $type }} btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="{{ $judul }} Data" @if ($blank) target="_blank" @endif {{ $attribut }}><i class="{{ $icon }} "></i>{{ $judul }}</a>
     @endif
 @endif

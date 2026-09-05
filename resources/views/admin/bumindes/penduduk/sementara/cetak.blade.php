@@ -1,12 +1,79 @@
+@extends('admin.layouts.print_layout')
+
+@section('title', $file)
+
+@if(isset($is_landscape) && $is_landscape)
+@push('css')
+<style>
+    /* Mendukung landscape orientation untuk print preview */
+    body.landscape #print-modal {
+        width: 1122px;
+        margin: 0 0 0 -589px;
+    }
+
+    /* Override overflow hidden untuk enable scrolling */
+    body.landscape #print-modal-content {
+        overflow: auto !important;
+    }
+
+    @media print {
+        @page {
+            margin: 0.5cm;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    }
+</style>
+@endpush
+@endif
+
+@push('css')
+<style>
+    body {
+        orientation: landscape;
+    }
+
+    .textx {
+        mso-number-format: "\@";
+    }
+
+    td,
+    th {
+        font-size: 8pt;
+        mso-number-format: "\@";
+    }
+
+    table#ttd td {
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .underline {
+        text-decoration: underline;
+    }
+
+    @page {
+        size: landscape;
+        margin: 1cm;
+    }
+</style>
+@endpush
+
+@section('content')
 <table>
     <tbody>
         <tr>
             <td>
                 @if ($aksi != 'unduh')
-                    <img class="logo" src="{{ gambar_desa($desa['logo']) }}" alt="logo-desa">
+                <img class="logo" src="{{ gambar_desa($desa['logo']) }}" alt="logo-desa">
                 @endif
                 <h1 class="judul">
-                    PEMERINTAH {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $desa['nama_kabupaten'] . ' <br>' . setting('sebutan_kecamatan') . ' ' . $desa['nama_kecamatan'] . ' <br>' . setting('sebutan_desa') . ' ' . $desa['nama_desa']) !!}
+                    PEMERINTAH {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $desa['nama_kabupaten'] . ' <br>' .
+                    setting('sebutan_kecamatan') . ' ' . $desa['nama_kecamatan'] . ' <br>' . setting('sebutan_desa') . '
+                    ' . $desa['nama_desa']) !!}
                 </h1>
             </td>
         </tr>
@@ -22,7 +89,8 @@
         </tr>
         <tr>
             <td class="text-center">
-                <h4>BUKU PENDUDUK SEMENTARA BULAN {{ strtoupper(getBulan($filters['bulan'] ?? date('m'))) }} TAHUN {{ $filters['tahun'] ?? date('Y') }}</h4>
+                <h4>BUKU PENDUDUK SEMENTARA BULAN {{ strtoupper(getBulan($filters['bulan'] ?? date('m'))) }} TAHUN {{
+                    $filters['tahun'] ?? date('Y') }}</h4>
             </td>
         </tr>
         <tr>
@@ -73,23 +141,27 @@
                     </thead>
                     <tbody>
                         @foreach ($main as $key => $data)
-                            <tr>
-                                <td class="padat" align="center">{{ $key + 1 }}</td>
-                                <td>{{ $data->nama }}</td>
-                                <td class="padat">{{ $data->sex == 1 ? 'L' : '' }}</td>
-                                <td class="padat">{{ $data->sex == 2 ? 'P' : '' }}</td>
-                                <td>{!! $privasi_nik ? sensor_nik_kk($data->nik) : ($aksi == 'unduh' ? $data->nik . '&nbsp' : $data->nik) !!}</td>
-                                <td>{{ $data->tempatlahir . ', ' . tgl_indo_out($data->tanggallahir) }}</td>
-                                <td>{{ $data->pekerjaan }}</td>
-                                <td>{{ $data->warganegara }}</td>
-                                <td>{{ empty($data->negara_asal) ? '-' : $data->negara_asal }}</td>
-                                <td>{{ empty($data->alamat_sebelumnya) ? '-' : $data->alamat_sebelumnya }}</td>
-                                <td>{{ empty($data->log_latest->maksud_tujuan_kedatangan) ? '-' : $data->log_latest->maksud_tujuan_kedatangan }}</td>
-                                <td>{{ strtoupper($data->alamat_wilayah) }}</td>
-                                <td>{{ empty($data->log_latest->tgl_lapor) ? '-' : tgl_indo_out($data->log_latest->tgl_lapor) }}</td>
-                                <td>{{ $data->log_latest->kode_peristiwa == 6 ? tgl_indo_out($data->log_latest->tgl_lapor) : '-' }}</td>
-                                <td>{{ empty($data->ket) ? '-' : $data->ket }}</td>
-                            </tr>
+                        <tr>
+                            <td class="padat" align="center">{{ $key + 1 }}</td>
+                            <td>{{ $data->nama }}</td>
+                            <td class="padat">{{ $data->sex == 1 ? 'L' : '' }}</td>
+                            <td class="padat">{{ $data->sex == 2 ? 'P' : '' }}</td>
+                            <td>{!! $privasi_nik ? sensor_nik_kk($data->nik) : ($aksi == 'unduh' ? $data->nik . '&nbsp'
+                                : $data->nik) !!}</td>
+                            <td>{{ $data->tempatlahir . ', ' . tgl_indo_out($data->tanggallahir) }}</td>
+                            <td>{{ $data->pekerjaan }}</td>
+                            <td>{{ $data->warganegara }}</td>
+                            <td>{{ empty($data->negara_asal) ? '-' : $data->negara_asal }}</td>
+                            <td>{{ empty($data->alamat_sebelumnya) ? '-' : $data->alamat_sebelumnya }}</td>
+                            <td>{{ empty($data->log_latest->maksud_tujuan_kedatangan) ? '-' :
+                                $data->log_latest->maksud_tujuan_kedatangan }}</td>
+                            <td>{{ strtoupper($data->alamat_wilayah) }}</td>
+                            <td>{{ empty($data->log_latest->tgl_lapor) ? '-' :
+                                tgl_indo_out($data->log_latest->tgl_lapor) }}</td>
+                            <td>{{ $data->log_latest->kode_peristiwa == 6 ? tgl_indo_out($data->log_latest->tgl_lapor) :
+                                '-' }}</td>
+                            <td>{{ empty($data->ket) ? '-' : $data->ket }}</td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -97,3 +169,4 @@
         </tr>
     </tbody>
 </table>
+@endsection

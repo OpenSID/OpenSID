@@ -64,45 +64,123 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            var url = SITE_URL + '/bumindes_kader/';
+            // Base URL untuk request AJAX
+            var baseUrl = SITE_URL + '/bumindes_kader/';
 
-            $('#kursus').tokenfield({
-                autocomplete: {
-                    source: function(request, response) {
-                        jQuery.get(url + 'get_kursus', {
-                            nama: request.term
-                        }, function(data) {
-                            data = $.parseJSON(data);
-                            response(data);
-                        });
+            // Cache global untuk autocomplete
+            var autoCompleteCache = {};
+
+            /**
+             * Inisialisasi Tokenfield + Autocomplete AJAX
+             */
+            function initTokenField(selector, ajaxEndpoint) {
+
+                $(selector).tokenfield({
+                    autocomplete: {
+                        source: function (request, response) {
+
+                            let keyword = request.term || '';
+                            let cacheKey = ajaxEndpoint + '|' + keyword;
+
+                            // Ambil token yang sudah dipilih
+                            let existingValues = $(selector)
+                                .tokenfield('getTokens')
+                                .map(token => token.value);
+
+                            // =========================
+                            // AMBIL DARI CACHE (JIKA ADA)
+                            // =========================
+                            if (autoCompleteCache[cacheKey]) {
+                                let filtered = autoCompleteCache[cacheKey].filter(item =>
+                                    !existingValues.includes(item.value)
+                                );
+                                response(filtered);
+                                return;
+                            }
+
+                            // =========================
+                            // REQUEST KE SERVER
+                            // =========================
+                            $.get(baseUrl + ajaxEndpoint, { nama: keyword }, function (data) {
+
+                                let parsed;
+
+                                // Fallback parsing JSON (aman)
+                                if (typeof data === 'string') {
+                                    try {
+                                        parsed = JSON.parse(data);
+                                    } catch (e) {
+                                        parsed = [];
+                                    }
+                                } else {
+                                    parsed = data;
+                                }
+
+                                // Normalisasi ke format { value: "xxx" }
+                                let normalized = parsed.map(item => {
+                                    if (typeof item === 'object' && item.value) {
+                                        return item;
+                                    }
+                                    return { value: item };
+                                });
+
+                                // Simpan ke cache
+                                autoCompleteCache[cacheKey] = normalized;
+
+                                // Filter token yang sudah dipilih
+                                let filtered = normalized.filter(item =>
+                                    !existingValues.includes(item.value)
+                                );
+
+                                response(filtered);
+                            });
+                        },
+                        delay: 150
                     },
-                    delay: 100
-                },
-                showAutocompleteOnFocus: true
-            });
+                    showAutocompleteOnFocus: true
+                });
 
-            const kursus = $('#kursus').val();
-            $('#kursus').tokenfield('setTokens', kursus ? JSON.parse(kursus) : null);
+                /**
+                 * Cegah token duplikat (lapisan keamanan)
+                 */
+                $(selector).on('tokenfield:createtoken', function (e) {
+                    let tokens = $(this).tokenfield('getTokens');
+                    tokens.forEach(token => {
+                        if (token.value === e.attrs.value) {
+                            e.preventDefault();
+                        }
+                    });
+                });
 
-            $('#bidang').tokenfield({
-                autocomplete: {
-                    source: function(request, response) {
-                        jQuery.get(url + 'get_bidang', {
-                            nama: request.term
-                        }, function(data) {
-                            data = $.parseJSON(data);
-                            response(data);
-                        });
-                    },
-                    delay: 100
-                },
-                showAutocompleteOnFocus: true
-            });
+                /**
+                 * Paksa autocomplete muncul saat klik / fokus
+                 */
+                $(document).on('focus click', selector + '-tokenfield', function () {
+                    $(this).autocomplete('search', '');
+                });
 
-            const bidang = $('#bidang').val();
-            $('#bidang').tokenfield('setTokens', bidang ? JSON.parse(bidang) : null);
+                /**
+                 * Load data lama (mode edit)
+                 */
+                let value = $(selector).val();
+                if (value) {
+                    try {
+                        $(selector).tokenfield('setTokens', JSON.parse(value));
+                    } catch (e) {
+                        $(selector).tokenfield('setTokens', value.split(','));
+                    }
+                }
+            }
+
+            // =========================
+            // INISIALISASI FIELD
+            // =========================
+            initTokenField('#kursus', 'get_kursus');
+            initTokenField('#bidang', 'get_bidang');
+
         });
     </script>
+
 @endpush

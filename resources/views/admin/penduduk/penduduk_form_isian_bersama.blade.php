@@ -47,7 +47,7 @@
     <div class='col-sm-8'>
         <div class='form-group'>
             <label for="nama">Nama Lengkap <code> (Tanpa Gelar) </code> </label>
-            <input id="nama" name="nama" class="form-control input-sm required nama" maxlength="100" type="text"
+            <input id="nama" name="nama" class="form-control input-sm required {{ $jenis_peristiwa == 1 ? 'nama_baru_lahir' : 'nama' }}" maxlength="100" type="text"
                 placeholder="Nama Lengkap" value="{{ strtoupper($penduduk['nama']) }}"></input>
         </div>
     </div>
@@ -1324,38 +1324,95 @@
             show_hide_status_warga_negara($('#warganegara_id').val());
             show_hide_ktp_el($('#ktp_el').val());
 
-            $('#mainform #dusun').change(function() {
-                let _label = $(this).find('option:selected').val()
-                $('#mainform #rw').find(`optgroup`).prop('disabled', 1)
-                if ($(this).val()) {
-                    $('#mainform #rw').closest('div').show()
-                    $('#mainform #rw').find(`optgroup[value="${_label}"]`).prop('disabled', 0)
-                } else {
-                    $('#mainform #rw').closest('div').hide()
-                }
-                $('#mainform #rw').trigger('change')
-            })
+        // Handler untuk perubahan Dusun
+        $('#mainform #dusun').change(function() {
+            let selectedDusun = $(this).find('option:selected').val();
+            let $rwSelect = $('#mainform #rw');
+            
+            // Reset RW selection
+            $rwSelect.val('');
+            
+            // Disable semua optgroup RW terlebih dahulu
+            $rwSelect.find('optgroup').prop('disabled', true);
+            
+            if (selectedDusun) {
+                $('#mainform #rw').closest('div').show();
+                
+                // Enable optgroup yang sesuai dengan dusun terpilih
+                let $activeOptgroup = $rwSelect.find(`optgroup[value="${selectedDusun}"]`);
+                $activeOptgroup.prop('disabled', false);
+                
+                // PINDAHKAN optgroup yang aktif ke posisi setelah option "Pilih RW"
+                // Cari option pertama (yang value="")
+                let $firstOption = $rwSelect.find('option:first');
+                $activeOptgroup.insertAfter($firstOption);
+            } else {
+                $('#mainform #rw').closest('div').hide();
+            }
+            
+            // Trigger change untuk update RT
+            $rwSelect.trigger('change');
+        });
 
-            $('#mainform #rw').change(function() {
-                let _label = $(this).find('option:selected').val()
-                $('#mainform #id_cluster').find(`optgroup`).prop('disabled', 1)
-                if ($(this).val()) {
-                    $('#mainform #id_cluster').closest('div').show()
-                    $('#mainform #id_cluster').find(`optgroup[value="${_label}"]`).prop('disabled', 0)
+        // Handler untuk perubahan RW
+        $('#mainform #rw').change(function() {
+            let selectedValue = $(this).find('option:selected').val();
+            let $rtSelect = $('#mainform #id_cluster');
+            
+            // Reset RT selection
+            $rtSelect.val('');
+            
+            // Disable semua optgroup RT terlebih dahulu
+            $rtSelect.find('optgroup').prop('disabled', true);
+            
+            if (selectedValue) {
+                $('#mainform #id_cluster').closest('div').show();
+                
+                // Enable optgroup yang sesuai dengan RW terpilih
+                let $activeOptgroup = $rtSelect.find(`optgroup[value="${selectedValue}"]`);
+                $activeOptgroup.prop('disabled', false);
+                
+                // DEBUGGING: Log untuk memastikan element ditemukan
+                console.log('Selected RW:', selectedValue);
+                console.log('Active optgroup found:', $activeOptgroup.length);
+                console.log('Active optgroup label:', $activeOptgroup.attr('label'));
+                
+                // PINDAHKAN optgroup yang aktif ke posisi setelah option "Pilih RT"
+                // Gunakan children() untuk hanya ambil direct child, bukan nested
+                let $selectChildren = $rtSelect.children();
+                let $firstOption = $selectChildren.filter('option[value=""]').first();
+                
+                console.log('First option found:', $firstOption.length);
+                console.log('First option text:', $firstOption.text());
+                
+                if ($firstOption.length > 0 && $activeOptgroup.length > 0) {
+                    // Detach dulu untuk menghindari clone
+                    $activeOptgroup.detach();
+                    // Insert setelah option pertama
+                    $firstOption.after($activeOptgroup);
+                    
+                    console.log('Optgroup moved after first option');
                 } else {
-                    $('#mainform #id_cluster').closest('div').hide()
+                    console.warn('Cannot move optgroup - first option or active optgroup not found');
                 }
-                $('#mainform #id_cluster').trigger('change')
-            })
+            } else {
+                $('#mainform #id_cluster').closest('div').hide();
+            }
+            
+            // Trigger change untuk update display
+            $rtSelect.trigger('change');
+        });
+
+        // Trigger initial change jika ada data yang sudah dipilih
+        @if (!$penduduk['id'])
+            $('#mainform #dusun').trigger('change');
+        @endif
 
         @if ($jenis_peristiwa == 1)
             $('#status_perkawinan').val('{{ \App\Enums\StatusKawinEnum::BELUMKAWIN }}').trigger('change').prop('disabled', true);
             orang_tua();
         @endif
 
-            @if (!$penduduk['id'])
-                $('#mainform #dusun').trigger('change')
-            @endif
         });
 
         $('#mainform').on('reset', function(e) {
@@ -1482,10 +1539,10 @@
             var id_kk = $('#id_kk').val();
             var kk_level = $('#kk_level').val();
             if (id_kk && (kk_level == 4 || '{{ $jenis_peristiwa }}' == 1)) {
-                $('#ayah_nik').val('{{ $data_ayah['nik'] }}');
-                $('#nama_ayah').val('{{ $data_ayah['nama'] }}');
-                $('#ibu_nik').val('{{ $data_ibu['nik'] }}');
-                $('#nama_ibu').val('{{ $data_ibu['nama'] }}');
+                $('#ayah_nik').val(@json($data_ayah['nik'] ?? ''));
+                $('#nama_ayah').val(@json($data_ayah['nama'] ?? ''));
+                $('#ibu_nik').val(@json($data_ibu['nik'] ?? ''));
+                $('#nama_ibu').val(@json($data_ibu['nama'] ?? ''));
             } else {
                 $('#ayah_nik').val('{{ $penduduk['ayah_nik'] }}');
                 $('#nama_ayah').val('{{ $penduduk['nama_ayah'] }}'); 

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -406,7 +406,7 @@ class Rtm extends Admin_Controller
                 $dtks = Dtks::create([
                     'id_rtm'          => $rtm->id,
                     'versi_kuisioner' => DtksEnum::VERSION_CODE,
-                    'is_draft'        => StatusEnum::YA,
+                    'is_draft'        => StatusRTMEnum::YA,
                 ]);
                 // Panggil method dari DtksService untuk sinkronisasi
                 (new DtksService())->synchroniseDTKSWithOpenSid($dtks);
@@ -649,7 +649,7 @@ class Rtm extends Admin_Controller
             ->findOrFail($id);
 
         if ($rtm->anggota_count < 1) {
-            show_404();
+            redirect_with('error', 'Rumah tangga tersebut tidak memiliki anggota/kosong.', ci_route($this->controller));
         }
 
         $data['kk']        = $id;
@@ -766,9 +766,35 @@ class Rtm extends Admin_Controller
     {
         $data['id_kk']     = $id;
         $data['hubungan']  = HubunganRTMEnum::all();
-        $rtm               = RtmModel::with(['kepalaKeluarga', 'anggota'])->findOrFail($id);
-        $data['main']      = $rtm->anggota->toArray();
-        $data['kepala_kk'] = array_merge(['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk], $rtm->kepalaKeluarga->toArray());
+        
+        $rtm = RtmModel::with([
+            'kepalaKeluarga.keluarga.wilayah',
+            'anggota.keluarga'
+        ])->findOrFail($id);
+        
+        // Konversi ke array dengan accessor
+        $anggotaData = [];
+        foreach ($rtm->anggota as $anggota) {
+            $item = $anggota->toArray();
+            
+            // Tambahkan data yang di-format menggunakan accessor dari model Penduduk
+            $item['jenis_kelamin'] = $anggota->jenis_kelamin ?? '-';
+            $item['agama'] = $anggota->agama ?? '-';
+            $item['pendidikan_kk'] = $anggota->pendidikan_kk ?? '-';
+            $item['pekerjaan'] = $anggota->pekerjaan ?? '-';
+            $item['status_perkawinan'] = $anggota->status_perkawinan ?? '-'; // untuk view cetak
+            $item['status_kawin'] = $anggota->status_perkawinan ?? '-'; // untuk view kartu
+            $item['warganegara'] = $anggota->warganegara ?? '-';
+            $item['golongan_darah'] = $anggota->golongan_darah ?? '-';
+            
+            $anggotaData[] = $item;
+        }
+        
+        $data['main'] = $anggotaData;
+        $data['kepala_kk'] = array_merge(
+            ['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk], 
+            $rtm->kepalaKeluarga->toArray()
+        );
 
         view('admin.penduduk.rtm.kartu_rtm', $data);
     }
@@ -777,9 +803,35 @@ class Rtm extends Admin_Controller
     {
         $data['id_kk']     = $id;
         $data['hubungan']  = HubunganRTMEnum::all();
-        $rtm               = RtmModel::with(['kepalaKeluarga', 'anggota'])->findOrFail($id);
-        $data['main']      = $rtm->anggota->toArray();
-        $data['kepala_kk'] = array_merge(['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk], $rtm->kepalaKeluarga->toArray());
+        
+        $rtm = RtmModel::with([
+            'kepalaKeluarga.keluarga.wilayah',
+            'anggota.keluarga'
+        ])->findOrFail($id);
+        
+        // Konversi ke array dengan accessor
+        $anggotaData = [];
+        foreach ($rtm->anggota as $anggota) {
+            $item = $anggota->toArray();
+            
+            // Tambahkan data yang di-format menggunakan accessor dari model Penduduk
+            $item['jenis_kelamin'] = $anggota->jenis_kelamin ?? '-';
+            $item['agama'] = $anggota->agama ?? '-';
+            $item['pendidikan_kk'] = $anggota->pendidikan_kk ?? '-';
+            $item['pekerjaan'] = $anggota->pekerjaan ?? '-';
+            $item['status_perkawinan'] = $anggota->status_perkawinan ?? '-'; // untuk view cetak
+            $item['status_kawin'] = $anggota->status_perkawinan ?? '-'; // untuk view kartu
+            $item['warganegara'] = $anggota->warganegara ?? '-';
+            $item['golongan_darah'] = $anggota->golongan_darah ?? '-';
+            
+            $anggotaData[] = $item;
+        }
+        
+        $data['main'] = $anggotaData;
+        $data['kepala_kk'] = array_merge(
+            ['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk], 
+            $rtm->kepalaKeluarga->toArray()
+        );
 
         view('admin.penduduk.rtm.cetak_rtm', $data);
     }
@@ -861,10 +913,25 @@ class Rtm extends Admin_Controller
         isCan('h');
         $id_cb = $_POST['id_cb'];
 
+        if (empty($id_cb)) {
+            redirect_with('error', 'Tidak ada anggota yang dipilih', ci_route($this->controller . '.anggota', $kk));
+        }
+
+        // Hitung jumlah anggota sebelum penghapusan
+        $rtm               = RtmModel::withCount('anggota')->findOrFail($kk);
+        $jumlahAwalAnggota = $rtm->anggota_count;
+        $jumlahDihapus     = count($id_cb);
+
         foreach ($id_cb as $id) {
             $this->delete_single_anggota($id);
         }
-        redirect_with('success', 'Anggota berhasil dihapus', ci_route($this->controller . '.anggota', $kk));
+
+        // Jika semua anggota dihapus, redirect ke index
+        if ($jumlahDihapus >= $jumlahAwalAnggota) {
+            redirect_with('success', 'Semua anggota telah dihapus. Rumah tangga ini sekarang kosong.', ci_route($this->controller));
+        } else {
+            redirect_with('success', 'Anggota berhasil dihapus', ci_route($this->controller . '.anggota', $kk));
+        }
     }
 
     public function list_anggota_kk($id_pend = null)
@@ -967,17 +1034,19 @@ class Rtm extends Admin_Controller
                     ]),
             ])
             ->when($status != null, static function ($q) use ($status) {
-                if ($status == '1') {
+                if ($status == StatusRTMEnum::YA) { // Aktif
+                    $q->whereHas('kepalaKeluarga', static function ($r) use ($status) {
+                        $r->whereStatusDasar($status)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA);
+                    })->has('anggota');
+                } elseif ($status == StatusRTMEnum::TANPA_KEPALA_KELUARGA) { // Tanpa Kepala Keluarga
+                    $q->where(static function ($query) {
+                        $query->doesntHave('kepalaKeluarga')->orDoesntHave('anggota');
+                    });
+                } elseif ($status == StatusRTMEnum::TIDAK) { // Tidak Aktif
                     $q->whereHas(
                         'kepalaKeluarga',
-                        static fn ($r) => $r->whereStatusDasar($status)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)
+                        static fn ($r) => $r->where('status_dasar', '!=', StatusRTMEnum::YA)
                     );
-                } elseif ($status == '0') {
-                    $q->whereDoesntHave('kepalaKeluarga')
-                        ->orWhereHas(
-                            'kepalaKeluarga',
-                            static fn ($r) => $r->where('status_dasar', '!=', 1)
-                        );
                 }
             })
             ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)))

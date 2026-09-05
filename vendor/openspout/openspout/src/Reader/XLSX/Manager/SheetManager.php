@@ -50,6 +50,7 @@ final class SheetManager
      * State value to represent a hidden sheet.
      */
     public const SHEET_STATE_HIDDEN = 'hidden';
+    public const SHEET_STATE_VERY_HIDDEN = 'veryHidden';
 
     /** @var string Path of the XLSX file being read */
     private readonly string $filePath;
@@ -179,7 +180,7 @@ final class SheetManager
         \assert(null !== $sheetId);
 
         $sheetState = $xmlReaderOnSheetNode->getAttribute(self::XML_ATTRIBUTE_STATE);
-        $isSheetVisible = (self::SHEET_STATE_HIDDEN !== $sheetState);
+        $isSheetVisible = (self::SHEET_STATE_HIDDEN !== $sheetState && self::SHEET_STATE_VERY_HIDDEN !== $sheetState);
 
         $escapedSheetName = $xmlReaderOnSheetNode->getAttribute(self::XML_ATTRIBUTE_NAME);
         \assert(null !== $escapedSheetName);
