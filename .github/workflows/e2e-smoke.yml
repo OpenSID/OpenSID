@@ -1,0 +1,119 @@
+name: E2E Smoke (2701+)
+
+# Gerbang PR ke `umum`: menjalankan aplikasi NYATA (php -S + MySQL nyata) dan
+# membuktikan tiga hal (OpenSID/OpenSID#11931 Fase 2):
+#   1. boot   - halaman depan render, login admin sukses (sesi CI3 isAdmin
+#               benar-benar tersambung ke event Login -- lihat Fase 1).
+#   2. murni-OSS - tak ada Modules/Anjungan|Pelanggan|BukuTamu|DTSEN, tak ada
+#               entri menu terkait.
+#   3. pasang add-on - modul terpasang lewat LayananHttpSource tetap boot
+#               (di-skip otomatis sampai fixture/wiring-nya lengkap, lihat
+#               TODO di addon-install-flow.spec.ts).
+#
+# Pagar tetap untuk SEMUA rilis Umum pipeline-based berikutnya (2702-2709,
+# lalu cutover 2710), bukan cuma sekali untuk 2701.
+
+on:
+  pull_request:
+    branches:
+      - 'umum'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-2701:
+    name: Smoke gate (2701+)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CI_ENV: testing
+      APP_ENV: testing
+      DB_CONNECTION: default
+      DB_HOST: 127.0.0.1
+      DB_DATABASE: opensid_playwright_umum
+      DB_USERNAME: root
+      DB_PASSWORD: rootpassword
+      PLAYWRIGHT_BASE_URL: 'http://127.0.0.1:8010'
+      PLAYWRIGHT_DB_HOST: 127.0.0.1
+      PLAYWRIGHT_DB_DATABASE: opensid_playwright_umum
+      PLAYWRIGHT_DB_USERNAME: root
+      PLAYWRIGHT_DB_PASSWORD: rootpassword
+      # seed-2701.sql menyetel password admin ke 'Admin$123' (memenuhi
+      # syarat kompleksitas sandi) agar tak memicu redirect paksa-ganti-sandi.
+      PLAYWRIGHT_AUTH_USERNAME: admin
+      PLAYWRIGHT_AUTH_PASSWORD: 'Admin$123'
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Umum butuh PHP 8.2 -- composer.json ^8.1, rusak di PHP 8.4/ICU.
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_mysql, gd, zip, intl, mbstring, bcmath, curl, soap
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-20-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-20-
+
+      - name: Install npm dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist --no-interaction
+
+      # Provisioning DB HARUS tuntas SEBELUM Playwright menjalankan webServer:
+      # readiness webServer dicek sebelum globalSetup, jadi DB harus sudah
+      # lengkap saat server start (sama seperti pola smoke gate Premium).
+      - name: Provision test database (schema + seed + desa)
+        run: |
+          mysql -h 127.0.0.1 -u root -prootpassword -e "CREATE DATABASE IF NOT EXISTS opensid_playwright_umum CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
+          mysql -h 127.0.0.1 -u root -prootpassword opensid_playwright_umum < tests/playwright/storage/database/schema-2701.sql
+          mysql -h 127.0.0.1 -u root -prootpassword opensid_playwright_umum < tests/playwright/storage/database/seed-2701.sql
+          unzip -oq tests/playwright/storage/database/desa-2701.zip -d .
+          mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions storage/logs bootstrap/cache
+
+      - name: Run smoke suite
+        # DB sudah diprovisi di atas; globalSetup hanya memprovisi ulang bila
+        # PLAYWRIGHT_RESET_DB=true (lokal), jadi di CI ia tidak menimpa.
+        run: npx playwright test --config=playwright.smoke-2701.config.ts
+
+      - name: Upload Playwright report & logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-smoke-2701-report
+          path: |
+            tests/playwright/report-smoke-2701/
+            test-results/
+            storage/logs/
+          retention-days: 7

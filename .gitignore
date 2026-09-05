@@ -10,6 +10,10 @@ sftp-config.json
 /.htaccess
 *.sql
 *.sql.gz
+
+# Fixture DB suite smoke-2701 (OpenSID/OpenSID#11931 Fase 2) — dikecualikan
+# dari aturan *.sql di atas.
+!/tests/playwright/storage/database/*.sql
 mitra
 generate-route.php
 index.php
