@@ -51,7 +51,13 @@ export default defineConfig({
    *     form login) harus dilayani APA ADANYA, bukan lewat dispatch CI3.
    */
   webServer: {
-    command: `CI_ENV=testing APP_ENV=testing DB_CONNECTION=default DB_HOST=${process.env.PLAYWRIGHT_DB_HOST || '127.0.0.1'} DB_DATABASE=${process.env.PLAYWRIGHT_DB_DATABASE || 'opensid_playwright_umum'} DB_USERNAME=${process.env.PLAYWRIGHT_DB_USERNAME || 'root'} DB_PASSWORD=${process.env.PLAYWRIGHT_DB_PASSWORD || ''} PLAYWRIGHT_BASE_URL=${process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:8010'} php -S 127.0.0.1:8010 router-testing.php`,
+    // -d curl.cainfo: OpenSID/OpenSID#11931 Fase 3.5 -- addon-install-flow
+    // memakai mock server HTTPS self-signed lokal (LayananHttpSource menegakkan
+    // HTTPS, tak ada bypass dev-mode di kohort ini). PHP curl TIDAK menghormati
+    // env var CURL_CA_BUNDLE di build ini (diverifikasi empiris) -- override
+    // ini WAJIB lewat ini, bukan env var. Sertifikat dibuat globalSetup.ts
+    // SEBELUM webServer start (path tetap, lihat ensureMockServerCert()).
+    command: `CI_ENV=testing APP_ENV=testing DB_CONNECTION=default DB_HOST=${process.env.PLAYWRIGHT_DB_HOST || '127.0.0.1'} DB_DATABASE=${process.env.PLAYWRIGHT_DB_DATABASE || 'opensid_playwright_umum'} DB_USERNAME=${process.env.PLAYWRIGHT_DB_USERNAME || 'root'} DB_PASSWORD=${process.env.PLAYWRIGHT_DB_PASSWORD || ''} PLAYWRIGHT_BASE_URL=${process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:8010'} php -d curl.cainfo=tests/playwright/storage/modules/mock-server-cert.pem -d openssl.cafile=tests/playwright/storage/modules/mock-server-cert.pem -S 127.0.0.1:8010 router-testing.php`,
     url: 'http://127.0.0.1:8010',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,

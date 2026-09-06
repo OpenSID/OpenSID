@@ -25,7 +25,33 @@ function dbArgs(): string {
     return `-h ${host} -P ${port} -u ${user} ${passFlag} ${database}`;
 }
 
+/**
+ * Sertifikat self-signed utk mock server HTTPS lokal `addon-install-flow`
+ * (OpenSID/OpenSID#11931 Fase 3.5). `LayananHttpSource` menegakkan HTTPS
+ * (tak ada bypass dev-mode di kohort ini) -- mock server HARUS menyajikan
+ * HTTPS sungguhan, bukan HTTP polos, atau validasi host-pinning-nya gagal.
+ * Path TETAP (bukan per-test) krn `php -S` (webServer, start SEKALI utk
+ * seluruh suite lewat playwright.smoke-2701.config.ts) perlu tahu path-nya
+ * SEBELUM test manapun jalan, lewat `-d curl.cainfo=`. Regenerasi tiap run
+ * (murah, bukan mkcert -- portabel di CI tanpa instalasi tambahan, cert
+ * SENDIRI jadi trust-anchor-nya sendiri sejauh curl.cainfo menunjuknya).
+ */
+function ensureMockServerCert(): void {
+    const dir = path.resolve(__dirname, '../../storage/modules');
+    fs.mkdirSync(dir, { recursive: true });
+    const certPath = path.join(dir, 'mock-server-cert.pem');
+    const keyPath = path.join(dir, 'mock-server-key.pem');
+
+    execSync(
+        `openssl req -x509 -newkey rsa:2048 -keyout "${keyPath}" -out "${certPath}" ` +
+        `-days 3650 -nodes -subj "/CN=127.0.0.1" -addext "subjectAltName=IP:127.0.0.1,DNS:localhost"`,
+        { stdio: 'pipe' }
+    );
+}
+
 export default async function globalSetup() {
+    ensureMockServerCert();
+
     // Hanya provisi saat diminta eksplisit (lokal). Di CI, DB diprovisi pada
     // langkah workflow SEBELUM Playwright -- readiness webServer dicek sebelum
     // globalSetup, jadi DB harus sudah lengkap saat server start.
