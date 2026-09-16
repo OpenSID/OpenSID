@@ -35,16 +35,19 @@
  *
  */
 
+use App\Traits\ProvidesConvenienceMethods;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class PlaywrightController extends MY_Controller
 {
+    use ProvidesConvenienceMethods;
+
     public function __construct()
     {
         parent::__construct();
 
-        if (! in_array(ENVIRONMENT, ['development', 'testing']) && ! config_item('demo_mode')) {
+        if (! in_array(ENVIRONMENT, ['development', 'testing'])) {
             show_404();
         }
     }

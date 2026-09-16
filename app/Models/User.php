@@ -78,7 +78,28 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     /**
      * {@inheritDoc}
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'config_id',
+        'username',
+        'password',
+        'id_grup',
+        'pamong_id',
+        'email',
+        'active',
+        'nama',
+        'id_telegram',
+        'notif_telegram',
+        'company',
+        'phone',
+        'foto',
+        'session',
+        'batasi_wilayah',
+        'akses_wilayah',
+        'two_factor_enabled',
+        'email_verified_at',
+        'telegram_verified_at',
+        'last_login',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -114,6 +135,21 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
                 unlink($fotoKecil);
             }
         }
+    }
+
+    public function getAksesWilayahAttribute($value)
+    {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (empty($value)) {
+            return [];
+        }
+
+        $decoded = json_decode($value, true);
+
+        return is_array($decoded) ? $decoded : [];
     }
 
     public static function syaratSandi(string $password): bool

@@ -196,6 +196,16 @@ class PermohonanSurat extends BaseModel
     }
 
     /**
+     * Scope query untuk membatasi permohonan surat hanya milik penduduk tertentu.
+     *
+     * @param Builder $query
+     */
+    public function scopeMilikPenduduk($query, int $idPemohon)
+    {
+        return $query->where('id_pemohon', $idPemohon);
+    }
+
+    /**
      * Get all of the logSurat for the PermohonanSurat
      */
     public function logSurat(): HasMany

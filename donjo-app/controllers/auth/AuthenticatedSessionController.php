@@ -137,20 +137,25 @@ class AuthenticatedSessionController extends MY_Controller
             ->where('active', 1)
             ->first();
 
+        // Gunakan respons generik untuk mencegah enumerasi pengguna (user enumeration).
+        // Jangan berikan informasi apakah identifier terdaftar, aktif, atau OTP aktif.
+        // Response message tetap sama di semua kasus.
+        $genericMessage = 'Jika akun terdaftar, aktif, dan OTP diaktivasi, kode OTP telah dikirim ke saluran notifikasi Anda.';
+
         if (! $user) {
-            redirect_with('notif', 'Pengguna tidak ditemukan atau tidak aktif.', ci_route('siteman.otp.form_login_otp'));
+            redirect_with('notif', $genericMessage, ci_route('siteman.otp.form_login_otp'));
         }
 
         if (! $user->otp_enabled) {
-            redirect_with('notif', 'OTP belum di aktivasi di halaman profile > Pengaturan Aktivasi OTP. Silakan aktivasi terlebih dahulu atau login dengan password.', ci_route('siteman.otp.form_login_otp'));
+            redirect_with('notif', $genericMessage, ci_route('siteman.otp.form_login_otp'));
         }
 
         // Periksa apakah saluran notifikasi yang digunakan pengguna aktif
         if ($user->otp_channel === 'email' && ! setting('email_notifikasi')) {
-            redirect_with('notif', 'Notifikasi email tidak aktif. Silakan hubungi Admin atau login dengan password', 'siteman');
+            redirect_with('notif', $genericMessage, ci_route('siteman.otp.form_login_otp'));
         }
         if ($user->otp_channel === 'telegram' && ! setting('telegram_notifikasi')) {
-            redirect_with('notif', 'Notifikasi Telegram tidak aktif. Silakan hubungi Admin atau login dengan password', 'siteman');
+            redirect_with('notif', $genericMessage, ci_route('siteman.otp.form_login_otp'));
         }
 
         // Generate and send OTP
@@ -161,6 +166,7 @@ class AuthenticatedSessionController extends MY_Controller
             'login'
         );
 
+        // Tetap gunakan pesan generik untuk menghindari kebocoran informasi.
         if (! $result['sent']) {
             redirect_with('notif', 'Gagal mengirim kode OTP. Silakan coba lagi.', ci_route('siteman.otp.form_login_otp'));
         }
@@ -173,8 +179,9 @@ class AuthenticatedSessionController extends MY_Controller
             ],
         ]);
 
-        redirect_with('success', 'Kode OTP telah dikirim ke ' . ($user->otp_channel === 'email' ? 'email' : 'Telegram') . ' Anda.', ci_route('siteman.otp.verify_login'));
-    }
+        // Hanya kasus ini yang benar-benar mengirim OTP; response message tetap identik.
+        return redirect_with('notif', $genericMessage, ci_route('siteman.otp.verify_login'));
+}
 
     public function verify_login()
     {

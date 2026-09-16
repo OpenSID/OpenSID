@@ -122,7 +122,17 @@ class Pengguna extends Admin_Controller
             return redirect_with('error', 'Anda harus memverifikasi email sebelum mengaktifkan autentikasi dua faktor.', 'pengguna#2fa');
         }
 
-        $user->two_factor_enabled = $this->request['two_factor_enabled'];
+        $password = $this->request['konfirmasi_password'] ?? '';
+
+        if (empty($password)) {
+            return redirect_with('error', 'Password harus diisi untuk mengubah pengaturan keamanan.', 'pengguna#2fa');
+        }
+
+        if (! Hash::check($password, $user->password)) {
+            return redirect_with('error', 'Password yang Anda masukkan tidak sesuai.', 'pengguna#2fa');
+        }
+
+        $user->two_factor_enabled = (int) $this->request['two_factor_enabled'];
         $user->save();
 
         return redirect_with('success', 'Pengaturan keamanan berhasil diperbarui.', 'pengguna#2fa');

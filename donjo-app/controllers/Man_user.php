@@ -148,9 +148,14 @@ class Man_user extends Admin_Controller
             $data['wilayah'] = Wilayah::tree();
         }
 
-        $data['user_group'] = UserGrup::status()->when(super_admin() == $id, static function ($query): void {
-                                            $query->where('slug', UserGrup::ADMINISTRATOR);
-                                        })->get(['id', 'nama']);
+        $data['user_group'] = UserGrup::status()
+            ->when(super_admin() == $id, static function ($query): void {
+                $query->where('slug', UserGrup::ADMINISTRATOR);
+            })
+            ->when(! is_super_admin(), static function ($query): void {
+                $query->where('slug', '!=', UserGrup::ADMINISTRATOR);
+            })
+            ->get(['id', 'nama']);
         $data['akses']               = (new UserGrup())->getGrupSistem();
         $data['pamong']              = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
         $data['notifikasi_telegram'] = setting('telegram_notifikasi');
@@ -309,13 +314,22 @@ class Man_user extends Admin_Controller
     protected function validate($request = [], $id = ''): array
     {
         $isSuperAdmin = $id && (int) $id === super_admin();
+        // Cegah privilege escalation: hanya Super Admin yang boleh menetapkan grup Administrator
+        $idGrupRequest = $request['id_grup'] ?? null;
+        if (! empty($idGrupRequest)) {
+            $adminGrupId = UserGrup::where('slug', UserGrup::ADMINISTRATOR)->value('id');
+
+            if ((int) $idGrupRequest === (int) $adminGrupId && ! is_super_admin()) {
+                redirect_with('error', 'Hanya Super Admin yang dapat menetapkan grup Administrator.');
+            }
+        }
         $data         = [
             'active'         => $isSuperAdmin ? 1 : (int) ($request['aktif'] ?? 0),
             'username'       => isset($request['username']) ? alfanumerik($request['username']) : null,
             'nama'           => isset($request['nama']) ? strip_tags((string) nama($request['nama'])) : null,
             'phone'          => isset($request['phone']) ? htmlentities((string) $request['phone']) : null,
             'email'          => empty($request['email']) ? null : htmlentities((string) $request['email']),
-            'id_grup'        => $request['id_grup'] ?? null,
+            'id_grup'        => $idGrupRequest,
             'pamong_id'      => empty($request['pamong_id']) ? null : $request['pamong_id'],
             'foto'           => isset($request['foto']) ? $this->urusFoto($id) : null,
             'notif_telegram' => (int) ($request['notif_telegram'] ?? 0),
