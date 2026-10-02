@@ -449,27 +449,103 @@ function isMobile()
 }
 
 /*
-Deteksi file berisi script PHP:
--- extension .php
--- berisi string '<?php', '<script', function, __halt_compiler,<html
-Perhatian: string '<?', '<%' tidak bisa digunakan sebagai indikator,
-karena file image dan PDF juga mengandung string ini.
+Deteksi file berisi script PHP atau script berbahaya:
+-- extension PHP (.php, .phtml, .php5, .phar, dll.) dan file konfigurasi (.htaccess, .user.ini, web.config)
+-- double extension yang mengandung ekstensi PHP (misal: file.php.jpg)
+-- file null-byte injection
+-- konten berisi script PHP (<?php, <?=, <? dengan kode/whitespace, <script, __halt_compiler, <html)
+-- direktif konfigurasi server / handler PHP
 */
 function isPHP($file, $filename): bool
 {
-    $ext = get_extension($filename);
-    if ($ext === '.php') {
-        return true;
+    // 1. Validasi nama file dan ekstensi berbahaya
+    if (! empty($filename) && is_string($filename)) {
+        // Cek null-byte injection
+        if (strpos($filename, "\0") !== false) {
+            return true;
+        }
+
+        $clean_filename = strtolower(trim($filename));
+        $basename       = basename(str_replace('\\', '/', $clean_filename));
+
+        // File konfigurasi server yang dapat mengubah eksekusi skrip
+        $dangerous_filenames = [
+            '.htaccess',
+            '.htpasswd',
+            '.user.ini',
+            'web.config',
+        ];
+
+        if (in_array($basename, $dangerous_filenames, true)) {
+            return true;
+        }
+
+        // Ekstensi yang dapat dieksekusi sebagai PHP / script di server
+        $dangerous_extensions = [
+            'php', 'php2', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8',
+            'pht', 'phpt', 'phtml', 'phar', 'phps', 'pgif',
+            'shtml', 'inc', 'hphp', 'ctp', 'module',
+        ];
+
+        $trimmed_name = rtrim($basename, ". \t\n\r\0\x0B");
+        $ext          = ltrim(pathinfo($trimmed_name, PATHINFO_EXTENSION), '.');
+
+        if (in_array($ext, $dangerous_extensions, true)) {
+            return true;
+        }
+
+        // Cek double/multiple extension (misal: shell.php.jpg atau shell.phtml.png)
+        $parts = explode('.', $trimmed_name);
+        if (count($parts) > 2) {
+            array_shift($parts); // Hapus nama utama file
+            foreach ($parts as $part) {
+                if (in_array($part, $dangerous_extensions, true)) {
+                    return true;
+                }
+            }
+        }
     }
 
-    $handle = fopen($file, 'rb');
-    $buffer = stream_get_contents($handle);
-    if (preg_match('/<\?php|<script|__halt_compiler|<html/i', $buffer)) {
+    // 2. Validasi konten file
+    if (! empty($file) && is_string($file) && is_file($file) && is_readable($file)) {
+        $handle = @fopen($file, 'rb');
+        if ($handle === false) {
+            return false;
+        }
+
+        $chunk_size = 65536; // 64 KB
+        $overlap    = 1024;  // 1 KB overlap untuk mencegah pola terpotong di batas chunk
+        $prev       = '';
+
+        while (! feof($handle)) {
+            $chunk = fread($handle, $chunk_size);
+            if ($chunk === false) {
+                break;
+            }
+
+            $buffer = $prev . $chunk;
+
+            // Deteksi tag PHP, short tags, script, dan konfigurasi server
+            if (
+                preg_match('/<\?php/i', $buffer)
+                || preg_match('/<\s*(script|html)/i', $buffer)
+                || preg_match('/__halt_compiler\s*\(/i', $buffer)
+                || preg_match('/<\?=\s*[\$a-zA-Z_\x7f-\xff\'"`\(\\\{\[0-9\-+!@~][\x20-\x7e\t\r\n]{0,500}?(?:\?>|;|\$)/is', $buffer)
+                || preg_match('/<\?(?!xml\b|xpacket\b)[\s\r\n\t]+[\x20-\x7e\t\r\n]{0,500}?(?:\?>|;|\$)/is', $buffer)
+                || preg_match('/<\?(?!xml\b|xpacket\b)(?:system|eval|assert|passthru|exec|shell_exec|include|require|echo|print|var_dump|\$[a-zA-Z_\x7f-\xff])[\x20-\x7e\t\r\n]{0,500}?(?:\?>|;|\$)/is', $buffer)
+                || preg_match('/(?:SetHandler|AddType|AddHandler)\s+application\/x-httpd-php/i', $buffer)
+                || preg_match('/php_flag|php_value|auto_prepend_file|auto_append_file/i', $buffer)
+            ) {
+                fclose($handle);
+
+                return true;
+            }
+
+            $prev = substr($chunk, -$overlap);
+        }
+
         fclose($handle);
-
-        return true;
     }
-    fclose($handle);
 
     return false;
 }
