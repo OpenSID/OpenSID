@@ -1983,6 +1983,12 @@ Route::group('plugin', static function (): void {
     Route::post('/hapus', 'Plugin@hapus')->name('plugin.hapus');
 });
 
+// Pengaturan Surat > Lampiran (aksi hapus hanya lewat POST)
+Route::group('lampiran', static function (): void {
+    Route::post('/delete/{id?}', 'Lampiran@delete')->name('lampiran.delete');
+    Route::post('/delete_all', 'Lampiran@delete_all')->name('lampiran.delete_all');
+});
+
 // Pengaturan > Shortcut
 Route::group('shortcut', static function (): void {
     Route::get('/', 'Shortcut@index')->name('shortcut.index');

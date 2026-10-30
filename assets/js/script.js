@@ -349,9 +349,20 @@ $(document).ready(function() {
         var hasil2 = string2.replace("Konfirmasi", "&nbspKonfirmasi");
         document.getElementById("confirm-delete").innerHTML = hasil2;
         $(this).find(".btn-ok").attr("href", $(e.relatedTarget).data("href"));
+        $(this).data("method", String($(e.relatedTarget).data("method") || "GET").toUpperCase());
     });
 
-   
+    // Tombol pemicu ber-data-method="POST" dikirim sebagai form POST + CSRF, bukan navigasi GET.
+    $("#confirm-delete").on("click", ".btn-ok", function(e) {
+        var href = $(this).attr("href");
+        if ($("#confirm-delete").data("method") !== "POST" || !href || href === "#") {
+            return;
+        }
+        e.preventDefault();
+        var form = $("<form>", { method: "POST", action: href }).appendTo("body");
+        addCsrfField(form[0]);
+        form.submit();
+    });
 
     $("#confirm-status").on("show.bs.modal", function(e) {
         $(this).find(".btn-ok").attr("href", $(e.relatedTarget).data("href"));
