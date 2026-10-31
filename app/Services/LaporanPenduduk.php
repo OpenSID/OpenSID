@@ -771,7 +771,11 @@ class LaporanPenduduk
                 break;
 
             default:
-                return $this->select_jml_penduduk_per_kategori($statistik_penduduk['0']['id_referensi'], $statistik_penduduk['0']['tabel_referensi'])->get();
+                if (! empty($statistik_penduduk[0]['id_referensi']) && ! empty($statistik_penduduk[0]['tabel_referensi'])) {
+                    return $this->select_jml_penduduk_per_kategori($statistik_penduduk[0]['id_referensi'], $statistik_penduduk[0]['tabel_referensi'])->get();
+                }
+
+                return collect([]);
         }
 
         return true;

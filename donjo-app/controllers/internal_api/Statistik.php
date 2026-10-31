@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\Statistik\StatistikEnum;
+use App\Enums\Statistik\StatistikJenisBantuanEnum;
 use App\Enums\StatusEnum;
 use App\Http\Transformers\StatistikTransformer;
 use App\Repositories\StatistikRepository;
@@ -45,6 +47,14 @@ class Statistik extends Api_Controller
 {
     public function index($slug)
     {
+        $key = $this->getKeyFromSlug($slug);
+        if ($key === null) {
+            return json([
+                'status'  => 'error',
+                'message' => 'Kategori statistik tidak ditemukan',
+            ], 404);
+        }
+
         $statistik = new StatistikRepository();
         $tahun     = request('tahun');
         $filter    = [
@@ -55,8 +65,32 @@ class Statistik extends Api_Controller
             $filter['tahun'] = $tahun;
         }
 
-        $data = $statistik->sumberData($slug, $filter);
+        $data = $statistik->sumberData($key, $filter);
 
         return json($this->fractal($data, new StatistikTransformer(), 'statistik'));
+    }
+
+    private function getKeyFromSlug($slug)
+    {
+        $key = StatistikEnum::keyFromSlug($slug) ?? StatistikJenisBantuanEnum::keyFromSlug($slug);
+        if ($key !== null && $key !== '') {
+            return $key;
+        }
+
+        // Cek jika parameter sudah berupa key terdaftar (numerik atau string key)
+        if (in_array((string) $slug, array_map('strval', array_keys(StatistikEnum::allStatistikMerge())), true)) {
+            return $slug;
+        }
+
+        if (in_array((string) $slug, array_map('strval', array_keys(StatistikJenisBantuanEnum::allKeyLabel())), true)) {
+            return $slug;
+        }
+
+        // Program bantuan berbentuk '50<program_id>'
+        if ((int) $slug > 50 && substr((string) $slug, 0, 2) === '50') {
+            return $slug;
+        }
+
+        return null;
     }
 }
