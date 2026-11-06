@@ -56,9 +56,23 @@ class Keuangan
 
             $data['jenis_pelaksanaan'] = collect($filteredAkun)->map(static fn ($val, $key) => ['Akun' => $key, 'Nama_Akun' => $val])->toArray();
 
-            $data['anggaran']             = ModelsKeuangan::selectRaw('LEFT(template_uuid, 2) AS jenis_pelaksanaan, SUM(anggaran) AS pagu')->whereRaw('length(template_uuid) >= 8')->where('tahun', $tahun)->groupBy('tahun')->groupBy('jenis_pelaksanaan')->get()->toArray();
+            $r_bd_data             = $this->r_bd_widget($tahun, $opt);
+            $totalBelanjaPagu      = array_sum(array_column($r_bd_data['anggaran'], 'pagu'));
+            $totalBelanjaRealisasi = array_sum(array_column($r_bd_data['realisasi_belanja'], 'realisasi'));
+
+            $data['anggaran']             = ModelsKeuangan::selectRaw('LEFT(template_uuid, 2) AS jenis_pelaksanaan, SUM(anggaran) AS pagu')->whereRaw('length(template_uuid) >= 8')->where('tahun', $tahun)->where('template_uuid', 'not like', KeuanganRefRek1Enum::BELANJA . '%')->groupBy('tahun')->groupBy('jenis_pelaksanaan')->get()->toArray();
+            $data['anggaran'][]           = [
+                'jenis_pelaksanaan' => KeuanganRefRek1Enum::BELANJA . '.',
+                'pagu'              => (float) $totalBelanjaPagu,
+            ];
+
             $data['realisasi_pendapatan'] = ModelsKeuangan::selectRaw('LEFT(template_uuid, 2) AS jenis_pelaksanaan, SUM(realisasi) AS realisasi')->whereRaw('length(template_uuid) >= 8')->where('tahun', $tahun)->groupBy('tahun')->groupBy('jenis_pelaksanaan')->get()->toArray();
-            $data['realisasi_belanja']    = ModelsKeuangan::selectRaw('LEFT(template_uuid, 2) AS jenis_pelaksanaan, SUM(realisasi) AS realisasi')->whereRaw('length(template_uuid) >= 8')->where('tahun', $tahun)->where('template_uuid', 'like', KeuanganRefRek1Enum::BELANJA . '%')->groupBy('tahun')->groupBy('jenis_pelaksanaan')->get()->toArray();
+            $data['realisasi_belanja']    = [
+                [
+                    'jenis_pelaksanaan' => KeuanganRefRek1Enum::BELANJA . '.',
+                    'realisasi'         => (float) $totalBelanjaRealisasi,
+                ],
+            ];
             $data['pembiayaan_keluar']    = [['Akun' => KeuanganRefRek1Enum::PEMBIAYAAN, 'Nama_Akun' => KeuanganRefRek1Enum::valueOf(KeuanganRefRek1Enum::PEMBIAYAAN)]];
 
             foreach ($data['pembiayaan_keluar'] as $i => $p) {
@@ -97,27 +111,63 @@ class Keuangan
         public function r_bd_widget($tahun, $opt = false)
         {
             $obj = KeuanganTemplate::select(['uuid as Kd_Bid', 'uraian as Nama_Bidang']);
-            // if ($opt) {
-            //     $obj->whereNotIn('uuid',['5.1', '5.2', '5.3']);
-            // } else {
-            //     $obj->whereNotIn('uuid',['5.1']);
-            // }
             $obj->where('parent_uuid', '5');
             $obj->orderBy('uuid', 'asc');
-            $data['jenis_belanja'] = $obj->get()->map(static function ($item) {
+            $bidangItems = $obj->get();
+
+            $data['jenis_belanja'] = $bidangItems->map(static function ($item) {
                 $item->Nama_Bidang = BidangBelanjaEnum::valueOf(substr($item->Kd_Bid, -1));
 
                 return $item;
             })->toArray();
-            // Perlu ditambahkan baris berikut untuk memaksa menampilkan semua bidang di grafik keuangan
-            // TODO: lihat apakah bisa diatasi langsung di script penampilan
-            if (! $opt) {
-                array_unshift($data['jenis_belanja'], ['Kd_Bid' => '03', 'Nama_Bidang' => 'ROW_SPACER']);
-                array_unshift($data['jenis_belanja'], ['Kd_Bid' => '02', 'Nama_Bidang' => 'ROW_SPACER']);
-            }
 
-            $data['anggaran']          = ModelsKeuangan::selectRaw('LEFT(template_uuid, 3) AS jenis_belanja, SUM(anggaran) AS pagu')->whereRaw('length(template_uuid) >= 8 and template_uuid like \'5.%\'')->groupBy('jenis_belanja')->where('tahun', $tahun)->get()->toArray();
-            $data['realisasi_belanja'] = ModelsKeuangan::selectRaw('LEFT(template_uuid, 3) AS jenis_belanja, SUM(realisasi) AS realisasi')->whereRaw('length(template_uuid) >= 8 and template_uuid like \'5.%\'')->groupBy('jenis_belanja')->where('tahun', $tahun)->get()->toArray();
+            $data['anggaran']          = [];
+            $data['realisasi_belanja'] = [];
+
+            foreach ($bidangItems as $item) {
+                $pagu = ModelsKeuangan::where('template_uuid', 'like', "{$item->Kd_Bid}%")
+                    ->whereRaw('length(template_uuid) >= 8')
+                    ->where('tahun', $tahun)
+                    ->sum('anggaran');
+
+                if ($pagu == 0) {
+                    $pagu = ModelsKeuangan::where('template_uuid', 'like', "{$item->Kd_Bid}%")
+                        ->whereRaw('length(template_uuid) = 5')
+                        ->where('tahun', $tahun)
+                        ->sum('anggaran');
+                }
+                if ($pagu == 0) {
+                    $pagu = ModelsKeuangan::where('template_uuid', $item->Kd_Bid)
+                        ->where('tahun', $tahun)
+                        ->value('anggaran') ?? 0;
+                }
+
+                $realisasi = ModelsKeuangan::where('template_uuid', 'like', "{$item->Kd_Bid}%")
+                    ->whereRaw('length(template_uuid) >= 8')
+                    ->where('tahun', $tahun)
+                    ->sum('realisasi');
+
+                if ($realisasi == 0) {
+                    $realisasi = ModelsKeuangan::where('template_uuid', 'like', "{$item->Kd_Bid}%")
+                        ->whereRaw('length(template_uuid) = 5')
+                        ->where('tahun', $tahun)
+                        ->sum('realisasi');
+                }
+                if ($realisasi == 0) {
+                    $realisasi = ModelsKeuangan::where('template_uuid', $item->Kd_Bid)
+                        ->where('tahun', $tahun)
+                        ->value('realisasi') ?? 0;
+                }
+
+                $data['anggaran'][] = [
+                    'jenis_belanja' => $item->Kd_Bid,
+                    'pagu'          => (float) $pagu,
+                ];
+                $data['realisasi_belanja'][] = [
+                    'jenis_belanja' => $item->Kd_Bid,
+                    'realisasi'     => (float) $realisasi,
+                ];
+            }
 
             return $data;
         }
@@ -263,13 +313,15 @@ class Keuangan
 
         private function data_widget_belanja($tahun, bool $opt = false)
         {
-            if ($opt) {
-                $raw_data    = $this->r_bd_widget($tahun, $opt = true);
-                $res_belanja = [];
-                $tmp_belanja = [];
+            $raw_data    = $this->r_bd_widget($tahun, $opt);
+            $res_belanja = [];
+            $tmp_belanja = [];
 
+            if ($opt) {
                 foreach ($raw_data['jenis_belanja'] as $r) {
-                    $tmp_belanja[$r['Kd_Bid']]['nama'] = $r['Nama_Bidang'];
+                    $tmp_belanja[$r['Kd_Bid']]['nama']      = $r['Nama_Bidang'];
+                    $tmp_belanja[$r['Kd_Bid']]['anggaran']  = 0;
+                    $tmp_belanja[$r['Kd_Bid']]['realisasi'] = 0;
                 }
 
                 foreach ($raw_data['anggaran'] as $r) {
@@ -280,12 +332,10 @@ class Keuangan
                     $tmp_belanja[$r['jenis_belanja']]['realisasi'] = ($r['realisasi'] ?: 0);
                 }
             } else {
-                $raw_data    = $this->r_bd_widget($tahun, $opt = false);
-                $res_belanja = [];
-                $tmp_belanja = [];
-
                 foreach ($raw_data['jenis_belanja'] as $r) {
-                    $tmp_belanja[$r['Kd_Bid']]['nama'] = $r['Nama_Bidang'];
+                    $tmp_belanja[$r['Kd_Bid']]['nama']              = $r['Nama_Bidang'];
+                    $tmp_belanja[$r['Kd_Bid']]['anggaran']          = 0;
+                    $tmp_belanja[$r['Kd_Bid']]['realisasi_belanja'] = 0;
                 }
 
                 foreach ($raw_data['anggaran'] as $r) {
@@ -479,17 +529,14 @@ class Keuangan
             if (! is_array($raw)) {
                 return;
             }
-            if ($raw['nama'] === 'PEMBIAYAAN') {
-                // $penerimaan_pembiayaan   = $raw['realisasi'] + $raw['realisasi_pendapatan'] + ($raw['realisasi_belanja'] - $raw['realisasi_belanja_um']) + $raw['realisasi_belanja_spj'] + $raw['realisasi_bunga'] + $raw['realisasi_jurnal'] + $raw['realisasi_biaya'];
-                // $pengeluaraan_pembiayaan = $raw['anggaran'] - $penerimaan_pembiayaan;
+            if (($raw['nama'] ?? '') === 'PEMBIAYAAN') {
+                $pembiayaan_keluar = $raw['pembiayaan_keluar'][0]['sub_pembiayaan_keluar'][0] ?? [];
 
-                $pembiayaan_keluar = $raw['pembiayaan_keluar'][0]['sub_pembiayaan_keluar'][0];
-
-                $data['anggaran']  = $raw['anggaran'] - $pembiayaan_keluar['anggaran'][0]['pagu'];
-                $data['realisasi'] = $raw['realisasi_pendapatan'] - $pembiayaan_keluar['realisasi'][0]['realisasi'];
+                $data['anggaran']  = ($raw['anggaran'] ?? 0) - ($pembiayaan_keluar['anggaran'][0]['pagu'] ?? 0);
+                $data['realisasi'] = ($raw['realisasi_pendapatan'] ?? 0) - ($pembiayaan_keluar['realisasi'][0]['realisasi'] ?? 0);
             } else {
-                $data['anggaran']  = $raw['anggaran'];
-                $data['realisasi'] = $raw['realisasi'] + $raw['realisasi_pendapatan'] + ($raw['realisasi_belanja'] - $raw['realisasi_belanja_um']) + $raw['realisasi_belanja_spj'] + $raw['realisasi_bunga'] + $raw['realisasi_jurnal'] + $raw['realisasi_biaya'] + $raw['realisasi_belanja_jurnal'];
+                $data['anggaran']  = $raw['anggaran'] ?? 0;
+                $data['realisasi'] = ($raw['realisasi'] ?? 0) + ($raw['realisasi_pendapatan'] ?? 0) + (($raw['realisasi_belanja'] ?? 0) - ($raw['realisasi_belanja_um'] ?? 0)) + ($raw['realisasi_belanja_spj'] ?? 0) + ($raw['realisasi_bunga'] ?? 0) + ($raw['realisasi_jurnal'] ?? 0) + ($raw['realisasi_biaya'] ?? 0) + ($raw['realisasi_belanja_jurnal'] ?? 0);
             }
 
             if ($data['anggaran'] != 0 && $data['realisasi'] != 0) {
