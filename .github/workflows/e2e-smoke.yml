@@ -89,6 +89,11 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Composer install
+        env:
+          # Advisory CVE-2026-48019 (PKSA-zwc5-qtrz-zm1n) tak punya perbaikan di seri illuminate 10.x;
+          # tanpa ini composer menolak resolve kohort I. HANYA validasi CI; mitigasi kode ada di
+          # controller (not_regex CR/LF). Alasan: dokumentasi/RENCANA_RILIS_UMUM_2701_2709.md §6 (OpenSID/premium).
+          COMPOSER_NO_SECURITY_BLOCKING: '1'
         run: composer install --no-progress --prefer-dist --no-interaction
 
       # Provisioning DB HARUS tuntas SEBELUM Playwright menjalankan webServer:
