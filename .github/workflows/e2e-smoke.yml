@@ -25,7 +25,7 @@ permissions:
 jobs:
   smoke-2701:
     name: Smoke gate (2701+)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       CI_ENV: testing
