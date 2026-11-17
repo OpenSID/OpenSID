@@ -135,40 +135,47 @@ class Tte extends Tte_Controller
                 'nama_surat' => $data->nama_surat,
             ]);
 
-            return json([
+            $successData = [
                 'status'     => true,
                 'pesan'      => 'TTE Surat Berhasil',
                 'id_surat'   => $data->id,
                 'no_surat'   => $data->no_surat,
                 'nama_surat' => $data->nama_surat,
-            ]);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
+            ];
+
+            return response(json_encode($successData), 200, ['Content-Type' => 'application/json'])->send();
+        } catch (GuzzleHttp\Exception\RequestException $e) {
             log_message('error', $e);
 
             DB::rollback();
-            $errorMessage = $e->getResponse()->getBody()->getContents() ?: $e->getMessage();
-            $typeError    = 'ClientException';
+            $statusCode   = $e->getResponse()->getStatusCode();
+            $errorMessage = $e->getResponse()->getBody()->getContents();
+            $typeError    = 'RequestException';
         } catch (Exception $e) {
             log_message('error', $e);
+
             DB::rollback();
             $errorMessage = $e->getMessage();
+            $statusCode   = 500;
             $typeError    = 'Exception';
         }
-            // periksa apakah ada error pada response
-            if ($typeError || $errorMessage) {
-                $this->logActivity('TTE', 'sign_invisible', 'TTE Surat Gagal', [
-                    'id_surat'    => $data->id,
-                    'no_surat'    => $data->no_surat,
-                    'nama_surat'  => $data->nama_surat,
-                    'pesan'       => $errorMessage,
-                    'jenis_error' => $typeError ?: 'UnknownError',
-                ]);
 
-                return $this->response([
-                    'pesan'       => $errorMessage ?: 'TTE Surat Gagal',
-                    'jenis_error' => $typeError ?: 'UnknownError',
-                ]);
-            }
+        // periksa apakah ada error pada response
+        if ($typeError || $errorMessage) {
+            $this->logActivity('TTE', 'sign_invisible', 'TTE Surat Gagal', [
+                'id_surat'    => $data->id ?? null,
+                'no_surat'    => $data->no_surat ?? null,
+                'nama_surat'  => $data->nama_surat ?? null,
+                'pesan'       => $errorMessage,
+                'jenis_error' => $typeError ?: 'UnknownError',
+            ]);
+
+            return $this->sendJsonResponse(
+                $errorMessage,
+                $statusCode ?? 422,
+                $typeError ?: 'UnknownError'
+            );
+        }
 
     }
 
@@ -246,39 +253,45 @@ class Tte extends Tte_Controller
                 'nama_surat' => $data->nama_surat,
             ]);
 
-            return json([
+            $successData = [
                 'status'     => true,
                 'pesan'      => 'TTE Surat Berhasil',
                 'id_surat'   => $data->id,
                 'no_surat'   => $data->no_surat,
                 'nama_surat' => $data->nama_surat,
-            ]);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
-            log_message('error', $e->getMessage());
+            ];
+
+            return response(json_encode($successData), 200, ['Content-Type' => 'application/json'])->send();
+        } catch (GuzzleHttp\Exception\RequestException $e) {
+            log_message('error', $e);
 
             DB::rollback();
-            $errorMessage = $e->getResponse()->getBody()->getContents() ?: $e->getMessage();
-            $typeError    = 'ClientException';
+            $statusCode   = $e->getResponse()->getStatusCode();
+            $errorMessage = $e->getResponse()->getBody()->getContents();
+            $typeError    = 'RequestException';
         } catch (Exception $e) {
             log_message('error', $e);
+
             DB::rollback();
             $errorMessage = $e->getMessage();
+            $statusCode   = 500;
             $typeError    = 'Exception';
         }
-            // periksa apakah ada error pada response
+        // periksa apakah ada error pada response
         if ($typeError || $errorMessage) {
             $this->logActivity('TTE', 'sign_visible', 'TTE Surat Gagal', [
-                'id_surat'    => $data->id,
-                'no_surat'    => $data->no_surat,
-                'nama_surat'  => $data->nama_surat,
+                'id_surat'    => $data->id ?? null,
+                'no_surat'    => $data->no_surat ?? null,
+                'nama_surat'  => $data->nama_surat ?? null,
                 'pesan'       => $errorMessage,
                 'jenis_error' => $typeError ?: 'UnknownError',
             ]);
 
-            return $this->response([
-                'pesan'       => $errorMessage ?: 'TTE Surat Gagal',
-                'jenis_error' => $typeError ?: 'UnknownError',
-            ]);
+            return $this->sendJsonResponse(
+                $errorMessage,
+                $statusCode ?? 422,
+                $typeError ?: 'UnknownError'
+            );
         }
 
     }
@@ -294,27 +307,24 @@ class Tte extends Tte_Controller
     }
 
     /**
-     * Generate response dan log.
+     * Kirim JSON response dengan proper HTTP status code.
      *
-     * @param array $notif
+     * @param string $message      Response dari ClientException (JSON dari BSrE)
+     * @param int    $httpCode     HTTP status code
+     * @param string $errorType    Jenis error untuk logging
      *
      * @return object
      */
-    protected function response($notif = [])
+    private function sendJsonResponse(string $message, int $httpCode = 422, string $errorType = '')
     {
+        // Log error ke database
         LogTte::create([
-            'message'     => $notif['pesan'],
-            'jenis_error' => $notif['jenis_error'],
+            'message'     => $message,
+            'jenis_error' => $errorType,
         ]);
 
-        $message = $notif['pesan'] ?? 'TTE Surat Gagal';
-        $code    = $notif['code'] ?? 422;
-
-        header(sprintf('HTTP/1.1 %d %s', $code, $message), true, $code);
-        header('Content-Type: text/plain; charset=utf-8');
-        echo $message;
-
-        exit;
+        // Teruskan response langsung dari exception ke client
+        return response($message, $httpCode, ['Content-Type' => 'application/json'])->send();
     }
 
     private function logActivity(string $logName, $event, $description, $property): void

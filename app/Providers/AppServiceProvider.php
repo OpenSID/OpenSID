@@ -71,6 +71,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Services\Mandiri\PenentuanMasukMandiri::class);
         $this->app->singleton(\App\Services\Mandiri\TokenPerangkatMandiri::class);
         $this->app->singleton(\App\Services\Telemetri\PelaporVersi::class);
+        // OpenSID/OpenSID#11931 Fase 3.5: seam ini hilang dari snapshot pipeline,
+        // menyebabkan Modules/Pelanggan (versi nyata, terus berevolusi independen)
+        // fatal saat boot -- ia memanggil PenyediaKunciFitur tanpa guard.
+        $this->app->singleton(\App\Services\Kapabilitas\PenyediaKunciFitur::class);
 
         // Pemilik tunggal siklus-hidup modul (add-on-agnostik).
         $this->app->singleton(\App\Services\Module\ModuleManager::class, static fn ($app) => new \App\Services\Module\ModuleManager(

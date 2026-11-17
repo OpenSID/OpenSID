@@ -85,7 +85,7 @@ class PendudukOpendkExport
             ['Tanggal Perkawinan', 'tanggal_perkawinan'],
             ['Nomor Akta Perceraian', 'nomor_akta_perceraian'],
             ['Tanggal Perceraian', 'tanggal_perceraian'],
-            ['Cacat', 'cacat'],
+            ['Disabilitas', 'cacat'],
             ['Cara KB', 'cara_kb'],
             ['Hamil', 'hamil'],
             ['KTP-el', 'ktp_el'],

@@ -457,7 +457,6 @@ class Keluarga extends BaseModel
 
         $pend->no_kk_sebelumnya = $no_kk_sebelumnya; // Tidak simpan no kk kalau keluar dari keluarga
         $pend->id_kk            = null;
-        $pend->kk_level         = SHDKEnum::LAINNYA;
         $pend->updated_at       = date('Y-m-d H:i:s');
         $pend->updated_by       = ci_auth()->id;
         $pend->save();

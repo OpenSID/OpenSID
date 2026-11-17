@@ -43,6 +43,8 @@ use App\Console\Commands\DesaBaruCommand;
 use App\Console\Commands\ModuleCommand;
 use App\Console\Commands\Modules\MigrationMakeCommand;
 use App\Console\Commands\Modules\SeedMakeCommand;
+use App\Console\Commands\PasangModulUji;
+use App\Console\Commands\PasangTemaUji;
 use App\Console\Commands\SetupCommand;
 use App\Console\Commands\ViewClearCommand;
 use App\Exceptions\Handler;
@@ -101,6 +103,9 @@ class Kernel implements KernelContract
         SetupCommand::class,
         ViewClearCommand::class,
         DeactivateInactiveAccounts::class,
+        // OpenSID/OpenSID#11931 Fase 3.5: test-support, lihat additions/app/Console/Commands.
+        PasangModulUji::class,
+        PasangTemaUji::class,
     ];
 
     /**

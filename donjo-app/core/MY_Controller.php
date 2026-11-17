@@ -116,6 +116,21 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
 
+        // OpenSID/OpenSID#11931 Fase 3.5: daftarkan instance controller yang
+        // BARU SELESAI dikonstruksi ke container Laravel SEBELUM baris apa pun
+        // di bawah ini yang bisa memicu add-on (mis. checkMigration() ->
+        // PenjagaPermintaan -> Modules\Pelanggan\Services\CekService) meminta
+        // app()->make(\CI_Controller::class). Tanpanya, permintaan itu mencoba
+        // membangun instance CI_Controller BARU lewat reflection container --
+        // konstruksi kedua yang bertumpuk itu fatal di load_class('Session')
+        // (Session dimuat lewat mekanisme khusus $this->load->library(), bukan
+        // load_class() generik yang dipanggil ulang oleh foreach(is_loaded())
+        // di CI_Controller::__construct() -- construction pertama aman karena
+        // urutan normal, construction kedua/bertumpuk ini yang gagal).
+        if (! app()->bound(\CI_Controller::class)) {
+            app()->instance(\CI_Controller::class, $this);
+        }
+
         if ($this->middleware === null) {
             $this->middleware = new OpenSID\Middleware();
         }
@@ -329,21 +344,17 @@ class MY_Controller extends CI_Controller
      */
     private function cekAnjungan(): array
     {
-        $ip           = $this->input->ip_address();
         $macAddress   = $this->session->mac_address;
         $anjunganUuid = $this->session->anjungan_uuid;
 
         try {
             $data = DB::table('anjungan')
-                ->where(static function ($query) use ($macAddress, $ip, $anjunganUuid) {
+                ->where(static function ($query) use ($macAddress, $anjunganUuid) {
                     if ($macAddress) {
                         $query->orWhere('mac_address', $macAddress);
                     }
                     if ($anjunganUuid) {
                         $query->orWhere('uuid', $anjunganUuid);
-                    }
-                    if ($ip) {
-                        $query->orWhere('ip_address', $ip);
                     }
                 })
                 ->where('status', StatusEnum::YA)

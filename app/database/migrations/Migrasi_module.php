@@ -51,10 +51,7 @@ return new class () extends Migration {
         $modules     = File::directories($modulesPath);
 
         foreach ($modules as $modulePath) {
-            if (in_array($module = basename($modulePath), MODUL_BAWAAN)) {
-                continue;
-            }
-
+            $module = basename($modulePath);
             $this->jalankanMigrasiModule($module);
         }
     }

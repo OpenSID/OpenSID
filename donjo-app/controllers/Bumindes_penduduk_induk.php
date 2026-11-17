@@ -58,12 +58,9 @@ class Bumindes_penduduk_induk extends Admin_Controller
 
     public function index()
     {
-        $data['selectedNav'] = 'induk';
-        $data['subtitle']    = 'Buku Induk Penduduk';
         $data['tahun']       = LogPenduduk::tahun()->pluck('tahun');
-        $data['mainContent'] = 'admin.bumindes.penduduk.induk.index';
 
-        return view('admin.bumindes.penduduk.index', $data);
+        return view('admin.bumindes.penduduk.induk.index', $data);
     }
 
     public function datatables()

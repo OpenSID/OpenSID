@@ -680,7 +680,10 @@ function qrcode_generate(array $qrcode = [], $base64 = false): string
     file_put_contents($filename, $imgData);
 
     //Ubah backround transparan ke warna putih supaya terbaca qrcode scanner
-    $src_qr    = imagecreatefrompng($filename);
+    $src_qr = imagecreatefrompng($filename);
+    if (! $src_qr) {
+        throw new Exception('Failed to create image from QR code PNG');
+    }
     $sizeqrx   = imagesx($src_qr);
     $sizeqry   = imagesy($src_qr);
     $backcol   = imagecreatetruecolor($sizeqrx, $sizeqry);
@@ -693,23 +696,33 @@ function qrcode_generate(array $qrcode = [], $base64 = false): string
     imagedestroy($src_qr);
     imagedestroy($backcol);
 
-    //Tambah Logo
+    //Tambah Logo - skip jika logopath kosong
     $logopath = $qrcode['logoqr']; // Logo yg tampil di tengah QRCode
-    $QR       = imagecreatefrompng($filename);
-    $logo     = imagecreatefromstring(file_get_contents($logopath));
-    imagecolortransparent($logo, imagecolorallocatealpha($logo, 0, 0, 0, 127));
-    imagealphablending($logo, false);
-    imagesavealpha($logo, true);
-    $QR_width       = imagesx($QR);
-    $logo_width     = imagesx($logo);
-    $logo_height    = imagesy($logo);
-    $logo_qr_width  = $QR_width / 4;
-    $scale          = $logo_width / $logo_qr_width;
-    $logo_qr_height = $logo_height / $scale;
-    $from_width     = ($QR_width - $logo_qr_width) / 2;
-    imagecopyresampled($QR, $logo, $from_width, $from_width, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
-    imagepng($QR, $filename);
-    imagedestroy($QR);
+    if (! empty($logopath) && file_exists($logopath)) {
+        $QR   = imagecreatefrompng($filename);
+        if (! $QR) {
+            throw new Exception('Failed to create image from QR code PNG for logo processing');
+        }
+        $logo = imagecreatefromstring(file_get_contents($logopath));
+        if (! $logo) {
+            imagedestroy($QR);
+            throw new Exception('Failed to create image from logo file');
+        }
+        imagecolortransparent($logo, imagecolorallocatealpha($logo, 0, 0, 0, 127));
+        imagealphablending($logo, false);
+        imagesavealpha($logo, true);
+        $QR_width       = imagesx($QR);
+        $logo_width     = imagesx($logo);
+        $logo_height    = imagesy($logo);
+        $logo_qr_width  = $QR_width / 4;
+        $scale          = $logo_width / $logo_qr_width;
+        $logo_qr_height = $logo_height / $scale;
+        $from_width     = ($QR_width - $logo_qr_width) / 2;
+        imagecopyresampled($QR, $logo, $from_width, $from_width, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
+        imagepng($QR, $filename);
+        imagedestroy($QR);
+        imagedestroy($logo);
+    }
 
     if ($base64) {
         return 'data:image/png;base64,' . base64_encode(file_get_contents($filename));

@@ -55,8 +55,8 @@ class Statistik extends Web_Controller
     public function index($slug = null)
     {
         $key = $this->getKeyFromSlug($slug);
-        $this->hak_akses_menu('statistik/' . $key);
 
+        $this->hak_akses_menu('statistik/' . $key);
         $label                   = StatistikEnum::labelFromSlug($slug) ?? StatistikJenisBantuanEnum::allKeyLabel()[$key];
         $data['heading']         = $label;
         $data['slug_aktif']      = $slug;
@@ -67,8 +67,13 @@ class Statistik extends Web_Controller
         $data['statistik_aktif'] = menu_statistik_aktif();
         $data['bantuan']         = $this->isBantuan($key);
         if ($data['bantuan']) {
+            $cekBantuan = Bantuan::where('id', substr($key, 2))->where('publikasi', StatusEnum::YA)->exists();
+
+            if (!$cekBantuan && (! in_array($key, array_keys(StatistikJenisBantuanEnum::allKeyLabel())))) {
+                show_404();
+            }
             $selectedTahun      = request()->get('tahun');
-            $data['list_tahun'] = Bantuan::status(StatusEnum::YA)->get(['sdate', 'edate'])->flatMap(static fn ($bantuan) => [
+            $data['list_tahun'] = Bantuan::where('publikasi', StatusEnum::YA)->get(['sdate', 'edate'])->flatMap(static fn ($bantuan) => [
                 date('Y', strtotime($bantuan->sdate)),
                 // date('Y', strtotime($bantuan->edate))
             ])->unique()->sortKeysDesc()->values();
@@ -111,7 +116,13 @@ class Statistik extends Web_Controller
 
     private function getKeyFromSlug($slug)
     {
-        $key = StatistikEnum::keyFromSlug($slug) ?? StatistikJenisBantuanEnum::keyFromSlug($slug);
+        if ($this->isBantuan($slug)) {
+            $key = StatistikJenisBantuanEnum::keyFromSlug($slug);
+
+            if ($key != '') return $key;
+        }
+
+        $key = StatistikEnum::keyFromSlug($slug);
         if ($key != '') return $key;
 
         return $slug;

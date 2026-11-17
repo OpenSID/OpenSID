@@ -58,12 +58,11 @@ use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
 use App\Models\Pengaduan;
 use App\Models\Point;
-use App\Models\SecurityReport;
 use App\Models\SettingAplikasi;
 use App\Models\Simbol;
 use App\Models\SinergiProgram;
 use App\Models\Widget;
-use App\Services\Security\FileIntegrityService;
+use Modules\Keamanan\Services\Security\FileIntegrityService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\PathTraversalDetected;
@@ -110,16 +109,18 @@ class Info_sistem extends Admin_Controller
         $data['pengguna_log']      = Activity::select('causer_type', 'causer_id')->distinct()->has('causer')->with('causer')->get()->pluck('causer.nama', 'causer_id');
         $data['disk']              = false;
 
-        // Security Scanner Info
-        try {
-            $integrityService = new FileIntegrityService();
-            $data['security'] = [
-                'baseline'      => $integrityService->getBaselineInfo(),
-                'pattern_stats' => $integrityService->getPatternStats(),
-            ];
-        } catch (Exception $e) {
-            logger()->error($e);
-            $data['security'] = null;
+        if (class_exists(FileIntegrityService::class)) {
+            // Security Scanner Info
+            try {
+                $integrityService = new FileIntegrityService();
+                $data['security'] = [
+                    'baseline'      => $integrityService->getBaselineInfo(),
+                    'pattern_stats' => $integrityService->getPatternStats(),
+                ];
+            } catch (Exception $e) {
+                logger()->error($e);
+                $data['security'] = null;
+            }
         }
 
         return view('admin.setting.info_sistem.index', $data);
@@ -389,300 +390,6 @@ class Info_sistem extends Admin_Controller
         }
         cache()->flush();
         redirect_with('success', 'File tidak valid telah diperbaiki');
-    }
-
-    /**
-     * Generate baseline untuk file integrity monitoring
-     */
-    public function security_generate_baseline()
-    {
-        isCan('u');
-
-        if ($this->input->is_ajax_request()) {
-            try {
-                $integrityService = new FileIntegrityService();
-
-                // Generate baseline (akan replace yang lama otomatis)
-                $result = $integrityService->generateBaseline();
-
-                return json([
-                    'success' => true,
-                    'message' => 'Baseline berhasil dibuat/diperbarui',
-                    'data'    => $result,
-                ]);
-            } catch (Exception $e) {
-                log_message('error', 'Generate Baseline Error: ' . $e->getMessage());
-
-                return json([
-                    'success' => false,
-                    'message' => 'Error: ' . $e->getMessage(),
-                ]);
-            }
-        }
-
-        redirect('info_sistem#keamanan');
-    }
-
-    /**
-     * Check integrity (compare dengan baseline)
-     */
-    public function security_check_integrity()
-    {
-        isCan('u');
-
-        if ($this->input->is_ajax_request()) {
-            try {
-                $integrityService = new FileIntegrityService();
-                $report           = $integrityService->checkIntegrity();
-
-                if (isset($report['error'])) {
-                    return json([
-                        'success' => false,
-                        'message' => $report['error'],
-                    ]);
-                }
-
-                // Save report
-                $reportFile = $integrityService->exportReport($report, 'integrity');
-
-                return json([
-                    'success'     => true,
-                    'message'     => 'Integrity check selesai',
-                    'data'        => $report,
-                    'report_file' => basename($reportFile),
-                ]);
-            } catch (Exception $e) {
-                log_message('error', 'Check Integrity Error: ' . $e->getMessage());
-
-                return json([
-                    'success' => false,
-                    'message' => 'Error: ' . $e->getMessage(),
-                ]);
-            }
-        }
-
-        redirect('info_sistem#keamanan');
-    }
-
-    /**
-     * Full scan folder desa/ untuk suspicious files
-     */
-    public function security_full_scan()
-    {
-        isCan('u');
-
-        if ($this->input->is_ajax_request()) {
-            try {
-                $integrityService = new FileIntegrityService();
-                $results          = $integrityService->fullScan();
-
-                // Save report
-                $reportFile = $integrityService->exportReport($results, 'scan');
-
-                return json([
-                    'success'     => true,
-                    'message'     => 'Scan selesai',
-                    'data'        => $results,
-                    'report_file' => basename($reportFile),
-                ]);
-            } catch (Exception $e) {
-                log_message('error', 'Full Scan Error: ' . $e->getMessage());
-
-                return json([
-                    'success' => false,
-                    'message' => 'Error: ' . $e->getMessage(),
-                ]);
-            }
-        }
-
-        redirect('info_sistem#keamanan');
-    }
-
-    /**
-     * Delete baseline
-     */
-    public function security_delete_baseline()
-    {
-        isCan('h');
-
-        if ($this->input->is_ajax_request()) {
-            try {
-                $integrityService = new FileIntegrityService();
-                $result           = $integrityService->deleteBaseline();
-
-                if ($result) {
-                    return json([
-                        'success' => true,
-                        'message' => 'Baseline berhasil dihapus',
-                    ]);
-                }
-
-                    return json([
-                        'success' => false,
-                        'message' => 'Baseline tidak ditemukan atau gagal dihapus',
-                    ]);
-
-            } catch (Exception $e) {
-                log_message('error', 'Delete Baseline Error: ' . $e->getMessage());
-
-                return json([
-                    'success' => false,
-                    'message' => 'Error: ' . $e->getMessage(),
-                ]);
-            }
-        }
-
-        redirect('info_sistem#keamanan');
-    }
-
-    /**
-     * List security reports (using DataTables with database)
-     */
-    public function security_reports()
-    {
-        isCan('b');
-        if ($this->input->is_ajax_request()) {
-            $type = $this->input->get('type');
-
-            $reports = SecurityReport::query()
-                ->when($type, static function ($query, $type) {
-                    $query->where('type', $type);
-                })
-                ->orderBy('created_at', 'desc');
-
-            return datatables()->eloquent($reports)
-                ->addIndexColumn()
-                ->editColumn('date', static fn ($report) => $report->scan_date)
-                ->editColumn('scan_type', static function ($report) {
-                    if ($report->scan_type === 'full') {
-                        return '<span class="label label-danger">Full Scan</span>';
-                    }
-                    if ($report->scan_type === 'integrity') {
-                        return '<span class="label label-warning">Integrity Check</span>';
-                    }
-
-                    return '<span class="label label-info">' . ucfirst($report->scan_type) . '</span>';
-                })
-                ->editColumn('total_files', static fn ($report) => '<strong>' . number_format($report->total_files) . '</strong>')
-                ->editColumn('suspicious_count', static function ($report) {
-                    $labelClass = $report->suspicious_count > 0 ? 'danger' : 'success';
-
-                    return '<span class="label label-' . $labelClass . '">' . $report->suspicious_count . '</span>';
-                })
-                ->editColumn('max_risk', static function ($report) {
-                    $maxRisk   = $report->max_risk;
-                    $riskClass = $maxRisk === 'CRITICAL' ? 'danger' :
-                                ($maxRisk === 'HIGH' ? 'warning' :
-                                ($maxRisk === 'MEDIUM' ? 'info' : 'success'));
-
-                    return '<span class="label label-' . $riskClass . '">' . $maxRisk . '</span>';
-                })
-                ->addColumn('aksi', static function ($report) {
-                    $aksi = '';
-                    $aksi .= '<button type="button" class="btn btn-info btn-sm" onclick="viewReport(\'' . $report->filename . '\')" title="Lihat Detail"><i class="fa fa-eye"></i></button> ';
-                    $aksi .= '<button type="button" class="btn btn-danger btn-sm" onclick="deleteReport(\'' . $report->filename . '\')" title="Hapus"><i class="fa fa-trash"></i></button> ';
-
-                    return $aksi;
-                })
-                ->rawColumns(['scan_type', 'total_files', 'suspicious_count', 'max_risk', 'aksi'])
-                ->make(true);
-        }
-        show_404();
-    }
-
-    /**
-     * View specific report
-     *
-     * @param mixed $filename
-     */
-    public function security_view_report($filename)
-    {
-        isCan('b');
-
-        try {
-            $integrityService = new FileIntegrityService();
-            $report           = $integrityService->getReport($filename);
-
-            if (! $report) {
-                if ($this->input->is_ajax_request()) {
-                    return json([
-                        'success' => false,
-                        'message' => 'Report tidak ditemukan',
-                    ]);
-                }
-                show_404();
-            }
-
-            $reportData = $report->data;
-
-            // Always use the database type field as the authoritative scan type
-            $reportData['scan_type'] = $report->scanType;
-
-            // Ensure scan_date exist in report data for compatibility
-            if (! isset($reportData['scan_date'])) {
-                $reportData['scan_date'] = $report->scanDate;
-            }
-
-            if ($this->input->is_ajax_request()) {
-                return json([
-                    'success' => true,
-                    'data'    => $reportData,
-                ]);
-            }
-
-            // Return JSON for download
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($reportData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        } catch (Exception $e) {
-            log_message('error', 'View Report Error: ' . $e->getMessage());
-            if ($this->input->is_ajax_request()) {
-                return json([
-                    'success' => false,
-                    'message' => 'Error: ' . $e->getMessage(),
-                ]);
-            }
-            show_error('Error: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Delete report
-     *
-     * @param mixed $filename
-     */
-    public function security_delete_report($filename)
-    {
-        isCan('h');
-
-        if ($this->input->is_ajax_request()) {
-            try {
-                $integrityService = new FileIntegrityService();
-                $result           = $integrityService->deleteReport($filename);
-
-                if ($result) {
-                    return json([
-                        'success' => true,
-                        'message' => 'Report berhasil dihapus',
-                    ]);
-                }
-
-                    return json([
-                        'success' => false,
-                        'message' => 'Report tidak ditemukan',
-                    ]);
-
-            } catch (Exception $e) {
-                log_message('error', 'Delete Report Error: ' . $e->getMessage());
-
-                return json([
-                    'success' => false,
-                    'message' => 'Error: ' . $e->getMessage(),
-                ]);
-            }
-        }
-
-        redirect('info_sistem#keamanan');
     }
 
     private function listInvalidFile()

@@ -35,8 +35,9 @@
  *
  */
 
-use App\Actions\Setting\ImportSetting;
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\DB;
+use App\Actions\Setting\ImportSetting;
 use Illuminate\Database\Migrations\Migration;
 
 return new class () extends Migration {
@@ -69,5 +70,9 @@ return new class () extends Migration {
     public function tambah_ulang_pengaturan()
     {
         (new ImportSetting())->handle();
+
+        DB::table('setting_aplikasi')->where('key', 'sebutan_pemerintah_desa')->delete();
+
+        cache()->flush();
     }
 };

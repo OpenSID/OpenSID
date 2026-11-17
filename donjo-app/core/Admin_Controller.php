@@ -102,15 +102,54 @@ class Admin_Controller extends MY_Controller
         // logout other devices jika melakukan perubahan password
         $this->middleware->run('AuthenticateSession');
 
-        // paksa untuk logout jika melakukan ubah password
-        if (! $this->session->change_password) {
-            return;
+        // paksa logout setelah perubahan password
+        if ($this->session->change_password && $this->controller !== 'pengguna') {
+            return redirect('pengguna');
         }
-        if ($this->controller === 'pengguna') {
+
+        $skipSetupChecks = in_array($this->controller, ['setting', 'pengguna', 'notif']);
+        $isProduction    = ENVIRONMENT === 'production' && ! config_item('demo_mode');
+
+        // jika sedang di halaman pengecualian, hapus session setup_warning agar banner tidak muncul
+        if ($skipSetupChecks) {
+            $this->session->unset_userdata('setup_warning');
+        }
+
+        // tampilkan warning jika email/telegram notifikasi belum diatur (hanya di production bukan demo mode)
+        if ($isProduction
+            && ! $skipSetupChecks
+            && ! is_super_admin()
+            && (empty(setting('email_notifikasi')) || empty(setting('telegram_notifikasi')))) {
+            $setupWarning = [
+                'title'        => 'Atur Notifikasi Akun',
+                'message'      => 'Anda belum mengatur email atau telegram notifikasi. Disarankan melakukan setup agar aplikasi dapat mengirim notifikasi, termasuk fitur login OTP dan reset kata sandi otomatis.',
+                'icon'         => 'warning',
+                'redirect_url' => site_url('setting#notifikasi'),
+                'button_text'  => 'Atur Sekarang',
+            ];
+
+            $this->session->set_userdata('setup_warning', $setupWarning);
+
             return;
         }
 
-        redirect('pengguna');
+        // tampilkan warning jika email/telegram belum terverifikasi (hanya di production bukan demo mode)
+        if ($isProduction
+            && ! $skipSetupChecks
+            && ! is_super_admin()
+            && (! auth('admin')->user()->hasVerifiedEmail() && ! auth('admin')->user()->hasVerifiedTelegram())) {
+            $setupWarning = [
+                'title'        => 'Verifikasi Akun Disarankan',
+                'message'      => 'Belum ada email atau telegram yang terverifikasi. Silakan verifikasi minimal satu akun email atau telegram agar aplikasi dapat mengirim notifikasi, termasuk fitur login OTP dan reset kata sandi otomatis.',
+                'icon'         => 'warning',
+                'redirect_url' => site_url('pengguna'),
+                'button_text'  => 'Verifikasi Sekarang',
+            ];
+
+            $this->session->set_userdata('setup_warning', $setupWarning);
+
+            return;
+        }
     }
 
     public function render($view, ?array $data = null): void

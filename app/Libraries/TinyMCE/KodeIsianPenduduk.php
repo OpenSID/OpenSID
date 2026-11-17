@@ -320,7 +320,7 @@ class KodeIsianPenduduk
                 'data'  => formatTanggal($penduduk->tanggalperceraian),
             ],
             [
-                'judul' => 'Cacat' . $ortu,
+                'judul' => 'Disabilitas' . $ortu,
                 'isian' => 'cacat' . $prefix,
                 'data'  => $penduduk->cacat,
             ],

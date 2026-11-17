@@ -87,12 +87,20 @@
                 <h4>B.5 BUKU KARTU TANDA PENDUDUK DAN BUKU KARTU KELUARGA</h4>
             </td>
         </tr>
+        @if(!empty($filters['bulan']) || !empty($filters['tahun']))
         <tr>
             <td class="text-center">
-                <h4>BUKU KARTU TANDA PENDUDUK DAN BUKU KARTU KELUARGA {{ strtoupper(getBulan($filters['bulan'] ??
-                    date('m'))) }} TAHUN {{ $filters['tahun'] ?? date('Y') }}</h4>
+                <h4>BUKU KARTU TANDA PENDUDUK DAN BUKU KARTU KELUARGA
+                    @if(!empty($filters['bulan']))
+                    BULAN {{ strtoupper(getBulan($filters['bulan'])) }}
+                    @endif
+                    @if(!empty($filters['tahun']))
+                    TAHUN {{ $filters['tahun'] }}
+                    @endif
+                </h4>
             </td>
         </tr>
+        @endif
         <tr>
             <td>&nbsp;</td>
         </tr>

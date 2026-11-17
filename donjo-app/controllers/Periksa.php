@@ -128,6 +128,14 @@ class Periksa extends MY_Controller
         return json(['status' => 1]);
     }
 
+    public function lepas_kaitan_kk_lama($id)
+    {
+        $this->cekUser();
+        (new LibrariesPeriksa())->lepasKaitanKkLama((int) $id);
+
+        redirect('periksa');
+    }
+
     // Login khusus untuk periksa
     public function login()
     {

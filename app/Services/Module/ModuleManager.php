@@ -567,7 +567,7 @@ class ModuleManager
         try {
             $token    = token_bursa();
             $response = Http::withToken($token)->post(
-                config('bursa.url_penyedia') . '/api/v1/modules/install',
+                config('services.opendesa.server_layanan') . '/api/v1/modules/install',
                 [
                     'module_name'   => $name,
                     'version'       => $version,
@@ -698,5 +698,56 @@ class ModuleManager
     private function manifestPath(string $name): string
     {
         return $this->modulesPath() . $name . DIRECTORY_SEPARATOR . 'module.json';
+    }
+
+    /**
+     * Dipanggil {@see \App\Observers\SettingAplikasiObserver} segera setelah
+     * token Layanan pertama disimpan. Memberi tahu Layanan modul wajib apa
+     * (mis. klien langganan) lalu memasangnya bila belum ada di disk.
+     * Kegagalan tidak dilempar -- pemanggil (event `saved`) tidak boleh
+     * terblokir oleh gagalnya bootstrap.
+     *
+     * OpenSID/OpenSID#11931 Fase 3.5.
+     *
+     * @return string[] Nama modul yang berhasil dipasang pada panggilan ini.
+     */
+    public function jalankanBootstrap(string $token): array
+    {
+        $url = rtrim((string) config('bursa.url_penyedia'), '/') . config('bursa.bootstrap_path');
+
+        try {
+            $response = Http::withToken($token)->timeout(15)->get($url);
+
+            if (! $response->successful()) {
+                log_message('notice', "bootstrap Layanan: token tidak valid atau ditolak (status {$response->status()})");
+
+                return [];
+            }
+
+            $dipasang = [];
+
+            foreach ((array) $response->json('modules', []) as $modul) {
+                $name    = isset($modul['name']) ? (string) $modul['name'] : '';
+                $locator = isset($modul['url']) ? (string) $modul['url'] : '';
+
+                if ($name === '' || $this->isInstalled($name)) {
+                    continue;
+                }
+
+                try {
+                    $this->installFromSource($name, $locator);
+                    $dipasang[] = $name;
+                    log_message('notice', "bootstrap Layanan: modul {$name} berhasil dipasang.");
+                } catch (Throwable $e) {
+                    log_message('error', "bootstrap Layanan: gagal pasang modul {$name} — " . $e->getMessage());
+                }
+            }
+
+            return $dipasang;
+        } catch (Throwable $e) {
+            log_message('error', 'bootstrap Layanan: error koneksi — ' . $e->getMessage());
+
+            return [];
+        }
     }
 }

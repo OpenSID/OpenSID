@@ -116,6 +116,7 @@ class AuthenticatedSessionController extends Web_Controller
         $request = request();
 
         if ($request->has('nik') || ($request->has('tag_id_card') && $request->has('password'))) {
+            
             if ($this->cek_anjungan && $request->has('anjungan_uuid')) {
                 $anjungan = Anjungan::where('uuid', $request->anjungan_uuid)->first();
                 if (! $anjungan) {
@@ -172,6 +173,7 @@ class AuthenticatedSessionController extends Web_Controller
             'is_anjungan', 'data_permohonan',
             'auth_mandiri', 'login_ektp',
             'login_penduduk_guest',
+            'anjungan_uuid',
         ]);
 
         return redirect($redirect);

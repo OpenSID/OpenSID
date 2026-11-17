@@ -1,80 +1,95 @@
+@extends('admin.layouts.index')
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.jquery_ui')
 
-@if (data_lengkap())
-    <div class="box box-info">
-        <div class="box-header with-border">
-            @php
-            $listCetakUnduh = [
-                [
-                    'url' => "{$controller}/dialog/cetak",
-                    'judul' => 'Cetak',
-                    'icon' => 'fa fa-print',
-                    'modal' => true,
-                ],
-                [
-                    'url' => "{$controller}/dialog/unduh",
-                    'judul' => 'Unduh',
-                    'icon' => 'fa fa-download',
-                    'modal' => true,
-                ]
-            ];
-        @endphp
+@section('title')
+<h1>
+    Buku Administrasi Penduduk {{ strtoupper(setting('sebutan_desa')) }}
+</h1>
+@endsection
 
-        <x-split-button
-            judul="Cetak/Unduh"
-            :list="$listCetakUnduh"
-            :icon="'fa fa-arrow-circle-down'"
-            :type="'bg-purple'"
-            :target="true"
-        />
-        </div>
-        <div class="box-body">
-            <div class="row mepet">
-                <div class="col-sm-2">
-                    <select id="tahun" class="form-control input-sm select2">
-                        <option value="">Pilih Tahun</option>
-                        @foreach ($tahun as $value)
-                            <option @selected($value == date('Y')) value="{{ $value }}">{{ $value }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <select id="bulan" class="form-control input-sm select2">
-                        <option value="">Pilih Bulan</option>
-                        @foreach (bulan() as $index => $value)
-                            <option @selected($index == date('m')) value="{{ $index }}">{{ $value }}</option>
-                        @endforeach
-                    </select>
-                </div>
+@section('breadcrumb')
+<li class="active">Buku Mutasi Penduduk {{ strtoupper(setting('sebutan_desa')) }}</li>
+@endsection
+
+@section('content')
+@include('admin.layouts.components.notifikasi')
+
+<div class="row">
+    <div class="col-md-3">
+        @include('admin.bumindes.penduduk.side', ['selectedNav' => 'mutasi'])
+    </div>
+    <div class="col-md-9">
+        @if (data_lengkap())
+        <div class="box box-info">
+            <div class="box-header with-border">
+                @php
+                $listCetakUnduh = [
+                    [
+                        'url' => "{$controller}/dialog/cetak",
+                        'judul' => 'Cetak',
+                        'icon' => 'fa fa-print',
+                        'modal' => true,
+                    ],
+                    [
+                        'url' => "{$controller}/dialog/unduh",
+                        'judul' => 'Unduh',
+                        'icon' => 'fa fa-download',
+                        'modal' => true,
+                    ]
+                ];
+                @endphp
+        
+                <x-split-button judul="Cetak/Unduh" :list="$listCetakUnduh" :icon="'fa fa-arrow-circle-down'"
+                    :type="'bg-purple'" :target="true" />
             </div>
-            <hr class="batas">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
-                    <thead class="bg-gray color-palette">
-                        <tr>
-                            <th rowspan="2">Nomor Urut</th>
-                            <th rowspan="2">Nama Lengkap / Panggilan</th>
-                            <th colspan="2">Tempat & Tanggal Lahir</th>
-                            <th rowspan="2">Jenis Kelamin</th>
-                            <th rowspan="2">Kewarganegaraan</th>
-                            <th colspan="2">Penambahan</th>
-                            <th colspan="4">Pengurangan</th>
-                            <th rowspan="2">Ket</th>
-                        </tr>
-                        <tr>
-                            <th>Tempat Lahir</th>
-                            <th>Tanggal</th>
-                            <th>Datang Dari</th>
-                            <th>Tanggal</th>
-                            <th>Pindah Ke</th>
-                            <th>Tanggal</th>
-                            <th>Meninggal</th>
-                            <th>Tanggal</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            @if ($hapus > 0)
+            <div class="box-body">
+                <div class="row mepet">
+                    <div class="col-sm-2">
+                        <select id="tahun" class="form-control input-sm select2">
+                            <option value="">Pilih Tahun</option>
+                            @foreach ($tahun as $value)
+                            <option value="{{ $value }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <select id="bulan" class="form-control input-sm select2" style="display: none;">
+                            <option value="">Pilih Bulan</option>
+                            @foreach (bulan() as $index => $value)
+                            <option value="{{ $index }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <hr class="batas">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
+                        <thead class="bg-gray color-palette">
+                            <tr>
+                                <th rowspan="2">Nomor Urut</th>
+                                <th rowspan="2">Nama Lengkap / Panggilan</th>
+                                <th colspan="2">Tempat & Tanggal Lahir</th>
+                                <th rowspan="2">Jenis Kelamin</th>
+                                <th rowspan="2">Kewarganegaraan</th>
+                                <th colspan="2">Penambahan</th>
+                                <th colspan="4">Pengurangan</th>
+                                <th rowspan="2">Ket</th>
+                            </tr>
+                            <tr>
+                                <th>Tempat Lahir</th>
+                                <th>Tanggal</th>
+                                <th>Datang Dari</th>
+                                <th>Tanggal</th>
+                                <th>Pindah Ke</th>
+                                <th>Tanggal</th>
+                                <th>Meninggal</th>
+                                <th>Tanggal</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                @if ($hapus > 0)
                 <hr class="batas">
                 <div class="box-header with-border">
                     <div class="form-group">
@@ -101,154 +116,166 @@
                         </thead>
                     </table>
                 </div>
-            @endif
+                @endif
+            </div>
         </div>
-    @else
+        @else
         @include('admin.bumindes.penduduk.data_lengkap', ['judul' => 'Buku Mutasi Penduduk'])
-@endif
-
+        @endif
+    </div>
+</div>
+@endsection
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            var TableData = $('#tabeldata').DataTable({
-                responsive: true,
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ ci_route('bumindes_penduduk_mutasi.datatables') }}",
-                    data: function(req) {
-                        req.tahun = $('#tahun').val();
-                        req.bulan = $('#bulan').val();
-                    }
+<script>
+    $(document).ready(function() {
+        var urlDatatables = "{{ ci_route('bumindes_penduduk_mutasi.datatables') }}";
+
+        var TableData = $('#tabeldata').DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: urlDatatables,
+                data: function(req) {
+                    req.tahun = $('#tahun').val();
+                    req.bulan = $('#bulan').val();
+                }
+            },
+            columns: [{
+                    data: 'DT_RowIndex',
+                    class: 'padat',
+                    searchable: false,
+                    orderable: false
                 },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        class: 'padat',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'penduduk.nama',
-                        name: 'penduduk.nama',
-                        searchable: true,
-                        orderable: true
-                    },
-                    {
-                        data: 'penduduk.tempatlahir',
-                        name: 'penduduk.tempatlahir',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'tanggallahir',
-                        name: 'tanggallahir',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'sex',
-                        name: 'sex',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'warganegara',
-                        name: 'warganegara',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'alamat_sebelumnya',
-                        name: 'alamat_sebelumnya',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'tanggal_sebelumnya',
-                        name: 'tanggal_sebelumnya',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'alamat_tujuan',
-                        name: 'alamat_tujuan',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'tanggal_tujuan',
-                        name: 'tanggal_tujuan',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'meninggal_di',
-                        name: 'meninggal_di',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'tanggal_meninggal',
-                        name: 'tanggal_meninggal',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'ket',
-                        name: 'ket',
-                        searchable: false,
-                        orderable: false
-                    }
-                ],
-                order: []
-            });
-
-            $('#tahun').change(function() {
-                TableData.draw()
-            })
-
-            $('#bulan').change(function() {
-                TableData.draw()
-            })
-
-            var TableDataHapus = $('#tabeldatahapus').DataTable({
-                responsive: true,
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ ci_route('bumindes_penduduk_mutasi.datatablesHapus') }}",
-                    data: function(req) {
-                        req.tahun = $('#tahun').val();
-                        req.bulan = $('#bulan').val();
-                    }
+                {
+                    data: 'penduduk.nama',
+                    name: 'penduduk.nama',
+                    searchable: true,
+                    orderable: true
                 },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        class: 'padat',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'nik',
-                        name: 'nik',
-                        searchable: true,
-                        orderable: true
-                    },
-                    {
-                        data: 'deleted_at',
-                        name: 'deleted_at',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
-                        data: 'catatan',
-                        name: 'catatan',
-                        searchable: false,
-                        orderable: false
-                    }
-                ],
-                order: []
-            });
+                {
+                    data: 'penduduk.tempatlahir',
+                    name: 'penduduk.tempatlahir',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'tanggallahir',
+                    name: 'tanggallahir',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'sex',
+                    name: 'sex',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'warganegara',
+                    name: 'warganegara',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'alamat_sebelumnya',
+                    name: 'alamat_sebelumnya',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'tanggal_sebelumnya',
+                    name: 'tanggal_sebelumnya',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'alamat_tujuan',
+                    name: 'alamat_tujuan',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'tanggal_tujuan',
+                    name: 'tanggal_tujuan',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'meninggal_di',
+                    name: 'meninggal_di',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'tanggal_meninggal',
+                    name: 'tanggal_meninggal',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'ket',
+                    name: 'ket',
+                    searchable: false,
+                    orderable: false
+                }
+            ],
+            order: []
         });
-    </script>
+
+        // Sembunyikan bulan saat load awal jika tahun kosong
+        if (!$('#tahun').val()) {
+            $('#bulan').parent().hide();
+        }
+
+        $('#tahun').change(function() {
+            if (!$(this).val()) {
+                $('#bulan').val('').parent().hide();
+            } else {
+                $('#bulan').parent().show();
+            }
+
+            TableData.draw()
+        })
+
+        var TableDataHapus = $('#tabeldatahapus').DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ ci_route('bumindes_penduduk_mutasi.datatablesHapus') }}",
+                data: function(req) {
+                    req.tahun = $('#tahun').val();
+                    req.bulan = $('#bulan').val();
+                }
+            },
+            columns: [{
+                    data: 'DT_RowIndex',
+                    class: 'padat',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'nik',
+                    name: 'nik',
+                    searchable: true,
+                    orderable: true
+                },
+                {
+                    data: 'deleted_at',
+                    name: 'deleted_at',
+                    searchable: false,
+                    orderable: false
+                },
+                {
+                    data: 'catatan',
+                    name: 'catatan',
+                    searchable: false,
+                    orderable: false
+                }
+            ],
+            order: []
+        });
+    });
+</script>
 @endpush

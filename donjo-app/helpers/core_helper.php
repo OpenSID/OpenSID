@@ -85,6 +85,25 @@ if (! function_exists('cek_anjungan')) {
     }
 }
 
+if (! function_exists('token_bursa')) {
+    /**
+     * Token autentikasi ke bursa (marketplace) add-on.
+     *
+     * Accessor netral yang memusatkan pembacaan token pemasang add-on core
+     * (Plugin/ModuleManager/LayananHttpSource). Call-site core memanggil accessor
+     * ini alih-alih menyematkan pengetahuan kunci setting langganan secara langsung.
+     * Bootstrap-kritis: dipakai saat mengunduh add-on apa pun (termasuk modul
+     * konektor layanan itu sendiri), sehingga tetap tinggal di core.
+     *
+     * OpenSID/OpenSID#11931 Fase 3.5: hilang dari sumber v2601-v2609 (fitur
+     * pasca-refaktor), ditambahkan lewat patch bespoke 0010.
+     */
+    function token_bursa(): string
+    {
+        return (string) setting('layanan_opendesa_token');
+    }
+}
+
 if (! function_exists('desa_storage')) {
     /**
      * Mengambil file dari storage desa.

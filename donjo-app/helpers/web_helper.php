@@ -83,18 +83,16 @@ if (! function_exists('menu_anjungan')) {
     }
 }
 
-/**
- * icon menu anjungan
- *
- * Mengembalikan path lengkap untuk icon menu anjungan
- *
- * @param mixed $nama_file
- */
-function icon_menu_anjungan(?string $nama_file): string
-{
-    if (is_file(FCPATH . LOKASI_ICON_MENU_ANJUNGAN . $nama_file)) {
-        return base_url(LOKASI_ICON_MENU_ANJUNGAN . $nama_file);
-    }
+if (! function_exists('icon_menu_anjungan')) {
+    /**
+     * Mengembalikan path lengkap untuk icon menu anjungan
+     */
+    function icon_menu_anjungan(?string $nama_file): string
+    {
+        if (is_file(FCPATH . LOKASI_ICON_MENU_ANJUNGAN . $nama_file)) {
+            return base_url(LOKASI_ICON_MENU_ANJUNGAN . $nama_file);
+        }
 
-    return base_url(LOKASI_ICON_MENU_ANJUNGAN_DEFAULT . 'menu.png');
+        return module_asset('Anjungan', 'images/menu.png');
+    }
 }

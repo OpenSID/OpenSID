@@ -5,10 +5,10 @@
         "value": "kabupaten",
         "urut": 11,
         "keterangan": "Pengganti sebutan wilayah kabupaten",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Kabupaten Singkat",
@@ -16,10 +16,10 @@
         "value": "kab.",
         "urut": 12,
         "keterangan": "Pengganti sebutan singkatan wilayah kabupaten",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Kecamatan",
@@ -27,10 +27,10 @@
         "value": "kecamatan",
         "urut": 8,
         "keterangan": "Pengganti sebutan wilayah kecamatan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Kecamatan Singkat",
@@ -38,10 +38,10 @@
         "value": "kec.",
         "urut": 9,
         "keterangan": "Pengganti sebutan singkatan wilayah kecamatan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Desa",
@@ -49,10 +49,10 @@
         "value": "desa",
         "urut": 7,
         "keterangan": "Pengganti sebutan wilayah desa",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Dusun",
@@ -60,7 +60,7 @@
         "value": "dusun",
         "urut": 1,
         "keterangan": "Pengganti sebutan wilayah dusun",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Wilayah Administratif"
@@ -71,10 +71,10 @@
         "value": "camat",
         "urut": 10,
         "keterangan": "Pengganti sebutan jabatan camat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Website Title",
@@ -82,7 +82,7 @@
         "value": "Website Resmi",
         "urut": 1,
         "keterangan": "Judul tab browser modul web",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "web"
@@ -93,7 +93,7 @@
         "value": "OpenSID",
         "urut": 2,
         "keterangan": "Judul tab browser halaman login modul administrasi",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "sistem"
@@ -104,7 +104,7 @@
         "value": "Sistem Informasi",
         "urut": 6,
         "keterangan": "Judul tab browser modul administrasi",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "sistem"
@@ -170,7 +170,7 @@
         "value": "25.12",
         "urut": 35,
         "keterangan": "Versi sekarang untuk migrasi",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": "class=\"\" disabled",
         "kategori": "sistem"
@@ -223,7 +223,7 @@
         "value": "1",
         "urut": 22,
         "keterangan": "ID program bantuan yang ditampilkan di dashboard",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": "class=\"int\"",
         "kategori": "dashboard"
@@ -234,7 +234,7 @@
         "value": null,
         "urut": 23,
         "keterangan": "Nomor akan diisi '0' di sebelah kiri, kalau perlu",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": "class=\"int\"",
         "kategori": "surat"
@@ -269,7 +269,7 @@
         "value": "[kode_surat]\/[nomor_surat, 3]\/[kode_desa]\/[bulan_romawi]\/[tahun]",
         "urut": 25,
         "keterangan": "Fomat penomoran surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat"
@@ -280,7 +280,7 @@
         "value": "1 ",
         "urut": 26,
         "keterangan": "Setting penggunaan server",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": "class=\"int\"",
         "kategori": "hidden"
@@ -375,7 +375,7 @@
         "value": "NIPD",
         "urut": 5,
         "keterangan": "Pengganti sebutan label niap\/nipd",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Pemerintah Desa"
@@ -415,7 +415,7 @@
         "value": null,
         "urut": 37,
         "keterangan": "Alamat Server OpenDK (contoh: https:\/\/demodk.opendesa.id)",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "opendk"
@@ -426,7 +426,7 @@
         "value": null,
         "urut": 38,
         "keterangan": "OpenDK API Key untuk Sinkronisasi Data",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "opendk"
@@ -441,72 +441,6 @@
         "option": null,
         "attribute": "Array",
         "kategori": "Data Lengkap"
-    },
-    {
-        "judul": "Api Gform Id Script",
-        "key": "api_gform_id_script",
-        "value": null,
-        "urut": 1,
-        "keterangan": "Script ID untuk Google API",
-        "jenis": "text",
-        "option": null,
-        "attribute": null,
-        "kategori": "Analisis"
-    },
-    {
-        "judul": "Api Gform Credential",
-        "key": "api_gform_credential",
-        "value": null,
-        "urut": 2,
-        "keterangan": "Credential untuk Google API",
-        "jenis": "textarea",
-        "option": null,
-        "attribute": null,
-        "kategori": "Analisis"
-    },
-    {
-        "judul": "Api Gform Redirect Uri",
-        "key": "api_gform_redirect_uri",
-        "value": "https:\/\/berputar.opendesa.id\/index.php\/first\/get_form_info",
-        "urut": 3,
-        "keterangan": "Redirecet URI untuk Google API",
-        "jenis": "text",
-        "option": null,
-        "attribute": null,
-        "kategori": "Analisis"
-    },
-    {
-        "judul": "Pesan Singkat WA",
-        "key": "pesan_singkat_wa",
-        "value": "Saya ingin membeli [nama_produk] yang Anda tawarkan di Lapak Desa [link_web]",
-        "urut": 3,
-        "keterangan": "Pesan Singkat WhatsApp",
-        "jenis": "textarea",
-        "option": null,
-        "attribute": null,
-        "kategori": "Lapak"
-    },
-    {
-        "judul": "Banyak Foto Tiap Produk",
-        "key": "banyak_foto_tiap_produk",
-        "value": "3",
-        "urut": 5,
-        "keterangan": "Banyaknya foto tiap produk yang bisa di unggah",
-        "jenis": "input-number",
-        "option": null,
-        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":5,\"step\":1}",
-        "kategori": "Lapak"
-    },
-    {
-        "judul": "Jumlah Produk Perhalaman",
-        "key": "jumlah_produk_perhalaman",
-        "value": "10",
-        "urut": 4,
-        "keterangan": "Jumlah produk yang ditampilkan dalam satu halaman",
-        "jenis": "input-number",
-        "option": null,
-        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":50,\"step\":1}",
-        "kategori": "Lapak"
     },
     {
         "judul": "Layanan Opendesa Token",
@@ -525,7 +459,7 @@
         "value": "\r\n        <table style=\"border-collapse: collapse; width: 100%; height: 10px;\" border=\"0\">\r\n        <tbody>\r\n        <tr>\r\n        <td style=\"width: 11.2886%; height: 10px;\">[kode_desa]<\/td>\r\n        <td style=\"width: 78.3174%; height: 10px;\">\r\n        <p style=\"text-align: center;\">&nbsp;<\/p>\r\n        <\/td>\r\n        <td style=\"width: 10.3939%; height: 10px; text-align: right;\">[KOde_surat]<\/td>\r\n        <\/tr>\r\n        <\/tbody>\r\n        <\/table>\r\n        <table style=\"border-collapse: collapse; width: 100%; height: 10px;\" border=\"0\">\r\n        <tbody>\r\n        <tr>\r\n        <td style=\"width: 15%;\"><div style=\"max-height: 73px;\">[logo_bsre]<\/div><\/td>\r\n        <td style=\"width: 60%; text-align: left; vertical-align: top;\">\r\n        <ul style=\"font-size: 6pt;\">\r\n        <li style=\"font-size: 6pt;\"><span style=\"font-size: 6pt;\">UU ITE No. 11 Tahun 2008 Pasal 5 ayat 1 \"Informasi Elektronik dan\/atau hasil cetaknya merupakan alat bukti hukum yang sah\".<\/span><\/li>\r\n        <li style=\"font-size: 6pt;\"><span style=\"font-size: 6pt;\">Dokumen ini tertanda ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan BSrE - BSSN.<\/span><\/li>\r\n        <li style=\"font-size: 6pt;\"><span style=\"font-size: 6pt;\">Surat ini dapat dibuktikan keasliannya dengan menggunakan qr code yang telah tersedia.<\/span><\/li>\r\n        <\/ul>\r\n        <\/td>\r\n        <td style=\"width: 25%; text-align: center;\"><\/td>\r\n        <\/tr>\r\n        <\/tbody>\r\n        <\/table>\r\n    ",
         "urut": 51,
         "keterangan": "Footer Surat TTE",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat"
@@ -536,7 +470,7 @@
         "value": null,
         "urut": 30,
         "keterangan": "Telgram token",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "sistem"
@@ -547,7 +481,7 @@
         "value": null,
         "urut": 31,
         "keterangan": "Telgram user id untuk notifikasi ke pengguna",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "sistem"
@@ -573,7 +507,7 @@
         "value": "30",
         "urut": 55,
         "keterangan": "Atur waktu (detik) kapan tampilan di anjungan akan muncul pada saat tidak ada aktifitas di halaman login.",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": "class=\"int\"",
         "kategori": "Anjungan"
@@ -595,7 +529,7 @@
         "value": null,
         "urut": 57,
         "keterangan": "Masukan link video dengan format .mp4 yang akan ditampilkan pada anjungan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
@@ -634,43 +568,10 @@
         "value": "LAYANAN MANDIRI",
         "urut": 5,
         "keterangan": "Nama Branding Aplikasi Layanan Mandiri Android",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "mobile"
-    },
-    {
-        "judul": "Tampilkan Kehadiran",
-        "key": "tampilkan_kehadiran",
-        "value": "1",
-        "urut": null,
-        "keterangan": "Aktif \/ Non-aktifkan Halaman Website Kehadiran",
-        "jenis": "select-boolean",
-        "option": null,
-        "attribute": "Array",
-        "kategori": "Kehadiran"
-    },
-    {
-        "judul": "IP Adress Kehadiran",
-        "key": "ip_adress_kehadiran",
-        "value": null,
-        "urut": null,
-        "keterangan": "IP Address Perangkat Kehadiran",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": "class=\"ip_address\" placeholder=\"127.0.0.1\"",
-        "kategori": "Kehadiran"
-    },
-    {
-        "judul": "MAC Adress Kehadiran",
-        "key": "mac_adress_kehadiran",
-        "value": null,
-        "urut": null,
-        "keterangan": "MAC Address Perangkat Kehadiran",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": "Array",
-        "kategori": "kehadiran"
     },
     {
         "judul": "Tahun IDM",
@@ -678,7 +579,7 @@
         "value": "2021",
         "urut": 64,
         "keterangan": "Default tahun IDM saat pertamakali dibuka",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "status desa"
@@ -709,34 +610,12 @@
         "kategori": "Hubung Warga"
     },
     {
-        "judul": "Latar Kehadiran",
-        "key": "latar_kehadiran",
-        "value": null,
-        "urut": null,
-        "keterangan": "Latar Kehadiran",
-        "jenis": "unggah",
-        "option": null,
-        "attribute": null,
-        "kategori": "Kehadiran"
-    },
-    {
-        "judul": "Id Pengunjung Kehadiran",
-        "key": "id_pengunjung_kehadiran",
-        "value": null,
-        "urut": null,
-        "keterangan": "ID Pengunjung Perangkat Kehadiran",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": "Array",
-        "kategori": "Kehadiran"
-    },
-    {
         "judul": "Header Surat",
         "key": "header_surat",
         "value": "\r\n        <table style=\"border-collapse: collapse; width: 100%;\">\r\n        <tbody>\r\n        <tr>\r\n        <td style=\"width: 10%;\">[logo]<\/td>\r\n        <td style=\"text-align: center; width: 90%;\">\r\n        <p style=\"margin: 0; text-align: center;\"><span style=\"font-size: 14pt;\">PEMERINTAH [SEbutan_kabupaten] [NAma_kabupaten] <br \/>KECAMATAN [NAma_kecamatan]<strong><br \/>[SEbutan_desa] [NAma_desa] <\/strong><\/span><\/p>\r\n        <p style=\"margin: 0; text-align: center;\"><em><span style=\"font-size: 10pt;\">[Alamat_desA]<\/span><\/em><\/p>\r\n        <\/td>\r\n        <\/tr>\r\n        <\/tbody>\r\n        <\/table>\r\n        <hr style=\"border: 3px solid;\" \/>\r\n    ",
         "urut": 69,
         "keterangan": "Header Surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat"
@@ -747,7 +626,7 @@
         "value": "3.3",
         "urut": 70,
         "keterangan": "Tinggi Header Surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat"
@@ -758,7 +637,7 @@
         "value": "\r\n        <table style=\"border-collapse: collapse; width: 100%; height: 10px;\" border=\"0\">\r\n        <tbody>\r\n        <tr>\r\n        <td style=\"width: 11.2886%; height: 10px;\">[kode_desa]<\/td>\r\n        <td style=\"width: 78.3174%; height: 10px;\">\r\n        <p style=\"text-align: center;\">&nbsp;<\/p>\r\n        <\/td>\r\n        <td style=\"width: 10.3939%; height: 10px; text-align: right;\">[KOde_surat]<\/td>\r\n        <\/tr>\r\n        <\/tbody>\r\n        <\/table>\r\n    ",
         "urut": 71,
         "keterangan": "Footer Surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat"
@@ -769,7 +648,7 @@
         "value": "2",
         "urut": 72,
         "keterangan": "Tinggi Footer Surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat"
@@ -780,7 +659,7 @@
         "value": "Arial",
         "urut": 73,
         "keterangan": "Font Surat Utama",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": [
             "Andale Mono",
             "Arial",
@@ -889,7 +768,7 @@
         "value": null,
         "urut": 80,
         "keterangan": "TTE - URL API TTE",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "tte"
@@ -900,7 +779,7 @@
         "value": null,
         "urut": 81,
         "keterangan": "TTE - Username untuk TTE",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "tte"
@@ -911,7 +790,7 @@
         "value": null,
         "urut": 82,
         "keterangan": "TTE - Password untuk TTE",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "tte"
@@ -955,7 +834,7 @@
         "value": null,
         "urut": 87,
         "keterangan": "Pengaturan artikel untuk anjungan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
@@ -966,7 +845,7 @@
         "value": "0",
         "urut": 88,
         "keterangan": "Visual Tanda Tangan TTE",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "tte"
@@ -977,7 +856,7 @@
         "value": null,
         "urut": 89,
         "keterangan": "Url Gambar Visual TTE",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "tte"
@@ -988,7 +867,7 @@
         "value": "100",
         "urut": 90,
         "keterangan": "Lebar Gambar Visual TTE",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "tte"
@@ -999,7 +878,7 @@
         "value": "100",
         "urut": 91,
         "keterangan": "Tinggi Gambar Visual TTE",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "tte"
@@ -1010,7 +889,7 @@
         "value": null,
         "urut": 92,
         "keterangan": "Pengaturan teks berjalan untuk anjungan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
@@ -1021,7 +900,7 @@
         "value": "3",
         "urut": 93,
         "keterangan": "Pengaturan profil desa untuk anjungan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
@@ -1032,7 +911,7 @@
         "value": null,
         "urut": 94,
         "keterangan": "Pengaturan profil slide untuk anjungan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
@@ -1043,7 +922,7 @@
         "value": null,
         "urut": 95,
         "keterangan": "Pengaturan profil video untuk anjungan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
@@ -1054,21 +933,10 @@
         "value": "https:\/\/www.youtube.com\/embed\/PuxiuH-YUF4",
         "urut": 96,
         "keterangan": "Pengaturan profil video youtube untuk anjungan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
-    },
-    {
-        "judul": "Sebutan Pemerintah Desa",
-        "key": "sebutan_pemerintah_desa",
-        "value": "Pemerintah Desa",
-        "urut": 1,
-        "keterangan": "Sebutan Pemerintah Desa",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Pemerintah Desa"
     },
     {
         "judul": "Latar Login Mandiri",
@@ -1182,25 +1050,11 @@
         "kategori": "openkab"
     },
     {
-        "judul": "Buku Tamu Kamera",
-        "key": "buku_tamu_kamera",
-        "value": "1",
-        "urut": 1,
-        "keterangan": "Gunakan kamera untuk proses registrasi",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
-        "kategori": "buku-tamu"
-    },
-    {
         "judul": "Link Feed",
         "key": "link_feed",
         "value": "https:\\\/\\\/www.covid19.go.id\\\/feed\\\/",
         "urut": 2,
-        "keterangan": "Alamat Feed yang digunakan <code>(contoh: https:\\\/\\\/www.covid19.go.id\\\/feed\\\/)<\\\/code>",
+        "keterangan": "Alamat Feed yang digunakan <code>(contoh: https://www.covid19.go.id/feed/)</code>",
         "jenis": "text",
         "option": null,
         "attribute": null,
@@ -1212,7 +1066,7 @@
         "value": "-",
         "urut": 110,
         "keterangan": "Bawaan jika kode isian memiliki data kosong",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat"
@@ -1251,7 +1105,7 @@
         "value": "d F Y",
         "urut": null,
         "keterangan": "Format tanggal pada kode isian surat.",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": "{\"class\":\"format_tanggal required\",\"placeholder\":\"d F Y\",\"type\":\"text\"}",
         "kategori": "format_surat"
@@ -1262,7 +1116,7 @@
         "value": "{\"2\":{\"title\":\"PENDUDUK LUAR [desa]\",\"input\":\"nama,no_ktp\"},\"3\":{\"title\":\"PENDUDUK LUAR [desa] (LENGKAP)\",\"input\":\"nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu,no_kk,kepala_kk\"}}",
         "urut": 114,
         "keterangan": "Form ini akan tampil jika surat dipilih menggunakan penduduk luar [desa]",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "form_surat"
@@ -1287,7 +1141,7 @@
         "value": "smtp",
         "urut": 24,
         "keterangan": "Email protokol, misal : SMTP",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "email"
@@ -1298,7 +1152,7 @@
         "value": null,
         "urut": 25,
         "keterangan": "Email host",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "email"
@@ -1309,7 +1163,7 @@
         "value": null,
         "urut": 26,
         "keterangan": "Email username",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "email"
@@ -1331,7 +1185,7 @@
         "value": null,
         "urut": 28,
         "keterangan": "Email port",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "email"
@@ -1342,7 +1196,7 @@
         "value": "",
         "urut": 21,
         "keterangan": "Site key google recaptcha",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "sistem"
@@ -1353,7 +1207,7 @@
         "value": "",
         "urut": 22,
         "keterangan": "Secret key google recaptcha",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "sistem"
@@ -1389,7 +1243,7 @@
         "value": "10",
         "urut": null,
         "keterangan": "Jumlah Gambar Slider Yang di Tampilkan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Slider"
@@ -1400,7 +1254,7 @@
         "value": "",
         "urut": 3,
         "keterangan": "Tagline \/ Motto [desa]",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "sistem"
@@ -1581,7 +1435,7 @@
         "value": "3.5",
         "urut": null,
         "keterangan": "Tinggi Header Surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat_dinas"
@@ -1592,7 +1446,7 @@
         "value": "2",
         "urut": null,
         "keterangan": "Tinggi Footer Surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat_dinas"
@@ -1603,7 +1457,7 @@
         "value": "<table style=\"border-collapse: collapse; width: 100%;\">\r\n            <tbody>\r\n            <tr>\r\n            <td style=\"width: 10%;\">[logo]<\/td>\r\n            <td style=\"text-align: center; width: 90%;\">\r\n            <p style=\"margin: 0; text-align: center;\"><span style=\"font-size: 14pt;\">PEMERINTAH [SEbutan_kabupaten] [NAma_kabupaten] <br>KECAMATAN [NAma_kecamatan]<strong><br>[SEbutan_desa] [NAma_desa] <\/strong><\/span><\/p>\r\n            <p style=\"margin: 0; text-align: center;\"><em><span style=\"font-size: 10pt;\">[Alamat_desA]<\/span><\/em><\/p>\r\n            <\/td>\r\n            <\/tr>\r\n            <\/tbody>\r\n            <\/table>\r\n            <hr style=\"border: 3px solid;\">",
         "urut": null,
         "keterangan": "Header Surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat_dinas"
@@ -1614,7 +1468,7 @@
         "value": "<table style=\"border-collapse: collapse; width: 100%; height: 10px;\" border=\"0\">\r\n            <tbody>\r\n            <tr>\r\n            <td style=\"width: 11.2886%; height: 10px;\">[kode_desa]<\/td>\r\n            <td style=\"width: 78.3174%; height: 10px;\">\r\n            <p style=\"text-align: center;\"> <\/p>\r\n            <\/td>\r\n            <td style=\"width: 10.3939%; height: 10px; text-align: right;\">[KOde_surat]<\/td>\r\n            <\/tr>\r\n            <\/tbody>\r\n            <\/table>",
         "urut": null,
         "keterangan": "Footer Surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat_dinas"
@@ -1625,7 +1479,7 @@
         "value": "<table style=\"border-collapse: collapse; width: 100%; height: 10px;\" border=\"0\">\r\n            <tbody>\r\n            <tr>\r\n            <td style=\"width: 11.2886%; height: 10px;\">[kode_desa]<\/td>\r\n            <td style=\"width: 78.3174%; height: 10px;\">\r\n            <p style=\"text-align: center;\"> <\/p>\r\n            <\/td>\r\n            <td style=\"width: 10.3939%; height: 10px; text-align: right;\">[KOde_surat]<\/td>\r\n            <\/tr>\r\n            <\/tbody>\r\n            <\/table>",
         "urut": null,
         "keterangan": "Footer Surat TTE",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat_dinas"
@@ -1636,7 +1490,7 @@
         "value": "Arial",
         "urut": null,
         "keterangan": "Font Surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat_dinas"
@@ -1647,7 +1501,7 @@
         "value": "[kode_surat]\/[nomor_surat, 3]\/[kode_desa]\/[bulan_romawi]\/[tahun]",
         "urut": null,
         "keterangan": "Fomat penomoran surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat_dinas"
@@ -1658,7 +1512,7 @@
         "value": "d F Y",
         "urut": null,
         "keterangan": "Format tanggal pada kode isian surat.",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": "{\"class\":\"format_tanggal required\",\"placeholder\":\"d F Y\",\"type\":\"text\"}",
         "kategori": "format_surat_dinas"
@@ -1669,7 +1523,7 @@
         "value": "{\"kiri\":1.78,\"atas\":0.63,\"kanan\":1.78,\"bawah\":1.37}",
         "urut": null,
         "keterangan": "Margin Global untuk surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat_dinas"
@@ -1755,25 +1609,10 @@
         "value": "Anjungan [desa] Mandiri",
         "urut": null,
         "keterangan": "Pengaturan sebutan anjungan mandiri",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
-    },
-    {
-        "judul": "Icon Lapak Peta",
-        "key": "icon_lapak_peta",
-        "value": "http:\/\/opensid.test\/desa\/upload\/gis\/lokasi\/point\/fastfood.png",
-        "urut": 2,
-        "keterangan": "Icon penanda Lapak yang ditampilkan pada Peta",
-        "jenis": "select-simbol",
-        "option": {
-            "model": "App\\Models\\Simbol",
-            "value": "simbol",
-            "label": "simbol"
-        },
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Lapak"
     },
     {
         "judul": "Jumlah Gambar Galeri",
@@ -1800,17 +1639,6 @@
         },
         "attribute": "{\"class\":\"required\"}",
         "kategori": "galeri"
-    },
-    {
-        "judul": "Jumlah Pengajuan Produk Oleh Warga",
-        "key": "jumlah_pengajuan_produk",
-        "value": "3",
-        "urut": 6,
-        "keterangan": "Jumlah pengajuan produk perhari oleh warga melalui layanan mandiri",
-        "jenis": "input-number",
-        "option": null,
-        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":50,\"step\":1}",
-        "kategori": "Lapak"
     },
     {
         "judul": "Icon Pembangunan Peta",
@@ -1849,7 +1677,7 @@
         "value": "3",
         "urut": null,
         "keterangan": "Nomor akan diisi '0' di sebelah kiri, kalau perlu",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": "class=\"int\"",
         "kategori": "format_surat_dinas"
@@ -1860,7 +1688,7 @@
         "value": null,
         "urut": null,
         "keterangan": "Sumber Penduduk Berulang Global untuk surat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "format_surat"
@@ -1871,7 +1699,7 @@
         "value": "Pj.",
         "urut": 2,
         "keterangan": "Pengganti sebutan PJ Kepala Desa",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Pemerintah Desa"
@@ -1886,28 +1714,6 @@
         "option": null,
         "attribute": "class=\"bilangan required\" placeholder=\"3\" min=\"1\" max=\"12\" type=\"number\"",
         "kategori": "sinergi_program"
-    },
-    {
-        "judul": "Rentang Waktu Masuk",
-        "key": "rentang_waktu_masuk",
-        "value": "10",
-        "urut": null,
-        "keterangan": "Rentang waktu kehadiran ketika masuk. (satuan: menit)",
-        "jenis": "input-number",
-        "option": null,
-        "attribute": "Array",
-        "kategori": "Kehadiran"
-    },
-    {
-        "judul": "Rentang Waktu Keluar",
-        "key": "rentang_waktu_keluar",
-        "value": "10",
-        "urut": null,
-        "keterangan": "Rentang waktu kehadiran ketika keluar. (satuan: menit)",
-        "jenis": "input-number",
-        "option": null,
-        "attribute": "Array",
-        "kategori": "Kehadiran"
     },
     {
         "judul": "Sebutan Singkatan Kepala Dusun",
@@ -1926,7 +1732,7 @@
         "value": "26.07",
         "urut": null,
         "keterangan": "Versi Umum Yang Setara",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "default"
@@ -1962,7 +1768,7 @@
         "value": null,
         "urut": 3,
         "keterangan": "Tahun APBDes yang akan ditampilkan dihalaman depan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "Website"
@@ -1973,7 +1779,7 @@
         "value": "1",
         "urut": null,
         "keterangan": "SSL TTE",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "tte"
@@ -1984,7 +1790,7 @@
         "value": "Data Terpadu Kesejahteran Sosial",
         "urut": 1,
         "keterangan": "Pengganti sebutan DTKS",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "DTKS"
@@ -1995,7 +1801,7 @@
         "value": "Registrasi Sosial Ekonomi 2022",
         "urut": 2,
         "keterangan": "Pengganti sebutan lengkap Registrasi Sosial Ekonomi",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "DTKS"
@@ -2006,7 +1812,7 @@
         "value": "REGSOSEK2022.K",
         "urut": 3,
         "keterangan": "Pengganti sebutan singkat Registrasi Sosial Ekonomi",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
         "kategori": "DTKS"
@@ -2039,17 +1845,6 @@
         },
         "attribute": null,
         "kategori": "Anjungan"
-    },
-    {
-        "judul": "Tampilkan Status Kehadiran Pada Hari Libur",
-        "key": "tampilkan_status_kehadiran_pada_hari_libur",
-        "value": "1",
-        "urut": 2,
-        "keterangan": "Jika diaktifkan, status kehadiran perangkat desa akan tetap muncul di hari libur.",
-        "jenis": "select-boolean",
-        "option": null,
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Kehadiran"
     },
     {
         "judul": "Sembunyikan\/sensor nama pelapor",
@@ -2171,24 +1966,27 @@
         "kategori": "auth"
     },
     {
-        "judul": "Ikuti Hari Libur Terdaftar",
-        "key": "ikuti_hari_libur_terdaftar",
-        "value": "0",
-        "urut": 10,
-        "keterangan": "Jika diaktifkan, jam kerja akan otomatis berubah menjadi \"Libur\" ketika bertepatan dengan hari libur terdaftar.",
-        "jenis": "select-boolean",
-        "option": null,
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Kehadiran"
-    },
-    {
         "judul": "Sebutan Singkatan Kadus",
         "key": "sebutan_singkatan_kadus",
         "value": "Kepala Dusun",
         "urut": null,
         "keterangan": "Sebutan singkatan jabatan kepala dusun",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
+        "attribute": null,
+        "kategori": "sistem"
+    },
+    {
+        "judul": "Captcha Ketat",
+        "key": "strict_captcha",
+        "value": "0",
+        "urut": null,
+        "keterangan": "Mengaktifkan validasi captcha yang lebih ketat pada sistem",
+        "jenis": "boolean",
+        "option": {
+            "1": "Ya",
+            "0": "Tidak"
+        },
         "attribute": null,
         "kategori": "sistem"
     }

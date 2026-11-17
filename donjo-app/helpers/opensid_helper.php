@@ -1149,6 +1149,27 @@ function kode_wilayah($kode_wilayah): string
     return implode('.', $kode_prov_kab_kec) . $kode_desa;
 }
 
+/*
+ * Ambil kode_desa dari identitas
+ */
+function kode_desa($kodeWilayah = null): string
+{
+    $kodeWilayah = $kodeWilayah ?? identitas('kode_desa');
+
+    return substr($kodeWilayah, 6);
+}
+
+/*
+ * Cek apakah kode_desa adalah kelurahan
+ * Kelurahan: kode_desa <= 2000
+ */
+function isKelurahan($kodeWilayah = null): bool
+{
+    $kodeDesa = (int) kode_desa($kodeWilayah);
+
+    return (is_numeric($kodeDesa) && $kodeDesa < 2000);
+}
+
 // Dari 0892611042612 --> +6292611042612 untuk redirect WA
 function format_telpon(string $no_telpon, string $kode_negara = '+62'): string
 {

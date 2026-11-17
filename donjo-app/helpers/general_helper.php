@@ -338,11 +338,11 @@ if (! function_exists('SebutanDesa')) {
         }
 
         // Tidak bisa gunakan helper setting karena value belum di load
-        $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_pemerintah_desa', 'sebutan_dusun', 'default_tampil_peta_infrastruktur'])->pluck('value', 'key')->toArray();
+        $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_dusun', 'default_tampil_peta_infrastruktur'])->pluck('value', 'key')->toArray();
 
         return str_replace(
             $replaceWord,
-            [ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_pemerintah_desa']), ucwords($setting['sebutan_dusun'])],
+            [ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_desa']), ucwords('Pemerintah ' . $setting['sebutan_desa']), ucwords($setting['sebutan_dusun'])],
             $params
         );
     }

@@ -87,12 +87,20 @@
                 <h4>B4. BUKU PENDUDUK SEMENTARA</h4>
             </td>
         </tr>
+        @if(!empty($filters['bulan']) || !empty($filters['tahun']))
         <tr>
             <td class="text-center">
-                <h4>BUKU PENDUDUK SEMENTARA BULAN {{ strtoupper(getBulan($filters['bulan'] ?? date('m'))) }} TAHUN {{
-                    $filters['tahun'] ?? date('Y') }}</h4>
+                <h4>BUKU PENDUDUK SEMENTARA
+                    @if(!empty($filters['bulan']))
+                    BULAN {{ strtoupper(getBulan($filters['bulan'])) }}
+                    @endif
+                    @if(!empty($filters['tahun']))
+                    TAHUN {{ $filters['tahun'] }}
+                    @endif
+                </h4>
             </td>
         </tr>
+        @endif
         <tr>
             <td>&nbsp;</td>
         </tr>

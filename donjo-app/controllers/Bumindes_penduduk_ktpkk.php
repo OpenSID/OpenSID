@@ -63,15 +63,10 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
             $data_tahun[]['tahun'] = $nYear;
         }
         $data = [
-            'mainContent' => 'admin.bumindes.penduduk.ktpkk.index',
-            'subtitle'    => 'Buku KTP dan KK',
-            'selectedNav' => 'ktpkk',
-            'func'        => 'index',
-            'controller'  => $this->controller,
             'list_tahun'  => $data_tahun,
         ];
 
-        view('admin.bumindes.penduduk.index', $data);
+        view('admin.bumindes.penduduk.ktpkk.index', $data);
     }
 
     public function datatables()

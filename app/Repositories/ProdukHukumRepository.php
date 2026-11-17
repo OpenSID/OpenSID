@@ -61,6 +61,11 @@ class ProdukHukumRepository
             ])
             ->allowedSorts(['id', 'nama', 'tahun', 'kategori'])
             ->tap(static fn ($query) => $query->produkHukum()->active())
+            ->whereExists(function ($subQuery) {
+                $subQuery->selectRaw(1)
+                    ->from('dokumen_hidup')
+                    ->whereColumn('dokumen_hidup.id', 'dokumen.id');
+            })
             ->jsonPaginate();
     }
 

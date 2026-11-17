@@ -37,8 +37,8 @@
 
 namespace Modules\Kehadiran\Database\Seeders;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 class KehadiranSeeder extends Seeder
 {

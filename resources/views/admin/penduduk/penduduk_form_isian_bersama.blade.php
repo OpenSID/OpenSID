@@ -595,13 +595,14 @@
         </div>
     </div>
     @if (!empty($penduduk['no_kk']) || $kk_baru)
-    <div class='col-sm-12'>
+    <!-- <div class='col-sm-12'>
         <div class='form-group'>
             <label for="alamat">Alamat KK </label>
-            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk required" maxlength="200" type="text"
-                placeholder="Alamat di Kartu Keluarga" value="{{ $penduduk['alamat'] }}"></input>
+            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk required" 
+                maxlength="200" type="text" placeholder="Alamat di Kartu Keluarga" 
+                value="{{ $penduduk['alamat'] }}">
         </div>
-    </div>
+    </div> -->
     @endif
     @if (empty($id_kk))
     <div class="row">
@@ -806,9 +807,9 @@
             </div>
             <div class='col-sm-4'>
                 <div class='form-group'>
-                    <label for="cacat_id">Cacat</label>
+                    <label for="cacat_id">Disabilitas</label>
                     <select class="form-control input-sm" name="cacat_id">
-                        <option value="">Pilih Jenis Cacat</option>
+                        <option value="">Pilih Jenis Disabilitas</option>
                         @foreach (\App\Enums\CacatEnum::all() as $key => $value)
                         <option value="{{ $key }}" @selected($penduduk['cacat_id']==$key)>
                             {{ strtoupper($value) }}</option>
@@ -830,7 +831,7 @@
             </div>
         </div>
     </div>
-    @if ($jenis_peristiwa != 1)
+    @if ($jenis_peristiwa != 1 && $jenis_peristiwa != 2)
         <div class='col-sm-4' id="akseptor_kb">
             <div class='form-group'>
                 <label for="cara_kb_id">Akseptor KB</label>
@@ -930,7 +931,117 @@
             </div>
         </div>
     </div>
+    @if ($jenis_peristiwa == 2)
+        <div class='col-sm-12'>
+            <div class="form-group subtitle_head">
+                <label class="text-right"><strong>DATA KEMATIAN :</strong></label>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="meninggal_di">Tempat Meninggal</label>
+                        <input name="meninggal_di" class="form-control input-sm" type="text" maxlength="50" placeholder="Tempat Meninggal">
+                    </div>
+                </div>
+        
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="jam_mati">Jam Kematian</label>
+                        <div class="input-group input-group-sm ">
+                            <div class="input-group-addon">
+                                <i class="fa fa-clock-o"></i>
+                            </div>
+                            <input name="jam_mati" id="jammenit_1" class="form-control input-sm" type="text" maxlength="50" placeholder="Jam Kematian">
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="sebab">Penyebab Kematian</label>
+                        <select id="sebab" name="sebab" class="form-control select2 input-sm required">
+                            <option value="">Pilih Penyebab Kematian</option>
+                            @foreach ($sebab as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="penolong_mati">Yang Menerangkan Kematian</label>
+                        <select id="penolong_mati" name="penolong_mati" class="form-control select2 input-sm required">
+                            <option value="">Pilih Yang Menerangkan Kematian</option>
+                            @foreach ($penolong_mati as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+        
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="akta_mati">Nomor Akta Kematian</label>
+                        <input name="akta_mati" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor Akta Kematian">
+                    </div>
+                </div>
+        
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="file">File Akta Kematian : <code>(.jpg, .jpeg, .png, .pdf)</code></label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" id="file_path" name="satuan">
+                            <input type="file" class="hidden" id="file" name="nama_file" accept=".jpg,.jpeg,.png,.pdf">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Cari</button>
+                            </span>
+                        </div>
+                        <span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong>{{ max_upload(true) }}</strong>.</code></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="tgl_peristiwa">Tanggal Peristiwa</label>
+                        <div class="input-group input-group-sm date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input class="form-control input-sm pull-right required tgl_minimal" id="tgl_1" name="tgl_peristiwa" type="text" data-tgl-lebih-besar="#tgl_lapor" value="{{ $sekarang }}">
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="tgl_lapor">Tanggal Lapor</label>
+                        <div class="input-group input-group-sm date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input class="form-control input-sm pull-right tgl_indo required" id="tgl_lapor" name="tgl_lapor" type="text" value="{{ $sekarang }}">
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="catatan">Catatan Peristiwa</label>
+                        <textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    @endif
 </div>
+
+
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function() {
@@ -1538,16 +1649,36 @@
         function orang_tua() {
             var id_kk = $('#id_kk').val();
             var kk_level = $('#kk_level').val();
-            if (id_kk && (kk_level == 4 || '{{ $jenis_peristiwa }}' == 1)) {
-                $('#ayah_nik').val(@json($data_ayah['nik'] ?? ''));
-                $('#nama_ayah').val(@json($data_ayah['nama'] ?? ''));
-                $('#ibu_nik').val(@json($data_ibu['nik'] ?? ''));
-                $('#nama_ibu').val(@json($data_ibu['nama'] ?? ''));
+            var jenis_peristiwa = '{{ $jenis_peristiwa }}';
+            
+            // Untuk bayi baru lahir
+            if (jenis_peristiwa == 1) {
+                // Jika SHDK adalah Anak (kk_level == 4), ambil data Kepala Keluarga dan Istri
+                if (id_kk && kk_level == 4) {
+                    $('#ayah_nik').val(@json($data_ayah['nik'] ?? '')).prop('readonly', true);
+                    $('#nama_ayah').val(@json($data_ayah['nama'] ?? '')).prop('readonly', true);
+                    $('#ibu_nik').val(@json($data_ibu['nik'] ?? '')).prop('readonly', true);
+                    $('#nama_ibu').val(@json($data_ibu['nama'] ?? '')).prop('readonly', true);
+                } else {
+                    // Jika SHDK selain Anak (Cucu, Famili Lain), kosongkan dan biarkan input manual
+                    $('#ayah_nik').val('').prop('readonly', false);
+                    $('#nama_ayah').val('').prop('readonly', false);
+                    $('#ibu_nik').val('').prop('readonly', false);
+                    $('#nama_ibu').val('').prop('readonly', false);
+                }
             } else {
-                $('#ayah_nik').val('{{ $penduduk['ayah_nik'] }}');
-                $('#nama_ayah').val('{{ $penduduk['nama_ayah'] }}'); 
-                $('#ibu_nik').val('{{ $penduduk['ibu_nik'] }}');
-                $('#nama_ibu').val('{{ $penduduk['nama_ibu'] }}');
+                // Untuk bukan bayi baru lahir, gunakan logika lama
+                if (id_kk && kk_level == 4) {
+                    $('#ayah_nik').val(@json($data_ayah['nik'] ?? '')).prop('readonly', true);
+                    $('#nama_ayah').val(@json($data_ayah['nama'] ?? '')).prop('readonly', true);
+                    $('#ibu_nik').val(@json($data_ibu['nik'] ?? '')).prop('readonly', true);
+                    $('#nama_ibu').val(@json($data_ibu['nama'] ?? '')).prop('readonly', true);
+                } else {
+                    $('#ayah_nik').val('{{ $penduduk['ayah_nik'] }}').prop('readonly', false);
+                    $('#nama_ayah').val('{{ $penduduk['nama_ayah'] }}').prop('readonly', false);
+                    $('#ibu_nik').val('{{ $penduduk['ibu_nik'] }}').prop('readonly', false);
+                    $('#nama_ibu').val('{{ $penduduk['nama_ibu'] }}').prop('readonly', false);
+                }
             }
         }
 </script>

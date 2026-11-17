@@ -82,7 +82,7 @@ class RegisteredUserController extends Web_Controller
             'tanggallahir' => ['required', 'date_format:Y-m-d'],
             'nik'          => ['required', 'digits:16', 'regex:/^\d{16}$/'],
             'no_kk'        => ['required', 'digits:16', 'regex:/^\d{16}$/'],
-            'email'        => ['required', 'email', "unique:penduduk_hidup,email,{$request->email},email"],
+            'email'        => ['required', 'email', 'not_regex:/[\r\n]/', "unique:penduduk_hidup,email,{$request->email},email"],
             'telegram'     => ['required', 'regex:/^[0-9]{1,20}$/', "unique:penduduk_hidup,telegram,{$request->telegram},telegram"],
             'password'     => ['required', 'digits:6', 'regex:/^\d{6}$/', 'confirmed'],
             'scan_1'       => 'required|image|mimes:gif,jpeg,jpg,png|max:1024',

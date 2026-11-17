@@ -435,3 +435,10 @@ define('PENOLONG_MATI', serialize([
     '3' => 'Kepolisian',
     '4' => 'Lainnya',
 ]));
+
+// ======================================================================
+// TABLE HEADERS - Untuk menghindari typo pada header tabel
+// ======================================================================
+
+// Header Umum
+define('HEADER_TELEPON', 'No. Telepon');

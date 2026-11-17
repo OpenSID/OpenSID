@@ -697,6 +697,19 @@ class Surat_dinas extends Admin_Controller
                 unset($data);
             }
         }
+        // VALIDASI FORMAT NOMOR SURAT
+        if (! empty($request['format_nomor']) && mb_strlen($request['format_nomor']) > 35) {
+            $id_surat = $id ?? ($request['id_surat'] ?? null);
+
+            redirect_with(
+                'error',
+                'Format nomor surat maksimal 35 karakter',
+                $id_surat
+                    ? ci_route('surat_dinas.form', $id_surat)
+                    : ci_route('surat_dinas.form')
+            );
+        }
+
 
         $data = [
             'config_id'           => identitas('id'),

@@ -63,6 +63,7 @@
                                                         <th>Masa Berlaku</th>
                                                         <th>Sasaran</th>
                                                         <th>Status</th>
+                                                        <th>Publikasi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -149,6 +150,12 @@
                     },
                     {
                         data: 'status_masa_aktif',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'status_publikasi',
                         class: 'padat',
                         searchable: false,
                         orderable: false

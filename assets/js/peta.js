@@ -1931,6 +1931,10 @@ $(document).ready(function () {
 
 //Cetak Peta ke PNG
 function cetakPeta(layerpeta) {
+  // Simpan zoom awal dan posisi tengah peta untuk dikembalikan setelah cetak
+  var initialZoom;
+  var initialCenter;
+
   L.control
     .browserPrint({
       documentTitle: "Peta_Wilayah",
@@ -1957,26 +1961,59 @@ function cetakPeta(layerpeta) {
     }
   );
 
-  // Ensure street name labels are visible during print/export
-  layerpeta.on('browser-print-start', function(e) {
+  layerpeta.on("browser-print-start", function (e) {
+    // Cek apakah ada layer poligon/garis (wilayah) yang aktif
+    let isWilayahActive = false;
+    layerpeta.eachLayer(function (layer) {
+      if (layer instanceof L.GeoJSON && typeof layer.getLayers === 'function' && layer.getLayers().length > 0) {
+        isWilayahActive = true;
+      } else if (layer instanceof L.Polygon || layer instanceof L.Polyline) {
+        // Ini akan menangkap poligon/garis tunggal yang mungkin bukan bagian dari GeoJSON group
+        isWilayahActive = true;
+      }
+    });
+
+    // Jika ada layer wilayah aktif, lakukan zoom out
+    if (isWilayahActive) {
+      initialZoom = layerpeta.getZoom();
+      initialCenter = layerpeta.getCenter();
+      layerpeta.setZoom(11.95);
+    }
+
+    // --- Kode yang sudah ada untuk memastikan label jalan ikut tercetak ---
     try {
       // Make sure text path labels remain visible in print
-      e.printMap.eachLayer(function(layer) {
-        if (layer && layer._text && layer.setText && typeof layer.setText === 'function') {
+      e.printMap.eachLayer(function (layer) {
+        if (
+          layer &&
+          layer._text &&
+          layer.setText &&
+          typeof layer.setText === "function"
+        ) {
           try {
             // Re-apply text path to ensure it appears in print
-            setTimeout(function() {
+            setTimeout(function () {
               if (layer._path && layer._map) {
                 layer.setText(layer._text, layer._textOptions);
               }
             }, 50);
           } catch (err) {
-            console.warn('Error re-applying text path on print:', err);
+            console.warn("Error re-applying text path on print:", err);
           }
         }
       });
     } catch (e) {
-      console.warn('Error during browser print start:', e);
+      console.warn("Error during browser print start:", e);
+    }
+  });
+
+  // Event listener setelah proses cetak selesai untuk mengembalikan tampilan peta
+  layerpeta.on("browser-print-end", function (e) {
+    // Kembalikan ke zoom dan posisi tengah semula jika sebelumnya diubah
+    if (initialCenter && initialZoom) {
+      layerpeta.setView(initialCenter, initialZoom);
+      initialZoom = null;
+      initialCenter = null;
     }
   });
 

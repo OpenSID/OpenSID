@@ -93,8 +93,8 @@ return [
     | Dipakai oleh LayananClient di modul-pelanggan.
     |
     | Catatan Umum: env() membaca $_ENV dan getenv(), bukan $_SERVER (fastcgi_param).
-    | PengalihLayananLokal::terapkan() meng-override nilai ini di runtime saat
-    | modul-pelanggan terpasang dan mode lokal aktif.
+    | server_layanan adalah SATU-SATUNYA sumber URL Layanan untuk semua kondisi
+    | (produksi, staging, Layanan lokal, emulator in-app `.../layanan-lokal`).
     |
     */
 

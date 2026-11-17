@@ -37,12 +37,13 @@
 
 namespace App\Repositories;
 
-use App\Libraries\TinyMCE;
 use App\Models\Config;
-use App\Models\Notifikasi;
-use App\Models\SettingAplikasi;
-use App\Services\OtpService;
 use App\Traits\Upload;
+use App\Libraries\TinyMCE;
+use App\Models\Notifikasi;
+use App\Services\OtpService;
+use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\Facades\LogBatch;
 
 class SettingAplikasiRepository
@@ -63,8 +64,43 @@ class SettingAplikasiRepository
         }
 
         $ci->list_setting = SettingAplikasi::urut()->get();
-        $ci->setting      = (object) $ci->list_setting->pluck('value', 'key')
-            ->map(static fn ($value, $key) => SebutanDesa($value))
+
+        // ambil setting dari global.json jika ada
+        $path = DESAPATH.'config/global.json';
+
+        if (is_file($path)) {
+            $hash     = md5_file($path);
+            $cacheKey = 'desa.config.global.' . $hash;
+            $configGlobal = Cache::rememberForever(
+                $cacheKey,
+                fn () => collect(json_decode(file_get_contents($path), true))
+            );
+
+            if (isKelurahan()) {
+                $configGlobal->put('sebutan_desa', 'Kelurahan');
+            }
+
+            $ci->list_setting->transform(function ($item) use ($configGlobal) {
+                if (! $configGlobal->has($item->key)) {
+                    return $item;
+                }
+
+                $item->value = $configGlobal->get($item->key);
+
+                $item->attribute = json_encode(
+                    array_merge(
+                        json_decode($item->attribute ?? '{}', true) ?: [],
+                        ['disabled' => true]
+                    )
+                );
+
+                return $item;
+            });
+        }
+
+        $ci->setting = (object) $ci->list_setting
+            ->pluck('value', 'key')
+            ->map(static fn ($value) => SebutanDesa($value))
             ->toArray();
 
         //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
@@ -109,6 +145,9 @@ class SettingAplikasiRepository
         }
 
         $ci->setting->user_admin = config_item('user_admin');
+
+        // Sebutan pemerintah desa diambil dari Pemerintah + sebutan_desa
+        $ci->setting->sebutan_pemerintah_desa = ucwords('Pemerintah ' . $ci->setting->sebutan_desa);
 
         // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi

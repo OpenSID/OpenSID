@@ -72,8 +72,8 @@ class LaporanPendudukRepository
         // =================================================================================
         // 2. GET ALL MUTATIONS FOR THE CURRENT MONTH FROM LOGS
         // =================================================================================
-        $mutasiPenduduk   = LogPenduduk::with(['penduduk' => static fn ($q) => $q->withOnly([])])->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)->get();
-        $keluargaPenduduk = LogKeluarga::with(['keluarga.kepalaKeluarga' => static fn ($q) => $q->withOnly([])])->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)->get();
+        $mutasiPenduduk   = LogPenduduk::with(['penduduk' => static fn ($q) => $q->withOnly([])->where('is_historical', false)])->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)->get();
+        $keluargaPenduduk = LogKeluarga::with(['keluarga.kepalaKeluarga' => static fn ($q) => $q->withOnly([])->where('is_historical', false)])->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)->get();
 
         // =================================================================================
         // 3. COUNT AND CATEGORIZE MUTATIONS

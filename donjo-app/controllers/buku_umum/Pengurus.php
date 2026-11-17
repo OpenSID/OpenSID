@@ -59,19 +59,21 @@ class Pengurus extends Admin_Controller
     public $akses_modul         = 'pemerintah-desa';
     public $kategori_pengaturan = 'Pemerintah Desa';
     private $mapLevel           = [];
+    private $refJabatan;
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
+        $this->refJabatan = RefJabatan::getKadesSekdes();
     }
 
     // Hanya filter inputan
     protected static function jabatanValidate($request = [], $id = null)
     {
         return [
-            'nama'    => nama_terbatas($request['nama']),
-            'tupoksi' => $request['tupoksi'],
+            'nama'    => strip_tags((string) $request['nama']),
+            'tupoksi' => strip_tags((string) $request['tupoksi']),
         ];
     }
 
@@ -83,7 +85,7 @@ class Pengurus extends Admin_Controller
         $data['subtitle']           = 'Buku ' . ucwords((string) setting('sebutan_pemerintah_desa'));
         $data['selected_nav']       = 'pengurus';
         $data['jabatanSekdes']      = sekdes()->id;
-        $data['jabatanKadesSekdes'] = RefJabatan::getKadesSekdes();
+        $data['jabatanKadesSekdes'] = $this->refJabatan;
         $data['status']             = [Pamong::LOCK => 'Aktif', Pamong::UNLOCK => 'Tidak Aktif'];
         $data['default_status']     = request('status', Pamong::LOCK);
 
@@ -95,6 +97,7 @@ class Pengurus extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status    = $this->input->get('status') ?? null;
             $kehadiran = $this->input->get('kehadiran') ?? null;
+            $refJabatan = $this->refJabatan;
 
             $query = Pamong::urut()
                 ->when($status, static fn ($q) => $q->where('pamong_status', $status))
@@ -104,7 +107,7 @@ class Pengurus extends Admin_Controller
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
+                ->addColumn('aksi', static function ($row) use ($refJabatan): string {
                     $aksi = View::make('admin.layouts.components.buttons.edit', [
                         'url' => "pengurus/form/{$row->pamong_id}",
                     ])->render();
@@ -134,7 +137,7 @@ class Pengurus extends Admin_Controller
 
                     }
 
-                    if (! in_array($row->jabatan_id, RefJabatan::getKadesSekdes())) {
+                    if (! in_array($row->jabatan_id, $refJabatan)) {
                         $statusUb = $row->pamong_ub == 1 ? 2 : 1;
 
                         $aksi .= View::make('admin.layouts.components.tombol_ttd', [
@@ -278,7 +281,7 @@ class Pengurus extends Admin_Controller
             RefJabatan::getKades()->id;
             RefJabatan::getSekdes()->id;
 
-            if (in_array($data['jabatan_id'], RefJabatan::getKadesSekdes())) {
+            if (in_array($data['jabatan_id'], $this->refJabatan)) {
                 $data['pamong_ub'] = 0;
             }
 
@@ -345,8 +348,8 @@ class Pengurus extends Admin_Controller
         }
 
         if ($jenis == 'u.b') {
-            if (! in_array($pamong->jabatan_id, RefJabatan::getKadesSekdes())) {
-                $output = Pamong::whereNotIn('jabatan_id', RefJabatan::getKadesSekdes())->find($id)->update(['pamong_ub' => $val]);
+            if (! in_array($pamong->jabatan_id, $this->refJabatan)) {
+                $output = Pamong::whereNotIn('jabatan_id', $this->refJabatan)->find($id)->update(['pamong_ub' => $val]);
                 // model seperti di atas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
                 (new Pamong())->flushQueryCache();
                 redirect_with('success', 'Penandatangan u.b berhasil disimpan');
@@ -379,7 +382,7 @@ class Pengurus extends Admin_Controller
         $jabatan_aktif = Pamong::whereJabatanId($pamong->jabatan_id)->wherePamongStatus(1)->exists();
 
         // Cek untuk kades atau sekdes apakah sudah ada yang aktif saat mengaktifkan
-        if ($val == 1 && $jabatan_aktif && in_array($pamong->jabatan_id, RefJabatan::getKadesSekdes())) {
+        if ($val == 1 && $jabatan_aktif && in_array($pamong->jabatan_id, $this->refJabatan)) {
             redirect_with('error', 'Pamong ' . $pamong->jabatan->nama . ' sudah tersedia, silakan non-aktifkan terlebih dahulu jika ingin menggantinya.');
         }
 
@@ -508,26 +511,28 @@ class Pengurus extends Admin_Controller
     public function jabatan()
     {
         if ($this->input->is_ajax_request()) {
+            $refJabatan = $this->refJabatan;
+
             return datatables()->of(RefJabatan::query()->urut()->latest())
-                ->addColumn('ceklist', static function ($row) {
+                ->addColumn('ceklist', static function ($row) use ($refJabatan): ?string {
                     if (! can('h')) {
-                        return;
+                        return '';
                     }
-                    if (in_array($row->id, RefJabatan::getKadesSekdes())) {
-                        return;
+                    if (in_array($row->id, $refJabatan)) {
+                        return '';
                     }
 
                     return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
+                ->addColumn('aksi', static function ($row) use ($refJabatan): string {
                     $aksi = '';
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => "pengurus/jabatanform/{$row->id}",
                     ])->render();
 
-                    if (! in_array($row->id, RefJabatan::getKadesSekdes())) {
+                    if (! in_array($row->id, $refJabatan)) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                             'url'           => ci_route('pengurus.jabatandelete', $row->id),
                             'confirmDelete' => true,
@@ -559,9 +564,10 @@ class Pengurus extends Admin_Controller
             $jabatan     = null;
         }
 
+        $kades_sekdes = $this->refJabatan;
         $selected_nav = 'pengurus';
 
-        return view('admin.jabatan.form', ['selected_nav' => $selected_nav, 'action' => $action, 'form_action' => $form_action, 'jabatan' => $jabatan]);
+        return view('admin.jabatan.form', ['selected_nav' => $selected_nav, 'action' => $action, 'form_action' => $form_action, 'jabatan' => $jabatan, 'kades_sekdes' => $kades_sekdes]);
     }
 
     public function jabataninsert(): void
@@ -578,11 +584,17 @@ class Pengurus extends Admin_Controller
     {
         isCan('u');
 
-        $data = RefJabatan::find($id) ?? show_404();
+        $jabatan = RefJabatan::find($id) ?? show_404();
+        $input   = static::jabatanValidate($this->request, $jabatan->id);
 
-        if ($data->update(static::jabatanValidate($this->request, $data->id))) {
+        if (isKelurahan() && in_array($jabatan->id, $this->refJabatan)) {
+            $input['nama'] = $jabatan->nama;
+        }
+
+        if ($jabatan->update($input)) {
             redirect_with('success', 'Berhasil Ubah Data', 'pengurus/jabatan');
         }
+
         redirect_with('error', 'Gagal Ubah Data', 'pengurus/jabatan');
     }
 
@@ -594,7 +606,7 @@ class Pengurus extends Admin_Controller
 
         foreach ($ids as $id) {
             $data = RefJabatan::find($id) ?? show_404();
-            if (in_array($data->id, RefJabatan::getKadesSekdes())) {
+            if (in_array($data->id, $this->refJabatan)) {
                 redirect_with('error', __('notification.deleted.error') . ', ' . $data->nama . ' Tidak Boleh Dihapus.', 'pengurus/jabatan');
             }
         }

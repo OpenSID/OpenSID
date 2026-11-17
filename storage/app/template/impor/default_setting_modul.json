@@ -39,19 +39,6 @@
         "parent_slug": null
     },
     {
-        "modul": "Analisis",
-        "slug": "analisis",
-        "url": "analisis_master",
-        "aktif": 1,
-        "ikon": "fa-check-square",
-        "urut": 90,
-        "level": 2,
-        "hidden": 0,
-        "ikon_kecil": "fa fa-check-square-o",
-        "parent": 0,
-        "parent_slug": null
-    },
-    {
         "modul": "Bantuan",
         "slug": "bantuan",
         "url": "program_bantuan/clear",
@@ -217,19 +204,6 @@
         "level": 2,
         "hidden": 0,
         "ikon_kecil": "fa fa-paste",
-        "parent": 0,
-        "parent_slug": null
-    },
-    {
-        "modul": "Kehadiran",
-        "slug": "kehadiran",
-        "url": "",
-        "aktif": 1,
-        "ikon": "fa-calendar-check-o",
-        "urut": 41,
-        "level": 0,
-        "hidden": 0,
-        "ikon_kecil": "fa-calendar-check-o",
         "parent": 0,
         "parent_slug": null
     },
@@ -778,97 +752,6 @@
         "ikon_kecil": "",
         "parent": 2,
         "parent_slug": "kependudukan"
-    },
-    {
-        "modul": "Kategori / Variabel",
-        "slug": "analisis-kategori",
-        "url": "analisis_kategori",
-        "aktif": 1,
-        "ikon": "",
-        "urut": 0,
-        "level": 0,
-        "hidden": 2,
-        "ikon_kecil": "",
-        "parent": 5,
-        "parent_slug": "analisis"
-    },
-    {
-        "modul": "Indikator & Pertanyaan",
-        "slug": "analisis-indikator",
-        "url": "analisis_indikator",
-        "aktif": 1,
-        "ikon": "",
-        "urut": 0,
-        "level": 0,
-        "hidden": 2,
-        "ikon_kecil": "",
-        "parent": 5,
-        "parent_slug": "analisis"
-    },
-    {
-        "modul": "Klasifikasi Analisis",
-        "slug": "analisis-klasifikasi",
-        "url": "analisis_klasifikasi",
-        "aktif": 1,
-        "ikon": "",
-        "urut": 0,
-        "level": 0,
-        "hidden": 2,
-        "ikon_kecil": "",
-        "parent": 5,
-        "parent_slug": "analisis"
-    },
-    {
-        "modul": "Periode Sensus / Survei",
-        "slug": "analisis-periode",
-        "url": "analisis_periode",
-        "aktif": 1,
-        "ikon": "",
-        "urut": 0,
-        "level": 0,
-        "hidden": 2,
-        "ikon_kecil": "",
-        "parent": 5,
-        "parent_slug": "analisis"
-    },
-    {
-        "modul": "Input Data Sensus / Survei",
-        "slug": "analisis-respon",
-        "url": "analisis_respon",
-        "aktif": 1,
-        "ikon": "",
-        "urut": 0,
-        "level": 0,
-        "hidden": 2,
-        "ikon_kecil": "",
-        "parent": 5,
-        "parent_slug": "analisis"
-    },
-    {
-        "modul": "Laporan Hasil Klasifikasi",
-        "slug": "analisis-laporan",
-        "url": "analisis_laporan",
-        "aktif": 1,
-        "ikon": "",
-        "urut": 0,
-        "level": 0,
-        "hidden": 2,
-        "ikon_kecil": "",
-        "parent": 5,
-        "parent_slug": "analisis"
-    },
-    {
-        "modul": "Laporan Per Indikator",
-        "slug": "analisis-statistik-jawaban",
-        "url": "analisis_statistik_jawaban",
-        "aktif": 1,
-        "ikon": "",
-        "urut": 0,
-        "level": 0,
-        "hidden": 2,
-        "ikon_kecil": "",
-        "parent": 5,
-        "parent_slug": "analisis"
     },
     {
         "modul": "Inventaris Asset",
@@ -1456,19 +1339,6 @@
         "parent_slug": "buku-administrasi-desa"
     },
     {
-        "modul": "Lapak",
-        "slug": "lapak",
-        "url": "lapak_admin",
-        "aktif": 1,
-        "ikon": "fa-cart-plus",
-        "urut": 122,
-        "level": 2,
-        "hidden": 0,
-        "ikon_kecil": "fa-cart-plus",
-        "parent": 0,
-        "parent_slug": null
-    },
-    {
         "modul": "Laporan APBDes",
         "slug": "laporan-apbdes",
         "url": "laporan_apbdes",
@@ -1625,58 +1495,6 @@
         "parent_slug": "buku-administrasi-desa"
     },
     {
-        "modul": "Jam Kerja",
-        "slug": "jam-kerja",
-        "url": "kehadiran_jam_kerja",
-        "aktif": 1,
-        "ikon": "fa-clock-o",
-        "urut": 2,
-        "level": 0,
-        "hidden": 0,
-        "ikon_kecil": "fa-clock-o",
-        "parent": 337,
-        "parent_slug": "kehadiran"
-    },
-    {
-        "modul": "Hari Libur",
-        "slug": "hari-libur",
-        "url": "kehadiran_hari_libur",
-        "aktif": 1,
-        "ikon": "fa-calendar",
-        "urut": 2,
-        "level": 0,
-        "hidden": 0,
-        "ikon_kecil": "fa-calendar",
-        "parent": 337,
-        "parent_slug": "kehadiran"
-    },
-    {
-        "modul": "Rekapitulasi",
-        "slug": "rekapitulasi",
-        "url": "kehadiran_rekapitulasi",
-        "aktif": 1,
-        "ikon": "fa-list",
-        "urut": 2,
-        "level": 0,
-        "hidden": 0,
-        "ikon_kecil": "fa-list",
-        "parent": 337,
-        "parent_slug": "kehadiran"
-    },
-    {
-        "modul": "Pengaduan",
-        "slug": "kehadiran-pengaduan",
-        "url": "kehadiran_pengaduan",
-        "aktif": 1,
-        "ikon": "fa-exclamation",
-        "urut": 2,
-        "level": 0,
-        "hidden": 0,
-        "ikon_kecil": "fa-exclamation",
-        "parent": 337,
-        "parent_slug": "kehadiran"
-    },
-    {
         "modul": "Pesan",
         "slug": "pesan",
         "url": "opendk_pesan/clear",
@@ -1714,19 +1532,6 @@
         "ikon_kecil": "fa-stethoscope",
         "parent": 206,
         "parent_slug": "kesehatan"
-    },
-    {
-        "modul": "Alasan Keluar",
-        "slug": "alasan-keluar",
-        "url": "kehadiran_keluar",
-        "aktif": 1,
-        "ikon": "fa-sign-out",
-        "urut": 5,
-        "level": 2,
-        "hidden": 0,
-        "ikon_kecil": "fa-sign-out",
-        "parent": 337,
-        "parent_slug": "kehadiran"
     },
     {
         "modul": "Gawai Layanan",
@@ -1909,31 +1714,5 @@
         "ikon_kecil": "fa fa-cubes",
         "parent": 11,
         "parent_slug": "pengaturan"
-    },
-    {
-        "modul": "Pengajuan Izin",
-        "slug": "pengajuan-izin",
-        "url": "kehadiran_pengajuan_izin_pamong",
-        "aktif": 1,
-        "ikon": "fa-file-text-o",
-        "urut": 3,
-        "level": 0,
-        "hidden": 0,
-        "ikon_kecil": "fa-file-text-o",
-        "parent": 337,
-        "parent_slug": "kehadiran"
-    },
-    {
-        "modul": "Persetujuan Izin",
-        "slug": "approval-izin",
-        "url": "kehadiran_pengajuan_izin",
-        "aktif": 1,
-        "ikon": "fa-check-square-o",
-        "urut": 4,
-        "level": 0,
-        "hidden": 0,
-        "ikon_kecil": "fa-check-square-o",
-        "parent": 337,
-        "parent_slug": "kehadiran"
     }
 ]

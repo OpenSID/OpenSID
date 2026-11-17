@@ -121,12 +121,12 @@ class Dpt extends Admin_Controller
         view('admin.dpt.dpt_cetak', $data);
     }
 
-    public function ajax_cetak(string $aksi = 'cetak'): void
+    public function ajax_cetak(string $aksi = 'cetak')
     {
         $data['aksi']   = $aksi;
         $data['action'] = ci_route('dpt.cetak.' . $aksi);
 
-        view('admin.dpt.ajax_cetak_bersama', $data);
+        return view('admin.layouts.components.ajax-cetak-bersama', $data);
     }
 
     private function sumberData()
