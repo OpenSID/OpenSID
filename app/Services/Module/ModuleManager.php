@@ -567,7 +567,7 @@ class ModuleManager
         try {
             $token    = token_bursa();
             $response = Http::withToken($token)->post(
-                config('services.opendesa.server_layanan') . '/api/v1/modules/install',
+                (config('services.opendesa.server_layanan') ?: config('bursa.url_penyedia')) . '/api/v1/modules/install',
                 [
                     'module_name'   => $name,
                     'version'       => $version,

@@ -93,7 +93,7 @@ class LayananHttpSource implements ModuleSource
     private function serverLayanan(): string
     {
         return $this->serverLayanan
-            ?? (string) config('services.opendesa.server_layanan');
+            ?? (string) (config('services.opendesa.server_layanan') ?: config('bursa.url_penyedia'));
     }
 
     /**

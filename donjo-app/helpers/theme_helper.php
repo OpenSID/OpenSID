@@ -312,3 +312,24 @@ if (! function_exists('module_asset')) {
         return base_url("module_asset/{$name}?{$queryString}");
     }
 }
+
+
+if (! function_exists('theme_version')) {
+    /**
+     * Versi tema (tema aktif bila $themeName kosong).
+     *
+     * Helper ini baru ada sejak v2609, padahal tema bursa terbaru (mis. Esensi)
+     * memanggilnya di template. Shim ini ditambahkan pipeline rilis Umum
+     * (patch-wiring-addon-umum.php) untuk core yang belum memilikinya.
+     */
+    function theme_version(?string $themeName = ''): ?string
+    {
+        if (empty($themeName)) {
+            return \App\Models\Theme::where('status', 1)->value('versi');
+        }
+
+        $versi = \App\Models\Theme::whereIn('slug', ['desa-' . $themeName, $themeName])->pluck('versi', 'slug');
+
+        return $versi['desa-' . $themeName] ?? $versi[$themeName] ?? null;
+    }
+}
