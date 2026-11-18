@@ -6419,17 +6419,11 @@
                 "sumber": 1,
                 "sumber_wajib": 0,
                 "data": [
-                    "1",
-                    "3"
+                    "1"
                 ],
                 "sex": "2",
                 "status_dasar": [
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "6",
-                    "9"
+                    "1"
                 ],
                 "kk_level": [
                     "1",
@@ -6957,7 +6951,7 @@
         "header": 1,
         "format_nomor": "",
         "format_nomor_global": 1,
-        "sumber_penduduk_berulang": 1
+        "sumber_penduduk_berulang": 0
     },
     {
         "nama": "Permohonan Akta Lahir",

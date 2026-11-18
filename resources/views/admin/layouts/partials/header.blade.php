@@ -124,6 +124,65 @@
                         </a>
                     </li>
                 @endif
+
+                @if (can('b', 'data-tamu'))
+                    <li>
+                        <a href="{{ ci_route('buku_tamu') }}?status={{ Modules\BukuTamu\Models\TamuModel::BARU }}">
+                            <i class="fa fa-book fa-lg" title="Buku Tamu"></i>&nbsp;
+                            @if ($notif['buku_tamu'])
+                                <span class="badge" id="b_buku_tamu">{{ $notif['buku_tamu'] }}</span>
+                            @endif
+                            @if ($is_mobile)
+                                <span>Buku Tamu</span>
+                            @endif
+                        </a>
+                    </li>
+                @endif
+
+                @if ($ci->agent->is_mobile())
+            </ul>
+            </li>
+            </ul>
+            </li>
+            @endif
+
+            <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="{{ AmbilFoto($auth->foto) }}" class="user-image" alt="User Image" />
+                    <span class="hidden-xs">{{ $auth->nama }}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="user-header">
+                        <img src="{{ AmbilFoto($auth->foto) }}" class="img-circle" alt="User Image" />
+                        <p>
+                            <small>Anda Masuk Sebagai</small>
+                            {{ $auth->nama }}
+                        </p>
+                    </li>
+                    <li class="user-footer">
+                        <div class="pull-left">
+                            <a href="<?= site_url('pengguna') ?>" class="btn bg-maroon btn-sm">Profil</a>
+                        </div>
+                        <div class="pull-right">
+                            <a href="{{ ci_route('siteman.logout') }}" class="btn bg-maroon btn-sm">Keluar</a>
+                        </div>
+                    </li>
+                </ul>
+            <li>
+                <a href="#" data-toggle="control-sidebar" title="Informasi"><i class="fa fa-question-circle fa-lg"></i></a>
+            </li>
+            @if ($kategori_pengaturan && can('u', $akses_modul))
+                <li>
+                    @if ($modul_ini === 'layanan-pelanggan' || $sub_modul_ini === 'layanan-pelanggan')
+                        <a href="#" class="atur-token">
+                        @else
+                            <a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan {{ ucwords($controller) }}" data-target="#pengaturan">
+                    @endif
+                    <span><i class="fa fa-gear"></i>&nbsp;</span>
+                    </a>
+                </li>
+            @endif
+            </li>
             </ul>
         </div>
     </nav>

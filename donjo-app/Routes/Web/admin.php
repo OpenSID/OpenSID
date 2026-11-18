@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -104,7 +104,6 @@ Route::group('periksa', static function (): void {
     Route::match(['GET', 'POST'], '/perbaiki', 'Periksa@perbaiki')->name('periksa.perbaiki');
     Route::match(['GET', 'POST'], '/perbaikiSebagian/{masalah?}', 'Periksa@perbaikiSebagian')->name('periksa.perbaikiSebagian');
     Route::post('perbaiki-pilihan', 'Periksa@perbaikiPilihan')->name('periksa.perbaiki.pilihan');
-    Route::get('lepas_kaitan_kk_lama/{id}', 'Periksa@lepas_kaitan_kk_lama')->name('periksa.lepas_kaitan_kk_lama');
     Route::get('/login', 'Periksa@login')->name('periksa.login');
     Route::post('/auth', 'Periksa@auth')->name('periksa.auth');
     Route::post('/tanggallahir', 'Periksa@tanggallahir')->name('periksa.tanggallahir');
@@ -1129,8 +1128,8 @@ Route::group('bumindes_inventaris_kekayaan', static function (): void {
     });
     Route::get('/', 'Bumindes_inventaris_kekayaan@index')->name('bumindes_inventaris_kekayaan.index');
     Route::get('/datatables', 'Bumindes_inventaris_kekayaan@datatables')->name('bumindes_inventaris_kekayaan.datatables');
-    Route::get('/dialog/{aksi?}', 'Bumindes_inventaris_kekayaan@dialog')->name('bumindes_inventaris_kekayaan.dialog');
-    Route::post('/cetak/{aksi?}', 'Bumindes_inventaris_kekayaan@cetak')->name('bumindes_inventaris_kekayaan.cetak');
+    // Route::get('/dialog/{aksi?}', 'Bumindes_inventaris_kekayaan@dialog')->name('bumindes_inventaris_kekayaan.dialog');
+    Route::get('/cetak/{aksi?}', 'Bumindes_inventaris_kekayaan@cetak')->name('bumindes_inventaris_kekayaan.cetak');
 });
 
 // Administrasi Penduduk
@@ -1709,6 +1708,15 @@ Route::group('/info_sistem', static function (): void {
     Route::post('/set_permission_desa', 'Info_sistem@set_permission_desa')->name('info_sistem.set_permission_desa');
     Route::get('file_desa', 'Info_sistem@fileDesa')->name('info_sistem.file_desa');
     Route::get('datatables-log', 'Info_sistem@datatablesLogAktifitas')->name('info_sistem.datatables-log');
+
+    // Security Scanner Routes
+    Route::post('security_generate_baseline', 'Info_sistem@security_generate_baseline')->name('info_sistem.security_generate_baseline');
+    Route::post('security_check_integrity', 'Info_sistem@security_check_integrity')->name('info_sistem.security_check_integrity');
+    Route::post('security_full_scan', 'Info_sistem@security_full_scan')->name('info_sistem.security_full_scan');
+    Route::post('security_delete_baseline', 'Info_sistem@security_delete_baseline')->name('info_sistem.security_delete_baseline');
+    Route::get('security_reports', 'Info_sistem@security_reports')->name('info_sistem.security_reports');
+    Route::get('security_view_report/{filename}', 'Info_sistem@security_view_report')->name('info_sistem.security_view_report');
+    Route::post('security_delete_report/{filename}', 'Info_sistem@security_delete_report')->name('info_sistem.security_delete_report');
 });
 
 // Pengaturan > QR Code
@@ -1914,21 +1922,16 @@ Route::group('mandiri', static function (): void {
 });
 
 // Layanan Mandiri > Gawai Layanan
-// OpenSID/OpenSID#11931 Fase 3.5: digantikan penuh oleh Modules/Anjungan
-// (rute nama IDENTIK, "diekstraksi dari core" per komentar routes/web.php-nya)
-// -- tanpa guard ini, "Duplicated named route" begitu Anjungan terpasang.
-if (! is_dir(FCPATH . 'Modules' . DIRECTORY_SEPARATOR . 'Anjungan')) {
-    Route::group('gawai_layanan', static function (): void {
-        Route::get('/', 'Gawai_layanan@index')->name('gawai_layanan.index');
-        Route::get('/datatables', 'Gawai_layanan@datatables')->name('gawai_layanan.datatables');
-        Route::get('/form/{id?}', 'Gawai_layanan@form')->name('gawai_layanan.form');
-        Route::post('/insert', 'Gawai_layanan@insert')->name('gawai_layanan.insert');
-        Route::post('/update/{id?}', 'Gawai_layanan@update')->name('gawai_layanan.update');
-        Route::get('/delete/{id?}', 'Gawai_layanan@delete')->name('gawai_layanan.delete');
-        Route::post('/delete', 'Gawai_layanan@delete')->name('gawai_layanan.delete-all');
-        Route::get('/kunci/{id?}/{val?}', 'Gawai_layanan@kunci')->name('gawai_layanan.kunci');
-    });
-}
+Route::group('gawai_layanan', static function (): void {
+    Route::get('/', 'Gawai_layanan@index')->name('gawai_layanan.index');
+    Route::get('/datatables', 'Gawai_layanan@datatables')->name('gawai_layanan.datatables');
+    Route::get('/form/{id?}', 'Gawai_layanan@form')->name('gawai_layanan.form');
+    Route::post('/insert', 'Gawai_layanan@insert')->name('gawai_layanan.insert');
+    Route::post('/update/{id?}', 'Gawai_layanan@update')->name('gawai_layanan.update');
+    Route::get('/delete/{id?}', 'Gawai_layanan@delete')->name('gawai_layanan.delete');
+    Route::post('/delete', 'Gawai_layanan@delete')->name('gawai_layanan.delete-all');
+    Route::get('/kunci/{id?}/{val?}', 'Gawai_layanan@kunci')->name('gawai_layanan.kunci');
+});
 
 // Layanan Mandiri > Pendapat
 Route::group('pendapat', static function (): void {
@@ -1965,15 +1968,10 @@ Route::group('dtks', static function (): void {
     Route::post('/remove/{id}', 'Dtks@remove')->name('dtks.remove');
 });
 
-// OpenSID/OpenSID#11931 Fase 3.5: halaman token core lama ini digantikan
-// penuh oleh Modules/Pelanggan (rute nama IDENTIK, token.index/token.update) --
-// tanpa guard ini, "Duplicated named route" begitu Pelanggan terpasang.
-if (! is_dir(FCPATH . 'Modules' . DIRECTORY_SEPARATOR . 'Pelanggan')) {
-    Route::group('token', static function (): void {
-        Route::get('/', 'Token@index')->name('token.index');
-        Route::post('/update', 'Token@update')->name('token.update');
-    });
-}
+Route::group('token', static function (): void {
+    Route::get('/', 'Token@index')->name('token.index');
+    Route::post('/update', 'Token@update')->name('token.update');
+});
 
 Route::group('plugin', static function (): void {
     Route::get('/', 'Plugin@index')->name('plugin.index');

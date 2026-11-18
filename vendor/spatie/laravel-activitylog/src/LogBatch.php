@@ -30,12 +30,8 @@ class LogBatch
     public function withinBatch(Closure $callback): mixed
     {
         $this->startBatch();
-
-        try {
-            $result = $callback($this->getUuid());
-        } finally {
-            $this->endBatch();
-        }
+        $result = $callback($this->getUuid());
+        $this->endBatch();
 
         return $result;
     }

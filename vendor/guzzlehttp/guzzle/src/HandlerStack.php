@@ -181,29 +181,15 @@ class HandlerStack
     public function remove($remove): void
     {
         if (!is_string($remove) && !is_callable($remove)) {
-            \trigger_deprecation('guzzlehttp/guzzle', '7.4', 'Not passing a callable or string to %s::%s() is deprecated and will cause an error in 8.0.', __CLASS__, __FUNCTION__);
+            trigger_deprecation('guzzlehttp/guzzle', '7.4', 'Not passing a callable or string to %s::%s() is deprecated and will cause an error in 8.0.', __CLASS__, __FUNCTION__);
         }
 
         $this->cached = null;
-
-        if (\is_string($remove)) {
-            $count = \count($this->stack);
-            $this->stack = \array_values(\array_filter(
-                $this->stack,
-                static function ($tuple) use ($remove) {
-                    return $tuple[1] !== $remove;
-                }
-            ));
-
-            if ($count !== \count($this->stack) || !\is_callable($remove)) {
-                return;
-            }
-        }
-
+        $idx = \is_callable($remove) ? 0 : 1;
         $this->stack = \array_values(\array_filter(
             $this->stack,
-            static function ($tuple) use ($remove) {
-                return $tuple[0] !== $remove;
+            static function ($tuple) use ($idx, $remove) {
+                return $tuple[$idx] !== $remove;
             }
         ));
     }
@@ -284,6 +270,6 @@ class HandlerStack
         }
 
         /** @var object $fn */
-        return 'callable('.\spl_object_id($fn).')';
+        return 'callable('.\spl_object_hash($fn).')';
     }
 }

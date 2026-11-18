@@ -71,6 +71,7 @@
         "symfony/console": "^6.1",
         "symfony/process": "^6.1",
         "symfony/var-dumper": "^6.1",
+        "tinymce/tinymce": "^7.2",
         "voku/anti-xss": "^4.1",
         "yajra/laravel-datatables-oracle": "^10.11"
     },
@@ -92,10 +93,7 @@
             "Database\\Seeders\\": "app/database/seeders/",
             "Modules\\": "Modules/",
             "Illuminate\\Routing\\": "app/Illuminate/Routing/"
-        },
-        "files": [
-            "donjo-app/helpers/illuminate_helper.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
@@ -114,6 +112,7 @@
             "indent-style": "space"
         },
         "copy-file": {
+            "vendor/tinymce/tinymce": "assets/js/tinymce-72",
             "storage/app/vendor": "vendor",
             "storage/app/public/assets/js/tinymce-72/plugins/image": "assets/js/tinymce-72/plugins/image"
         },

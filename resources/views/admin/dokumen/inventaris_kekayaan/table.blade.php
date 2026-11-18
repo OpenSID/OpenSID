@@ -4,16 +4,16 @@
             @php
                 $listCetakUnduh = [
                     [
-                        'url' => 'bumindes_inventaris_kekayaan/dialog/cetak',
+                        'url' => 'bumindes_inventaris_kekayaan/cetak/cetak',
                         'judul' => 'Cetak',
                         'icon' => 'fa fa-print',
-                        'modal' => true,
+                        'target' => 'true',
                     ],
                     [
-                        'url' => 'bumindes_inventaris_kekayaan/dialog/unduh',
+                        'url' => 'bumindes_inventaris_kekayaan/cetak/unduh',
                         'judul' => 'Unduh',
                         'icon' => 'fa fa-download',
-                        'modal' => true,
+                        'target' => 'true',
                     ]
                 ];
             @endphp

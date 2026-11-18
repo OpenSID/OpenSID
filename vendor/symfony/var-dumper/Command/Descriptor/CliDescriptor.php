@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\VarDumper\Command\Descriptor;
 
-use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -48,13 +47,13 @@ class CliDescriptor implements DumpDescriptorInterface
         if (isset($context['request'])) {
             $request = $context['request'];
             $this->lastIdentifier = $request['identifier'];
-            $section = \sprintf('%s %s', self::escape($request['method']), self::escape($request['uri']));
+            $section = \sprintf('%s %s', $request['method'], $request['uri']);
             if ($controller = $request['controller']) {
-                $rows[] = ['controller', OutputFormatter::escape(rtrim($this->dumper->dump($controller, true), "\n"))];
+                $rows[] = ['controller', rtrim($this->dumper->dump($controller, true), "\n")];
             }
         } elseif (isset($context['cli'])) {
             $this->lastIdentifier = $context['cli']['identifier'];
-            $section = '$ '.self::escape($context['cli']['command_line']);
+            $section = '$ '.$context['cli']['command_line'];
         }
 
         if ($this->lastIdentifier !== $lastIdentifier) {
@@ -63,23 +62,18 @@ class CliDescriptor implements DumpDescriptorInterface
 
         if (isset($context['source'])) {
             $source = $context['source'];
-            $sourceInfo = \sprintf('%s on line %d', self::escape($source['name']), $source['line']);
+            $sourceInfo = \sprintf('%s on line %d', $source['name'], $source['line']);
             if ($fileLink = $source['file_link'] ?? null) {
-                $sourceInfo = \sprintf('<href=%s>%s</>', self::escape($fileLink), $sourceInfo);
+                $sourceInfo = \sprintf('<href=%s>%s</>', $fileLink, $sourceInfo);
             }
             $rows[] = ['source', $sourceInfo];
             $file = $source['file_relative'] ?? $source['file'];
-            $rows[] = ['file', self::escape($file)];
+            $rows[] = ['file', $file];
         }
 
         $io->table([], $rows);
 
         $this->dumper->dump($data);
         $io->newLine();
-    }
-
-    private static function escape(string $value): string
-    {
-        return OutputFormatter::escape(preg_replace('/[\x00-\x08\x0B-\x1F\x7F]|\xC2[\x80-\x9F]/', '', $value));
     }
 }

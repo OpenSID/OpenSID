@@ -262,7 +262,10 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
         }
         $script[] = self::call('log', self::quote('%c%s'), self::quote('font-weight: bold'), self::quote($title));
         foreach ($dict as $key => $value) {
-            $value = Utils::jsonEncode($value, Utils::DEFAULT_JSON_FLAGS | JSON_HEX_TAG);
+            $value = json_encode($value);
+            if (false === $value) {
+                $value = self::quote('');
+            }
             $script[] = self::call('log', self::quote('%s: %o'), self::quote((string) $key), $value);
         }
 
@@ -271,10 +274,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
 
     private static function quote(string $arg): string
     {
-        // JSON_HEX_TAG keeps a literal < out of the output, so that a log message cannot break out
-        // of the surrounding <script> element via </script> or <!--<script>. json_encode also
-        // escapes \r and U+2028/U+2029, which would otherwise terminate the JS string literal.
-        return Utils::jsonEncode($arg, Utils::DEFAULT_JSON_FLAGS | JSON_HEX_TAG);
+        return '"' . addcslashes($arg, "\"\n\\") . '"';
     }
 
     /**

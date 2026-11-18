@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -57,10 +57,13 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
 
     public function index()
     {
-        $data['tahun'] = LogPenduduk::tahun()->pluck('tahun');
-        $data['hapus'] = LogHapusPenduduk::with(['penduduk.log_latest'])->data()->count();
+        $data['selectedNav'] = 'mutasi';
+        $data['subtitle']    = 'Buku Mutasi Penduduk Desa';
+        $data['tahun']       = LogPenduduk::tahun()->pluck('tahun');
+        $data['mainContent'] = 'admin.bumindes.penduduk.mutasi.index';
+        $data['hapus']       = LogHapusPenduduk::with(['penduduk.log_latest'])->data()->count();
 
-        return view('admin.bumindes.penduduk.mutasi.index', $data);
+        return view('admin.bumindes.penduduk.index', $data);
     }
 
     public function datatables()
@@ -100,28 +103,32 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
 
     public function dialog($aksi = 'cetak')
     {
-        $data['aksi']      = $aksi;
-        $data['field_nik'] = false;
-        $data['action']    = ci_route("bumindes_penduduk_mutasi.cetak.{$aksi}");
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('bumindes_penduduk_mutasi.cetak', $aksi);
 
         return view('admin.bumindes.penduduk.mutasi.dialog', $data);
     }
 
-    public function cetak($aksi = 'cetak')
+    public function cetak($aksi = '')
     {
-        $data = [
-            'main'  => datatables($this->sumberData())->prepareQuery()->results(),
-            'start' => app('datatables.request')->start(),
-            'aksi'  => $aksi,
-            'filters' => [
-                'tahun' => request()->get('tahun'),
-                'bulan' => request()->get('bulan'),
-            ],
-            'file'  => 'Buku Mutasi Penduduk',
-            'is_landscape' => true,
-        ];
+        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+        $query          = $this->sumberData();
+        if ($paramDatatable['start']) {
+            $query->skip($paramDatatable['start']);
+        }
 
-        return view('admin.bumindes.penduduk.mutasi.cetak', $data);
+        $data         = $this->modal_penandatangan();
+        $data['aksi'] = $aksi;
+        $data['main'] = $query->take($paramDatatable['length'])->get();
+
+        $data['filters']   = $paramDatatable;
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data['file']      = 'Buku Mutasi Penduduk';
+        $data['isi']       = 'admin.bumindes.penduduk.mutasi.cetak';
+        $data['letak_ttd'] = ['1', '2', '8'];
+
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     private function sumberData()

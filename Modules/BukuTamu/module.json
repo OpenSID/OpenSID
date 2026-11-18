@@ -1,0 +1,10 @@
+{
+    "name": "BukuTamu",
+    "alias": "Modul Buku Tamu",
+    "description": "Modul Buku Tamu",
+    "keywords": [],
+    "priority": 0,
+    "providers": [],
+    "files": [],
+    "version": "1.0.0"
+}

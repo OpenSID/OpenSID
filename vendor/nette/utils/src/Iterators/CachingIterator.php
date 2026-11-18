@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of the Nette Framework (https://nette.org)
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
+
+declare(strict_types=1);
 
 namespace Nette\Iterators;
 
@@ -11,19 +13,16 @@ use Nette;
 
 
 /**
- * Enhanced caching iterator with first/last/counter tracking.
+ * Smarter caching iterator.
  *
- * @template TKey
- * @template TValue
- * @extends \CachingIterator<TKey, TValue, \Iterator<TKey, TValue>>
  * @property-read bool $first
  * @property-read bool $last
  * @property-read bool $empty
  * @property-read bool $odd
  * @property-read bool $even
  * @property-read int $counter
- * @property-read TKey $nextKey
- * @property-read TValue $nextValue
+ * @property-read mixed $nextKey
+ * @property-read mixed $nextValue
  */
 class CachingIterator extends \CachingIterator implements \Countable
 {
@@ -32,7 +31,6 @@ class CachingIterator extends \CachingIterator implements \Countable
 	private int $counter = 0;
 
 
-	/** @param  iterable<TKey, TValue>|\stdClass  $iterable */
 	public function __construct(iterable|\stdClass $iterable)
 	{
 		$iterable = $iterable instanceof \stdClass
@@ -60,30 +58,45 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
+	/**
+	 * Is the iterator empty?
+	 */
 	public function isEmpty(): bool
 	{
 		return $this->counter === 0;
 	}
 
 
+	/**
+	 * Is the counter odd?
+	 */
 	public function isOdd(): bool
 	{
 		return $this->counter % 2 === 1;
 	}
 
 
+	/**
+	 * Is the counter even?
+	 */
 	public function isEven(): bool
 	{
 		return $this->counter % 2 === 0;
 	}
 
 
+	/**
+	 * Returns the counter.
+	 */
 	public function getCounter(): int
 	{
 		return $this->counter;
 	}
 
 
+	/**
+	 * Returns the count of elements.
+	 */
 	public function count(): int
 	{
 		$inner = $this->getInnerIterator();
@@ -118,14 +131,18 @@ class CachingIterator extends \CachingIterator implements \Countable
 	}
 
 
-	/** @return TKey */
+	/**
+	 * Returns the next key.
+	 */
 	public function getNextKey(): mixed
 	{
 		return $this->getInnerIterator()->key();
 	}
 
 
-	/** @return TValue */
+	/**
+	 * Returns the next element.
+	 */
 	public function getNextValue(): mixed
 	{
 		return $this->getInnerIterator()->current();

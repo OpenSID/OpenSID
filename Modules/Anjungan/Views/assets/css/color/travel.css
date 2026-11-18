@@ -1,0 +1,10 @@
+:root{
+	--c1: #864d8d;
+	--c2: #ff5d38;
+	--bg1: #864d8d;
+	--bg2: #ff5d38;
+	--bgsoft1: #db7ee7;
+	--bgsoft2: #fe9d87;
+	--bg-grad1: linear-gradient(to right, var(--bg1), var(--bg2));
+	--bg-grad2: linear-gradient(to right, var(--bgsoft1), var(--bg-white), var(--bgsoft2));
+}

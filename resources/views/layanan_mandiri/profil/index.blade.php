@@ -271,7 +271,7 @@
                             <td>{{ $penduduk->golongan_darah }}</td>
                         </tr>
                         <tr>
-                            <td>Disabilitas</td>
+                            <td>Cacat</td>
                             <td>:</td>
                             <td>{{ $penduduk->cacat }}</td>
                         </tr>

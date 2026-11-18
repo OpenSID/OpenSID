@@ -156,11 +156,10 @@ class XliffFileDumper extends FileDumper
         }
 
         if ($catalogueMetadata = $messages->getCatalogueMetadata('', $domain) ?? []) {
-            $xliff->setAttribute('xmlns:mda', 'urn:oasis:names:tc:xliff:metadata:2.0');
-            $xliffMetadata = $xliffFile->appendChild($dom->createElement('mda:metadata'));
-            $xliffMetaGroup = $xliffMetadata->appendChild($dom->createElement('mda:metaGroup'));
+            $xliff->setAttribute('xmlns:m', 'urn:oasis:names:tc:xliff:metadata:2.0');
+            $xliffMetadata = $xliffFile->appendChild($dom->createElement('m:metadata'));
             foreach ($catalogueMetadata as $key => $value) {
-                $xliffMeta = $xliffMetaGroup->appendChild($dom->createElement('mda:meta'));
+                $xliffMeta = $xliffMetadata->appendChild($dom->createElement('prop'));
                 $xliffMeta->setAttribute('type', $key);
                 $xliffMeta->appendChild($dom->createTextNode($value));
             }

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,50 +37,37 @@
 
 namespace App\Traits;
 
-use Throwable;
+use Exception;
 
 trait Migration
 {
     /**
-     * Jalankan migrasi manual (up / down).
+     * Jalankan migrasi.
+     *
+     * @param mixed $migration
      */
-    public function runMigration(string $file, string $action = 'up'): array
+    public function runMigration($migration)
     {
-        $result = [
-            'status'  => false,
-            'message' => '',
-        ];
+        $result            = ['status' => false, 'message' => ''];
+        $className         = ucfirst($migration);
+        $migrationFilePath = APPPATH . 'models/migrations/' . $className . '.php';
 
-        if (! in_array($action, ['up', 'down'], true)) {
-            $result['message'] = 'Action migration tidak valid';
-
-            return $result;
-        }
-
-        $path = FCPATH . 'app/database/migrations/' . $file . '.php';
-
-        if (! file_exists($path)) {
-            $result['message'] = "File migration {$file}.php tidak ditemukan";
+        // Pastikan file migration ada sebelum mencoba memuatnya
+        if (! file_exists($migrationFilePath)) {
+            $result['message'] = 'File migration ' . $className . '.php tidak ditemukan';
 
             return $result;
         }
+
+        // Gunakan require_once untuk menghindari redeclare class
+        require_once $migrationFilePath;
 
         try {
-            /** @var object $migration */
-            $migration = require $path;
-
-            if (! is_object($migration) || ! method_exists($migration, $action)) {
-                $result['message'] = "Migration {$file}.php tidak memiliki method {$action}()";
-
-                return $result;
-            }
-
-            $migration->{$action}();
-
+            (new $className())->up();
             $result['status']  = true;
-            $result['message'] = "Migrasi {$action} {$file} berhasil dijalankan.";
-        } catch (Throwable $e) {
-            $result['message']   = "Gagal menjalankan {$file}: " . $e->getMessage();
+            $result['message'] = 'Berhasil Jalankan ' . $className;
+        } catch (Exception $e) {
+            $result['message']   = 'Gagal Jalankan ' . $className . ' dengan error ' . $e->getMessage();
             $result['exception'] = $e;
         }
 

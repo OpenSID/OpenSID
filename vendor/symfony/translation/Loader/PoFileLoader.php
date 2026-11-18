@@ -55,7 +55,6 @@ class PoFileLoader extends FileLoader
      * - No support for comments spanning multiple lines.
      * - Translator and extracted comments are treated as being the same type.
      * - Message IDs are allowed to have other encodings as just US-ASCII.
-     * - Contexts (msgctxt) are parsed but discarded.
      *
      * Items with an empty id are ignored.
      */
@@ -66,7 +65,6 @@ class PoFileLoader extends FileLoader
         $defaults = [
             'ids' => [],
             'translated' => null,
-            'context' => null,
         ];
 
         $messages = [];
@@ -78,28 +76,23 @@ class PoFileLoader extends FileLoader
 
             if ('' === $line) {
                 // Whitespace indicated current item is done
-                $this->saveItem($messages, $item, $flags, $defaults);
+                if (!\in_array('fuzzy', $flags)) {
+                    $this->addMessage($messages, $item);
+                }
+                $item = $defaults;
+                $flags = [];
             } elseif (str_starts_with($line, '#,')) {
-                // flags belong to the next entry, so the previous one ends here
-                if (null !== $item['translated']) {
-                    $this->saveItem($messages, $item, $flags, $defaults);
-                }
                 $flags = array_map('trim', explode(',', substr($line, 2)));
-            } elseif (str_starts_with($line, 'msgctxt "')) {
-                if (null !== $item['translated']) {
-                    $this->saveItem($messages, $item, $flags, $defaults);
-                }
-                $item['context'] = substr($line, 9, -1);
             } elseif (str_starts_with($line, 'msgid "')) {
                 // We start a new msg so save previous
-                if ($item['ids']) {
-                    $this->saveItem($messages, $item, $flags, $defaults);
-                }
+                // TODO: this fails when comments or contexts are added
+                $this->addMessage($messages, $item);
+                $item = $defaults;
                 $item['ids']['singular'] = substr($line, 7, -1);
             } elseif (str_starts_with($line, 'msgstr "')) {
                 $item['translated'] = substr($line, 8, -1);
             } elseif ('"' === $line[0]) {
-                $continues = isset($item['translated']) ? 'translated' : ($item['ids'] ? 'ids' : 'context');
+                $continues = isset($item['translated']) ? 'translated' : 'ids';
 
                 if (\is_array($item[$continues])) {
                     end($item[$continues]);
@@ -115,19 +108,12 @@ class PoFileLoader extends FileLoader
             }
         }
         // save last item
-        $this->saveItem($messages, $item, $flags, $defaults);
+        if (!\in_array('fuzzy', $flags)) {
+            $this->addMessage($messages, $item);
+        }
         fclose($stream);
 
         return $messages;
-    }
-
-    private function saveItem(array &$messages, array &$item, array &$flags, array $defaults): void
-    {
-        if (!\in_array('fuzzy', $flags, true)) {
-            $this->addMessage($messages, $item);
-        }
-        $item = $defaults;
-        $flags = [];
     }
 
     /**

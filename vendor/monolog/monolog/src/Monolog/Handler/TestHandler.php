@@ -15,7 +15,6 @@ use Monolog\Level;
 use Monolog\Logger;
 use Psr\Log\LogLevel;
 use Monolog\LogRecord;
-use NoDiscard;
 
 /**
  * Used for testing purposes.
@@ -80,7 +79,6 @@ class TestHandler extends AbstractProcessingHandler
     /**
      * @return array<LogRecord>
      */
-    #[NoDiscard]
     public function getRecords(): array
     {
         return $this->records;
@@ -109,7 +107,6 @@ class TestHandler extends AbstractProcessingHandler
      *
      * @phpstan-param value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::* $level
      */
-    #[NoDiscard]
     public function hasRecords(int|string|Level $level): bool
     {
         return isset($this->recordsByLevel[Logger::toMonologLevel($level)->value]);
@@ -120,7 +117,6 @@ class TestHandler extends AbstractProcessingHandler
      *
      * @phpstan-param array{message: string, context?: mixed[]}|string $recordAssertions
      */
-    #[NoDiscard]
     public function hasRecord(string|array $recordAssertions, Level $level): bool
     {
         if (\is_string($recordAssertions)) {
@@ -139,13 +135,11 @@ class TestHandler extends AbstractProcessingHandler
         }, $level);
     }
 
-    #[NoDiscard]
     public function hasRecordThatContains(string $message, Level $level): bool
     {
         return $this->hasRecordThatPasses(fn (LogRecord $rec) => str_contains($rec->message, $message), $level);
     }
 
-    #[NoDiscard]
     public function hasRecordThatMatches(string $regex, Level $level): bool
     {
         return $this->hasRecordThatPasses(fn (LogRecord $rec) => preg_match($regex, $rec->message) > 0, $level);
@@ -154,7 +148,6 @@ class TestHandler extends AbstractProcessingHandler
     /**
      * @phpstan-param callable(LogRecord, int): mixed $predicate
      */
-    #[NoDiscard]
     public function hasRecordThatPasses(callable $predicate, Level $level): bool
     {
         $level = Logger::toMonologLevel($level);
@@ -184,7 +177,6 @@ class TestHandler extends AbstractProcessingHandler
     /**
      * @param mixed[] $args
      */
-    #[NoDiscard]
     public function __call(string $method, array $args): bool
     {
         if ((bool) preg_match('/(.*)(Debug|Info|Notice|Warning|Error|Critical|Alert|Emergency)(.*)/', $method, $matches)) {

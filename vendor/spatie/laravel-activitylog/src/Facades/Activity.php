@@ -36,8 +36,6 @@ use Spatie\Activitylog\PendingActivityLog;
  */
 class Activity extends Facade
 {
-    protected static $cached = false;
-
     protected static function getFacadeAccessor(): string
     {
         return PendingActivityLog::class;

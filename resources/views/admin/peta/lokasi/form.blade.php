@@ -13,23 +13,16 @@
 @endsection
 
 @section('content')
-@include('admin.layouts.components.notifikasi')
-<div class="row">
-    <div class="col-md-3">
-        @include('admin.peta.nav')
-    </div>
-    <div class="col-md-9">
-        {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
-        <div class="box box-info">
-            <div class="box-header with-border">
-                <x-kembali-button judul="Kembali Ke Daftar Lokasi" url="plan/index" />
-            </div>
-            <div class="box-body">
-                <div class="form-group">
-                    <label class="control-label col-sm-3">Nama Lokasi / Properti</label>
-                    <div class="col-sm-7">
-                        <input name="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" value="{{ $plan->nama }}" />
-                    </div>
+    @include('admin.layouts.components.notifikasi')
+    <div class="row">
+        <div class="col-md-3">
+            @include('admin.peta.nav')
+        </div>
+        <div class="col-md-9">
+            {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <x-kembali-button judul="Kembali Ke Daftar Lokasi" url="plan/index" />
                 </div>
 
                 <!-- DROPDOWN JENIS (ROOT) -->

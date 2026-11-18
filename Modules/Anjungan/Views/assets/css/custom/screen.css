@@ -1,0 +1,60 @@
+@media (max-width: 1366px) {
+body{font-size:18px !important;}
+}
+
+@media (max-width: 1366px) {
+body{font-size:16px !important;}
+}
+
+@media (max-width: 1280px) {
+body{font-size:15px !important;}
+.margin-master{margin:0 4vw !important;}
+}
+
+@media (max-width: 1200px) {
+.margin-master{margin:0 2vw !important;}
+}
+
+@media (max-width: 1024px) {
+body{font-size:14px !important;}
+}
+
+@media (max-width: 768px) {
+body{font-size:15px !important;}	
+.margin-master{margin:0 15px !important;}
+.headpage{background:linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);}
+.headpage .margin-master.difle-l{display:block !important;margin:0 auto;}
+.headpage .margin-master{margin:0 !important;}
+.logo{height:auto;position:relative;overflow:hidden;display:flex !important;justify-content: center;align-items: center;margin:0 auto;}
+.logo.difle-l{display:flex !important;justify-content: center;align-items: center;margin:15px auto;padding:0 15px 15px;border-bottom:rgba(255,255,255,0.3) 1px solid;}
+.logo img{height:12vh;margin:0 10px 0 0;}
+.logo h1{font-size:120%;letter-spacing:-0.8px;}
+.logo p{font-size:90%;}
+.right-btn{float:none;}
+.datetime{margin:0 0 10px;}
+.headright.difle-r{display:flex !important;justify-content: center;align-items: center;width:100%;text-align:center;margin:0 0 20px;}
+.area-title{width:calc(100% - 2vw);margin:0 1vw 15px;}
+.area-content{width:calc(100% - 2vw);margin:0 1vw 30px;}
+.area-title-inner{margin:7px;height:auto;}
+.area-title:before, .area-content:before{margin:7px;}
+.area-title-inner h2{margin:15px 0 10px;}
+.bukutamu-title{padding:0 15% 15px;}
+.intro img{width:50%;}
+.intro h3{font-size:160%;margin:0 auto 20px;}
+.area-content-inner{margin:7px;z-index:20;padding:15px 15px 30px;}
+.content-form{width:100%;margin:15px 0 15px;height:auto;}
+.capture{width:100%;margin:15px 0 0;}
+.head-content{height:40px;}
+.head-content h1{font-size:100%;}
+.head-content-icon{width:30px;height:30px;margin:0 5px 0 0;}
+.head-content-icon svg{height:25px;}
+.col-input{width:calc(100% - 2vh);}
+.form-control {height:34px;}
+.knob, .knob-block{height:34px;}
+textarea{height:60px !important;}
+.capture-box{width:25vh;height:25vh;margin:0 auto 0;}
+.capture-bottom .d-grid{display:flex !important;justify-content: center;align-items: center;}
+.capture-bottom .knob{margin:0 5px !important;}
+.capture-image{margin:5px;}
+.get-image{position:relative;margin:-20px 0 15px;}
+}

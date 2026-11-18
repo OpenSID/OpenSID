@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -44,13 +44,19 @@ use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use App\Services\Penjaga\PenjagaPermintaan;
+use Illuminate\Support\Facades\Schema;
+use Modules\Pelanggan\Services\CekService;
 
 class Database
 {
     use Migration;
 
     public string $minimumVersion = MINIMUM_VERSI;
+
+    /**
+     * @var CekService
+     */
+    public $premium;
 
     private string $engine    = 'InnoDB';
     private int $showProgress = 0;
@@ -69,25 +75,24 @@ class Database
             return;
         }
 
-        $migratedDatabase = Migrasi::pluck('versi_database', 'versi_database')->toArray();
+        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
+        $migratedDatabase          = Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->pluck('versi_database', 'versi_database')->toArray();
 
         $version        = (int) str_replace('.', '', $this->checkCurrentVersion());
         $minimumVersion = (int) str_replace('.', '', $this->minimumVersion);
-
-        $currentVersion = (int) str_replace('.', '', currentVersion());
+        $currentVersion = currentVersion();
         if (! PREMIUM) {
             $versiSetara = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
-            $versiSetara = (int) str_replace('.', '', $versiSetara);
             if ($versiSetara && $currentVersion < $versiSetara) {
-                show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '. Versi terakhir yang digunakan adalah ' . $version . '</h2>');
+                show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '</h2>');
             }
         }
 
         if (! $install && $version < $minimumVersion) {
-            show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '. Versi terakhir yang digunakan adalah ' . $version . '</h2>');
+            show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '</h2>');
         }
 
-        $migrations = File::files('app/database/migrations');
+        $migrations = File::files('donjo-app/models/migrations');
 
         // sort by name
         usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
@@ -125,7 +130,7 @@ class Database
         }
 
         // Run additional migrations
-        $defaultMigrasi = ['Migrasi_required', 'Migrasi_rev', 'Migrasi_beta', 'Migrasi_module'];
+        $defaultMigrasi = ['migrasi_required', 'migrasi_beta', 'migrasi_rev', 'migrasi_umum', 'migrasi_module'];
 
         foreach ($defaultMigrasi as $migrateName) {
             if ($this->getShowProgress()) {
@@ -149,7 +154,6 @@ class Database
         cache()->forget('siappakai');
         cache()->forget('modul_aktif');
 
-        $currentVersion = currentVersion();
         SettingAplikasi::where('key', '=', 'current_version')->update(['value' => $currentVersion]);
         SettingAplikasi::where(['key' => 'compatible_version_general'])->update(['value' => PREMIUM ? versiUmumSetara($currentVersion) : null]);
 
@@ -167,9 +171,10 @@ class Database
 
     public function checkMigration($install = false): void
     {
-        
+        $premium = new CekService();
 
-        if ((app(PenjagaPermintaan::class)->izinkanMigrasi($install) || $install) && Migrasi::where('versi_database', VERSI_DATABASE)->doesntExist()) {
+        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
+        if (($premium->validasiVersi($install) || $install) && Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
             $this->migrateDatabase($install);
         }
     }
@@ -223,7 +228,17 @@ class Database
 
     private function updateVersi(string $migrateName): void
     {
-        $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
-        $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
+        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
+        if ($doesntHaveMigrasiConfigId) {
+            $migrasiDb = DB::table('migrasi')->where(['versi_database' => $migrateName])->first();
+            if ($migrasiDb) {
+                DB::table('migrasi')->update(['premium' => ['Migrasi_' . $migrateName]]);
+            } else {
+                DB::table('migrasi')->insert(['versi_database' => $migrateName, 'premium' => ['Migrasi_' . $migrateName]]);
+            }
+        } else {
+            $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
+            $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
+        }
     }
 }

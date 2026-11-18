@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -54,6 +54,7 @@ use App\Traits\Download;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use STS\ZipStream\Facades\Zip;
@@ -109,11 +110,12 @@ class Database extends Admin_Controller
         set_time_limit(0);              // making maximum execution time unlimited
         ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
         ob_end_flush();
-        $mode = $this->input->get('mode');
+        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
+        $mode                      = $this->input->get('mode');
         if ($mode == 'all') {
-            Migrasi::whereNotNull('id')->delete();
+            Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->whereNotNull('id')->delete();
         } else {
-            $migrasiTerakhir = Migrasi::orderBy('id', 'desc')->first();
+            $migrasiTerakhir = Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->orderBy('id', 'desc')->first();
             if ($migrasiTerakhir) {
                 $migrasiTerakhir->delete();
             }
@@ -157,51 +159,14 @@ class Database extends Admin_Controller
 
     public function desa_backup()
     {
-        // Matikan semua buffer sebelum streaming
-        while (ob_get_level() > 0) {
-            ob_end_clean();
-        }
-
-        set_time_limit(0);
-        ignore_user_abort(true);
-
-        try {
-            // Mapping file dengan path yang benar dan validasi symlink
-            $files = collect(Storage::disk('desa')->allFiles())
-                ->filter(static function ($file) {
-                    $fullPath = Storage::disk('desa')->path($file);
-
-                    // Skip symlink untuk mencegah corrupt/infinite loop
-                    if (is_link($fullPath)) {
-                        return false; // Skip symbolic link
-                    }
-
-                    // Skip file yang tidak bisa dibaca atau tidak ada
-                    if (! file_exists($fullPath) || ! is_readable($fullPath)) {
-                        return false;
-                    }
-
-                    return true;
-                })
-                ->mapWithKeys(static fn ($file) => [
-                    Storage::disk('desa')->path($file) => $file
-                ])
-                ->toArray();
-
-            if (empty($files)) {
-                throw new Exception('Tidak ada file dalam folder desa untuk di-backup');
-            }
-
-            // Langsung return response, biarkan Laravel handle streaming
-            return Zip::create(
-                name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
-                files: $files
-            )->response()->send();
-        } catch (Exception $e) {
-            logger()->error($e);
-
-            return redirect_with('error', "Backup folder desa gagal:\n{$e->getMessage()}", 'database');
-        }
+        return Zip::create(
+            name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
+            files: collect(Storage::disk('desa')->allFiles())
+                ->mapWithKeys(static fn ($file) => [base_path("desa/{$file}") => $file])
+                ->toArray()
+        )
+            ->response()
+            ->send();
     }
 
     public function desa_inkremental()
@@ -209,10 +174,12 @@ class Database extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables(LogBackup::query())
                 ->addIndexColumn()
-                ->addColumn('aksi', static fn ($row): string => View::make('admin.layouts.components.buttons.hapus', [
-                    'url'           => ci_route('database.inkremental_delete', $row->id),
-                    'confirmDelete' => true,
-                ])->render())
+                ->addColumn('aksi', static function ($row): string {
+                    return View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('database.inkremental_delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
+                })
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -377,15 +344,11 @@ class Database extends Admin_Controller
             ], 400);
         }
 
-        $user = auth('admin')->user();
+        $user = User::when($method == 'telegram', static fn ($query) => $query->whereNotNull('telegram_verified_at'))
+            ->when($method == 'email', static fn ($query) => $query->whereNotNull('email_verified_at'))
+            ->first();
 
-        $isVerified = $user && match ($method) {
-            'telegram' => null !== $user->telegram_verified_at,
-            'email'    => null !== $user->email_verified_at,
-            default    => false,
-        };
-
-        if (! $isVerified) {
+        if ($user == null) {
             return json([
                 'status'  => false,
                 'message' => "{$method} belum terverifikasi",
@@ -408,11 +371,9 @@ class Database extends Admin_Controller
                 'message' => "Kode verifikasi sudah terkirim ke {$method}",
             ]);
         } catch (Exception $e) {
-            logger()->error($e);
-
             return json([
-                'status'  => false,
-                'message' => 'Tidak dapat mengirim kode verifikasi saat ini. Silakan coba lagi nanti.',
+                'status'   => false,
+                'messages' => $e->getMessage(),
             ], 400);
         }
     }
@@ -433,7 +394,7 @@ class Database extends Admin_Controller
             return json([
                 'status'  => false,
                 'message' => 'Kode OTP Salah',
-            ], 400);
+            ]);
         }
 
         show_404();
@@ -449,7 +410,7 @@ class Database extends Admin_Controller
             return json([
                 'status'  => false,
                 'message' => 'Kode OTP Salah',
-            ], 400);
+            ]);
         }
 
         $this->session->kode_otp = null;
@@ -468,7 +429,7 @@ class Database extends Admin_Controller
                 return json([
                     'status'  => false,
                     'message' => $this->upload->display_errors(null, null),
-                ], 400);
+                ]);
             }
             $uploadData = $this->upload->data();
 
@@ -485,15 +446,13 @@ class Database extends Admin_Controller
 
             return json([
                 'status'  => true,
-                'message' => 'Upload file berhasil, restore dijalankan melalui job background',
+                'message' => 'upload file berhasil. restore dijalankan melalui job background',
             ]);
         } catch (Exception $e) {
-            logger()->error($e);
-
             return json([
-                'status'  => false,
-                'message' => 'Upload file gagal, silakan coba lagi nanti.',
-            ], 400);
+                'status'   => false,
+                'messages' => $e->getMessage(),
+            ]);
         }
     }
 

@@ -25,16 +25,15 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class FileLinkFormatter
 {
     private array|false $fileLinkFormat;
+    private ?RequestStack $requestStack = null;
+    private ?string $baseDir = null;
+    private \Closure|string|null $urlFormat;
 
     /**
      * @param string|\Closure $urlFormat The URL format, or a closure that returns it on-demand
      */
-    public function __construct(
-        string|array|null $fileLinkFormat = null,
-        private ?RequestStack $requestStack = null,
-        private ?string $baseDir = null,
-        private string|\Closure|null $urlFormat = null,
-    ) {
+    public function __construct(string|array|null $fileLinkFormat = null, ?RequestStack $requestStack = null, ?string $baseDir = null, string|\Closure|null $urlFormat = null)
+    {
         $fileLinkFormat ??= $_ENV['SYMFONY_IDE'] ?? $_SERVER['SYMFONY_IDE'] ?? '';
 
         if (!\is_array($f = $fileLinkFormat)) {
@@ -44,9 +43,15 @@ class FileLinkFormatter
         }
 
         $this->fileLinkFormat = $fileLinkFormat;
+        $this->requestStack = $requestStack;
+        $this->baseDir = $baseDir;
+        $this->urlFormat = $urlFormat;
     }
 
-    public function format(string $file, int $line): string|false
+    /**
+     * @return string|false
+     */
+    public function format(string $file, int $line): string|bool
     {
         if ($fmt = $this->getFileLinkFormat()) {
             for ($i = 1; isset($fmt[$i]); ++$i) {
@@ -100,4 +105,8 @@ class FileLinkFormatter
 
         return false;
     }
+}
+
+if (!class_exists(\Symfony\Component\HttpKernel\Debug\FileLinkFormatter::class, false)) {
+    class_alias(FileLinkFormatter::class, \Symfony\Component\HttpKernel\Debug\FileLinkFormatter::class);
 }

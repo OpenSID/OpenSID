@@ -89,7 +89,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap_dapp]</td>
+            <td colspan="27">[Alamat_dapP]</td>
         </tr>
 
         <!-- data ibu -->
@@ -146,7 +146,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap_dipp]</td>
+            <td colspan="27">[Alamat_dipP]</td>
         </tr>
 
         <!-- data individu -->
@@ -207,7 +207,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap]</td>
+            <td colspan="27">[AlamaT]</td>
         </tr>
 
         <!-- data calon pasangan  -->
@@ -270,7 +270,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap_dcpw]</td>
+            <td colspan="27">[Alamat_dcpW]</td>
         </tr>
 
     </table>

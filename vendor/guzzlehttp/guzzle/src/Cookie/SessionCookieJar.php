@@ -50,18 +50,11 @@ class SessionCookieJar extends CookieJar
         /** @var SetCookie $cookie */
         foreach ($this as $cookie) {
             if (CookieJar::shouldPersist($cookie, $this->storeSessionCookies)) {
-                $data = $cookie->toArray();
-                $data['HostOnly'] = $cookie->getHostOnly();
-                $json[] = $data;
+                $json[] = $cookie->toArray();
             }
         }
 
-        $json = \json_encode($json);
-        if (false === $json) {
-            throw new \RuntimeException('Unable to encode cookie data');
-        }
-
-        $_SESSION[$this->sessionKey] = $json;
+        $_SESSION[$this->sessionKey] = \json_encode($json);
     }
 
     /**
@@ -72,27 +65,12 @@ class SessionCookieJar extends CookieJar
         if (!isset($_SESSION[$this->sessionKey])) {
             return;
         }
-
-        $json = $_SESSION[$this->sessionKey];
-        if (!\is_string($json)) {
-            throw new \RuntimeException('Invalid cookie data');
-        }
-
-        $data = \json_decode($json, true);
+        $data = \json_decode($_SESSION[$this->sessionKey], true);
         if (\is_array($data)) {
-            $cookies = [];
             foreach ($data as $cookie) {
-                if (!\is_array($cookie) || !\array_key_exists('HostOnly', $cookie) || !\is_bool($cookie['HostOnly'])) {
-                    throw new \RuntimeException('Invalid cookie data');
-                }
-
-                $cookies[] = new SetCookie($cookie);
+                $this->setCookie(new SetCookie($cookie));
             }
-
-            foreach ($cookies as $cookie) {
-                $this->setCookie($cookie);
-            }
-        } elseif (\is_scalar($data) && \strlen((string) $data)) {
+        } elseif (\strlen($data)) {
             throw new \RuntimeException('Invalid cookie data');
         }
     }

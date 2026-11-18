@@ -31,13 +31,6 @@
                             'icon' => 'fa fa-plus',
                             'modal' => false,
                             'target' => false
-                        ],
-                        [
-                            'url' => 'penduduk/form_peristiwa/2',
-                            'judul' => 'Penduduk Meninggal',
-                            'icon' => 'fa fa-plus',
-                            'modal' => false,
-                            'target' => false
                         ]
                     ];
                 @endphp
@@ -305,17 +298,6 @@
         .select2-results__option[aria-disabled=true] {
             display: none;
         }
-        
-        .col-nama {
-            min-width: 160px;
-            white-space: normal;
-            word-wrap: break-word;
-        }
-        .col-alamat {
-            min-width: 200px;
-            white-space: normal;
-            word-wrap: break-word;
-        }
     </style>
 @endpush
 @push('scripts')
@@ -387,7 +369,6 @@
                     {
                         data: 'nama',
                         name: 'nama',
-                        class: 'col-nama',
                         searchable: true,
                         orderable: true,
                         defaultContent: ''
@@ -404,7 +385,6 @@
                     {
                         data: 'nama_ayah',
                         name: 'nama_ayah',
-                        class: 'col-nama',
                         defaultContent: '',
                         searchable: false,
                         orderable: false
@@ -412,14 +392,15 @@
                     {
                         data: 'nama_ibu',
                         name: 'nama_ibu',
-                        class: 'col-nama',
                         defaultContent: '',
                         searchable: false,
                         orderable: false
                     },
                     {
-                        data: 'no_kk',
-                        name: 'no_kk',
+                        data: 'rtm.no_kk',
+                        name: 'rtm.no_kk',
+                        searchable: false,
+                        orderable: false,
                         defaultContent: ''
                     },
                     {
@@ -432,7 +413,6 @@
                     {
                         data: 'alamat_wilayah',
                         name: 'alamat_wilayah',
-                        class: 'col-alamat',
                         searchable: false,
                         orderable: false,
                         defaultContent: '-',

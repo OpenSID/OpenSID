@@ -21,7 +21,6 @@ use InvalidArgumentException;
 use Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
 use Elasticsearch\Client;
 use Monolog\LogRecord;
-use Monolog\Utils;
 use Elastic\Elasticsearch\Exception\InvalidArgumentException as ElasticInvalidArgumentException;
 use Elastic\Elasticsearch\Client as Client8;
 
@@ -115,7 +114,7 @@ class ElasticsearchHandler extends AbstractProcessingHandler
      */
     public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
-        if (Utils::unwrapFormatter($formatter) instanceof ElasticsearchFormatter) {
+        if ($formatter instanceof ElasticsearchFormatter) {
             return parent::setFormatter($formatter);
         }
 

@@ -43,10 +43,10 @@ class ProcessHandler extends AbstractProcessingHandler
      */
     private array $pipes = [];
 
-    private float $timeout;
+    private float $timeout;    
 
     /**
-     * @var array<int, list<string>>
+     * @var array<int, string[]>
      */
     protected const DESCRIPTOR_SPEC = [
         0 => ['pipe', 'r'],  // STDIN is a pipe that the child will read from

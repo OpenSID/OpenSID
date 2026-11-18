@@ -1,0 +1,29 @@
+{
+	"name": "opensid-modules/anjungan",
+	"description": "Modul Anjungan untuk OpenSID",
+	"license": "GPL-3.0-or-later",
+	"type": "library",
+	"keywords": [
+		"anjungan",
+		"modules",
+		"opensid"
+	],
+	"require": {
+		"php": "^8.1"
+	},
+	"require-dev": {
+		"mikey179/vfsstream": "1.1.*"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"config": {
+		"sort-packages": true
+	},
+	"scripts": {
+		"style-fix": [
+			"php-cs-fixer fix --allow-risky=yes",
+			"rector process --dry-run",
+			"npm run prettier-blade"
+		]
+	}
+}

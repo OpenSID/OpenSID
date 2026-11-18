@@ -34,7 +34,7 @@ class MockFileSessionStorage extends MockArraySessionStorage
     {
         $savePath ??= sys_get_temp_dir();
 
-        if (!is_dir($savePath) && !@mkdir($savePath, 0o777, true) && !is_dir($savePath)) {
+        if (!is_dir($savePath) && !@mkdir($savePath, 0777, true) && !is_dir($savePath)) {
             throw new \RuntimeException(\sprintf('Session Storage was not able to create directory "%s".', $savePath));
         }
 
@@ -71,20 +71,6 @@ class MockFileSessionStorage extends MockArraySessionStorage
         }
 
         return parent::regenerate($destroy, $lifetime);
-    }
-
-    /**
-     * @return void
-     */
-    public function setId(string $id)
-    {
-        // the id is turned into a file name, so keep it to the charset PHP allows for session ids
-        // and to the 255 bytes a file name can hold once the ".mocksess" suffix is added
-        if ('' !== $id && !preg_match('/^[a-zA-Z0-9,-]{1,246}$/D', $id)) {
-            $id = '';
-        }
-
-        parent::setId($id);
     }
 
     /**
@@ -159,7 +145,7 @@ class MockFileSessionStorage extends MockArraySessionStorage
             restore_error_handler();
         }
 
-        $this->data = $data ? unserialize($data, ['allowed_classes' => true]) : [];
+        $this->data = $data ? unserialize($data) : [];
 
         $this->loadSession();
     }

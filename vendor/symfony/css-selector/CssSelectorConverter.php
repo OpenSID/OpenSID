@@ -26,8 +26,6 @@ use Symfony\Component\CssSelector\XPath\Translator;
  */
 class CssSelectorConverter
 {
-    public static int $maxCachedItems = 1024;
-
     private Translator $translator;
     private array $cache;
 
@@ -64,21 +62,6 @@ class CssSelectorConverter
      */
     public function toXPath(string $cssExpr, string $prefix = 'descendant-or-self::'): string
     {
-        $cacheKey = $prefix."\0".$cssExpr;
-
-        if (isset($this->cache[$cacheKey])) {
-            // Move the item last in cache (LRU)
-            $value = $this->cache[$cacheKey];
-            unset($this->cache[$cacheKey]);
-
-            return $this->cache[$cacheKey] = $value;
-        }
-
-        if (\count($this->cache) >= self::$maxCachedItems) {
-            // Evict the oldest entry
-            unset($this->cache[array_key_first($this->cache)]);
-        }
-
-        return $this->cache[$cacheKey] = $this->translator->cssToXPath($cssExpr, $prefix);
+        return $this->cache[$prefix][$cssExpr] ??= $this->translator->cssToXPath($cssExpr, $prefix);
     }
 }

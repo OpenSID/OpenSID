@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace OpenSpout\Writer\CSV;
 
-use Exception;
 use OpenSpout\Common\Entity\Cell;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Exception\IOException;
@@ -28,11 +27,6 @@ final class Writer extends AbstractWriter
     public function getOptions(): Options
     {
         return $this->options;
-    }
-
-    public function setCreator(string $creator): void
-    {
-        throw new Exception('Method unsopported for CSV documents');
     }
 
     /**

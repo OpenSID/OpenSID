@@ -47,7 +47,7 @@
                 <button type="button" class="btn btn-block bg-green"><b>LUPA PIN</b></button>
             </a>
         </div>
-        @if (class_exists(\Modules\Anjungan\Models\Anjungan::class) && in_array(\Modules\Anjungan\Models\Anjungan::ANJUNGAN, $cek_anjungan['tipe'] ?? []))
+        @if (in_array(\Modules\Anjungan\Models\Anjungan::ANJUNGAN, $cek_anjungan['tipe'] ?? []))
             <div class="form-group">
                 <a href="{{ route('anjungan.index') }}">
                     <button type="button" class="btn btn-block bg-green"><b>ANJUNGAN</b></button>

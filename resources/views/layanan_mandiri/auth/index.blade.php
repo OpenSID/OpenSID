@@ -61,13 +61,7 @@
                                     <br />{{ $desa['alamat_kantor'] }}
                                     <br />Kodepos {{ $desa['kode_pos'] }}
                                     <br /><br />Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
-                                    <br /><br /><br />
-                                    IP Address:
-                                    <span id="ip_address">{{ request()->ip() }}</span>&nbsp;
-                                    <span class="copy-ip" title="Copy IP Address" style="color:white; cursor:pointer;">
-                                        <i class="fa fa-copy"></i>
-                                    </span>
-
+                                    <br /><br /><br />IP Address: {{ request()->ip() }}
                                     @if ($cek_anjungan)
                                         @if ($cek_anjungan['mac_address'])
                                             <br />Mac Address : {{ $cek_anjungan['mac_address'] }}
@@ -115,6 +109,9 @@
             </div>
         </div>
     </div>
+
+    @include('admin.layouts.components.konfirmasi_cookie', ['cookie_name' => 'pengunjung'])
+    @include('admin.layouts.components.aktifkan_cookie')
 
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>

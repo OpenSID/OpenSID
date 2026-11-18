@@ -36,10 +36,6 @@ final class XmlRenderer implements DocumentRendererInterface
     {
         $this->environment->dispatch(new DocumentPreRenderEvent($document, 'xml'));
 
-        // Indentation is purely cosmetic, so it's capped to keep the output size linear
-        // (rather than quadratic) with respect to the depth of the document.
-        $maxIndent = $this->getMaxIndentationLevel();
-
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
 
         $indent = 0;
@@ -56,7 +52,7 @@ final class XmlRenderer implements DocumentRendererInterface
             if ($event->isEntering()) {
                 $attrs = $renderer->getXmlAttributes($node);
 
-                $xml .= "\n" . \str_repeat(self::INDENTATION, \min($indent, $maxIndent));
+                $xml .= "\n" . \str_repeat(self::INDENTATION, $indent);
                 $xml .= self::tag($tagName, $attrs, $selfClosing);
 
                 if ($node instanceof StringContainerInterface) {
@@ -72,7 +68,7 @@ final class XmlRenderer implements DocumentRendererInterface
                 }
             } elseif (! $closeImmediately) {
                 $indent--;
-                $xml .= "\n" . \str_repeat(self::INDENTATION, \min($indent, $maxIndent));
+                $xml .= "\n" . \str_repeat(self::INDENTATION, $indent);
                 $xml .= self::tag('/' . $tagName);
             }
         }
@@ -80,15 +76,10 @@ final class XmlRenderer implements DocumentRendererInterface
         return new RenderedContent($document, $xml . "\n");
     }
 
-    private function getMaxIndentationLevel(): int
-    {
-        return $this->environment->getConfiguration()->get('xml/max_indentation_level');
-    }
-
     /**
      * @param array<string, string|int|float|bool> $attrs
      */
-    private static function tag(string $name, array $attrs = [], bool $selfClosing = false): string
+    private static function tag(string $name, array $attrs = [], bool $selfClosing = \false): string
     {
         $result = '<' . $name;
         foreach ($attrs as $key => $value) {
@@ -121,6 +112,7 @@ final class XmlRenderer implements DocumentRendererInterface
             return $value ? 'true' : 'false';
         }
 
+        // @phpstan-ignore-next-line
         throw new InvalidArgumentException('$value must be a string, int, float, or bool');
     }
 

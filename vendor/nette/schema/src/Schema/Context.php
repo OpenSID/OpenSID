@@ -1,38 +1,36 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of the Nette Framework (https://nette.org)
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+declare(strict_types=1);
+
 namespace Nette\Schema;
 
 use function count;
 
 
-/**
- * Accumulates errors and warnings during schema validation and tracks the current path.
- */
 final class Context
 {
 	public bool $skipDefaults = false;
 
-	/** @var list<int|string> */
+	/** @var string[] */
 	public array $path = [];
 
 	public bool $isKey = false;
 
-	/** @var list<Message> */
+	/** @var Message[] */
 	public array $errors = [];
 
-	/** @var list<Message> */
+	/** @var Message[] */
 	public array $warnings = [];
 
-	/** @var list<array{DynamicParameter, string, list<int|string>}> */
+	/** @var array[] */
 	public array $dynamics = [];
 
 
-	/** @param  array<string, mixed>  $variables */
 	public function addError(string $message, string $code, array $variables = []): Message
 	{
 		$variables['isKey'] = $this->isKey;
@@ -40,17 +38,13 @@ final class Context
 	}
 
 
-	/** @param  array<string, mixed>  $variables */
 	public function addWarning(string $message, string $code, array $variables = []): Message
 	{
 		return $this->warnings[] = new Message($message, $code, $this->path, $variables);
 	}
 
 
-	/**
-	 * Returns a closure that returns true as long as no new errors have been added since the call.
-	 * @return \Closure(): bool
-	 */
+	/** @return \Closure(): bool */
 	public function createChecker(): \Closure
 	{
 		$count = count($this->errors);

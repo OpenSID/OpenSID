@@ -96,6 +96,7 @@
                         name="margin_global"
                         @checked($margin_global)
                         class="form-check-input"
+                        type="radio"
                         value="1"
                         autocomplete="off"
                     >Ya
@@ -107,6 +108,7 @@
                         name="margin_global"
                         class="form-check-input"
                         @checked(!$margin_global)
+                        type="radio"
                         value="0"
                         autocomplete="off"
                     >Tidak
@@ -131,7 +133,7 @@
                                         value="{{ $value }}"
                                     >
                                     <span class="input-group-addon input-sm">cm</span>
-                                 </div>
+                                </div>
                             </div>
                         @endforeach
                     </div>
@@ -149,6 +151,7 @@
                         name="format_nomor_global"
                         @checked($format_nomor_global)
                         class="form-check-input"
+                        type="radio"
                         value="1"
                         autocomplete="off"
                     >Ya
@@ -160,6 +163,7 @@
                         name="format_nomor_global"
                         class="form-check-input"
                         @checked(!$format_nomor_global)
+                        type="radio"
                         value="0"
                         autocomplete="off"
                     >Tidak
@@ -197,6 +201,7 @@
                         type="radio"
                         name="qr_code"
                         class="form-check-input"
+                        type="radio"
                         value="1"
                         @checked($suratMaster->qr_code)
                         autocomplete="off"
@@ -208,6 +213,7 @@
                         type="radio"
                         name="qr_code"
                         class="form-check-input"
+                        type="radio"
                         value="0"
                         @checked(!$suratMaster->qr_code)
                         autocomplete="off"
@@ -225,6 +231,7 @@
                         type="radio"
                         name="qr_code_tte"
                         class="form-check-input"
+                        type="radio"
                         value="1"
                         @checked($suratMaster->qr_code_tte)
                         autocomplete="off"
@@ -236,6 +243,7 @@
                         type="radio"
                         name="qr_code_tte"
                         class="form-check-input"
+                        type="radio"
                         value="0"
                         @checked(!$suratMaster->qr_code_tte)
                         autocomplete="off"
@@ -253,6 +261,7 @@
                         type="radio"
                         name="header"
                         class="form-check-input"
+                        type="radio"
                         value="1"
                         @checked($header == 1)
                         autocomplete="off"
@@ -264,6 +273,7 @@
                         type="radio"
                         name="header"
                         class="form-check-input"
+                        type="radio"
                         value="2"
                         @checked($header == 2)
                         autocomplete="off"
@@ -275,6 +285,7 @@
                         type="radio"
                         name="header"
                         class="form-check-input"
+                        type="radio"
                         value="0"
                         @checked($header == 0)
                         autocomplete="off"
@@ -292,6 +303,7 @@
                         type="radio"
                         name="footer"
                         class="form-check-input"
+                        type="radio"
                         value="1"
                         @checked($footer)
                         autocomplete="off"
@@ -303,6 +315,7 @@
                         type="radio"
                         name="footer"
                         class="form-check-input"
+                        type="radio"
                         value="0"
                         @checked(!$footer)
                         autocomplete="off"
@@ -320,6 +333,7 @@
                         type="radio"
                         name="logo_garuda"
                         class="form-check-input"
+                        type="radio"
                         value="1"
                         @checked($suratMaster->logo_garuda)
                         autocomplete="off"
@@ -331,6 +345,7 @@
                         type="radio"
                         name="logo_garuda"
                         class="form-check-input"
+                        type="radio"
                         value="0"
                         @checked(!$suratMaster->logo_garuda)
                         autocomplete="off"
@@ -349,6 +364,7 @@
                             type="radio"
                             name="kecamatan"
                             class="form-check-input"
+                            type="radio"
                             value="1"
                             @checked($suratMaster->kecamatan)
                             autocomplete="off"
@@ -360,6 +376,7 @@
                             type="radio"
                             name="kecamatan"
                             class="form-check-input"
+                            type="radio"
                             value="0"
                             @checked(!$suratMaster->kecamatan)
                             autocomplete="off"
@@ -378,6 +395,7 @@
                         type="radio"
                         name="mandiri"
                         class="form-check-input"
+                        type="radio"
                         value="1"
                         @checked($suratMaster->mandiri)
                         autocomplete="off"
@@ -389,6 +407,7 @@
                         type="radio"
                         name="mandiri"
                         class="form-check-input"
+                        type="radio"
                         value="0"
                         @checked(!$suratMaster->mandiri)
                         autocomplete="off"

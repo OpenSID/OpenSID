@@ -49,7 +49,7 @@
     @stack('scripts')
 </head>
 
-<body @if (isset($is_landscape) && $is_landscape) class="landscape" @endif>
+<body>
     <div id="container">
         <!-- Print Body -->
         <div id="body">

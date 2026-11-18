@@ -129,7 +129,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">10. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap_dcpw]</td>
+            <td colspan="27">[Alamat_dcpW]</td>
 
         </tr>
         <tr>
@@ -229,7 +229,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap_dapw]</td>
+            <td colspan="27">[Alamat_dapW]</td>
 
         </tr>
     </table>
@@ -285,7 +285,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap_dibpw]</td>
+            <td colspan="27">[Alamat_dibpW]</td>
 
         </tr>
     </table>

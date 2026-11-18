@@ -38,14 +38,6 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         return true;
     }
 
-    /**
-     * @return string
-     */
-    public function create_sid()
-    {
-        return session_create_id() ?: throw new \RuntimeException('Unable to create a session ID.');
-    }
-
     abstract protected function doRead(#[\SensitiveParameter] string $sessionId): string;
 
     abstract protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data): bool;
@@ -78,16 +70,6 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         $this->newSessionId = '' === $data ? $sessionId : null;
 
         return $data;
-    }
-
-    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $data): bool
-    {
-        $this->igbinaryEmptyData ??= \function_exists('igbinary_serialize') ? igbinary_serialize([]) : '';
-        if ('' === $data || $this->igbinaryEmptyData === $data) {
-            return $this->destroy($sessionId);
-        }
-
-        return true;
     }
 
     public function write(#[\SensitiveParameter] string $sessionId, string $data): bool
