@@ -25,7 +25,9 @@ test.describe('Cek murni-OSS', () => {
     await page.getByRole('button', { name: 'Masuk' }).first().click();
     await expect(page.getByPlaceholder('Nama pengguna')).toHaveCount(0);
 
-    const bodyText = await page.locator('body').innerText();
+    // Hanya sidebar (menu), bukan seluruh body: catatan rilis/pengumuman di beranda admin boleh
+    // menyebut nama add-on (mis. "Impor Desil DTSEN") tanpa berarti menu add-on muncul.
+    const bodyText = await page.locator('.main-sidebar').first().innerText();
     for (const modul of ['Anjungan', 'Buku Tamu', 'DTSEN']) {
       expect(bodyText, `menu "${modul}" tidak boleh muncul tanpa add-on terpasang`).not.toContain(modul);
     }
