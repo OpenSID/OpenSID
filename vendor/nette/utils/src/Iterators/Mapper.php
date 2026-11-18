@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of the Nette Framework (https://nette.org)
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
+
+declare(strict_types=1);
 
 namespace Nette\Iterators;
 
@@ -13,13 +15,14 @@ namespace Nette\Iterators;
  */
 class Mapper extends \IteratorIterator
 {
-	private \Closure $callback;
+	/** @var callable */
+	private $callback;
 
 
 	public function __construct(\Traversable $iterator, callable $callback)
 	{
 		parent::__construct($iterator);
-		$this->callback = $callback(...);
+		$this->callback = $callback;
 	}
 
 

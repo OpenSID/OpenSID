@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -135,47 +135,40 @@ class Tte extends Tte_Controller
                 'nama_surat' => $data->nama_surat,
             ]);
 
-            $successData = [
+            return json([
                 'status'     => true,
                 'pesan'      => 'TTE Surat Berhasil',
                 'id_surat'   => $data->id,
                 'no_surat'   => $data->no_surat,
                 'nama_surat' => $data->nama_surat,
-            ];
-
-            return response(json_encode($successData), 200, ['Content-Type' => 'application/json'])->send();
-        } catch (GuzzleHttp\Exception\RequestException $e) {
+            ]);
+        } catch (GuzzleHttp\Exception\ClientException $e) {
             log_message('error', $e);
 
             DB::rollback();
-            $statusCode   = $e->getResponse()->getStatusCode();
-            $errorMessage = $e->getResponse()->getBody()->getContents();
-            $typeError    = 'RequestException';
+            $errorMessage = $e->getResponse()->getBody()->getContents() ?: $e->getMessage();
+            $typeError    = 'ClientException';
         } catch (Exception $e) {
             log_message('error', $e);
-
             DB::rollback();
             $errorMessage = $e->getMessage();
-            $statusCode   = 500;
             $typeError    = 'Exception';
         }
+            // periksa apakah ada error pada response
+            if ($typeError || $errorMessage) {
+                $this->logActivity('TTE', 'sign_invisible', 'TTE Surat Gagal', [
+                    'id_surat'    => $data->id,
+                    'no_surat'    => $data->no_surat,
+                    'nama_surat'  => $data->nama_surat,
+                    'pesan'       => $errorMessage,
+                    'jenis_error' => $typeError ?: 'UnknownError',
+                ]);
 
-        // periksa apakah ada error pada response
-        if ($typeError || $errorMessage) {
-            $this->logActivity('TTE', 'sign_invisible', 'TTE Surat Gagal', [
-                'id_surat'    => $data->id ?? null,
-                'no_surat'    => $data->no_surat ?? null,
-                'nama_surat'  => $data->nama_surat ?? null,
-                'pesan'       => $errorMessage,
-                'jenis_error' => $typeError ?: 'UnknownError',
-            ]);
-
-            return $this->sendJsonResponse(
-                $errorMessage,
-                $statusCode ?? 422,
-                $typeError ?: 'UnknownError'
-            );
-        }
+                return $this->response([
+                    'pesan'       => $errorMessage ?: 'TTE Surat Gagal',
+                    'jenis_error' => $typeError ?: 'UnknownError',
+                ]);
+            }
 
     }
 
@@ -253,45 +246,39 @@ class Tte extends Tte_Controller
                 'nama_surat' => $data->nama_surat,
             ]);
 
-            $successData = [
+            return json([
                 'status'     => true,
                 'pesan'      => 'TTE Surat Berhasil',
                 'id_surat'   => $data->id,
                 'no_surat'   => $data->no_surat,
                 'nama_surat' => $data->nama_surat,
-            ];
-
-            return response(json_encode($successData), 200, ['Content-Type' => 'application/json'])->send();
-        } catch (GuzzleHttp\Exception\RequestException $e) {
-            log_message('error', $e);
+            ]);
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            log_message('error', $e->getMessage());
 
             DB::rollback();
-            $statusCode   = $e->getResponse()->getStatusCode();
-            $errorMessage = $e->getResponse()->getBody()->getContents();
-            $typeError    = 'RequestException';
+            $errorMessage = $e->getResponse()->getBody()->getContents() ?: $e->getMessage();
+            $typeError    = 'ClientException';
         } catch (Exception $e) {
             log_message('error', $e);
-
             DB::rollback();
             $errorMessage = $e->getMessage();
-            $statusCode   = 500;
             $typeError    = 'Exception';
         }
-        // periksa apakah ada error pada response
+            // periksa apakah ada error pada response
         if ($typeError || $errorMessage) {
             $this->logActivity('TTE', 'sign_visible', 'TTE Surat Gagal', [
-                'id_surat'    => $data->id ?? null,
-                'no_surat'    => $data->no_surat ?? null,
-                'nama_surat'  => $data->nama_surat ?? null,
+                'id_surat'    => $data->id,
+                'no_surat'    => $data->no_surat,
+                'nama_surat'  => $data->nama_surat,
                 'pesan'       => $errorMessage,
                 'jenis_error' => $typeError ?: 'UnknownError',
             ]);
 
-            return $this->sendJsonResponse(
-                $errorMessage,
-                $statusCode ?? 422,
-                $typeError ?: 'UnknownError'
-            );
+            return $this->response([
+                'pesan'       => $errorMessage ?: 'TTE Surat Gagal',
+                'jenis_error' => $typeError ?: 'UnknownError',
+            ]);
         }
 
     }
@@ -307,24 +294,27 @@ class Tte extends Tte_Controller
     }
 
     /**
-     * Kirim JSON response dengan proper HTTP status code.
+     * Generate response dan log.
      *
-     * @param string $message      Response dari ClientException (JSON dari BSrE)
-     * @param int    $httpCode     HTTP status code
-     * @param string $errorType    Jenis error untuk logging
+     * @param array $notif
      *
      * @return object
      */
-    private function sendJsonResponse(string $message, int $httpCode = 422, string $errorType = '')
+    protected function response($notif = [])
     {
-        // Log error ke database
         LogTte::create([
-            'message'     => $message,
-            'jenis_error' => $errorType,
+            'message'     => $notif['pesan'],
+            'jenis_error' => $notif['jenis_error'],
         ]);
 
-        // Teruskan response langsung dari exception ke client
-        return response($message, $httpCode, ['Content-Type' => 'application/json'])->send();
+        $message = $notif['pesan'] ?? 'TTE Surat Gagal';
+        $code    = $notif['code'] ?? 422;
+
+        header(sprintf('HTTP/1.1 %d %s', $code, $message), true, $code);
+        header('Content-Type: text/plain; charset=utf-8');
+        echo $message;
+
+        exit;
     }
 
     private function logActivity(string $logName, $event, $description, $property): void

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -55,8 +55,8 @@ class Statistik extends Web_Controller
     public function index($slug = null)
     {
         $key = $this->getKeyFromSlug($slug);
-
         $this->hak_akses_menu('statistik/' . $key);
+
         $label                   = StatistikEnum::labelFromSlug($slug) ?? StatistikJenisBantuanEnum::allKeyLabel()[$key];
         $data['heading']         = $label;
         $data['slug_aktif']      = $slug;
@@ -67,16 +67,13 @@ class Statistik extends Web_Controller
         $data['statistik_aktif'] = menu_statistik_aktif();
         $data['bantuan']         = $this->isBantuan($key);
         if ($data['bantuan']) {
-            $cekBantuan = Bantuan::where('id', substr($key, 2))->where('publikasi', StatusEnum::YA)->exists();
-
-            if (!$cekBantuan && (! in_array($key, array_keys(StatistikJenisBantuanEnum::allKeyLabel())))) {
-                show_404();
-            }
             $selectedTahun      = request()->get('tahun');
-            $data['list_tahun'] = Bantuan::where('publikasi', StatusEnum::YA)->get(['sdate', 'edate'])->flatMap(static fn ($bantuan) => [
-                date('Y', strtotime($bantuan->sdate)),
-                // date('Y', strtotime($bantuan->edate))
-            ])->unique()->sortKeysDesc()->values();
+            $data['list_tahun'] = Bantuan::status(StatusEnum::YA)->get(['sdate', 'edate'])->flatMap(static function ($bantuan) {
+                return [
+                    date('Y', strtotime($bantuan->sdate)),
+                    // date('Y', strtotime($bantuan->edate))
+                ];
+            })->unique()->sortKeysDesc()->values();
             $data['selected_tahun']     = $selectedTahun;
             $data['default_chart_type'] = 'column';
         }
@@ -116,13 +113,7 @@ class Statistik extends Web_Controller
 
     private function getKeyFromSlug($slug)
     {
-        if ($this->isBantuan($slug)) {
-            $key = StatistikJenisBantuanEnum::keyFromSlug($slug);
-
-            if ($key != '') return $key;
-        }
-
-        $key = StatistikEnum::keyFromSlug($slug);
+        $key = StatistikEnum::keyFromSlug($slug) ?? StatistikJenisBantuanEnum::keyFromSlug($slug);
         if ($key != '') return $key;
 
         return $slug;

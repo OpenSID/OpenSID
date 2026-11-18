@@ -44,11 +44,15 @@ class FileBinaryMimeTypeGuesser implements MimeTypeGuesserInterface
             return $supported;
         }
 
-        if ('\\' === \DIRECTORY_SEPARATOR || !\function_exists('shell_exec') || !\function_exists('escapeshellarg')) {
+        if ('\\' === \DIRECTORY_SEPARATOR || !\function_exists('passthru') || !\function_exists('escapeshellarg')) {
             return $supported = false;
         }
 
-        return $supported = '' !== trim(shell_exec('command -v file') ?: '');
+        ob_start();
+        passthru('command -v file', $exitStatus);
+        $binPath = trim(ob_get_clean());
+
+        return $supported = 0 === $exitStatus && '' !== $binPath;
     }
 
     public function guessMimeType(string $path): ?string
@@ -61,8 +65,17 @@ class FileBinaryMimeTypeGuesser implements MimeTypeGuesserInterface
             throw new LogicException(\sprintf('The "%s" guesser is not supported.', __CLASS__));
         }
 
+        ob_start();
+
         // need to use --mime instead of -i. see #6641
-        $type = trim(shell_exec(\sprintf($this->cmd, escapeshellarg((str_starts_with($path, '-') ? './' : '').$path))) ?: '');
+        passthru(\sprintf($this->cmd, escapeshellarg((str_starts_with($path, '-') ? './' : '').$path)), $return);
+        if ($return > 0) {
+            ob_end_clean();
+
+            return null;
+        }
+
+        $type = trim(ob_get_clean());
 
         if (!preg_match('#^([a-z0-9\-]+/[a-z0-9\-\+\.]+)#i', $type, $match)) {
             // it's not a type, but an error message

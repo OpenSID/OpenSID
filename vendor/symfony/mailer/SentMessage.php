@@ -25,6 +25,9 @@ class SentMessage
     private string $messageId;
     private string $debug = '';
 
+    /**
+     * @internal
+     */
     public function __construct(RawMessage $message, Envelope $envelope)
     {
         $message->ensureValidity();
@@ -60,19 +63,11 @@ class SentMessage
         return $this->envelope;
     }
 
-    /**
-     * Sets the transport-level message ID.
-     */
     public function setMessageId(string $id): void
     {
         $this->messageId = $id;
     }
 
-    /**
-     * Gets the transport-level message ID.
-     *
-     * Not to be confused with the Message-ID header, which is available via getOriginalMessage()
-     */
     public function getMessageId(): string
     {
         return $this->messageId;

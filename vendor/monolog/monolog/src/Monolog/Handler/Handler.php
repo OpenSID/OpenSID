@@ -44,10 +44,19 @@ abstract class Handler implements HandlerInterface
         }
     }
 
-    public function __serialize(): array
+    public function __sleep()
     {
         $this->close();
 
-        return (array) $this;
+        $reflClass = new \ReflectionClass($this);
+
+        $keys = [];
+        foreach ($reflClass->getProperties() as $reflProp) {
+            if (!$reflProp->isStatic()) {
+                $keys[] = $reflProp->getName();
+            }
+        }
+
+        return $keys;
     }
 }

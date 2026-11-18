@@ -1,11 +1,9 @@
-@extends('admin.layouts.components.ajax-cetak-bersama')
+<!-- bootstrap datepicker -->
+<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-datepicker.min.css') }}">
 
-@section('css')
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-datepicker.min.css') }}">
-@endsection
-
-@section('fields')
-    <div class="col-sm-12">
+<form id="validasi" action="{{ $formAction }}" method="post" target="_blank">
+    <div class="modal-body">
+        <input type="hidden" name="params" value="">
         <div class="form-group">
             <label class="control-label">Tanggal Cetak</label>
             <div class="input-group input-group-sm date">
@@ -16,17 +14,33 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
-    <!-- moment js -->
-    <script src="{{ asset('bootstrap/js/moment.min.js') }}"></script>
-    <!-- bootstrap Date time picker -->
-    <script src="{{ asset('bootstrap/js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script src="{{ asset('bootstrap/js/id.js') }}"></script>
-    <!-- bootstrap Date picker -->
-    <script src="{{ asset('bootstrap/js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('bootstrap/js/bootstrap-datepicker.id.min.js') }}"></script>
-    <!-- Script-->
-    <script src="{{ asset('js/custom-datetimepicker.js') }}"></script>
-@endsection
+    <div class="modal-footer">
+        {!! batal() !!}
+        <button type="submit" class="btn btn-social btn-info btn-sm" id="btn-ok">
+            @if ($aksi == 'cetak')
+                <i class='fa fa-print'></i> Cetak
+            @else
+                <i class='fa fa-download'></i> Unduh
+            @endif
+        </button>
+    </div>
+</form>
+@include('admin.layouts.components.validasi_form')
+<!-- moment js -->
+<script src="{{ asset('bootstrap/js/moment.min.js') }}"></script>
+<!-- bootstrap Date time picker -->
+<script src="{{ asset('bootstrap/js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ asset('bootstrap/js/id.js') }}"></script>
+<!-- bootstrap Date picker -->
+<script src="{{ asset('bootstrap/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('bootstrap/js/bootstrap-datepicker.id.min.js') }}"></script>
+<!-- Script-->
+<script src="{{ asset('js/custom-datetimepicker.js') }}"></script>
+<script type="text/javascript">
+    $(function() {
+        let _objParams = $('#tabeldata').DataTable().ajax.params()
+        delete(_objParams.draw)
+        delete(_objParams.search)
+        $('input[name=params]').val(JSON.stringify(_objParams))
+    });
+</script>

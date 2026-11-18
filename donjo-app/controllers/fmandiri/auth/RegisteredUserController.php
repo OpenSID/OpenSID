@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -82,7 +82,7 @@ class RegisteredUserController extends Web_Controller
             'tanggallahir' => ['required', 'date_format:Y-m-d'],
             'nik'          => ['required', 'digits:16', 'regex:/^\d{16}$/'],
             'no_kk'        => ['required', 'digits:16', 'regex:/^\d{16}$/'],
-            'email'        => ['required', 'email', 'not_regex:/[\r\n]/', "unique:penduduk_hidup,email,{$request->email},email"],
+            'email'        => ['required', 'email', "unique:penduduk_hidup,email,{$request->email},email"],
             'telegram'     => ['required', 'regex:/^[0-9]{1,20}$/', "unique:penduduk_hidup,telegram,{$request->telegram},telegram"],
             'password'     => ['required', 'digits:6', 'regex:/^\d{6}$/', 'confirmed'],
             'scan_1'       => 'required|image|mimes:gif,jpeg,jpg,png|max:1024',

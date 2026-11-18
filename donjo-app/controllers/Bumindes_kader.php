@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -122,94 +122,62 @@ class Bumindes_kader extends Admin_Controller
 
     public function get_kursus(): void
     {
-        $nama   = trim((string) $this->input->get('nama'));
+        $nama   = $this->input->get('nama');
         $kursus = PendudukKursusEnum::values();
         $new    = [];
-
         if ($list_data = KaderMasyarakat::select('kursus')->get()->toArray()) {
+            $list = [];
 
-            foreach ($list_data as $row) {
-                if (empty($row['kursus'])) {
-                    continue;
+            foreach ($list_data as $value) {
+                if ($value) {
+                    $list[] = $value['kursus'];
                 }
+            }
 
-                // Bersihkan per string (BUKAN array)
-                $clean = preg_replace('/[^a-zA-Z, ]/', '', $row['kursus']);
+            $list = preg_replace('/[^a-zA-Z, ]/', '', $list);
 
-                $exploded = array_map(
-                    'trim',
-                    explode(',', $clean)
-                );
-
-                $new = array_merge($new, $exploded);
+            foreach ($list as $value) {
+                $exploded = explode(',', (string) $value);
+                $exploded = array_map('trim', $exploded);
+                $new      = array_merge($new, $exploded);
             }
         }
 
-        // Gabungkan enum + data lama
-        $data = collect(array_unique(array_filter([
-            ...$kursus,
-            ...$new,
-        ])));
+        $data = collect(array_filter(array_unique([...$kursus, ...$new])));
 
-        // Filter pencarian (case-insensitive)
-        if ($nama !== '') {
-            $data = $data->filter(
-                static fn ($item) => stripos($item, $nama) !== false
-            );
-        }
+        $data = $data->filter(static fn ($item): bool => stripos((string) $item, (string) $nama) !== false);
 
-        // Format response untuk autocomplete
-        $result = $data
-            ->values()
-            ->map(static fn ($item) => ['value' => $item])
-            ->toArray();
-
-        header('Content-Type: application/json');
-        echo json_encode($result);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
     public function get_bidang(): void
     {
-        $nama   = trim((string) $this->input->get('nama'));
+        $nama   = $this->input->get('nama');
         $bidang = PendudukBidangEnum::values();
         $new    = [];
-
         if ($list_data = KaderMasyarakat::select('bidang')->get()->toArray()) {
+            $list = [];
 
-            foreach ($list_data as $row) {
-                if (empty($row['bidang'])) {
-                    continue;
+            foreach ($list_data as $value) {
+                if ($value) {
+                    $list[] = $value['bidang'];
                 }
+            }
 
-                $clean = preg_replace('/[^a-zA-Z, ]/', '', $row['bidang']);
+            $list = preg_replace('/[^a-zA-Z, ]/', '', $list);
 
-                $exploded = array_map(
-                    'trim',
-                    explode(',', $clean)
-                );
-
-                $new = array_merge($new, $exploded);
+            foreach ($list as $value) {
+                $exploded = explode(',', (string) $value);
+                $exploded = array_map('trim', $exploded);
+                $new      = array_merge(array_filter($new), $exploded);
             }
         }
 
-        $data = collect(array_unique(array_filter([
-            ...$bidang,
-            ...$new,
-        ])));
+        $data = collect(array_filter(array_unique([...$bidang, ...$new])));
 
-        if ($nama !== '') {
-            $data = $data->filter(
-                static fn ($item) => stripos($item, $nama) !== false
-            );
-        }
+        $data = $data->filter(static fn ($item): bool => stripos((string) $item, (string) $nama) !== false);
 
-        $result = $data
-            ->values()
-            ->map(static fn ($item) => ['value' => $item])
-            ->toArray();
-
-        header('Content-Type: application/json');
-        echo json_encode($result);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
     public function create(): void

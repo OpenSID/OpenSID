@@ -5,9 +5,9 @@
 // Begin       : 2009-04-07
 // Last Update : 2014-05-20
 // Author      : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
-// License     : GNU-LGPL v3 (https://www.gnu.org/copyleft/lesser.html)
+// License     : GNU-LGPL v3 (http://www.gnu.org/copyleft/lesser.html)
 // -------------------------------------------------------------------
-// Copyright (C) 2009-2026 Nicola Asuni - Tecnick.com LTD
+// Copyright (C) 2009-2014 Nicola Asuni - Tecnick.com LTD
 //
 // This file is part of TCPDF software library.
 //
@@ -22,14 +22,10 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with TCPDF.  If not, see <https://www.gnu.org/licenses/>.
+// along with TCPDF.  If not, see <http://www.gnu.org/licenses/>.
 //
 // See LICENSE.TXT file for more information.
 // -------------------------------------------------------------------
-//
-// DEPRECATED :
-//   TCPDF is deprecated: migrate to tecnickcom/tc-lib-pdf
-//   (https://github.com/tecnickcom/tc-lib-pdf).
 //
 // Description : PHP class to creates array representations for
 //               2D barcodes to be used with TCPDF.
@@ -50,7 +46,6 @@
  * @package com.tecnick.tcpdf
  * @version 1.0.015
  * @author Nicola Asuni
- * @deprecated TCPDF is deprecated: migrate to tecnickcom/tc-lib-pdf.
  */
 class TCPDF2DBarcode {
 
@@ -243,9 +238,7 @@ class TCPDF2DBarcode {
 			ob_start();
 			imagepng($png);
 			$imagedata = ob_get_clean();
-			if (PHP_VERSION_ID < 80000) {
-				imagedestroy($png);
-			}
+			imagedestroy($png);
 			return $imagedata;
 		}
 	}

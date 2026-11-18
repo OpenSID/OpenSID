@@ -410,7 +410,8 @@
     <script src="{{ asset('js/validasi.js') }}"></script>
     <script>
         $('document').ready(function() {
-            var view = "{{ $view_mark }}";
+            var view = "{{ $view_mark }}";            
+            var asal = "{{ $asal_tanah }}";            
 
             if (1 == view) {
                 $("#pemilik_asal").attr("disabled", true);
@@ -437,9 +438,9 @@
                 $("#mutasi").attr("disabled", true);
                 $("#keterangan").attr("disabled", true);
                 $('#form_footer').hide();
-                pilih_asal_tanah($('#pemilik_asal').val());
+                show_hide(asal);
             } else if (view == 2) {
-                pilih_asal_tanah($('#pemilik_asal').val());
+                show_hide(asal);
             } else {
                 $("#view_asli_milik_desa").hide();
                 $("#view_pemerintah").hide();
@@ -448,6 +449,28 @@
                 $("#view_lain_lain").hide();
             }
         });
+
+        function show_hide(param) {
+            if (1 == param) {
+                $("#view_asli_milik_desa").show();
+                $("#view_pemerintah").hide();
+                $("#view_provinsi").hide();
+                $("#view_kabupaten_kota").hide();
+                $("#view_lain_lain").hide();
+            } else if (2 == param) {
+                $("#view_asli_milik_desa").hide();
+                $("#view_pemerintah").show();
+                $("#view_provinsi").show();
+                $("#view_kabupaten_kota").show();
+                $("#view_lain_lain").hide();
+            } else {
+                $("#view_asli_milik_desa").hide();
+                $("#view_pemerintah").hide();
+                $("#view_provinsi").hide();
+                $("#view_kabupaten_kota").hide();
+                $("#view_lain_lain").show();
+            }
+        }
 
         function isi_luas() {
             var luas = $('#luas').val();

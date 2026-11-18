@@ -123,13 +123,19 @@ class EventDispatcher implements EventDispatcherInterface
         return false;
     }
 
-    public function addListener(string $eventName, callable|array $listener, int $priority = 0): void
+    /**
+     * @return void
+     */
+    public function addListener(string $eventName, callable|array $listener, int $priority = 0)
     {
         $this->listeners[$eventName][$priority][] = $listener;
         unset($this->sorted[$eventName], $this->optimized[$eventName]);
     }
 
-    public function removeListener(string $eventName, callable|array $listener): void
+    /**
+     * @return void
+     */
+    public function removeListener(string $eventName, callable|array $listener)
     {
         if (empty($this->listeners[$eventName])) {
             return;
@@ -157,7 +163,10 @@ class EventDispatcher implements EventDispatcherInterface
         }
     }
 
-    public function addSubscriber(EventSubscriberInterface $subscriber): void
+    /**
+     * @return void
+     */
+    public function addSubscriber(EventSubscriberInterface $subscriber)
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
             if (\is_string($params)) {
@@ -172,7 +181,10 @@ class EventDispatcher implements EventDispatcherInterface
         }
     }
 
-    public function removeSubscriber(EventSubscriberInterface $subscriber): void
+    /**
+     * @return void
+     */
+    public function removeSubscriber(EventSubscriberInterface $subscriber)
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
             if (\is_array($params) && \is_array($params[0])) {
@@ -194,8 +206,10 @@ class EventDispatcher implements EventDispatcherInterface
      * @param callable[] $listeners The event listeners
      * @param string     $eventName The name of the event to dispatch
      * @param object     $event     The event object to pass to the event handlers/listeners
+     *
+     * @return void
      */
-    protected function callListeners(iterable $listeners, string $eventName, object $event): void
+    protected function callListeners(iterable $listeners, string $eventName, object $event)
     {
         $stoppable = $event instanceof StoppableEventInterface;
 
@@ -212,26 +226,18 @@ class EventDispatcher implements EventDispatcherInterface
      */
     private function sortListeners(string $eventName): void
     {
-        do {
-            krsort($this->listeners[$eventName]);
-            // Initializing a lazy listener can add listeners for the same event.
-            // That unsets $this->sorted[$eventName], which is the signal to sort again.
-            $this->sorted[$eventName] = [];
-            $sorted = [];
+        krsort($this->listeners[$eventName]);
+        $this->sorted[$eventName] = [];
 
-            foreach ($this->listeners[$eventName] as &$listeners) {
-                foreach ($listeners as &$listener) {
-                    if (\is_array($listener) && isset($listener[0]) && $listener[0] instanceof \Closure && 2 >= \count($listener)) {
-                        $listener[0] = $listener[0]();
-                        $listener[1] ??= '__invoke';
-                    }
-                    $sorted[] = $listener;
+        foreach ($this->listeners[$eventName] as &$listeners) {
+            foreach ($listeners as &$listener) {
+                if (\is_array($listener) && isset($listener[0]) && $listener[0] instanceof \Closure && 2 >= \count($listener)) {
+                    $listener[0] = $listener[0]();
+                    $listener[1] ??= '__invoke';
                 }
+                $this->sorted[$eventName][] = $listener;
             }
-            unset($listeners, $listener);
-        } while (!isset($this->sorted[$eventName]));
-
-        $this->sorted[$eventName] = $sorted;
+        }
     }
 
     /**

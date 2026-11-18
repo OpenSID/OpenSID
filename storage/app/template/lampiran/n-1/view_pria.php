@@ -128,7 +128,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">10. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap]</td>
+            <td colspan="27">[AlamaT]</td>
 
         </tr>
         <tr>
@@ -229,7 +229,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap_dapp]</td>
+            <td colspan="27">[Alamat_dapP]</td>
 
         </tr>
     </table>
@@ -285,7 +285,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap_dipp]</td>
+            <td colspan="27">[Alamat_dipP]</td>
 
         </tr>
     </table>

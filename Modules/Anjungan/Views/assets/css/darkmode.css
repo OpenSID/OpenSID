@@ -1,0 +1,14 @@
+
+body.darkmode{background:#212121;color:#dbdbdb;}
+.darkmode .bg-white{background:#000 !important;}
+.darkmode .topright .dropdown-menu{background:#000;color:#dbdbdb;}
+.darkmode .topright .dropdown-menu a, .darkmode .topright a{color:#dbdbdb;}
+.darkmode .topright .dropdown-menu:after{border-bottom:#000 10px solid;}
+.darkmode .anjungan-head{background:linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.3), rgba(0,0,0,0.7));}
+.darkmode .anjungan-head h1{background-image: linear-gradient(-225deg,#fff 0%,#ffab00 29%,#fff 67%,#ffab00 100%) !important;}
+.darkmode .anjungan-head-logo p{color:#dbdbdb;}
+.darkmode .topright-icon{background:rgba(0,0,0,0.3);border:#919191 1px solid;}
+.darkmode .bottom-page{background:rgba(0,0,0,0.4);}
+.darkmode .runtext{background:linear-gradient(to right, transparent, transparent, rgba(0,0,0,0.5));}
+.darkmode .runtext{border:#919191 1px solid;}
+.darkmode .topright-icon:hover{background:rgba(0,0,0,0.7);}

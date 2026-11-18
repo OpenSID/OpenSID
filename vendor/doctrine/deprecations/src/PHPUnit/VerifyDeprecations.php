@@ -57,7 +57,7 @@ trait VerifyDeprecations
             $this->assertTrue(
                 $actualCount === $expectation,
                 sprintf(
-                    "Deprecation with identifier '%s' was triggered by code executed in test, but expected not to.",
+                    "Expected deprecation with identifier '%s' was triggered by code executed in test, but expected not to.",
                     $identifier
                 )
             );

@@ -84,7 +84,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap]</td>
+            <td colspan="27">[AlamaT]</td>
         </tr>
     </table>
 
@@ -140,7 +140,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_lengkap_dcpw]</td>
+            <td colspan="27">[Alamat_dcpW]</td>
         </tr>
     </table>
 

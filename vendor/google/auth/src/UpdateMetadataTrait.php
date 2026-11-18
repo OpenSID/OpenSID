@@ -31,8 +31,8 @@ trait UpdateMetadataTrait
     /**
      * export a callback function which updates runtime metadata.
      *
-     * @deprecated
      * @return callable updateMetadata function
+     * @deprecated
      */
     public function getUpdateMetadataFunc()
     {

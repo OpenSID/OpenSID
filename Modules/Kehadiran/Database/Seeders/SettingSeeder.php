@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -55,40 +55,49 @@ class SettingSeeder extends Seeder
     {
         Model::unguard();
 
+        $id = identitas('id');
+
         $this->createSettings([
             [
-                'judul'      => 'Tampilkan Kehadiran',
-                'key'        => 'tampilkan_kehadiran',
-                'value'      => StatusEnum::YA,
-                'keterangan' => 'Aktif / Non-aktifkan Halaman Website Kehadiran',
-                'jenis'      => 'select-boolean',
-                'attribute'  => json_encode([
-                    'class' => 'required',
-                ]),
+                'judul'      => 'Rentang Waktu Masuk',
+                'key'        => 'rentang_waktu_masuk',
+                'value'      => '10',
+                'keterangan' => 'Rentang waktu kehadiran ketika masuk. (satuan: menit)',
+                'jenis'      => 'input-number',
+                'attribute'  => [
+                    'class'       => 'required',
+                    'min'         => 0,
+                    'max'         => 3600,
+                    'step'        => 1,
+                    'placeholder' => '10',
+                ],
                 'kategori' => 'Kehadiran',
             ],
             [
-                'judul'      => 'IP Adress Kehadiran',
-                'key'        => 'ip_adress_kehadiran',
-                'value'      => null,
-                'keterangan' => 'IP Address Perangkat Kehadiran',
-                'jenis'      => 'input-text',
-                'attribute'  => json_encode([
-                    'class'       => 'ip_address',
-                    'placeholder' => '127.0.0.1',
-                ]),
+                'judul'      => 'Rentang Waktu Keluar',
+                'key'        => 'rentang_waktu_keluar',
+                'value'      => '10',
+                'keterangan' => 'Rentang waktu kehadiran ketika keluar. (satuan: menit)',
+                'jenis'      => 'input-number',
+                'attribute'  => [
+                    'class'       => 'required',
+                    'min'         => 0,
+                    'max'         => 3600,
+                    'step'        => 1,
+                    'placeholder' => '10',
+                ],
                 'kategori' => 'Kehadiran',
             ],
             [
-                'judul'      => 'MAC Adress Kehadiran',
-                'key'        => 'mac_adress_kehadiran',
+                'judul'      => 'Id Pengunjung Kehadiran',
+                'key'        => 'id_pengunjung_kehadiran',
                 'value'      => null,
-                'keterangan' => 'MAC Address Perangkat Kehadiran',
+                'keterangan' => 'ID Pengunjung Perangkat Kehadiran',
                 'jenis'      => 'input-text',
-                'attribute'  => json_encode([
-                    'class'       => 'mac_address',
-                    'placeholder' => '00:1B:44:11:3A:B7',
-                ]),
+                'attribute'  => [
+                    'class'       => 'alfanumerik',
+                    'placeholder' => 'ad02c373c2a8745d108aff863712fe92',
+                ],
                 'kategori' => 'Kehadiran',
             ],
             [
@@ -100,67 +109,39 @@ class SettingSeeder extends Seeder
                 'kategori'   => 'Kehadiran',
             ],
             [
-                'judul'      => 'Id Pengunjung Kehadiran',
-                'key'        => 'id_pengunjung_kehadiran',
+                'judul'      => 'MAC Adress Kehadiran',
+                'key'        => 'mac_adress_kehadiran',
                 'value'      => null,
-                'keterangan' => 'ID Pengunjung Perangkat Kehadiran',
+                'keterangan' => 'MAC Address Perangkat Kehadiran',
                 'jenis'      => 'input-text',
-                'attribute'  => json_encode([
-                    'class'       => 'alfanumerik',
-                    'placeholder' => 'ad02c373c2a8745d108aff863712fe92',
-                ]),
-                'kategori' => 'Kehadiran',
+                'attribute'  => [
+                    'class'       => 'mac_address',
+                    'placeholder' => '00:1B:44:11:3A:B7',
+                ],
+                'kategori' => 'kehadiran',
             ],
             [
-                'judul'      => 'Rentang Waktu Masuk',
-                'key'        => 'rentang_waktu_masuk',
-                'value'      => 10,
-                'keterangan' => 'Rentang waktu kehadiran ketika masuk. (satuan: menit)',
-                'jenis'      => 'input-number',
-                'attribute'  => json_encode([
-                    'class'       => 'required',
-                    'min'         => 0,
-                    'max'         => 3600,
-                    'step'        => 1,
-                    'placeholder' => '10',
-                ]),
-                'kategori' => 'Kehadiran',
+                'judul'      => 'IP Adress Kehadiran',
+                'key'        => 'ip_adress_kehadiran',
+                'value'      => null,
+                'keterangan' => 'IP Address Perangkat Kehadiran',
+                'jenis'      => 'input-text',
+                'attribute'  => [
+                    'class'       => 'ip_address',
+                    'placeholder' => '127.0.0.1',
+                ],
+                'attribute' => 'class="ip_address" placeholder="127.0.0.1"',
+                'kategori'  => 'Kehadiran',
             ],
             [
-                'judul'      => 'Rentang Waktu Keluar',
-                'key'        => 'rentang_waktu_keluar',
-                'value'      => 10,
-                'keterangan' => 'Rentang waktu kehadiran ketika keluar. (satuan: menit)',
-                'jenis'      => 'input-number',
-                'attribute'  => json_encode([
-                    'class'       => 'required',
-                    'min'         => 0,
-                    'max'         => 3600,
-                    'step'        => 1,
-                    'placeholder' => '10',
-                ]),
-                'kategori' => 'Kehadiran',
-            ],
-            [
-                'judul'      => 'Tampilkan Status Kehadiran Pada Hari Libur',
-                'key'        => 'tampilkan_status_kehadiran_pada_hari_libur',
+                'judul'      => 'Tampilkan Kehadiran',
+                'key'        => 'tampilkan_kehadiran',
                 'value'      => StatusEnum::YA,
-                'keterangan' => 'Jika diaktifkan, status kehadiran perangkat desa akan tetap muncul di hari libur.',
+                'keterangan' => 'Aktif / Non-aktifkan Halaman Website Kehadiran',
                 'jenis'      => 'select-boolean',
-                'attribute'  => json_encode([
+                'attribute'  => [
                     'class' => 'required',
-                ]),
-                'kategori' => 'Kehadiran',
-            ],
-            [
-                'judul'      => 'Ikuti Hari Libur Terdaftar',
-                'key'        => 'ikuti_hari_libur_terdaftar',
-                'value'      => StatusEnum::TIDAK,
-                'keterangan' => 'Jika diaktifkan, jam kerja akan otomatis berubah menjadi "Libur" ketika bertepatan dengan hari libur terdaftar.',
-                'jenis'      => 'select-boolean',
-                'attribute'  => json_encode([
-                    'class' => 'required',
-                ]),
+                ],
                 'kategori' => 'Kehadiran',
             ],
         ]);

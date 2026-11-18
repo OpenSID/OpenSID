@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,6 +39,7 @@ use App\Enums\StatusEnum;
 use App\Models\MediaSosial;
 use App\Models\Theme;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 if (! function_exists('theme')) {
@@ -49,7 +50,11 @@ if (! function_exists('theme')) {
      */
     function theme()
     {
-        return new Theme();
+        if (Schema::hasTable('theme')) {
+            return new Theme();
+        }
+
+        return null;
     }
 }
 
@@ -259,6 +264,10 @@ if (! function_exists('media_sosial')) {
 if (! function_exists('sinergi_program')) {
     function sinergi_program()
     {
+        if (Schema::hasTable('sinergi_program') === false) {
+            return null;
+        }
+
         return cache()->rememberForever('sinergi_program', static fn () => App\Models\SinergiProgram::status(App\Models\SinergiProgram::ACTIVE)->orderBy('urut')->get()->toArray());
     }
 }
@@ -310,26 +319,5 @@ if (! function_exists('module_asset')) {
         $queryString = http_build_query($params);
 
         return base_url("module_asset/{$name}?{$queryString}");
-    }
-}
-
-
-if (! function_exists('theme_version')) {
-    /**
-     * Versi tema (tema aktif bila $themeName kosong).
-     *
-     * Helper ini baru ada sejak v2609, padahal tema bursa terbaru (mis. Esensi)
-     * memanggilnya di template. Shim ini ditambahkan pipeline rilis Umum
-     * (patch-wiring-addon-umum.php) untuk core yang belum memilikinya.
-     */
-    function theme_version(?string $themeName = ''): ?string
-    {
-        if (empty($themeName)) {
-            return \App\Models\Theme::where('status', 1)->value('versi');
-        }
-
-        $versi = \App\Models\Theme::whereIn('slug', ['desa-' . $themeName, $themeName])->pluck('versi', 'slug');
-
-        return $versi['desa-' . $themeName] ?? $versi[$themeName] ?? null;
     }
 }

@@ -195,11 +195,7 @@
                 @endif
 
                 //Inisialisasi tampilan peta
-                var peta = L.map('map', {
-                    ...pengaturan_peta,
-                    zoomDelta: 0.1,
-                    zoomSnap: 0.1
-                }).setView(posisi, zoom);
+                var peta = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
                 @if (!empty($desa['path']))
                     peta.fitBounds({{ $desa['path'] }});
@@ -418,7 +414,7 @@
                     collapsed: true
                 }).addTo(peta);
                 var customlayer = L.control.groupedLayers('', layerCustom, {
-                    groupCheckboxes: false,
+                    groupCheckboxes: true,
                     position: 'topleft',
                     collapsed: true
                 }).addTo(peta);

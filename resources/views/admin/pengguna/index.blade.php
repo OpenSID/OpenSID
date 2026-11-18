@@ -76,7 +76,7 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#profil" data-toggle="tab"><i class="fa fa-user"></i> &nbsp; Profil</a></li>
                     <li><a href="#sandi" data-toggle="tab"><i class="fa fa-gear"></i> &nbsp; Pengaturan Sandi</a></li>
-                    <li><a href="#2fa" data-toggle="tab">Keamanan</a></li>
+                    <li><a href="#2fa" data-toggle="tab"><i class="fa fa-fw fa-500px"></i> &nbsp; Keamanan</a></li>
                     @if(setting('login_otp'))
                     <li class='{{ jecho($tab_ini, 12, 'active') }}'>
                         <a href="#otp" data-toggle="tab" title="Pengaturan Aktivasi OTP">

@@ -35,33 +35,6 @@
 
 RewriteEngine On
 
-# =====================================================
-# BLOCK SENSITIVE DIRECTORIES (WAJIB DI ATAS)
-# =====================================================
-# Prevent access to sensitive folders
-RewriteRule ^(\.git|\.github|bin|vendor|storage|Modules)(/|$) - [F,L]
-
-# Block dotfiles (.htaccess, .env, .gitignore, etc.)
-<FilesMatch "^\.">
-    Require all denied
-</FilesMatch>
-
-# Block configuration and sensitive files
-<FilesMatch "^(composer\.json|composer\.lock|mitra|app_key|phputil\.xml|phpunit\.xml\.dist|rector|htaccess\.apache\.txt|LICENSE)">
-    Require all denied
-</FilesMatch>
-
-# Block all markdown files
-<FilesMatch "\.md$">
-    Require all denied
-</FilesMatch>
-
-# Block archive files
-<FilesMatch "(?i)\.(zip|rar)$">
-    Require all denied
-</FilesMatch>
-
-
 # FOR SUBFOLDER INSTALLATION: Uncomment RewriteBase below and change path to match your folder name
 # Replace /opensid/ with your actual folder name where OpenSID is installed
 # Example: If installed in folder named 'desa', change to: RewriteBase /desa/
@@ -70,19 +43,23 @@ RewriteRule ^(\.git|\.github|bin|vendor|storage|Modules)(/|$) - [F,L]
 # For root domain installation: Leave RewriteBase commented (do NOT uncomment)
 # RewriteBase /opensid/
 
-# Allow existing files and directories (css, js, img, dll)
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
+# Allow existing files and directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 
-# Jangan rewrite folder static OpenSID (OLS friendly)
-RewriteRule ^(assets|desa|themes|uploads|resources)/ - [L]
+# Don't rewrite index.php, resources, or robots.txt
+RewriteCond %{REQUEST_URI} !^/index\.php
+RewriteCond %{REQUEST_URI} !^/resources
+RewriteCond %{REQUEST_URI} !^/robots\.txt
 
-# Jangan rewrite index.php
-RewriteRule ^index\.php$ - [L]
+# Route all requests to index.php
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 
-# Route all requests to index.php (AMAN UNTUK OLS & APACHE)
-RewriteRule ^ index.php [L,QSA]
+# ============================================================================
+# SECURITY - Folder Protection
+# ============================================================================
+# Prevent access to sensitive folders
+RewriteRule ^(\.git|\.github|bin) - [F,L]
 
 # Disable directory listing
 Options -Indexes
@@ -90,31 +67,39 @@ Options -Indexes
 # ============================================================================
 # ENFORCE HTTPS
 # ============================================================================
-# Redirect all HTTP requests to HTTPS
-# Compatible with: Apache 2.4, OpenLiteSpeed (OLS), Cloudflare
+# Redirect all HTTP requests to HTTPS (compatible with Cloudflare)
 # DEFAULT: Enabled for production environments with SSL certificates
 #
 # FOR LOCAL DEVELOPMENT (if you don't have SSL certificate):
-# Comment-out the entire HTTPS redirect section below (lines 77-86)
-#
-# ============================================================================
+# Comment-out these 7 lines below (76-82):
 
 # Detect Cloudflare SSL proxy (prevent redirect loops)
-RewriteCond %{HTTP:CF-Visitor} "https" [NC]
-RewriteRule .* - [S=1]
+RewriteCond %{HTTP:CF-Visitor} ^{\"scheme\":\"https\"}$
+RewriteRule .* - [E=HTTPS:on]
 
-# Redirect HTTP to HTTPS (OLS & Apache compatible)
-# Check if NOT already on HTTPS (port 443)
-RewriteCond %{SERVER_PORT} !^443$
-RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Enforce HTTPS redirect
+RewriteCond %{HTTPS} != on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # ============================================================================
 # SECURITY - File Protection
 # ============================================================================
 # Prevent access to sensitive files
 
+# Block dotfiles (.htaccess, .env, .gitignore, etc.)
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
 
+# Block configuration and sensitive files
+<FilesMatch "^(composer\.json|composer\.lock|mitra|app_key|phpunit\.xml|phpunit\.xml\.dist|rector)">
+    Require all denied
+</FilesMatch>
+
+# Block archive files
+<FilesMatch "(?i)\.(zip|rar)$">
+    Require all denied
+</FilesMatch>
 
 # ============================================================================
 # BROWSER CACHING - Optimize Performance
@@ -157,7 +142,10 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # MODSECURITY CONFIGURATION
 # ============================================================================
 # Disable ModSecurity for specific routes to prevent false positives
-
+<IfModule security2_module>
+    SecRule REQUEST_URI "@beginsWith /pelanggan/pemesanan" \
+        "id:10001,phase:1,pass,nolog,ctl:ruleEngine=Off"
+</IfModule>
 
 # ============================================================================
 # ENVIRONMENT CONFIGURATION

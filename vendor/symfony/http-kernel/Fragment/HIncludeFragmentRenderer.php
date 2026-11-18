@@ -76,7 +76,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
             $attributes['id'] = $options['id'];
         }
         $renderedAttributes = '';
-        if ($attributes) {
+        if (\count($attributes) > 0) {
             $flags = \ENT_QUOTES | \ENT_SUBSTITUTE;
             foreach ($attributes as $attribute => $value) {
                 $renderedAttributes .= \sprintf(

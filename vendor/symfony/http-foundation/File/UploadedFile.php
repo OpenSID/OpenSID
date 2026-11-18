@@ -167,7 +167,7 @@ class UploadedFile extends File
 
             $target = $this->getTargetFile($directory, $name);
 
-            set_error_handler(static function ($type, $msg) use (&$error) { $error = $msg; });
+            set_error_handler(function ($type, $msg) use (&$error) { $error = $msg; });
             try {
                 $moved = move_uploaded_file($this->getPathname(), $target);
             } finally {
@@ -177,37 +177,29 @@ class UploadedFile extends File
                 throw new FileException(\sprintf('Could not move the file "%s" to "%s" (%s).', $this->getPathname(), $target, strip_tags($error)));
             }
 
-            @chmod($target, 0o666 & ~umask());
+            @chmod($target, 0666 & ~umask());
 
             return $target;
         }
 
         switch ($this->error) {
             case \UPLOAD_ERR_INI_SIZE:
-                throw new IniSizeFileException($this->getExceptionMessage());
+                throw new IniSizeFileException($this->getErrorMessage());
             case \UPLOAD_ERR_FORM_SIZE:
-                throw new FormSizeFileException($this->getExceptionMessage());
+                throw new FormSizeFileException($this->getErrorMessage());
             case \UPLOAD_ERR_PARTIAL:
-                throw new PartialFileException($this->getExceptionMessage());
+                throw new PartialFileException($this->getErrorMessage());
             case \UPLOAD_ERR_NO_FILE:
-                throw new NoFileException($this->getExceptionMessage());
+                throw new NoFileException($this->getErrorMessage());
             case \UPLOAD_ERR_CANT_WRITE:
-                throw new CannotWriteFileException($this->getExceptionMessage());
+                throw new CannotWriteFileException($this->getErrorMessage());
             case \UPLOAD_ERR_NO_TMP_DIR:
-                throw new NoTmpDirFileException($this->getExceptionMessage());
+                throw new NoTmpDirFileException($this->getErrorMessage());
             case \UPLOAD_ERR_EXTENSION:
-                throw new ExtensionFileException($this->getExceptionMessage());
+                throw new ExtensionFileException($this->getErrorMessage());
         }
 
-        throw new FileException($this->getExceptionMessage());
-    }
-
-    /**
-     * Retrieves a user-friendly error message for file upload issues, if any.
-     */
-    public function getErrorMessage(): string
-    {
-        return \UPLOAD_ERR_OK !== $this->error ? $this->getExceptionMessage() : '';
+        throw new FileException($this->getErrorMessage());
     }
 
     /**
@@ -256,7 +248,7 @@ class UploadedFile extends File
     /**
      * Returns an informative upload error message.
      */
-    private function getExceptionMessage(): string
+    public function getErrorMessage(): string
     {
         static $errors = [
             \UPLOAD_ERR_INI_SIZE => 'The file "%s" exceeds your upload_max_filesize ini directive (limit is %d KiB).',

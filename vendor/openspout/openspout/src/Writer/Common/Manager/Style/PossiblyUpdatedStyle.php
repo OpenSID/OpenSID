@@ -9,10 +9,10 @@ use OpenSpout\Common\Entity\Style\Style;
 /**
  * @internal
  */
-final readonly class PossiblyUpdatedStyle
+final class PossiblyUpdatedStyle
 {
-    private Style $style;
-    private bool $isUpdated;
+    private readonly Style $style;
+    private readonly bool $isUpdated;
 
     public function __construct(Style $style, bool $isUpdated)
     {

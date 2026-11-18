@@ -87,29 +87,17 @@ class SortableIterator implements \IteratorAggregate
     public function getIterator(): \Traversable
     {
         if (1 === $this->sort) {
-            yield from $this->iterator;
-
-            return;
+            return $this->iterator;
         }
 
-        $keys = $values = [];
-        foreach ($this->iterator as $key => $value) {
-            $keys[] = $key;
-            $values[] = $value;
-        }
+        $array = iterator_to_array($this->iterator, true);
 
         if (-1 === $this->sort) {
-            for ($i = \count($values) - 1; $i >= 0; --$i) {
-                yield $keys[$i] => $values[$i];
-            }
-
-            return;
+            $array = array_reverse($array);
+        } else {
+            uasort($array, $this->sort);
         }
 
-        uasort($values, $this->sort);
-
-        foreach ($values as $i => $v) {
-            yield $keys[$i] => $v;
-        }
+        return new \ArrayIterator($array);
     }
 }

@@ -1531,18 +1531,7 @@
     };
     const changeSrc = (helpers, info, state, api) => {
         const data = api.getData();
-        let url = data.src.value.trim();
-        
-        // FIX: Validasi explicit protocol - reject URL tanpa protocol explicit
-        // Mencegah bypass seperti 'imgur.com/image.jpg' yang akan jadi relative path
-        if (url && !url.match(/^(https?:|data:|blob:|\/\/)/i)) {
-            // URL HARUS dimulai dengan protocol yang jelas
-            helpers.alertErr('URL harus dimulai dengan http://, https://, data:, atau //. Contoh: https://imgur.com/abc123.jpg', () => {
-                api.focus('src');
-            });
-            api.setData({ src: { value: '', meta: {} } });
-            return;
-        }
+        const url = data.src.value;
         
         // Validasi URL sebelum proceed
         if (url && !isValidImageUrl(url)) {

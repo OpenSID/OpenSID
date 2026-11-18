@@ -491,6 +491,9 @@ class Uuid implements UuidInterface
         $uuid = strtolower($uuid);
         /** @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.functionCall */
         if (!self::$factoryReplaced && preg_match(LazyUuidFromString::VALID_REGEX, $uuid) === 1) {
+            /** @phpstan-ignore possiblyImpure.functionCall */
+            assert($uuid !== '');
+
             /** @phpstan-ignore possiblyImpure.new */
             return new LazyUuidFromString($uuid);
         }

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -71,7 +71,11 @@ class Kelompok_anggota extends Admin_Controller
         $data['func']       = 'anggota/' . $id;
         $data['controller'] = $this->controller;
         $data['tipe']       = ucwords((string) $this->tipe);
-        $data['kelompok']   = Kelompok::tipe($this->tipe)->find($id) ?? show_404();
+        $kelompok           = Kelompok::tipe($this->tipe)->find($id) ?? show_404();
+        $data['kelompok']   = collect($kelompok)->merge([
+            'kategori'   => $kelompok->kelompokMaster()->first()->kelompok,
+            'nama_ketua' => $kelompok->ketua()->first()->nama,
+        ])->toArray();
 
         view('admin.kelompok.anggota.index', $data);
     }
@@ -209,10 +213,7 @@ class Kelompok_anggota extends Admin_Controller
             $result     = KelompokAnggotaModel::create($data);
             $id_anggota = $result->id;
 
-            if ($foto = $this->uploadFotoPenduduk(
-                nama_file: time() . '-' . $id_anggota . '-' . random_int(10000, 999999),
-                lokasi: $this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA
-            )) {
+            if ($foto = $this->uploadGambar('foto', ($this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA), null)) {
                 KelompokAnggotaModel::where('id', $id_anggota)->update(['foto' => $foto]);
             }
 
@@ -248,10 +249,7 @@ class Kelompok_anggota extends Admin_Controller
         }
 
         try {
-            if ($foto = $this->uploadFotoPenduduk(
-                nama_file: time() . '-' . $id_a . '-' . random_int(10000, 999999),
-                lokasi: $this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA
-            )) {
+            if ($foto = $this->uploadGambar('foto', ($this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA), null)) {
                 $data['foto'] = $foto;
             }
 
@@ -339,7 +337,11 @@ class Kelompok_anggota extends Admin_Controller
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $post['pamong_ttd']])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
         $data['main']           = $list_anggota;
-        $data['kelompok']       = Kelompok::find($id);
+        $kelompok               = Kelompok::find($id);
+        $data['kelompok']       = collect($kelompok)->merge([
+            'kategori'   => $kelompok->kelompokMaster()->first()->kelompok,
+            'nama_ketua' => $kelompok->ketua()->first()->nama,
+        ])->toArray();
         $data['file']      = 'Laporan Data ' . $data['tipe'] . ' ' . $data['kelompok']['nama']; // nama file
         $data['label']     = $data['tipe'];
         $data['letak_ttd'] = ['2', '3', '2'];

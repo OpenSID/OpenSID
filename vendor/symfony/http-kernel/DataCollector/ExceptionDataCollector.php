@@ -46,7 +46,7 @@ class ExceptionDataCollector extends DataCollector
         return $this->data['exception']->getMessage();
     }
 
-    public function getCode(): int|string
+    public function getCode(): int
     {
         return $this->data['exception']->getCode();
     }

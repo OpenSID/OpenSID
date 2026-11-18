@@ -55,36 +55,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // ── Seam registry (null-object) — diisi add-on saat ServiceProvider::boot().
-        // Tanpa add-on: nilai default aman (false/null/[]/no-op). Lihat
-        // dokumentasi/ARSITEKTUR_SOLUSI.md §3.
-        $this->app->singleton(\App\Services\Anjungan\PenentuanAnjungan::class);
-        $this->app->singleton(\App\Services\Kapabilitas\GerbangFitur::class);
-        $this->app->singleton(\App\Services\Kapabilitas\SumberStatusFitur::class);
-        $this->app->singleton(\App\Services\Kapabilitas\LayananAktif::class);
-        $this->app->singleton(\App\Services\Kapabilitas\PerbaruiLangganan::class);
-        $this->app->singleton(\App\Services\Pengumuman\SumberPengumuman::class);
-        $this->app->singleton(\App\Services\Penjaga\PenjagaPermintaan::class);
-        $this->app->singleton(\App\Services\Theme\SumberTemaBursa::class);
-        $this->app->singleton(\App\Services\Theme\BursaTema::class);
-        $this->app->singleton(\App\Services\Database\SetelanDipertahankan::class);
-        $this->app->singleton(\App\Services\Mandiri\PenentuanMasukMandiri::class);
-        $this->app->singleton(\App\Services\Mandiri\TokenPerangkatMandiri::class);
-        $this->app->singleton(\App\Services\Telemetri\PelaporVersi::class);
-        // OpenSID/OpenSID#11931 Fase 3.5: seam ini hilang dari snapshot pipeline,
-        // menyebabkan Modules/Pelanggan (versi nyata, terus berevolusi independen)
-        // fatal saat boot -- ia memanggil PenyediaKunciFitur tanpa guard.
-        $this->app->singleton(\App\Services\Kapabilitas\PenyediaKunciFitur::class);
-
-        // Pemilik tunggal siklus-hidup modul (add-on-agnostik).
-        $this->app->singleton(\App\Services\Module\ModuleManager::class, static fn ($app) => new \App\Services\Module\ModuleManager(
-            $app->make(\App\Services\Kapabilitas\GerbangFitur::class),
-        ));
-
-        // Sumber berkas add-on: klien Layanan (unduh HTTP). Adaptor dev lokal ada
-        // di modul-pelanggan, bukan core Umum.
-        $this->app->singleton(\App\Services\Module\ModuleSource::class, \App\Services\Module\LayananHttpSource::class);
-
         $this->loadModuleServiceProvider();
 
         // hanya daftarkan Type global
@@ -103,13 +73,6 @@ class AppServiceProvider extends ServiceProvider
         $this->registerDoctrineTypeMappings();
 
         $this->app->make(QueryDetector::class)->boot();
-
-        // DatabaseServiceProvider::boot() sets Model::$dispatcher later in the boot walk;
-        // set it now so observers registered by other providers' boot() can register
-        // their listeners immediately.
-        if (! \Illuminate\Database\Eloquent\Model::getEventDispatcher()) {
-            \Illuminate\Database\Eloquent\Model::setEventDispatcher($this->app['events']);
-        }
     }
 
     private function registerDoctrineTypes(): void
@@ -163,7 +126,6 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMacrosStatus();
         $this->registerMacrosUrut();
         $this->registerMacrosSlug();
-        $this->registerMacrosCreateIfNotExist();
         $this->registerMacrosDropIfExistsDBGabungan();
         $this->registerMacroConvertToBytes();
         $this->registerMacroHeaderKawinCerai();
@@ -186,17 +148,17 @@ class AppServiceProvider extends ServiceProvider
     {
         Str::macro('convertToBytes', static function (string $value): int {
             $value = trim($value);
-
+    
             // Jika bernilai -1, berarti tidak terbatas
             if ($value === '-1') {
                 return PHP_INT_MAX;
             }
-
+    
             // Ambil angka dan unit secara lebih akurat
             if (preg_match('/^(\d+)([KMG]?)$/i', $value, $matches)) {
                 $number = (int) $matches[1];
                 $unit   = strtolower($matches[2] ?? '');
-
+    
                 return match ($unit) {
                     'g' => $number * 1024 * 1024 * 1024,
                     'm' => $number * 1024 * 1024,
@@ -204,7 +166,7 @@ class AppServiceProvider extends ServiceProvider
                     default => $number,
                 };
             }
-
+    
             return 0; // Jika format tidak sesuai
         });
     }
@@ -297,21 +259,6 @@ class AppServiceProvider extends ServiceProvider
             $this->unique($uniqueColumns);
         });
     }
-
-    /**
-     * Register Blueprint macro: createIfNotExist
-     *
-     * @return void
-     */
-    protected function registerMacrosCreateIfNotExist(): void
-    {
-        Blueprint::macro('createIfNotExist', function (string $table, \Closure $callback) {
-            if (! Schema::hasTable($table)) {
-                Schema::create($table, $callback);
-            }
-        });
-    }
-
 
     /**
      * Register macro for dropIfExistsDBGabungan.

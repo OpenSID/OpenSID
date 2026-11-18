@@ -11,7 +11,7 @@
 		}
 	],
 	"require": {
-		"php": ">=8.2"
+		"php": ">=7.1"
 	},
 	"autoload": {
 		"classmap": ["src/"]

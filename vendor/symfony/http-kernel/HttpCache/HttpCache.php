@@ -39,8 +39,6 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     private ?ResponseCacheStrategyInterface $surrogateCacheStrategy = null;
     private array $options = [];
     private array $traces = [];
-    private ?Request $forwardedRequest = null;
-    private ?Request $backendRequest = null;
 
     /**
      * Constructor.
@@ -197,8 +195,6 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         // FIXME: catch exceptions and implement a 500 error page here? -> in Varnish, there is a built-in error page mechanism
         if (HttpKernelInterface::MAIN_REQUEST === $type) {
             $this->traces = [];
-            $this->forwardedRequest = null;
-            $this->backendRequest = null;
             // Keep a clone of the original request for surrogates so they can access it.
             // We must clone here to get a separate instance because the application will modify the request during
             // the application flow (we know it always does because we do ourselves by setting REMOTE_ADDR to 127.0.0.1
@@ -230,12 +226,6 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
                 } catch (CacheWasLockedException) {
                 }
             } while (null === $response);
-        }
-
-        if (HttpKernelInterface::MAIN_REQUEST === $type) {
-            // Expose the request actually handled by the backend (a sub-request on a cache miss)
-            // to kernel.terminate listeners, as would happen behind a real reverse proxy.
-            $this->backendRequest = $this->forwardedRequest ?? $request;
         }
 
         $this->restoreResponseBody($request, $response);
@@ -276,7 +266,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         }
 
         if ($this->getKernel() instanceof TerminableInterface) {
-            $this->getKernel()->terminate($this->backendRequest ?? $request, $response);
+            $this->getKernel()->terminate($request, $response);
         }
     }
 
@@ -490,13 +480,6 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
         // always a "master" request (as the real master request can be in cache)
         $response = SubRequestHandler::handle($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST, $catch);
-        $this->forwardedRequest = $request;
-
-        // These headers drive how the body is restored before sending the response.
-        // Only the store and the surrogate may set them, never the backend.
-        $response->headers->remove('X-Body-File');
-        $response->headers->remove('X-Body-Eval');
-        $response->headers->remove('X-Content-Digest');
 
         /*
          * Support stale-if-error given on Responses or as a config option.
@@ -600,11 +583,12 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         // wait for the lock to be released
         if ($this->waitForLock($request)) {
             throw new CacheWasLockedException(); // unwind back to handle(), try again
+        } else {
+            // backend is slow as hell, send a 503 response (to avoid the dog pile effect)
+            $entry->setStatusCode(503);
+            $entry->setContent('503 Service Unavailable');
+            $entry->headers->set('Retry-After', 10);
         }
-        // backend is slow as hell, send a 503 response (to avoid the dog pile effect)
-        $entry->setStatusCode(503);
-        $entry->setContent('503 Service Unavailable');
-        $entry->headers->set('Retry-After', 10);
 
         return true;
     }
@@ -711,7 +695,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             $key = strtolower(str_replace('HTTP_', '', $key));
 
             if ('cookie' === $key) {
-                if ($request->cookies->all()) {
+                if (\count($request->cookies->all())) {
                     return true;
                 }
             } elseif ($request->headers->has($key)) {

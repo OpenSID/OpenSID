@@ -42,9 +42,7 @@
                                     <th class="padat">AKSI</th>
                                     <th>NOMOR KIA</th>
                                     <th>NAMA IBU</th>
-                                    <th>NIK IBU</th>
                                     <th>NAMA ANAK</th>
-                                    <th>NIK ANAK</th>
                                     <th>PERKIRAAN LAHIR</th>
                                 </tr>
                             </thead>
@@ -100,25 +98,9 @@
                     },
                     {
                         data: function(data) {
-                            return data.ibu?.nik ?? '-'
-                        },
-                        name: 'ibu.nik',
-                        searchable: true,
-                        orderable: true
-                    },
-                    {
-                        data: function(data) {
                             return data.anak?.nama ?? '-'
                         },
                         name: 'anak.nama',
-                        searchable: true,
-                        orderable: true
-                    },
-                    {
-                        data: function(data) {
-                            return data.anak?.nik ?? '-'
-                        },
-                        name: 'anak.nik',
                         searchable: true,
                         orderable: true
                     },

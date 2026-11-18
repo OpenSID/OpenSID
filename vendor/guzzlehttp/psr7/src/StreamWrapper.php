@@ -44,13 +44,7 @@ final class StreamWrapper
                 .'writable, or both.');
         }
 
-        $resource = @fopen('guzzle://stream', $mode, false, self::createStreamContext($stream));
-
-        if ($resource === false) {
-            throw new \RuntimeException('Unable to create stream resource');
-        }
-
-        return $resource;
+        return fopen('guzzle://stream', $mode, false, self::createStreamContext($stream));
     }
 
     /**

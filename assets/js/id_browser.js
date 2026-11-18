@@ -14,10 +14,7 @@ $(document).ready(function () {
           $("#konfirmasi-cookie").modal("show");
         } else {
           // Tampilkan ke browser
-          const el = document.getElementById("pengunjung");
-          if (el) {
-            el.innerHTML = readCookie("pengunjung");
-          }
+          document.getElementById("pengunjung").innerHTML = readCookie("pengunjung");
         }
       } else {
         $("#aktifkan-cookie").modal("show");
@@ -48,10 +45,7 @@ function buatPengunjungCookie(name) {
   // This is the visitor identifier:
   const browserId = $("#konfirmasi-cookie").data("fingerprint");
   // Tampilkan ke browser
-  const el = document.getElementById("pengunjung");
-  if (el) {
-    el.innerHTML = browserId;
-  }
+  document.getElementById("pengunjung").innerHTML = browserId;
   createCookie("pengunjung", browserId, 360);
   $("#konfirmasi-cookie").modal("hide");
 }
@@ -94,22 +88,4 @@ $(".copy").on("click", function () {
   selection.removeAllRanges();
   selection.addRange(range);
   document.execCommand("copy");
-});
-if (window.jQuery && jQuery.validator) {
-    jQuery.validator.setDefaults({
-        onclick: false,
-        onfocusout: false,
-        onkeyup: false
-    });
-}
-$(document).on("click", ".copy-ip", function () {
-    const text = document.getElementById("ip_address");
-    const selection = window.getSelection();
-    const range = document.createRange();
-
-    range.selectNodeContents(text);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    document.execCommand("copy");
 });

@@ -1,20 +1,37 @@
 $(function () {
   "use strict";
 
-  var wrapper = $("<div />").addClass("alert alert-warning banner-notification d-flex align-items-center").attr("role", "alert");
+  /**
+   * Create ThemeQuarry ad
+   */
+  var wrapper_css = {
+    padding: "20px 30px",
+    background: "#f39c12",
+    display: "none",
+    "z-index": "999999",
+    "font-size": "15px",
+    "font-weight": 600,
+  };
 
-  var textSpan = $("<span />").html("Website ini hanya sebagai demo aplikasi dengan fitur yg dibatasi, untuk mendapatkan akses penuh silakan kunjungi ");
+  var link_css = {
+    color: "rgba(255, 255, 255, 0.9)",
+    display: "inline-block",
+    "margin-right": "10px",
+    "text-decoration": "none",
+  };
 
-  var link = $("<a />", { 
-    href: "https://opendesa.id/"
-  })
-    .html("www.opendesa.id")
-    .css("color", "inherit")
-    .css("text-decoration", "underline");
+  var wrapper = $("<div />").css(wrapper_css);
 
-  var messageDiv = $("<div />").css("flex", "1").append(textSpan).append(link);
+  var link = $("<a />", { href: "https://opendesa.id/" })
+    .html(
+      "Website ini hanya sebagai demo aplikasi dengan fitur yg dibatasi, untuk mendapatkan akses penuh silakan kunjungi www.opendesa.id"
+    )
+    .css(link_css)
+    .hover(function () {
+      $(this).css(link_css);
+    });
 
-  wrapper.append(messageDiv);
+  wrapper.append(link);
 
   $(".content-wrapper").first().prepend(wrapper);
 

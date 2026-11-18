@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of the Nette Framework (https://nette.org)
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
+
+declare(strict_types=1);
 
 namespace Nette\Utils;
 
@@ -12,7 +14,7 @@ use function count, is_array, is_scalar, sprintf;
 
 
 /**
- * Array-like object with property access.
+ * Provides objects to work as array.
  * @template T
  * @implements \IteratorAggregate<array-key, T>
  * @implements \ArrayAccess<array-key, T>
@@ -37,6 +39,7 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 
 
 	/**
+	 * Returns an iterator over all items.
 	 * @return \Iterator<array-key, T>
 	 */
 	public function &getIterator(): \Iterator
@@ -47,6 +50,9 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	}
 
 
+	/**
+	 * Returns items count.
+	 */
 	public function count(): int
 	{
 		return count((array) $this);
@@ -73,7 +79,8 @@ class ArrayHash extends \stdClass implements \ArrayAccess, \Countable, \Iterator
 	 * @param  array-key  $key
 	 * @return T
 	 */
-	public function offsetGet($key): mixed
+	#[\ReturnTypeWillChange]
+	public function offsetGet($key)
 	{
 		return $this->$key;
 	}
