@@ -378,7 +378,7 @@
         </div>
         @if (!$view_mark)
             <div class="box-footer">
-                <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
+                <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
                 <button type="submit" class="btn btn-social btn-info btn-sm pull-right" onclick="submit_form()"><i class="fa fa-check"></i> Simpan</button>
             </div>
         @endif
@@ -426,6 +426,13 @@
             } else {
                 pilih_pemilik("{{ $main->jenis_pemilik ?? 1 }}");
             }
+
+            // Handle reset form - reinitialize form visibility based on jenis_pemilik
+            $("#validasi").on("reset", function() {
+                setTimeout(function() {
+                    pilih_pemilik($("input[name='jenis_pemilik']:checked").val());
+                }, 100);
+            });
         });
 
         function pilih_pemilik(pilih) {

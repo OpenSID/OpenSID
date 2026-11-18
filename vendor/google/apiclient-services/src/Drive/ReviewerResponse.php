@@ -20,19 +20,19 @@ namespace Google\Service\Drive;
 class ReviewerResponse extends \Google\Model
 {
   /**
-   * Response was set to an unrecognized value.
+   * The response was set to an unrecognized value.
    */
   public const RESPONSE_RESPONSE_UNSPECIFIED = 'RESPONSE_UNSPECIFIED';
   /**
-   * The reviewer has not yet responded
+   * The reviewer hasn't responded.
    */
   public const RESPONSE_NO_RESPONSE = 'NO_RESPONSE';
   /**
-   * The Reviewer has approved the item.
+   * The reviewer has approved the item.
    */
   public const RESPONSE_APPROVED = 'APPROVED';
   /**
-   * The Reviewer has declined the item.
+   * The reviewer has declined the item.
    */
   public const RESPONSE_DECLINED = 'DECLINED';
   /**
@@ -42,7 +42,7 @@ class ReviewerResponse extends \Google\Model
    */
   public $kind;
   /**
-   * A Reviewer’s Response for the Approval.
+   * A reviewer’s response for the approval.
    *
    * @var string
    */
@@ -67,7 +67,7 @@ class ReviewerResponse extends \Google\Model
     return $this->kind;
   }
   /**
-   * A Reviewer’s Response for the Approval.
+   * A reviewer’s response for the approval.
    *
    * Accepted values: RESPONSE_UNSPECIFIED, NO_RESPONSE, APPROVED, DECLINED
    *
@@ -85,7 +85,7 @@ class ReviewerResponse extends \Google\Model
     return $this->response;
   }
   /**
-   * The user that is responsible for this response.
+   * The user that's responsible for this response.
    *
    * @param User $reviewer
    */

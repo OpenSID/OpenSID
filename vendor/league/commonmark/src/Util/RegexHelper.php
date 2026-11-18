@@ -61,19 +61,31 @@ final class RegexHelper
         self::PARTIAL_PROCESSINGINSTRUCTION . '|' . self::PARTIAL_DECLARATION . '|' . self::PARTIAL_CDATA . ')';
     public const PARTIAL_HTMLBLOCKOPEN         = '<(?:' . self::PARTIAL_BLOCKTAGNAME . '(?:[\s\/>]|$)' . '|' .
         '\/' . self::PARTIAL_BLOCKTAGNAME . '(?:[\s>]|$)' . '|' . '[?!])';
-    public const PARTIAL_LINK_TITLE            = '^(?:"(' . self::PARTIAL_ESCAPED_CHAR . '|[^"\x00])*+"' .
+    /**
+     * Unanchored so each call site can supply its own anchor: "^" against a detached string,
+     * or "\G" at a cursor position (see Cursor::matchInPlace()).
+     */
+    public const PARTIAL_LINK_TITLE_UNANCHORED = '(?:"(' . self::PARTIAL_ESCAPED_CHAR . '|[^"\x00])*+"' .
         '|' . '\'(' . self::PARTIAL_ESCAPED_CHAR . '|[^\'\x00])*+\'' .
         '|' . '\((' . self::PARTIAL_ESCAPED_CHAR . '|[^()\x00])*+\))';
+    /** @deprecated since 2.10; use {@link RegexHelper::PARTIAL_LINK_TITLE_UNANCHORED} with an explicit anchor instead */
+    public const PARTIAL_LINK_TITLE = '^' . self::PARTIAL_LINK_TITLE_UNANCHORED;
 
     public const REGEX_PUNCTUATION        = '/^[\p{P}\p{S}]/u';
-    public const REGEX_UNSAFE_PROTOCOL    = '/^javascript:|vbscript:|file:|data:/i';
+    public const REGEX_UNSAFE_PROTOCOL    = '/^(?:javascript|vbscript|file|data):/i';
     public const REGEX_SAFE_DATA_PROTOCOL = '/^data:image\/(?:png|gif|jpeg|webp)/i';
     public const REGEX_NON_SPACE          = '/[^ \t\f\v\r\n]/';
 
     public const REGEX_WHITESPACE_CHAR         = '/^[ \t\n\x0b\x0c\x0d]/';
     public const REGEX_UNICODE_WHITESPACE_CHAR = '/^\pZ|\s/u';
     public const REGEX_THEMATIC_BREAK          = '/^(?:(?:\*[ \t]*){3,}|(?:_[ \t]*){3,}|(?:-[ \t]*){3,})$/';
-    public const REGEX_LINK_DESTINATION_BRACES = '/^(?:<(?:[^<>\\n\\\\\\x00]|\\\\.)*>)/';
+    /**
+     * Unanchored so each call site can supply its own anchor: "^" against a detached string,
+     * or "\G" at a cursor position (see Cursor::matchInPlace()).
+     */
+    public const PARTIAL_LINK_DESTINATION_BRACES = '(?:<(?:[^<>\\n\\\\\\x00]|\\\\.)*>)';
+    /** @deprecated since 2.10; use {@link RegexHelper::PARTIAL_LINK_DESTINATION_BRACES} with an explicit anchor instead */
+    public const REGEX_LINK_DESTINATION_BRACES = '/^' . self::PARTIAL_LINK_DESTINATION_BRACES . '/';
 
     /**
      * @psalm-pure
@@ -238,6 +250,11 @@ final class RegexHelper
      */
     public static function isLinkPotentiallyUnsafe(string $url): bool
     {
+        // Browsers discard these bytes before resolving the scheme (see the WHATWG URL Standard's
+        // "basic URL parser", steps 1 and 3), so `java<TAB>script:` and `<0x01>javascript:` reach
+        // the user as `javascript:` and must be treated as such here too
+        $url = \ltrim(\str_replace(["\t", "\n", "\r"], '', $url), "\x00..\x20");
+
         return \preg_match(self::REGEX_UNSAFE_PROTOCOL, $url) !== 0 && \preg_match(self::REGEX_SAFE_DATA_PROTOCOL, $url) === 0;
     }
 }

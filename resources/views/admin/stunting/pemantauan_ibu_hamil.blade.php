@@ -31,7 +31,7 @@
                         <x-hapus-button confirmDelete="true" selectData="true" :url="'stunting/deleteAllIbuHamil'" />
                     @endif
 
-                    @includeIf('admin.layouts.components.buttons.ekspor_gpx', ['title' => 'Ekspor ke excel'])
+                    <x-btn-button url="#" judul="Ekspor ke excel" icon="fa fa-file-excel-o" type="btn-success" attribut="id=excel" />
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -80,6 +80,7 @@
                                     <th rowspan="3" class="text-center padat" style="vertical-align: middle;">Aksi</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">NO KIA</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Nama Ibu</th>
+                                    <th rowspan="3" class="text-center" style="vertical-align: middle;">NIK Ibu</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Tanggal Periksa</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Status Kehamilan</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Hari Perkiraan Lahir</th>
@@ -160,6 +161,12 @@
                     {
                         data: 'kia.ibu.nama',
                         name: 'kia.ibu.nama',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'kia.ibu.nik',
+                        name: 'kia.ibu.nik',
                         searchable: true,
                         orderable: true
                     },

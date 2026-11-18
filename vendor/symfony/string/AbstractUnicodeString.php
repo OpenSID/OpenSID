@@ -226,6 +226,21 @@ abstract class AbstractUnicodeString extends AbstractString
         return $str;
     }
 
+    /**
+     * @param string $locale In the format language_region (e.g. tr_TR)
+     */
+    public function localeLower(string $locale): static
+    {
+        if (null !== $transliterator = $this->getLocaleTransliterator($locale, 'Lower')) {
+            $str = clone $this;
+            $str->string = $transliterator->transliterate($str->string);
+
+            return $str;
+        }
+
+        return $this->lower();
+    }
+
     public function match(string $regexp, int $flags = 0, int $offset = 0): array
     {
         $match = ((\PREG_PATTERN_ORDER | \PREG_SET_ORDER) & $flags) ? 'preg_match_all' : 'preg_match';
@@ -249,7 +264,7 @@ abstract class AbstractUnicodeString extends AbstractString
 
     public function normalize(int $form = self::NFC): static
     {
-        if (!\in_array($form, [self::NFC, self::NFD, self::NFKC, self::NFKD])) {
+        if (!\in_array($form, [self::NFC, self::NFD, self::NFKC, self::NFKD], true)) {
             throw new InvalidArgumentException('Unsupported normalization form.');
         }
 
@@ -345,7 +360,7 @@ abstract class AbstractUnicodeString extends AbstractString
     public function reverse(): static
     {
         $str = clone $this;
-        $str->string = implode('', array_reverse(preg_split('/(\X)/u', $str->string, -1, \PREG_SPLIT_DELIM_CAPTURE | \PREG_SPLIT_NO_EMPTY)));
+        $str->string = implode('', array_reverse(grapheme_str_split($str->string)));
 
         return $str;
     }
@@ -367,6 +382,21 @@ abstract class AbstractUnicodeString extends AbstractString
         $str->string = preg_replace_callback('/\b./u', static fn (array $m): string => mb_convert_case($m[0], \MB_CASE_TITLE, 'UTF-8'), $str->string, $limit);
 
         return $str;
+    }
+
+    /**
+     * @param string $locale In the format language_region (e.g. tr_TR)
+     */
+    public function localeTitle(string $locale): static
+    {
+        if (null !== $transliterator = $this->getLocaleTransliterator($locale, 'Title')) {
+            $str = clone $this;
+            $str->string = $transliterator->transliterate($str->string);
+
+            return $str;
+        }
+
+        return $this->title();
     }
 
     public function trim(string $chars = " \t\n\r\0\x0B\x0C\u{A0}\u{FEFF}"): static
@@ -456,6 +486,21 @@ abstract class AbstractUnicodeString extends AbstractString
         return $str;
     }
 
+    /**
+     * @param string $locale In the format language_region (e.g. tr_TR)
+     */
+    public function localeUpper(string $locale): static
+    {
+        if (null !== $transliterator = $this->getLocaleTransliterator($locale, 'Upper')) {
+            $str = clone $this;
+            $str->string = $transliterator->transliterate($str->string);
+
+            return $str;
+        }
+
+        return $this->upper();
+    }
+
     public function width(bool $ignoreAnsiDecoration = true): int
     {
         $width = 0;
@@ -530,6 +575,8 @@ abstract class AbstractUnicodeString extends AbstractString
     private function wcswidth(string $string): int
     {
         $width = 0;
+        $lastChar = null;
+        $lastWidth = null;
 
         foreach (preg_split('//u', $string, -1, \PREG_SPLIT_NO_EMPTY) as $c) {
             $codePoint = mb_ord($c, 'UTF-8');
@@ -550,6 +597,20 @@ abstract class AbstractUnicodeString extends AbstractString
                 || (0x07F <= $codePoint && 0x0A0 > $codePoint) // C1 control characters and DEL
             ) {
                 return -1;
+            }
+
+            if (0xFE0F === $codePoint) {
+                if (\PCRE_VERSION_MAJOR < 10 || \PCRE_VERSION_MAJOR === 10 && \PCRE_VERSION_MINOR < 40) {
+                    $regex = '/\p{So}/u';
+                } else {
+                    $regex = '/\p{Emoji}/u';
+                }
+                if (null !== $lastChar && 1 === $lastWidth && preg_match($regex, $lastChar)) {
+                    ++$width;
+                    $lastWidth = 2;
+                }
+
+                continue;
             }
 
             self::$tableZero ??= require __DIR__.'/Resources/data/wcswidth_table_zero.php';
@@ -582,6 +643,8 @@ abstract class AbstractUnicodeString extends AbstractString
                         $ubound = $mid - 1;
                     } else {
                         $width += 2;
+                        $lastChar = $c;
+                        $lastWidth = 2;
 
                         continue 2;
                     }
@@ -589,8 +652,39 @@ abstract class AbstractUnicodeString extends AbstractString
             }
 
             ++$width;
+            $lastChar = $c;
+            $lastWidth = 1;
         }
 
         return $width;
+    }
+
+    private function getLocaleTransliterator(string $locale, string $id): ?\Transliterator
+    {
+        $rule = $locale.'-'.$id;
+        if (\array_key_exists($rule, self::$transliterators)) {
+            return self::$transliterators[$rule];
+        }
+
+        if (null !== $transliterator = self::$transliterators[$rule] = \Transliterator::create($rule)) {
+            return $transliterator;
+        }
+
+        // Try to find a parent locale (nl_BE -> nl)
+        if (false === $i = strpos($locale, '_')) {
+            return null;
+        }
+
+        $parentRule = substr_replace($locale, '-'.$id, $i);
+
+        // Parent locale was already cached, return and store as current locale
+        if (\array_key_exists($parentRule, self::$transliterators)) {
+            return self::$transliterators[$rule] = self::$transliterators[$parentRule];
+        }
+
+        // Create transliterator based on parent locale and cache the result on both initial and parent locale values
+        $transliterator = \Transliterator::create($parentRule);
+
+        return self::$transliterators[$rule] = self::$transliterators[$parentRule] = $transliterator;
     }
 }

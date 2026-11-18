@@ -43,7 +43,7 @@ class Permissions extends \Google\Service\Resource
    *
    * @opt_param string emailMessage A plain text custom message to include in the
    * notification email.
-   * @opt_param bool enforceExpansiveAccess Whether the request should enforce
+   * @opt_param bool enforceExpansiveAccess Deprecated: All requests use the
    * expansive access rules.
    * @opt_param bool enforceSingleParent Deprecated: See `moveToNewOwnersRoot` for
    * details.
@@ -92,7 +92,7 @@ class Permissions extends \Google\Service\Resource
    * @param string $permissionId The ID of the permission.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool enforceExpansiveAccess Whether the request should enforce
+   * @opt_param bool enforceExpansiveAccess Deprecated: All requests use the
    * expansive access rules.
    * @opt_param bool supportsAllDrives Whether the requesting application supports
    * both My Drives and shared drives.
@@ -153,10 +153,11 @@ class Permissions extends \Google\Service\Resource
    *
    * @opt_param string includePermissionsForView Specifies which additional view's
    * permissions to include in the response. Only `published` is supported.
-   * @opt_param int pageSize The maximum number of permissions to return per page.
-   * When not set for files in a shared drive, at most 100 results will be
-   * returned. When not set for files that are not in a shared drive, the entire
-   * list will be returned.
+   * @opt_param int pageSize The maximum number of permissions to return. The
+   * service may return fewer than this value. If unspecified, at most 100
+   * permissions will be returned for shared drives, and the entire list of
+   * permissions for non-shared drives. The maximum value is 100; values above 100
+   * will be coerced to 100.
    * @opt_param string pageToken The token for continuing a previous list request
    * on the next page. This should be set to the value of `nextPageToken` from the
    * previous response.
@@ -192,7 +193,7 @@ class Permissions extends \Google\Service\Resource
    * @param Permission $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool enforceExpansiveAccess Whether the request should enforce
+   * @opt_param bool enforceExpansiveAccess Deprecated: All requests use the
    * expansive access rules.
    * @opt_param bool removeExpiration Whether to remove the expiration date.
    * @opt_param bool supportsAllDrives Whether the requesting application supports

@@ -17,17 +17,19 @@ class TemporaryDirectory
 
     protected bool $deleteWhenDestroyed = false;
 
-    public function __construct(string $location = '')
+    protected int $permission = 0777;
+
+    public final function __construct(string $location = '')
     {
         $this->location = $this->sanitizePath($location);
     }
 
-    public static function make(string $location = ''): self
+    public static function make(string $location = ''): static
     {
-        return (new self($location))->create();
+        return (new static($location))->create();
     }
 
-    public function create(): self
+    public function create(): static
     {
         if (empty($this->location)) {
             $this->location = $this->getSystemTemporaryDirectory();
@@ -45,26 +47,33 @@ class TemporaryDirectory
             throw PathAlreadyExists::create($this->getFullPath());
         }
 
-        mkdir($this->getFullPath(), 0777, true);
+        mkdir($this->getFullPath(), $this->permission, true);
 
         return $this;
     }
 
-    public function force(): self
+    public function force(): static
     {
         $this->forceCreate = true;
 
         return $this;
     }
 
-    public function name(string $name): self
+    public function permission(int $permission): static
+    {
+        $this->permission = $permission;
+
+        return $this;
+    }
+
+    public function name(string $name): static
     {
         $this->name = $this->sanitizeName($name);
 
         return $this;
     }
 
-    public function location(string $location): self
+    public function location(string $location): static
     {
         $this->location = $this->sanitizePath($location);
 
@@ -82,17 +91,17 @@ class TemporaryDirectory
         $directoryPath = $this->removeFilenameFromPath($path);
 
         if (! file_exists($directoryPath)) {
-            mkdir($directoryPath, 0777, true);
+            mkdir($directoryPath, $this->permission, true);
         }
 
         return $path;
     }
 
-    public function empty(): self
+    public function empty(): static
     {
         $this->deleteDirectory($this->getFullPath());
 
-        mkdir($this->getFullPath(), 0777, true);
+        mkdir($this->getFullPath(), $this->permission, true);
 
         return $this;
     }
@@ -190,7 +199,7 @@ class TemporaryDirectory
         }
     }
 
-    public function deleteWhenDestroyed(bool $deleteWhenDestroyed = true): self
+    public function deleteWhenDestroyed(bool $deleteWhenDestroyed = true): static
     {
         $this->deleteWhenDestroyed = $deleteWhenDestroyed;
 

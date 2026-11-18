@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -49,27 +49,23 @@ class WilayahRepository
         $query = Wilayah::dusun()
             ->with([
                 'kepala:id,nama',
-                'rws' => static function ($q) {
-                    return $q->orderBy('urut')
-                        ->with([
-                            'kepala:id,nama',
-                            'rts' => static function ($q) {
-                                return $q->orderBy('urut')
-                                    ->with('kepala:id,nama')
-                                    ->withCount([
-                                        'keluargaAktif'  => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_9.rw = tweb_wil_clusterdesa.rw and laravel_reserved_9.rt = tweb_wil_clusterdesa.rt')),
-                                        'pendudukPria'   => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_10.rw = tweb_wil_clusterdesa.rw and laravel_reserved_10.rt = tweb_wil_clusterdesa.rt')),
-                                        'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_11.rw = tweb_wil_clusterdesa.rw and laravel_reserved_11.rt = tweb_wil_clusterdesa.rt')),
-                                    ]);
-                            },
-                        ])
-                        ->withCount([
-                            'rts'            => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_5.rw = tweb_wil_clusterdesa.rw')),
-                            'keluargaAktif'  => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_6.rw = tweb_wil_clusterdesa.rw')),
-                            'pendudukPria'   => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_7.rw = tweb_wil_clusterdesa.rw')),
-                            'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_8.rw = tweb_wil_clusterdesa.rw')),
-                        ]);
-                },
+                'rws' => static fn ($q) => $q->orderBy('urut')
+                    ->with([
+                        'kepala:id,nama',
+                        'rts' => static fn ($q) => $q->orderBy('urut')
+                            ->with('kepala:id,nama')
+                            ->withCount([
+                                'keluargaAktif'  => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_9.rw = tweb_wil_clusterdesa.rw and laravel_reserved_9.rt = tweb_wil_clusterdesa.rt')),
+                                'pendudukPria'   => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_10.rw = tweb_wil_clusterdesa.rw and laravel_reserved_10.rt = tweb_wil_clusterdesa.rt')),
+                                'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_11.rw = tweb_wil_clusterdesa.rw and laravel_reserved_11.rt = tweb_wil_clusterdesa.rt')),
+                            ]),
+                    ])
+                    ->withCount([
+                        'rts'            => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_5.rw = tweb_wil_clusterdesa.rw')),
+                        'keluargaAktif'  => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_6.rw = tweb_wil_clusterdesa.rw')),
+                        'pendudukPria'   => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_7.rw = tweb_wil_clusterdesa.rw')),
+                        'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_8.rw = tweb_wil_clusterdesa.rw')),
+                    ]),
             ])
             ->orderBy('urut')
             ->withCount([

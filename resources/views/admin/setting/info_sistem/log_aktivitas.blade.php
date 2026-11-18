@@ -38,7 +38,7 @@
                         <th class="padat">Peristiwa</th>
                         <th class="padat">Subjek Tipe</th>
                         <th class="padat">Penyebab Tipe</th>
-                        <th class="padat">Pengguna</th>
+                        <th class="padat">Pelaku</th>
                         <th>Deskripsi</th>
                         <th class="padat">Dibuat Pada</th>
                     </tr>

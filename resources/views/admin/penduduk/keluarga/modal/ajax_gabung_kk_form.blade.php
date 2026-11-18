@@ -8,10 +8,11 @@
             </label>
             <div class="input-group input-group-sm">
                 <span class="input-group-addon">
-                    <input type="checkbox" name="nokk_sementara" id="nokk_sementara" title="Centang jika belum memiliki No. KK">
+                    <input type="checkbox" name="nokk_sementara" id="nokk_sementara"
+                        title="Centang jika belum memiliki No. KK">
                 </span>
-                <input id="no_kk" name="no_kk" class="form-control input-sm required no_kk" type="text" placeholder="Nomor KK"
-                    value="{{ $no_kk }}">
+                <input id="no_kk" name="no_kk" class="form-control input-sm required no_kk" type="text"
+                    placeholder="Nomor KK" value="{{ $no_kk }}">
             </div>
         </div>
 
@@ -29,14 +30,14 @@
                 <tbody>
                     @foreach ($main as $data)
                         @php $isKepalaBaru = $data->id == $id; @endphp
-                        <tr @if($isKepalaBaru) style="background:#e8f5e9;" @endif>
+                        <tr @if ($isKepalaBaru) style="background:#e8f5e9;" @endif>
                             <td class="text-center">
                                 <input type="checkbox" name="anggota[]" value="{{ $data->id }}"
                                     {{ $isKepalaBaru || $isGabungKepalaKeluarga ? 'checked disabled' : '' }}>
-                                @if($isKepalaBaru)
+                                @if ($isKepalaBaru)
                                     <input type="hidden" name="nik_kepala" value="{{ $data->id }}">
                                 @else
-                                    @if($isGabungKepalaKeluarga)
+                                    @if ($isGabungKepalaKeluarga)
                                         <input type="hidden" name="anggota[]" value="{{ $data->id }}">
                                     @endif
                                 @endif
@@ -44,16 +45,20 @@
                             <td>{{ $data->nik }}</td>
                             <td>{{ $data->nama }}</td>
                             <td>
-                                @if($isKepalaBaru)
-                                    <select name="kk_level[{{ $data->id }}]" class="form-control input-sm select2" disabled>
-                                        <option value="{{ \App\Enums\SHDKEnum::KEPALA_KELUARGA }}">{{ \App\Enums\SHDKEnum::valueToUpper(\App\Enums\SHDKEnum::KEPALA_KELUARGA) }}</option>
+                                @if ($isKepalaBaru)
+                                    <select name="kk_level[{{ $data->id }}]" class="form-control input-sm select2"
+                                        disabled>
+                                        <option value="{{ \App\Enums\SHDKEnum::KEPALA_KELUARGA }}">
+                                            {{ \App\Enums\SHDKEnum::valueToUpper(\App\Enums\SHDKEnum::KEPALA_KELUARGA) }}
+                                        </option>
                                     </select>
                                 @else
-                                    <select name="kk_level[{{ $data->id }}]" class="form-control input-sm select2 required">
+                                    <select name="kk_level[{{ $data->id }}]"
+                                        class="form-control input-sm select2 required">
                                         <option value="">-- Pilih Hubungan --</option>
                                         @foreach ($hubungan as $key => $val)
                                             {{-- Abaikan pilihan Kepala Keluarga untuk selain kepala --}}
-                                            @if($key != 1)
+                                            @if ($key != 1)
                                                 <option value="{{ $key }}"
                                                     {{ $data->kk_level == $key ? 'selected' : '' }}>
                                                     {{ $val }}
@@ -64,10 +69,12 @@
                                 @endif
                             </td>
                             <td>
-                                <select name="status_kawin[{{ $data->id }}]" class="form-control input-sm select2 required">
+                                <select name="status_kawin[{{ $data->id }}]"
+                                    class="form-control input-sm select2 required">
                                     <option value="">-- Pilih Status Kawin --</option>
                                     @foreach ($statusKawin as $key => $value)
-                                        <option value="{{ $key }}" {{ $data->status_kawin == $key ? 'selected' : '' }}>
+                                        <option value="{{ $key }}"
+                                            {{ $data->status_kawin == $key ? 'selected' : '' }}>
                                             {{ strtoupper($value) }}
                                         </option>
                                     @endforeach
@@ -89,98 +96,100 @@
 </form>
 
 <script type="text/javascript">
-$(function() {
-    $('.select2').select2({ width: '100%' });
+    $(function() {
+        $('.select2').select2({
+            width: '100%'
+        });
 
-    $('#nokk_sementara').change(function() {
-        var sementara = '{{ $nokk_sementara }}';
-        var asli = '{{ $no_kk }}';
+        $('#nokk_sementara').change(function() {
+            var sementara = '{{ $nokk_sementara }}';
+            var asli = '{{ $no_kk }}';
 
-        if ($(this).prop('checked')) {
-            $('#no_kk').val(sementara).prop('readonly', true);
-            $('#tampil_nokk').show();
-        } else {
-            $('#no_kk').val(asli).prop('readonly', false);
-            $('#tampil_nokk').hide();
-        }
-    }).change();
-
-    $('form').on('reset', function() {
-        setTimeout(function() {
-            $('#nokk_sementara').trigger('change');
-        }, 0);
-    });
-});
-
-$('#validasi').on('submit', function(e) {
-    let form = this;
-
-    // Stop submit dulu
-    e.preventDefault();
-
-    // ==================================================
-    // 1. Validasi HTML5
-    // ==================================================
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-    }
-
-    // ==================================================
-    // 2. Validasi .required & select2
-    // ==================================================
-    let valid = true;
-
-    $('#validasi .required').each(function() {
-        let val = $(this).val();
-
-        if (!val || val === "") {
-            valid = false;
-
-            if ($(this).hasClass('select2')) {
-                $(this).next('.select2-container').find('.select2-selection')
-                    .css('border', '1px solid red');
+            if ($(this).prop('checked')) {
+                $('#no_kk').val(sementara).prop('readonly', true);
+                $('#tampil_nokk').show();
             } else {
-                $(this).css('border', '1px solid red');
+                $('#no_kk').val(asli).prop('readonly', false);
+                $('#tampil_nokk').hide();
             }
-        } else {
-            if ($(this).hasClass('select2')) {
-                $(this).next('.select2-container').find('.select2-selection')
-                    .css('border', '');
-            } else {
-                $(this).css('border', '');
-            }
-        }
+        }).change();
+
+        $('form').on('reset', function() {
+            setTimeout(function() {
+                $('#nokk_sementara').trigger('change');
+            }, 0);
+        });
     });
 
-    if (!valid) return;
+    $('#validasi').on('submit', function(e) {
+        let form = this;
+
+        // Stop submit dulu
+        e.preventDefault();
+
+        // ==================================================
+        // 1. Validasi HTML5
+        // ==================================================
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        // ==================================================
+        // 2. Validasi .required & select2
+        // ==================================================
+        let valid = true;
+
+        $('#validasi .required').each(function() {
+            let val = $(this).val();
+
+            if (!val || val === "") {
+                valid = false;
+
+                if ($(this).hasClass('select2')) {
+                    $(this).next('.select2-container').find('.select2-selection')
+                        .css('border', '1px solid red');
+                } else {
+                    $(this).css('border', '1px solid red');
+                }
+            } else {
+                if ($(this).hasClass('select2')) {
+                    $(this).next('.select2-container').find('.select2-selection')
+                        .css('border', '');
+                } else {
+                    $(this).css('border', '');
+                }
+            }
+        });
+
+        if (!valid) return;
 
 
 
-    // ==================================================
-    // 3. KONDISI: Swal hanya jika gabung KK
-    // ==================================================
-    @if($isGabungKepalaKeluarga)
-        Swal.fire({
-            title: "Konfirmasi Penyimpanan",
-            html: `
+        // ==================================================
+        // 3. KONDISI: Swal hanya jika gabung KK
+        // ==================================================
+        @if ($isGabungKepalaKeluarga)
+            Swal.fire({
+                title: "Konfirmasi Penyimpanan",
+                html: `
                 <p>Tindakan ini <strong>tidak dapat dibatalkan</strong>.</p>
                 <p>KK yang ditinggalkan oleh Kepala Keluarga <strong>tidak dapat digunakan kembali</strong>.</p>
                 <p>Apakah Anda yakin ingin melanjutkan proses ini?</p>
             `,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Ya, Simpan",
-            cancelButtonText: "Batal"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
-        });
-    @else
-        // Jika BUKAN gabung KK → langsung submit tanpa Swal
-        form.submit();
-    @endif
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, Simpan",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        @else
+            // Jika BUKAN gabung KK → langsung submit tanpa Swal
+            form.submit();
+        @endif
 
-});
+    });
 </script>

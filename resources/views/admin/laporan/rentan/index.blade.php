@@ -64,7 +64,7 @@
                                         <th rowspan="2" class="text-center">RT</th>
                                         <th colspan="2" class="text-center">KK</th>
                                         <th colspan="6" class="text-center">Kondisi dan Kelompok Umur</th>
-                                        <th colspan="7" class="text-center">Cacat</th>
+                                        <th colspan="7" class="text-center">Disabilitas</th>
                                         <th colspan="2" class="text-center">Sakit Menahun</th>
                                         <th rowspan="2" class="text-center">Hamil</th>
                                     </tr>
@@ -77,13 +77,13 @@
                                         <th class="text-center">13-15 Tahun</th>
                                         <th class="text-center">16-18 Tahun</th>
                                         <th class="text-center">Di atas 60 Tahun</th>
-                                        <th class="text-center">Cacat Fisik</th>
-                                        <th class="text-center">Cacat Netra/ Buta</th>
-                                        <th class="text-center">Cacat Rungu/ Wicara</th>
-                                        <th class="text-center">Cacat Mental/ Jiwa</th>
-                                        <th class="text-center">Cacat Fisik dan Mental</th>
-                                        <th class="text-center">Cacat Lainnya</th>
-                                        <th class="text-center">Tidak Cacat</th>
+                                        <th class="text-center">Disabilitas Fisik</th>
+                                        <th class="text-center">Disabilitas Netra/ Buta</th>
+                                        <th class="text-center">Disabilitas Rungu/ Wicara</th>
+                                        <th class="text-center">Disabilitas Mental/ Jiwa</th>
+                                        <th class="text-center">Disabilitas Fisik dan Mental</th>
+                                        <th class="text-center">Disabilitas Lainnya</th>
+                                        <th class="text-center">Tidak Disabilitas</th>
                                         <th class="text-center">L</th>
                                         <th class="text-center">P</th>
                                     </tr>

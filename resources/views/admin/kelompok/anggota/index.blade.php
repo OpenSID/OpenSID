@@ -96,7 +96,7 @@
                                         {{ strtoupper($kelompok['kode']) }}
                                     </td>
                                     <td class="padat" rowspan="5">
-                                        <img src="{{ base_url(LOKASI_LOGO_DESA . $kelompok['logo']) }}" class="img-thumbnail" alt="Logo {{ $tipe }}" style="max-width: 150px;">
+                                        <img src="{{ $kelompok['url_logo'] }}" class="img-thumbnail" alt="Logo {{ $tipe }}" style="max-width: 150px;">
                                     </td>
                                 </tr>
                                 <tr>
@@ -159,7 +159,6 @@
                                             <th>Nomor SK Jabatan</th>
                                             @if ($tipe == 'Lembaga')
                                                 <th>Nomor SK Pengangkatan</th>
-                                                <th>Tanggal SK Pengangkatan</th>
                                                 <th>Tanggal SK Pengangkatan</th>
                                                 <th>Nomor SK Pemberhentian</th>
                                                 <th>Tanggal SK Pemberhentian</th>
@@ -276,11 +275,6 @@
                         {
                             data: 'nmr_sk_pengangkatan',
                             name: 'nmr_sk_pengangkatan',
-                            searchable: false,
-                            orderable: false
-                        }, {
-                            data: 'tgl_sk_pengangkatan',
-                            name: 'tgl_sk_pengangkatan',
                             searchable: false,
                             orderable: false
                         }, {

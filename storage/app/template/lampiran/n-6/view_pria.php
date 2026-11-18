@@ -120,7 +120,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[AlAmat_dit]</td>
+            <td colspan="27">[Alamat_lengkap_dit]</td>
         </tr>
 
         <tr>
@@ -141,7 +141,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">&nbsp;</td>
             <td>&nbsp;</td>
-            <td colspan="27">[AlAmat_dit]</td>
+            <td colspan="27">[Alamat_lengkap_dit]</td>
         </tr>
 
         <tr>
@@ -203,7 +203,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>&nbsp;</td>
-            <td colspan="27">[AlAmat]</td>
+            <td colspan="27">[Alamat_lengkap]</td>
         </tr>
     </table>
 

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\FirebaseEnum;
 use App\Enums\StatusEnum;
-use App\Http\Middleware\SecurityHeaders;
 use App\Libraries\Database;
 use App\Libraries\Tracker;
 use App\Models\Config;
@@ -76,6 +75,7 @@ class MY_Controller extends CI_Controller
     public $includes;
     public $theme;
     public $template;
+    public \OpenSID\Middleware|null $middleware = null;
 
     /**
      * Ambil item dari array POST.
@@ -116,7 +116,27 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
 
-        // SecurityHeaders::handle();
+        // OpenSID/OpenSID#11931 Fase 3.5: daftarkan instance controller yang
+        // BARU SELESAI dikonstruksi ke container Laravel SEBELUM baris apa pun
+        // di bawah ini yang bisa memicu add-on (mis. checkMigration() ->
+        // PenjagaPermintaan -> Modules\Pelanggan\Services\CekService) meminta
+        // app()->make(\CI_Controller::class). Tanpanya, permintaan itu mencoba
+        // membangun instance CI_Controller BARU lewat reflection container --
+        // konstruksi kedua yang bertumpuk itu fatal di load_class('Session')
+        // (Session dimuat lewat mekanisme khusus $this->load->library(), bukan
+        // load_class() generik yang dipanggil ulang oleh foreach(is_loaded())
+        // di CI_Controller::__construct() -- construction pertama aman karena
+        // urutan normal, construction kedua/bertumpuk ini yang gagal).
+        if (! app()->bound(\CI_Controller::class)) {
+            app()->instance(\CI_Controller::class, $this);
+        }
+
+        if ($this->middleware === null) {
+            $this->middleware = new OpenSID\Middleware();
+        }
+
+        // throttle requests
+        $this->middleware->run('ThrottleRequests');
 
         $error = $this->session->db_error;
         if ($error['code'] == 1049 && ! $this->db) {
@@ -324,21 +344,17 @@ class MY_Controller extends CI_Controller
      */
     private function cekAnjungan(): array
     {
-        $ip           = $this->input->ip_address();
         $macAddress   = $this->session->mac_address;
         $anjunganUuid = $this->session->anjungan_uuid;
 
         try {
             $data = DB::table('anjungan')
-                ->where(static function ($query) use ($macAddress, $ip) {
+                ->where(static function ($query) use ($macAddress, $anjunganUuid) {
                     if ($macAddress) {
                         $query->orWhere('mac_address', $macAddress);
                     }
-                    if (isset($_COOKIE['pengunjung'])) {
-                        $query->orWhere('id_pengunjung', $_COOKIE['pengunjung']);
-                    }
-                    if ($ip) {
-                        $query->orWhere('ip_address', $ip);
+                    if ($anjunganUuid) {
+                        $query->orWhere('uuid', $anjunganUuid);
                     }
                 })
                 ->where('status', StatusEnum::YA)

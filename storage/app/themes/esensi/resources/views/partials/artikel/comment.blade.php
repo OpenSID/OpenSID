@@ -86,11 +86,9 @@
                 </div>
             @endforeach
         </div>
-        <div class="flex flex-col lg:flex-row gap-3">
-            <div class="group">
-                <img id="captcha" src="{{ site_url('captcha') }}" alt="CAPTCHA Image" class="max-w-full h-auto">
-                <button type="button" class="hover:text-link text-xs lg:text-sm" onclick="document.getElementById('captcha').src = '{{ ci_route('captcha') }}?' + Math.random();">[Ganti Gambar]</button>
-            </div>
+        <div class="flex items-center gap-3">
+            <img id="captcha" src="{{ site_url('captcha') }}" alt="CAPTCHA Image" class="max-w-full h-auto">
+            <button type="button" class="hover:text-link text-xs lg:text-sm" onclick="document.getElementById('captcha').src = '{{ ci_route('captcha') }}?' + Math.random();"><i class="fas fa-redo"></i></button>
             <input type="text" name="captcha_code" class="form-input" placeholder="Tulis kembali kode sebelah">
         </div>
         <button type="submit" class="btn btn-secondary">Kirim Komentar <i class="fas fa-paper-plane ml-2"></i></button>

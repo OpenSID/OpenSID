@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,18 +37,15 @@
 
 namespace App\Traits;
 
-use App\Enums\StatusEnum;
-use App\Models\GrupAkses;
+use App\Actions\Modul\UpsertModul;
 use App\Models\Modul;
 use App\Models\SettingAplikasi;
-use App\Models\UserGrup;
 use Exception;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 
 trait Migrator
 {
@@ -60,7 +57,7 @@ trait Migrator
      */
     public function runMigration($migrationFiles, $method = 'up'): string
     {
-        $directoryTable = APPPATH . 'models/migrations/struktur_tabel';
+        $directoryTable = base_path('app/database/migrations');
 
         if (! is_array($migrationFiles)) {
             $migrationFiles = [$migrationFiles];
@@ -381,40 +378,6 @@ trait Migrator
     }
 
     /**
-     * Tambah data awal ke tabel.
-     *
-     * @param string $tabel    Nama tabel
-     * @param array  $data     Data untuk ditambahkan
-     * @param bool   $berulang Boleh berulang atau tidak
-     *
-     * @return bool
-     */
-    public function data_awal(?string $tabel = null, array $data = [], $berulang = false)
-    {
-        $config_id = identitas('id');
-
-        if (Schema::hasTable($tabel) && $data !== []) {
-            collect($data)
-                ->chunk(100)
-                // tambahkan config_id terlebih dahulu
-                ->map(static fn ($chunk) => $chunk->map(static function (array $item) use ($config_id): array {
-                    $item['config_id'] = $config_id;
-
-                    return $item;
-                }))
-                ->each(static function ($chunk) use ($tabel): void {
-                    // upsert agar tidak duplikat
-                    DB::table($tabel)->upsert($chunk->all(), 'config_id');
-                });
-            log_message('notice', 'Berhasil memperbarui data awal tabel ' . $tabel);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Cek primary key pada tabel.
      *
      * @param string $tabel Nama tabel
@@ -496,47 +459,7 @@ trait Migrator
      */
     protected function createModul(array $data)
     {
-        $modul = new Modul();
-        $modul = $modul->withoutGlobalScope('config_id');
-
-        $data['config_id'] ??= identitas('id');
-        $data['ikon_kecil'] ??= $data['ikon'];
-
-        // Tetapkan nilai urut jika belum disediakan
-        if (Schema::hasColumn('setting_modul', 'urut') && ! isset($data['urut'])) {
-            $data['urut'] = $data['parent'] == Modul::PARENT
-                ? $modul->max('urut') + 1
-                : $modul->where('parent', $data['parent'])->max('urut') + 1;
-        }
-
-        if (! isset($data['slug'])) {
-            $data['slug'] = Str::slug($data['modul']);
-        }
-
-        if (! isset($data['aktif'])) {
-            $data['aktif'] = StatusEnum::YA;
-        }
-
-        if (! isset($data['hidden'])) {
-            $data['hidden'] = 0;
-        }
-
-        if (isset($data['parent_slug'])) {
-            $parent         = $modul->where('config_id', $data['config_id'])->where('slug', $data['parent_slug'])->first();
-            $data['parent'] = $parent ? $parent->id : Modul::PARENT;
-            unset($data['parent_slug']);
-        }
-
-        // Simpan atau perbarui data modul
-        $modul->upsert($data, ['config_id', 'slug'], ['url', 'level', 'hidden', 'ikon_kecil', 'parent']);
-
-        // Create Hak Akses Administator
-        $this->createHakAkses([
-            'config_id' => $data['config_id'],
-            'id_grup'   => UserGrup::withoutConfigId($data['config_id'])->where('slug', UserGrup::ADMINISTRATOR)->value('id'),
-            'id_modul'  => Modul::withoutConfigId($data['config_id'])->where('slug', $data['slug'])->first()->id,
-            'akses'     => GrupAkses::HAPUS,
-        ]);
+        (new UpsertModul())->handle($data);
 
         cache()->flush();
     }
@@ -613,11 +536,7 @@ trait Migrator
 
         $data['config_id'] ??= identitas('id');
 
-        $forCreate = ['judul', 'keterangan', 'jenis', 'option', 'attribute', 'kategori'];
-
-        if (Schema::hasColumn('setting_aplikasi', 'urut')) {
-            $forCreate[] = 'urut';
-        }
+        $forCreate = ['judul', 'keterangan', 'jenis', 'option', 'attribute', 'kategori', 'urut'];
 
         $setting->upsert($data, ['config_id', 'key'], $forCreate);
 
@@ -675,18 +594,36 @@ trait Migrator
     }
 
     /**
-     * Tambah atau perbarui data ke tabel grup_akses.
-     *
-     * @return void
+     * Jalankan migrasi.
      */
-    protected function createHakAkses(array $data)
+    private function runMigrations(string $directoryTable, string $action = 'up'): void
     {
-        $akses = new GrupAkses();
-        $akses = $akses->withoutGlobalScope('config_id');
+        if (! is_dir($directoryTable)) {
+            logger()->info("Folder migrations tidak ditemukan: {$directoryTable}");
 
-        $data['config_id'] ??= identitas('id');
+            return;
+        }
 
-        $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
+        $migrations = File::files($directoryTable);
+
+        if ($action === 'up') {
+            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
+        } else {
+            usort($migrations, static fn ($a, $b): int => strcmp($b->getFilename(), $a->getFilename()));
+        }
+
+        foreach ($migrations as $migrate) {
+            $migrateFile = require $migrate->getPathname();
+
+            match ($action) {
+                'down'  => $migrateFile->down(),
+                default => $migrateFile->up(),
+            };
+
+            logger()->info("Migrasi {$action} {$migrate->getFilename()} berhasil dijalankan.");
+        }
+
+        cache()->flush();
     }
 
     /**

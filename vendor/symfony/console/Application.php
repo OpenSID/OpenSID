@@ -240,7 +240,7 @@ class Application implements ResetInterface
         }
 
         $name = $this->getCommandName($input);
-        if (true === $input->hasParameterOption(['--help', '-h'], true)) {
+        if ($input->hasParameterOption(['--help', '-h'], true)) {
             if (!$name) {
                 $name = 'help';
                 $input = new ArrayInput(['command_name' => $this->defaultCommand]);
@@ -761,6 +761,21 @@ class Application implements ResetInterface
             }));
         }
 
+        // check whether all commands left are aliases to the same one
+        if (\count($commands) > 1) {
+            $uniqueCommands = array_unique(array_map(function ($nameOrAlias) use (&$commandList) {
+                if (!$commandList[$nameOrAlias] instanceof Command) {
+                    $commandList[$nameOrAlias] = $this->commandLoader->get($nameOrAlias);
+                }
+
+                return $commandList[$nameOrAlias]->getName();
+            }, $commands));
+
+            if (1 === \count($uniqueCommands)) {
+                $commands = [reset($uniqueCommands)];
+            }
+        }
+
         if (\count($commands) > 1) {
             $usableWidth = $this->terminal->getWidth() - 10;
             $abbrevs = array_values($commands);
@@ -768,7 +783,7 @@ class Application implements ResetInterface
             foreach ($abbrevs as $abbrev) {
                 $maxLen = max(Helper::width($abbrev), $maxLen);
             }
-            $abbrevs = array_map(function ($cmd) use ($commandList, $usableWidth, $maxLen, &$commands) {
+            $abbrevs = array_map(static function ($cmd) use ($commandList, $usableWidth, $maxLen, &$commands) {
                 if ($commandList[$cmd]->isHidden()) {
                     unset($commands[array_search($cmd, $commands)]);
 
@@ -883,7 +898,7 @@ class Application implements ResetInterface
             }
 
             if (str_contains($message, "@anonymous\0")) {
-                $message = preg_replace_callback('/[a-zA-Z_\x7f-\xff][\\\\a-zA-Z0-9_\x7f-\xff]*+@anonymous\x00.*?\.php(?:0x?|:[0-9]++\$)?[0-9a-fA-F]++/', fn ($m) => class_exists($m[0], false) ? (get_parent_class($m[0]) ?: key(class_implements($m[0])) ?: 'class').'@anonymous' : $m[0], $message);
+                $message = preg_replace_callback('/[a-zA-Z_\x7f-\xff][\\\\a-zA-Z0-9_\x7f-\xff]*+@anonymous\x00.*?\.php(?:0x?|:[0-9]++\$)?[0-9a-fA-F]++/', static fn ($m) => class_exists($m[0], false) ? (get_parent_class($m[0]) ?: key(class_implements($m[0])) ?: 'class').'@anonymous' : $m[0], $message);
             }
 
             $width = $this->terminal->getWidth() ? $this->terminal->getWidth() - 1 : \PHP_INT_MAX;
@@ -1063,7 +1078,7 @@ class Application implements ResetInterface
             }
 
             foreach ($commandSignals as $signal) {
-                $this->signalRegistry->register($signal, function (int $signal) use ($command): void {
+                $this->signalRegistry->register($signal, static function (int $signal) use ($command): void {
                     $exitCode = $command->handleSignal($signal);
                     // BC layer for Symfony <= 5
                     if (null === $exitCode) {
@@ -1240,7 +1255,7 @@ class Application implements ResetInterface
             }
         }
 
-        $alternatives = array_filter($alternatives, fn ($lev) => $lev < 2 * $threshold);
+        $alternatives = array_filter($alternatives, static fn ($lev) => $lev < 2 * $threshold);
         ksort($alternatives, \SORT_NATURAL | \SORT_FLAG_CASE);
 
         return array_keys($alternatives);
@@ -1304,9 +1319,7 @@ class Application implements ResetInterface
 
         $lines[] = \count($lines) ? str_pad($line, $width) : $line;
 
-        mb_convert_variables($encoding, 'utf8', $lines);
-
-        return $lines;
+        return mb_convert_encoding($lines, $encoding, 'utf8');
     }
 
     /**
@@ -1321,7 +1334,7 @@ class Application implements ResetInterface
         $namespaces = [];
 
         foreach ($parts as $part) {
-            if (\count($namespaces)) {
+            if ($namespaces) {
                 $namespaces[] = end($namespaces).':'.$part;
             } else {
                 $namespaces[] = $part;

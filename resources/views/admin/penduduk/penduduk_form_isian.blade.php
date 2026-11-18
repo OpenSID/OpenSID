@@ -18,7 +18,7 @@
         <div class="box-body">
             @include('admin.penduduk.penduduk_form_isian_bersama')
         </div>
-        @if ($penduduk['status_dasar_id'] == 1 || !isset($penduduk['status_dasar_id']))
+        @if ($penduduk['status_dasar_id'] == 1 || !isset($penduduk['status_dasar_id']) || (isset($is_historical) && $is_historical))
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm"><i class='fa fa-times'></i> Batal</button>
                 <button type="submit" class="btn btn-social btn-info btn-sm pull-right" onclick="$('#'+'mainform').attr('action', '{{ $form_action }}');$('#'+'mainform').submit();"><i class="fa fa-check"></i> Simpan</button>

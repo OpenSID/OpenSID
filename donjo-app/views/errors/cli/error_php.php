@@ -11,11 +11,11 @@ Line Number: <?= $line; ?>
 
 Backtrace:
 <?php	foreach (debug_backtrace() as $error): ?>
-<?php		if (isset($error['file']) && strpos($error['file'], (string) realpath(BASEPATH)) !== 0): ?>
+<?php	if (isset($error['file']) && strpos($error['file'], (string) realpath(BASEPATH)) !== 0): ?>
 	File: <?= $error['file'], "\n"; ?>
 	Line: <?= $error['line'], "\n"; ?>
 	Function: <?= $error['function'], "\n\n"; ?>
-<?php		endif ?>
+<?php	endif ?>
 <?php	endforeach ?>
 
 <?php endif ?>

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -148,12 +148,18 @@ class AnggotaKeluarga extends Admin_Controller
     }
 
     // Tidak boleh tambah anggota bagi kasus kepala keluarga mati/hilang/pindah
-    public function add_anggota($id = 0): void
+    public function add_anggota($id = 0)
     {
         isCan('u');
         $keluarga = KeluargaModel::with(['kepalaKeluarga'])->findOrFail($id);
         if ($keluarga->kepalaKeluarga && $keluarga->kepalaKeluarga->status_dasar != 1) {
-            show_404();
+            $message = sprintf(
+                'Kepala keluarga KK ini tidak aktif (%s). Data KK perlu diperbaiki dengan menentukan kepala keluarga baru sebelum menambah anggota. Silakan <a href="%s" class="text-decoration-underline">periksa dan perbaiki data KK</a>.',
+                StatusDasarEnum::valueOf($keluarga->kepalaKeluarga->status_dasar),
+                ci_route('periksa')
+            );
+
+            return redirect_with('warning', $message, ci_route('keluarga.anggota', $id), true);
         }
 
         $data = $this->input->post();
@@ -166,12 +172,18 @@ class AnggotaKeluarga extends Admin_Controller
         redirect_with('success', 'Berhasil menambahkan anggota keluarga', ci_route("keluarga.anggota.{$id}"));
     }
 
-    public function update_anggota($id_kk = 0, $id = 0): void
+    public function update_anggota($id_kk = 0, $id = 0)
     {
         isCan('u');
         $keluarga = KeluargaModel::with(['kepalaKeluarga'])->findOrFail($id_kk);
         if ($keluarga->kepalaKeluarga && $keluarga->kepalaKeluarga->status_dasar != 1) {
-            show_404();
+            $message = sprintf(
+                'Kepala keluarga KK ini tidak aktif (%s). Data KK perlu diperbaiki dengan menentukan kepala keluarga baru sebelum mengubah anggota. Silakan <a href="%s" class="text-decoration-underline">periksa dan perbaiki data KK</a>.',
+                StatusDasarEnum::valueOf($keluarga->kepalaKeluarga->status_dasar),
+                ci_route('periksa')
+            );
+
+            return redirect_with('warning', $message, ci_route('keluarga.anggota', $id_kk), true);
         }
 
         $data = $this->input->post();
@@ -319,7 +331,7 @@ class AnggotaKeluarga extends Admin_Controller
             'updated_by'      => ci_auth()->id,
         ]);
 
-        set_session('success', 'Gabung KK baru berhasil dibuat.');
+        set_session('success', 'KK baru berhasil dibuat.');
         redirect("keluarga/anggota/{$kkBaru->id}");
     }
 
@@ -379,13 +391,20 @@ class AnggotaKeluarga extends Admin_Controller
 
     // Tambah anggota keluarga dari penduduk baru
     // Tidak boleh tambah anggota bagi kasus kepala keluarga mati/hilang/pindah
-    public function form($peristiwa, $id = 0): void
+    public function form($peristiwa, $id = 0)
     {
         isCan('u');
         $keluarga = KeluargaModel::with(['kepalaKeluarga'])->findOrFail($id);
         if ($keluarga->kepalaKeluarga && $keluarga->kepalaKeluarga->status_dasar != 1) {
-            show_404();
+            $message = sprintf(
+                'Kepala keluarga KK ini tidak aktif (%s). Data KK perlu diperbaiki dengan menentukan kepala keluarga baru sebelum menambah anggota. Silakan <a href="%s" class="text-decoration-underline">periksa dan perbaiki data KK</a>.',
+                StatusDasarEnum::valueOf($keluarga->kepalaKeluarga->status_dasar),
+                ci_route('periksa')
+            );
+
+            return redirect_with('warning', $message, ci_route('keluarga.anggota', $id), true);
         }
+
         $excludeSHDK = [];
         if ($keluarga->kepalaKeluarga) {
             $excludeSHDK[] = SHDKEnum::KEPALA_KELUARGA;

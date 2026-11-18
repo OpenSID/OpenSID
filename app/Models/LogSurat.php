@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -478,12 +478,29 @@ class LogSurat extends BaseModel
         $jabatanKadesId  = $listJabatan['jabatan_kades_id'];
         $jabatanSekdesId = $listJabatan['jabatan_sekdes_id'];
 
-        return $query->when($jabatanId == $jabatanKadesId, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
-            ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
-            ->orWhere(static function ($verifikasi): void {
-                $verifikasi->whereNull('verifikasi_operator');
-            }))
-            ->when($jabatanId == $jabatanSekdesId, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
+        return $query
+            ->when($jabatanId == $jabatanKadesId, static function ($q) {
+                if (setting('verifikasi_kades') == 1) {
+                    // Verifikasi kades aktif: ambil surat dengan verifikasi_kades = 1
+                    return $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+                             ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+                             ->orWhere(static function ($verifikasi): void {
+                                 $verifikasi->whereNull('verifikasi_operator');
+                             });
+                } else {
+                    // Verifikasi kades TIDAK aktif: ambil surat dengan verifikasi_operator = 1
+                    return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
+                }
+            })
+            ->when($jabatanId == $jabatanSekdesId, static function ($q) {
+                if (setting('verifikasi_sekdes') == 1) {
+                    // Verifikasi sekdes aktif: ambil surat dengan verifikasi_sekdes = 1
+                    return $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator');
+                } else {
+                    // Verifikasi sekdes TIDAK aktif: ambil surat dengan verifikasi_operator = 1
+                    return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
+                }
+            })
             ->when($isAdmin == null || ! in_array($jabatanId, [$jabatanKadesId, $jabatanSekdesId]), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'));
     }
 

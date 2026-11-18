@@ -20,7 +20,22 @@ namespace Google\Service\Drive;
 class Approval extends \Google\Collection
 {
   /**
-   * Approval status has not been set or was set to an invalid value.
+   * The behavior is unspecified.
+   */
+  public const FILE_CONTENT_CHANGE_BEHAVIOR_FILE_CONTENT_CHANGE_BEHAVIOR_UNSPECIFIED = 'FILE_CONTENT_CHANGE_BEHAVIOR_UNSPECIFIED';
+  /**
+   * Any ReviewerResponse with a Response of APPROVED will be reset to
+   * NO_DECISION when the file content changes while the approval has a Status
+   * of IN_PROGRESS. When the approval has a Status of APPROVED and
+   * RESET_APPROVAL is selected, the file is locked.
+   */
+  public const FILE_CONTENT_CHANGE_BEHAVIOR_RESET_APPROVAL = 'RESET_APPROVAL';
+  /**
+   * No action is taken when the file content changes.
+   */
+  public const FILE_CONTENT_CHANGE_BEHAVIOR_NO_APPROVAL_ACTION = 'NO_APPROVAL_ACTION';
+  /**
+   * The approval status has not been set or was set to an invalid value.
    */
   public const STATUS_STATUS_UNSPECIFIED = 'STATUS_UNSPECIFIED';
   /**
@@ -41,13 +56,13 @@ class Approval extends \Google\Collection
   public const STATUS_DECLINED = 'DECLINED';
   protected $collection_key = 'reviewerResponses';
   /**
-   * The Approval ID.
+   * The approval ID.
    *
    * @var string
    */
   public $approvalId;
   /**
-   * Output only. The time time the approval was completed.
+   * Output only. The time the approval was completed.
    *
    * @var string
    */
@@ -64,6 +79,12 @@ class Approval extends \Google\Collection
    * @var string
    */
   public $dueTime;
+  /**
+   * Output only. The behavior of the approval when the file content changes.
+   *
+   * @var string
+   */
+  public $fileContentChangeBehavior;
   protected $initiatorType = User::class;
   protected $initiatorDataType = '';
   /**
@@ -95,7 +116,7 @@ class Approval extends \Google\Collection
   public $targetFileId;
 
   /**
-   * The Approval ID.
+   * The approval ID.
    *
    * @param string $approvalId
    */
@@ -111,7 +132,7 @@ class Approval extends \Google\Collection
     return $this->approvalId;
   }
   /**
-   * Output only. The time time the approval was completed.
+   * Output only. The time the approval was completed.
    *
    * @param string $completeTime
    */
@@ -159,7 +180,26 @@ class Approval extends \Google\Collection
     return $this->dueTime;
   }
   /**
-   * The user that requested the Approval.
+   * Output only. The behavior of the approval when the file content changes.
+   *
+   * Accepted values: FILE_CONTENT_CHANGE_BEHAVIOR_UNSPECIFIED, RESET_APPROVAL,
+   * NO_APPROVAL_ACTION
+   *
+   * @param self::FILE_CONTENT_CHANGE_BEHAVIOR_* $fileContentChangeBehavior
+   */
+  public function setFileContentChangeBehavior($fileContentChangeBehavior)
+  {
+    $this->fileContentChangeBehavior = $fileContentChangeBehavior;
+  }
+  /**
+   * @return self::FILE_CONTENT_CHANGE_BEHAVIOR_*
+   */
+  public function getFileContentChangeBehavior()
+  {
+    return $this->fileContentChangeBehavior;
+  }
+  /**
+   * The user that requested the approval.
    *
    * @param User $initiator
    */
@@ -207,7 +247,7 @@ class Approval extends \Google\Collection
     return $this->modifyTime;
   }
   /**
-   * The responses made on the Approval by reviewers.
+   * The responses made on the approval by reviewers.
    *
    * @param ReviewerResponse[] $reviewerResponses
    */

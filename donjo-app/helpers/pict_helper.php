@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -680,7 +680,10 @@ function qrcode_generate(array $qrcode = [], $base64 = false): string
     file_put_contents($filename, $imgData);
 
     //Ubah backround transparan ke warna putih supaya terbaca qrcode scanner
-    $src_qr    = imagecreatefrompng($filename);
+    $src_qr = imagecreatefrompng($filename);
+    if (! $src_qr) {
+        throw new Exception('Failed to create image from QR code PNG');
+    }
     $sizeqrx   = imagesx($src_qr);
     $sizeqry   = imagesy($src_qr);
     $backcol   = imagecreatetruecolor($sizeqrx, $sizeqry);
@@ -693,23 +696,33 @@ function qrcode_generate(array $qrcode = [], $base64 = false): string
     imagedestroy($src_qr);
     imagedestroy($backcol);
 
-    //Tambah Logo
+    //Tambah Logo - skip jika logopath kosong
     $logopath = $qrcode['logoqr']; // Logo yg tampil di tengah QRCode
-    $QR       = imagecreatefrompng($filename);
-    $logo     = imagecreatefromstring(file_get_contents($logopath));
-    imagecolortransparent($logo, imagecolorallocatealpha($logo, 0, 0, 0, 127));
-    imagealphablending($logo, false);
-    imagesavealpha($logo, true);
-    $QR_width       = imagesx($QR);
-    $logo_width     = imagesx($logo);
-    $logo_height    = imagesy($logo);
-    $logo_qr_width  = $QR_width / 4;
-    $scale          = $logo_width / $logo_qr_width;
-    $logo_qr_height = $logo_height / $scale;
-    $from_width     = ($QR_width - $logo_qr_width) / 2;
-    imagecopyresampled($QR, $logo, $from_width, $from_width, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
-    imagepng($QR, $filename);
-    imagedestroy($QR);
+    if (! empty($logopath) && file_exists($logopath)) {
+        $QR   = imagecreatefrompng($filename);
+        if (! $QR) {
+            throw new Exception('Failed to create image from QR code PNG for logo processing');
+        }
+        $logo = imagecreatefromstring(file_get_contents($logopath));
+        if (! $logo) {
+            imagedestroy($QR);
+            throw new Exception('Failed to create image from logo file');
+        }
+        imagecolortransparent($logo, imagecolorallocatealpha($logo, 0, 0, 0, 127));
+        imagealphablending($logo, false);
+        imagesavealpha($logo, true);
+        $QR_width       = imagesx($QR);
+        $logo_width     = imagesx($logo);
+        $logo_height    = imagesy($logo);
+        $logo_qr_width  = $QR_width / 4;
+        $scale          = $logo_width / $logo_qr_width;
+        $logo_qr_height = $logo_height / $scale;
+        $from_width     = ($QR_width - $logo_qr_width) / 2;
+        imagecopyresampled($QR, $logo, $from_width, $from_width, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
+        imagepng($QR, $filename);
+        imagedestroy($QR);
+        imagedestroy($logo);
+    }
 
     if ($base64) {
         return 'data:image/png;base64,' . base64_encode(file_get_contents($filename));

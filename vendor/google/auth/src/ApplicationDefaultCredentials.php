@@ -76,7 +76,6 @@ class ApplicationDefaultCredentials
     private const SDK_DEBUG_ENV_VAR = 'GOOGLE_SDK_PHP_LOGGING';
 
     /**
-     * @deprecated
      *
      * Obtains an AuthTokenSubscriber that uses the default FetchAuthTokenInterface
      * implementation to use in this environment.
@@ -84,6 +83,7 @@ class ApplicationDefaultCredentials
      * If supplied, $scope is used to in creating the credentials instance if
      * this does not fallback to the compute engine defaults.
      *
+     * @deprecated
      * @param string|string[] $scope the scope of the access request, expressed
      *        either as an Array or as a space-delimited String.
      * @param callable|null $httpHandler callback which delivers psr7 request
@@ -153,6 +153,7 @@ class ApplicationDefaultCredentials
      * @param string|null $universeDomain Specifies a universe domain to use for the
      *   calling client library.
      * @param null|false|LoggerInterface $logger A PSR3 compliant LoggerInterface.
+     * @param bool $enableRegionalAccessBoundary Lookup and include the regional access boundary header.
      *
      * @return FetchAuthTokenInterface
      * @throws DomainException if no implementation can be obtained.
@@ -166,6 +167,7 @@ class ApplicationDefaultCredentials
         $defaultScope = null,
         ?string $universeDomain = null,
         null|false|LoggerInterface $logger = null,
+        bool $enableRegionalAccessBoundary = false
     ) {
         $creds = null;
         $jsonKey = CredentialsLoader::fromEnv()
@@ -196,12 +198,18 @@ class ApplicationDefaultCredentials
             $creds = CredentialsLoader::makeCredentials(
                 $scope,
                 $jsonKey,
-                $defaultScope
+                $defaultScope,
+                $enableRegionalAccessBoundary
             );
         } elseif (AppIdentityCredentials::onAppEngine() && !GCECredentials::onAppEngineFlexible()) {
             $creds = new AppIdentityCredentials($anyScope);
         } elseif (self::onGce($httpHandler, $cacheConfig, $cache)) {
-            $creds = new GCECredentials(null, $anyScope, null, $quotaProject, null, $universeDomain);
+            $creds = new GCECredentials(
+                scope: $anyScope,
+                quotaProject: $quotaProject,
+                universeDomain: $universeDomain,
+                enableRegionalAccessBoundary: $enableRegionalAccessBoundary,
+            );
             $creds->setIsOnGce(true); // save the credentials a trip to the metadata server
         }
 
@@ -286,7 +294,7 @@ class ApplicationDefaultCredentials
         $targetAudience,
         ?callable $httpHandler = null,
         ?array $cacheConfig = null,
-        ?CacheItemPoolInterface $cache = null
+        ?CacheItemPoolInterface $cache = null,
     ) {
         $creds = null;
         $jsonKey = CredentialsLoader::fromEnv()
@@ -308,12 +316,20 @@ class ApplicationDefaultCredentials
 
             $creds = match ($jsonKey['type']) {
                 'authorized_user' => new UserRefreshCredentials(null, $jsonKey, $targetAudience),
-                'impersonated_service_account' => new ImpersonatedServiceAccountCredentials(null, $jsonKey, $targetAudience),
-                'service_account' => new ServiceAccountCredentials(null, $jsonKey, null, $targetAudience),
+                'impersonated_service_account' => new ImpersonatedServiceAccountCredentials(
+                    scope: null,
+                    jsonKey: $jsonKey,
+                    targetAudience: $targetAudience,
+                ),
+                'service_account' => new ServiceAccountCredentials(
+                    scope: null,
+                    jsonKey: $jsonKey,
+                    targetAudience: $targetAudience,
+                ),
                 default => throw new InvalidArgumentException('invalid value in the type field')
             };
         } elseif (self::onGce($httpHandler, $cacheConfig, $cache)) {
-            $creds = new GCECredentials(null, null, $targetAudience);
+            $creds = new GCECredentials(targetAudience: $targetAudience);
             $creds->setIsOnGce(true); // save the credentials a trip to the metadata server
         }
 

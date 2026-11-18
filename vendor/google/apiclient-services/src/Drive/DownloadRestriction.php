@@ -26,7 +26,7 @@ class DownloadRestriction extends \Google\Model
    */
   public $restrictedForReaders;
   /**
-   * Whether download and copy is restricted for writers. If `true`, download is
+   * Whether download and copy is restricted for writers. If true, download is
    * also restricted for readers.
    *
    * @var bool
@@ -50,7 +50,7 @@ class DownloadRestriction extends \Google\Model
     return $this->restrictedForReaders;
   }
   /**
-   * Whether download and copy is restricted for writers. If `true`, download is
+   * Whether download and copy is restricted for writers. If true, download is
    * also restricted for readers.
    *
    * @param bool $restrictedForWriters

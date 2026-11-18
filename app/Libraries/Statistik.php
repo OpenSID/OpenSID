@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,14 +37,15 @@
 
 namespace App\Libraries;
 
-use App\Enums\JenisKelaminEnum;
-use App\Enums\SasaranEnum;
-use App\Enums\Statistik\StatistikJenisBantuanEnum;
+use App\Models\Rtm;
 use App\Models\Bantuan;
 use App\Models\Kelompok;
+use App\Enums\StatusEnum;
+use App\Enums\SasaranEnum;
 use App\Models\KeluargaAktif;
 use App\Models\PendudukHidup;
-use App\Models\Rtm;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\Statistik\StatistikJenisBantuanEnum;
 
 class Statistik
 {
@@ -71,7 +72,7 @@ class Statistik
         }
         // Jika $lap dianggap sebagai slug
         else {
-            $bantuanModel = Bantuan::whereSlug($lap)->first();
+            $bantuanModel = Bantuan::whereSlug($lap)->where('publikasi', StatusEnum::YA)->first();
             if ($bantuanModel) {
                 $sasaran   = $bantuanModel->sasaran;
                 $bantuanId = $bantuanModel->id;
@@ -79,7 +80,7 @@ class Statistik
             }
         }
 
-        $bantuan = Bantuan::whereSasaran($sasaran);
+        $bantuan = Bantuan::whereSasaran($sasaran)->where('publikasi', StatusEnum::YA);
         $label   = $program ? 'PESERTA' : 'PENERIMA';
 
         if (! empty($filter['tahun'])) {
@@ -87,7 +88,7 @@ class Statistik
                 ->whereYear('edate', '>=', $filter['tahun']);
         }
 
-        $bantuan->status($filter['status'] ?? null);
+        // $bantuan->status($filter['status'] ?? null);
 
         // Filter berdasarkan ID atau slug jika termasuk program
         if ($program) {

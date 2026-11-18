@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -70,6 +70,51 @@ if (! function_exists('set_session')) {
 if (! function_exists('session')) {
     function session($nama = '')
     {
+        // Tanpa argumen: adaptor gaya Laravel (put/get/has/forget/flash/pull) di atas sesi CI3,
+        // dipakai add-on (mis. Pelanggan). Ditambahkan pipeline rilis Umum (patch-wiring-addon-umum.php).
+        if ($nama === '' || $nama === null) {
+            return new class(ci()->session) {
+                public function __construct(private $ci)
+                {
+                }
+
+                public function put($key, $value = null): void
+                {
+                    $this->ci->set_userdata(is_array($key) ? $key : [$key => $value]);
+                }
+
+                public function get($key, $default = null)
+                {
+                    $nilai = $this->ci->userdata($key);
+
+                    return $nilai ?? $this->ci->flashdata($key) ?? $default;
+                }
+
+                public function has($key): bool
+                {
+                    return $this->get($key) !== null;
+                }
+
+                public function forget($keys): void
+                {
+                    $this->ci->unset_userdata(is_array($keys) ? $keys : [$keys]);
+                }
+
+                public function flash($key, $value = true): void
+                {
+                    $this->ci->set_flashdata($key, $value);
+                }
+
+                public function pull($key, $default = null)
+                {
+                    $nilai = $this->get($key, $default);
+                    $this->forget($key);
+
+                    return $nilai;
+                }
+            };
+        }
+
         return ci()->session->flashdata($nama);
     }
 }
@@ -338,11 +383,11 @@ if (! function_exists('SebutanDesa')) {
         }
 
         // Tidak bisa gunakan helper setting karena value belum di load
-        $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_pemerintah_desa', 'sebutan_dusun', 'default_tampil_peta_infrastruktur'])->pluck('value', 'key')->toArray();
+        $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_dusun', 'default_tampil_peta_infrastruktur'])->pluck('value', 'key')->toArray();
 
         return str_replace(
             $replaceWord,
-            [ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_pemerintah_desa']), ucwords($setting['sebutan_dusun'])],
+            [ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_desa']), ucwords('Pemerintah ' . $setting['sebutan_desa']), ucwords($setting['sebutan_dusun'])],
             $params
         );
     }
