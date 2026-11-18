@@ -40,6 +40,7 @@ namespace App\Console\Commands;
 use App\Actions\Theme\ActivateTheme;
 use App\Models\Theme;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use ZipArchive;
 
@@ -191,7 +192,7 @@ class PasangTemaUji extends Command
             && is_file($temaStaging . '/resources/views/template.blade.php');
 
         if (! $valid) {
-            delete_files($staging, true);
+            File::deleteDirectory($staging);
             @rmdir($staging);
 
             return null;
@@ -199,11 +200,11 @@ class PasangTemaUji extends Command
 
         $temaFinal = $tujuan . $folder;
         if (is_dir($temaFinal)) {
-            delete_files($temaFinal, true);
+            File::deleteDirectory($temaFinal);
             @rmdir($temaFinal);
         }
         @rename($temaStaging, $temaFinal);
-        delete_files($staging, true);
+        File::deleteDirectory($staging);
         @rmdir($staging);
 
         return $folder;

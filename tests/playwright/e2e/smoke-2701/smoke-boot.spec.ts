@@ -17,6 +17,13 @@ test.describe('Smoke boot', () => {
     await expect(page).not.toHaveTitle(/error/i);
   });
 
+  test('halaman login Layanan Mandiri render tanpa add-on Anjungan', async ({ page }) => {
+    // Regresi: view login memakai kelas/rute Anjungan tanpa guard -> 500 pada instalasi
+    // murni-OSS (tak ada folder Modules/Anjungan). Lolos smoke lain karena tak memuat halaman ini.
+    const response = await page.goto('/layanan-mandiri/masuk');
+    expect(response?.status()).toBeLessThan(400);
+  });
+
   test('login admin sukses dan tersambung ke sesi CI3 isAdmin', async ({ page }) => {
     await page.goto('/index.php/siteman');
     await page.getByPlaceholder('Nama pengguna').fill(process.env.PLAYWRIGHT_AUTH_USERNAME || 'admin');
