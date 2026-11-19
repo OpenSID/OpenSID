@@ -270,6 +270,7 @@
                             <p>Update versi PHP supaya minimal {{ minPhpVersion }} dan maksimal {{ maxPhpVersion }}.</p>
                         </div>
                     @endif
+                    @include('admin.setting.info_sistem.ioncube')
                     @if (!$ekstensi['lengkap'] || !$disable_functions['lengkap'])
                         <div class="alert alert-danger" role="alert">
                             <p>Ada beberapa ekstensi dan fungsi PHP wajib yang tidak tersedia di sistem anda.

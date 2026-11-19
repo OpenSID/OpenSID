@@ -30,8 +30,6 @@
 /*.log.php            export-ignore
 /.php-cs-fixer.php    export-ignore
 /.prettierrc.json     export-ignore
-/make_obfuscate.php   export-ignore
-/umum_obfuscate.php   export-ignore
 /package-lock.json    export-ignore
 /package.json         export-ignore
 /phpunit.xml          export-ignore
