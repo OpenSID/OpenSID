@@ -60,11 +60,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Umum butuh PHP 8.2 -- composer.json ^8.1, rusak di PHP 8.4/ICU.
-      - name: Setup PHP 8.2
+      # Umum 2701+ mensyaratkan PHP 8.4 (composer.json ^8.4; dukungan keamanan PHP 8.2 berakhir 2026-12-31).
+      - name: Setup PHP 8.4
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.4'
           extensions: pdo_mysql, gd, zip, intl, mbstring, bcmath, curl, soap
           coverage: none
 
