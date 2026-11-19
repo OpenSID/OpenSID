@@ -28,19 +28,23 @@ class CsvFileLoader extends FileLoader
     {
         $messages = [];
 
-        if (!$file = @fopen($resource, 'r')) {
-            throw new NotFoundResourceException(\sprintf('Error opening file "%s".', $resource));
+        try {
+            $file = new \SplFileObject($resource, 'rb');
+        } catch (\RuntimeException $e) {
+            throw new NotFoundResourceException(\sprintf('Error opening file "%s".', $resource), 0, $e);
         }
 
-        try {
-            while (false !== $data = fgetcsv($file, null, $this->delimiter, $this->enclosure, $this->escape)) {
-                // empty lines are read as [null]
-                if (isset($data[1]) && 2 === \count($data) && !str_starts_with($data[0], '#')) {
-                    $messages[$data[0]] = $data[1];
-                }
+        $file->setFlags(\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY);
+        $file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
+
+        foreach ($file as $data) {
+            if (false === $data) {
+                continue;
             }
-        } finally {
-            fclose($file);
+
+            if (!str_starts_with($data[0], '#') && isset($data[1]) && 2 === \count($data)) {
+                $messages[$data[0]] = $data[1];
+            }
         }
 
         return $messages;

@@ -50,7 +50,7 @@ class AcceptHeaderItem
     public function __toString(): string
     {
         $string = $this->value.($this->quality < 1 ? ';q='.$this->quality : '');
-        if ($this->attributes) {
+        if (\count($this->attributes) > 0) {
             $string .= '; '.HeaderUtils::toString($this->attributes, ';');
         }
 

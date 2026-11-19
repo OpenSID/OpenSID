@@ -40,8 +40,8 @@ class TeamDriveCapabilities extends \Google\Model
    */
   public $canChangeDomainUsersOnlyRestriction;
   /**
-   * Output only. Whether the current user can change organizer-applied download
-   * restrictions of this shared drive.
+   * Whether the current user can change organizer-applied download restrictions
+   * of this shared drive.
    *
    * @var bool
    */
@@ -216,8 +216,8 @@ class TeamDriveCapabilities extends \Google\Model
     return $this->canChangeDomainUsersOnlyRestriction;
   }
   /**
-   * Output only. Whether the current user can change organizer-applied download
-   * restrictions of this shared drive.
+   * Whether the current user can change organizer-applied download restrictions
+   * of this shared drive.
    *
    * @param bool $canChangeDownloadRestriction
    */

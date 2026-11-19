@@ -17,16 +17,16 @@ class DomainFilteringAdapter implements EmbedAdapterInterface
 {
     private EmbedAdapterInterface $decorated;
 
-    /** @var string[] */
-    private array $allowedDomains;
+    /** @psalm-var non-empty-string */
+    private string $regex;
 
     /**
      * @param string[] $allowedDomains
      */
     public function __construct(EmbedAdapterInterface $decorated, array $allowedDomains)
     {
-        $this->decorated      = $decorated;
-        $this->allowedDomains = \array_map('strtolower', $allowedDomains);
+        $this->decorated = $decorated;
+        $this->regex     = self::createRegex($allowedDomains);
     }
 
     /**
@@ -34,29 +34,20 @@ class DomainFilteringAdapter implements EmbedAdapterInterface
      */
     public function updateEmbeds(array $embeds): void
     {
-        $this->decorated->updateEmbeds(\array_values(\array_filter($embeds, [$this, 'isAllowed'])));
+        $this->decorated->updateEmbeds(\array_values(\array_filter($embeds, function (Embed $embed): bool {
+            return \preg_match($this->regex, $embed->getUrl()) === 1;
+        })));
     }
 
-    private function isAllowed(Embed $embed): bool
+    /**
+     * @param string[] $allowedDomains
+     *
+     * @psalm-return non-empty-string
+     */
+    private static function createRegex(array $allowedDomains): string
     {
-        $url    = $embed->getUrl();
-        $scheme = \parse_url($url, \PHP_URL_SCHEME);
-        if ($scheme === null || $scheme === false) {
-            // Bare domain (no scheme) - assume https:// so parse_url can extract the host
-            $url = 'https://' . $url;
-        } elseif (\strtolower($scheme) !== 'http' && \strtolower($scheme) !== 'https') {
-            return false;
-        }
+        $allowedDomains = \array_map('preg_quote', $allowedDomains);
 
-        $host = \parse_url($url, \PHP_URL_HOST);
-        $host = \strtolower(\rtrim((string) $host, '.'));
-
-        foreach ($this->allowedDomains as $domain) {
-            if ($host === $domain || \str_ends_with($host, '.' . $domain)) {
-                return true;
-            }
-        }
-
-        return false;
+        return '/^(?:https?:\/\/)?(?:[^.]+\.)*(' . \implode('|', $allowedDomains) . ')/';
     }
 }

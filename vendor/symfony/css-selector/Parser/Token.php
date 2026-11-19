@@ -31,20 +31,18 @@ class Token
     public const TYPE_NUMBER = 'number';
     public const TYPE_STRING = 'string';
 
-    /**
-     * @param self::TYPE_*|null $type
-     */
-    public function __construct(
-        private ?string $type,
-        private ?string $value,
-        private ?int $position,
-    ) {
+    private ?string $type;
+    private ?string $value;
+    private ?int $position;
+
+    public function __construct(?string $type, ?string $value, ?int $position)
+    {
+        $this->type = $type;
+        $this->value = $value;
+        $this->position = $position;
     }
 
-    /**
-     * @return self::TYPE_*|null
-     */
-    public function getType(): ?string
+    public function getType(): ?int
     {
         return $this->type;
     }
@@ -74,7 +72,7 @@ class Token
             return true;
         }
 
-        return \in_array($this->value, $values, true);
+        return \in_array($this->value, $values);
     }
 
     public function isWhitespace(): bool

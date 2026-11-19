@@ -11,10 +11,9 @@
 
 namespace Monolog\Handler;
 
-use MongoDB\Client;
-use MongoDB\Collection;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Manager;
+use MongoDB\Client;
 use Monolog\Level;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\MongoDBFormatter;
@@ -35,7 +34,7 @@ use Monolog\LogRecord;
  */
 class MongoDBHandler extends AbstractProcessingHandler
 {
-    private Collection $collection;
+    private \MongoDB\Collection $collection;
 
     private Client|Manager $manager;
 
@@ -51,7 +50,7 @@ class MongoDBHandler extends AbstractProcessingHandler
     public function __construct(Client|Manager $mongodb, string $database, string $collection, int|string|Level $level = Level::Debug, bool $bubble = true)
     {
         if ($mongodb instanceof Client) {
-            $this->collection = method_exists($mongodb, 'getCollection') ? $mongodb->getCollection($database, $collection) : $mongodb->selectCollection($database, $collection);
+            $this->collection = $mongodb->selectCollection($database, $collection);
         } else {
             $this->manager = $mongodb;
             $this->namespace = $database . '.' . $collection;

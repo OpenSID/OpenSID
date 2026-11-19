@@ -34,7 +34,6 @@ class GenericNumberConverter implements NumberConverterInterface
      */
     public function fromHex(string $hex): string
     {
-        /** @var non-empty-string $hex */
         return $this->calculator->fromBase($hex, 16)->toString();
     }
 

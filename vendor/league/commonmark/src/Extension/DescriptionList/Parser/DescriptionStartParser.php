@@ -29,7 +29,7 @@ final class DescriptionStartParser implements BlockStartParserInterface
         }
 
         $cursor->advanceToNextNonSpaceOrTab();
-        if ($cursor->matchInPlace('/\G:[ \t]+/') === null) {
+        if ($cursor->match('/^:[ \t]+/') === null) {
             return BlockStart::none();
         }
 

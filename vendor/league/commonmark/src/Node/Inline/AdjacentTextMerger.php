@@ -89,13 +89,17 @@ final class AdjacentTextMerger
             return;
         }
 
+        $s = $first->getLiteral();
+
         $node = $first->next();
         $stop = $last->next();
         while ($node !== $stop && $node instanceof Text) {
-            $first->append($node->getLiteral());
+            $s     .= $node->getLiteral();
             $unlink = $node;
             $node   = $node->next();
             $unlink->detach();
         }
+
+        $first->setLiteral($s);
     }
 }

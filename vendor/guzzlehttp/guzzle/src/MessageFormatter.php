@@ -72,7 +72,8 @@ class MessageFormatter implements MessageFormatterInterface
     {
         $cache = [];
 
-        $result = \preg_replace_callback(
+        /** @var string */
+        return \preg_replace_callback(
             '/{\s*([A-Za-z_\-\.0-9]+)\s*}/',
             function (array $matches) use ($request, $response, $error, &$cache) {
                 if (isset($cache[$matches[1]])) {
@@ -89,7 +90,7 @@ class MessageFormatter implements MessageFormatterInterface
                         break;
                     case 'req_headers':
                         $result = \trim($request->getMethod()
-                                .' '.$request->getRequestTarget(), " \n\r\t\0\x0B")
+                                .' '.$request->getRequestTarget())
                             .' HTTP/'.$request->getProtocolVersion()."\r\n"
                             .$this->headers($request);
                         break;
@@ -181,12 +182,6 @@ class MessageFormatter implements MessageFormatterInterface
             },
             $this->template
         );
-
-        if ($result === null) {
-            throw new \RuntimeException('Unable to format message: '.\preg_last_error_msg());
-        }
-
-        return $result;
     }
 
     /**
@@ -199,6 +194,6 @@ class MessageFormatter implements MessageFormatterInterface
             $result .= $name.': '.\implode(', ', $values)."\r\n";
         }
 
-        return \trim($result, " \n\r\t\0\x0B");
+        return \trim($result);
     }
 }

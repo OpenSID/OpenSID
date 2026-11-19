@@ -84,7 +84,7 @@ final class Color
         foreach ($this->options as $option) {
             $setCodes[] = $option['set'];
         }
-        if (!$setCodes) {
+        if (0 === \count($setCodes)) {
             return '';
         }
 
@@ -103,7 +103,7 @@ final class Color
         foreach ($this->options as $option) {
             $unsetCodes[] = $option['unset'];
         }
-        if (!$unsetCodes) {
+        if (0 === \count($unsetCodes)) {
             return '';
         }
 

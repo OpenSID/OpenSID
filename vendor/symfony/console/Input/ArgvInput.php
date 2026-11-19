@@ -130,8 +130,9 @@ class ArgvInput extends Input
                 $this->addLongOption($option->getName(), $i === $len - 1 ? null : substr($name, $i + 1));
 
                 break;
+            } else {
+                $this->addLongOption($option->getName(), null);
             }
-            $this->addLongOption($option->getName(), null);
         }
     }
 
@@ -180,7 +181,7 @@ class ArgvInput extends Input
                 unset($all[$key]);
             }
 
-            if ($all) {
+            if (\count($all)) {
                 if ($symfonyCommandName) {
                     $message = \sprintf('Too many arguments to "%s" command, expected arguments "%s".', $symfonyCommandName, implode('" "', array_keys($all)));
                 } else {
@@ -237,7 +238,7 @@ class ArgvInput extends Input
             throw new RuntimeException(\sprintf('The "--%s" option does not accept a value.', $name));
         }
 
-        if (\in_array($value, ['', null], true) && $option->acceptValue() && $this->parsed) {
+        if (\in_array($value, ['', null], true) && $option->acceptValue() && \count($this->parsed)) {
             // if option accepts an optional or mandatory argument
             // let's see if there is one provided
             $next = array_shift($this->parsed);
@@ -324,7 +325,7 @@ class ArgvInput extends Input
         $values = (array) $values;
         $tokens = $this->tokens;
 
-        while ($tokens) {
+        while (0 < \count($tokens)) {
             $token = array_shift($tokens);
             if ($onlyParams && '--' === $token) {
                 return $default;

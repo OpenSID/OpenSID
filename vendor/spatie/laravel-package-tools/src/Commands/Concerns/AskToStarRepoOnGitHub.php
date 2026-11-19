@@ -6,12 +6,9 @@ trait AskToStarRepoOnGitHub
 {
     protected ?string $starRepo = null;
 
-    protected bool $defaultStarAnswer = true;
-
-    public function askToStarRepoOnGitHub($vendorSlashRepoName, bool $defaultAnswer = false): self
+    public function askToStarRepoOnGitHub($vendorSlashRepoName): self
     {
         $this->starRepo = $vendorSlashRepoName;
-        $this->defaultStarAnswer = $defaultAnswer;
 
         return $this;
     }
@@ -19,7 +16,7 @@ trait AskToStarRepoOnGitHub
     protected function processStarRepo(): self
     {
         if ($this->starRepo) {
-            if ($this->confirm('Would you like to star our repo on GitHub?', $this->defaultStarAnswer)) {
+            if ($this->confirm('Would you like to star our repo on GitHub?')) {
                 $repoUrl = "https://github.com/{$this->starRepo}";
 
                 if (PHP_OS_FAMILY == 'Darwin') {

@@ -117,10 +117,7 @@ final class Coroutine implements PromiseInterface
 
     public function cancel(): void
     {
-        if (isset($this->currentPromise)) {
-            $this->currentPromise->cancel();
-        }
-
+        $this->currentPromise->cancel();
         $this->result->cancel();
     }
 

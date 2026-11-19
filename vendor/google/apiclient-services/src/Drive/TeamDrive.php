@@ -85,7 +85,10 @@ class TeamDrive extends \Google\Model
   public $themeId;
 
   /**
-   * The background image file for a Team Drive.
+   * An image file and cropping parameters from which a background image for
+   * this Team Drive is set. This is a write only field; it can only be set on
+   * `drive.teamdrives.update` requests that don't set `themeId`. When
+   * specified, all fields of the `backgroundImageFile` must be set.
    *
    * @param TeamDriveBackgroundImageFile $backgroundImageFile
    */

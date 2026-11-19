@@ -19,7 +19,6 @@ use Monolog\Level;
 use Elastica\Client;
 use Elastica\Exception\ExceptionInterface;
 use Monolog\LogRecord;
-use Monolog\Utils;
 
 /**
  * Elastic Search handler
@@ -90,7 +89,7 @@ class ElasticaHandler extends AbstractProcessingHandler
      */
     public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
-        if (Utils::unwrapFormatter($formatter) instanceof ElasticaFormatter) {
+        if ($formatter instanceof ElasticaFormatter) {
             return parent::setFormatter($formatter);
         }
 
