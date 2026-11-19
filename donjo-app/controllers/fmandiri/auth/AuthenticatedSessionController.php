@@ -131,13 +131,18 @@ class AuthenticatedSessionController extends Web_Controller
             }
 
             // Login menggunakan NIK atau E-KTP dan password
-            $this->authenticate([
+            $respons = $this->authenticate([
                 'query' => fn ($q) => $q->when(
                     $this->caseQueryExist($request),
                     static fn ($q) => $q->status(0),
                     static fn ($q) => $q->status(1)
                 ),
             ]);
+
+            // Rate limit / validasi gagal: hentikan, jangan lanjut seolah login berhasil
+            if ($respons !== null) {
+                return $respons;
+            }
 
             if (Hash::needsRehash(Auth::guard($this->guard)->user()->getAuthPassword())) {
                 Auth::guard($this->guard)->user()->forceFill([
@@ -177,6 +182,43 @@ class AuthenticatedSessionController extends Web_Controller
         ]);
 
         return redirect($redirect);
+    }
+
+    /**
+     * Endpoint untuk memvalidasi anjungan_uuid dari client-side via AJAX.
+     * Jika valid, buat session dan kirim response json.
+     * (Disalin dari Premium v2603; dipakai halaman login modul Anjungan.)
+     */
+    public function cekAnjunganAjax()
+    {
+        // Ambil UUID dari request POST
+        $uuid = $this->input->post('anjungan_uuid') ?? null;
+
+        if ($uuid && ! preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $uuid)) {
+            $uuid = null;
+        }
+
+        $is_anjungan = false;
+        if ($uuid) {
+            // Cek ke database apakah UUID ini valid dan tipenya adalah ANJUNGAN
+            $anjungan = Anjungan::where('uuid', $uuid)
+                ->whereJsonContains('tipe', Anjungan::ANJUNGAN)
+                ->first();
+
+            if ($anjungan && $anjungan->status) {
+                $this->session->set_userdata('anjungan_uuid', $uuid);
+                $is_anjungan = true;
+            }
+        }
+
+        // Matikan view agar tidak ada output HTML, dan kirim header JSON
+        $this->output
+            ->set_status_header(200)
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode(['is_anjungan' => $is_anjungan]))
+            ->_display();
+
+        exit;
     }
 
     protected function authenticateEktp(Request $request)
