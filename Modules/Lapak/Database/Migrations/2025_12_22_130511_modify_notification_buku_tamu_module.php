@@ -46,7 +46,11 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        // Buku Tamu
+        // Buku Tamu — modul BukuTamu tak ada di Umum (guard ditambahkan pipeline rilis Umum).
+        if (! class_exists(TamuModel::class)) {
+            return;
+        }
+
         TamuModel::baru()->get()->each(function (TamuModel $tamu) {
             $this->getUserAccessNotifications(modul: 'data-tamu')->each(function (User $user) use ($tamu) {
                 $this->notifyIfNotExists(

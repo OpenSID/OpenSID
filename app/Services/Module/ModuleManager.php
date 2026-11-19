@@ -490,6 +490,8 @@ class ModuleManager
 
         try {
             $this->extractPackage($name, $zipPath);
+            // Add-on terenkripsi IonCube: tolak bila Loader tak terpasang (tugas T18).
+            PemeriksaIonCube::pastikanLoaderUntukModul($name, $modulDir);
             // Prasyarat klien langganan dicek setelah ekstrak (manifest terbaca)
             // namun sebelum migrasi — gagal di sini membuang ekstrak tanpa efek DB.
             $this->pastikanPrasyaratKlien($name);

@@ -634,6 +634,12 @@ trait Migrator
         Log::info("Migrasi Module {$name}");
 
         $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
+
+        // Add-on terenkripsi IonCube tanpa Loader: jangan jalankan migrasi (tugas T18).
+        if ($action === 'up' && ! \App\Services\Module\PemeriksaIonCube::loaderTersedia()
+            && \App\Services\Module\PemeriksaIonCube::modulTerenkripsi("{$modulesDirectory}/{$name}", true)) {
+            throw new \RuntimeException(\App\Services\Module\PemeriksaIonCube::pesanLoaderHilang($name));
+        }
         $dirOld           = "{$modulesDirectory}/{$name}/Database/Migrations";
         $dirNew           = "{$modulesDirectory}/{$name}/database/migrations";
 

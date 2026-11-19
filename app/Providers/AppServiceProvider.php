@@ -55,6 +55,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Lewati add-on terenkripsi IonCube bila Loader tak terpasang + blokir autoload-nya (tugas T18).
+        \App\Services\Module\PemeriksaIonCube::lewatiModulTanpaLoader(glob($this->app->basePath('Modules') . '/*', GLOB_ONLYDIR) ?: []);
+
         // ── Seam registry (null-object) — diisi add-on saat ServiceProvider::boot().
         // Tanpa add-on: nilai default aman (false/null/[]/no-op). Lihat
         // dokumentasi/ARSITEKTUR_SOLUSI.md §3.
@@ -353,6 +356,10 @@ class AppServiceProvider extends ServiceProvider
 
         foreach ($modules as $modulePath) {
             $moduleName = basename((string) $modulePath);
+
+            if (\App\Services\Module\PemeriksaIonCube::dilewati($moduleName)) {
+                continue;
+            }
 
             $providerClassNew = "Modules\\{$moduleName}\\App\\Providers\\{$moduleName}ServiceProvider";
             $providerClassOld = "Modules\\{$moduleName}\\Providers\\{$moduleName}ServiceProvider";
