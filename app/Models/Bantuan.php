@@ -599,6 +599,8 @@ class Bantuan extends BaseModel
                 break;
         }
         $query->where('p.program_id', $slug);
+        $query->orderByRaw("CASE WHEN p.no_id_kartu REGEXP '^[0-9]+$' THEN CAST(p.no_id_kartu AS UNSIGNED) ELSE 999999999 END")
+            ->orderBy('p.no_id_kartu');
 
         return $query->get() ?? [];
     }

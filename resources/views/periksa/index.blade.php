@@ -684,6 +684,76 @@
                             </div>
                             @endif
 
+                            @if (in_array('penduduk_tanpa_log_penduduk', $masalah))
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <strong>Terdeteksi penduduk berstatus hidup tanpa log penduduk</strong>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <th>NIK</th>
+                                                <th>Nama</th>
+                                                <th>Alamat</th>
+                                            </tr>
+                                            @foreach ($penduduk_tanpa_log_penduduk as $penduduk)
+                                            <tr>
+                                                <td>{{ $penduduk['nik'] }}</td>
+                                                <td>{{ $penduduk['nama'] }}</td>
+                                                <td>{{ $penduduk['alamat_sekarang'] }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                    <p>Penduduk ini berstatus hidup tapi tidak memiliki riwayat peristiwa di log
+                                        penduduk (biasanya karena data diperbaiki langsung lewat database), sehingga
+                                        tidak pernah ikut terhitung di Buku Rekapitulasi Penduduk meski sudah tampil
+                                        di jumlah penduduk dashboard. Klik tombol Perbaiki Data untuk menambahkan
+                                        log penduduk (baru pindah masuk) bagi penduduk tersebut. <br><a href="#"
+                                            data-href="{{ ci_route('periksa.perbaikiSebagian', 'penduduk_tanpa_log_penduduk') }}"
+                                            class="btn btn-sm btn-social btn-danger" role="button"
+                                            title="Perbaiki masalah data" data-toggle="modal"
+                                            data-target="#confirm-backup"
+                                            data-body="Apakah sudah melakukan backup database/folder desa?"><i
+                                                class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
+                                </div>
+                            </div>
+                            @endif
+
+                            @if (in_array('penduduk_tanpa_log_masuk', $masalah))
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <strong>Terdeteksi penduduk punya log keluar tanpa log masuk</strong>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <tr>
+                                                <th>NIK</th>
+                                                <th>Nama</th>
+                                                <th>Alamat</th>
+                                            </tr>
+                                            @foreach ($penduduk_tanpa_log_masuk as $penduduk)
+                                            <tr>
+                                                <td>{{ $penduduk['nik'] }}</td>
+                                                <td>{{ $penduduk['nama'] }}</td>
+                                                <td>{{ $penduduk['alamat_sekarang'] }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                    <p>Penduduk ini punya riwayat peristiwa keluar (mati/pindah/hilang) tapi tidak
+                                        punya satu pun riwayat peristiwa masuk (lahir/pindah masuk), sehingga
+                                        dikurangi dari saldo Buku Rekapitulasi Penduduk tanpa pernah ditambahkan.
+                                        Klik tombol Perbaiki Data untuk menambahkan log penduduk (baru pindah masuk)
+                                        bagi penduduk tersebut. <br><a href="#"
+                                            data-href="{{ ci_route('periksa.perbaikiSebagian', 'penduduk_tanpa_log_masuk') }}"
+                                            class="btn btn-sm btn-social btn-danger" role="button"
+                                            title="Perbaiki masalah data" data-toggle="modal"
+                                            data-target="#confirm-backup"
+                                            data-body="Apakah sudah melakukan backup database/folder desa?"><i
+                                                class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
+                                </div>
+                            </div>
+                            @endif
+
                             @if (in_array('log_keluarga_bermasalah', $masalah))
                             <div class="panel panel-default">
                                 <div class="panel-body">

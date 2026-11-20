@@ -190,6 +190,17 @@ class TinyMCE
     public const TAG_TTE      = '#';
 
     /**
+     * Penanda "Tambah Halaman Baru" dari editor: <div class="new-break"> yang membungkus
+     * <!-- pagebreak --> (lihat resources/views/admin/pengaturan_surat/asset_tinymce.blade.php).
+     * generateMultiPage() memakainya untuk memecah template jadi beberapa halaman, dan
+     * ValidatorTemplateSurat::cekPagebreakMarker() mengecualikannya dari larangan marker
+     * manual (issue #11924). Satu pola dipakai berdua supaya validator & mesin cetak tidak
+     * pernah beda pendapat -- non-greedy + flag /s agar div bermultibaris dan template
+     * banyak halaman tetap terpecah dengan benar.
+     */
+    public const POLA_PENANDA_HALAMAN_BARU = '/<div\s+class="new-break"[^>]*>.*?<!-- pagebreak -->.*?<\/div>/is';
+
+    /**
      * @var PdfMerge
      */
     public $pdfMerge;
@@ -878,9 +889,8 @@ class TinyMCE
         if (empty($templateString)) {
             return [];
         }
-        $pattern = '/<div\s+class="new-break" style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
 
-        return preg_split($pattern, $templateString);
+        return preg_split(self::POLA_PENANDA_HALAMAN_BARU, $templateString);
     }
 
     public function cetak_surat($id)

@@ -371,14 +371,110 @@ CI_VERSION = '3.1.13'
 ENVIRONMENT = 'development|testing|production'
 BASEPATH = '/path/to/vendor/codeigniter/framework/system/'
 APPPATH = '/path/to/donjo-app/'
-FCPATH = '/path/to/project/root/'
+FCPATH = '/path/to/project/root/'      // root proyek — bukan document root
 VIEWPATH = '/path/to/donjo-app/views/'
-PUBLICPATH = '/path/to/public/'
+PUBLICPATH = '/path/to/project/root/public/'  // document root
+DESAPATH = '/path/to/project/root/desa/'      // absolut, lihat catatan
 FORCE_HTTPS = true|false
 
 // Laravel constants (sudah didefinisikan)
 LARAVEL_START
 ```
+
+#### Catatan: `FCPATH` vs `PUBLICPATH`
+
+Di CodeIgniter, `FCPATH` berarti "folder tempat `index.php` berada", yang pada
+CI standar sama dengan document root. Pada proyek ini `FCPATH` sengaja
+didefinisikan sebagai **root proyek** (`base_path()`), bukan document root.
+
+Selama `index.php` masih berada di root proyek, kedua makna itu kebetulan
+bernilai sama sehingga kode memakai `FCPATH` untuk keduanya secara campur
+aduk. Setelah `index.php` dipindah ke `public/`, keduanya menjadi berbeda:
+
+| Konstanta | Menunjuk ke | Dipakai untuk |
+|---|---|---|
+| `FCPATH` | root proyek | `vendor/`, `Modules/`, `storage/`, `app/`, `desa/` |
+| `PUBLICPATH` | `public/` | `assets/`, `favicon.ico`, `index.php`, `.htaccess` |
+
+Aturan sederhananya: **jika berkas perlu diambil browser lewat URL, pakai
+`PUBLICPATH`; selain itu pakai `FCPATH`.**
+
+#### Catatan: folder kerja PHP
+
+`public/index.php` menjalankan `chdir()` ke root proyek sebelum memuat
+autoloader. Ini diperlukan karena sebagian kode warisan CodeIgniter memakai
+konstanta path relatif (`LOKASI_*`, sebelumnya juga `DESAPATH`) langsung pada
+fungsi berkas tanpa ditambatkan ke `FCPATH` — tercatat 64 pemakaian di 40
+berkas, termasuk pemuatan `desa/config/database.php`.
+
+Selama `index.php` berada di root proyek, folder kerja PHP kebetulan selalu
+sama dengan root proyek sehingga path relatif itu ikut benar. `chdir()`
+mempertahankan perilaku tersebut.
+
+Ini lapisan kompatibilitas, bukan solusi akhir. Perbaikan yang benar adalah
+menambatkan setiap path relatif tersebut ke `FCPATH`, yang dapat dikerjakan
+bertahap tanpa mengubah struktur folder lagi. `DESAPATH` sudah dijadikan
+absolut sebagai langkah pertama.
+
+#### Catatan: penambatan path aset
+
+`chdir()` di atas menyelesaikan path relatif yang menunjuk `desa/`, `storage/`,
+dan `Modules/` — semuanya tetap berada di root proyek. Tetapi `assets/` **ikut
+pindah** ke `public/assets/`, sehingga path relatif yang menunjuk ke sana tetap
+meleset meskipun folder kerja sudah benar.
+
+Konstanta yang terdampak berada di `donjo-app/config/constants.php:175-196`:
+`LOKASI_FILES_LOGO`, `LOKASI_ASSET_IMAGES`, `LOKASI_ASSET_FRONT_IMAGES`,
+`LOKASI_SISIPAN_DOKUMEN`, `LOKASI_SIMBOL_LOKASI_DEF`, `PENDAPAT`,
+`LOKASI_ICON_MENU_ANJUNGAN_DEFAULT`, `DEFAULT_LATAR_*`, `GAMBAR_QRCODE`,
+`LOGO_GARUDA`, `LOGO_BSRE`, `STEMPEL`, `LAYANAN_LOGO`.
+
+Nilai konstanta **tetap relatif** karena juga dipakai sebagai path URL —
+`base_url(PENDAPAT . ...)` dan `asset('assets/...')` sudah benar tanpa
+penyesuaian, sebab `public/assets/` kini berada di dalam document root. Yang
+ditambatkan hanya **titik akses berkasnya**:
+
+| Lokasi | Penambatan |
+|---|---|
+| `default_file()` (`opensid_helper.php`) | path berawalan `assets/` diperiksa lewat `public_path()`; nilai kembalian tetap relatif |
+| `to_base64()` (`pict_helper.php`) | path berawalan `assets/` diselesaikan lewat `public_path()`. Menutup `STEMPEL`, `LAYANAN_LOGO`, `GAMBAR_QRCODE`, dan `home_noimage()` |
+| `KodeIsianGambar` | `FCPATH` → `PUBLICPATH` untuk `LOGO_GARUDA` dan `LOGO_BSRE` |
+| `GisSimbolSeeder` | sumber `public_path()`, tujuan `base_path()` |
+| `copyFavicon()` (`opensid_helper.php`) | sudah memakai `PUBLICPATH` sejak pemindahan |
+
+Pendekatan ini dipilih **alih-alih** membuat symlink `assets` → `public/assets`
+di root proyek. Symlink memang menutupi gejalanya, tetapi menyembunyikan
+persoalan sebenarnya dan menambah satu ketergantungan lingkungan yang tidak
+perlu. Menambatkan titik akses berkas membuat kode jujur soal mana yang publik
+dan mana yang tidak.
+
+Gejala bila salah satu titik di atas terlewat: stempel dan logo BSRE hilang
+dari surat, QR code tidak bermuatan logo, latar halaman login kembali ke
+bawaan, dan simbol GIS bawaan tidak tersalin saat instalasi.
+
+#### Catatan: symlink folder publik desa
+
+Symlink `public/desa/*` dan `public/storage` dideklarasikan di
+`config/filesystems.php` pada kunci `links`, lalu dibuat dengan perintah bawaan
+Laravel:
+
+```
+php artisan storage:link --relative
+```
+
+Titik pembuatannya ada di dua tempat, keduanya dipilih karena syaratnya
+terpenuhi persis di sana:
+
+1. `Install::migrations()` — tepat setelah `folder_desa()`, ketika folder
+   `desa/*` baru saja dibuat. Perlu `File::ensureDirectoryExists(public_path('desa'))`
+   lebih dulu, karena `storage:link` tidak membuat folder induk dan akan gagal
+   **diam-diam** sementara command tetap melaporkan berhasil.
+2. `AppServiceProvider::boot()` — penjaga idempoten untuk instalasi yang sudah
+   berjalan lalu diperbarui, yang tidak pernah melewati alur installer. Biaya
+   satu `is_link()` per request.
+
+Pemeriksaan pada wizard (`donjo-app/config/installer.php`) bersifat
+**read-only** `is_link()` — tidak membuat symlink sebagai efek samping.
 
 ### Global Objects yang Dibuat
 

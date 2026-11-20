@@ -130,7 +130,7 @@ class SendPermohonanSuratVerificationNotification
                     setting('notifikasi_pengajuan_surat')
                 );
                 $judul   = "Pengajuan Surat - {$event->messageData['[judul_surat]']}";
-                $payload = "/permohonan/surat/periksa/{$event->logSurat->id}/Periksa Surat";
+                $payload = "/permohonan/surat/periksa/{$event->logSurat->id}/" . rawurlencode('Periksa Surat');
 
                 $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
                 $notification = new \Fcm\Push\Notification();

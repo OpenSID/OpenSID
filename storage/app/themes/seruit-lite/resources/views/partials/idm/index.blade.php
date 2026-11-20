@@ -27,6 +27,10 @@
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        const setting = {
+            sebutan_kecamatan: @json(setting('sebutan_kecamatan')),
+            sebutan_desa: @json(setting('sebutan_desa')),
+        };
         const tahun = '{{ $tahun }}';
         const apiUrl = `{{ route('api.idm', $tahun) }}`;
         const container = document.getElementById('idm-container');

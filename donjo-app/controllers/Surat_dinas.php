@@ -39,6 +39,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusEnum;
+use App\Enums\StatusValidasiEnum;
 use App\Exports\SuratDinasExport;
 use App\Libraries\TinyMCE;
 use App\Models\AliasKodeIsian;
@@ -47,6 +48,8 @@ use App\Models\SettingAplikasi;
 use App\Models\SuratDinas;
 use App\Models\SyaratSurat;
 use App\Models\User;
+use App\Services\Surat\StatusValidasiTemplateSurat;
+use App\Services\Surat\ValidatorTemplateSurat;
 use App\Traits\Upload;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -157,14 +160,28 @@ class Surat_dinas extends Admin_Controller
                         }
                     }
 
+                    if ($row->jenis === SuratDinas::TINYMCE_DESA) {
+                        $aksi .= '<a href="javascript:void(0)" onclick="validasiTemplateSurat(\'' . ci_route('surat_dinas/validasi', $row->id) . '\', this)" class="btn bg-maroon btn-sm" title="Validasi Template"><i class="fa fa-check-square-o"></i></a> ';
+                    }
+
                     if (can('h') && ($row->jenis === SuratDinas::TINYMCE_DESA)) {
                         $aksi .= '<a href="#" data-href="' . ci_route("surat_dinas.delete.{$row->id}") . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
                 })
+                ->addColumn('status_validasi', static function ($row): string {
+                    if (in_array($row->jenis, SuratDinas::SISTEM)) {
+                        return '<span class="label label-success">Valid</span>';
+                    }
+
+                    $label = StatusValidasiEnum::label()[$row->status_validasi] ?? 'label-default';
+                    $nama  = StatusValidasiEnum::all()[$row->status_validasi] ?? 'Belum Divalidasi';
+
+                    return "<span class=\"label {$label}\">{$nama}</span>";
+                })
                 ->editColumn('lampiran', static fn ($row): string => kode_format($row->lampiran))
-                ->rawColumns(['ceklist', 'aksi', 'template_surat'])
+                ->rawColumns(['ceklist', 'aksi', 'status_validasi', 'template_surat'])
                 ->make();
         }
 
@@ -180,7 +197,6 @@ class Surat_dinas extends Admin_Controller
     public function form($id = null)
     {
         isCan('u');
-        $this->set_hak_akses_rfm();
 
         $data['action']     = $id ? 'Ubah' : 'Tambah';
         $data['formAction'] = $id ? ci_route('surat_dinas.update', $id) : ci_route('surat_dinas.insert');
@@ -376,6 +392,31 @@ class Surat_dinas extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
+    public function validasi($id = null)
+    {
+        isCan('u');
+
+        $surat = SuratDinas::findOrFail($id);
+
+        if (in_array($surat->jenis, SuratDinas::SISTEM)) {
+            return json(['success' => true, 'status' => SuratDinas::VALIDASI_VALID, 'temuan' => []]);
+        }
+
+        $hasil = ValidatorTemplateSurat::validasi($surat, true);
+
+        $surat->update([
+            'status_validasi' => $hasil['status'],
+            'pesan_validasi'  => json_encode($hasil['temuan'], JSON_THROW_ON_ERROR),
+            'divalidasi_pada' => now(),
+        ]);
+
+        return json([
+            'success' => $hasil['status'] === SuratDinas::VALIDASI_VALID,
+            'status'  => $hasil['status'],
+            'temuan'  => $hasil['temuan'],
+        ]);
+    }
+
     public function delete($id = null): void
     {
         isCan('h');
@@ -394,7 +435,6 @@ class Surat_dinas extends Admin_Controller
 
     public function pengaturan()
     {
-        $this->set_hak_akses_rfm();
         $data['font_option']     = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
         $data['penomoran_surat'] = SettingAplikasi::where('key', '=', 'penomoran_surat_dinas')->first();
         $data['tte_demo']        = empty(setting('tte_api')) || get_domain(setting('tte_api')) === get_domain(APP_URL);
@@ -583,7 +623,7 @@ class Surat_dinas extends Admin_Controller
 
         foreach ($invalid_tags as $invalid_tag) {
             if (str_contains((string) $template_desa, (string) $invalid_tag)) {
-                redirect_with('error', 'Template surat Tidak Valid', 'surat_master/form/' . $id);
+                redirect_with('error', 'Template surat Tidak Valid', 'surat_dinas/form/' . $id);
             }
         }
     }
@@ -615,7 +655,7 @@ class Surat_dinas extends Admin_Controller
             }
             $kodeIsian[] = [
                 'tipe'         => $request['tipe_kode'][$i],
-                'kode'         => form_kode_isian($request['nama_kode'][$i]),
+                'kode'         => ! empty($request['kode_kode'][$i]) ? $request['kode_kode'][$i] : form_kode_isian($request['nama_kode'][$i]),
                 'nama'         => $request['nama_kode'][$i],
                 'deskripsi'    => $request['deskripsi_kode'][$i],
                 'required'     => $request['required_kode'][$i] ?? '0',
@@ -676,7 +716,7 @@ class Surat_dinas extends Admin_Controller
                     $kategori_isian = [
                         'kategori'     => $kategori,
                         'tipe'         => $request['kategori_tipe_kode'][$kategori][$i],
-                        'kode'         => form_kode_isian($request['kategori_nama_kode'][$kategori][$i]),
+                        'kode'         => ! empty($request['kategori_kode_kode'][$kategori][$i]) ? $request['kategori_kode_kode'][$kategori][$i] : form_kode_isian($request['kategori_nama_kode'][$kategori][$i]),
                         'nama'         => $request['kategori_nama_kode'][$kategori][$i],
                         'deskripsi'    => $request['kategori_deskripsi_kode'][$kategori][$i],
                         'required'     => $request['kategori_required_kode'][$kategori][$i] ?? '0',
@@ -731,6 +771,14 @@ class Surat_dinas extends Admin_Controller
             'format_nomor'        => $request['format_nomor'],
             'format_nomor_global' => (int) $request['format_nomor_global'],
         ];
+
+        // #11920: Simpan pengaturan surat hanya mereset status validasi kalau bagian yang
+        // memengaruhi hasil render surat berubah; kalau tidak, hasil "Valid" dari tombol
+        // "Validasi Template" dipertahankan supaya tidak hilang begitu user klik "Simpan".
+        $data = array_merge($data, StatusValidasiTemplateSurat::untukSimpan(
+            null === $id ? null : SuratDinas::find($id),
+            $data
+        ));
 
         if (null === $id) {
             $data['url_surat'] = unique_slug('tweb_surat_format', "surat-{$data['nama']}", $id, 'url_surat', '-');

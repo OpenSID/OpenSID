@@ -188,6 +188,20 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     ];
 
     /**
+     * Nilai bawaan atribut.
+     *
+     * Kolom `id_telegram` NOT NULL tanpa default di skema, sedangkan koneksi
+     * database memakai mode strict. Default ini menjaga User::create() tetap
+     * bekerja tanpa harus menyebut kolom tersebut, sejalan dengan konvensi
+     * "0 berarti belum diisi" yang dipakai di seluruh aplikasi.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'id_telegram' => '0',
+    ];
+
+    /**
      * The accessors to append to the model's array form.
      *
      * @var array<int, string>
@@ -204,6 +218,13 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     protected $hidden = [
         'password',
         'remember_token',
+        // Rahasia autentikasi & pemulihan akun: tidak boleh pernah ikut
+        // terserialisasi ke array/JSON di manapun (defense-in-depth untuk
+        // endpoint publik yang meng-eager-load relasi author, lihat #7020).
+        'token',
+        'token_exp',
+        'session',
+        'otp_identifier',
     ];
 
     /**
@@ -255,6 +276,15 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     protected static function boot()
     {
         parent::boot();
+
+        // Kolom `session` NOT NULL tanpa default di skema dan koneksi memakai mode
+        // strict, sementara nilainya hanya dibuat sekali saat user dibuat. Diisi di
+        // sini agar berlaku untuk semua jalur pembuatan user, bukan hanya CI3.
+        static::creating(static function ($model): void {
+            if (empty($model->session)) {
+                $model->session = md5((string) now());
+            }
+        });
 
         static::updating(static function ($model): void {
             static::deleteFile($model, 'foto');
@@ -350,7 +380,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      */
     public function scopeSuperAdmin(mixed $query)
     {
-        return $query->where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->first();
+        return $query->where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR));
     }
 
     /**

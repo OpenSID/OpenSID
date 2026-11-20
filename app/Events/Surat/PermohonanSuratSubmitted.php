@@ -38,6 +38,7 @@
 namespace App\Events\Surat;
 
 use App\Models\FormatSurat;
+use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
 use App\Models\PermohonanSurat;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -53,7 +54,7 @@ class PermohonanSuratSubmitted
      */
     public function __construct(
         public PermohonanSurat $permohonan,
-        public PendudukMandiri $penduduk,
+        public PendudukMandiri|Penduduk $penduduk,
         public FormatSurat $surat
     ) {
     }

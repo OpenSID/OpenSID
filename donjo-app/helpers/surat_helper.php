@@ -176,10 +176,11 @@ if (! function_exists('kotak')) {
     function kotak($data_kolom, $max_kolom = 26): string
     {
         $view = '';
+        $data_kolom = (string) ($data_kolom ?? '');
 
         for ($i = 0; $i < $max_kolom; $i++) {
             $view .= '<td class="kotak padat tengah">';
-            if (isset($data_kolom[$i])) {
+            if (isset($data_kolom[$i]) && $data_kolom[$i] !== '') {
                 $view .= strtoupper($data_kolom[$i]);
             } else {
                 $view .= '&nbsp;';
@@ -204,7 +205,7 @@ if (! function_exists('checklist')) {
     {
         $view = '<td class="kotak padat tengah">';
         if ($kondisi_1 == $kondisi_2) {
-            $view .= '<img src="' . base_path('assets/images/check.png') . '" height="10" width="10"/>';
+            $view .= '<img src="' . public_path('assets/images/check.png') . '" height="10" width="10"/>';
         }
 
         return $view . '</td>';

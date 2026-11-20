@@ -49,6 +49,13 @@ class DataProcessor
 
     protected string $indexColumn;
 
+    /**
+     * Callback to run against each row before it gets converted to array.
+     *
+     * @var callable|null
+     */
+    protected $processCallback = null;
+
     public function __construct(protected iterable $results, array $columnDef, protected array $templates, protected int $start = 0)
     {
         $this->appendColumns = $columnDef['append'] ?? [];
@@ -65,6 +72,18 @@ class DataProcessor
     }
 
     /**
+     * Set the callback to run against each row before it gets converted to array.
+     *
+     * @return $this
+     */
+    public function processWith(callable $callback): static
+    {
+        $this->processCallback = $callback;
+
+        return $this;
+    }
+
+    /**
      * Process data to output on browser.
      *
      * @param  bool  $object
@@ -74,6 +93,10 @@ class DataProcessor
         $this->output = [];
 
         foreach ($this->results as $row) {
+            if ($this->processCallback) {
+                call_user_func($this->processCallback, $row);
+            }
+
             $data = Helper::convertToArray($row, ['hidden' => $this->makeHidden, 'visible' => $this->makeVisible, 'ignore_getters' => $this->ignoreGetters]);
             $value = $this->addColumns($data, $row);
             $value = $this->editColumns($value, $row);

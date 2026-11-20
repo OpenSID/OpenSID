@@ -40,6 +40,7 @@ use App\Models\MediaSosial;
 use App\Models\Theme;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Uri;
 
 if (! function_exists('theme')) {
     /**
@@ -133,10 +134,25 @@ if (! function_exists('theme_asset')) {
      */
     function theme_asset(string $uri, $config = [])
     {
-        $params      = array_merge(['file' => $uri, 'v' => VERSION], $config);
-        $queryString = http_build_query($params);
+        $theme = theme_active();
 
-        return url('theme_asset/' . theme_active()->slug . '?' . $queryString);
+        // Beberapa tema menyisipkan query string di URI (mis. js/script.min.js?v26.5);
+        // pisahkan agar path aset bisa dicek keberadaannya di public/.
+        [$path, $query] = array_pad(explode('?', $uri, 2), 2, '');
+
+        $config = array_merge(['v' => VERSION], $config);
+
+        if (! is_file(public_path("themes/{$theme->slug}/{$path}"))) {
+            $params = array_merge(['file' => $path], $config);
+
+            return url("theme_asset/{$theme->slug}?" . http_build_query($params)) . ($query !== '' ? "&{$query}" : '');
+        }
+
+        // Aset ter-publish disajikan langsung dari public/. Segmen index.php
+        // (front controller) dibuang agar berkas tidak melewati PHP.
+        $url = Str::remove('/index.php', Uri::to("themes/{$theme->slug}/{$path}")->withQuery($config)->toString());
+
+        return $query !== '' ? "{$url}&{$query}" : $url;
     }
 }
 
@@ -316,11 +332,25 @@ if (! function_exists('module_asset')) {
      */
     function module_asset($name, $path, $config = [])
     {
-        $name        = strtolower($name);
-        $params      = array_merge(['file' => $path, 'v' => VERSION], $config);
-        $queryString = http_build_query($params);
+        $name = strtolower($name);
 
-        return url("module_asset/{$name}?{$queryString}");
+        // Beberapa modul menyisipkan query string di path (mis. js/script.min.js?v26.5);
+        // pisahkan agar path aset bisa dicek keberadaannya di public/.
+        [$path, $query] = array_pad(explode('?', $path, 2), 2, '');
+
+        $config = array_merge(['v' => VERSION], $config);
+
+        if (! is_file(public_path("modules/{$name}/{$path}"))) {
+            $params = array_merge(['file' => $path], $config);
+
+            return url("module_asset/{$name}?" . http_build_query($params)) . ($query !== '' ? "&{$query}" : '');
+        }
+
+        // Aset ter-publish disajikan langsung dari public/. Segmen index.php
+        // (front controller) dibuang agar berkas tidak melewati PHP.
+        $url = Str::remove('/index.php', Uri::to("modules/{$name}/{$path}")->withQuery($config)->toString());
+
+        return $query !== '' ? "{$url}&{$query}" : $url;
     }
 }
 

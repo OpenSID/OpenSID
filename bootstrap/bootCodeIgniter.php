@@ -217,10 +217,29 @@ $view_folder = '';
  * ---------------------------------------------------------------
  */
 
-// Set the current directory correctly for CLI requests
-if (defined('STDIN')) {
-    chdir(base_path().DIRECTORY_SEPARATOR);
-}
+/*
+ * Samakan folder kerja PHP dengan FCPATH — hanya untuk konteks CodeIgniter.
+ *
+ * CodeIgniter mengasumsikan folder kerja PHP selalu sama dengan FCPATH. Pada CI
+ * standar asumsi itu terpenuhi dengan sendirinya karena index.php berada di
+ * document root; baris ini semula hanya menyamakannya untuk permintaan CLI.
+ *
+ * Di proyek ini FCPATH adalah root proyek, sedangkan index.php sudah pindah ke
+ * public/ — sehingga pada permintaan web folder kerja menjadi public/ dan asumsi
+ * tersebut tidak lagi terpenuhi. Akibatnya konstanta path relatif warisan CI
+ * (LOKASI_CONFIG_DESA, LOKASI_UPLOAD, LOKASI_FOTO_ARTIKEL, dsb. — 63 pemakaian
+ * di 30 berkas) meleset, termasuk pemuatan desa/config/database.php yang membuat
+ * aplikasi gagal terhubung ke database.
+ *
+ * Diletakkan di sini, bukan di public/index.php, agar cakupannya terbatas pada
+ * proses boot CodeIgniter. Request yang ditangani sepenuhnya oleh Laravel tidak
+ * pernah memuat berkas ini, sehingga folder kerjanya tidak tersentuh.
+ *
+ * Ini lapisan kompatibilitas, bukan solusi akhir. Perbaikan yang benar adalah
+ * menambatkan ke-63 path tersebut ke FCPATH satu per satu, yang dapat dikerjakan
+ * bertahap tanpa mengubah struktur folder lagi.
+ */
+chdir(base_path().DIRECTORY_SEPARATOR);
 
 if (($_temp = realpath($system_path)) !== false) {
     $system_path = $_temp.DIRECTORY_SEPARATOR;

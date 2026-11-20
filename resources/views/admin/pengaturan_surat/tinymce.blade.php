@@ -1,4 +1,5 @@
 @include('admin.pengaturan_surat.asset_tinymce')
+@php filemanager_authorize('pengaturan-surat'); @endphp
 
 <div class="tab-pane" id="template-surat">
 
@@ -6,7 +7,7 @@
 
     <div class="box-body">
         <div class="form-group">
-            <textarea name="template_desa" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $suratMaster->template_desa ?? $suratMaster->template }}</textarea>
+            <textarea name="template_desa" data-filemanager='<?= json_encode(['external_filemanager_path' => filemanager_base_url(), 'filemanager_title' => 'File Manager']) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $suratMaster->template_desa ?? $suratMaster->template }}</textarea>
         </div>
     </div>
 </div>

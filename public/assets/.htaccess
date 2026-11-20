@@ -1,0 +1,50 @@
+# --- OpenSID: tolak eksekusi skrip non-PHP (premium#7008) ---
+<FilesMatch "(?i)\.(pl|py|jsp|asp|aspx|cgi|sh|bash|htm|shtml|xhtml)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# --- OpenSID: tolak eksekusi skrip di folder ini (premium#7008) ---
+<FilesMatch "(?i)\.(php[0-9]*|phtml|phtm|phps|phpt|phar|pht|pgif|phpjpeg|inc|hphp|ctp|module)\.?$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule "(?i)\.(php[0-9]*|phtml|phtm|phps|phpt|phar|pht|pgif|phpjpeg|inc|hphp|ctp|module)\.?$" - [F,L]
+</IfModule>
+
+<IfModule mod_mime.c>
+    RemoveHandler .php .php3 .php4 .php5 .php7 .php8 .phtml .phtm .phar .pht .phps .phpt .cgi .pl .py
+    RemoveType .php .php3 .php4 .php5 .php7 .php8 .phtml .phtm .phar .pht .phps .phpt .cgi .pl .py
+</IfModule>
+
+<FilesMatch "(?i)\.(php[0-9]*|phtml|phtm|phps|phpt|phar|pht)\.?$">
+    SetHandler None
+</FilesMatch>
+
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php5.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
+
+Options -ExecCGI -Indexes

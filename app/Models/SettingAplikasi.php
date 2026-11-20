@@ -49,19 +49,19 @@ use Spatie\Activitylog\Traits\LogsActivity;
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
- * @property int $id
- * @property int $config_id
- * @property string|null $judul
- * @property string|null $key
- * @property string|null $value
- * @property int|null $urut
- * @property string|null $keterangan
- * @property string|null $jenis
- * @property array<array-key, mixed>|null $option
- * @property string|null $attribute
- * @property string|null $kategori
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Activity> $activities
- * @property-read int|null $activities_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Activity> $activities
+ * @property int|null                                                            $activities_count
+ * @property string|null                                                         $attribute
+ * @property int                                                                 $config_id
+ * @property int                                                                 $id
+ * @property string|null                                                         $jenis
+ * @property string|null                                                         $judul
+ * @property string|null                                                         $kategori
+ * @property string|null                                                         $keterangan
+ * @property string|null                                                         $key
+ * @property array<array-key, mixed>|null                                        $option
+ * @property int|null                                                            $urut
+ * @property string|null                                                         $value
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi query()
@@ -129,6 +129,7 @@ class SettingAplikasi extends BaseModel
         'email_smtp_port',
         'google_recaptcha_site_key',
         'google_recaptcha_secret_key',
+        'sso_callback_secret',
     ];
 
     /**
@@ -204,8 +205,11 @@ class SettingAplikasi extends BaseModel
             if ($model->key == 'latar_kehadiran') {
                 $lokasi = LATAR_LOGIN;
             }
-            if (file_exists($lokasi)) {
-                unlink($lokasi . setting($model->key));
+            if ($lokasi && ($currentVal = setting($model->key))) {
+                $targetFile = $lokasi . $currentVal;
+                if (is_file($targetFile)) {
+                    unlink($targetFile);
+                }
             }
         }
     }
@@ -271,21 +275,74 @@ class SettingAplikasi extends BaseModel
 
     public function getOptionAttribute()
     {
-        if ($this->attributes['key'] == 'apbdes_tahun') {
-            return Keuangan::tahunAnggaran()->pluck('tahun', 'tahun')->toArray();
+        return json_decode((string) ($this->attributes['option'] ?? ''), true);
+    }
+
+    public function toComponentData(): array
+    {
+        $attrData = [];
+        $rawAttribute = $this->attribute;
+
+        $isJson = false;
+        if (is_string($rawAttribute) && !empty($rawAttribute)) {
+            $decoded = json_decode($rawAttribute, true);
+            if (is_array($decoded)) {
+                $attrData = $decoded;
+                $isJson = true;
+            } else {
+                if (preg_match('/class=["\']([^"\']+)["\']/', $rawAttribute, $matches)) {
+                    $attrData['class'] = $matches[1];
+                }
+                if (str_contains($rawAttribute, 'readonly')) {
+                    $attrData['readonly'] = 'readonly';
+                }
+                if (str_contains($rawAttribute, 'disabled')) {
+                    $attrData['disabled'] = 'disabled';
+                }
+            }
         }
 
-        if ($this->attributes['jenis'] == 'option' && $this->attributes['key'] == 'tampilan_anjungan_slider') {
-            return Galeri::whereParrent(Galeri::PARRENT)->whereEnabled(StatusEnum::YA)->pluck('nama', 'id');
-        }
-        if ($this->attributes['jenis'] == 'boolean') {
-            return [
-                1 => 'Ya',
-                0 => 'Tidak',
-            ];
-        }
+        $originalAttrData = $attrData;
 
-        return json_decode((string) $this->attributes['option'], true);
+        $class = $attrData['class'] ?? '';
+        unset($attrData['class']);
+
+        $requiredIf = $attrData['required_if'] ?? null;
+        unset($attrData['required_if']);
+
+        $readonly = !empty($attrData['readonly']) || (! $isJson && is_string($rawAttribute) && str_contains($rawAttribute, 'readonly')) ? 'readonly' : '';
+        $disabled = !empty($attrData['disabled']) || (! $isJson && is_string($rawAttribute) && str_contains($rawAttribute, 'disabled')) ? 'disabled' : '';
+        unset($attrData['readonly'], $attrData['disabled']);
+
+        // Filter atribut internal / konfigurasi komponen agar tidak bocor ke markup HTML
+        unset($attrData['multiple'], $attrData['where']);
+
+        $scalarAttrs = array_filter(
+            $attrData,
+            static fn ($v) => !is_array($v) && !is_object($v) && !is_bool($v)
+        );
+
+        $htmlAttributes = implode(
+            ' ',
+            array_map(
+                static fn ($k, $v) => $k . '="' . htmlspecialchars((string) $v, ENT_QUOTES, 'UTF-8') . '"',
+                array_keys($scalarAttrs),
+                $scalarAttrs,
+            ),
+        );
+
+        return [
+            'type'        => $this->jenis ?: 'input-text',
+            'key'         => $this->key,
+            'default'     => $this->value,
+            'class'       => $class,
+            'readonly'    => $readonly,
+            'disabled'    => $disabled,
+            'attributes'  => $htmlAttributes,
+            'option'      => $this->option,
+            'required_if' => $requiredIf,
+            'raw_attr'    => $originalAttrData,
+        ];
     }
 
     public function getValueAttribute()
@@ -293,7 +350,9 @@ class SettingAplikasi extends BaseModel
         $jenis = $this->attributes['jenis'] ?? '';
         $value = $this->attributes['value'] ?? null;
 
-        if ($jenis == 'select-simbol') {
+        $isSimbol = $jenis === 'select-simbol';
+
+        if ($isSimbol) {
             return default_file(LOKASI_SIMBOL_LOKASI . $value);
         }
 

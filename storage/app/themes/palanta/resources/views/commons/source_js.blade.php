@@ -21,8 +21,6 @@
 <script>
     var BASE_URL = '{{ base_url() }}';
     var SITE_URL = '{{ ci_route("") }}';
-    var setting  = @json(setting());
-    var config   = @json(identitas());
     $.extend($.fn.dataTable.defaults, {
         lengthMenu: [
             [10, 25, 50, 100, -1],

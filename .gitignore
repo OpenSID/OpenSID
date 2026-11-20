@@ -12,13 +12,19 @@
 # Abaikan folder desa
 desa/*
 
+# Symlink yang dibuat installer / storage:link, bukan berkas sumber
+/public/desa
+/public/storage
+
 # Abaikan file
 *.log
 log-*.php
 **/.DS_Store
 sftp-config.json
 .php-cs-fixer.cache
-/.htaccess
+# /.htaccess root DILACAK Git: forwarder ke public/ agar instalasi lama yang
+# memperbarui lewat `git pull` tetap hidup tanpa aksi manual (premium#7083).
+# public/.htaccess juga DILACAK Git mengikuti pola Laravel standar.
 *.sql
 *.sql.gz
 # Berkas SQL untuk database tes Playwright wajib ikut ter-commit
@@ -98,13 +104,17 @@ php.ini
 # Keep Sail Docker build assets tracked (required for Codespaces image builds)
 !bin/docker/8.4/php.ini
 
-# Ignore all symlink folder
-/assets/modules/*
-/assets/themes/*
+# Aset tema aktif yang dipublikasikan (opensid:publish-tema)
+/public/themes/*
+
+# Aset modul yang dipublikasikan saat modul dipasang/diperbarui
+/public/modules/*
+
+# Aset vendor yang dipublikasikan
+/public/vendor/*
 
 # Ignore all files in Modules
 Modules/*
-/assets/modules/*
 
 # Do not ignore default module folder and its contents
 !Modules/Anjungan/

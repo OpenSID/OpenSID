@@ -1,0 +1,92 @@
+{
+    "name": "rubix/tensor",
+    "type": "library",
+    "description": "A library and extension that provides objects for scientific computing in PHP.",
+    "homepage": "https://github.com/RubixML/Tensor",
+    "license": "MIT",
+    "keywords": [
+        "1d convolution", "2d convolution", "arithmetic", "blas", "computation", "computing",
+        "convolution", "decomposition", "dot product", "engineering", "extension", "eigendecomposition",
+        "eigenvalue", "eigenvector", "lapack", "linear algebra", "math", "matmul", "matrix",
+        "matrix multiplication", "multithreaded", "vector norm", "php", "php extension", "pseudoinverse",
+        "scientific computing", "signal processing", "singular value decomposition", "svd", "statistics",
+        "tensor", "vector", "trigonometry"
+    ],
+    "authors": [
+        { 
+            "name": "Andrew DalPino",
+            "role": "Project Lead",
+            "homepage": "https://github.com/andrewdalpino",
+            "email": "support@andrewdalpino.com"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/RubixML/Tensor/graphs/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phalcon/zephir": "^0.17",
+        "phpbench/phpbench": "^1.0",
+        "phpstan/extension-installer": "^1.0",
+        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tensor\\": "src/",
+            "Zephir\\Optimizers\\FunctionCall\\": "optimizers/"
+        },
+        "files": [
+            "src/constants.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tensor\\Tests\\": "tests/",
+            "Tensor\\Benchmarks\\": "benchmarks/"
+        }
+    },
+    "scripts": {
+        "build": [
+            "@composer validate",
+            "@composer install",
+            "@analyze",
+            "@test",
+            "@check"
+        ],
+        "analyze": "phpstan analyse -c phpstan.neon",
+        "benchmark": "phpbench run --report=env --report=aggregate",
+        "check": [
+            "@putenv PHP_CS_FIXER_IGNORE_ENV=1",
+            "php-cs-fixer fix --config=.php-cs-fixer.dist.php -v --dry-run --using-cache=no"
+        ],
+        "clean": "zephir fullclean",
+        "compile": [
+            "zephir generate",
+            "@php build-ext",
+            "zephir compile --no-dev",
+            "zephir install"
+        ],
+        "fix": "php-cs-fixer fix --config=.php-cs-fixer.dist.php",
+        "test": "phpunit"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "process-timeout": 3000,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "support": {
+        "issues": "https://github.com/RubixML/Tensor/issues",
+        "source": "https://github.com/RubixML/Tensor",
+        "chat": "https://t.me/RubixML",
+        "email": "support@andrewdalpino.com"
+    }
+}

@@ -49,18 +49,24 @@ class UrlAnalyzer extends AbstractAnalyzer
  
     /**
      * Domain resmi yang diizinkan — tidak akan ditandai spam
-     * meski ada URL di dalamnya
+     * meski ada URL di dalamnya.
+     *
+     * Single source of truth untuk whitelist legit domain.
+     * Dijaga sinkron dengan SpamPreprocessorTransformer::LEGIT_DOMAINS
+     * @see \App\Services\SpamDetection\ML\Transformers\SpamPreprocessorTransformer::LEGIT_DOMAINS
      */
-    private const ALLOWED_DOMAINS = [
-        // Pemerintah Indonesia
+    public const ALLOWED_DOMAINS = [
+        // Pemerintah Indonesia (+ desa)
         '.go.id', '.mil.id', '.ac.id', '.sch.id',
-        // Platform media sosial
+        '.desa.id', '.or.id',
+        // Platform media sosial & umum
         'youtube.com', 'youtu.be',
         'google.com', 'maps.google.com',
         'facebook.com', 'instagram.com',
         'whatsapp.com',
         // OpenSID sendiri
-        'opendesa.id', 'github.com/OpenSID',
+        'opendesa.id', 'berdesa.id', 'opensid.my.id',
+        'github.com', 'github.com/OpenSID',
     ];
  
     public function type(): string

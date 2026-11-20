@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusValidasiEnum;
 use App\Scopes\RemoveRtfScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
@@ -76,6 +77,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @property string|null $format_nomor
  * @property int|null $format_nomor_global
  * @property int|null $sumber_penduduk_berulang
+ * @property int $status_validasi
+ * @property string|null $pesan_validasi
+ * @property \Illuminate\Support\Carbon|null $divalidasi_pada
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property int|null $created_by
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -134,6 +138,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @method static Builder<static>|FormatSurat whereUpdatedBy($value)
  * @method static Builder<static>|FormatSurat whereUrlSurat($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FormatSurat withoutConfigId($configId = '')
+ * @method static Builder<static>|FormatSurat siapCetak()
  * @mixin \Eloquent
  */
 class FormatSurat extends BaseModel
@@ -149,6 +154,9 @@ class FormatSurat extends BaseModel
     public const FAVORIT_DISABLE       = 0;
     public const TINYMCE_SISTEM        = 3;
     public const TINYMCE_DESA          = 4;
+    public const VALIDASI_BELUM        = StatusValidasiEnum::BELUM_DIVALIDASI;
+    public const VALIDASI_VALID        = StatusValidasiEnum::VALID;
+    public const VALIDASI_TIDAK_VALID  = StatusValidasiEnum::TIDAK_VALID;
     public const RTF                   = [1, 2];
     public const TINYMCE               = [3, 4];
     public const SISTEM                = [3];
@@ -274,6 +282,9 @@ class FormatSurat extends BaseModel
         'format_nomor',
         'format_nomor_global',
         'sumber_penduduk_berulang',
+        'status_validasi',
+        'pesan_validasi',
+        'divalidasi_pada',
         'created_by',
         'updated_by',
     ];
@@ -301,8 +312,10 @@ class FormatSurat extends BaseModel
         'qr_code'      => 'boolean',
         'qr_code_tte'  => 'boolean',
         'logo_garuda'  => 'boolean',
-        'header'       => 'integer',
-        'jenis'        => 'integer',
+        'header'          => 'integer',
+        'jenis'           => 'integer',
+        'status_validasi' => 'integer',
+        'divalidasi_pada' => 'datetime',
         // 'syarat_surat' => 'json',
         // 'kode_isian'   => 'json',
         // 'margin'       => 'json',
@@ -386,7 +399,7 @@ class FormatSurat extends BaseModel
     public function getListSyaratSuratAttribute()
     {
         return $this->syaratSurat->map(
-            static fn ($syarat): array => [
+            static fn (SyaratSurat $syarat): array => [
                 'label'      => $syarat->ref_syarat_nama,
                 'value'      => $syarat->ref_syarat_id,
                 'form_surat' => [
@@ -396,14 +409,14 @@ class FormatSurat extends BaseModel
                         'label'    => 'Dokumen Syarat',
                         'name'     => 'dokumen',
                         'multiple' => false,
-                        'values'   => $syarat->dokumen->map(static fn ($dokumen): array => [
+                        'values'   => $syarat->dokumen->map(static fn (Dokumen $dokumen): array => [
                             'label' => $dokumen->nama,
                             'value' => $dokumen->id,
                         ]),
                     ],
                 ],
             ]
-        );
+        )->all();
     }
 
     /**
@@ -535,7 +548,33 @@ class FormatSurat extends BaseModel
      */
     public function scopeCetak($query, $url = null)
     {
-        return $this->scopeKunci($query, self::KUNCI_DISABLE)->where('url_surat', $url);
+        return $this->scopeSiapCetak($this->scopeKunci($query, self::KUNCI_DISABLE))->where('url_surat', $url);
+    }
+
+    /**
+     * Scope query untuk surat yang boleh dipakai mencetak surat sungguhan.
+     *
+     * Surat bawaan sistem (TINYMCE_SISTEM) selalu boleh. Template kustom desa
+     * (TINYMCE_DESA) hanya boleh setelah lolos validasi (status_validasi = VALID),
+     * supaya template yang belum/tidak valid tidak bisa dipakai mencetak surat
+     * untuk warga -- lihat App\Services\Surat\ValidatorTemplateSurat.
+     *
+     * @return Builder
+     */
+    public function scopeSiapCetak(mixed $query)
+    {
+        return $query->where(static function ($query): void {
+            $query->whereIn('jenis', self::SISTEM)
+                ->orWhere('status_validasi', self::VALIDASI_VALID);
+        });
+    }
+
+    /**
+     * Apakah template kustom ini sudah lolos validasi (atau surat bawaan sistem).
+     */
+    public function siapDicetak(): bool
+    {
+        return $this->isBawaan() || $this->status_validasi == self::VALIDASI_VALID;
     }
 
     /**

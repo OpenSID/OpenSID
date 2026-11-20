@@ -944,7 +944,7 @@ class Rtm extends Admin_Controller
                 $this->session->program_bantuan = $program_id;
 
                 // TODO: Sederhanakan query ini, pindahkan ke model
-                $nama = Bantuan::find($program_id)->nama;
+                $nama = Bantuan::find($program_id)?->nama ?? '-';
 
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif

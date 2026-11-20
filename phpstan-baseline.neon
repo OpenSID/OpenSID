@@ -28,7 +28,7 @@ parameters:
 			message: '#^Variable \$data on left side of \?\?\= is never defined\.$#'
 			identifier: nullCoalesce.variable
 			count: 2
-			path: app/Actions/GrupAkses/DefaultGrupAkses.php
+			path: app/Traits/Migrator.php
 
 		-
 			message: '#^Trait App\\Bootstrap\\RequestAwareTrait is used zero times and is not analysed\.$#'
@@ -64,12 +64,6 @@ parameters:
 			message: '#^Parameter \#1 \$expression of method Illuminate\\Database\\Query\\Builder\:\:selectRaw\(\) expects literal\-string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
-			path: app/Console/Commands/ModuleCommand.php
-
-		-
-			message: '#^Variable \$data on left side of \?\?\= is never defined\.$#'
-			identifier: nullCoalesce.variable
-			count: 2
 			path: app/Console/Commands/ModuleCommand.php
 
 		-
@@ -559,12 +553,6 @@ parameters:
 			path: app/Libraries/Periksa.php
 
 		-
-			message: '#^Variable \$data on left side of \?\?\= is never defined\.$#'
-			identifier: nullCoalesce.variable
-			count: 2
-			path: app/Libraries/Periksa.php
-
-		-
 			message: '#^Comparison operation "\>" between int\<13, max\> and 12 is always true\.$#'
 			identifier: greater.alwaysTrue
 			count: 2
@@ -745,19 +733,7 @@ parameters:
 			path: app/Libraries/SpreadsheetExcelReader.php
 
 		-
-			message: '#^Parameter \#1 \$data of function App\\Libraries\\GetInt4d expects array, string given\.$#'
-			identifier: argument.type
-			count: 12
-			path: app/Libraries/SpreadsheetExcelReader.php
-
-		-
 			message: '#^Parameter \#1 \$hour of function mktime expects int, float given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Libraries/SpreadsheetExcelReader.php
-
-		-
-			message: '#^Parameter \#1 \$string of function substr expects string, array given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Libraries/SpreadsheetExcelReader.php
@@ -1385,12 +1361,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Listeners/Pesan/SendPesanMasukNotification.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukMandiri\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Listeners/Surat/SendPermohonanSuratNotification.php
 
 		-
 			message: '#^Cannot access property \$id on array\|object\.$#'
@@ -2141,18 +2111,6 @@ parameters:
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/FcmTokenMandiri.php
-
-		-
-			message: '#^Anonymous function should return array\{label\: string, value\: int, form_surat\: array\{array\{type\: ''select'', required\: true, label\: ''Dokumen Syarat'', name\: ''dokumen'', multiple\: false, values\: Illuminate\\Support\\Collection\<int, array\{label\: mixed, value\: mixed\}\>\}\}\} but returns array\{label\: string, value\: int, form_surat\: array\{array\{type\: ''select'', required\: true, label\: ''Dokumen Syarat'', name\: ''dokumen'', multiple\: false, values\: Illuminate\\Support\\Collection\<int, array\{label\: mixed, value\: mixed\}\>\}\}\}\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Models/FormatSurat.php
-
-		-
-			message: '#^Method App\\Models\\FormatSurat\:\:getListSyaratSuratAttribute\(\) should return array but returns Illuminate\\Support\\Collection\<int, array\<string, mixed\>\>\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Models/FormatSurat.php
 
 		-
 			message: '#^PHPDoc tag @return with type string is incompatible with native type array\.$#'
@@ -3931,18 +3889,6 @@ parameters:
 			path: app/Models/SuplemenTerdata.php
 
 		-
-			message: '#^Anonymous function should return array\{label\: string, value\: int, form_surat\: array\{array\{type\: ''select'', required\: true, label\: ''Dokumen Syarat'', name\: ''dokumen'', multiple\: false, values\: Illuminate\\Support\\Collection\<int, array\{label\: mixed, value\: mixed\}\>\}\}\} but returns array\{label\: string, value\: int, form_surat\: array\{array\{type\: ''select'', required\: true, label\: ''Dokumen Syarat'', name\: ''dokumen'', multiple\: false, values\: Illuminate\\Support\\Collection\<int, array\{label\: mixed, value\: mixed\}\>\}\}\}\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Models/SuratDinas.php
-
-		-
-			message: '#^Method App\\Models\\SuratDinas\:\:getListSyaratSuratAttribute\(\) should return array but returns Illuminate\\Support\\Collection\<int, array\<string, mixed\>\>\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Models/SuratDinas.php
-
-		-
 			message: '#^PHPDoc tag @return with type string is incompatible with native type array\.$#'
 			identifier: return.phpDocType
 			count: 1
@@ -4840,3 +4786,5 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Services/OtpService.php
+
+

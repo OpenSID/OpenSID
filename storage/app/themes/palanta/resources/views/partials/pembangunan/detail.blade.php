@@ -47,6 +47,18 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function() {
+        var setting = {
+            default_zoom: @json(setting('default_zoom')),
+            icon_pembangunan_peta: @json(setting('icon_pembangunan_peta')),
+            max_zoom_peta: @json(setting('max_zoom_peta')),
+            min_zoom_peta: @json(setting('min_zoom_peta')),
+            mapbox_key: @json(setting('mapbox_key')),
+            jenis_peta: @json(setting('jenis_peta')),
+        };
+        var config = {
+            lat: @json(identitas('lat')),
+            lng: @json(identitas('lng')),
+        };
         var slug = '{{ $slug }}';
         var link = SITE_URL + 'pembangunan/{{ $slug }}';
         var notFound = '{{ asset("images/404-image-not-found.jpg") }}';

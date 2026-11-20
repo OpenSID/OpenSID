@@ -166,7 +166,7 @@ class Job extends CI_Controller
             // Saat opsi "Pertahankan kredensial lokal" aktif, ekstraksi tidak menimpa
             // config/database.php, app_key, dan .env lokal — untuk restore folder desa
             // dari instalasi berbeda.
-            (new RestoreFolderDesa())->restore($restore->path, FCPATH . DESAPATH, (bool) $restore->paksa_restore);
+            (new RestoreFolderDesa())->restore($restore->path, DESAPATH, (bool) $restore->paksa_restore);
             $restore->update(['status' => 1]);
         } catch (Exception $e) {
             $restore->update(['status' => -1]); // restore gagal

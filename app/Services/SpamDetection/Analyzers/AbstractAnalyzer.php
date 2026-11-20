@@ -43,24 +43,6 @@ use App\Services\SpamDetection\DTOs\AnalyzerResult;
 abstract class AbstractAnalyzer implements ContentAnalyzerInterface
 {
     /**
-     * Normalisasi teks sebelum dianalisis:
-     * - Ubah ke lowercase
-     * - Ganti karakter visual mirip huruf (l33tspeak bypass)
-     */
-    protected function normalize(string $content): string
-    {
-        $content = mb_strtolower($content, 'UTF-8');
-
-        $replacements = [
-            '0' => 'o', '1' => 'i', '3' => 'e',
-            '4' => 'a', '5' => 's', '7' => 't',
-            '@' => 'a', '$' => 's',
-        ];
-
-        return strtr($content, $replacements);
-    }
-
-    /**
      * Buat AnalyzerResult dengan skor yang sudah di-cap sesuai maxScore()
      *
      * @param array<string, mixed> $metadata

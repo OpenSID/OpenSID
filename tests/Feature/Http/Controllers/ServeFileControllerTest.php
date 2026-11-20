@@ -281,6 +281,76 @@ final class ServeFileControllerTest extends BaseTestCase
         ]))->assertStatus(200);
     }
 
+    // —— fallback publik desa/{path} (tanpa signed, saat symlink tidak ada) ——
+
+    #[Test]
+    public function fallbackDesaUploadMelayaniFileDenganCachePublic(): void
+    {
+        Storage::disk('desa')->put('upload/foto.jpg', 'isi-foto');
+
+        $response = $this->get('desa/upload/foto.jpg');
+
+        $response->assertStatus(200);
+        $this->assertStringContainsString('public', $response->headers->get('Cache-Control', ''));
+        $this->assertStringContainsString('max-age=31536000', $response->headers->get('Cache-Control', ''));
+        $this->assertStringContainsString("default-src 'none'", $response->headers->get('Content-Security-Policy', ''));
+    }
+
+    #[Test]
+    public function fallbackDesaLogoMelayaniFile(): void
+    {
+        Storage::disk('desa')->put('logo/desa.png', 'isi-logo');
+
+        $this->get('desa/logo/desa.png')->assertStatus(200);
+    }
+
+    #[Test]
+    public function fallbackDesaPengaturanMelayaniFile(): void
+    {
+        Storage::disk('desa')->put('pengaturan/qrcode.png', 'isi-qr');
+
+        $this->get('desa/pengaturan/qrcode.png')->assertStatus(200);
+    }
+
+    #[Test]
+    public function fallbackDesaAnjunganMelayaniFile(): void
+    {
+        Storage::disk('desa')->put('anjungan/banner.jpg', 'isi-banner');
+
+        $this->get('desa/anjungan/banner.jpg')->assertStatus(200);
+    }
+
+    #[Test]
+    public function fallbackMenolakFolderTidakDiizinkan(): void
+    {
+        $this->get('desa/config/database.php')->assertStatus(404);
+        $this->get('desa/arsip/surat.pdf')->assertStatus(404);
+        $this->get('desa/widgets/widget.json')->assertStatus(404);
+    }
+
+    #[Test]
+    public function fallbackMenolakEkstensiPhpDanDotEnv(): void
+    {
+        Storage::disk('desa')->put('upload/skrip.php', '<?php evil();');
+        Storage::disk('desa')->put('upload/.env', 'APP_KEY=secret');
+
+        $this->get('desa/upload/skrip.php')->assertStatus(404);
+        $this->get('desa/upload/.env')->assertStatus(404);
+    }
+
+    #[Test]
+    public function fallbackTraversalDitolak(): void
+    {
+        $this->get('desa/upload/../app_key')->assertStatus(404);
+        $this->get('desa/logo/../../config/database.php')->assertStatus(404);
+    }
+
+    #[Test]
+    public function fallbackFileTidakAda404(): void
+    {
+        $this->get('desa/upload/tidak-ada.jpg')->assertStatus(404);
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

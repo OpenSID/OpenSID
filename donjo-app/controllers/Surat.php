@@ -55,6 +55,7 @@ use App\Models\PermohonanSurat;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\Urls;
+use App\Services\Surat\NamaSuratArsipService;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
@@ -90,6 +91,7 @@ class Surat extends Admin_Controller
 
             $query = FormatSurat::withCount('logSurat')
                 ->kunci(FormatSurat::KUNCI_DISABLE)
+                ->siapCetak()
                 ->orderBy('favorit', 'desc')
                 ->latest('updated_at');
 
@@ -129,6 +131,7 @@ class Surat extends Admin_Controller
                     $query->orWhere('nama', 'like', "%{$cari}%");
                 })->whereIn('jenis', FormatSurat::TINYMCE)
                 ->kunci(FormatSurat::KUNCI_DISABLE)
+                ->siapCetak()
                 ->latest('updated_at')
                 ->orderBy('favorit', 'desc')
                 ->paginate(10);
@@ -223,7 +226,6 @@ class Surat extends Admin_Controller
     public function pratinjau($url, $id = null)
     {
         $this->withInput();
-        $this->set_hak_akses_rfm();
 
         if ($id) {
             // Ganti status menjadi 'Menunggu Tandatangan'
@@ -887,12 +889,7 @@ class Surat extends Admin_Controller
 
     private function nama_surat_arsip(string $url, ?string $nik, $nomor): string
     {
-        $nomor_surat = str_replace("'", '', $nomor);
-        $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
-
-        $nik = $nik ?: 'TANPA_NIK';
-
-        return $url . '_' . $nik . '_' . date('Y-m-d') . '_' . $nomor_surat . '.pdf';
+        return NamaSuratArsipService::buat($url, $nomor, $nik, true);
     }
 
     // Data yang digunakan surat jenis rtf dan tinymce
@@ -1013,7 +1010,7 @@ class Surat extends Admin_Controller
                 ->addRecipient($allToken)
                 ->setTitle($judul)
                 ->setBody($kirimFCM)
-                ->addData('payload', '/permohonan/surat/periksa/' . $id . '/Periksa Surat');
+                ->addData('payload', '/permohonan/surat/periksa/' . $id . '/' . rawurlencode('Periksa Surat'));
             $client->send($notification);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

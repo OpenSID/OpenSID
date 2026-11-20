@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
  *
  * Versi OpenSID
  */
-define('VERSION', '2708.0.0');
+define('VERSION', '2709.0.0');
 
 /**
  * VERSI_DATABASE
@@ -27,7 +27,7 @@ define('VERSION', '2708.0.0');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2026080171');
+define('VERSI_DATABASE', '2026091371');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -133,15 +133,16 @@ if (! function_exists('favico_desa')) {
      */
     function favico_desa($favico = 'favicon.ico'): string
     {
+        // Tiga lokasi dengan tambatan berbeda: desa/logo tetap di root proyek,
+        // sedangkan assets/ dan favicon.ico ikut pindah ke public/ bersama
+        // index.php. Kunci array tetap path relatif karena dipakai sebagai URL.
         $lokasi = [
-            LOKASI_LOGO_DESA . $favico,
-            LOKASI_FILES_LOGO . $favico,
-            $favico,
+            LOKASI_LOGO_DESA . $favico  => base_path(LOKASI_LOGO_DESA . $favico),
+            LOKASI_FILES_LOGO . $favico => public_path(LOKASI_FILES_LOGO . $favico),
+            $favico                     => public_path($favico),
         ];
 
-        foreach ($lokasi as $path) {
-            $full = base_path($path);
-
+        foreach ($lokasi as $path => $full) {
             if (is_file($full)) {
                 return preg_replace('#/index\.php(?=/|$)#i', '', url($path)) . '?v=' . md5_file($full);
             }
@@ -164,7 +165,7 @@ if (! function_exists('gambar_desa')) {
     function gambar_desa(?string $nama_file = null, $type = false, $file = false): string
     {
         $filePath = base_path(str_replace('/', DIRECTORY_SEPARATOR, LOKASI_LOGO_DESA . $nama_file));
-        
+
         if (is_file($filePath)) {
             $relatif = LOKASI_LOGO_DESA . $nama_file;
 
@@ -623,7 +624,16 @@ if (! function_exists('default_file')) {
     {
         $new_file = trim((string) $new_file);
         $isSafe   = $new_file !== '' && ! str_contains($new_file, '..');
-        $path     = ($isSafe && is_file(base_path($new_file))) ? $new_file : null;
+
+        // Berkas aset berada di public/assets sejak index.php pindah ke public/,
+        // sedangkan desa/ dan storage/ tetap di root proyek. Nilai yang
+        // dikembalikan tetap path relatif agar pemakaian sebagai URL tidak
+        // berubah — yang ditambatkan hanya pemeriksaan keberadaan berkasnya.
+        $absolut = str_starts_with(strtolower($new_file), 'assets/')
+            ? public_path($new_file)
+            : base_path($new_file);
+
+        $path = ($isSafe && is_file($absolut)) ? $new_file : null;
 
         if ($path === null) {
             $default = trim((string) $default);

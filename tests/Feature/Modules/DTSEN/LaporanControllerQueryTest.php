@@ -73,6 +73,31 @@ class LaporanControllerQueryTest extends BaseTestCase
             $query->having('dtsen.kd_peringkat_kesejahteraan_keluarga', '=', $filters['kd_peringkat_kesejahteraan_keluarga']);
         }
 
+        $dusun = $filters['dusun'] ?? null;
+        $rw    = $filters['rw'] ?? null;
+        $rt    = $filters['rt'] ?? null;
+
+        if ($rt) {
+            $wilayahObj = Wilayah::find($rt);
+            $dusun      = $wilayahObj?->dusun ?? $dusun;
+            $rw         = $wilayahObj?->rw ?? $rw;
+            $rt         = $wilayahObj?->rt ?? $rt;
+        } elseif ($rw && is_string($rw) && str_contains($rw, '__')) {
+            [$dusunFromRw, $rwOnly] = explode('__', $rw, 2);
+            $dusun = $dusunFromRw ?: $dusun;
+            $rw    = $rwOnly;
+        }
+
+        if (! empty($dusun)) {
+            $query->where('wil_kk.dusun', $dusun);
+        }
+        if (! empty($rw)) {
+            $query->where('wil_kk.rw', $rw);
+        }
+        if (! empty($rt)) {
+            $query->where('wil_kk.rt', $rt);
+        }
+
         return $query;
     }
 
@@ -431,5 +456,46 @@ class LaporanControllerQueryTest extends BaseTestCase
 
         // Test ini hanya memastikan logika deteksi berjalan tanpa error
         $this->assertIsBool($adaPerbedaan);
+    }
+
+    // =========================================================================
+    // 8. Filter Wilayah (Dusun, RW, RT)
+    // =========================================================================
+
+    #[Test]
+    public function filter_wilayah_dusun_hanya_mengembalikan_data_sesuai_dusun(): void
+    {
+        $firstRow = $this->queryDatatables()->whereNotNull('wil_kk.dusun')->first();
+
+        if ($firstRow === null) {
+            $this->markTestSkipped('Tidak ada data dtsen dengan dusun di database.');
+        }
+
+        $dusun  = $firstRow->dusun_kk;
+        $result = $this->queryDatatables(['dusun' => $dusun])->get();
+
+        $this->assertNotEmpty($result);
+        foreach ($result as $row) {
+            $this->assertEquals($dusun, $row->dusun_kk);
+        }
+    }
+
+    #[Test]
+    public function filter_wilayah_rw_dengan_format_dusun_rw_berhasil_diuraikan(): void
+    {
+        $firstRow = $this->queryDatatables()->whereNotNull('wil_kk.dusun')->whereNotNull('wil_kk.rw')->first();
+
+        if ($firstRow === null) {
+            $this->markTestSkipped('Tidak ada data dtsen dengan dusun dan rw di database.');
+        }
+
+        $rwMentah = $firstRow->dusun_kk . '__' . $firstRow->rw_kk;
+        $result   = $this->queryDatatables(['rw' => $rwMentah])->get();
+
+        $this->assertNotEmpty($result);
+        foreach ($result as $row) {
+            $this->assertEquals($firstRow->dusun_kk, $row->dusun_kk);
+            $this->assertEquals($firstRow->rw_kk, $row->rw_kk);
+        }
     }
 }

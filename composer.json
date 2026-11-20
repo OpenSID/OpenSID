@@ -31,11 +31,13 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
         "mike42/escpos-php": "^3.0",
+        "opensid/laravel-filemanager": "dev-master",
         "opensid/router": "^2403",
         "openspout/openspout": "^4.25",
         "ramsey/uuid": "^4.9",
         "rap2hpoutre/fast-excel": "^5.6",
         "rennokki/laravel-eloquent-query-cache": "dev-laravel-13",
+        "rubix/ml": "2.5.13",
         "slowprog/composer-copy-file": "^0.3.3",
         "spatie/eloquent-sortable": "^5.0",
         "spatie/image": "^3.0",
@@ -44,14 +46,17 @@
         "spatie/laravel-json-api-paginate": "^2.0",
         "spatie/laravel-one-time-passwords": "^1.1",
         "spatie/laravel-query-builder": "^7.3",
+        "spatie/laravel-webhook-client": "^3.7",
         "spipu/html2pdf": "^5.3",
         "stechstudio/laravel-zipstream": "^5.7",
+        "symfony/filesystem": "^8.1",
         "tinymce/tinymce": "^7.2",
         "voku/anti-xss": "^4.1",
         "yajra/laravel-datatables-buttons": "^13.0",
         "yajra/laravel-datatables-oracle": "^13.0"
     },
     "require-dev": {
+        "albertoarena/laravel-truss": "^1.9.1",
         "barryvdh/laravel-ide-helper": "^3.7",
         "ergebnis/composer-normalize": "^2.42",
         "fakerphp/faker": "^1.23",
@@ -71,6 +76,9 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "suggest": {
+        "ext-intl": "Required for full Unicode NFKC normalization in spam detection preprocessing (handles mathematical bold, fullwidth, and other unicode variants automatically). Without it, only explicit obfuscation map is used."
+    },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
@@ -116,9 +124,9 @@
             "indent-style": "space"
         },
         "copy-file": {
-            "vendor/tinymce/tinymce": "assets/js/tinymce-72",
+            "vendor/tinymce/tinymce": "public/assets/js/tinymce-72",
             "storage/app/vendor": "vendor",
-            "storage/app/public/assets/js/tinymce-72/plugins/image": "assets/js/tinymce-72/plugins/image"
+            "storage/app/public/assets/js/tinymce-72/plugins/image": "public/assets/js/tinymce-72/plugins/image"
         },
         "google/apiclient-services": [
             "Drive",

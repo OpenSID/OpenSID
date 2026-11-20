@@ -1,9 +1,10 @@
 <input
     type="url"
-    class="form-control input-sm {!! $value['class'] !!}"
-    id="input_{{ $value['key'] }}"
+    class="form-control input-sm {!! $value['class'] ?? '' !!}"
+    id="{{ $value['key'] }}"
     name="{{ $value['key'] }}"
     value="{{ $value['default'] }}"
-    {{ $value['readonly'] }}
-    {!! $value['attributes'] !!}
+    {{ $value['readonly'] ?? '' }}
+    {{ $value['disabled'] ?? '' }}
+    {!! $value['attributes'] ?? '' !!}
 >

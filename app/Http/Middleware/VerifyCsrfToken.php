@@ -12,6 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        // Endpoint SSO OpenKab -> OpenSID: request lintas-situs sebelum login,
+        // proteksi dilakukan lewat validasi Origin/Referer (lihat SsoLoginService).
+        'admin/sso-login',
     ];
 }

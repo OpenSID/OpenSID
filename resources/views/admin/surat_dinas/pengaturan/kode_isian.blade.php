@@ -29,7 +29,9 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><input type="text" name="nama_kode[]" class="form-control input-sm isian" value="{{ $value->nama }}" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
+                        <td>
+                            <input type="hidden" name="kode_kode[]" value="{{ $value->kode }}">
+                            <input type="text" name="nama_kode[]" class="form-control input-sm isian" value="{{ $value->nama }}" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
                         </td>
                         <td><input type="text" name="label_kode[]" class="form-control input-sm isian" value="{{ $value->label ?? '' }}" placeholder="Masukkan Label" @disabled($value->tipe == '')>
                         </td>
@@ -91,7 +93,10 @@
                             @endforeach
                         </select>
                     </td>
-                    <td><input type="text" name="nama_kode[]" class="form-control input-sm isian" placeholder="Masukkan Nama" @disabled($value->tipe == '')></td>
+                    <td>
+                        <input type="hidden" name="kode_kode[]" value="">
+                        <input type="text" name="nama_kode[]" class="form-control input-sm isian" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
+                    </td>
                     <td><input type="text" name="label_kode[]" class="form-control input-sm isian" placeholder="Masukkan Label" @disabled($value->tipe == '')>
                     </td>
                     <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian" placeholder="Masukkan Placeholder" @disabled($value->tipe == '')></td>

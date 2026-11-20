@@ -156,12 +156,13 @@
             </div>
 
             <div class="tab-pane" id="template-lampiran">
+                @php filemanager_authorize('lampiran'); @endphp
                 <div class="box-header with-border">
                     @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('lampiran'), 'label' => 'Daftar Lampiran'])
                 </div>
                 <div class="box-body">
                     <div class="form-group">
-                        <textarea name="template_desa" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url() . 'assets/filemanager/', 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key], JSON_THROW_ON_ERROR) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $lampiranSurat->template_desa ?? $lampiranSurat->template }}</textarea>
+                        <textarea name="template_desa" data-filemanager='<?= json_encode(['external_filemanager_path' => filemanager_base_url(), 'filemanager_title' => 'File Manager'], JSON_THROW_ON_ERROR) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $lampiranSurat->template_desa ?? $lampiranSurat->template }}</textarea>
                     </div>
                 </div>
             </div>

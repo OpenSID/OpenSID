@@ -41,6 +41,13 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
+  'opensid/laravel-filemanager' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'OpenSID\\LaravelFilemanager\\LaravelFilemanagerServiceProvider',
+    ),
+  ),
   'rap2hpoutre/fast-excel' => 
   array (
     'providers' => 
@@ -92,6 +99,13 @@
     'providers' => 
     array (
       0 => 'Spatie\\QueryBuilder\\QueryBuilderServiceProvider',
+    ),
+  ),
+  'spatie/laravel-webhook-client' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\WebhookClient\\WebhookClientServiceProvider',
     ),
   ),
   'stechstudio/laravel-zipstream' => 

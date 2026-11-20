@@ -44,7 +44,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 class SuplemenRepository
 {
     public function list()
-    {
+    { 
         return QueryBuilder::for(Suplemen::class)
             ->allowedFields('*')
             ->allowedFilters(...[

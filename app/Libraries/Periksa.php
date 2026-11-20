@@ -137,6 +137,47 @@ class Periksa
             ->get();
     }
 
+    // Penduduk berstatus hidup tapi tidak punya satu pun baris log_penduduk, biasanya
+    // karena data diperbaiki langsung lewat database (bukan lewat menu resmi).
+    // Karena Buku Rekapitulasi Penduduk (LogPenduduk::rekapitulasiList) dan
+    // Penduduk::awalBulan() menghitung jumlah penduduk dari log_penduduk (bukan dari
+    // status_dasar), penduduk ini tidak akan pernah ikut terhitung di rekapitulasi
+    // meskipun sudah tampil di jumlah penduduk dashboard. Lihat issue #11916.
+    public function deteksiPendudukTanpaLogPenduduk()
+    {
+        return Penduduk::select('id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'created_at')
+            ->where('status_dasar', StatusDasarEnum::HIDUP)
+            ->where('is_historical', false)
+            ->whereDoesntHave('log')
+            ->get();
+    }
+
+    // Penduduk yang punya log keluar (mati/pindah/hilang) tapi tidak punya satu pun
+    // log masuk (lahir/pindah masuk). Saldo di LogPenduduk::rekapitulasiList() dihitung
+    // sebagai (peristiwa masuk - peristiwa keluar), sehingga penduduk seperti ini
+    // dikurangi tanpa pernah ditambahkan dan membuat saldo lebih kecil dari yang
+    // sebenarnya. Berbeda dari deteksiPendudukTanpaLogPenduduk() di atas (yang menjaring
+    // penduduk tanpa log sama sekali), kasus ini justru punya log, hanya pasangan log
+    // masuknya yang hilang. Lihat issue #11916.
+    public function deteksiPendudukTanpaLogMasuk()
+    {
+        $kodeMasuk = [
+            PeristiwaPendudukEnum::BARU_LAHIR->value,
+            PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
+        ];
+        $kodeKeluar = [
+            PeristiwaPendudukEnum::MATI->value,
+            PeristiwaPendudukEnum::PINDAH_KELUAR->value,
+            PeristiwaPendudukEnum::HILANG->value,
+        ];
+
+        return Penduduk::select('id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'created_at')
+            ->where('is_historical', false)
+            ->whereHas('log', static fn ($q) => $q->whereIn('kode_peristiwa', $kodeKeluar))
+            ->whereDoesntHave('log', static fn ($q) => $q->whereIn('kode_peristiwa', $kodeMasuk))
+            ->get();
+    }
+
     public function deteksiLogKeluargaBermasalah()
     {
         return Keluarga::whereDoesntHave('LogKeluarga')->get();
@@ -321,6 +362,18 @@ class Periksa
         if (! $logPendudukAsing->isEmpty()) {
             $this->periksa['masalah'][]          = 'log_penduduk_asing';
             $this->periksa['log_penduduk_asing'] = $logPendudukAsing->toArray();
+        }
+
+        $pendudukTanpaLogPenduduk = $this->deteksiPendudukTanpaLogPenduduk();
+        if (! $pendudukTanpaLogPenduduk->isEmpty()) {
+            $this->periksa['masalah'][]                   = 'penduduk_tanpa_log_penduduk';
+            $this->periksa['penduduk_tanpa_log_penduduk'] = $pendudukTanpaLogPenduduk->toArray();
+        }
+
+        $pendudukTanpaLogMasuk = $this->deteksiPendudukTanpaLogMasuk();
+        if (! $pendudukTanpaLogMasuk->isEmpty()) {
+            $this->periksa['masalah'][]               = 'penduduk_tanpa_log_masuk';
+            $this->periksa['penduduk_tanpa_log_masuk'] = $pendudukTanpaLogMasuk->toArray();
         }
 
         $logKeluargaBermasalah = $this->deteksiLogKeluargaBermasalah();
@@ -758,6 +811,63 @@ class Periksa
         LogPenduduk::whereIn('id', array_column($this->periksa['log_penduduk_asing'], 'id'))->delete();
     }
 
+    private function perbaikiPendudukTanpaLogPenduduk(): void
+    {
+        $configId = identitas('id');
+        $userId   = ci_auth()->id ?? User::first()->id;
+
+        foreach ($this->periksa['penduduk_tanpa_log_penduduk'] as $penduduk) {
+            $tglLapor = $penduduk['created_at'] ? date('Y-m-d', strtotime((string) $penduduk['created_at'])) : date('Y-m-d');
+
+            LogPenduduk::create([
+                'config_id'      => $configId,
+                'id_pend'        => $penduduk['id'],
+                'kode_peristiwa' => PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
+                'tgl_lapor'      => $tglLapor,
+                'tgl_peristiwa'  => $tglLapor,
+                'created_by'     => $userId,
+                'updated_by'     => $userId,
+            ]);
+
+            log_message('notice', "Berhasil menambahkan log_penduduk untuk penduduk ID {$penduduk['id']} ({$penduduk['nama']}) yang sebelumnya tidak tercatat, agar terhitung di Buku Rekapitulasi Penduduk.");
+        }
+    }
+
+    private function perbaikiPendudukTanpaLogMasuk(): void
+    {
+        $configId = identitas('id');
+        $userId   = ci_auth()->id ?? User::first()->id;
+
+        foreach ($this->periksa['penduduk_tanpa_log_masuk'] as $penduduk) {
+            // Log masuk harus mendahului log keluar. Dipakai created_at bila lebih awal,
+            // selain itu tanggal keluar paling awal — supaya pasangan (+1 masuk, -1 keluar)
+            // jatuh pada periode yang sama dan tidak memunculkan "datang" palsu di bulan berjalan.
+            $tglKeluar = LogPenduduk::where('id_pend', $penduduk['id'])
+                ->whereIn('kode_peristiwa', [
+                    PeristiwaPendudukEnum::MATI->value,
+                    PeristiwaPendudukEnum::PINDAH_KELUAR->value,
+                    PeristiwaPendudukEnum::HILANG->value,
+                ])
+                ->min('tgl_lapor');
+
+            $tglKeluar = $tglKeluar ? date('Y-m-d', strtotime((string) $tglKeluar)) : date('Y-m-d');
+            $tglDibuat = $penduduk['created_at'] ? date('Y-m-d', strtotime((string) $penduduk['created_at'])) : null;
+            $tglLapor  = ($tglDibuat && $tglDibuat <= $tglKeluar) ? $tglDibuat : $tglKeluar;
+
+            LogPenduduk::create([
+                'config_id'      => $configId,
+                'id_pend'        => $penduduk['id'],
+                'kode_peristiwa' => PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
+                'tgl_lapor'      => $tglLapor,
+                'tgl_peristiwa'  => $tglLapor,
+                'created_by'     => $userId,
+                'updated_by'     => $userId,
+            ]);
+
+            log_message('notice', "Berhasil menambahkan log penduduk masuk untuk penduduk ID {$penduduk['id']} ({$penduduk['nama']}) yang sebelumnya hanya memiliki log keluar.");
+        }
+    }
+
     private function perbaikiLogKeluargaBermasalah(): void
     {
         $configId = identitas('id');
@@ -863,6 +973,14 @@ class Periksa
 
             case 'log_penduduk_tidak_sinkron':
                 $this->perbaikiLogPendudukTidakSinkron();
+                break;
+
+            case 'penduduk_tanpa_log_penduduk':
+                $this->perbaikiPendudukTanpaLogPenduduk();
+                break;
+
+            case 'penduduk_tanpa_log_masuk':
+                $this->perbaikiPendudukTanpaLogMasuk();
                 break;
 
             // case 'keluarga_tanpa_nik_kepala':

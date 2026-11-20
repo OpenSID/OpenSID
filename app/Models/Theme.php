@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
@@ -155,6 +156,8 @@ class Theme extends BaseModel
         static::deleting(static function ($model): void {
             deleteDir($model->full_path);
 
+            File::deleteDirectory(public_path("themes/{$model->slug}"));
+
             cache()->forget('theme_active');
         });
     }
@@ -236,6 +239,8 @@ class Theme extends BaseModel
         $defaultTheme = self::sistem(1)->where('slug', self::DEFAULT_THEME)->first();
         if ($defaultTheme) {
             $defaultTheme->update(['status' => 1]);
+
+            (new \App\Actions\Theme\PublishThemeAsset())->handle($defaultTheme);
         }
 
         return self::isActive()->first();

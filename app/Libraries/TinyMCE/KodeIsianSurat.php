@@ -93,7 +93,7 @@ class KodeIsianSurat
                 'case_sentence' => true,
                 'judul'         => 'Tahun (Versi Lama)',
                 'isian'         => 'tahuN',
-                'data'          => kodeIsianTanggal($this->dataSurat['log_surat']['tanggal'], 'tahun'),
+                'data'          => kodeIsianTanggal($this->dataSurat['surat']['tanggal'], 'tahun'),
             ],
             [
                 'judul' => 'Bulan Romawi (Versi Lama)',

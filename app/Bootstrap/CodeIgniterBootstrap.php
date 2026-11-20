@@ -92,8 +92,9 @@ class CodeIgniterBootstrap
         $configCI = $GLOBALS['CFG']->config;
 
         $config->set([
-            'opensid.demo_mode'  => $config->get('opensid.demo_mode') || ($configCI['demo_mode'] ?? false),
-            'opensid.user_admin' => $config->get('opensid.user_admin') ?? ($configCI['user_admin'] ?? null),
+            'opensid.demo_mode'                 => $config->get('opensid.demo_mode') || ($configCI['demo_mode'] ?? false),
+            'opensid.user_admin'                => $config->get('opensid.user_admin') ?? ($configCI['user_admin'] ?? null),
+            'services.opendesa.server_layanan'  => $configCI['server_layanan'] ?? $config->get('services.opendesa.server_layanan'),
         ]);
     }
 }

@@ -1,0 +1,6 @@
+* text=auto
+
+*.php text eol=lf
+*.zep text eol=lf
+*.zep.h linguist-language=C
+*.zep.c linguist-language=C

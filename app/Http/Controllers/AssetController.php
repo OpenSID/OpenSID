@@ -37,6 +37,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FilesystemException;
@@ -80,11 +81,30 @@ class AssetController extends Controller
         'Cache-Control' => 'public, max-age=31536000, immutable',
     ];
 
-    public function serveTheme(): Response
+    /**
+     * Sajikan aset tema.
+     *
+     * Sebelumnya parameter {theme} pada route diabaikan dan yang dilayani selalu
+     * tema aktif. Itu memadai selama aset tema masih dapat diakses langsung
+     * sebagai berkas statis, tetapi setelah document root dipindah ke public/,
+     * folder storage/app/themes berada di luar jangkauan web server. Halaman
+     * pemilihan tema — yang perlu menampilkan thumbnail SETIAP tema, bukan hanya
+     * tema aktif — karenanya bergantung pada route ini.
+     *
+     * Slug dari URL TIDAK pernah dipakai sebagai bagian path. Ia hanya dicocokkan
+     * dengan daftar tema terdaftar; path yang dipakai selalu berasal dari basis
+     * data. Slug yang tidak dikenal jatuh kembali ke tema aktif. Pembatasan
+     * ekstensi dan penguncian disk pada serveAsset() tetap berlaku.
+     */
+    public function serveTheme(string $theme = ''): Response
     {
-        theme_active();
+        $aktif = theme_active();
 
-        $diskRoot = base_path(theme_full_path() . '/assets');
+        $path = $theme !== '' && $theme !== $aktif->slug
+            ? (Theme::query()->where('slug', $theme)->value('path') ?? $aktif->full_path)
+            : $aktif->full_path;
+
+        $diskRoot = base_path($path . '/assets');
 
         return $this->serveAsset($diskRoot);
     }

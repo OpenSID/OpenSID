@@ -38,6 +38,7 @@
 namespace App\Traits;
 
 use App\Actions\Modul\UpsertModul;
+use App\Actions\Module\PublishModuleAsset;
 use App\Models\FormatSurat;
 use App\Models\Modul;
 use App\Models\SettingAplikasi;
@@ -328,11 +329,14 @@ trait Migrator
     {
         $config_id ??= identitas('id');
         $data['url_surat'] ??= 'surat-' . url_title($data['nama'], '-', true);
-        $data['jenis']        = FormatSurat::TINYMCE_SISTEM;
-        $data['syarat_surat'] = json_encode($data['syarat_surat'], JSON_THROW_ON_ERROR);
-        $data['created_by']   = auth()->id ?? 1;
-        $data['updated_by']   = auth()->id ?? 1;
-        $data['config_id']    = $config_id;
+        $data['jenis']           = FormatSurat::TINYMCE_SISTEM;
+        $data['syarat_surat']    = json_encode($data['syarat_surat'], JSON_THROW_ON_ERROR);
+        $data['created_by']      = auth()->id ?? 1;
+        $data['updated_by']      = auth()->id ?? 1;
+        $data['config_id']       = $config_id;
+        // Surat bawaan sistem selalu boleh dipakai mencetak (lihat FormatSurat::siapDicetak()),
+        // jadi status_validasi-nya default valid, bukan ikut default kolom "Belum Divalidasi".
+        $data['status_validasi'] ??= FormatSurat::VALIDASI_VALID;
 
         if (is_array($data['form_isian'])) {
             $data['form_isian'] = json_encode($data['form_isian'], JSON_THROW_ON_ERROR);
@@ -628,37 +632,27 @@ trait Migrator
             && \App\Services\Module\PemeriksaIonCube::modulTerenkripsi("{$modulesDirectory}/{$name}", true)) {
             throw new \RuntimeException(\App\Services\Module\PemeriksaIonCube::pesanLoaderHilang($name));
         }
-        $dirOld           = "{$modulesDirectory}/{$name}/Database/Migrations";
-        $dirNew           = "{$modulesDirectory}/{$name}/database/migrations";
+        $directoryTable   = null;
 
-        if (is_dir($dirOld)) {
-            $directoryTable = $dirOld;
-        } elseif (is_dir($dirNew)) {
-            $directoryTable = $dirNew;
-        } else {
+        foreach (["{$modulesDirectory}/{$name}/Database/Migrations", "{$modulesDirectory}/{$name}/database/migrations"] as $dir) {
+            if (is_dir($dir)) {
+                $directoryTable = $dir;
+
+                break;
+            }
+        }
+
+        if (! $directoryTable) {
             return false;
         }
 
-        $migrations = File::files($directoryTable);
+        $this->runMigrations($directoryTable, $action);
 
-        if ($action === 'up') {
-            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
-        } else {
-            usort($migrations, static fn ($a, $b): int => strcmp($b->getFilename(), $a->getFilename()));
-        }
-
-        foreach ($migrations as $migrate) {
-            $migrateFile = require $migrate->getPathname();
-
-            match ($action) {
-                'down'  => $migrateFile->down(),
-                default => $migrateFile->up(),
-            };
-
-            Log::info("Migrasi {$action} {$migrate->getFilename()} berhasil dijalankan.");
-        }
-
-        cache()->flush();
+        match ($action) {
+            'up'    => (new PublishModuleAsset())->handle($name),
+            'down'  => (new PublishModuleAsset())->cleanup($name),
+            default => null,
+        };
 
         return true;
     }

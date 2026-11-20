@@ -71,6 +71,9 @@ return new class () extends Migration {
             $table->integer('header')->default(1);
             $table->string('format_nomor', 100)->nullable();
             $table->tinyInteger('format_nomor_global')->nullable()->default(1);
+            $table->tinyInteger('status_validasi')->default(0);
+            $table->longText('pesan_validasi')->nullable();
+            $table->timestamp('divalidasi_pada')->nullable();
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->integer('created_by')->nullable();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();

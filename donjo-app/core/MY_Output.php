@@ -18,9 +18,7 @@ class MY_Output extends CI_Output implements Responsable
     {
         $this->request = $request;
 
-        if (method_exists($request, 'overrideGlobals')) {
-            $request->overrideGlobals();
-        }
+        $this->overrideGlobals($request);
 
         $this->final_output       = '';
         $this->cache_expiration   = 0;

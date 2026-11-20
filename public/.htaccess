@@ -1,0 +1,117 @@
+# ============================================================================
+# HTACCESS DOCUMENT ROOT — OpenSID (Apache & OpenLiteSpeed)
+# ============================================================================
+# Berkas ini DILACAK GIT dan langsung aktif, mengikuti pola Laravel standar.
+# Tidak perlu disalin manual seperti pada struktur sebelumnya.
+#
+# Isinya jauh lebih pendek dari versi lama karena aturan blokir vendor,
+# storage, Modules, dan composer.json TIDAK diperlukan lagi — berkas-berkas
+# tersebut kini berada di luar document root, sehingga web server memang
+# tidak dapat menjangkaunya, bukan sekadar "dilarang".
+#
+# Pastikan DocumentRoot web server mengarah ke folder public/ ini.
+# Jika document root tidak dapat diubah, lihat htaccess-forwarder.apache.txt
+# di root proyek — dengan catatan itu kompromi dan tidak menambah keamanan.
+# ============================================================================
+
+RewriteEngine On
+
+# =====================================================
+# BLOKIR DOTFILE
+# =====================================================
+# Sebagian besar berkas sensitif memang sudah berada di luar document root.
+# Namun public/rfm membawa .htaccess-nya sendiri, dan Apache tidak selalu
+# dikonfigurasi memblokir berkas .ht* secara bawaan. Aturan ini murah dan
+# menutup celah tersebut.
+RewriteCond %{REQUEST_URI} (^|/)\.[^/]+$ [NC]
+RewriteRule .* - [F,L]
+
+# =====================================================
+# URL REWRITING
+# =====================================================
+
+# UNTUK INSTALASI DI SUBFOLDER: hilangkan tanda pagar (#) pada RewriteBase
+# di bawah ini dan sesuaikan dengan nama folder Anda.
+# Untuk instalasi di root domain: biarkan tetap mati.
+# RewriteBase /opensid/
+
+# Izinkan akses jika berkas atau folder asli memang ada (css, js, img, dll)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Jangan rewrite index.php
+RewriteRule ^index\.php$ - [L]
+
+# Alihkan semua request sisa ke index.php (aman untuk OLS & Apache)
+RewriteRule ^ index.php [L,QSA]
+
+# =====================================================
+# OPSI DIREKTORI
+# =====================================================
+
+# Matikan directory listing
+Options -Indexes
+
+# WAJIB: tanpa ini Apache tidak akan mengikuti symlink public/desa/*
+# dan public/storage, sehingga foto serta berkas unggahan tidak tampil.
+#
+# Sebagian shared hosting memaksa SymLinksIfOwnerMatch. Itu tidak menjadi
+# masalah: keenam symlink OpenSID menunjuk ke folder milik user yang sama,
+# sehingga tetap diizinkan.
+#
+# PERHATIAN: jika hosting melarang symlink SEPENUHNYA, foto dan berkas unggahan
+# TIDAK akan tampil, dan saat ini belum ada penanganan otomatis. Terdapat 56
+# pemanggilan base_url(LOKASI_*) yang menghasilkan URL langsung ke desa/upload.
+# Menyajikannya lewat ServeFileController masih perlu dikerjakan terpisah.
+<IfModule mod_rewrite.c>
+    Options +FollowSymLinks
+</IfModule>
+
+# ============================================================================
+# ENFORCE HTTPS
+# ============================================================================
+# Deteksi Cloudflare SSL proxy agar tidak terjadi looping
+RewriteCond %{HTTP:CF-Visitor} "https" [NC]
+RewriteRule .* - [S=1]
+
+# Redirect HTTP ke HTTPS (kompatibel OLS & Apache)
+RewriteCond %{SERVER_PORT} !^443$
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ============================================================================
+# BROWSER CACHING
+# ============================================================================
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access 1 year"
+
+  # Fonts
+  AddType application/Cabin-Regular-TTF .ttf
+  AddType application/fontawesome-webfont .woff2
+
+  # Images
+  ExpiresByType image/jpg "access 1 year"
+  ExpiresByType image/jpeg "access 1 year"
+  ExpiresByType image/gif "access 1 year"
+  ExpiresByType image/png "access 1 year"
+  ExpiresByType image/webp "access 1 year"
+  ExpiresByType image/svg+xml "access 1 year"
+  ExpiresByType image/x-icon "access 1 year"
+
+  # Video
+  ExpiresByType video/mp4 "access 1 year"
+  ExpiresByType video/mpeg "access 1 year"
+
+  # Stylesheets & Scripts
+  ExpiresByType text/css "access 1 year"
+  ExpiresByType application/javascript "access 1 year"
+  ExpiresByType application/x-javascript "access 1 year"
+
+  # Documents & Media
+  ExpiresByType application/pdf "access 1 year"
+  ExpiresByType application/x-shockwave-flash "access 1 year"
+  ExpiresByType application/font-woff "access 1 year"
+  ExpiresByType application/font-woff2 "access 1 year"
+</IfModule>
