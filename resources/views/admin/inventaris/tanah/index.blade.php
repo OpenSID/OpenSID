@@ -103,7 +103,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('inventaris_tanah.datatables') }}"
+                    url: "{{ ci_route('inventaris_tanah.datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

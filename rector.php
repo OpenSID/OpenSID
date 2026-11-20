@@ -60,8 +60,8 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/app',
     ]);
 
-    // Mendukung PHP 8.1 sampai 8.3 (aman untuk minimal 8.1, maksimal fitur 8.3)
-    $rectorConfig->phpVersion(PhpVersion::PHP_81);
+    // Mendukung PHP 8.2 sampai 8.3 (aman untuk minimal 8.2, maksimal fitur 8.3)
+    $rectorConfig->phpVersion(PhpVersion::PHP_82);
 
     // register a single rule, test push
     $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);

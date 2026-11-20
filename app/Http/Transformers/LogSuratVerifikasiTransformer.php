@@ -43,7 +43,7 @@ use League\Fractal\TransformerAbstract;
 
 class LogSuratVerifikasiTransformer extends TransformerAbstract
 {
-    public function transform(LogSurat $surat)
+    public function transform(LogSurat $surat): array
     {
         $namaPenduduk = $surat->nama_non_warga;
         if ($surat->id_pend) {

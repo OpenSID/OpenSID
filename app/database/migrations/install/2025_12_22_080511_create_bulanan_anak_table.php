@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('bulanan_anak', static function (Blueprint $table) {
+        Schema::create('bulanan_anak', static function (Blueprint $table): void {
             $table->increments('id_bulanan_anak');
             $table->integer('config_id')->index('bulanan_anak_config_fk');
             $table->integer('posyandu_id')->nullable()->index('bulanan_anak_posyandu_fk');

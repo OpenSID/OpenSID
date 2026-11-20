@@ -37,8 +37,6 @@
 
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
     use Migrator;
@@ -48,18 +46,6 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        $this->tambahPamongIdPadaPembangunan();
-    }
-
-    public function tambahPamongIdPadaPembangunan(): void
-    {
-        if (! Schema::hasColumn('pembangunan', 'pamong_id')) {
-            Schema::table('pembangunan', static function (Blueprint $table) {
-                $table->integer('pamong_id')
-                    ->nullable()
-                    ->after('pelaksana_kegiatan');
-            });
-        }
     }
 
     /**

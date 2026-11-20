@@ -45,12 +45,10 @@ class ModuleMakeCommand extends Command
 {
     protected $signature   = 'make:module';
     protected $description = 'Create a new module with default structure and files';
-    protected Filesystem $files;
 
-    public function __construct(Filesystem $files)
+    public function __construct(protected Filesystem $files)
     {
         parent::__construct();
-        $this->files = $files;
     }
 
     public function handle(): void

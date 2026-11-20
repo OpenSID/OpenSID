@@ -36,7 +36,10 @@
             var tabelData = $('#tabeldata').DataTable({
                 'processing': true,
                 'serverSide': true,
-                'ajax': "{{ ci_route('layanan-mandiri.bantuan.datatables') }}",
+                'ajax': {
+                    url: "{{ ci_route('layanan-mandiri.bantuan.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',

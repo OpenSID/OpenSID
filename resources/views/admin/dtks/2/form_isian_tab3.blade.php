@@ -158,7 +158,7 @@
                 });
 
                 $.ajax({
-                    type: 'POST',
+                    method: 'POST',
                     url: "{{ ci_route('dtks.save') . '/' . $dtks->id }}",
                     data: form,
                 });

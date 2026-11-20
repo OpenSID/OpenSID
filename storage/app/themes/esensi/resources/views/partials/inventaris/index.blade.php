@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+﻿@extends('theme::layouts.right-sidebar')
 
 @section('content')
     <div class="content py-1">
@@ -55,7 +55,7 @@
             const _tfoot = document.getElementById('inventaris-tfoot')
             $.ajax({
                 url: _url,
-                type: 'GET',
+                type: 'POST',
                 beforeSend: () => _tbody.innerHTML = `@include('theme::commons.loading')`,
                 success: (response) => {
                     let _trString = []

@@ -74,6 +74,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('surat_master.datatables') }}",
+                    method: 'POST',
                     data: function(d) {
                         d.status = $('#status').val();
                         d.jenis = $('#jenis').val();

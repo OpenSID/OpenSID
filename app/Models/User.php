@@ -235,20 +235,16 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
 
     /**
      * Determine if the user has verified their telegram.
-     *
-     * @return bool
      */
-    public function hasVerifiedTelegram()
+    public function hasVerifiedTelegram(): bool
     {
         return null !== $this->telegram_verified_at;
     }
 
     /**
      * Get the URL to the user's profile photo.
-     *
-     * @return string
      */
-    public function getUrlFotoAttribute()
+    public function getUrlFotoAttribute(): string
     {
         return AmbilFoto($this->foto, 'kecil_', $this->sex);
     }

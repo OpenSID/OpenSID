@@ -82,6 +82,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('web.datatables') }}?cat={{ $cat }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                     }

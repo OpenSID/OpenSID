@@ -91,6 +91,7 @@
                 paging: false,
                 ajax: {
                     url: "{{ site_url('keuangan_manual/datatables') }}",
+                    method: 'POST',
                     data: function(request) {
                         request.jenis_anggaran = $('#jenis_anggaran').val();
                         request.tahun_anggaran = $('#tahun_anggaran').val();

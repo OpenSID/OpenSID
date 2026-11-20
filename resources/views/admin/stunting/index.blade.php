@@ -61,7 +61,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('stunting.datatablesPosyandu') }}",
+                ajax: {
+                    url: "{{ ci_route('stunting.datatablesPosyandu') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

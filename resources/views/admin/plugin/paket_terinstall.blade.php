@@ -113,8 +113,7 @@
                         per_page: 10000,
                         list_module: paketTerpasangNames
                     },
-                    type: 'GET',
-                    contentType: 'application/json',
+                    method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + token,
                         'Accept': 'application/json'

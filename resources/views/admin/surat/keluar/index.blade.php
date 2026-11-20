@@ -174,6 +174,7 @@
             var TableData = $('#tabeldata').DataTable({
                 ajax: {
                     url: "{{ ci_route('keluar.datatables') }}?state={{ $state }}",
+                    method: 'POST',
                     data: function(req) {
                         req.tahun = $('select[name=tahun]').val()
                         req.bulan = $('select[name=bulan]').val()

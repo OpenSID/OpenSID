@@ -79,7 +79,10 @@
                     responsive: true,
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ ci_route('statistik.rentang_umur.datatables') }}",
+                    ajax: {
+                        url: "{{ ci_route('statistik.rentang_umur.datatables') }}",
+                        method: 'POST',
+                    },
                     columns: [{
                             data: 'ceklist',
                             class: 'padat'

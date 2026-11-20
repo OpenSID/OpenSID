@@ -1725,7 +1725,7 @@
             });
 
             $.ajax({
-                type: 'POST',
+                method: 'POST',
                 url: $(this).attr('action'),
                 data: formData,
                 success: function(data) {
@@ -1757,7 +1757,7 @@
             });
 
             $.ajax({
-                type: 'POST',
+                method: 'POST',
                 url: $(this).attr('action'),
                 data: formData,
                 success: function(data) {
@@ -1787,7 +1787,7 @@
             });
 
             $.ajax({
-                type: 'POST',
+                method: 'POST',
                 url: $(this).attr('action'),
                 data: formData,
                 success: function(data) {
@@ -1817,7 +1817,7 @@
             });
 
             $.ajax({
-                type: 'POST',
+                method: 'POST',
                 url: $(this).attr('action'),
                 data: formData,
                 success: function(data) {
@@ -1850,7 +1850,7 @@
             });
 
             $.ajax({
-                type: 'POST',
+                method: 'POST',
                 url: $(this).attr('action'),
                 data: formData,
                 success: function(data) {
@@ -1882,7 +1882,7 @@
             });
 
             $.ajax({
-                type: 'POST',
+                method: 'POST',
                 url: $(this).attr('action'),
                 data: formData,
                 success: function(data) {

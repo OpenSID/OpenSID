@@ -77,6 +77,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('dokumen.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                     }

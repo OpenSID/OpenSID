@@ -28,7 +28,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-3">Nama Lokasi / Properti <span class="text-red">*</span></label>
                     <div class="col-sm-7">
-                        <input name="nama" class="form-control input-sm" maxlength="100" type="text" value="{{ $plan?->nama ?? '' }}" />
+                        <input name="nama" class="form-control input-sm" maxlength="{{ PEMETAAN_NAMA_MAX_LENGTH }}" type="text" value="{{ $plan?->nama ?? '' }}" />
                     </div>
                 </div>
 
@@ -59,11 +59,11 @@
                     </div>
                 </div>
 
-                <?php if ($plan && $plan->url_foto) : ?>
+                <?php if ($plan?->foto_lokasi) : ?>
                     <div class="form-group">
-                        <label class="control-label col-sm-3">Foto Saat Ini</label>
+                        <label class="control-label col-sm-3"></label>
                         <div class="col-sm-7">
-                            <img class="attachment-img img-responsive img-circle" src="{{ $plan->url_foto }}" alt="Foto" style="max-width: 150px; max-height: 150px;">
+                            <img class="attachment-img img-responsive img-circle" src="{{ $plan->foto_lokasi }}" alt="Foto">
                         </div>
                     </div>
                 <?php endif; ?>
@@ -131,7 +131,7 @@
             // AJAX untuk mengambil kategori
             $.ajax({
                 url: "{{ ci_route('plan.ajax_get_kategori') }}",
-                type: 'GET',
+                method: 'POST',
                 data: {
                     jenis_id: jenisId
                 },

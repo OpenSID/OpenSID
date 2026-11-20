@@ -165,7 +165,7 @@
 
                 $.ajax({
                     url: `{{ ci_route('surat_dinas/update', $suratDinas->id) }}`,
-                    type: 'POST',
+                    method: 'POST',
                     xhrFields: {
                         responseType: 'blob'
                     },

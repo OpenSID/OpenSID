@@ -123,6 +123,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('rtm.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                         req.jenis_kelamin = $('#jenis_kelamin').val();

@@ -122,9 +122,9 @@ class Dokumen_sekretariat extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $kategori = $this->input->get('kategori');
-            $tahun    = $this->input->get('tahun');
-            $status   = $this->input->get('filter');
+            $kategori = $this->input->post_get('kategori');
+            $tahun    = $this->input->post_get('tahun');
+            $status   = $this->input->post_get('filter');
             $data     = DokumenHidup::peraturanDesa($kategori, $tahun)->status($status);
 
             return datatables()->of($data)

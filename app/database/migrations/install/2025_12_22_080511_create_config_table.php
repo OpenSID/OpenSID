@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('config', static function (Blueprint $table) {
+        Schema::create('config', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->string('app_key', 100)->default('')->unique('app_key');
             $table->string('nama_desa', 100);

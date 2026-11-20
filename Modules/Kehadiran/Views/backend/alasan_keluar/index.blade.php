@@ -52,7 +52,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('kehadiran_keluar.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('kehadiran_keluar.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

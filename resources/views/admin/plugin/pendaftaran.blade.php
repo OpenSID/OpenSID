@@ -101,8 +101,7 @@
                 let urlModule = '{{ $url_marketplace }}'
                 $.ajax({
                     url: urlModule,
-                    type: 'GET',
-                    contentType: 'application/json',
+                    method: 'GET',
                     headers: {
                         'Authorization': 'Bearer {{ $token_layanan }}',
                         'Accept': 'application/json'

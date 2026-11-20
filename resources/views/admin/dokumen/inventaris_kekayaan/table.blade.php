@@ -116,6 +116,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route('bumindes_inventaris_kekayaan.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.tahun = $('#tahun').val();
                     }

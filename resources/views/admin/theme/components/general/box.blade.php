@@ -17,11 +17,28 @@
             <center>
                 @php $file = $asset_path . '/thumbnail/preview-1.jpg' @endphp
                 @if (file_exists(FCPATH . $file))
-                    <img style="width:100%; max-height: 160px;" src="{{ base_url($asset_path . '/thumbnail/preview-1.jpg') }}" class="img-responsive" alt="{{ $nama }}">
+                    <img
+                        style="width:100%; max-height: 160px;"
+                        src="{{ base_url($asset_path . '/thumbnail/preview-1.jpg') }}"
+                        class="img-responsive"
+                        alt="{{ $nama }}"
+                        onerror="this.onerror=null; this.src='{{ asset('images/404-image-not-found.jpg') }}'; this.style='max-height: 160px;';"
+                    >
                 @elseif ($thumbnail)
-                    <img style="width:100%; max-height: 160px;" src="{{ $thumbnail }}" class="img-responsive" alt="{{ $nama }}">
+                    <img
+                        style="width:100%; max-height: 160px;"
+                        src="{{ $thumbnail }}"
+                        class="img-responsive"
+                        alt="{{ $nama }}"
+                        onerror="this.onerror=null; this.src='{{ asset('images/404-image-not-found.jpg') }}'; this.style='max-height: 160px;';"
+                    >
                 @else
-                    <img style="max-height: 160px;" src="{{ asset('images/404-image-not-found.jpg') }}" class="img-responsive" alt="{{ $nama }}">
+                    <img
+                        style="max-height: 160px;"
+                        src="{{ asset('images/404-image-not-found.jpg') }}"
+                        class="img-responsive"
+                        alt="{{ $nama }}"
+                    >
                 @endif
             </center>
         </div>

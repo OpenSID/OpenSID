@@ -39,7 +39,7 @@
 // Kehadiran > Jam Kerja
 Route::group('kehadiran_jam_kerja', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
     Route::get('/', 'JamKerjaController@index')->name('kehadiran_jam_kerja.index');
-    Route::get('/datatables', 'JamKerjaController@datatables')->name('kehadiran_jam_kerja.datatables');
+    Route::post('/datatables', 'JamKerjaController@datatables')->name('kehadiran_jam_kerja.datatables');
     Route::get('/form/{id}', 'JamKerjaController@form')->name('kehadiran_jam_kerja.form');
     Route::post('/update/{id}', 'JamKerjaController@update')->name('kehadiran_jam_kerja.update');
 });
@@ -47,7 +47,7 @@ Route::group('kehadiran_jam_kerja', ['namespace' => 'Kehadiran/BackEnd'], static
 // Kehadiran > Hari Libur
 Route::group('kehadiran_hari_libur', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
     Route::get('/', 'HariLiburController@index')->name('kehadiran_hari_libur.index');
-    Route::get('/datatables', 'HariLiburController@datatables')->name('kehadiran_hari_libur.datatables');
+    Route::post('/datatables', 'HariLiburController@datatables')->name('kehadiran_hari_libur.datatables');
     Route::get('/form/{id?}', 'HariLiburController@form')->name('kehadiran_hari_libur.form');
     Route::post('/create', 'HariLiburController@create')->name('kehadiran_hari_libur.create');
     Route::post('/update/{id}', 'HariLiburController@update')->name('kehadiran_hari_libur.update');
@@ -59,14 +59,14 @@ Route::group('kehadiran_hari_libur', ['namespace' => 'Kehadiran/BackEnd'], stati
 // Kehadiran > Rekapitulasi
 Route::group('kehadiran_rekapitulasi', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
     Route::get('/', 'RekapitulasiController@index')->name('kehadiran_rekapitulasi.index');
-    Route::get('/datatables', 'RekapitulasiController@datatables')->name('kehadiran_rekapitulasi.datatables');
+    Route::post('/datatables', 'RekapitulasiController@datatables')->name('kehadiran_rekapitulasi.datatables');
     Route::get('/ekspor', 'RekapitulasiController@ekspor')->name('kehadiran_rekapitulasi.ekspor');
 });
 
 // Kehadiran > Pengaduan
 Route::group('kehadiran_pengaduan', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
     Route::get('/', 'PengaduanController@index')->name('kehadiran_pengaduan.index');
-    Route::get('/datatables', 'PengaduanController@datatables')->name('kehadiran_pengaduan.datatables');
+    Route::post('/datatables', 'PengaduanController@datatables')->name('kehadiran_pengaduan.datatables');
     Route::get('/form/{id}', 'PengaduanController@form')->name('kehadiran_pengaduan.form');
     Route::post('/update/{id}', 'PengaduanController@update')->name('kehadiran_pengaduan.update');
 });
@@ -74,7 +74,7 @@ Route::group('kehadiran_pengaduan', ['namespace' => 'Kehadiran/BackEnd'], static
 // Kehadiran > Alasan Keluar
 Route::group('kehadiran_keluar', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
     Route::get('/', 'AlasanKeluarController@index')->name('kehadiran_keluar.index');
-    Route::get('/datatables', 'AlasanKeluarController@datatables')->name('kehadiran_keluar.datatables');
+    Route::post('/datatables', 'AlasanKeluarController@datatables')->name('kehadiran_keluar.datatables');
     Route::get('/form/{id?}', 'AlasanKeluarController@form')->name('kehadiran_keluar.form');
     Route::post('/create', 'AlasanKeluarController@create')->name('kehadiran_keluar.create');
     Route::post('/update/{id}', 'AlasanKeluarController@update')->name('kehadiran_keluar.update');
@@ -85,7 +85,7 @@ Route::group('kehadiran_keluar', ['namespace' => 'Kehadiran/BackEnd'], static fu
 // Kehadiran > Pengajuan Izin (Backend Admin)
 Route::group('kehadiran_pengajuan_izin', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
     Route::get('/', 'PengajuanIzinController@index')->name('kehadiran_pengajuan_izin.index');
-    Route::get('/datatables', 'PengajuanIzinController@datatables')->name('kehadiran_pengajuan_izin.datatables');
+    Route::post('/datatables', 'PengajuanIzinController@datatables')->name('kehadiran_pengajuan_izin.datatables');
     Route::get('/detail/{id}', 'PengajuanIzinController@detail')->name('kehadiran_pengajuan_izin.detail');
     Route::get('/approve/{id}', 'PengajuanIzinController@approve')->name('kehadiran_pengajuan_izin.approve');
     Route::get('/reject/{id}', 'PengajuanIzinController@reject')->name('kehadiran_pengajuan_izin.reject');
@@ -94,7 +94,7 @@ Route::group('kehadiran_pengajuan_izin', ['namespace' => 'Kehadiran/BackEnd'], s
 // Kehadiran > Pengajuan Izin untuk Pamong (Self-Service)
 Route::group('kehadiran_pengajuan_izin_pamong', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
     Route::get('/', 'PengajuanIzinPamongController@index')->name('kehadiran_pengajuan_izin_pamong.index');
-    Route::get('/datatables', 'PengajuanIzinPamongController@datatables')->name('kehadiran_pengajuan_izin_pamong.datatables');
+    Route::post('/datatables', 'PengajuanIzinPamongController@datatables')->name('kehadiran_pengajuan_izin_pamong.datatables');
     Route::get('/form/{id?}', 'PengajuanIzinPamongController@form')->name('kehadiran_pengajuan_izin_pamong.form');
     Route::post('/create', 'PengajuanIzinPamongController@create')->name('kehadiran_pengajuan_izin_pamong.create');
     Route::post('/update/{id}', 'PengajuanIzinPamongController@update')->name('kehadiran_pengajuan_izin_pamong.update');

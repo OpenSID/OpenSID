@@ -32,7 +32,7 @@ $(document).ready(function() {
         serverSide: false,
         ajax: {
             url: "{{ config_item('server_layanan') . '/api/v1/pemesanan' }}",
-            type: 'GET',
+            method: 'GET',
             headers: {
                 'Authorization': 'Bearer {{ $token_layanan }}',
                 'Accept': 'application/json'

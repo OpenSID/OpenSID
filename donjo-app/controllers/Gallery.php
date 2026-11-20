@@ -75,8 +75,8 @@ class Gallery extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $parent    = (int) ($this->input->get('parent') ?? 0);
-            $status    = $this->input->get('status') ?? null;
+            $parent    = (int) ($this->input->post_get('parent') ?? 0);
+            $status    = $this->input->post_get('status') ?? null;
             $canDelete = can('h');
             $canUpdate = can('u');
 

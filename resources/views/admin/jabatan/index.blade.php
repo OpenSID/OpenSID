@@ -54,7 +54,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('pengurus.jabatan') }}",
+                ajax: {
+                    url: "{{ ci_route('pengurus.jabatan') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

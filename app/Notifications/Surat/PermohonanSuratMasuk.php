@@ -42,7 +42,7 @@ use App\Notifications\BaseNotification;
 
 class PermohonanSuratMasuk extends BaseNotification
 {
-    public function __construct(private LogSurat $logSurat)
+    public function __construct(private readonly LogSurat $logSurat)
     {
         $this->logSurat->load(['formatSurat', 'penduduk']);
     }

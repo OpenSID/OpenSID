@@ -113,7 +113,7 @@
                 ],
                 'ajax': {
                     'url': "{{ ci_route('lapak_admin/produk') }}",
-                    'method': 'get',
+                    'method': 'POST',
                     'data': function(d) {
                         d.status = $('#status').val();
                         d.id_pend = $('#id_pend').val();
@@ -166,7 +166,7 @@
                         name: 'deskripsi',
                         'data': 'deskripsi',
                         'render': function(data) {
-                            return data.length > 150 ? data.substr(0, 150) + '…' : data;
+                            return data.length > 150 ? data.substr(0, 150) + 'â€¦' : data;
                         }
                     }
                 ],

@@ -42,7 +42,7 @@ use App\Notifications\BaseNotification;
 
 class PengaduanBaru extends BaseNotification
 {
-    public function __construct(private Pengaduan $pengaduan)
+    public function __construct(private readonly Pengaduan $pengaduan)
     {
     }
 

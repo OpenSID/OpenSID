@@ -53,14 +53,12 @@ class MapLokasiRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'desk'    => 'sometimes|nullable|string|max:1000',
-            'nama'    => 'sometimes|required|string|max:255',
+            'nama'    => 'sometimes|required|string|max:' . PEMETAAN_NAMA_MAX_LENGTH,
             'enabled' => 'sometimes|required|boolean',
 
             'lat' => 'required|numeric|between:-90,90',

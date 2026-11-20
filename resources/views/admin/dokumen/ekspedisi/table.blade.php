@@ -78,6 +78,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route('buku-umum.ekspedisi.datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+﻿@extends('theme::layouts.right-sidebar')
 
 @section('content')
     @include('theme::commons.asset_sweetalert')
@@ -20,7 +20,7 @@
             var route = "{{ route('api.' . $tipe . '.detail', ['slug' => $slug]) }}";
             $.ajax({
                 url: route,
-                method: 'GET',
+                method: 'POST',
                 beforeSend: function() {
                     const kelompokList = document.getElementById('kelompok-wrapper');
                     kelompokList.innerHTML = `@include('theme::commons.loading')`;
@@ -34,9 +34,9 @@
                     $('#nav-tipe').text(`Data ${tipe}`);
 
                     var detailElemen = `
-              <h1 class="text-h2">Data ${tipe} ${detail.nama}</h1>
-              <h2 class="text-h4">Rinci Data ${tipe}</h2>
-              <div class="table-responsive content">
+              <h1 class="text-h2 mb-4">Data ${tipe} ${detail.nama}</h1>
+              <h2 class="text-h4 mt-8 mb-4">Rinci Data ${tipe}</h2>
+              <div class="table-responsive content mb-10">
                 <table class="w-full text-sm">
                   <tbody>
                     <tr>
@@ -71,8 +71,8 @@
                 </table>
               </div>`;
 
-                    var pengurusElemen = `<h2 class="text-h4">Daftar Pengurus</h2>
-              <div class="table-responsive content">
+                    var pengurusElemen = `<h2 class="text-h4 mt-12 mb-4">Daftar Pengurus</h2>
+              <div class="table-responsive content mb-10">
                 <table class="w-full text-sm">
                   <thead>
                     <tr>
@@ -99,8 +99,8 @@
               </div>`;
 
                     var anggotaElemen = `
-              <h2 class="text-h4">Daftar Anggota</h2>
-              <div class="table-responsive content">
+              <h2 class="text-h4 mt-12 mb-4">Daftar Anggota</h2>
+              <div class="table-responsive content mb-10">
                 <table class="w-full text-sm" id="tabel-data">
                   <thead>
                     <tr>
@@ -133,8 +133,8 @@
                     autoWidth: false,
                     ordering: true,
                     ajax: {
-                        url: `{{ route('api.kelompok.anggota', ['slug' => $slug]) }}`,
-                        method: 'GET',
+                        url: `{{ route('api.' . $tipe . '.anggota', ['slug' => $slug]) }}`,
+                        method: 'POST',
                         data: row => ({
                             "page[size]": row.length,
                             "page[number]": (row.start / row.length) + 1,

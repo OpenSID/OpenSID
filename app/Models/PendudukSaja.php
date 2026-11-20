@@ -61,7 +61,7 @@ class PendudukSaja extends Penduduk
         return ! setting('tgl_data_lengkap_aktif');
     }
 
-    public static function cekTagIdCard($cek = null, $kecuali = null)
+    public static function cekTagIdCard($cek = null, $kecuali = null): bool
     {
         $tagIdCard = self::select('tag_id_card')->when($kecuali, static fn ($q) => $q->where('id', '!=', $kecuali))->whereNotNull('tag_id_card')->pluck('tag_id_card', 'tag_id_card')->toArray();
 
@@ -234,7 +234,7 @@ class PendudukSaja extends Penduduk
 
         // batasi ambil data dari keluarga yang sama saja
         if ($filter['hubungan']) {
-            $query->where('id_kk', static function ($query) use ($filter) {
+            $query->where('id_kk', static function ($query) use ($filter): void {
                 $query->select('id_kk')
                     ->from('tweb_penduduk')
                     ->where('id', $filter['hubungan']);
@@ -259,7 +259,7 @@ class PendudukSaja extends Penduduk
         }
 
         if ($cari) {
-            $query->where(static function ($query) use ($cari) {
+            $query->where(static function ($query) use ($cari): void {
                 $query->where('tweb_penduduk.nik', 'like', "%{$cari}%")
                     ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%")
                     ->orWhere('tweb_penduduk.tag_id_card', 'like', "%{$cari}%");

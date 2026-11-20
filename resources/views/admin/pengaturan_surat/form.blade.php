@@ -230,7 +230,7 @@
 
             $.ajax({
                 url: `{{ ci_route('surat_master/update', $suratMaster->id) }}`,
-                type: 'POST',
+                method: 'POST',
                 xhrFields: {
                     responseType: 'blob'
                 },

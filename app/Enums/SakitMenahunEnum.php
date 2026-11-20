@@ -80,17 +80,4 @@ class SakitMenahunEnum extends BaseEnum
             self::TIDAK_ADA_TIDAK_SAKIT => 'TIDAK ADA/TIDAK SAKIT',
         ];
     }
-
-    /**
-     * Dapatkan data dengan format id dan nama
-     */
-    public static function getData(): array
-    {
-        $collect = collect(self::all());
-
-        return $collect->map(static fn ($value, $key): array => [
-            'id'   => $key,
-            'nama' => $value,
-        ])->values()->toArray();
-    }
 }

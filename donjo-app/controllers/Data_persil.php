@@ -265,12 +265,12 @@ class Data_persil extends Admin_Controller
 
     private function sumberData()
     {
-        $dusun   = $this->input->get('dusun') ?? null;
-        $rw      = $this->input->get('rw') ?? null;
-        $rt      = $this->input->get('rt') ?? null;
-        $wilayah = $this->input->get('lokasi') ?? null;
-        $kelas   = $this->input->get('kelas') ?? null;
-        $tipe    = $this->input->get('tipe') ?? null;
+        $dusun   = $this->input->post_get('dusun') ?? null;
+        $rw      = $this->input->post_get('rw') ?? null;
+        $rt      = $this->input->post_get('rt') ?? null;
+        $wilayah = $this->input->post_get('lokasi') ?? null;
+        $kelas   = $this->input->post_get('kelas') ?? null;
+        $tipe    = $this->input->post_get('tipe') ?? null;
 
         $idCluster = $rt ? [$rt] : [];
         if (empty($idCluster) && ! empty($rw)) {

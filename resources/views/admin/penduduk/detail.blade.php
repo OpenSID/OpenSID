@@ -396,7 +396,7 @@
                                             <td>:</td>
                                             <td>{{ strtoupper($penduduk->statusPerkawinan) }}</td>
                                         </tr>
-                                        @if ($penduduk->status_kawin != 1)
+                                        @if ($penduduk->status_kawin == App\Enums\StatusKawinEnum::KAWIN)
                                             <tr>
                                                 <td>Akta perkawinan</td>
                                                 <td>:</td>
@@ -408,7 +408,7 @@
                                                 <td>{{ tgl_indo_out($penduduk->tanggalperkawinan) }}</td>
                                             </tr>
                                         @endif
-                                        @if ($penduduk->status_kawin != 1 && $penduduk->status_kawin != 2)
+                                        @if ($penduduk->status_kawin == App\Enums\StatusKawinEnum::CERAIHIDUP || $penduduk->status_kawin == App\Enums\StatusKawinEnum::CERAIMATI)
                                             <tr>
                                                 <td>Akta perceraian</td>
                                                 <td>:</td>

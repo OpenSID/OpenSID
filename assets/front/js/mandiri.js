@@ -9,7 +9,7 @@ $(document).ready(function() {
 		'serverside': true,
 		'ajax': {
 			'url': SITE_URL + '/layanan-mandiri/surat/cek_syarat',
-			'type': "get",
+			'type': 'POST',
 			data: function ( d ) {
 				d.id_surat = $("#id_surat").val();
 				d.id_permohonan = $("#id_permohonan").val();

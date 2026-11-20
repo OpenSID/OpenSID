@@ -102,7 +102,7 @@ class SettingSeeder extends Seeder
                 'attribute'  => json_encode([
                     'class' => 'required',
                     'min'   => 1,
-                    'max'   => 5,
+                    'max'   => 20,
                     'step'  => 1,
                 ]),
                 'kategori' => 'Lapak',

@@ -155,7 +155,7 @@
             @endphp
             @if ($jenis_peristiwa == 1)
                 <select id="kk_level" class="form-control input-sm required select2" name="kk_level"
-                    @disabled($disableKkLevel)>
+                    @disabled($disableKkLevel) onchange="ubah_hubungan_keluarga($(this).val())">
                     <option value="">Pilih Hubungan Keluarga</option>
                     <option value="{{ \App\Enums\SHDKEnum::ANAK }}" @selected($penduduk['kk_level'] == \App\Enums\SHDKEnum::ANAK)>{{ strtoupper(\App\Enums\SHDKEnum::valueOf(\App\Enums\SHDKEnum::ANAK)) }}</option>
                     <option value="{{ \App\Enums\SHDKEnum::CUCU }}" @selected($penduduk['kk_level'] == \App\Enums\SHDKEnum::CUCU)>{{ strtoupper(\App\Enums\SHDKEnum::valueOf(\App\Enums\SHDKEnum::CUCU)) }}</option>
@@ -167,7 +167,7 @@
                 @endif
             @else
                 <select id="kk_level" class="form-control input-sm required select2" name="kk_level"
-                    @disabled($disableKkLevel)>
+                    @disabled($disableKkLevel) onchange="ubah_hubungan_keluarga($(this).val())">
                     <option value="">Pilih Hubungan Keluarga</option>
                     @foreach ($hubungan as $key => $value)
                         <option value="{{ $key }}" @selected($penduduk['kk_level'] == $key) @disabled($key == 1 && $keluarga['status_dasar'] == '2')>
@@ -184,7 +184,7 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="sex">Jenis Kelamin </label>
-            <select class="form-control input-sm required" name="sex"
+            <select id="sex" class="form-control input-sm required" name="sex"
                 onchange="ubah_sex($(this).find(':selected').val());">
                 <option value="">Jenis Kelamin</option>
                 @foreach(\App\Enums\JenisKelaminEnum::all() as $key => $label)
@@ -273,7 +273,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right" id="jammenit_1" name="waktu_lahir" type="text"
+                <input class="form-control input-sm pull-right" id="waktu_lahir" name="waktu_lahir" type="text"
                     value="{{ $penduduk['waktu_lahir'] }}">
             </div>
         </div>
@@ -954,7 +954,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
                             </div>
-                            <input name="jam_mati" id="jammenit_1" class="form-control input-sm" type="text" maxlength="50" placeholder="Jam Kematian">
+                            <input name="jam_mati" id="jam_mati" class="form-control input-sm" type="text" maxlength="50" placeholder="Jam Kematian">
                         </div>
                     </div>
                 </div>
@@ -993,12 +993,12 @@
         
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="file">File Akta Kematian : <code>(.jpg, .jpeg, .png, .pdf)</code></label>
+                        <label for="akta_mati_file">File Akta Kematian : <code>(.jpg, .jpeg, .png, .pdf)</code></label>
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="file_path" name="satuan">
-                            <input type="file" class="hidden" id="file" name="nama_file" accept=".jpg,.jpeg,.png,.pdf">
+                            <input type="text" class="form-control" id="akta_mati_file_path" name="satuan" readonly>
+                            <input type="file" class="hidden" id="akta_mati_file" name="nama_file" accept=".jpg,.jpeg,.png,.pdf">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Cari</button>
+                                <button type="button" class="btn btn-info" id="akta_mati_file_browser"><i class="fa fa-search"></i> Cari</button>
                             </span>
                         </div>
                         <span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong>{{ max_upload(true) }}</strong>.</code></span>
@@ -1502,6 +1502,22 @@
             show_hide_status_warga_negara($('#warganegara_id').val());
             show_hide_ktp_el($('#ktp_el').val());
 
+            @if ($jenis_peristiwa == 2)
+                // Gunakan ID khusus agar tidak bentrok dengan komponen unggah foto penduduk.
+                $('#akta_mati_file_browser').on('click', function(e) {
+                    e.preventDefault();
+                    $('#akta_mati_file').trigger('click');
+                });
+
+                $('#akta_mati_file_path').on('click', function() {
+                    $('#akta_mati_file').trigger('click');
+                });
+
+                $('#akta_mati_file').on('change', function() {
+                    $('#akta_mati_file_path').val($(this).val());
+                });
+            @endif
+
         // Handler untuk perubahan Dusun
         $('#mainform #dusun').change(function() {
             let selectedDusun = $(this).find('option:selected').val();
@@ -1603,8 +1619,20 @@
 
         function ubah_sex(sex) {
             var old_foto = $('#old_foto').val();
+            var kk_level = $('#kk_level').val();
 
-            (sex == '2') ? $("#isian_hamil").show(): $("#isian_hamil").hide();
+            // Enforce consistency if relationship is Suami or Istri
+            if (kk_level == '{{ \App\Enums\SHDKEnum::SUAMI }}' && sex != '{{ \App\Enums\JenisKelaminEnum::LAKI_LAKI }}') {
+                alert('Hubungan Keluarga SUAMI harus berjenis kelamin LAKI-LAKI');
+                $('#sex').val('{{ \App\Enums\JenisKelaminEnum::LAKI_LAKI }}').trigger('change');
+                return;
+            } else if (kk_level == '{{ \App\Enums\SHDKEnum::ISTRI }}' && sex != '{{ \App\Enums\JenisKelaminEnum::PEREMPUAN }}') {
+                alert('Hubungan Keluarga ISTRI harus berjenis kelamin PEREMPUAN');
+                $('#sex').val('{{ \App\Enums\JenisKelaminEnum::PEREMPUAN }}').trigger('change');
+                return;
+            }
+
+            (sex == '{{ \App\Enums\JenisKelaminEnum::PEREMPUAN }}') ? $("#isian_hamil").show(): $("#isian_hamil").hide();
 
             if (old_foto == '') {
                 $('#foto').attr("src", AmbilFoto(old_foto, 'kecil_', sex))
@@ -1648,36 +1676,46 @@
 
         function disable_kawin_cerai(status) {
             // Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
+            var col_akta_perkawinan = $("#akta_perkawinan").closest('div[class^="col-sm-"]');
+            var col_tgl_perkawinan = $("input[name=tanggalperkawinan]").closest('div[class^="col-sm-"]');
+            var col_akta_perceraian = $("#akta_perceraian").closest('div[class^="col-sm-"]');
+            var col_tgl_perceraian = $("input[name=tanggalperceraian]").closest('div[class^="col-sm-"]');
+
             switch (status) {
-                case '1':
-                    $("#akta_perkawinan").attr('disabled', true);
-                    $("input[name=tanggalperkawinan]").attr('disabled', true);
-                    $("#akta_perceraian").attr('disabled', true);
-                    $("input[name=tanggalperceraian]").attr('disabled', true);
+                case '{{ App\Enums\StatusKawinEnum::BELUMKAWIN }}':
+                    $("#akta_perkawinan").attr('disabled', true).val('');
+                    $("input[name=tanggalperkawinan]").attr('disabled', true).val('');
+                    $("#akta_perceraian").attr('disabled', true).val('');
+                    $("input[name=tanggalperceraian]").attr('disabled', true).val('');
+                    col_akta_perkawinan.hide();
+                    col_tgl_perkawinan.hide();
+                    col_akta_perceraian.hide();
+                    col_tgl_perceraian.hide();
                     $('#wajib_ktp').text('BELUM WAJIB');
                     $('#akseptor_kb').hide();
                     break;
-                case '2':
+                case '{{ App\Enums\StatusKawinEnum::KAWIN }}':
                     $("#akta_perkawinan").attr('disabled', false);
                     $("input[name=tanggalperkawinan]").attr('disabled', false);
-                    $("#akta_perceraian").attr('disabled', true);
-                    $("input[name=tanggalperceraian]").attr('disabled', true);
+                    $("#akta_perceraian").attr('disabled', true).val('');
+                    $("input[name=tanggalperceraian]").attr('disabled', true).val('');
+                    col_akta_perkawinan.show();
+                    col_tgl_perkawinan.show();
+                    col_akta_perceraian.hide();
+                    col_tgl_perceraian.hide();
                     $('#wajib_ktp').text('WAJIB');
                     $('#akseptor_kb').show();
                     break;
-                case '3':
+                case '{{ App\Enums\StatusKawinEnum::CERAIHIDUP }}':
+                case '{{ App\Enums\StatusKawinEnum::CERAIMATI }}':
                     $("#akta_perkawinan").attr('disabled', false);
-                    $("input[name=tanggalperkawinan]").attr('disabled', false);
+                    $("input[name=tanggalperkawinan]").attr('disabled', true).val(''); // Hidden and cleared as per requested business logic if not Kawin
                     $("#akta_perceraian").attr('disabled', false);
                     $("input[name=tanggalperceraian]").attr('disabled', false);
-                    $('#wajib_ktp').text('WAJIB');
-                    $('#akseptor_kb').show();
-                    break;
-                case '4':
-                    $("#akta_perkawinan").attr('disabled', false);
-                    $("input[name=tanggalperkawinan]").attr('disabled', false);
-                    $("#akta_perceraian").attr('disabled', false);
-                    $("input[name=tanggalperceraian]").attr('disabled', false);
+                    col_akta_perkawinan.hide(); // Hide if not status Kawin
+                    col_tgl_perkawinan.hide(); // Hide if not status Kawin
+                    col_akta_perceraian.show();
+                    col_tgl_perceraian.show();
                     $('#wajib_ktp').text('WAJIB');
                     $('#akseptor_kb').show();
                     break;
@@ -1728,8 +1766,8 @@
                 if (id_kk && kk_level == 4) {
                     // Jika data ayah ada, set readonly dan tampilkan datanya
                     if (data_ayah_nik || data_ayah_nama) {
-                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', true);
-                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', true);
+                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', false);
+                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', false);
                     } else {
                         // Jika data ayah tidak ada, biarkan input manual
                         $('#ayah_nik').val('').prop('readonly', false);
@@ -1737,8 +1775,8 @@
                     }
                     // Jika data ibu ada, set readonly dan tampilkan datanya
                     if (data_ibu_nik || data_ibu_nama) {
-                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', true);
-                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', true);
+                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', false);
+                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', false);
                     } else {
                         // Jika data ibu tidak ada, biarkan input manual
                         $('#ibu_nik').val('').prop('readonly', false);
@@ -1752,21 +1790,23 @@
                     $('#nama_ibu').val('').prop('readonly', false);
                 }
             } else {
-                // Untuk bukan bayi baru lahir, gunakan logika lama
+                // Untuk bukan bayi baru lahir (misal: pindah masuk, dll)
                 if (id_kk && kk_level == 4) {
-                    // Jika data ayah ada, set readonly dan tampilkan datanya
+                    // Jika data ayah ada, isi otomatis sebagai saran tapi tetap bisa diubah
+                    // Karena ada kemungkinan orang tua berbeda dengan kepala keluarga
+                    // Contoh: anak dari suami terdahulu yang masuk KK baru
                     if (data_ayah_nik || data_ayah_nama) {
-                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', true);
-                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', true);
+                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', false);
+                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', false);
                     } else {
                         // Jika data ayah tidak ada, biarkan input manual
                         $('#ayah_nik').val('').prop('readonly', false);
                         $('#nama_ayah').val('').prop('readonly', false);
                     }
-                    // Jika data ibu ada, set readonly dan tampilkan datanya
+                    // Jika data ibu ada, isi otomatis sebagai saran tapi tetap bisa diubah
                     if (data_ibu_nik || data_ibu_nama) {
-                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', true);
-                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', true);
+                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', false);
+                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', false);
                     } else {
                         // Jika data ibu tidak ada, biarkan input manual
                         $('#ibu_nik').val('').prop('readonly', false);
@@ -1778,6 +1818,22 @@
                     $('#ibu_nik').val('{{ $penduduk['ibu_nik'] }}').prop('readonly', false);
                     $('#nama_ibu').val('{{ $penduduk['nama_ibu'] }}').prop('readonly', false);
                 }
+            }
+        }
+
+        function ubah_hubungan_keluarga(kk_level) {
+            // Logika otomatis Jenis Kelamin berdasarkan Hubungan Keluarga
+            // SUAMI = 2, ISTRI = 3
+            // LAKI-LAKI = 1, PEREMPUAN = 2
+            if (kk_level == '{{ \App\Enums\SHDKEnum::SUAMI }}') {
+                $('#sex').val('{{ \App\Enums\JenisKelaminEnum::LAKI_LAKI }}').trigger('change');
+            } else if (kk_level == '{{ \App\Enums\SHDKEnum::ISTRI }}') {
+                $('#sex').val('{{ \App\Enums\JenisKelaminEnum::PEREMPUAN }}').trigger('change');
+            } else {
+                // Jika bukan Suami/Istri dan bukan mode EDIT (penduduk baru), reset jenis kelamin ke pilihan kosong
+                @if (empty($penduduk['id']))
+                    $('#sex').val('').trigger('change');
+                @endif
             }
         }
 </script>

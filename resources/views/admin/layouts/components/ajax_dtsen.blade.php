@@ -1,7 +1,7 @@
 <script>
     function ajax_save_dtsen(url, data, callback_success = null, callback_fail = null, custom_config = {}) {
         let default_config = {
-            type: 'POST',
+            method: 'POST',
             url: url,
             data: data,
             dataType: 'json',
@@ -27,7 +27,9 @@
                     timer: 2000,
                     showConfirmButton: false
                 });
-                
+
+                $('.modal.in, .modal.show').modal('hide');
+
                 if (callback_success) {
                     callback_success(data);
                 }
@@ -62,6 +64,10 @@
                 if (callback_fail) {
                     callback_fail(xhr);
                 }
+            })
+            .always(function() {
+                // Ensure loading dialog is closed after AJAX completes
+                Swal.hideLoading();
             });
     }
 

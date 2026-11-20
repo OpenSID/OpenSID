@@ -186,6 +186,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('pengurus.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                         req.kehadiran = $('#kehadiran').val();

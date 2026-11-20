@@ -45,7 +45,10 @@
             var tabelData = $('#tabeldata').DataTable({
                 'processing': true,
                 'serverSide': true,
-                'ajax': '{{ base_url('layanan-mandiri/permohonan-surat') }}',
+                'ajax': {
+                    url: '{{ base_url('layanan-mandiri/permohonan-surat') }}',
+                    method: 'POST',
+                },
                 'order': [
                     [4, 'desc']
                 ],

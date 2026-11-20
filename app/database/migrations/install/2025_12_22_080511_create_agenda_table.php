@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('agenda', static function (Blueprint $table) {
+        Schema::create('agenda', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id')->index('agenda_config_fk');
             $table->integer('id_artikel')->index('id_artikel_fk');

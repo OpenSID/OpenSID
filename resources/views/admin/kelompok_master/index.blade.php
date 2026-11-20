@@ -66,6 +66,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ $ci->controller }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'ceklist',

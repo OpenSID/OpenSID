@@ -69,8 +69,8 @@ class Shortcut extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status') ?? false;
-            $order  = $this->input->get('order') ?? false;
+            $status = $this->input->post_get('status') ?? false;
+            $order  = $this->input->post_get('order') ?? false;
             $query  = ShortcutModel::when(! $order, static fn ($q) => $q->orderBy('urut', 'asc'))->when(in_array($status, ['0', '1']), static fn ($q) => $q->where('status', $status));
 
             return datatables()->of($query)

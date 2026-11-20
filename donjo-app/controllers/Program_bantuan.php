@@ -94,9 +94,9 @@ class Program_bantuan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status     = $this->input->get('status') ?? null;
-            $sasaran    = $this->input->get('sasaran') ?? null;
-            $program_id = $this->input->get('program_id') ?? null;
+            $status     = $this->input->post_get('status') ?? null;
+            $sasaran    = $this->input->post_get('sasaran') ?? null;
+            $program_id = $this->input->post_get('program_id') ?? null;
 
             $query = Bantuan::getProgram($program_id)
                 ->status($status)
@@ -108,7 +108,7 @@ class Program_bantuan extends Admin_Controller
                     $openKab = null === $row->config_id ? 'disabled' : '';
 
                     $aksi = View::make('admin.layouts.components.buttons.rincian', [
-                        'url' => "../peserta_bantuan/detail_clear/{$row->id}",
+                        'url' => site_url("peserta_bantuan/detail_clear/{$row->id}"),
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [

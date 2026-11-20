@@ -84,8 +84,8 @@ class Web extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status    = $this->input->get('status') ?? null;
-            $cat       = $this->input->get('cat') ?? '-1';
+            $status    = $this->input->post_get('status') ?? null;
+            $cat       = $this->input->post_get('cat') ?? '-1';
             $canUpdate = can('u');
             $canDelete = can('h');
 

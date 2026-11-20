@@ -53,6 +53,54 @@
                             type="bg-purple"
                             target="true"
                         />
+                        <x-btn-button
+                            url=""
+                            judul="Panduan"
+                            icon="fa fa-info-circle"
+                            type="btn-info"
+                            modal="true"
+                            modalTarget="infoLogPenduduk"
+                        />
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="infoLogPenduduk" tabindex="-1" role="dialog" aria-labelledby="infoLogPendudukLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-info">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="infoLogPendudukLabel">
+                            <i class="fa fa-info-circle"></i> Panduan Riwayat Mutasi Penduduk
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="callout callout-info">
+                            <h4><i class="fa fa-info"></i> Ringkasan Modul</h4>
+                            <p>Modul ini menampilkan semua catatan historis peristiwa terkait penduduk. Berbagai panduan dan ketentuan perilaku sistem di halaman ini akan dijelaskan di bawah.</p>
+                        </div>
+
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <strong><i class="fa fa-list-ol"></i> Syarat Kembalikan Penduduk</strong>
+                            </div>
+                            <div class="panel-body">
+                                <p>Tombol <strong>Kembalikan Penduduk</strong> (serta checkbox tindakan masal) hanya akan muncul pada histori jika memenuhi <strong>ketiga syarat</strong> berikut secara bersamaan:</p>
+                                <ul>
+                                    <li>Status dasar penduduk saat ini adalah <strong>Pindah</strong> atau <strong>Pergi</strong>.</li>
+                                    <li>Histori ini merupakan <strong>histori kepergian terakhir</strong> untuk individu tersebut.</li>
+                                    <li>Telah <strong>berganti bulan</strong> sejak tanggal lapor histori kepergian tersebut dilakukan.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Panel informasi lainnya dapat ditambahkan di bawah sini pada pembaruan berikutnya -->
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal">
+                            <i class="fa fa-sign-out"></i> Tutup
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -148,6 +196,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('penduduk_log.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.kode_peristiwa = $('#kode_peristiwa').val();
                         req.tahun = $('#tahun').val();

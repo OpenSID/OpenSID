@@ -260,28 +260,91 @@ $(document).ready(function() {
     mapBox();
     cetakBox();
 
-    $("#modalBox").on("shown.bs.modal", function(e) {
-        var link = $(e.relatedTarget);
-        var title = link.data("title");
-        var size = link.data("size") ?? "";
-        var modal = $(this);
-        // tampilkan halaman loading
+    var modalBoxSkeleton = `
+        <div class="modal-body">
+            <div class="form-group">
+                <div class="sk-line sk-label"></div>
+                <input class="form-control input-sm sk-line" disabled />
+            </div>
+            <div class="form-group">
+                <div class="sk-line sk-label-sm"></div>
+                <input class="form-control input-sm sk-line" disabled />
+            </div>
+            <div class="form-group">
+                <div class="sk-line sk-label" style="width:55%"></div>
+                <input class="form-control input-sm sk-line" disabled />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger btn-sm pull-left sk-line" style="min-width:80px" disabled></button>
+            <button class="btn btn-info btn-sm sk-line" style="min-width:90px" disabled></button>
+            <button class="btn btn-info btn-sm sk-line" style="min-width:90px" disabled></button>
+        </div>
+    `;
 
-        modal.find(".modal-title").text(title);
-        modal.find(".modal-dialog").addClass(size);
-        $(this).find(".fetched-data").load(link.attr("href"));
-        // tambahkan csrf token kalau ada form
-        if (modal.find("form")[0]) {
-            setTimeout(function() {
-                addCsrfField(modal.find("form")[0]);
-            }, 500);
+    $('#modalBox').on('show.bs.modal', function(e) {
+        var link        = $(e.relatedTarget);
+        var href        = link.attr('href');
+        var size        = link.data('size') ?? '';
+        var modal       = $(this);
+        var fetchedData = modal.find('.fetched-data');
+
+        modal.find('.modal-title').text(link.data('title'));
+        modal.find('.modal-dialog').removeClass().addClass('modal-dialog');
+        if (size) {
+            modal.find('.modal-dialog').addClass(size);
+        }
+
+        // Tampilkan skeleton, lalu mulai AJAX paralel dengan animasi slide-in
+        fetchedData.html(modalBoxSkeleton);
+        if (href) {
+            var nativeXhr = null;
+
+            $.ajax({
+                url: href,
+                type: 'GET',
+                xhr: function() {
+                    return (nativeXhr = $.ajaxSettings.xhr());
+                },
+                success: function(response) {
+                    var redirectUrl = nativeXhr && nativeXhr.responseURL;
+
+                    if (redirectUrl.includes('siteman')) {
+                        window.location.href = redirectUrl;
+                        return;
+                    }
+                    if (redirectUrl.includes('beranda')) {
+                        fetchedData.html(
+                            `<div class="modal-body">
+                                <div class="alert alert-danger">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                    Anda tidak memiliki akses untuk halaman atau aksi tersebut!
+                                </div>
+                            </div>`
+                        );
+                        return;
+                    }
+
+                    fetchedData.html(response);
+                },
+                error: function(xhr) {
+                    fetchedData.html(
+                        `<div class="modal-body">
+                            <div class="alert alert-danger">
+                                <i class="fa fa-exclamation-triangle"></i>
+                                Gagal memuat konten (${xhr.status} ${xhr.statusText}).
+                            </div>
+                        </div>`
+                    );
+                }
+            });
         }
     });
 
-    $("#modalBox").on("hidden.bs.modal	", function(e) {
+    $('#modalBox').on('hidden.bs.modal', function() {
         var modal = $(this);
-        $(this).find(".fetched-data").html(``);
-        modal.find(".modal-title").text("");
+        modal.find('.fetched-data').html('');
+        modal.find('.modal-title').text('');
     });
 
     // Submit form via AJAX
