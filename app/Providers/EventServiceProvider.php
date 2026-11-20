@@ -37,15 +37,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
     /**
-     * The event handler mappings for the application.
+     * The event to listener mappings for the application.
      *
-     * @var array
+     * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
         \Illuminate\Auth\Events\Registered::class => [
@@ -103,47 +103,10 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     /**
-     * The subscriber classes to register.
-     *
-     * @var array
-     */
-    protected $subscribe = [];
-
-    /**
-     * {@inheritDoc}
-     */
-    public function register(): void
-    {
-
-    }
-
-    /**
-     * Register the application's event listeners.
+     * Register any events for your application.
      */
     public function boot(): void
     {
-        // callAfterResolving is unreliable in the custom Lumen-like container
-        // (App\Services\Laravel). Register directly against the resolved Dispatcher.
-        $events = $this->app->make('events');
-
-        foreach ($this->listens() as $event => $listeners) {
-            foreach ($listeners as $listener) {
-                $events->listen($event, $listener);
-            }
-        }
-
-        foreach ($this->subscribe as $subscriber) {
-            $events->subscribe($subscriber);
-        }
-    }
-
-    /**
-     * Get the events and handlers.
-     *
-     * @return array
-     */
-    public function listens()
-    {
-        return $this->listen;
+        //
     }
 }

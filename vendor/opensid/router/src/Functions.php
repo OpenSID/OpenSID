@@ -1,32 +1,10 @@
 <?php
 
 /**
- * Gets a route URL by its name
- * 
- * @param string  $name    Route name
- * @param array   $params  Route parameters
- * 
- * @return string
- */
-function route($name = null, $params = [])
-{
-    if($name === null)
-    {
-        $route = Route::getCurrentRoute();
-    }
-    else
-    {
-        $route = Route::getByName($name);
-    }
-
-    return $route->buildUrl($params);
-}
-
-/**
  * Checks if a route exists
- * 
+ *
  * @param string $name Route name
- * 
+ *
  * @return bool
  */
 function route_exists($name)
@@ -36,9 +14,9 @@ function route_exists($name)
 
 /**
  * Returns the framework singleton
- * 
+ *
  * (Alias of &get_instance() CodeIgniter function)
- * 
+ *
  * @return object
  */
 function &ci()
@@ -83,11 +61,11 @@ function trigger_404()
 
 /**
  * Redirects to a route URL by its name
- * 
+ *
  * @param string $name     Route name
  * @param array  $params   Route parameters
  * @param array  $messages Array with flashdata messages
- * 
+ *
  * @return void
  */
 function route_redirect($name, $params = [], $messages = [])

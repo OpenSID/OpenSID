@@ -19,9 +19,6 @@ use Symfony\Component\Mime\Header\Headers;
  */
 class DataPart extends TextPart
 {
-    /** @internal */
-    protected array $_parent;
-
     private ?string $filename = null;
     private string $mediaType;
     private ?string $cid = null;
@@ -66,7 +63,7 @@ class DataPart extends TextPart
     public function setContentId(string $cid): static
     {
         if (!str_contains($cid, '@')) {
-            throw new InvalidArgumentException(\sprintf('Invalid cid "%s".', $cid));
+            throw new InvalidArgumentException(\sprintf('The "%s" CID is invalid as it doesn\'t contain an "@".', $cid));
         }
 
         $this->cid = $cid;
@@ -129,40 +126,26 @@ class DataPart extends TextPart
         return bin2hex(random_bytes(16)).'@symfony';
     }
 
-    public function __sleep(): array
+    public function __serialize(): array
     {
-        // converts the body to a string
-        parent::__sleep();
+        $parent = parent::__serialize();
+        $headers = $parent['_headers'];
+        unset($parent['_headers']);
 
-        $this->_parent = [];
-        foreach (['body', 'charset', 'subtype', 'disposition', 'name', 'encoding'] as $name) {
-            $r = new \ReflectionProperty(TextPart::class, $name);
-            $this->_parent[$name] = $r->getValue($this);
-        }
-        $this->_headers = $this->getHeaders();
-
-        return ['_headers', '_parent', 'filename', 'mediaType'];
+        return [
+            '_headers' => $headers,
+            '_parent' => $parent,
+            'filename' => $this->filename,
+            'mediaType' => $this->mediaType,
+            'cid' => $this->cid,
+        ];
     }
 
-    /**
-     * @return void
-     */
-    public function __wakeup()
+    public function __unserialize(array $data): void
     {
-        $r = new \ReflectionProperty(AbstractPart::class, 'headers');
-        $r->setValue($this, $this->_headers);
-        unset($this->_headers);
-
-        if (!\is_array($this->_parent)) {
-            throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
-        }
-        foreach (['body', 'charset', 'subtype', 'disposition', 'name', 'encoding'] as $name) {
-            if (null !== $this->_parent[$name] && !\is_string($this->_parent[$name]) && !$this->_parent[$name] instanceof File) {
-                throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
-            }
-            $r = new \ReflectionProperty(TextPart::class, $name);
-            $r->setValue($this, $this->_parent[$name]);
-        }
-        unset($this->_parent);
+        parent::__unserialize(['_headers' => $data['_headers'] ?? $data["\0*\0_headers"], ...$data['_parent'] ?? $data["\0*\0_parent"]]);
+        $this->filename = $data['filename'] ?? $data["\0".self::class."\0filename"] ?? null;
+        $this->mediaType = $data['mediaType'] ?? $data["\0".self::class."\0mediaType"];
+        $this->cid = $data['cid'] ?? $data["\0".self::class."\0cid"] ?? null;
     }
 }

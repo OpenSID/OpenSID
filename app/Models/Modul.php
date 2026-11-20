@@ -244,6 +244,6 @@ class Modul extends BaseModel
 
     protected function getRawAktifAttribute($value)
     {
-        return $this->attributes['aktif'];
+        return $this->attributes['aktif'] ?? false;
     }
 }

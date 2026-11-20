@@ -41,6 +41,7 @@ use App\Scopes\RemoveRtfScope;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
@@ -212,6 +213,13 @@ return new class () extends Migration {
         }
 
         if (! $this->foreignKeyExists('user', 'user_pamong_fk')) {
+            // Bersihkan pamong_id yang mereferensi pamong yang sudah tidak ada di tweb_desa_pamong,
+            // agar FK constraint tidak gagal dengan error 1452 (integrity constraint violation).
+            DB::table('user')
+                ->whereNotNull('pamong_id')
+                ->whereNotIn('pamong_id', DB::table('tweb_desa_pamong')->select('pamong_id'))
+                ->update(['pamong_id' => null]);
+
             Schema::table('user', static function (Blueprint $table): void {
                 $table->foreign(['pamong_id'], 'user_pamong_fk')
                     ->references(['pamong_id'])->on('tweb_desa_pamong')

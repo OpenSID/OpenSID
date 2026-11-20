@@ -106,7 +106,7 @@
                     </div>
                     <label class="help-block error" style="display: none"></label>
                     <label class="control-label text-danger">
-                        Batas maksimal pengunggahan file: <strong>{{ max_upload() }} MB</strong>.
+                        Batas maksimal pengunggahan file: <strong>{{ max_upload(true) }}</strong>.
                         Hanya mendukung format dokumen (.pdf, .doc, .docx, .jpg, .jpeg, .png).
                         <span id="lampiran-note"></span>
                     </label>

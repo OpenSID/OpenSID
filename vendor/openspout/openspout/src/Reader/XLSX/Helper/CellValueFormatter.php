@@ -199,15 +199,9 @@ final readonly class CellValueFormatter
         } elseif ($this->styleManager->shouldFormatNumericValueAsDate($cellStyleId)) {
             $cellValue = $this->formatExcelTimestampValue((float) $nodeValue, $cellStyleId);
         } else {
-            $cellValue = $nodeValue;
-            if (\is_string($nodeValue)) {
-                $cellValue = (float) $nodeValue;
-            }
-            if ($nodeValue < PHP_INT_MAX && $nodeValue > PHP_INT_MIN) {
-                $nodeIntValue = (int) $nodeValue;
-                $nodeFloatValue = (float) $nodeValue;
-                $cellValue = ((float) $nodeIntValue === $nodeFloatValue) ? $nodeIntValue : $nodeFloatValue;
-            }
+            $nodeIntValue = (int) $nodeValue;
+            $nodeFloatValue = (float) $nodeValue;
+            $cellValue = ((float) $nodeIntValue === $nodeFloatValue) ? $nodeIntValue : $nodeFloatValue;
         }
 
         return $cellValue;

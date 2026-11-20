@@ -37,21 +37,12 @@
 
 namespace App\Console\Commands;
 
-use CI_Controller;
 use Illuminate\Console\Command;
 
 class SetupCommand extends Command
 {
     protected $signature   = 'opensid:setup';
     protected $description = 'Setup OpenSID environment dan konfigurasi.';
-    protected CI_Controller $ci;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->ci = app()->make('ci');
-    }
 
     public function handle(): void
     {
@@ -61,46 +52,42 @@ class SetupCommand extends Command
     /**
      * Mengatur item konfigurasi.
      */
-    protected function setConfigItems()
+    protected function setConfigItems(): void
     {
-        $this->ci->load->config('installer');
-        $this->ci->load->helper('file');
-
         $db     = '$db';
         $config = '$config';
 
-        $this->ci->config->set_item(
-            'config',
-            <<<EOS
-                <?php
+        $configContent = <<<EOS
+            <?php
 
-                {$config}['base_url']       = getenv('PLAYWRIGHT_BASE_URL');
-                {$config}['demo_mode']      = true;
-                {$config}['user_admin']     = 0;
-                {$config}['server_layanan'] = getenv('SERVER_LAYANAN');
-                {$config}['token_layanan']  = getenv('TOKEN_LAYANAN');
-                EOS
-        );
+            {$config}['demo_mode']  = true;
+            {$config}['user_admin'] = 0;
+            EOS;
 
-        $this->ci->config->set_item(
-            'database',
-            <<<EOS
-                <?php
+        $databaseContent = <<<EOS
+            <?php
 
-                {$db}['default']['hostname'] = getenv('DB_HOST');
-                {$db}['default']['username'] = getenv('DB_USERNAME');
-                {$db}['default']['password'] = 'secret';
-                {$db}['default']['port']     = 3306;
-                {$db}['default']['database'] =  getenv('DB_DATABASE');
-                {$db}['default']['dbcollat'] = 'utf8mb4_general_ci';
-                {$db}['default']['stricton'] = true;
-                {$db}['default']['options'] = [
-                    // PDO::ATTR_EMULATE_PREPARES => true,
-                ];
-                EOS
-        );
+            {$db}['default']['hostname'] = getenv('DB_HOST');
+            {$db}['default']['username'] = getenv('DB_USERNAME');
+            {$db}['default']['password'] = 'secret';
+            {$db}['default']['port']     = 3306;
+            {$db}['default']['database'] =  getenv('DB_DATABASE');
+            {$db}['default']['dbcollat'] = 'utf8mb4_general_ci';
+            {$db}['default']['stricton'] = true;
+            {$db}['default']['options'] = [
+                // PDO::ATTR_EMULATE_PREPARES => true,
+            ];
+            EOS;
 
-        write_file(LOKASI_CONFIG_DESA . 'config.php', config_item('config'), 'wb');
-        write_file(LOKASI_CONFIG_DESA . 'database.php', config_item('database'), 'wb');
+        $configDir = base_path('desa/config');
+
+        if (! is_dir($configDir)) {
+            mkdir($configDir, 0755, true);
+        }
+
+        file_put_contents($configDir . '/config.php', $configContent);
+        file_put_contents($configDir . '/database.php', $databaseContent);
+
+        $this->info("Berhasil menulis config.php dan database.php ke {$configDir}");
     }
 }

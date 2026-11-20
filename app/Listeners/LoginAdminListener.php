@@ -65,7 +65,6 @@ class LoginAdminListener
             'user'    => $login->user->id,
             'nama'    => $login->user->nama,
             'grup'    => $login->user->id_grup,
-            'fm_key'  => $this->setFmKey("{$login->user->id}{$login->user->id_grup}{$login->user->sesi}"),
             'isAdmin' => $login->user,
         ]);
 
@@ -119,14 +118,5 @@ class LoginAdminListener
                 log_message('error', $e->getMessage());
             }
         }
-    }
-
-    private function setFmKey($key = null): string
-    {
-        $fmHash = $key . date('Ymdhis');
-        $salt   = random_int(100000, 999999);
-        $salt   = strrev($salt);
-
-        return md5($fmHash . 'OpenSID' . $salt);
     }
 }

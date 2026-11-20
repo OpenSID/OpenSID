@@ -203,26 +203,30 @@ if ( ! function_exists('load_class'))
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('is_loaded'))
-{
-	/**
-	 * Keeps track of which libraries have been loaded. This function is
-	 * called by the load_class() function above
-	 *
-	 * @param	string
-	 * @return	array
-	 */
-	function &is_loaded($class = '')
-	{
-		static $_is_loaded = array();
+/**
+ * Override function is_loaded
+ */
+if (! function_exists('is_loaded')) {
+    /**
+     * Keeps track of which libraries have been loaded. This function is
+     * called by the load_class() function above
+     */
+    function &is_loaded(string $class = '', array $unsetClass = []): array
+    {
+        static $_is_loaded = [];
 
-		if ($class !== '')
-		{
-			$_is_loaded[strtolower($class)] = $class;
-		}
+        if ($class !== '') {
+            $_is_loaded[strtolower($class)] = $class;
+        }
 
-		return $_is_loaded;
-	}
+        if (! empty($unsetClass)) {
+            foreach ($unsetClass as $key) {
+                unset($_is_loaded[strtolower($key)]);
+            }
+        }
+
+        return $_is_loaded;
+    }
 }
 
 // ------------------------------------------------------------------------
@@ -369,20 +373,25 @@ if ( ! function_exists('is_https'))
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('is_cli'))
-{
+/**
+ * Override function is_cli
+ */
+if (! function_exists('is_cli')) {
+    /**
+     * Is CLI?
+     *
+     * Test to see if a request was made from the command line.
+     *
+     * @return bool
+     */
+    function is_cli()
+    {
+        // If there's an active REQUEST_METHOD, treat as HTTP request
+        // even if running from CLI (important for testing scenarios)
+        $hasHttpRequest = isset($_SERVER['REQUEST_METHOD']) && ! empty($_SERVER['REQUEST_METHOD']);
 
-	/**
-	 * Is CLI?
-	 *
-	 * Test to see if a request was made from the command line.
-	 *
-	 * @return 	bool
-	 */
-	function is_cli()
-	{
-		return (PHP_SAPI === 'cli' OR defined('STDIN'));
-	}
+        return (PHP_SAPI === 'cli' || defined('STDIN')) && ! $hasHttpRequest;
+    }
 }
 
 // ------------------------------------------------------------------------

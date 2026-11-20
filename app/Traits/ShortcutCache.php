@@ -45,6 +45,8 @@ trait ShortcutCache
 {
     public static function bootShortcutCache(): void
     {
-        static::observe(ClearCacheObserver::class);
+        static::creating([ClearCacheObserver::class, 'creating']);
+        static::updating([ClearCacheObserver::class, 'updating']);
+        static::deleting([ClearCacheObserver::class, 'deleting']);
     }
 }

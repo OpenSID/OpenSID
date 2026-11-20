@@ -1,26 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NotificationChannels\Telegram;
 
+use GuzzleHttp\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\View;
-use JsonException;
 use NotificationChannels\Telegram\Contracts\TelegramSenderContract;
+use NotificationChannels\Telegram\Enums\ParseMode;
 use NotificationChannels\Telegram\Exceptions\CouldNotSendNotification;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class TelegramMessage.
- */
-class TelegramMessage extends TelegramBase implements TelegramSenderContract
+final class TelegramMessage extends TelegramBase implements TelegramSenderContract
 {
-    /** @var int Message Chunk Size */
-    public int $chunkSize = 0;
+    private const DEFAULT_CHUNK_SIZE = 4096;
 
-    public function __construct(string $content = '')
-    {
+    private const CHUNK_SEPARATOR = '%#TGMSG#%';
+
+    private string $text = '';
+
+    public function __construct(
+        string $content = '',
+        public int $chunkSize = 0
+    ) {
         parent::__construct();
-        $this->content($content);
-        $this->payload['parse_mode'] = 'Markdown';
+
+        $this->text = $content;
+        $this->parseMode(ParseMode::Markdown);
     }
 
     public static function create(string $content = ''): self
@@ -28,16 +34,21 @@ class TelegramMessage extends TelegramBase implements TelegramSenderContract
         return new self($content);
     }
 
-    /**
-     * Notification message (Supports Markdown).
-     *
-     * @return $this
-     */
+    /** @see https://core.telegram.org/bots/api#markdownv2-style */
+    public static function escapeMarkdown(string $content): ?string
+    {
+        return preg_replace_callback(
+            '/[_*[\]()~`>#\+\-=|{}.!]/',
+            fn ($matches): string => "\\$matches[0]",
+            $content
+        );
+    }
+
     public function content(string $content, ?int $limit = null): self
     {
-        $this->payload['text'] = $content;
+        $this->text = $content;
 
-        if ($limit) {
+        if ($limit !== null) {
             $this->chunkSize = $limit;
         }
 
@@ -46,15 +57,15 @@ class TelegramMessage extends TelegramBase implements TelegramSenderContract
 
     public function line(string $content): self
     {
-        $this->payload['text'] .= $content."\n";
+        $this->text .= $content."\n";
 
         return $this;
     }
 
-    public function lineIf(bool $boolean, string $line): self
+    public function lineIf(bool $condition, string $line): self
     {
-        if ($boolean) {
-            return $this->line($line);
+        if ($condition) {
+            $this->line($line);
         }
 
         return $this;
@@ -62,20 +73,16 @@ class TelegramMessage extends TelegramBase implements TelegramSenderContract
 
     public function escapedLine(string $content): self
     {
-        // code taken from public gist https://gist.github.com/vijinho/3d66fab3270fc377b8485387ce7e7455
-        $content = str_replace([
-            '\\', '-', '#', '*', '+', '`', '.', '[', ']', '(', ')', '!', '&', '<', '>', '_', '{', '}', ], [
-                '\\\\', '\-', '\#', '\*', '\+', '\`', '\.', '\[', '\]', '\(', '\)', '\!', '\&', '\<', '\>', '\_', '\{', '\}',
-            ], $content);
+        $content = str_replace('\\', '\\\\', $content);
 
-        return $this->line($content);
+        $escaped = self::escapeMarkdown($content) ?? $content;
+
+        return $this->line($escaped);
     }
 
     /**
-     * Attach a view file as the content for the notification.
-     * Supports Laravel blade template.
-     *
-     * @return $this
+     * @param  array<string, mixed>  $data
+     * @param  array<string, mixed>  $mergeData
      */
     public function view(string $view, array $data = [], array $mergeData = []): self
     {
@@ -83,98 +90,129 @@ class TelegramMessage extends TelegramBase implements TelegramSenderContract
     }
 
     /**
-     * Chunk message to given size.
-     *
-     * @return $this
+     * @param  list<array<string, mixed>>  $entities
      */
-    public function chunk(int $limit = 4096): self
+    public function entities(array $entities): self
+    {
+        $this->payload['entities'] = json_encode($entities, JSON_THROW_ON_ERROR);
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, mixed>  $linkPreviewOptions
+     */
+    public function linkPreviewOptions(array $linkPreviewOptions): self
+    {
+        $this->payload['link_preview_options'] = json_encode($linkPreviewOptions, JSON_THROW_ON_ERROR);
+
+        return $this;
+    }
+
+    public function chunk(int $limit = self::DEFAULT_CHUNK_SIZE): self
     {
         $this->chunkSize = $limit;
 
         return $this;
     }
 
-    /**
-     * Should the message be chunked.
-     */
     public function shouldChunk(): bool
     {
         return $this->chunkSize > 0;
     }
 
     /**
+     * @return array<int, array<string, mixed>>|ResponseInterface|null
+     *
      * @throws CouldNotSendNotification
-     * @throws JsonException
+     * @throws InvalidArgumentException
      */
-    public function send(): ResponseInterface|array|null
+    public function send(): array|ResponseInterface|null
     {
-        $params = $this->toArray();
+        /** @var array<string, mixed> $payload */
+        $payload = $this->toArray();
 
-        if ($this->shouldChunk()) {
-            return $this->sendChunkedMessage($params);
-        }
-
-        return $this->telegram->sendMessage($params);
+        return $this->shouldChunk()
+            ? $this->sendChunkedMessage($payload)
+            : $this->telegram->sendMessage($payload);
     }
 
     /**
+     * @param  array<string, mixed>  $params
+     * @return array<int, array<string, mixed>>
+     *
      * @throws CouldNotSendNotification
-     * @throws JsonException
+     * @throws InvalidArgumentException
      */
     private function sendChunkedMessage(array $params): array
     {
-        $replyMarkup = $this->getPayloadValue('reply_markup');
+        $replyMarkup = $params['reply_markup'] ?? null;
 
-        if ($replyMarkup) {
+        if ($replyMarkup !== null) {
             unset($params['reply_markup']);
         }
 
-        $messages = $this->chunkStrings($this->getPayloadValue('text'), $this->chunkSize);
+        $messages = $this->chunkStrings($this->text, $this->chunkSize);
+        $messages = array_values(array_filter($messages, static fn ($m) => $m !== ''));
 
-        $payloads = collect($messages)
-            ->filter()
-            ->map(fn ($text) => array_merge($params, ['text' => $text]));
+        $lastIndex = count($messages) - 1;
+        $responses = [];
 
-        if ($replyMarkup) {
-            $lastMessage = $payloads->pop();
-            $lastMessage['reply_markup'] = $replyMarkup;
-            $payloads->push($lastMessage);
-        }
+        foreach ($messages as $index => $message) {
+            $payload = [...$params, 'text' => $message];
 
-        return $payloads->map(function ($payload) {
-            $response = $this->telegram->sendMessage($payload);
-
-            // To avoid rate limit of one message per second.
-            sleep(1);
-
-            if ($response) {
-                return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+            if ($index === $lastIndex && $replyMarkup !== null) {
+                $payload['reply_markup'] = $replyMarkup;
             }
 
-            return $response;
-        })->toArray();
+            $response = $this->telegram->sendMessage($payload);
+
+            // Telegram rate limiting safety
+            sleep(1);
+
+            if ($response !== null) {
+                $responses[] = Telegram::decodeResponse($response);
+            }
+        }
+
+        return $responses;
     }
 
     /**
-     * Chunk the given string into an array of strings.
+     * @return list<string>
      */
-    private function chunkStrings(string $value, int $limit = 4096): array
+    private function chunkStrings(string $value, int $limit = self::DEFAULT_CHUNK_SIZE): array
     {
+        $limit = max(1, min($limit, self::DEFAULT_CHUNK_SIZE));
+
         if (mb_strwidth($value, 'UTF-8') <= $limit) {
             return [$value];
         }
 
-        if ($limit > 4096) {
-            $limit = 4096;
-        }
+        $wrapped = wordwrap($value, $limit, self::CHUNK_SEPARATOR);
+        $parts = explode(self::CHUNK_SEPARATOR, $wrapped);
 
-        $output = explode('%#TGMSG#%', wordwrap($value, $limit, '%#TGMSG#%'));
+        return count($parts) > 1
+            ? $parts
+            : mb_str_split($value, $limit, 'UTF-8');
+    }
 
-        // Fallback for when the string is too long and wordwrap doesn't cut it.
-        if (count($output) <= 1) {
-            $output = mb_str_split($value, $limit, 'UTF-8');
-        }
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
+    {
+        return [
+            'text' => $this->text,
+            ...parent::toArray(),
+        ];
+    }
 
-        return $output;
+    public function getPayloadValue(string $key): string|int|float|bool|array|null
+    {
+        return match ($key) {
+            'text' => $this->text,
+            default => parent::getPayloadValue($key),
+        };
     }
 }

@@ -44,23 +44,25 @@ class Main extends MY_Controller
         parent::__construct();
     }
 
-    public function index(): void
+    public function index()
     {
         // Kalau sehabis periksa data, paksa harus login lagi
         if (auth('admin_periksa')->check()) {
             auth('admin')->logout();
             auth('admin_periksa')->logout();
 
-            redirect('siteman');
+            return redirect('siteman');
         }
 
-        if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
-            redirect('beranda');
-        } elseif (setting('offline_mode') > 0) {
-            // Jika website hanya bisa diakses user, maka harus login dulu
-            redirect('siteman');
-        } else {
-            redirect('/');
+        if (session('siteman') == 1) {
+            return redirect('beranda');
         }
+
+        if (setting('offline_mode') > 0) {
+            // Jika website hanya bisa diakses user, maka harus login dulu
+            return redirect('siteman');
+        }
+
+        return redirect('/');
     }
 }

@@ -1,4 +1,4 @@
-@if ($rilis['update_available'])
+@if ($rilis['update_available'] ?? false)
     <div class="row">
         <div class='col-md-12'>
             <div class="callout callout-success update">

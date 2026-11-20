@@ -174,7 +174,7 @@
                 @endforeach
             @endforeach
         </tbody>
-        <tfoot class="bg-gray disabled color-palette">
+        <tbody class="bg-gray disabled color-palette">
             <tr>
                 <th colspan="5">
                     <div align="right">Total</div>
@@ -212,7 +212,7 @@
                     <div align="right">{{ $hamil }}</div>
                 </th>
             </tr>
-        </tfoot>
+        </tbody>
     </table>
     <p>&nbsp;</p>
     <p>&nbsp;</p>

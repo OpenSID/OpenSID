@@ -46,6 +46,7 @@ class SearchPromptRenderer extends Renderer implements Scrolling
                     $this->cyan($this->truncate($prompt->label, $prompt->terminal()->cols() - 6)),
                     $this->valueWithCursorAndSearchIcon($prompt, $maxWidth),
                     $this->renderOptions($prompt),
+                    info: $prompt->infoText(),
                 )
                 ->hint($prompt->hint),
 
@@ -54,6 +55,7 @@ class SearchPromptRenderer extends Renderer implements Scrolling
                     $this->cyan($this->truncate($prompt->label, $prompt->terminal()->cols() - 6)),
                     $prompt->valueWithCursor($maxWidth),
                     $this->renderOptions($prompt),
+                    info: $prompt->infoText(),
                 )
                 ->when(
                     $prompt->hint,
@@ -106,22 +108,21 @@ class SearchPromptRenderer extends Renderer implements Scrolling
             return $this->gray('  '.($prompt->state === 'searching' ? 'Searching...' : 'No results.'));
         }
 
-        return $this->scrollbar(
-            collect($prompt->visible())
-                ->map(fn ($label) => $this->truncate($label, $prompt->terminal()->cols() - 10))
-                ->map(function ($label, $key) use ($prompt) {
-                    $index = array_search($key, array_keys($prompt->matches()));
+        return implode(PHP_EOL, $this->scrollbar(
+            array_values(array_map(function ($label, $key) use ($prompt) {
+                $label = $this->truncate($label, $prompt->terminal()->cols() - 10);
 
-                    return $prompt->highlighted === $index
-                        ? "{$this->cyan('›')} {$label}  "
-                        : "  {$this->dim($label)}  ";
-                })
-                ->values(),
+                $index = array_search($key, array_keys($prompt->matches()));
+
+                return $prompt->highlighted === $index
+                    ? "{$this->cyan('›')} {$label}  "
+                    : "  {$this->dim($label)}  ";
+            }, $visible = $prompt->visible(), array_keys($visible))),
             $prompt->firstVisible,
             $prompt->scroll,
             count($prompt->matches()),
             min($this->longest($prompt->matches(), padding: 4), $prompt->terminal()->cols() - 6)
-        )->implode(PHP_EOL);
+        ));
     }
 
     /**

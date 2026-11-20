@@ -27,16 +27,15 @@ use Symfony\Component\VarDumper\Cloner\Data;
 class LoggerDataCollector extends DataCollector implements LateDataCollectorInterface
 {
     private ?DebugLoggerInterface $logger;
-    private ?string $containerPathPrefix;
     private ?Request $currentRequest = null;
-    private ?RequestStack $requestStack;
     private ?array $processedLogs = null;
 
-    public function __construct(?object $logger = null, ?string $containerPathPrefix = null, ?RequestStack $requestStack = null)
-    {
+    public function __construct(
+        ?object $logger = null,
+        private ?string $containerPathPrefix = null,
+        private ?RequestStack $requestStack = null,
+    ) {
         $this->logger = DebugLoggerConfigurator::getDebugLogger($logger);
-        $this->containerPathPrefix = $containerPathPrefix;
-        $this->requestStack = $requestStack;
     }
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
@@ -192,7 +191,7 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
             $log['priorityName'] = 'DEBUG';
             $log['channel'] = null;
             $log['scream'] = false;
-            unset($log['type'], $log['file'], $log['line'], $log['trace'], $log['trace'], $log['count']);
+            unset($log['type'], $log['file'], $log['line'], $log['trace'], $log['count']);
             $logs[] = $log;
         }
 
@@ -234,10 +233,10 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
             $exception = $log['context']['exception'];
 
             if ($exception instanceof SilencedErrorContext) {
-                if (isset($silencedLogs[$h = spl_object_hash($exception)])) {
+                if (isset($silencedLogs[$id = spl_object_id($exception)])) {
                     continue;
                 }
-                $silencedLogs[$h] = true;
+                $silencedLogs[$id] = true;
 
                 if (!isset($sanitizedLogs[$message])) {
                     $sanitizedLogs[$message] = $log + [
@@ -306,17 +305,17 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
                     'name' => $log['priorityName'],
                 ];
             }
-            if ('WARNING' === $log['priorityName']) {
+            if ('WARNING' === $log['priorityName'] || 'warning' === $log['priorityName']) {
                 ++$count['warning_count'];
             }
 
             if ($this->isSilencedOrDeprecationErrorLog($log)) {
                 $exception = $log['context']['exception'];
                 if ($exception instanceof SilencedErrorContext) {
-                    if (isset($silencedLogs[$h = spl_object_hash($exception)])) {
+                    if (isset($silencedLogs[$id = spl_object_id($exception)])) {
                         continue;
                     }
-                    $silencedLogs[$h] = true;
+                    $silencedLogs[$id] = true;
                     $count['scream_count'] += $exception->count;
                 } else {
                     ++$count['deprecation_count'];

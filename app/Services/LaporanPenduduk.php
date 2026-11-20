@@ -172,38 +172,33 @@ class LaporanPenduduk
         $lap          = $this->lap;
         $status_dasar = '1';
 
-        //Siapkan data baris rekaps
-        if ((int) $lap == 18) {
+        if ((int) $lap === 18) {
             $semua = $this->data_jml_semua_penduduk()
                 ->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0) >= 17
-                 OR (status_kawin IS NOT NULL AND status_kawin <> 1))
+                OR (status_kawin IS NOT NULL AND status_kawin <> 1))
                 AND (ktp_el != '3' OR ktp_el IS NULL)")
                 ->get()
                 ->toArray();
-
-        } elseif ($lap == 'kia') {
-            $semua = $this->data_jml_semua_penduduk()->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0)<=17)")->get()->toArray();
+        } elseif ($lap === 'kia') {
+            $semua = $this->data_jml_semua_penduduk()
+                ->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0)<=17)")
+                ->get()
+                ->toArray();
         } elseif (in_array($lap, ['kelas_sosial', 'bantuan_keluarga'])) {
             $semua = $this->data_jml_semua_keluarga();
         } elseif (in_array($lap, ['bdt', 'dtsen'])) {
             $semua = $this->data_jml_semua_rtm();
+        } elseif ($lap === 'akta-kematian' || $lap === 'akta-kematian-wilayah') {
+            $semua = $this->data_jml_semua_penduduk('2')->get()->toArray();
+        } elseif ($lap === 'hamil') {
+            $semua = $this->data_jml_semua_penduduk($status_dasar)->where('b.sex', 2)->get()->toArray();
+        } elseif ($lap === 'buku-nikah') {
+            $semua = $this->data_jml_semua_penduduk($status_dasar)->where('b.status_kawin', '!=', 1)->get()->toArray();
         } else {
-            $query = $this->data_jml_semua_penduduk($status_dasar);
-            if ($lap == 'hamil') {
-                $semua = $query->where('b.sex', 2);
-            } elseif ($lap == 'buku-nikah') {
-                $semua = $query->where('b.status_kawin', '!=', 1);
-            } elseif (in_array($lap, ['akta-kematian', 'akta-kematian-wilayah'])) {
-                $status_dasar = '2';
-                $semua        = $this->data_jml_semua_penduduk($status_dasar);
-            } else {
-                $semua = $query;
-            }
-
-            return $semua->get()->toArray()[0];
+            $semua = $this->data_jml_semua_penduduk($status_dasar)->get()->toArray();
         }
 
-        return $semua[0];
+        return $semua[0] ?? ['jumlah' => 0, 'laki' => 0, 'perempuan' => 0];
     }
 
     protected function data_jml_semua_keluarga()

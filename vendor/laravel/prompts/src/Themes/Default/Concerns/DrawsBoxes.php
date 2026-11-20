@@ -24,14 +24,10 @@ trait DrawsBoxes
     ): self {
         $this->minWidth = min($this->minWidth, Prompt::terminal()->cols() - 6);
 
-        $bodyLines = collect(explode(PHP_EOL, $body));
-        $footerLines = collect(explode(PHP_EOL, $footer))->filter();
-        $width = $this->longest(
-            $bodyLines
-                ->merge($footerLines)
-                ->push($title)
-                ->toArray()
-        );
+        $bodyLines = explode(PHP_EOL, $body);
+        $footerLines = array_filter(explode(PHP_EOL, $footer));
+
+        $width = $this->longest(array_merge($bodyLines, $footerLines, [$title]));
 
         $titleLength = mb_strwidth($this->stripEscapeSequences($title));
         $titleLabel = $titleLength > 0 ? " {$title} " : '';
@@ -39,16 +35,20 @@ trait DrawsBoxes
 
         $this->line("{$this->{$color}(' ┌')}{$titleLabel}{$this->{$color}($topBorder.'┐')}");
 
-        $bodyLines->each(function ($line) use ($width, $color) {
+        foreach ($bodyLines as $line) {
             $this->line("{$this->{$color}(' │')} {$this->pad($line, $width)} {$this->{$color}('│')}");
-        });
+        }
 
-        if ($footerLines->isNotEmpty()) {
+        if (count($footerLines) > 0) {
             $this->line($this->{$color}(' ├'.str_repeat('─', $width + 2).'┤'));
 
-            $footerLines->each(function ($line) use ($width, $color) {
+            foreach ($footerLines as $line) {
                 $this->line("{$this->{$color}(' │')} {$this->pad($line, $width)} {$this->{$color}('│')}");
-            });
+            }
+        }
+
+        if ($info) {
+            $info = $this->truncate($info, $width - 1);
         }
 
         $this->line($this->{$color}(' └'.str_repeat(

@@ -185,14 +185,7 @@ final class RowIterator implements RowIteratorInterface
     {
         $this->currentlyProcessedRow = new Row([], null);
 
-        $wasStoppedByCallback = $this->xmlProcessor->readUntilStopped();
-
-        // The XML reader may stop without error before the closing tag is found
-        // (e.g. libxml2 >= 2.15 after refusing to expand entities exceeding the amplification limit).
-        // Without this, the iterator would yield empty rows forever.
-        if (!$wasStoppedByCallback) {
-            $this->hasReachedEndOfFile = true;
-        }
+        $this->xmlProcessor->readUntilStopped();
 
         $this->rowBuffer = $this->currentlyProcessedRow;
     }
@@ -223,14 +216,8 @@ final class RowIterator implements RowIteratorInterface
         $currentNumColumnsRepeated = $this->getNumColumnsRepeatedForCurrentNode($xmlReader);
 
         // NOTE: expand() will automatically decode all XML entities of the child nodes
-        // NOTE: libxml2 >= 2.15 refuses to expand nodes whose entities exceed the amplification limit
-        $node = @$xmlReader->expand();
-        if (!$node instanceof DOMElement) {
-            $libxmlError = libxml_get_last_error();
-            $reason = false !== $libxmlError ? trim($libxmlError->message) : 'unable to expand cell node';
-
-            throw new IOException("The content.xml file is invalid and cannot be read. [{$reason}]");
-        }
+        /** @var DOMElement $node */
+        $node = $xmlReader->expand();
         $currentCell = $this->getCell($node);
 
         // process cell N only after having read cell N+1 (see below why)

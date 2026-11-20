@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Doctrine\DBAL\Tools\Console\Command;
 
 use Doctrine\DBAL\Connection;
@@ -26,19 +28,12 @@ use function stripos;
  */
 class RunSqlCommand extends Command
 {
-    use CommandCompatibility;
-
-    private ConnectionProvider $connectionProvider;
-
-    public function __construct(ConnectionProvider $connectionProvider)
+    public function __construct(private readonly ConnectionProvider $connectionProvider)
     {
         parent::__construct();
-
-        $this->connectionProvider = $connectionProvider;
     }
 
-    /** @return void */
-    protected function configure()
+    protected function configure(): void
     {
         $this
         ->setName('dbal:run-sql')
@@ -57,8 +52,12 @@ outputs the results:
 EOT);
     }
 
-    /** @throws Exception */
-    private function doExecute(InputInterface $input, OutputInterface $output): int
+    /**
+     * {@inheritDoc}
+     *
+     * @throws Exception
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $conn = $this->getConnection($input);
         $io   = new SymfonyStyle($input, $output);
@@ -66,7 +65,7 @@ EOT);
         $sql = $input->getArgument('sql');
 
         if ($sql === null) {
-            throw new RuntimeException("Argument 'SQL' is required in order to execute this command correctly.");
+            throw new RuntimeException('Argument "sql" is required in order to execute this command correctly.');
         }
 
         assert(is_string($sql));

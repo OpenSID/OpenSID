@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
 	var table = $('#syarat_surat').DataTable({
 		'processing': true,
@@ -8,9 +8,9 @@ $(document).ready(function() {
 		'searching': false,
 		'serverside': true,
 		'ajax': {
-			'url': SITE_URL + '/layanan-mandiri/surat/cek_syarat',
+			'url': SITE_URL + 'layanan-mandiri/surat/cek_syarat',
 			'type': 'POST',
-			data: function ( d ) {
+			data: function (d) {
 				d.id_surat = $("#id_surat").val();
 				d.id_permohonan = $("#id_permohonan").val();
 			},
@@ -44,25 +44,25 @@ $(document).ready(function() {
 		}
 	}
 
-	$('#id_surat').change(function() {
+	$('#id_surat').change(function () {
 		table.ajax.reload();
 	});
 
 	// Perbaharui daftar pilihan dokumen setelah ada perubahan daftar dokumen yg tersedia
 	// Beri tenggang waktu supaya database dokumen selesai di-initialise
-	setTimeout(function() {
+	setTimeout(function () {
 		// Ambil instance dari datatable yg sudah ada
-		var dokumen = $('#dokumen').DataTable({"retrieve": true});
-		dokumen.on( 'draw', function () {
+		var dokumen = $('#dokumen').DataTable({ "retrieve": true });
+		dokumen.on('draw', function () {
 			table.ajax.reload();
-		} );
+		});
 	}, 500);
 
 	if ($('input[name=id_permohonan]').val()) {
-		$('#id_surat').attr('disabled','disabled');
+		$('#id_surat').attr('disabled', 'disabled');
 	}
 
-	$('#validasi').submit(function() {
+	$('#validasi').submit(function () {
 		var validator = $("#validasi").validate();
 		var syarat = $("select[name='syarat[]']");
 		var i;
@@ -85,7 +85,7 @@ $(document).ready(function() {
 			}
 		],
 		'language': {
-			'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+			'url': BASE_URL + 'assets/bootstrap/js/dataTables.indonesian.lang'
 		},
 		'aaSorting': []
 	});

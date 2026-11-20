@@ -48,7 +48,7 @@ class ProdukHukumRepository
     {
         return QueryBuilder::for(Dokumen::select('id', 'nama', 'tahun', 'satuan', 'kategori', 'attr', 'url'))
             ->allowedFields('*')
-            ->allowedFilters([
+            ->allowedFilters(...[
                 AllowedFilter::exact('tahun'),
                 AllowedFilter::exact('kategori'),
                 AllowedFilter::callback('search', static function ($query, $value): void {
@@ -59,7 +59,7 @@ class ProdukHukumRepository
                     });
                 }),
             ])
-            ->allowedSorts(['id', 'nama', 'tahun', 'kategori'])
+            ->allowedSorts(...['id', 'nama', 'tahun', 'kategori'])
             ->tap(static fn ($query) => $query->produkHukum()->active())
             ->whereExists(static function ($subQuery): void {
                 $subQuery->selectRaw(1)

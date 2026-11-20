@@ -109,28 +109,28 @@ class MultiSearchPromptRenderer extends Renderer implements Scrolling
             return $this->gray('  '.($prompt->state === 'searching' ? 'Searching...' : 'No results.'));
         }
 
-        return $this->scrollbar(
-            collect($prompt->visible())
-                ->map(fn ($label) => $this->truncate($label, $prompt->terminal()->cols() - 12))
-                ->map(function ($label, $key) use ($prompt) {
-                    $index = array_search($key, array_keys($prompt->matches()));
-                    $active = $index === $prompt->highlighted;
-                    $selected = $prompt->isList()
-                        ? in_array($label, $prompt->value())
-                        : in_array($key, $prompt->value());
+        return implode(PHP_EOL, $this->scrollbar(
+            array_map(function ($label, $key) use ($prompt) {
+                $label = $this->truncate($label, $prompt->terminal()->cols() - 12);
 
-                    return match (true) {
-                        $active && $selected => "{$this->cyan('› ◼')} {$label}  ",
-                        $active => "{$this->cyan('›')} ◻ {$label}  ",
-                        $selected => "  {$this->cyan('◼')} {$this->dim($label)}  ",
-                        default => "  {$this->dim('◻')} {$this->dim($label)}  ",
-                    };
-                }),
+                $index = array_search($key, array_keys($prompt->matches()));
+                $active = $index === $prompt->highlighted;
+                $selected = $prompt->isList()
+                    ? in_array($label, $prompt->value())
+                    : in_array($key, $prompt->value());
+
+                return match (true) {
+                    $active && $selected => "{$this->cyan('› ◼')} {$label}  ",
+                    $active => "{$this->cyan('›')} ◻ {$label}  ",
+                    $selected => "  {$this->cyan('◼')} {$this->dim($label)}  ",
+                    default => "  {$this->dim('◻')} {$this->dim($label)}  ",
+                };
+            }, $prompt->visible(), array_keys($prompt->visible())),
             $prompt->firstVisible,
             $prompt->scroll,
             count($prompt->matches()),
             min($this->longest($prompt->matches(), padding: 4), $prompt->terminal()->cols() - 6)
-        )->implode(PHP_EOL);
+        ));
     }
 
     /**
@@ -153,17 +153,21 @@ class MultiSearchPromptRenderer extends Renderer implements Scrolling
      */
     protected function getInfoText(MultiSearchPrompt $prompt): string
     {
-        $info = count($prompt->value()).' selected';
+        $selected = count($prompt->value()).' selected';
 
-        $hiddenCount = count($prompt->value()) - collect($prompt->matches())
-            ->filter(fn ($label, $key) => in_array($prompt->isList() ? $label : $key, $prompt->value()))
-            ->count();
+        $hiddenCount = count($prompt->value()) - count(array_filter(
+            $prompt->matches(),
+            fn ($label, $key) => in_array($prompt->isList() ? $label : $key, $prompt->value()),
+            ARRAY_FILTER_USE_BOTH
+        ));
 
         if ($hiddenCount > 0) {
-            $info .= " ($hiddenCount hidden)";
+            $selected .= " ($hiddenCount hidden)";
         }
 
-        return $info;
+        $parts = array_filter([$prompt->infoText(), $selected]);
+
+        return implode(' · ', $parts);
     }
 
     /**

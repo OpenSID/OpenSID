@@ -67,7 +67,7 @@ class RekapitulasiController extends AdminModulController
         $pamong = Pamong::daftar()->where(static function ($q) {
             $q->has('penduduk')->orWhere('pamong_nama', '!=', '');
         })->get();
-        $kehadiran = Kehadiran::get();
+        $kehadiran = Kehadiran::select('status_kehadiran')->distinct()->get();
 
         return view('kehadiran::backend.rekapitulasi.index', ['pamong' => $pamong, 'kehadiran' => $kehadiran]);
     }

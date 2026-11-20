@@ -311,11 +311,9 @@ class Grup extends Admin_Controller
             ->set_output(json_encode($ekspor, JSON_PRETTY_PRINT));
     }
 
-    public function impor()
+    public function impor(GrupImportRequest $request)
     {
         isCan('u');
-
-        new GrupImportRequest();
 
         try {
 
@@ -330,7 +328,7 @@ class Grup extends Admin_Controller
             $list_data = $this->formatImport($content);
 
             if ($list_data) {
-                $this->impor_filter($list_data);
+                return $this->impor_filter($list_data);
             } else {
                 redirect_with('error', 'Format file tidak valid');
             }

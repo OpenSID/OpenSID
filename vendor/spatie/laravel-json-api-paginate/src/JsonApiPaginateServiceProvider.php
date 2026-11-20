@@ -74,10 +74,6 @@ class JsonApiPaginateServiceProvider extends ServiceProvider
                     ->appends(Arr::except(request()->input(), $paginationParameter.'.'.$numberParameter));
             }
 
-            if (! is_null(config('json-api-paginate.base_url'))) {
-                $paginator->setPath(config('json-api-paginate.base_url'));
-            }
-
             return $paginator;
         };
 

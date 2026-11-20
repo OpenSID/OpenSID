@@ -165,7 +165,8 @@ class DataSuratPenduduk extends CI_Controller
         $kk_level    = $data['individu']['kk_level'];
         $ada_anggota = in_array(SHDKEnum::KEPALA_KELUARGA, $filters['kk_level'] ?? []) || $kk_level == SHDKEnum::KEPALA_KELUARGA;
 
-        $data['anggota'] = $ada_anggota ? Keluarga::find($data['individu']['id_kk'])->anggota : null;
+        $data['anggota'] = $ada_anggota ? Keluarga::find($data['individu']['id_kk'])?->anggota : null;
+        $data['filters'] = $filters;
 
         $html = view('admin.surat.data_penduduk', $data, [], true);
 
@@ -195,7 +196,7 @@ class DataSuratPenduduk extends CI_Controller
                 ->toArray();
 
             if (count($dataPenduduk) == 1) {
-                $pendudukKait = $this->kategoriYangDikaitkan($dataPenduduk[0]['id'], $key);
+                $pendudukKait = $this->kategoriYangDikaitkan($dataPenduduk[0]['id'], $key, $surat);
                 $sumber       = array_merge($sumber, $pendudukKait);
             } else {
                 $sumber = array_merge($sumber, [
@@ -251,9 +252,19 @@ class DataSuratPenduduk extends CI_Controller
         return Keluarga::with('anggota')->find($data['individu']['id_kk'])->anggota;
     }
 
-    private function kategoriYangDikaitkan($id, $hubunganForm): array
+    private function kategoriYangDikaitkan($id, $hubunganForm, ?FormatSurat $surat = null): array
     {
         $data = ['individu' => Penduduk::findOrFail($id), 'anggota' => null, 'kategori' => $hubunganForm];
+
+        if ($surat) {
+            $filters = collect($surat->form_isian->{$hubunganForm})->toArray();
+            unset($filters['data']);
+            $kk_level    = $data['individu']['kk_level'];
+            $ada_anggota = in_array(SHDKEnum::KEPALA_KELUARGA, $filters['kk_level'] ?? []) || $kk_level == SHDKEnum::KEPALA_KELUARGA;
+
+            $data['anggota'] = $ada_anggota ? Keluarga::find($data['individu']['id_kk'])?->anggota : null;
+            $data['filters'] = $filters;
+        }
 
         $html = view('admin.surat.data_penduduk', $data, [], true);
 

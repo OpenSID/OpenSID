@@ -72,7 +72,7 @@ class Admin_Controller extends MY_Controller
             // untuk kembali ke halaman sebelumnya setelah login.
             $this->session->intended = current_url();
 
-            redirect('siteman');
+            return redirect('siteman');
         }
 
         $this->cek_identitas_desa();
@@ -82,25 +82,22 @@ class Admin_Controller extends MY_Controller
 
         View::share([
             'controller'   => $this->controller ?? $this->aliasController,
-            'list_setting' => app('ci')->list_setting,
-            'modul'        => $this->header['modul'],
+            'list_setting' => $this->list_setting,
+            'modul'        => $this->header['modul'] ?? '',
             'modul_ini'    => $this->modul_ini,
             'notif'        => [
                 'langganan'  => $this->header['notif_langganan'],
                 'pengumuman' => $this->header['notif_pengumuman'],
             ],
+            'kategori_pengaturan'  => $this->kategori_pengaturan,
             'notif_categories'     => NotificationService::getCategories(),
             'notif_counts'         => NotificationService::getNotificationCounts(auth('admin')->user()),
             'notif_list'           => NotificationService::getRecentNotifications(auth('admin')->user(), 10),
-            'kategori_pengaturan'  => app('ci')->kategori_pengaturan,
             'sub_modul_ini'        => $this->sub_modul_ini,
             'akses_modul'          => $this->sub_modul_ini ?? $this->modul_ini,
             'perbaharui_langganan' => $this->header['perbaharui_langganan'] ?? null,
             'module_name'          => SebutanDesa($modules_list->firstWhere('slug', $this->sub_modul_ini ?? $this->modul_ini)->modul ?? null),
         ]);
-
-        // logout other devices jika melakukan perubahan password
-        $this->middleware->run('AuthenticateSession');
 
         // paksa logout setelah perubahan password
         if ($this->session->change_password && $this->controller !== 'pengguna') {
@@ -182,16 +179,30 @@ class Admin_Controller extends MY_Controller
 
     protected function set_hak_akses_rfm()
     {
-        // reset dulu session yang berkaitan hak akses ubah dan hapus
-        $this->session->hapus_gambar_rfm       = false;
-        $this->session->ubah_tambah_gambar_rfm = false;
+        $user = auth('admin')->user();
 
-        if (can('h')) {
-            $this->session->hapus_gambar_rfm = true;
-        }
-        if (can('u')) {
-            $this->session->ubah_tambah_gambar_rfm = true;
-        }
+        $payload = [
+            'user_id'                => $user->id,
+            'fm_key'                 => hash_hmac('sha256', $user->id, config('app.key')),
+            'hapus_gambar_rfm'       => can('h'),
+            'ubah_tambah_gambar_rfm' => can('u'),
+            'expires'                => time() + 86400, // 24 hours
+        ];
+
+        // Set encrypted cookie
+        \Illuminate\Support\Facades\Cookie::queue(
+            'rfm_access',
+            encrypt($payload),
+            1440, // 24 hours in minutes
+            '/',
+            null,
+            request()->secure(), // HTTPS only
+            true, // HttpOnly
+            false, // Raw = false (akan di-encrypt)
+            'lax'
+        );
+
+        $this->session->set_userdata('fm_key', $payload['fm_key']);
     }
 
     private function modules_list()

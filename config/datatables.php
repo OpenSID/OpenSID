@@ -35,10 +35,10 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 return [
-    // DataTables search options.
+    /*
+     * DataTables search options.
+     */
     'search' => [
         /*
          * Smart search will enclose search keyword with wildcard string "%keyword%".
@@ -46,7 +46,9 @@ return [
          */
         'smart' => true,
 
-        // Multi-term search will explode search keyword using spaces resulting into multiple term search.
+        /*
+         * Multi-term search will explode search keyword using spaces resulting into multiple term search.
+         */
         'multi_term' => true,
 
         /*
@@ -68,7 +70,9 @@ return [
         'starts_with' => false,
     ],
 
-    // DataTables internal index id response column name.
+    /*
+     * DataTables internal index id response column name.
+     */
     'index_column' => 'DT_RowIndex',
 
     /*
@@ -76,10 +80,10 @@ return [
      * This is where you can register your custom dataTables builder.
      */
     'engines' => [
-        'eloquent'   => App\Services\DataTables\EloquentDataTable::class,
-        'query'      => App\Services\DataTables\QueryDataTable::class,
-        'collection' => App\Services\DataTables\CollectionDataTable::class,
-        'resource'   => App\Services\DataTables\ApiResourceDataTable::class,
+        'eloquent' => Yajra\DataTables\EloquentDataTable::class,
+        'query' => Yajra\DataTables\QueryDataTable::class,
+        'collection' => Yajra\DataTables\CollectionDataTable::class,
+        'resource' => Yajra\DataTables\ApiResourceDataTable::class,
     ],
 
     /*
@@ -107,11 +111,15 @@ return [
      * 'throw'          - Throws a \Yajra\DataTables\Exceptions\Exception. Use your custom error handler if needed.
      * 'custom message' - Any friendly message to be displayed to the user. You can also use translation key.
      */
-    'error' => null,
+    'error' => env('DATATABLES_ERROR', null),
 
-    // Default columns definition of dataTable utility functions.
+    /*
+     * Default columns definition of dataTable utility functions.
+     */
     'columns' => [
-        // List of columns hidden/removed on json response.
+        /*
+         * List of columns hidden/removed on json response.
+         */
         'excess' => ['rn', 'row_num'],
 
         /*
@@ -126,7 +134,9 @@ return [
          */
         'raw' => ['action'],
 
-        // List of columns are forbidden from being searched/sorted.
+        /*
+         * List of columns are forbidden from being searched/sorted.
+         */
         'blacklist' => ['password', 'remember_token'],
 
         /*
@@ -136,10 +146,17 @@ return [
         'whitelist' => '*',
     ],
 
-    // JsonResponse header and options config.
+    /*
+     * JsonResponse header and options config.
+     */
     'json' => [
-        'header'  => [],
+        'header' => [],
         'options' => 0,
     ],
 
+    /*
+     * Default condition to determine if a parameter is a callback or not.
+     * Callbacks needs to start by those terms, or they will be cast to string.
+     */
+    'callback' => ['$', '$.', 'function'],
 ];

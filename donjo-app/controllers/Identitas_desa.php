@@ -42,7 +42,6 @@ use App\Models\Wilayah;
 use App\Traits\Upload;
 use Modules\BatasWilayah\Services\BatasWilayahService;
 use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -370,7 +369,7 @@ class Identitas_desa extends Admin_Controller
                     // Konversi ke .webp
                     $newFilename = "{$uploadData['raw_name']}.webp";
                     Image::load($uploadData['full_path'])
-                        ->format(Manipulations::FORMAT_WEBP)
+                        ->format('webp')
                         ->save("{$uploadData['file_path']}{$newFilename}");
 
                     // Hapus file asli (non-webp)

@@ -1,70 +1,24 @@
-<?php
+@extends('admin.layouts.print_layout')
 
-defined('BASEPATH') || exit('No direct script access allowed');
+@section('title', 'Laporan Suplemen ' . set_ucwords($suplemen['nama']))
 
-/*
- * File ini:
- *
- * View untuk cetak/unduh laporan modul suplemen
- *
- * donjo-app/views/suplemen/cetak.php,
- */
+@section('header')
+    <div style="text-align: center; margin-bottom: 10px;">
+        @if ($aksi != 'unduh')
+            <img class="logo" src="{{ gambar_desa($desa['logo']) }}" alt="logo-desa" style="display: block; margin: 0 auto;">
+        @endif
+        <h1 class="judul">
+            PEMERINTAH {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $desa['nama_kabupaten'] . '<br>' . setting('sebutan_kecamatan') . ' ' . $desa['nama_kecamatan'] . '<br>' . setting('sebutan_desa') . ' ' . $desa['nama_desa']) !!}
+        </h1>
+    </div>
+    <hr class="garis">
+    <h4 align="center" style="margin-bottom: 10px;"><u>Daftar Terdata Suplemen {{ set_ucwords($suplemen['nama']) }}</u></h4>
+    <br>
+@endsection
 
-/*
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- *
- * @see 	https://github.com/OpenSID/OpenSID
- */
-
-?>
+@section('content')
 <table>
     <tbody>
-        <tr>
-            <td>
-                @if ($aksi != 'unduh')
-                    <img class="logo" src="{{ gambar_desa($desa['logo']) }}" alt="logo-desa">
-                @endif
-                <h1 class="judul">
-                    PEMERINTAH {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $desa['nama_kabupaten'] . ' <br>' . setting('sebutan_kecamatan') . ' ' . $desa['nama_kecamatan'] . ' <br>' . setting('sebutan_desa') . ' ' . $desa['nama_desa']) !!}
-                </h1>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <hr class="garis">
-            </td>
-        </tr>
-        <tr>
-            <td class="text-center">
-                <h4><u>Daftar Terdata Suplemen {{ set_ucwords($suplemen['nama']) }}</u></h4>
-            </td>
-        </tr>
         <tr>
             <td>
                 <strong>Sasaran Suplemen : </strong>{{ $sasaran[$suplemen['sasaran']] }}<br>
@@ -137,3 +91,5 @@ defined('BASEPATH') || exit('No direct script access allowed');
         </tr>
     </tbody>
 </table>
+@endsection
+

@@ -20,8 +20,8 @@
         }
     ],
     "require": {
-        "illuminate/database": "^10.5|^11.33|^12.0",
-        "illuminate/support": "^10.5|^11.33|^12.0"
+        "illuminate/database": "^10.5|^11.33|^12.0|^13.0",
+        "illuminate/support": "^10.5|^11.33|^12.0|^13.0"
     },
     "autoload": {
         "psr-4": {
@@ -37,12 +37,10 @@
         "test": "vendor/bin/phpunit"
     },
     "require-dev": {
-        "chelout/laravel-relationship-events": "^1.5|^2.0|^3.0",
         "laravel/legacy-factories": "^1.4",
-        "livewire/livewire": "dev-main",
         "mockery/mockery": "^1.6",
-        "orchestra/testbench": "^8.1.1|^9|^10.0",
-        "phpunit/phpunit": "^9.5.25|^10|^11"
+        "orchestra/testbench": "^11.0",
+        "phpunit/phpunit": "^9.5.25|^10|^11|^12.5.0"
     },
     "config": {
         "sort-packages": true

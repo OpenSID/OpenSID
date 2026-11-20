@@ -220,19 +220,19 @@ class FakeDataIsian
 
             switch ($this->request['satuan_masa_berlaku']) {
                 case 'd':
-                    $tanggal_akhir->addDays($this->request['masa_berlaku']);
+                    $tanggal_akhir->addDays((int) $this->request['masa_berlaku']);
                     break;
 
                 case 'w':
-                    $tanggal_akhir->addWeeks($this->request['masa_berlaku']);
+                    $tanggal_akhir->addWeeks((int) $this->request['masa_berlaku']);
                     break;
 
                 case 'M':
-                    $tanggal_akhir->addMonths($this->request['masa_berlaku']);
+                    $tanggal_akhir->addMonths((int) $this->request['masa_berlaku']);
                     break;
 
                 case 'y':
-                    $tanggal_akhir->addYears($this->request['masa_berlaku']);
+                    $tanggal_akhir->addYears((int) $this->request['masa_berlaku']);
                     break;
 
                 default:

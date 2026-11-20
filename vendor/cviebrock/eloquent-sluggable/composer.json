@@ -6,7 +6,6 @@
         "eloquent",
         "sluggable",
         "laravel",
-        "lumen",
         "slug"
     ],
     "homepage": "https://github.com/cviebrock/eloquent-sluggable",
@@ -18,17 +17,19 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "cocur/slugify": "^4.3",
-        "illuminate/config": "^10.0",
-        "illuminate/database": "^10.0",
-        "illuminate/support": "^10.0"
+        "illuminate/config": "^13.0",
+        "illuminate/database": "^13.0",
+        "illuminate/support": "^13.0"
     },
     "require-dev": {
-        "limedeck/phpunit-detailed-printer": "^6.0",
+        "friendsofphp/php-cs-fixer": "~3.94.2",
+        "larastan/larastan": "^3.0",
         "mockery/mockery": "^1.4.4",
-        "orchestra/testbench": "^8.0",
-        "pestphp/pest": "2.x-dev"
+        "orchestra/testbench": "^11.0",
+        "pestphp/pest": "^3.7",
+        "phpstan/phpstan": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -41,12 +42,19 @@
         }
     },
     "scripts": {
+        "analyze": "vendor/bin/phpstan --memory-limit=1G analyze",
         "fresh": [
             "rm -rf vendor composer.lock",
             "composer install"
         ],
+        "style:check": "vendor/bin/php-cs-fixer check -v",
+        "style:fix": "vendor/bin/php-cs-fixer fix -v",
         "tests": [
-            "php vendor/bin/pest"
+            "rm -rf build",
+            "XDEBUG_MODE=coverage php vendor/bin/pest"
+        ],
+        "tests:ci": [
+            "vendor/bin/pest --teamcity"
         ]
     },
     "extra": {

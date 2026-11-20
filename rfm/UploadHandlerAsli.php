@@ -833,32 +833,32 @@ class UploadHandler
         $image_oriented = false;
         if (!empty($options['auto_orient'])) {
             $image_oriented = $this->imagick_orient_image($image);
-        } 
-	    
-        $image_resize = false; 
+        }
+
+        $image_resize = false;
         $new_width = $max_width = $img_width = $image->getImageWidth();
-        $new_height = $max_height = $img_height = $image->getImageHeight(); 
-		  
+        $new_height = $max_height = $img_height = $image->getImageHeight();
+
         // use isset(). User might be setting max_width = 0 (auto in regular resizing). Value 0 would be considered empty when you use empty()
         if (isset($options['max_width'])) {
-            $image_resize = true; 
-            $new_width = $max_width = $options['max_width']; 
+            $image_resize = true;
+            $new_width = $max_width = $options['max_width'];
         }
         if (isset($options['max_height'])) {
             $image_resize = true;
             $new_height = $max_height = $options['max_height'];
         }
-        
+
         $image_strip = ($options['strip'] ?? false);
- 
-        if ( !$image_oriented && ($max_width >= $img_width) && ($max_height >= $img_height) && !$image_strip && empty($options["jpeg_quality"]) ) {        
+
+        if ( !$image_oriented && ($max_width >= $img_width) && ($max_height >= $img_height) && !$image_strip && empty($options["jpeg_quality"]) ) {
             if ($file_path !== $new_file_path) {
                 return copy($file_path, $new_file_path);
             }
             return true;
         }
         $crop = ($options['crop'] ?? false);
-        
+
         if ($crop) {
             $x = 0;
             $y = 0;
@@ -1416,9 +1416,9 @@ class UploadHandler
             $thumbResult = create_img($targetFile, $targetFileThumb, 122, 91);
 
             if ($thumbResult!==true) {
-                $res['files'][0]->error = $thumbResult === false ? trans("Not enough Memory") : $thumbResult;
+                $res['files'][0]->error = $thumbResult === false ? translate("Not enough Memory") : $thumbResult;
             } elseif (!$this->options['ftp'] && ! new_thumbnails_creation($targetPath,$targetFile,$_FILES['files']['name'][0],$this->options['config']['current_path'],$this->options['config'])) {
-                $res['files'][0]->error = trans("Not enough Memory");
+                $res['files'][0]->error = translate("Not enough Memory");
             } else
             {
                 $imginfo = getimagesize($targetFile);

@@ -37,7 +37,7 @@ use Symfony\Component\Finder\Iterator\SortableIterator;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
- * @implements \IteratorAggregate<string, SplFileInfo>
+ * @implements \IteratorAggregate<non-empty-string, SplFileInfo>
  */
 class Finder implements \IteratorAggregate, \Countable
 {
@@ -54,11 +54,14 @@ class Finder implements \IteratorAggregate, \Countable
     private array $depths = [];
     private array $sizes = [];
     private bool $followLinks = false;
+    private bool $unixPaths = false;
     private bool $reverseSorting = false;
     private \Closure|int|false $sort = false;
     private int $ignore = 0;
+    /** @var list<string> */
     private array $dirs = [];
     private array $dates = [];
+    /** @var list<iterable<SplFileInfo|\SplFileInfo|string>> */
     private array $iterators = [];
     private array $contains = [];
     private array $notContains = [];
@@ -397,10 +400,8 @@ class Finder implements \IteratorAggregate, \Countable
      * @see ignoreVCS()
      *
      * @param string|string[] $pattern VCS patterns to ignore
-     *
-     * @return void
      */
-    public static function addVCSPattern(string|array $pattern)
+    public static function addVCSPattern(string|array $pattern): void
     {
         foreach ((array) $pattern as $p) {
             self::$vcsPatterns[] = $p;
@@ -588,9 +589,8 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @see CustomFilterIterator
      */
-    public function filter(\Closure $closure /* , bool $prune = false */): static
+    public function filter(\Closure $closure, bool $prune = false): static
     {
-        $prune = 1 < \func_num_args() ? func_get_arg(1) : false;
         $this->filters[] = $closure;
 
         if ($prune) {
@@ -608,6 +608,20 @@ class Finder implements \IteratorAggregate, \Countable
     public function followLinks(): static
     {
         $this->followLinks = true;
+
+        return $this;
+    }
+
+    /**
+     * Forces forward slashes as the directory separator in returned paths.
+     *
+     * This is intended for Windows, where the native separator is "\".
+     *
+     * @return $this
+     */
+    public function useUnixPaths(): static
+    {
+        $this->unixPaths = true;
 
         return $this;
     }
@@ -660,33 +674,39 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * This method implements the IteratorAggregate interface.
      *
-     * @return \Iterator<string, SplFileInfo>
+     * @return \Iterator<non-empty-string, SplFileInfo>
      *
      * @throws \LogicException if the in() method has not been called
      */
     public function getIterator(): \Iterator
     {
-        if (0 === \count($this->dirs) && 0 === \count($this->iterators)) {
+        if (!$this->dirs && !$this->iterators) {
             throw new \LogicException('You must call one of in() or append() methods before iterating over a Finder.');
         }
 
-        if (1 === \count($this->dirs) && 0 === \count($this->iterators)) {
+        if (1 === \count($this->dirs) && !$this->iterators) {
             $iterator = $this->searchInDirectory($this->dirs[0]);
-
-            if ($this->sort || $this->reverseSorting) {
-                $iterator = (new SortableIterator($iterator, $this->sort, $this->reverseSorting))->getIterator();
+        } else {
+            $iterator = new \AppendIterator();
+            foreach ($this->dirs as $dir) {
+                $iterator->append(new \IteratorIterator(new LazyIterator(fn () => $this->searchInDirectory($dir))));
             }
 
-            return $iterator;
-        }
+            foreach ($this->iterators as $it) {
+                $iterator->append(new \IteratorIterator(new LazyIterator(static function () use ($it) {
+                    foreach ($it as $file) {
+                        if (!$file instanceof \SplFileInfo) {
+                            $file = new \SplFileInfo($file);
+                        }
+                        $key = $file->getPathname();
+                        if (!$file instanceof SplFileInfo) {
+                            $file = new SplFileInfo($key, $file->getPath(), $key);
+                        }
 
-        $iterator = new \AppendIterator();
-        foreach ($this->dirs as $dir) {
-            $iterator->append(new \IteratorIterator(new LazyIterator(fn () => $this->searchInDirectory($dir))));
-        }
-
-        foreach ($this->iterators as $it) {
-            $iterator->append($it);
+                        yield $key => $file;
+                    }
+                })));
+            }
         }
 
         if ($this->sort || $this->reverseSorting) {
@@ -701,26 +721,13 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * The set can be another Finder, an Iterator, an IteratorAggregate, or even a plain array.
      *
-     * @return $this
+     * @param iterable<SplFileInfo|\SplFileInfo|string> $iterator
      *
-     * @throws \InvalidArgumentException when the given argument is not iterable
+     * @return $this
      */
     public function append(iterable $iterator): static
     {
-        if ($iterator instanceof \IteratorAggregate) {
-            $this->iterators[] = $iterator->getIterator();
-        } elseif ($iterator instanceof \Iterator) {
-            $this->iterators[] = $iterator;
-        } elseif (is_iterable($iterator)) {
-            $it = new \ArrayIterator();
-            foreach ($iterator as $file) {
-                $file = $file instanceof \SplFileInfo ? $file : new \SplFileInfo($file);
-                $it[$file->getPathname()] = $file;
-            }
-            $this->iterators[] = $it;
-        } else {
-            throw new \InvalidArgumentException('Finder::append() method wrong argument type.');
-        }
+        $this->iterators[] = $iterator;
 
         return $this;
     }
@@ -788,6 +795,10 @@ class Finder implements \IteratorAggregate, \Countable
 
         if ($this->followLinks) {
             $flags |= \RecursiveDirectoryIterator::FOLLOW_SYMLINKS;
+        }
+
+        if ($this->unixPaths) {
+            $flags |= \RecursiveDirectoryIterator::UNIX_PATHS;
         }
 
         $iterator = new Iterator\RecursiveDirectoryIterator($dir, $flags, $this->ignoreUnreadableDirs);

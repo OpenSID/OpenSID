@@ -1,0 +1,41 @@
+{
+    "name": "illuminate/concurrency",
+    "description": "The Illuminate Concurrency package.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
+    "require": {
+        "php": "^8.3",
+        "illuminate/console": "^13.0",
+        "illuminate/contracts": "^13.0",
+        "illuminate/process": "^13.0",
+        "illuminate/support": "^13.0",
+        "laravel/serializable-closure": "^2.0.10"
+    },
+    "suggest": {
+        "spatie/fork": "Required to use the 'fork' concurrency driver (^1.2)."
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Illuminate\\Concurrency\\": ""
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "13.0.x-dev"
+        }
+    }
+}

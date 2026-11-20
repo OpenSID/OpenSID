@@ -89,7 +89,7 @@ class HubungWarga extends BaseModel
     /**
      * Define a one-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function kontak()
     {
@@ -99,7 +99,7 @@ class HubungWarga extends BaseModel
     /**
      * Define a one-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function createdBy()
     {
@@ -109,7 +109,7 @@ class HubungWarga extends BaseModel
     /**
      * Define a one-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function updatedBy()
     {

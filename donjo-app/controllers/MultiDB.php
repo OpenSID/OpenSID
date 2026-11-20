@@ -37,6 +37,7 @@
 
 use App\Models\User;
 use App\Traits\Upload;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -376,6 +377,10 @@ class MultiDB extends Admin_Controller
 
             $redirctType = 'error';
             $message     = 'Proses restore dari backup gagal.';
+
+            if ($e instanceof Responsable) {
+                throw $e;
+            }
         } finally {
             DB::statement('SET FOREIGN_KEY_CHECKS=1');
         }

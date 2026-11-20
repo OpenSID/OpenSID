@@ -307,14 +307,12 @@ class DTKSRegsosEk2022k
         try {
             $kode_desa_bps = identitas()->kode_desa_bps;
 
-            if (! $dtks->kode_provinsi || ! $dtks->kode_kabupaten || ! $dtks->kode_kecamatan || ! $dtks->kode_desa) {
-                //  I. Keterangan Tempat
-                $dtks->kode_provinsi  = $kode_desa_bps ? substr($kode_desa_bps, 0, 2) : ''; // 101
-                $dtks->kode_kabupaten = $kode_desa_bps ? substr($kode_desa_bps, 2, 2) : ''; // 102
-                $dtks->kode_kecamatan = $kode_desa_bps ? substr($kode_desa_bps, 2 + 2, 3) : ''; // 103
-                $dtks->kode_desa      = $kode_desa_bps ? substr($kode_desa_bps, 2 + 2 + 3, 3) : ''; // 104
-                $this->saveRelatedAttribute($dtks);
-            }
+            //  I. Keterangan Tempat
+            $dtks->kode_provinsi  = $kode_desa_bps ? substr($kode_desa_bps, 0, 2) : ''; // 101
+            $dtks->kode_kabupaten = $kode_desa_bps ? substr($kode_desa_bps, 2, 2) : ''; // 102
+            $dtks->kode_kecamatan = $kode_desa_bps ? substr($kode_desa_bps, 4, 3) : ''; // 103
+            $dtks->kode_desa      = $kode_desa_bps ? substr($kode_desa_bps, 7, 3) : ''; // 104
+            $this->saveRelatedAttribute($dtks);
             $data['dtks_prov'] = getKodeDesaFromTrackSID()['nama_prov'];
             $data['dtks_kab']  = getKodeDesaFromTrackSID()['nama_kab'];
             $data['dtks_kec']  = getKodeDesaFromTrackSID()['nama_kec'];
@@ -417,8 +415,8 @@ class DTKSRegsosEk2022k
             //  I. Keterangan Tempat
             $dtks->kode_provinsi  = $kode_desa_bps ? substr($kode_desa_bps, 0, 2) : ''; // 101
             $dtks->kode_kabupaten = $kode_desa_bps ? substr($kode_desa_bps, 2, 2) : ''; // 102
-            $dtks->kode_kecamatan = $kode_desa_bps ? substr($kode_desa_bps, 2 + 2, 3) : ''; // 103
-            $dtks->kode_desa      = $kode_desa_bps ? substr($kode_desa_bps, 2 + 2 + 3, 3) : ''; // 104
+            $dtks->kode_kecamatan = $kode_desa_bps ? substr($kode_desa_bps, 4, 3) : ''; // 103
+            $dtks->kode_desa      = $kode_desa_bps ? substr($kode_desa_bps, 7, 3) : ''; // 104
         } catch (Throwable $th) {
             log_message('error', $th);
         }

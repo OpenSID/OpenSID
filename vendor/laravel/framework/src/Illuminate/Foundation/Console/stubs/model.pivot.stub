@@ -1,0 +1,11 @@
+<?php
+
+namespace {{ namespace }};
+
+{{ factoryImport }}
+use Illuminate\Database\Eloquent\Relations\Pivot;
+
+class {{ class }} extends Pivot
+{
+    {{ factory }}
+}

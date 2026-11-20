@@ -16,8 +16,23 @@
         }
     </style>
 @endpush
+
+@if (($aksi ?? null) == 'unduh')
+    {{-- Excel (HTML table trick) tidak konsisten membaca CSS class
+    bersarang seperti "table.tftable td". Aturan di bawah ini memakai
+    selector dasar (tag) supaya tetap terbaca saat dibuka sebagai file
+    Excel, dan HANYA aktif saat $aksi == 'unduh' sehingga tampilan
+    browser biasa & cetak PDF tidak berubah sama sekali. --}}
+    <style type="text/css">
+        #tfhover, #tfhover th, #tfhover td {
+            border: 1px solid #000000 !important;
+            border-collapse: collapse;
+        }
+    </style>
+@endif
+
 <div class="table-responsive">
-    <table id="tfhover" class="table table-bordered table-hover tftable lap-bulanan">
+    <table id="tfhover" class="table table-bordered table-hover tftable lap-bulanan"@if (($aksi ?? null) == 'unduh') border="1" cellspacing="0" cellpadding="3" @endif>
         <thead class="bg-gray">
             <tr>
                 <th rowspan="3" width='2%' class="text-center">No</th>

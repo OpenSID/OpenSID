@@ -1,4 +1,6 @@
-<?php namespace Cviebrock\EloquentSluggable;
+<?php
+
+namespace Cviebrock\EloquentSluggable;
 
 use Cocur\Slugify\Slugify;
 use Cviebrock\EloquentSluggable\Services\SlugService;
@@ -6,20 +8,19 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Sluggable
- *
- * @package Cviebrock\EloquentSluggable
+ * Class Sluggable.
  */
 trait Sluggable
 {
-
     /**
      * Hook into the Eloquent model events to create or
      * update the slug as required.
      */
     public static function bootSluggable(): void
     {
-        static::observe(app(SluggableObserver::class));
+        static::whenBooted(function () {
+            static::observe(app(SluggableObserver::class));
+        });
     }
 
     /**
@@ -43,9 +44,9 @@ trait Sluggable
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function replicate(array $except = null)
+    public function replicate(?array $except = null)
     {
         $instance = parent::replicate($except);
         (new SlugService())->slug($instance, true);
@@ -62,8 +63,6 @@ trait Sluggable
      *
      * The second option is required if the primary key is to be part of the slug
      * source, as it won't be set during the "saving" event.
-     *
-     * @return string
      */
     public function sluggableEvent(): string
     {
@@ -72,18 +71,12 @@ trait Sluggable
 
     /**
      * Query scope for finding "similar" slugs, used to determine uniqueness.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $attribute
-     * @param array $config
-     * @param string $slug
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeFindSimilarSlugs(Builder $query, string $attribute, array $config, string $slug): Builder
     {
         $separator = $config['separator'];
 
-        return $query->where(function(Builder $q) use ($attribute, $slug, $separator) {
+        return $query->where(function (Builder $q) use ($attribute, $slug, $separator) {
             $q->where($attribute, '=', $slug)
                 ->orWhere($attribute, 'LIKE', $slug . $separator . '%');
         });
@@ -91,18 +84,11 @@ trait Sluggable
 
     /**
      * Return the sluggable configuration array for this model.
-     *
-     * @return array
      */
     abstract public function sluggable(): array;
 
-
     /**
      * Optionally customize the cocur/slugify engine.
-     *
-     * @param \Cocur\Slugify\Slugify $engine
-     * @param string $attribute
-     * @return \Cocur\Slugify\Slugify
      */
     public function customizeSlugEngine(Slugify $engine, string $attribute): Slugify
     {
@@ -111,13 +97,6 @@ trait Sluggable
 
     /**
      * Optionally add constraints to the query that determines uniqueness.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string $attribute
-     * @param array $config
-     * @param string $slug
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithUniqueSlugConstraints(
         Builder $query,
@@ -125,8 +104,7 @@ trait Sluggable
         string $attribute,
         array $config,
         string $slug
-    ): Builder
-    {
+    ): Builder {
         return $query;
     }
 }

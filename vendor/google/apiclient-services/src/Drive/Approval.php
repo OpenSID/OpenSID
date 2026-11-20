@@ -20,7 +20,7 @@ namespace Google\Service\Drive;
 class Approval extends \Google\Collection
 {
   /**
-   * Approval status has not been set or was set to an invalid value.
+   * The approval status has not been set or was set to an invalid value.
    */
   public const STATUS_STATUS_UNSPECIFIED = 'STATUS_UNSPECIFIED';
   /**
@@ -41,13 +41,13 @@ class Approval extends \Google\Collection
   public const STATUS_DECLINED = 'DECLINED';
   protected $collection_key = 'reviewerResponses';
   /**
-   * The Approval ID.
+   * The approval ID.
    *
    * @var string
    */
   public $approvalId;
   /**
-   * Output only. The time time the approval was completed.
+   * Output only. The time the approval was completed.
    *
    * @var string
    */
@@ -95,7 +95,7 @@ class Approval extends \Google\Collection
   public $targetFileId;
 
   /**
-   * The Approval ID.
+   * The approval ID.
    *
    * @param string $approvalId
    */
@@ -111,7 +111,7 @@ class Approval extends \Google\Collection
     return $this->approvalId;
   }
   /**
-   * Output only. The time time the approval was completed.
+   * Output only. The time the approval was completed.
    *
    * @param string $completeTime
    */
@@ -159,7 +159,7 @@ class Approval extends \Google\Collection
     return $this->dueTime;
   }
   /**
-   * The user that requested the Approval.
+   * The user that requested the approval.
    *
    * @param User $initiator
    */
@@ -207,7 +207,7 @@ class Approval extends \Google\Collection
     return $this->modifyTime;
   }
   /**
-   * The responses made on the Approval by reviewers.
+   * The responses made on the approval by reviewers.
    *
    * @param ReviewerResponse[] $reviewerResponses
    */

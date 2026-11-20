@@ -37,7 +37,7 @@
                 </div>
             </form>
             <hr class="batas">
-            <div class="row">
+            <div class="row style-theme-grid">
                 @forelse ($themeList as $theme)
                     <div class="col-md-4">
                         @includeIf('admin.theme.components.general.box', collect($theme)->merge($themeOrder)->toArray())
@@ -70,4 +70,29 @@
             }).val(new URLSearchParams(window.location.search).get("kategori"));
         });
     </script>
+@endpush
+
+@push('css')
+    <style>
+        .style-theme-grid {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .style-theme-grid > div {
+            display: flex;
+            flex-direction: column;
+        }
+        .style-theme-grid .box {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            width: 100%;
+        }
+        .style-theme-grid .box-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+    </style>
 @endpush

@@ -50,6 +50,10 @@ final class Address
         $this->address = trim($address);
         $this->name = trim(str_replace(["\n", "\r"], '', $name));
 
+        if (preg_match('/[\x00-\x1F\x7F]/', $this->address)) {
+            throw new InvalidArgumentException('Email address contains control characters.');
+        }
+
         if (!self::$validator->isValid($this->address, class_exists(MessageIDValidation::class) ? new MessageIDValidation() : new RFCValidation())) {
             throw new RfcComplianceException(\sprintf('Email "%s" does not comply with addr-spec of RFC 2822.', $address));
         }
@@ -116,5 +120,25 @@ final class Address
         }
 
         return $addrs;
+    }
+
+    /**
+     * Returns true if this address' localpart contains at least one
+     * non-ASCII character, and false if it is only ASCII (or empty).
+     *
+     * This is a helper for Envelope, which has to decide whether to
+     * the SMTPUTF8 extensions (RFC 6530 and following) for any given
+     * message.
+     *
+     * The SMTPUTF8 extension is strictly required if any address
+     * contains a non-ASCII character in its localpart. If non-ASCII
+     * is only used in domains (e.g. horst@freiherr-von-mühlhausen.de)
+     * then it is possible to send the message using IDN encoding
+     * instead of SMTPUTF8. The most common software will display the
+     * message as intended.
+     */
+    public function hasUnicodeLocalpart(): bool
+    {
+        return (bool) preg_match('/[\x80-\xFF].*@/', $this->address);
     }
 }

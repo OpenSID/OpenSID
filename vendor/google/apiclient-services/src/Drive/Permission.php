@@ -46,13 +46,14 @@ class Permission extends \Google\Collection
    */
   public $displayName;
   /**
-   * The domain to which this permission refers.
+   * Output only. The domain to which this permission refers.
    *
    * @var string
    */
   public $domain;
   /**
-   * The email address of the user or group to which this permission refers.
+   * Output only. The email address of the user or group to which this
+   * permission refers.
    *
    * @var string
    */
@@ -197,7 +198,7 @@ class Permission extends \Google\Collection
     return $this->displayName;
   }
   /**
-   * The domain to which this permission refers.
+   * Output only. The domain to which this permission refers.
    *
    * @param string $domain
    */
@@ -213,7 +214,8 @@ class Permission extends \Google\Collection
     return $this->domain;
   }
   /**
-   * The email address of the user or group to which this permission refers.
+   * Output only. The email address of the user or group to which this
+   * permission refers.
    *
    * @param string $emailAddress
    */

@@ -10,10 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 interface IncludeInterface
 {
     /**
-    * @param \Illuminate\Database\Eloquent\Builder<TModelClass> $query
-    * @param string $include
-    *
-    * @return mixed
-    */
-    public function __invoke(Builder $query, string $include);
+     * @param Builder<TModelClass> $query
+     */
+    public function __invoke(Builder $query, string $include): void;
 }
