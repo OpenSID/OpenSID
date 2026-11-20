@@ -89,15 +89,8 @@ $app->configure('mail');
 $app->configure('notifications');
 $app->configure('user_agents');
 $app->configure('security');
-// OpenSID/OpenSID#11931 Fase 3.5: config/bursa.php ADA di tree (dibawa
-// 03-tambah.sh) tapi tak pernah diregistrasi -- ModuleManager/LayananHttpSource
-// membaca config('bursa.url_penyedia'), yang tanpa baris ini SELALU null
-// terlepas dari env var apa pun. (config/services.php SENGAJA TIDAK
-// didaftarkan di sini -- filenya masih pakai env() Laravel langsung, bukan
-// $bacaEnv() portabel; Umum tak membundel phpoption/dotenv sehingga env()
-// tak ada, registrasinya bikin fatal "Call to undefined function env()".
-// Tak dibutuhkan wiring modul: hanya bursa.php yang dipakai ModuleManager/
-// LayananHttpSource/SumberTemaBursa.)
+// Pipeline rilis Umum: config/bursa.php dibawa 03-tambah.sh tapi tak diregistrasi —
+// tanpa baris ini config('bursa.url_penyedia') selalu null.
 $app->configure('bursa');
 
 /*

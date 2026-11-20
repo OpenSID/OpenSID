@@ -1,0 +1,11 @@
+<?php
+
+
+Route::group("{{ moduleLower }}",  static function (): void {
+    Route::get('/', "{{ moduleClass }}Controller@index");
+    Route::get('/create', "{{ moduleClass }}Controller@create");
+    Route::get('/edit/{id}', "{{ moduleClass }}Controller@edit");
+    Route::post('/store', "{{ moduleClass }}Controller@store");
+    Route::post('/update/{id}', "{{ moduleClass }}Controller@update");
+    Route::post('/delete', "{{ moduleClass }}Controller@destroy");
+});

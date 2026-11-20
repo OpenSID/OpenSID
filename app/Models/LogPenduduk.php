@@ -166,11 +166,27 @@ class LogPenduduk extends BaseModel
 
     public function scopeRekapitulasiList($query, $filters = [])
     {
-        $bln     = $filters['bulan'] ?? date('m');
-        $thn     = $filters['tahun'] ?? date('Y');
-        $pad_bln = str_pad($bln, 2, '0', STR_PAD_LEFT); // Untuk membandingkan dengan tgl mysql
+        $bln      = $filters['bulan'] ?? date('m');
+        $thn      = $filters['tahun'] ?? date('Y');
+        $pad_bln  = str_pad($bln, 2, '0', STR_PAD_LEFT); // Untuk membandingkan dengan tgl mysql
+        $configId = identitas('id');
 
-        // log_penduduk.
+        // KK_JLH: jumlah KK di awal bulan.
+        //
+        // Dihitung via correlated subquery ke log_keluarga agar historis dan tidak retroaktif
+        // terhadap kk_level penduduk yang berubah kemudian. KK yang dihitung adalah KK aktif
+        // saat ini (kepala kk_level = 1, status_dasar = 1), kecuali KK yang pertama kali
+        // muncul di log_keluarga pada atau setelah awal bulan ini.
+        //
+        // KK_MASUK_JLH: net change KK bulan ini.
+        //
+        // Dihitung via correlated subquery ke log_keluarga agar mencakup kasus
+        // tambahKeluargaDariPenduduk() dan pecahKK() yang hanya menulis ke log_keluarga,
+        // bukan ke log_penduduk.
+        //
+        // KK_ANG_KEL dan KK_MASUK_ANG_KEL diderivasi secara matematis di dataProcess()
+        // controller, sehingga tidak perlu dihitung di sini.
+
         $query
             ->selectRaw('tweb_wil_clusterdesa.dusun as DUSUN')
             ->selectRaw("(sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id <> 2 and log_penduduk.kode_peristiwa in (1,5) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id <> 2 and log_penduduk.kode_peristiwa in (2,3,4) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNI_L_AWAL")
@@ -193,16 +209,48 @@ class LogPenduduk extends BaseModel
             ->selectRaw("sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id <> 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 3 then 1 else 0 end) AS WNI_P_KURANG_KELUAR")
             ->selectRaw("sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id = 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 3 then 1 else 0 end) AS WNA_L_KURANG_KELUAR")
             ->selectRaw("sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id = 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 3 then 1 else 0 end) AS WNA_P_KURANG_KELUAR")
-            ->selectRaw("(sum(case when (tweb_penduduk.kk_level != 1 or tweb_penduduk.kk_level is null) and log_penduduk.kode_peristiwa in (1,5) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when (tweb_penduduk.kk_level != 1 or tweb_penduduk.kk_level is null) and log_penduduk.kode_peristiwa in (2,3,4) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS KK_ANG_KEL")
-            ->selectRaw("(COUNT(DISTINCT CASE
-                WHEN tweb_penduduk.id_kk IS NOT NULL
-                AND tweb_penduduk.kk_level = 1
-                AND tweb_penduduk.status_dasar = 1
-                AND log_penduduk.kode_peristiwa IN (1,5)
-                AND DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}'
-            THEN tweb_penduduk.id_kk END)) AS KK_JLH")
-            ->selectRaw("(sum(case when tweb_penduduk.kk_level = 1 and log_penduduk.kode_peristiwa in (1,5) and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} then 1 else 0 end) - sum(case when tweb_penduduk.kk_level = 1 and log_penduduk.kode_peristiwa in (2,3,4) and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} then 1 else 0 end)) AS KK_MASUK_JLH")
-            ->selectRaw("(sum(case when tweb_penduduk.kk_level != 1 and log_penduduk.kode_peristiwa in (1,5) and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} then 1 else 0 end) - sum(case when tweb_penduduk.kk_level != 1 and log_penduduk.kode_peristiwa in (2,3,4) and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} then 1 else 0 end)) AS KK_MASUK_ANG_KEL")
+            ->selectRaw("(
+                SELECT COUNT(DISTINCT k2.id)
+                FROM tweb_keluarga k2
+                JOIN tweb_penduduk p2 ON k2.nik_kepala = p2.id AND p2.config_id = k2.config_id
+                LEFT JOIN tweb_wil_clusterdesa w2 ON p2.id_cluster = w2.id
+                WHERE k2.config_id = {$configId}
+                  AND p2.is_historical = 0
+                  AND p2.kk_level = 1
+                  AND (
+                      p2.status_dasar = 1
+                      OR k2.id IN (
+                          SELECT lk_d.id_kk FROM log_keluarga lk_d
+                          WHERE lk_d.config_id = {$configId}
+                            AND lk_d.id_kk IS NOT NULL
+                            AND lk_d.id_peristiwa IN (2, 3, 4)
+                            AND MONTH(lk_d.tgl_peristiwa) = {$bln}
+                            AND YEAR(lk_d.tgl_peristiwa) = {$thn}
+                      )
+                  )
+                  AND k2.id NOT IN (
+                      SELECT lk2.id_kk FROM log_keluarga lk2
+                      WHERE lk2.config_id = {$configId}
+                        AND lk2.id_kk IS NOT NULL
+                      GROUP BY lk2.id_kk
+                      HAVING MIN(lk2.tgl_peristiwa) >= '{$thn}-{$pad_bln}-01'
+                  )
+                  AND w2.dusun <=> tweb_wil_clusterdesa.dusun
+            ) AS KK_JLH")
+            ->selectRaw("(
+                SELECT
+                    COUNT(DISTINCT CASE WHEN lk.id_peristiwa IN (1, 5) THEN lk.id_kk END)
+                  - COUNT(DISTINCT CASE WHEN lk.id_peristiwa IN (2, 3, 4) THEN lk.id_kk END)
+                FROM log_keluarga lk
+                JOIN tweb_keluarga k3 ON lk.id_kk = k3.id AND k3.config_id = lk.config_id
+                JOIN tweb_penduduk p3 ON k3.nik_kepala = p3.id AND p3.config_id = k3.config_id
+                LEFT JOIN tweb_wil_clusterdesa w3 ON p3.id_cluster = w3.id
+                WHERE lk.config_id = {$configId}
+                  AND MONTH(lk.tgl_peristiwa) = {$bln}
+                  AND YEAR(lk.tgl_peristiwa) = {$thn}
+                  AND p3.is_historical = 0
+                  AND w3.dusun <=> tweb_wil_clusterdesa.dusun
+            ) AS KK_MASUK_JLH")
             ->join('tweb_penduduk', 'log_penduduk.id_pend', '=', 'tweb_penduduk.id')
             ->leftJoin('tweb_wil_clusterdesa', 'tweb_penduduk.id_cluster', '=', 'tweb_wil_clusterdesa.id')
             ->groupBy('DUSUN');

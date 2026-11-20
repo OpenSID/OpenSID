@@ -21,6 +21,15 @@
                 @endforeach
             </select>
         </div>
+        {{-- Anggota Keluarga Ikut Pindah — hanya muncul saat status = PINDAH --}}
+        <div class="form-group pindah" id="section_anggota_pindah">
+            <label>
+                <i class="fa fa-users"></i> Anggota Keluarga yang Ikut Pindah
+            </label>
+            <div id="tabel_anggota_pindah">
+                <p class="text-muted"><i class="fa fa-spinner fa-spin"></i> Memuat data anggota keluarga...</p>
+            </div>
+        </div>
         <div class="form-group mati">
             <label for="meninggal_di">Tempat Meninggal</label>
             <input name="meninggal_di" class="form-control input-sm" type="text" maxlength="50" placeholder="Tempat Meninggal"></input>
@@ -130,6 +139,109 @@
         maxDate: moment().endOf('year')
     });
 
+    // ── Load anggota keluarga via AJAX ───────────────────────────
+    var anggotaSudahDimuat = false;
+
+    function loadAnggotaKeluarga() {
+        if (anggotaSudahDimuat) return;
+
+        var idPenduduk = '{{ $nik->id }}'.toString();
+
+        $('#tabel_anggota_pindah').html(
+            '<p class="text-muted"><i class="fa fa-spinner fa-spin"></i> Memuat data anggota keluarga...</p>'
+        );
+
+        $.ajax({
+            url: '{{ ci_route("penduduk.ajax_anggota_keluarga") }}/' + idPenduduk,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                anggotaSudahDimuat = true;
+
+                if (!response.data || response.data.length === 0) {
+                    $('#tabel_anggota_pindah').html(
+                        '<p class="text-muted"><i class="fa fa-info-circle"></i> ' +
+                        'Tidak ada anggota lain dalam keluarga ini.</p>'
+                    );
+                    return;
+                }
+
+                var html = '<p class="text-muted" style="margin-bottom:6px;">' +
+                '<small><i class="fa fa-info-circle"></i> ' +
+                'Centang anggota keluarga yang akan ikut pindah bersama. ' +
+                'Anda dapat memilih satu atau lebih anggota.</small></p>';
+
+                html += '<div class="table-responsive">' +
+                    '<table class="table table-bordered table-condensed table-hover" style="margin-bottom:0;">' +
+                    '<thead>' +
+                    '<tr class="active">' +
+                    '<th class="padat text-center">' +
+                    '<input type="checkbox" id="check_all_pindah" title="Pilih/Batal semua">' +
+                    '</th>' +
+                    '<th>NIK</th>' +
+                    '<th>Nama</th>' +
+                    '<th>Hubungan</th>' +
+                    '<th>Jenis Kelamin</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>';
+
+                    response.data.forEach(function (item) {
+
+                    var checked = item.id == idPenduduk ? 'checked' : '';
+
+                    html += '<tr>' +
+                        '<td class="padat text-center">' +
+                        '<input type="checkbox" name="anggota_pindah[]" value="' + item.id + '" ' + checked + '>' +
+                        '</td>' +
+                        '<td>' + item.nik + '</td>' +
+                        '<td>' + item.nama + '</td>' +
+                        '<td><span class="label label-default">' + item.hubungan + '</span></td>' +
+                        '<td>' + item.jenis_kelamin + '</td>' +
+                        '</tr>';
+                });
+
+                html += '</tbody></table></div>';
+
+                // Ringkasan jumlah
+                html += '<p class="text-right" style="margin-top:5px;">' +
+                    '<small class="text-muted" id="info_jumlah_pindah">' +
+                    response.data.length + ' dari ' + response.data.length +
+                    ' anggota dipilih</small></p>';
+
+                $('#tabel_anggota_pindah').html(html);
+
+                // Check all / uncheck all
+                $('#check_all_pindah').on('change', function () {
+                    $('input[name="anggota_pindah[]"]').prop('checked', $(this).prop('checked'));
+                    updateJumlahPindah(response.data.length);
+                });
+
+                // Update counter saat checkbox individual berubah
+                $(document).on('change', 'input[name="anggota_pindah[]"]', function () {
+                    var total    = $('input[name="anggota_pindah[]"]').length;
+                    var terpilih = $('input[name="anggota_pindah[]"]:checked').length;
+                    $('#check_all_pindah').prop('checked', total === terpilih);
+                    updateJumlahPindah(total);
+                });
+
+                function updateJumlahPindah(total) {
+                    var terpilih = $('input[name="anggota_pindah[]"]:checked').length;
+                    $('#info_jumlah_pindah').text(terpilih + ' dari ' + total + ' anggota dipilih');
+                }
+            },
+            error: function (e) {
+                $('#tabel_anggota_pindah').html(
+                    '<div class="alert alert-danger">' +
+                    '<i class="fa fa-exclamation-triangle"></i> ' +
+                    'Gagal memuat data anggota keluarga. Silakan tutup modal dan coba lagi.' +
+                    '</div>'
+                );
+
+            }
+        });
+    }
+
     $('document').ready(function() {
         $(".modal #file_browser").click(function(e) {
             e.preventDefault();
@@ -149,7 +261,9 @@
                     $("input[name='jam_mati']").removeClass('required');
                     $("select[name='sebab']").removeClass('required');
                     $("select[name='penolong_mati']").removeClass('required');
-                    $("input[name='anak_ke']").removeClass('required').removeAttr("min");;
+                    $("input[name='anak_ke']").removeClass('required').removeAttr("min");
+
+                    loadAnggotaKeluarga();
                 } else {
                     $('.mati').show();
                     $("input[name='meninggal_di']").addClass('required');

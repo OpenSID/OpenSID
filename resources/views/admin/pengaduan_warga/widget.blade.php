@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12" id="allstatus">
-        <div class="info-box bg-default">
+        <div class="info-box bg-default" data-status="" style="cursor:pointer">
             <span class="info-box-icon"><i class="fa fa-info fa-nav"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Semua</span>
@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12" id="status1">
-        <div class="info-box bg-red">
+        <div class="info-box bg-red" data-status="{{ App\Enums\StatusPengaduanEnum::MENUNGGU_DIPROSES }}" style="cursor:pointer">
             <span class="info-box-icon"><i class="fa fa-info fa-nav"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Menunggu Diproses</span>
@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12" id="status2">
-        <div class="info-box bg-blue">
+        <div class="info-box bg-blue" data-status="{{ App\Enums\StatusPengaduanEnum::SEDANG_DIPROSES }}" style="cursor:pointer">
             <span class="info-box-icon"><i class="fa fa-info fa-nav"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Sedang Diproses</span>
@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12" id="status3">
-        <div class="info-box bg-green">
+        <div class="info-box bg-green" data-status="{{ App\Enums\StatusPengaduanEnum::SELESAI_DIPROSES }}" style="cursor:pointer">
             <span class="info-box-icon"><i class="fa fa-info fa-nav"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Selesai Diproses</span>

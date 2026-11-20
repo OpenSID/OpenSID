@@ -106,5 +106,33 @@ return [
             'modul' => 'data-tamu',
             'query' => 'status=0', // TamuModel::BARU inlined — Modules\BukuTamu dihapus dari core
         ],
+
+        'pengaduan' => [
+            'slug'  => 'pengaduan',
+            'label' => 'Pengaduan Warga',
+            'icon'  => 'fa-info',
+            'color' => '#e67e22',
+            'route' => 'pengaduan_admin',
+            'modul' => 'pengaduan',
+            'query' => 'status=' . App\Enums\StatusPengaduanEnum::MENUNGGU_DIPROSES,
+        ],
+
+        'pengajuan_izin' => [
+            'slug'  => 'pengajuan_izin',
+            'label' => 'Pengajuan Izin',
+            'icon'  => 'fa-calendar-check-o',
+            'color' => '#e67e22',
+            'route' => 'kehadiran_pengajuan_izin',
+            'modul' => 'approval-izin',
+        ],
+
+        'pengajuan_izin_approval' => [
+            'slug'  => 'pengajuan_izin_approval',
+            'label' => 'Status Pengajuan Izin',
+            'icon'  => 'fa-check-circle-o',
+            'color' => '#16a085',
+            'route' => 'kehadiran_pengajuan_izin_pamong',
+            'modul' => 'pengajuan-izin',
+        ],
     ],
 ];

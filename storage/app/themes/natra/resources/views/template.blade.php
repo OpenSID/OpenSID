@@ -27,6 +27,7 @@
     @include('theme::commons.meta_footer')
     <script type="text/javascript">
         function formatRupiah(angka, prefix = 'Rp ') {
+            if (angka === null || angka === undefined) return (prefix ?? 'Rp ') + '0,00';
             var number_string = angka.toString().replace(/[^,\d]/g, ''),
                 split = number_string.split(','),
                 sisa = split[0].length % 3,

@@ -1177,6 +1177,136 @@
                             </div>
                             @endif
 
+                            @if (in_array('artikel_kategori_orphan', $masalah))
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <strong>Terdeteksi artikel dengan kategori tidak valid (id_kategori tidak ada di tabel kategori)</strong><br><br>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="tbl-artikel-kategori-orphan">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Judul</th>
+                                                <th>ID Kategori (Tidak Valid)</th>
+                                                <th>Kategori Pengganti <small class="text-muted">(default: kosongkan)</small></th>
+                                                <th>Tanggal Upload</th>
+                                            </tr>
+                                            @foreach ($artikel_kategori_orphan as $item)
+                                            <tr>
+                                                <td>{{ $item['id'] }}</td>
+                                                <td>{{ $item['judul'] }}</td>
+                                                <td><span class="label label-danger">{{ $item['id_kategori'] }}</span></td>
+                                                <td>
+                                                    <select name="artikel_kategori[{{ $item['id'] }}]"
+                                                            class="form-control input-sm select-kategori-pengganti"
+                                                            style="min-width:160px">
+                                                        <option value="">&mdash; Kosongkan (NULL) &mdash;</option>
+                                                        @foreach ($daftar_kategori_aktif ?? [] as $k)
+                                                        <option value="{{ $k['id'] }}">{{ $k['kategori'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>{{ $item['tgl_upload'] }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                    <p class="text-muted" style="margin-top:6px">Setelah disimpan, relasi foreign key <code>artikel &rarr; kategori</code> akan otomatis ditambahkan kembali.</p>
+                                    <p><button type="button"
+                                            class="btn btn-sm btn-social btn-danger btn-perbaiki-kategori-orphan"><i
+                                                class="fa fa fa-wrench"></i>Perbaiki Data</button>
+                                    </p>
+                                </div>
+                            </div>
+                            @endif
+
+                            @if (in_array('relasi_artikel_kategori_tidak_ada', $masalah))
+                            <div class="panel panel-warning">
+                                <div class="panel-heading"><strong>Relasi artikel &rarr; kategori tidak ditemukan</strong></div>
+                                <div class="panel-body">
+                                    <p>Foreign key <code>artikel_kategori_fk</code> (<code>artikel.id_kategori</code> &rarr; <code>kategori.id</code>) tidak ditemukan di database.</p>
+                                    @if (in_array('artikel_kategori_orphan', $masalah))
+                                    <div class="alert alert-warning">
+                                        <i class="fa fa-exclamation-triangle"></i>
+                                        Selesaikan perbaikan data artikel dengan kategori tidak valid di atas terlebih dahulu sebelum menambahkan relasi.
+                                    </div>
+                                    @else
+                                    <p>Data artikel sudah bersih. Klik tombol berikut untuk menambahkan kembali foreign key relasi artikel ke kategori.
+                                        <br><button type="button"
+                                            class="btn btn-sm btn-social btn-warning btn-perbaiki-relasi-ajax"
+                                            data-masalah="relasi_artikel_kategori_tidak_ada"
+                                            data-label="Tambahkan foreign key relasi artikel ke kategori"><i
+                                                class="fa fa fa-link"></i>Tambahkan Relasi</button>
+                                    </p>
+                                    @endif
+                                </div>
+                            </div>
+                            @endif
+
+                            @if (in_array('artikel_user_orphan', $masalah))
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <strong>Terdeteksi artikel dengan penulis tidak valid (id_user tidak ada di tabel user)</strong><br><br>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="tbl-artikel-user-orphan">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Judul</th>
+                                                <th>ID User (Tidak Valid)</th>
+                                                <th>User Pengganti <small class="text-muted">(default: kosongkan)</small></th>
+                                                <th>Tanggal Upload</th>
+                                            </tr>
+                                            @foreach ($artikel_user_orphan as $item)
+                                            <tr>
+                                                <td>{{ $item['id'] }}</td>
+                                                <td>{{ $item['judul'] }}</td>
+                                                <td><span class="label label-danger">{{ $item['id_user'] }}</span></td>
+                                                <td>
+                                                    <select name="artikel_user[{{ $item['id'] }}]"
+                                                            class="form-control input-sm select-user-pengganti"
+                                                            style="min-width:160px">
+                                                        <option value="">— Kosongkan (NULL) —</option>
+                                                        @foreach ($daftar_user_aktif ?? [] as $u)
+                                                        <option value="{{ $u['id'] }}">{{ $u['nama'] }}{{ $u['username'] ? ' (' . $u['username'] . ')' : '' }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>{{ $item['tgl_upload'] }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                    <p class="text-muted" style="margin-top:6px">Setelah disimpan, relasi foreign key <code>artikel &rarr; user</code> akan otomatis ditambahkan kembali.</p>
+                                    <p><button type="button"
+                                            class="btn btn-sm btn-social btn-danger btn-perbaiki-user-orphan"><i
+                                                class="fa fa fa-wrench"></i>Perbaiki Data</button>
+                                    </p>
+                                </div>
+                            </div>
+                            @endif
+
+                            @if (in_array('relasi_artikel_user_tidak_ada', $masalah))
+                            <div class="panel panel-warning">
+                                <div class="panel-heading"><strong>Relasi artikel &rarr; user tidak ditemukan</strong></div>
+                                <div class="panel-body">
+                                    <p>Foreign key <code>artikel_kategori_id_user_fk</code> (<code>artikel.id_user</code> &rarr; <code>user.id</code>) tidak ditemukan di database.</p>
+                                    @if (in_array('artikel_user_orphan', $masalah))
+                                    <div class="alert alert-warning">
+                                        <i class="fa fa-exclamation-triangle"></i>
+                                        Selesaikan perbaikan data artikel dengan penulis tidak valid di atas terlebih dahulu sebelum menambahkan relasi.
+                                    </div>
+                                    @else
+                                    <p>Data artikel sudah bersih. Klik tombol berikut untuk menambahkan kembali foreign key relasi artikel ke user.
+                                        <br><button type="button"
+                                            class="btn btn-sm btn-social btn-warning btn-perbaiki-relasi-ajax"
+                                            data-masalah="relasi_artikel_user_tidak_ada"
+                                            data-label="Tambahkan foreign key relasi artikel ke user"><i
+                                                class="fa fa fa-link"></i>Tambahkan Relasi</button>
+                                    </p>
+                                    @endif
+                                </div>
+                            </div>
+                            @endif
+
                             @if (in_array('data_cluster', $masalah))
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -1510,6 +1640,8 @@
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('bootstrap/js/select2.full.min.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
     {{-- @if (!setting('inspect_element'))
     <script src="{{ asset('js/disabled.min.js') }}"></script>
     @endif --}}
@@ -1790,6 +1922,172 @@
                 return markup;
             },
         })
+
+        // SweetAlert handler khusus untuk perbaiki artikel_user_orphan (pilihan null atau ganti user)
+        $(document).on('click', '.btn-perbaiki-kategori-orphan', function () {
+            const url  = '{{ route('periksa.perbaiki.artikel_kategori_orphan') }}';
+            const csrf = { name: '{{ $token_name }}', value: '{{ $token_value }}' };
+
+            Swal.fire({
+                title: 'Konfirmasi',
+                html: '<p class="text-warning"><strong>Pastikan sudah melakukan backup database/folder desa sebelum melanjutkan.</strong></p>' +
+                    '<p>Artikel akan diperbarui sesuai pilihan Kategori Pengganti di tabel. Setelah itu relasi foreign key <code>artikel &rarr; kategori</code> akan ditambahkan kembali.</p>',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '<i class="fa fa-check"></i> Ya, Perbaiki',
+                cancelButtonText: '<i class="fa fa-times"></i> Batal',
+                allowOutsideClick: false,
+            }).then(function (result) {
+                if (!result.isConfirmed) return;
+
+                Swal.fire({
+                    title: 'Memproses...',
+                    text: 'Mohon tunggu, sedang memperbaiki data.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: function () { Swal.showLoading(); }
+                });
+
+                const postData = {};
+                postData[csrf.name] = csrf.value;
+                $('#tbl-artikel-kategori-orphan .select-kategori-pengganti').each(function () {
+                    postData[$(this).attr('name')] = $(this).val();
+                });
+
+                $.post(url, postData)
+                    .done(function (response) {
+                        if (response.status) {
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: 'Data berhasil diperbaiki.',
+                                icon: 'success',
+                                confirmButtonText: 'OK',
+                                timer: 2000,
+                                timerProgressBar: true,
+                            }).then(function () { location.reload(); });
+                        } else {
+                            Swal.fire('Gagal', response.message || 'Terjadi kesalahan.', 'error');
+                        }
+                    })
+                    .fail(function (xhr) {
+                        const res = xhr.responseJSON || {};
+                        Swal.fire('Gagal', res.message || 'Terjadi kesalahan saat memproses permintaan.', 'error');
+                    });
+            });
+        });
+
+        $(document).on('click', '.btn-perbaiki-user-orphan', function () {
+            const url  = '{{ route('periksa.perbaiki.artikel_user_orphan') }}';
+            const csrf = { name: '{{ $token_name }}', value: '{{ $token_value }}' };
+
+            Swal.fire({
+                title: 'Konfirmasi',
+                html: '<p class="text-warning"><strong>Pastikan sudah melakukan backup database/folder desa sebelum melanjutkan.</strong></p>' +
+                    '<p>Artikel akan diperbarui sesuai pilihan User Pengganti di tabel. Setelah itu relasi foreign key <code>artikel &rarr; user</code> akan ditambahkan kembali.</p>',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '<i class="fa fa-check"></i> Ya, Perbaiki',
+                cancelButtonText: '<i class="fa fa-times"></i> Batal',
+                allowOutsideClick: false,
+            }).then(function (result) {
+                if (!result.isConfirmed) return;
+
+                Swal.fire({
+                    title: 'Memproses...',
+                    text: 'Mohon tunggu, sedang memperbaiki data.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: function () { Swal.showLoading(); }
+                });
+
+                // Kumpulkan data per baris dari tabel
+                const postData = {};
+                postData[csrf.name] = csrf.value;
+                $('#tbl-artikel-user-orphan .select-user-pengganti').each(function () {
+                    const name = $(this).attr('name');  // artikel_user[id]
+                    const val  = $(this).val();         // '' atau id user
+                    // Gunakan bracket notation agar $.post mengirim array asosiatif
+                    postData[name] = val;
+                });
+
+                $.post(url, postData)
+                    .done(function (response) {
+                        if (response.status) {
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: 'Data berhasil diperbaiki.',
+                                icon: 'success',
+                                confirmButtonText: 'OK',
+                                timer: 2000,
+                                timerProgressBar: true,
+                            }).then(function () { location.reload(); });
+                        } else {
+                            Swal.fire('Gagal', response.message || 'Terjadi kesalahan.', 'error');
+                        }
+                    })
+                    .fail(function (xhr) {
+                        const res = xhr.responseJSON || {};
+                        Swal.fire('Gagal', res.message || 'Terjadi kesalahan saat memproses permintaan.', 'error');
+                    });
+            });
+        });
+
+        // SweetAlert AJAX handler untuk tombol perbaiki relasi artikel
+        $(document).on('click', '.btn-perbaiki-relasi-ajax', function () {
+            const masalah = $(this).data('masalah');
+            const label   = $(this).data('label') || 'Lanjutkan perbaikan ini?';
+            const url     = '{{ route('periksa.perbaiki.pilihan') }}';
+            const csrf    = { name: '{{ $token_name }}', value: '{{ $token_value }}' };
+
+            Swal.fire({
+                title: 'Konfirmasi',
+                html: '<p>' + label + '</p><p class="text-warning"><strong>Pastikan sudah melakukan backup database/folder desa.</strong></p>',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '<i class="fa fa-check"></i> Ya, Perbaiki',
+                cancelButtonText: '<i class="fa fa-times"></i> Batal',
+                allowOutsideClick: false,
+            }).then(function (result) {
+                if (!result.isConfirmed) return;
+
+                Swal.fire({
+                    title: 'Memproses...',
+                    text: 'Mohon tunggu, sedang memperbaiki data.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: function () { Swal.showLoading(); }
+                });
+
+                $.post(url, { 'pilihan[]': masalah, [csrf.name]: csrf.value })
+                    .done(function (response) {
+                        if (response.status) {
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: 'Data berhasil diperbaiki.',
+                                icon: 'success',
+                                confirmButtonText: 'OK',
+                                timer: 2000,
+                                timerProgressBar: true,
+                            }).then(function () { location.reload(); });
+                        } else {
+                            Swal.fire('Gagal', response.message || 'Terjadi kesalahan.', 'error');
+                        }
+                    })
+                    .fail(function (xhr) {
+                        const res = xhr.responseJSON || {};
+                        Swal.fire('Gagal', res.message || 'Terjadi kesalahan saat memproses permintaan.', 'error');
+                    });
+            });
+        });
     </script>
 </body>
 

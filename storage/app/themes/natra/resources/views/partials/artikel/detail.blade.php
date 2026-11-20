@@ -5,11 +5,7 @@
         @include('theme::commons.asset_highcharts')
         <div class="single_page_area" id="{{ 'artikel-' . $single_artikel['judul'] }}">
             <div style="margin-top:0px;">
-                @if (!empty($teks_berjalan))
-                    <marquee onmouseover="this.stop()" onmouseout="this.start()">
-                        @include('theme::layouts.teks_berjalan')
-                    </marquee>
-                @endif
+                @include('theme::layouts.teks_berjalan_marquee')
             </div>
             <div class="single_category wow fadeInDown">
                 <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Artikel</span> </h2>

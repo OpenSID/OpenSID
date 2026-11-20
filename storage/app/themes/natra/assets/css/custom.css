@@ -258,3 +258,39 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
 		object-fit: cover;
 	}
 }
+
+/* Marquee CSS Animation - pengganti <marquee> yang dihapus Chrome 146+ */
+.marquee-track-natra {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: marquee-scroll-natra 20s linear infinite;
+}
+
+.marquee-track-natra:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marquee-scroll-natra {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Marquee vertikal - agenda lama */
+.marquee-vertical-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee-track-vertical {
+    animation: marquee-scroll-vertical 10s linear infinite;
+}
+
+.marquee-track-vertical:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marquee-scroll-vertical {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+}

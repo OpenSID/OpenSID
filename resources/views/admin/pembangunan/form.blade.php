@@ -133,7 +133,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-sm-12 control-label">Sumber Biaya Pemerintah</label>
+                                <label class="col-sm-12 control-label">Sumber Biaya Dana Desa</label>
                                 <div class="col-sm-12">
                                     <input
                                         id="sumber_biaya_pemerintah"
@@ -142,7 +142,7 @@
                                         class="form-control input-sm required bilangan"
                                         maxlength="12"
                                         type="text"
-                                        placeholder="Sumber Biaya Pemerintah"
+                                        placeholder="Sumber Biaya Dana Desa"
                                         value="{{ $main->sumber_biaya_pemerintah }}"
                                     >
                                 </div>
@@ -227,12 +227,12 @@
                                     <input
                                         id="silpa"
                                         name="silpa"
-                                        class="form-control input-sm required bilangan"
+                                        class="form-control input-sm bilangan"
                                         maxlength="12"
                                         type="text"
-                                        onkeyup="cek()"
                                         placeholder="SILPA (Sisa Lebih Pembiayaan Anggaran)"
                                         value="{{ $main->silpa }}"
+                                        readonly
                                     >
                                 </div>
                             </div>
@@ -251,15 +251,20 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="pelaksana_kegiatan">Pelaksana Kegiatan</label>
                         <div class="col-sm-9">
-                            <input
-                                maxlength="50"
-                                class="form-control input-sm strip_tags required"
-                                name="pelaksana_kegiatan"
-                                id="pelaksana_kegiatan"
-                                value="{{ $main->pelaksana_kegiatan }}"
-                                type="text"
-                                placeholder="Pelaksana Kegiatan Pembangunan"
-                            />
+                            <select id="pamong_id"
+                                    name="pamong_id"
+                                    class="form-control input-sm select2">
+
+                                <option value="">-- Pilih Perangkat {{ ucwords(setting('sebutan_desa')) }} --</option>
+
+                                @foreach ($pamong as $data)
+                                    <option value="{{ $data->pamong_id }}"
+                                        @selected($main && $main->pamong_id == $data->pamong_id)>
+                                        {{ $data->pamong_nama ?? $data->penduduk->nama }}
+                                    </option>
+                                @endforeach
+
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -343,29 +348,39 @@
         var sb_kab = document.getElementById('sumber_biaya_kab_kota');
         var sb_swad = document.getElementById('sumber_biaya_swadaya');
         var aggaran = document.getElementById('anggaran');
+        var realisasi = document.getElementById('realisasi_anggaran');
+        var silpa = document.getElementById('silpa');
 
         function getSum(total, num) {
             return total + Math.round(num);
         }
 
         function cek() {
-            const numbers = [sb_pem.value, sb_prov.value, sb_kab.value, sb_swad.value];
-            var biaya = numbers.reduce(getSum, 0);
-            document.getElementById('anggaran').value = biaya;
-            var total_anggaran = aggaran.value;
-        };
 
-        $(document).ready(function() {
-            $("form").submit(function(e) {
-                const numbers = [sb_pem.value, sb_prov.value, sb_kab.value, sb_swad.value];
-                var biaya = numbers.reduce(getSum, 0);
-                var total_anggaran = aggaran.value;
-                if (biaya > total_anggaran) {
-                    alert('Total rincian sumber biaya tidak boleh melebihi anggaran.');
-                    e.preventDefault(e);
-                }
-            });
-        });
+            const numbers = [
+                parseInt(sb_pem.value) || 0,
+                parseInt(sb_prov.value) || 0,
+                parseInt(sb_kab.value) || 0,
+                parseInt(sb_swad.value) || 0
+            ];
+
+            var biaya = numbers.reduce(getSum, 0);
+
+            // Set pagu
+            aggaran.value = biaya;
+
+            var total_realisasi = parseInt(realisasi.value) || 0;
+
+            // Alert langsung saat realisasi lebih besar
+            if (total_realisasi > biaya) {
+                alert('Realisasi anggaran tidak boleh lebih besar dari pagu anggaran.');
+                realisasi.value = biaya; // otomatis samakan
+                total_realisasi = biaya;
+            }
+
+            var hasil_silpa = biaya - total_realisasi;
+            silpa.value = hasil_silpa >= 0 ? hasil_silpa : 0;
+        }
 
         function pilih_lokasi(pilih) {
             if (pilih == 1) {

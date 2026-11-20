@@ -49,13 +49,16 @@ class LogSuratVerifikasiTransformer extends TransformerAbstract
         if ($surat->id_pend) {
             $namaPenduduk = PendudukSaja::find($surat->id_pend)?->nama;
         }
-        $surat->nomor_surat    = $surat->formatPenomoranSurat;
-        $surat->perihal        = $surat->formatSurat->nama;
-        $surat->nama_penduduk  = $namaPenduduk;
-        $surat->pamong_nama    = $surat->nama_pamong;
-        $surat->pamong_jabatan = ($surat->pamong->status_pejabat ? setting('sebutan_pj_kepala_desa') : '') . $surat->nama_jabatan;
-        $surat->pdf            = ambilBerkas($surat->nama_surat, null, null, LOKASI_ARSIP, false, false, true);
 
-        return $surat->toArray();
+        return [
+            'id'             => $surat->id,
+            'nomor_surat'    => $surat->formatPenomoranSurat,
+            'perihal'        => $surat->formatSurat->nama,
+            'nama_penduduk'  => $namaPenduduk,
+            'pamong_nama'    => $surat->nama_pamong,
+            'pamong_jabatan' => ($surat->pamong->status_pejabat ? setting('sebutan_pj_kepala_desa') : '') . $surat->nama_jabatan,
+            'tanggal'        => $surat->tanggal,
+            'pdf'            => ambilBerkas($surat->nama_surat, null, null, LOKASI_ARSIP, false, false, true),
+        ];
     }
 }

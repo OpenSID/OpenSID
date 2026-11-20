@@ -35,36 +35,55 @@
  *
  */
 
-use App\Traits\Migrator;
-use Illuminate\Database\Migrations\Migration;
+namespace App\Http\Requests\Map;
 
-return new class () extends Migration {
-    use Migrator;
+use Illuminate\Foundation\Http\FormRequest;
+
+class MapLokasiRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return can('u');
+    }
 
     /**
-     * Run the migrations.
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
      */
-    public function up(): void
+    public function rules()
     {
-        $this->restructure();
+        return [
+            'desk'    => 'sometimes|nullable|string|max:1000',
+            'nama'    => 'sometimes|required|string|max:255',
+            'enabled' => 'sometimes|required|boolean',
+
+            'lat' => 'required|numeric|between:-90,90',
+            'lng' => 'required|numeric|between:-180,180',
+
+            'ref_point'  => 'sometimes|nullable|string|max:255',
+            'foto'       => 'sometimes|nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'id_cluster' => 'sometimes|required|integer|exists:clusters,id',
+        ];
     }
 
     /**
-     * Reverse the migrations.
+     * Prepare the data for validation.
+     * Normalize lat/lng decimal separator from comma to dot.
      */
-    public function down(): void
+    protected function prepareForValidation()
     {
+        if (isset($this->data['lat'])) {
+            $this->data['lat'] = str_replace(',', '.', (string) $this->data['lat']);
+        }
 
+        if (isset($this->data['lng'])) {
+            $this->data['lng'] = str_replace(',', '.', (string) $this->data['lng']);
+        }
     }
-
-    public function restructure(): void
-    {
-        // Hapus foreign key yang duplikat
-        $this->hapusForeignKey('id_pend_fk', 'dokumen', 'tweb_penduduk');
-        $this->hapusForeignKey('log_tolak_surat_fk', 'log_tolak', 'log_surat');
-
-        // Tambah relasi foreign key yang hilang pada kolom config_id tabel sinergi_program
-        $this->tambahForeignKey('sinergi_program_config_fk', 'sinergi_program', 'config_id', 'config', 'id', 'CASCADE', 'CASCADE');
-
-    }
-};
+}

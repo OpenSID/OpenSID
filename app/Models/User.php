@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use App\Services\Auth\Traits\Authorizable;
 use App\Traits\ConfigId;
+use App\Traits\SafeSoftDeletes;
 use App\Traits\ShortcutCache;
 use App\Traits\StatusTrait;
 use Illuminate\Auth\Authenticatable;
@@ -64,6 +65,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     use Notifiable;
     use HasOneTimePasswords;
     use StatusTrait;
+    use SafeSoftDeletes;
 
     /**
      * The timestamps for the model.
@@ -138,7 +140,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
             static::deleteFile($model, 'foto');
         });
 
-        static::deleting(static function ($model): void {
+        static::forceDeleting(static function ($model): void {
             static::deleteFile($model, 'foto', true);
         });
     }

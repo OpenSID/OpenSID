@@ -1,6 +1,7 @@
 @extends('admin.layouts.index')
 
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.asset_form_request')
 @section('title')
     <h1>
         Peta {{ $lokasi['nama'] }}
@@ -16,7 +17,7 @@
     @include('admin.layouts.components.notifikasi')
 
     <div class="box box-info">
-        <form action="{{ $form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+        <form action="{{ $form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal" id="form_validasi">
             <div class="box-body">
                 <div id="tampil-map">
                     <input type="hidden" name="id" id="id" value="{{ $lokasi['id'] }}" />
@@ -26,13 +27,13 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="lat">Lat</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control input-sm lat" name="lat" id="lat" value="{{ $lokasi['lat'] }}" />
+                        <input type="text" inputmode="decimal" class="form-control input-sm lat" name="lat" id="lat" value="{{ $lokasi['lat'] }}" placeholder="-6.123456" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="lng">Lng</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control input-sm lng" name="lng" id="lng" value="{{ $lokasi['lng'] }}" />
+                        <input type="text" inputmode="decimal" class="form-control input-sm lng" name="lng" id="lng" value="{{ $lokasi['lng'] }}" placeholder="106.123456" />
                     </div>
                 </div>
                 <a href="{{ ci_route('plan') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
@@ -48,6 +49,52 @@
 @push('scripts')
     <script>
         window.onload = function() {
+
+            // Fungsi untuk membersihkan dan memvalidasi input koordinat
+            // Hanya mengizinkan angka, titik (.) sebagai pemisah desimal, dan minus (-) di awal
+            function sanitizeCoordInput(value) {
+                // Ganti koma dengan titik untuk konsistensi
+                value = value.replace(/,/g, '.');
+
+                // Hapus semua karakter selain angka, titik, dan minus
+                value = value.replace(/[^0-9.\-]/g, '');
+
+                // Pastikan minus hanya di posisi awal
+                var isNegative = value.charAt(0) === '-';
+                value = value.replace(/-/g, '');
+                if (isNegative) {
+                    value = '-' + value;
+                }
+
+                // Pastikan hanya ada satu titik desimal
+                var parts = value.split('.');
+                if (parts.length > 2) {
+                    value = parts[0] + '.' + parts.slice(1).join('');
+                }
+
+                return value;
+            }
+
+            // Validasi input lat dan lng
+            document.querySelectorAll('.lat, .lng').forEach(function(el) {
+                el.addEventListener('input', function () {
+                    var cursorPos = this.selectionStart;
+                    var oldLen = this.value.length;
+                    this.value = sanitizeCoordInput(this.value);
+                    var newLen = this.value.length;
+                    // Sesuaikan posisi kursor setelah sanitasi
+                    this.setSelectionRange(cursorPos - (oldLen - newLen), cursorPos - (oldLen - newLen));
+                });
+
+                // Juga tangani paste
+                el.addEventListener('paste', function (e) {
+                    var self = this;
+                    setTimeout(function() {
+                        self.value = sanitizeCoordInput(self.value);
+                    }, 0);
+                });
+            });
+
             @if (!empty($lokasi['lat']) && !empty($lokasi['lng']))
                 var posisi = [{{ $lokasi['lat'] }}, {{ $lokasi['lng'] }}];
                 var zoom = 16;

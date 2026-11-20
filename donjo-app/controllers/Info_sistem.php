@@ -345,11 +345,9 @@ class Info_sistem extends Admin_Controller
                         }
                     );
                 })
-                ->editColumn('created_at', static function ($row) {
-                    return $row->created_at
+                ->editColumn('created_at', static fn ($row) => $row->created_at
                         ? $row->created_at->translatedFormat('d F Y H:i:s')
-                        : '';
-                })
+                        : '')
                 ->rawColumns(['aksi', 'event_label'])
                 ->make();
         }

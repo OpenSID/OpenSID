@@ -41,15 +41,15 @@
                 <button type="button" class="btn btn-block bg-green"><b>LUPA PIN</b></button>
             </a>
         </div>
-        @if (class_exists(\Modules\Anjungan\Models\Anjungan::class) && in_array(\Modules\Anjungan\Models\Anjungan::ANJUNGAN, $cek_anjungan['tipe'] ?? []))
-            <div class="form-group">
-                <a href="<?= route('anjungan.index') ?>">
-                    <button type="button" class="btn btn-block bg-green"><b>ANJUNGAN</b></button>
-                </a>
-            </div>
-        @endif
+        <div id="anjungan-button-container">
+            {{-- Tombol Anjungan akan dimuat di sini oleh JavaScript --}}
+        </div>
     </form>
 @endsection
+
+@if (class_exists(\Modules\Anjungan\Models\Anjungan::class))
+    @include('layanan_mandiri.auth.anjungan-ajax')
+@endif
 
 @push('script')
     <script type="text/javascript">
@@ -62,12 +62,6 @@
                     pass.attr('type', 'password')
                 }
             });
-            
-            // Get UUID from local storage and set it to the hidden input
-            const anjungan_uuid = localStorage.getItem('anjungan_uuid');
-            if (anjungan_uuid) {
-                $('#anjungan_uuid').val(anjungan_uuid);
-            }
         });
     </script>
 @endpush
