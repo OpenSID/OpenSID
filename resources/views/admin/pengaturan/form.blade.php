@@ -1,6 +1,11 @@
 @foreach ($list_setting as $key => $pengaturan)
     @if ($pengaturan->jenis != 'upload' && in_array($pengaturan->kategori, $pengaturan_kategori ?? []))
-        <div class="form-group" id="form_{{ $pengaturan->key }}">
+        @php
+            $attrData = json_decode($pengaturan->attribute, true) ?? [];
+            $requiredIf = $attrData['required_if'] ?? null;
+            $requiredIfAttr = $requiredIf ? "data-required-if='" . json_encode($requiredIf) . "'" : '';
+        @endphp
+        <div class="form-group" id="form_{{ $pengaturan->key }}" {!! $requiredIfAttr !!}>
             <label class="col-sm-12 col-md-3" for="nama">{{ SebutanDesa($pengaturan->judul) }}</label>
             @if ($pengaturan->jenis == 'option' || $pengaturan->jenis == 'boolean')
                 <div class="col-sm-12 col-md-4">
@@ -91,9 +96,13 @@
                             unset($attributes['class']);
                         }
 
+                        // Exclude required_if dari HTML attributes
+                        unset($attributes['required_if']);
+
                         $value['type'] = $pengaturan->jenis;
                         $value['default'] = $pengaturan->value;
                         $value['readonly'] = strpos($pengaturan->attribute, 'readonly') ? 'readonly' : '';
+                        $value['disabled'] = strpos($pengaturan->attribute, 'disabled') ? 'disabled' : '';
                         $value['attributes'] = implode(
                             ' ',
                             array_map(
@@ -142,3 +151,36 @@
         </div>
     @endif
 @endforeach
+
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Generic handler untuk required_if
+            $('[data-required-if]').each(function() {
+                var $formGroup = $(this);
+                var config = $formGroup.data('required-if');
+                var $triggerField = $(`#${config.field}`);
+                var $targetInput = $formGroup.find('input, select, textarea').first();
+
+                function toggleRequired() {
+                    var currentValue = $triggerField.val();
+                    if (currentValue == config.value) {
+                        $formGroup.show();
+                        $targetInput.addClass('required');
+                    } else {
+                        $formGroup.hide();
+                        $targetInput.removeClass('required');
+                    }
+                }
+
+                // Initial state
+                toggleRequired();
+
+                // Listen for changes
+                $triggerField.on('select2:select change', function() {
+                    toggleRequired();
+                });
+            });
+        });
+    </script>
+@endpush

@@ -84,7 +84,7 @@
                     <td>{{ $penduduk->pendidikan_kk }}</td>
                 </tr>
                 <tr>
-                    <td>Pekerjaan</td>
+                    <td><?= HEADER_PEKERJAAN ?></td>
                     <td>:</td>
                     <td>{{ $penduduk->pekerjaan }}</td>
                 </tr>

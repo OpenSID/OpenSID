@@ -65,7 +65,7 @@ class Captcha
             $case_sensitive = (bool) setting('strict_captcha') ?? false;
         }
 
-        static::$characters     = str_replace(
+        static::$characters = str_replace(
             ['0', '1', '5', 'i', 'I', 'k', 'K', 'l', 'L', 'o', 'O', 's', 'S', 'w', 'W'],
             ['6', '4', '8', '2', '3', 'z', 'Z', 'p', 'P', 'h', 'H', 'x', 'X', 'v', 'V'],
             Str::random(5)
@@ -126,10 +126,16 @@ class Captcha
     public static function check($value): bool
     {
         $case_sensitive = (bool) setting('strict_captcha') ?? false;
-        $value = trim((string) ($case_sensitive ? $value : strtolower((string) $value)));
-        $hash  = ci()->session->captcha;
+        $value          = trim((string) ($case_sensitive ? $value : strtolower((string) $value)));
+        $hash           = ci()->session->captcha;
 
-        return $value && $hash && Hash::check($value, $hash);
+        if ($value && $hash && Hash::check($value, $hash)) {
+            self::invalidate();
+
+            return true;
+        }
+
+        return false;
     }
 
     protected static function fonts()
@@ -160,5 +166,10 @@ class Captcha
         }
 
         return static::$fonts[array_rand(static::$fonts)];
+    }
+
+    private static function invalidate(): void
+    {
+        unset(ci()->session->captcha);
     }
 }

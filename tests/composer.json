@@ -2,7 +2,8 @@
     "name": "opendesa/opensid-tests",
     "description": "Testing dependencies for OpenSID (terpisah dari production)",
     "require-dev": {
-        "orchestra/testbench": "^8.0"
+        "php": "^8.1",
+        "orchestra/testbench": "^8.37"
     },
     "autoload": {
         "psr-4": {

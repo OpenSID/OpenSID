@@ -388,4 +388,10 @@ class PendudukHidup extends BaseModel
 
         return $query;
     }
+
+    protected function scopeLepasSemua($query)
+    {
+        return $query->whereNull('id_kk')
+            ->where('status', 1);
+    }
 }

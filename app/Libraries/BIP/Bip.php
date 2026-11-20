@@ -54,29 +54,27 @@ class Bip
     }
 
     /**
-     * Tentunkan format BIP yang akan digunakan
+     * Tentukan format BIP yang akan digunakan
      *
-     * @param sheet		data excel berisi bip
-     * @param mixed $data
-     *
-     * @return model format BIP yang akan digunakan
+     * @param mixed $data Data excel berisi bip
      */
-    private function cariFormatBip($data)
+    private function cariFormatBip($data): Siak|Bip2016|Bip2016Luwutimur|BipEktp|Bip2012
     {
         $dataSheet = $data->sheets[0]['cells'];
+
         if (strtolower((string) $dataSheet[1][1]) === 'nomor kk' && strtolower((string) $dataSheet[1][34]) === 'petugas registrasi') {
             return new Siak();
         }
-        if ($dataSheet[1][1] == 'BUKU INDUK PENDUDUK WNI') {
 
+        if ($dataSheet[1][1] == 'BUKU INDUK PENDUDUK WNI') {
             return new Bip2016();
         }
-        if (str_contains((string) $dataSheet[1][2], 'BUKU INDUK KEPENDUDUKAN') && str_contains((string) $dataSheet[1][2], '(DAFTAR  KELUARGA)')) {
 
+        if (strpos((string) $dataSheet[1][2], 'BUKU INDUK KEPENDUDUKAN') !== false && strpos((string) $dataSheet[1][2], '(DAFTAR  KELUARGA)') !== false) {
             return new Bip2016Luwutimur();
         }
-        if (str_contains((string) $dataSheet[1][16], 'Wjb KTP') && str_contains((string) $dataSheet[1][17], 'KTP-eL')) {
 
+        if (strpos((string) $dataSheet[1][16], 'Wjb KTP') !== false && strpos((string) $dataSheet[1][17], 'KTP-eL') !== false) {
             return new BipEktp();
         }
 

@@ -69,7 +69,7 @@ class Statistik extends Web_Controller
         if ($data['bantuan']) {
             $cekBantuan = Bantuan::where('id', substr($key, 2))->where('publikasi', StatusEnum::YA)->exists();
 
-            if (!$cekBantuan && (! in_array($key, array_keys(StatistikJenisBantuanEnum::allKeyLabel())))) {
+            if (! $cekBantuan && (! in_array($key, array_keys(StatistikJenisBantuanEnum::allKeyLabel())))) {
                 show_404();
             }
             $selectedTahun      = request()->get('tahun');

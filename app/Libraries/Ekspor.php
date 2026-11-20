@@ -43,6 +43,8 @@ use Illuminate\Support\Facades\File;
 use MySQLDump;
 use mysqli;
 use MySQLImport;
+use Throwable;
+use TypeError;
 
 class Ekspor
 {
@@ -162,10 +164,19 @@ class Ekspor
     public function restore(string $filename): bool
     {
         $import = new MySQLImport($this->db);
-        $import->load($filename);
-        // Clear cache and reset app key
-        $this->clearCache();
-        $this->resetAppKey();
+
+        try {
+            $import->load($filename);
+        } catch (TypeError $e) {
+            logger()->warning('MySQLImport EOF bug: ' . $e->getMessage());
+        }
+
+        try {
+            $this->clearCache();
+            $this->resetAppKey();
+        } catch (Throwable $e) {
+            logger()->warning('Post-restore cleanup gagal: ' . $e->getMessage());
+        }
 
         return true;
     }
@@ -175,7 +186,6 @@ class Ekspor
         // reset cache blade
         kosongkanFolder(config_item('cache_blade'));
         cache()->flush();
-        session_destroy();
     }
 
     private function resetAppKey(): void

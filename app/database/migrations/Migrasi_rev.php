@@ -36,9 +36,6 @@
  */
 
 use App\Traits\Migrator;
-use App\Enums\StatusEnum;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Migrations\Migration;
 
 return new class () extends Migration {
@@ -49,21 +46,6 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        if (Schema::hasTable('anjungan') && Schema::hasColumn('anjungan', 'tipe')) {
-            DB::statement('ALTER TABLE anjungan MODIFY tipe TEXT NULL');
-        }
-
-        // tambahkan kolom publikasi di tabel program
-        if (Schema::hasTable('program') && ! Schema::hasColumn('program', 'publikasi')) {
-            Schema::table('program', function ($table) {
-                $table->integer('publikasi')->default(StatusEnum::TIDAK)->after('edate');
-            });
-
-            // update data publikasi di tabel program untuk pertama kali
-            DB::table('program')->update(['publikasi' => StatusEnum::YA]);
-        }
-
-        cache()->forget('identitas_desa');
     }
 
     /**
@@ -71,6 +53,5 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-
     }
 };

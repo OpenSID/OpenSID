@@ -67,10 +67,11 @@ class LoginPendudukListener
             }
 
             $this->app['ci']->session->set_userdata([
-                'mandiri'      => 1,
-                'is_anjungan'  => $this->app['ci']?->cek_anjungan,
-                'is_login'     => $data,
-                'auth_mandiri' => $login->user->penduduk,
+                'mandiri'       => 1,
+                'anjungan_uuid' => $this->app['ci']->session->anjungan_uuid,
+                'is_anjungan'   => (bool) $this->app['ci']->session->anjungan_uuid,
+                'is_login'      => $data,
+                'auth_mandiri'  => $login->user->penduduk,
             ]);
 
             $login->user->last_login = Carbon::now();

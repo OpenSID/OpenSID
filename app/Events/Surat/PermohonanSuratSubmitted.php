@@ -38,7 +38,7 @@
 namespace App\Events\Surat;
 
 use App\Models\FormatSurat;
-use App\Models\Penduduk;
+use App\Models\PendudukMandiri;
 use App\Models\PermohonanSurat;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
@@ -46,14 +46,14 @@ use Illuminate\Queue\SerializesModels;
 class PermohonanSuratSubmitted
 {
     use InteractsWithSockets;
- use SerializesModels;
+    use SerializesModels;
 
     /**
      * Create a new event instance.
      */
     public function __construct(
         public PermohonanSurat $permohonan,
-        public Penduduk $penduduk,
+        public PendudukMandiri $penduduk,
         public FormatSurat $surat
     ) {
     }

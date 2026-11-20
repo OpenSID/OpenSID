@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.9.1 (2025-05-29)
+ * TinyMCE version 7.9.2 (2026-02-11)
  */
 
 (function () {
@@ -657,32 +657,79 @@
             allowFullscreen: true
         }
     ];
-    const getProtocol = (url) => {
-        const protocolMatches = url.match(/^(https?:\/\/|www\.)(.+)$/i);
-        if (protocolMatches && protocolMatches.length > 1) {
-            return protocolMatches[1] === 'www.' ? 'https://' : protocolMatches[1];
-        }
-        else {
-            return 'https://';
+    // SSRF Protection: Only allow whitelisted domains for media embeds
+    // SSRF Protection: Whitelist, protocol, and IP validation (adopted from PR#5730/5882)
+    const getAllowedMediaDomains = () => [
+        'youtube.com', 'youtu.be', 'vimeo.com', 'maps.google.com', 'maps.google.co.id', 'dailymotion.com', 'dai.ly',
+        'soundcloud.com', 'w.soundcloud.com', 'player.vimeo.com', 'www.youtube.com', 'www.dailymotion.com'
+    ];
+    const isDomainAllowed = (hostname) => {
+        const allowedDomains = getAllowedMediaDomains();
+        const lowerHostname = hostname.toLowerCase();
+        return allowedDomains.some(domain => {
+            const domainPattern = domain
+                .replace(/\./g, '\\.')
+                .replace(/\*/g, '[a-zA-Z0-9-]*');
+            const regex = new RegExp(`^${domainPattern}$`);
+            return regex.test(lowerHostname) || lowerHostname.endsWith('.' + domain.replace(/^\*\./, ''));
+        });
+    };
+    const isValidMediaUrl = (url) => {
+        try {
+            // Layer 1: Protocol must be http(s)
+            if (!url.match(/^(https?:)?\/\//i)) return false;
+            const urlObj = new URL(url, window.location.origin);
+            const protocol = urlObj.protocol.toLowerCase();
+            if (!['http:', 'https:'].includes(protocol)) return false;
+            // Layer 2: Data URLs, blob, etc not allowed for media embeds
+            // Layer 3: Block private IPs, localhost, reserved hosts
+            const hostname = urlObj.hostname.toLowerCase();
+            const privateIpPatterns = [
+                /^localhost$/, /^127\./, /^192\.168\./, /^10\./, /^172\.(1[6-9]|2[0-9]|3[01])\./, /^169\.254\./, /^\[::1\]$/, /^\[::\]$/, /^::1$/
+            ];
+            if (privateIpPatterns.some(pattern => pattern.test(hostname))) return false;
+            const reservedHostnames = ['example.com', 'example.org', 'example.net'];
+            if (reservedHostnames.includes(hostname)) return false;
+            // Layer 4: Whitelist domain
+            if (!isDomainAllowed(hostname)) return false;
+            // Layer 5: Block @-bypass (user:pass@host)
+            if (urlObj.username || urlObj.password) return false;
+            // Layer 6: Block double protocol (e.g. http://https://...)
+            if (/https?:\/\/https?:\/\//i.test(url)) return false;
+            // Layer 7: Block encoded IP (e.g. 127%2e0%2e0%2e1)
+            if (/%2e|%2E/.test(url)) return false;
+            return true;
+        } catch (e) {
+            return false;
         }
     };
     const getUrl = (pattern, url) => {
-        const protocol = getProtocol(url);
-        const match = pattern.regex.exec(url);
-        let newUrl = protocol + pattern.url;
-        if (isNonNullable(match)) {
-            for (let i = 0; i < match.length; i++) {
-                newUrl = newUrl.replace('$' + i, () => match[i] ? match[i] : '');
+        try {
+            if (!isValidMediaUrl(url)) throw new Error('URL media tidak diizinkan');
+            const u = new URL(url, window.location.origin);
+            const match = pattern.regex.exec(url);
+            let newUrl = u.protocol + '//' + pattern.url;
+            if (isNonNullable(match)) {
+                for (let i = 0; i < match.length; i++) {
+                    newUrl = newUrl.replace('$' + i, () => match[i] ? match[i] : '');
+                }
             }
+            return newUrl.replace(/\?$/, '');
+        } catch (e) {
+            return '';
         }
-        return newUrl.replace(/\?$/, '');
     };
     const matchPattern = (url) => {
-        const patterns = urlPatterns.filter((pattern) => pattern.regex.test(url));
-        if (patterns.length > 0) {
-            return global$5.extend({}, patterns[0], { url: getUrl(patterns[0], url) });
-        }
-        else {
+        try {
+            if (!isValidMediaUrl(url)) return null;
+            const u = new URL(url, window.location.origin);
+            const patterns = urlPatterns.filter((pattern) => pattern.regex.test(url));
+            if (patterns.length > 0) {
+                return global$5.extend({}, patterns[0], { url: getUrl(patterns[0], url) });
+            } else {
+                return null;
+            }
+        } catch (e) {
             return null;
         }
     };
@@ -989,8 +1036,25 @@
         const editorData = getEditorData(editor);
         const currentData = Cell(editorData);
         const initialData = wrap(editorData);
+        // Helper: alertErr ala image/plugin.js
+        const alertErr = (msg, cb) => {
+            if (editor.windowManager && editor.windowManager.alert) {
+                editor.windowManager.alert(msg, cb);
+            } else {
+                alert(msg);
+                if (cb) cb();
+            }
+        };
         const handleSource = (prevData, api) => {
             const serviceData = unwrap(api.getData(), 'source');
+            // Validasi SSRF/whitelist sebelum fetch embed
+            if (serviceData.source && !isValidMediaUrl(serviceData.source)) {
+                alertErr('URL tidak diizinkan. Gunakan domain publik yang terdaftar atau cloud storage yang mendukung.', () => {
+                    api.focus('source');
+                });
+                api.setData(wrap({ ...serviceData, source: '' }));
+                return;
+            }
             // If a new URL is entered, then clear the embed html and fetch the new data
             if (prevData.source !== serviceData.source) {
                 addEmbedHtml(win, editor)({ url: serviceData.source, html: '' });

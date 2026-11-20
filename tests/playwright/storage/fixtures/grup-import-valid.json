@@ -1,0 +1,34 @@
+[
+  {
+    "nama": "Operator Baru",
+    "slug": "operator-baru",
+    "status": 1,
+    "akses": [
+      {
+        "modul": {
+          "slug": "dashboard"
+        },
+        "akses": 1
+      },
+      {
+        "modul": {
+          "slug": "profil_desa"
+        },
+        "akses": 7
+      }
+    ]
+  },
+  {
+    "nama": "Pengawas",
+    "slug": "pengawas",
+    "status": 1,
+    "akses": [
+      {
+        "modul": {
+          "slug": "dashboard"
+        },
+        "akses": 1
+      }
+    ]
+  }
+]

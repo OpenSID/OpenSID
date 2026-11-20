@@ -1621,3 +1621,16 @@ if (! function_exists('sensorNama')) {
         return $pertama . $tengah . $terakhir;
     }
 }
+
+if (! function_exists('parseDate')) {
+    /**
+     * Sensor nama dengan mengganti karakter tengah dengan '*'
+     *
+     * @param string $nama
+     * @param string $replaceChar Karakter pengganti, default '*'
+     */
+    function parseDate(?string $date): ?string
+    {
+        return empty($date) ? null : date('Y-m-d', strtotime($date));
+    }
+}

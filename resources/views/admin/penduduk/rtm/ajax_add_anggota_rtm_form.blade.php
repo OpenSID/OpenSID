@@ -70,6 +70,8 @@
                 responsive: true,
                 processing: true,
                 serverSide: false,
+                paging: false,
+                info: false,
                 ajax: {
                     url: `{{ ci_route('rtm.datables_anggota') }}/${e.params.data.id}`,
                     dataSrc: function(data) {
@@ -87,11 +89,15 @@
                             let checked = data.no == 1 ? 'checked' : '';
                             return `<td><input type="checkbox" name="id_cb[]" value="${data.id}" ${checked} /></td>`
                         },
-                        'class': 'padat'
+                        'class': 'padat',
+                        'orderable': false,
+                        'searchable': false
                     },
                     {
                         'data': 'no',
-                        'class': 'padat'
+                        'class': 'padat',
+                        'orderable': false,
+                        'searchable': false
                     },
                     {
                         'data': 'nik',
@@ -102,7 +108,9 @@
                     },
                     {
                         'data': 'kk_level',
-                        'class': 'padat'
+                        'class': 'padat',
+                        'orderable': false,
+                        'searchable': false
                     },
                 ],
             });

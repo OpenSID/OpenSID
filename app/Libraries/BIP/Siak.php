@@ -40,62 +40,116 @@ namespace App\Libraries\BIP;
 use App\Libraries\Import;
 use App\Models\LogPenduduk;
 
+/**
+ * Impor data penduduk dari file ekspor SIAK (Sistem Informasi Administrasi Kependudukan).
+ *
+ * Format ekspor SIAK menggunakan label teks yang berbeda dari enum internal OpenSID
+ * (misalnya "Cacat Rungu/Wicara" vs "DISABILITAS RUNGU/WICARA"), serta tidak memiliki
+ * beberapa kolom yang diwajibkan validasi (dokumen_kitas, warganegara_id).
+ *
+ * Class ini menangani semua perbedaan tersebut agar impor bisa berjalan tanpa
+ * mengharuskan pengguna mengubah file yang didapat langsung dari SIAK.
+ */
 class Siak extends Import
 {
-    private readonly string $kolomSiak;
+    private readonly array $kolomSiak;
 
     public function __construct()
     {
         parent::__construct();
-        $this->kolomSiak = serialize([
-            'no_kk'             => '1',
-            'nik'               => '2',
-            'nama'              => '3',
-            'status_dasar'      => '4',
-            'tempatlahir'       => '5',
-            'tanggallahir'      => '6',
-            'sex'               => '7',
-            'ayah_nik'          => '8',
-            'nama_ayah'         => '9',
-            'ibu_nik'           => '10',
-            'nama_ibu'          => '11',
-            'status_kawin'      => '12',
-            'kk_level'          => '13',
-            'agama_id'          => '14',
-            'alamat'            => '17',
-            'rw'                => '18',
-            'rt'                => '19',
-            'pendidikan_kk_id'  => '20',
-            'pekerjaan_id'      => '21',
-            'golongan_darah_id' => '23',
-            'cacat_id'          => '24',
-            'dokumen_pasport'   => '28',
-            'akta_lahir'        => '29',
-            'akta_perkawinan'   => '30',
-            'tanggalperkawinan' => '31',
-            'akta_perceraian'   => '32',
-            'tanggalperceraian' => '33',
-            'tgl_entri'         => '37',
+
+        /**
+         * Mapping tambahan khusus format SIAK.
+         *
+         * Parent class sudah membangun tabel konversi dari enum, tapi SIAK
+         * menggunakan label yang berbeda untuk beberapa field. Mapping ini
+         * di-merge ke tabel yang sudah ada — pola yang sama dipakai parent
+         * untuk $kodeStatusDasar ("PINDAH DALAM NEGERI", "PINDAH LUAR NEGERI").
+         *
+         * Semua key ditulis lowercase karena konversiKode() melakukan
+         * array_change_key_case() sebelum lookup.
+         */
+
+        // Cacat — SIAK: "Cacat X" / "Tidak Ada Kelainan"
+        //         Enum: "DISABILITAS X" / "TIDAK DISABILITAS"
+        $this->kodeCacat = array_merge($this->kodeCacat, [
+            'tidak ada kelainan'     => 7, // TIDAK DISABILITAS
+            'cacat fisik'            => 1, // DISABILITAS FISIK
+            'cacat netra/buta'       => 2, // DISABILITAS NETRA/BUTA
+            'cacat rungu/wicara'     => 3, // DISABILITAS RUNGU/WICARA
+            'cacat mental/jiwa'      => 4, // DISABILITAS MENTAL/JIWA
+            'cacat fisik dan mental' => 5, // DISABILITAS FISIK DAN MENTAL
+            'cacat lainnya'          => 6, // DISABILITAS LAINNYA
         ]);
+
+        // Status dasar — SIAK: "Tidak Valid" (tidak ada di StatusDasarEnum)
+        $this->kodeStatusDasar = array_merge($this->kodeStatusDasar, [
+            'tidak valid' => 9,
+        ]);
+
+        /**
+         * Pemetaan field ke nomor kolom pada file ekspor SIAK.
+         *
+         * Kolom yang dilewati (tidak dipetakan):
+         *   - 15: Kecamatan           — sudah tersimpan di konfigurasi desa
+         *   - 16: Desa/Kel            — sudah tersimpan di konfigurasi desa
+         *   - 22: Deskripsi Pekerjaan — tidak dipetakan ke field tersendiri
+         *   - 25: Cetak KTP           — tidak digunakan
+         *   - 26: Ganti KTP           — tidak digunakan
+         *   - 27: KTP Berakhir        — tidak digunakan
+         *   - 34: Petugas Registrasi  — tidak digunakan
+         *   - 35: Tgl Ubah            — tidak digunakan
+         *   - 36: Petugas Entri       — tidak digunakan
+         */
+        $this->kolomSiak = [
+            'no_kk'             => 1,
+            'nik'               => 2,
+            'nama'              => 3,
+            'status_dasar'      => 4,
+            'tempatlahir'       => 5,
+            'tanggallahir'      => 6,
+            'sex'               => 7,
+            'ayah_nik'          => 8,
+            'nama_ayah'         => 9,
+            'ibu_nik'           => 10,
+            'nama_ibu'          => 11,
+            'status_kawin'      => 12,
+            'kk_level'          => 13,
+            'agama_id'          => 14,
+            'alamat'            => 17,
+            'rw'                => 18,
+            'rt'                => 19,
+            'pendidikan_kk_id'  => 20,
+            'pekerjaan_id'      => 21,
+            'golongan_darah_id' => 23,
+            'cacat_id'          => 24,
+            'dokumen_pasport'   => 28,
+            'akta_lahir'        => 29,
+            'akta_perkawinan'   => 30,
+            'tanggalperkawinan' => 31,
+            'akta_perceraian'   => 32,
+            'tanggalperceraian' => 33,
+            'tgl_entri'         => 37,
+        ];
     }
 
     /**
-     * Proses impor data bip
+     * Proses impor data penduduk dari file ekspor SIAK.
      *
-     * @param sheet		data excel berisi bip
+     * Setiap baris divalidasi terlebih dahulu. Baris yang valid ditulis ke
+     * tabel wilayah, keluarga, dan penduduk. Penduduk dengan status MATI,
+     * HILANG, atau PINDAH juga dicatat ke log_penduduk.
      *
-     * @return setting $_SESSION untuk info hasil impor
-     *                 $_SESSION['gagal']=						jumlah baris yang gagal
-     *                 $_SESSION['total_keluarga']=	jumlah keluarga yang diimpor
-     *                 $_SESSION['total_penduduk']=	jumlah penduduk yang diimpor
-     *                 $_SESSION['baris']=						daftar baris yang gagal
+     * @param mixed $data Objek pembaca Excel yang sudah dimuat
      */
-    public function imporDataBip(mixed $data)
+    public function imporDataBip(mixed $data): void
     {
-        // membaca jumlah baris dari data excel
         $baris = $data->rowcount($sheetIndex = 0);
+
         if ($this->cariBarisPertama($data, $baris) <= 1) {
-            return set_session('error', 'Data penduduk gagal diimpor, data tidak tersedia.');
+            set_session('error', 'Data penduduk gagal diimpor, data tidak tersedia.');
+
+            return;
         }
 
         $gagalPenduduk = 0;
@@ -103,168 +157,259 @@ class Siak extends Import
         $totalKeluarga = 0;
         $totalPenduduk = 0;
 
-        // Import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
+        // Baris pertama adalah header; data dimulai dari baris ke-2
         for ($i = 2; $i <= $baris; $i++) {
-            // Baris dengan tiga kolom pertama kosong menandakan baris tanpa data
+            // Lewati baris kosong (tiga kolom pertama semuanya kosong)
             if ($data->val($i, 1) == '' && $data->val($i, 2) == '' && $data->val($i, 3) == '') {
                 continue;
             }
 
             $isiBaris      = $this->getIsiBaris($data, $i);
+            $errorImpor    = null;
             $errorValidasi = $this->dataImportValid($isiBaris);
+
             if (empty($errorValidasi)) {
                 $this->tulisWilayah($isiBaris);
+
                 if ($this->tulisKeluarga($isiBaris)) {
                     $totalKeluarga++;
                 }
-                $penduduk_baru = $this->tulisPenduduk($isiBaris);
-                if ($penduduk_baru) {
+
+                // tulisPenduduk() mengembalikan int ID jika berhasil,
+                // atau string pesan error jika gagal
+                $pendudukBaru = $this->tulisPenduduk($isiBaris);
+
+                if (is_int($pendudukBaru)) {
                     $totalPenduduk++;
-                    // Tulis log kalau status dasar MATI, HILANG atau PINDAH
+
+                    // Catat log untuk penduduk berstatus MATI (2), HILANG (3), atau PINDAH (4)
                     if (in_array($isiBaris['status_dasar'], ['2', '3', '4'])) {
-                        $this->tulisLogPenduduk($isiBaris, $penduduk_baru);
+                        $this->tulisLogPenduduk($isiBaris, $pendudukBaru);
                     }
+                } else {
+                    // Jika tulisPenduduk gagal, ambil pesan error dan tampilkan di hasil impor
+                    $errorImpor = $pendudukBaru;
                 }
             } else {
+                $errorImpor = $errorValidasi;
+            }
+
+            if ($errorImpor) {
                 $gagalPenduduk++;
-                $barisGagal .= $i . ' (' . $errorValidasi . ')<br>';
+                $barisGagal .= "{$i} ({$errorImpor})<br>";
             }
         }
 
-        if ($gagalPenduduk == 0) {
-            $barisGagal = 'tidak ada data yang gagal diimpor.';
-        }
-
-        $pesanImpor = [
+        set_session('pesan_impor', [
             'gagal'          => $gagalPenduduk,
             'total_keluarga' => $totalKeluarga,
             'total_penduduk' => $totalPenduduk,
-            'baris'          => $barisGagal,
-        ];
+            'baris'          => $gagalPenduduk === 0 ? 'tidak ada data yang gagal diimpor.' : $barisGagal,
+        ]);
 
-        set_session('pesan_impor', $pesanImpor);
-
-        return set_session('success', 'Data penduduk berhasil diimpor');
+        set_session('success', 'Data penduduk berhasil diimpor');
     }
 
-    /* 	======================================================
-            IMPOR DATA DALAM FORMAT SIAK
-            ======================================================
-    */
+    // =========================================================================
+    // Private — Helper
+    // =========================================================================
 
-    private function cariBarisPertama($data, $baris): int
+    /**
+     * Temukan nomor baris pertama yang mengandung data.
+     *
+     * Baris header (baris 1) dan baris kosong dilewati. Mengembalikan 0
+     * jika sheet tidak memiliki data sama sekali.
+     *
+     * @param mixed $data
+     */
+    private function cariBarisPertama($data, int $baris): int
     {
         if ($baris <= 1) {
             return 0;
         }
 
-        $barisPertama = 1;
-
         for ($i = 2; $i <= $baris; $i++) {
-            // Baris dengan tiga kolom pertama kosong menandakan baris tanpa data
             if ($data->val($i, 1) == '' && $data->val($i, 2) == '' && $data->val($i, 3) == '') {
                 continue;
             }
 
-            // Ketemu baris data pertama
-            $barisPertama = $i;
-            break;
+            return $i;
         }
 
-        return $barisPertama;
+        return 1;
     }
 
-    private function getIsiBaris($data, int $i)
+    /**
+     * Pisahkan nama dusun dari string alamat format SIAK.
+     *
+     * SIAK menyertakan keyword dusun di dalam kolom Alamat dengan berbagai
+     * variasi penulisan, misalnya: "JL. MERDEKA DSN LIWET", "RT 01 DUSUN. SARI",
+     * "DS. PRAPAT", "Dsn JIWET", "Dusun MBABRIK".
+     *
+     * Method ini mengekstrak nama dusun lalu mengembalikan alamat bersih
+     * tanpa bagian dusun tersebut. Jika keyword tidak ditemukan, seluruh
+     * string alamat digunakan sebagai fallback untuk field dusun.
+     *
+     * @param string $alamat Nilai mentah kolom Alamat dari file SIAK
+     *
+     * @return array{alamat: string, dusun: string}
+     */
+    private function pisahAlamatDusun(string $alamat): array
     {
-        $kolomImpor         = unserialize($this->kolomSiak);
-        $isiBaris['alamat'] = trim((string) $data->val($i, $kolomImpor['alamat']));
-        // alamat berbentuk 'DSN LIWET'
-        $pecahAlamat        = preg_split('/DSN |DS |DUSUN |DSN\\. |DS\\. |DUSUN\\. /i', $isiBaris['alamat']);
-        $isiBaris['alamat'] = $pecahAlamat[0];
-        $isiBaris['dusun']  = $pecahAlamat[1];
-        if (empty($isiBaris['dusun'])) {
-            $isiBaris['dusun'] = $isiBaris['alamat'];
+        // Cocokkan keyword DUSUN/DSN/DS (dengan atau tanpa titik) diikuti nama dusun.
+        // Nama dusun diambil hingga koma, slash, atau akhir string.
+        $pattern = '/\b(?:DUSUN|DSN|DS)\.?\s+([^\s,\/]+(?:\s+[^\s,\/]+)*)/i';
+
+        if (preg_match($pattern, $alamat, $matches)) {
+            $dusun        = trim($matches[1]);
+            $alamatBersih = rtrim(trim(preg_replace($pattern, '', $alamat)), ' ,/-');
+
+            return [
+                'alamat' => $alamatBersih !== '' ? $alamatBersih : $alamat,
+                'dusun'  => $dusun,
+            ];
         }
 
-        $isiBaris['rw'] = ltrim(trim((string) $data->val($i, $kolomImpor['rw'])), "'");
-        $isiBaris['rt'] = ltrim(trim((string) $data->val($i, $kolomImpor['rt'])), "'");
+        // Keyword tidak ditemukan — gunakan seluruh alamat sebagai fallback
+        return [
+            'alamat' => $alamat,
+            'dusun'  => $alamat,
+        ];
+    }
 
-        $nama             = trim((string) $data->val($i, $kolomImpor['nama']));
-        $nama             = preg_replace("/[^a-zA-Z,\\.'-]/", ' ', $nama);
-        $isiBaris['nama'] = $nama;
+    /**
+     * Konversi nilai dari SIAK ke integer kode enum, dengan guard is_numeric.
+     *
+     * konversiKode() mengembalikan nilai aslinya (string) jika tidak ditemukan
+     * di tabel referensi — tidak cukup hanya cek falsy. Guard ini memastikan
+     * hanya nilai yang benar-benar numerik yang diteruskan ke database.
+     *
+     * @param array    $kode    Tabel konversi (label => kode integer)
+     * @param mixed    $nilai   Nilai mentah dari file SIAK
+     * @param int|null $default Nilai default jika konversi gagal (null = field nullable)
+     */
+    private function konversiKeInt(array $kode, mixed $nilai, ?int $default = null): ?int
+    {
+        $hasil = $this->konversiKode($kode, $nilai);
 
-        // Konversi status dasar dari string / integer.
+        return is_numeric($hasil) ? (int) $hasil : $default;
+    }
 
-        $isiBaris['status_dasar'] = $this->konversiKode($this->kodeStatusDasar, $data->val($i, $kolomImpor['status_dasar']));
+    /**
+     * Baca dan normalisasi seluruh field dari satu baris Excel.
+     *
+     * @param mixed $data Objek pembaca Excel
+     * @param int   $i    Nomor baris yang sedang diproses
+     *
+     * @return array Array asosiatif field penduduk siap pakai
+     */
+    private function getIsiBaris($data, int $i): array
+    {
+        $k        = $this->kolomSiak;
+        $isiBaris = [];
 
-        // Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
-        // yang tidak tampak (non-printable characters),
-        // jadi perlu dibuang
-        $no_kk             = trim((string) $data->val($i, $kolomImpor['no_kk']));
-        $no_kk             = preg_replace('/[^0-9]/', '', $no_kk);
-        $isiBaris['no_kk'] = $no_kk;
+        // Alamat & dusun
+        $pecahAlamat        = $this->pisahAlamatDusun(trim((string) $data->val($i, $k['alamat'])));
+        $isiBaris['alamat'] = $pecahAlamat['alamat'];
+        $isiBaris['dusun']  = $pecahAlamat['dusun'];
 
-        $isiBaris['nik']              = buang_nondigit($data->val($i, $kolomImpor['nik']));
-        $isiBaris['sex']              = $this->konversiKode($this->kodeSex, $data->val($i, $kolomImpor['sex']));
-        $isiBaris['tempatlahir']      = trim((string) $data->val($i, $kolomImpor['tempatlahir']));
-        $isiBaris['tanggallahir']     = $this->formatTanggal($data->val($i, $kolomImpor['tanggallahir']));
-        $isiBaris['agama_id']         = $this->konversiKode($this->kodeAgama, $data->val($i, $kolomImpor['agama_id']));
-        $isiBaris['pendidikan_kk_id'] = $this->konversiKode($this->kodePendidikanKK, $data->val($i, $kolomImpor['pendidikan_kk_id']));
-        $isiBaris['pekerjaan_id']     = $this->konversiKode($this->kodePekerjaan, $this->normalkanData($data->val($i, $kolomImpor['pekerjaan_id'])));
-        $isiBaris['status_kawin']     = $this->konversiKode($this->kodeStatus, $data->val($i, $kolomImpor['status_kawin']));
-        $isiBaris['kk_level']         = $this->konversiKode($this->kodeHubungan, $data->val($i, $kolomImpor['kk_level']));
-        $isiBaris['warganegara_id']   = $this->konversiKode($this->kodeWargaNegara, $data->val($i, $kolomImpor['warganegara_id']));
+        // RW & RT — SIAK terkadang menyertakan tanda kutip di depan nilai
+        $isiBaris['rw'] = ltrim(trim((string) $data->val($i, $k['rw'])), "'");
+        $isiBaris['rt'] = ltrim(trim((string) $data->val($i, $k['rt'])), "'");
 
-        $namaAyah = trim((string) $data->val($i, $kolomImpor['nama_ayah']));
-        if ($namaAyah === '') {
-            $namaAyah = '-';
-        }
-        $isiBaris['nama_ayah'] = $namaAyah;
+        // Nama — buang karakter selain huruf, koma, titik, apostrof, dan tanda hubung
+        $isiBaris['nama'] = preg_replace("/[^a-zA-Z,\\.'-]/", ' ', trim((string) $data->val($i, $k['nama'])));
 
-        $namaIbu = trim((string) $data->val($i, $kolomImpor['nama_ibu']));
-        if ($namaIbu === '') {
-            $namaIbu = '-';
-        }
-        $isiBaris['nama_ibu'] = $namaIbu;
+        // No KK & NIK — data Disdukcapil kadang mengandung karakter non-printable
+        $isiBaris['no_kk'] = preg_replace('/[^0-9]/', '', trim((string) $data->val($i, $k['no_kk'])));
+        $isiBaris['nik']   = buang_nondigit($data->val($i, $k['nik']));
 
-        $isiBaris['golongan_darah_id'] = $this->konversiKode($this->kodeGolonganDarah, $data->val($i, $kolomImpor['golongan_darah_id']));
-        $isiBaris['akta_lahir']        = trim((string) $data->val($i, $kolomImpor['akta_lahir']));
-        $isiBaris['dokumen_pasport']   = trim((string) $data->val($i, $kolomImpor['dokumen_pasport']));
+        // Data pribadi
+        $isiBaris['sex']          = $this->konversiKeInt($this->kodeSex, $data->val($i, $k['sex']));
+        $isiBaris['tempatlahir']  = trim((string) $data->val($i, $k['tempatlahir']));
+        $isiBaris['tanggallahir'] = $this->formatTanggal($data->val($i, $k['tanggallahir']));
+        $isiBaris['agama_id']     = $this->konversiKeInt($this->kodeAgama, $data->val($i, $k['agama_id']));
+        $isiBaris['status_dasar'] = $this->konversiKeInt($this->kodeStatusDasar, $data->val($i, $k['status_dasar']));
 
-        $isiBaris['ayah_nik']          = buang_nondigit($data->val($i, $kolomImpor['ayah_nik']));
-        $isiBaris['ibu_nik']           = buang_nondigit($data->val($i, $kolomImpor['ibu_nik']));
-        $isiBaris['akta_perkawinan']   = trim((string) $data->val($i, $kolomImpor['akta_perkawinan']));
-        $isiBaris['tanggalperkawinan'] = $this->formatTanggal($data->val($i, $kolomImpor['tanggalperkawinan']));
-        $isiBaris['akta_perceraian']   = trim((string) $data->val($i, $kolomImpor['akta_perceraian']));
-        $isiBaris['tanggalperceraian'] = $this->formatTanggal($data->val($i, $kolomImpor['tanggalperceraian']));
-        $isiBaris['cacat_id']          = $this->konversiKode($this->kodeCacat, $data->val($i, $kolomImpor['cacat_id']));
+        // Pendidikan & pekerjaan
+        $isiBaris['pendidikan_kk_id'] = $this->konversiKeInt($this->kodePendidikanKK, $data->val($i, $k['pendidikan_kk_id']));
+        $isiBaris['pekerjaan_id']     = $this->konversiKeInt($this->kodePekerjaan, $this->normalkanData($data->val($i, $k['pekerjaan_id'])));
 
-        // Untuk tulis ke log_penduduk
-        $isiBaris['status_dasar_orig'] = trim((string) $data->val($i, $kolomImpor['status_dasar']));
-        $isiBaris['tgl_entri']         = $this->formatTanggal($data->val($i, $kolomImpor['tgl_entri']));
+        // Status kawin & hubungan dalam KK
+        $isiBaris['status_kawin'] = $this->konversiKeInt($this->kodeStatus, $data->val($i, $k['status_kawin']));
+        $isiBaris['kk_level']     = $this->konversiKeInt($this->kodeHubungan, $data->val($i, $k['kk_level']));
+
+        // Golongan darah
+        $isiBaris['golongan_darah_id'] = $this->konversiKeInt($this->kodeGolonganDarah, $data->val($i, $k['golongan_darah_id']));
+
+        // Cacat — nullable, null jika nilai tidak dikenal
+        $isiBaris['cacat_id'] = $this->konversiKeInt($this->kodeCacat, $data->val($i, $k['cacat_id']), null);
+
+        // Kewarganegaraan — tidak ada di format SIAK; default WNI (1)
+        $isiBaris['warganegara_id'] = 1;
+
+        // Nama ayah & ibu — default '-' jika kosong
+        $namaAyah              = trim((string) $data->val($i, $k['nama_ayah']));
+        $isiBaris['nama_ayah'] = $namaAyah !== '' ? $namaAyah : '-';
+
+        $namaIbu              = trim((string) $data->val($i, $k['nama_ibu']));
+        $isiBaris['nama_ibu'] = $namaIbu !== '' ? $namaIbu : '-';
+
+        // NIK orang tua
+        $isiBaris['ayah_nik'] = buang_nondigit($data->val($i, $k['ayah_nik']));
+        $isiBaris['ibu_nik']  = buang_nondigit($data->val($i, $k['ibu_nik']));
+
+        // Dokumen
+        $isiBaris['akta_lahir']      = trim((string) $data->val($i, $k['akta_lahir']));
+        $pasport                     = trim((string) $data->val($i, $k['dokumen_pasport']));
+        $isiBaris['dokumen_pasport'] = $pasport !== '' ? $pasport : '-';
+        $isiBaris['dokumen_kitas']   = '-'; // tidak ada di format SIAK
+
+        // Perkawinan & perceraian
+        $isiBaris['akta_perkawinan']   = trim((string) $data->val($i, $k['akta_perkawinan']));
+        $isiBaris['tanggalperkawinan'] = $this->formatTanggal($data->val($i, $k['tanggalperkawinan']));
+        $isiBaris['akta_perceraian']   = trim((string) $data->val($i, $k['akta_perceraian']));
+        $isiBaris['tanggalperceraian'] = $this->formatTanggal($data->val($i, $k['tanggalperceraian']));
+
+        // Field tambahan untuk pencatatan log_penduduk
+        $isiBaris['status_dasar_orig'] = trim((string) $data->val($i, $k['status_dasar']));
+        $isiBaris['tgl_entri']         = $this->formatTanggal($data->val($i, $k['tgl_entri']));
 
         return $isiBaris;
     }
 
-    // Normalkan kolom seperti "SLTP / SEDERAJAT" menjadi "sltp/sederajat"
-    private function normalkanData($str): ?string
+    /**
+     * Normalisasi nilai kolom pekerjaan/pendidikan dari format SIAK.
+     *
+     * Contoh: "SLTP / SEDERAJAT" → "sltp/sederajat"
+     */
+    private function normalkanData(?string $str): ?string
     {
         return preg_replace('/\s*\/\s*/', '/', strtolower(trim((string) $str)));
     }
 
-    private function tulisLogPenduduk(array $data, $id): void
+    /**
+     * Catat perubahan status penduduk ke tabel log_penduduk.
+     *
+     * Dipanggil hanya untuk penduduk berstatus MATI (2), HILANG (3),
+     * atau PINDAH (4) agar riwayat perubahan dapat dilacak.
+     *
+     * @param array $data Field penduduk yang baru diimpor
+     * @param int   $id   ID penduduk yang baru tersimpan
+     */
+    private function tulisLogPenduduk(array $data, int $id): void
     {
-        // Tulis log_penduduk
-        $log = [
-            'id_pend'        => $id,
-            'no_kk'          => $data['no_kk'],
-            'tgl_peristiwa'  => $data['tgl_entri'],
-            'tgl_lapor'      => $data['tgl_entri'],
-            'created_by'     => auth()->id(),
-            'kode_peristiwa' => $data['status_dasar'],
-            'catatan'        => 'Status impor data SIAK: ' . $data['status_dasar_orig'],
-        ];
-
-        LogPenduduk::upsert($log, ['config_id', 'id_pend', 'kode_peristiwa', 'tgl_peristiwa']);
+        LogPenduduk::upsert(
+            [
+                'id_pend'        => $id,
+                'no_kk'          => $data['no_kk'],
+                'tgl_peristiwa'  => $data['tgl_entri'],
+                'tgl_lapor'      => $data['tgl_entri'],
+                'created_by'     => auth()->id(),
+                'kode_peristiwa' => $data['status_dasar'],
+                'catatan'        => 'Status impor data SIAK: ' . $data['status_dasar_orig'],
+            ],
+            ['config_id', 'id_pend', 'kode_peristiwa', 'tgl_peristiwa']
+        );
     }
 }
