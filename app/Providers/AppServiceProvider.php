@@ -70,6 +70,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Services\Penjaga\PenjagaPermintaan::class);
         $this->app->singleton(\App\Services\Theme\SumberTemaBursa::class);
         $this->app->singleton(\App\Services\Theme\BursaTema::class);
+        $this->app->singleton(\App\Services\Theme\PenjagaTema::class);
         $this->app->singleton(\App\Services\Database\SetelanDipertahankan::class);
         $this->app->singleton(\App\Services\Mandiri\PenentuanMasukMandiri::class);
         $this->app->singleton(\App\Services\Mandiri\TokenPerangkatMandiri::class);
