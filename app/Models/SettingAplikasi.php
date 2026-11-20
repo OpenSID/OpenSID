@@ -54,8 +54,9 @@ class SettingAplikasi extends BaseModel
     use LogsActivity;
     use QueryCacheable;
 
-    public const WARNA_TEMA    = '#eab308';
-    public const TAHUN_IDM_MIN = 2021;
+    public const WARNA_TEMA      = '#eab308';
+    public const TAHUN_IDM_MIN   = 2021;
+    public const JARAK_KEHADIRAN = 50; // dalam meter
 
     // forever cache
     public $cacheFor = -1;

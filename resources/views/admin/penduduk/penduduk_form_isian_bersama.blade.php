@@ -1620,6 +1620,7 @@
         function ubah_sex(sex) {
             var old_foto = $('#old_foto').val();
             var kk_level = $('#kk_level').val();
+            var jenis_peristiwa = '{{ $jenis_peristiwa }}';
 
             // Enforce consistency if relationship is Suami or Istri
             if (kk_level == '{{ \App\Enums\SHDKEnum::SUAMI }}' && sex != '{{ \App\Enums\JenisKelaminEnum::LAKI_LAKI }}') {
@@ -1632,7 +1633,7 @@
                 return;
             }
 
-            (sex == '{{ \App\Enums\JenisKelaminEnum::PEREMPUAN }}') ? $("#isian_hamil").show(): $("#isian_hamil").hide();
+            (jenis_peristiwa != 1 && sex == '{{ \App\Enums\JenisKelaminEnum::PEREMPUAN }}') ? $("#isian_hamil").show(): $("#isian_hamil").hide();
 
             if (old_foto == '') {
                 $('#foto').attr("src", AmbilFoto(old_foto, 'kecil_', sex))

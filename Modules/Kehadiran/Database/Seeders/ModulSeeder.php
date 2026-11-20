@@ -132,6 +132,33 @@ class ModulSeeder extends Seeder
                 'level'       => 0,
                 'parent_slug' => 'kehadiran',
             ],
+            [
+                'modul'       => 'Catatan Harian Kerja',
+                'slug'        => 'catatan-harian-kerja',
+                'url'         => 'kehadiran_catatan_harian',
+                'ikon'        => 'fa-pencil-square-o',
+                'urut'        => 8,
+                'level'       => 0,
+                'parent_slug' => 'kehadiran',
+            ],
+            [
+                'modul'       => 'Persetujuan Catatan',
+                'slug'        => 'persetujuan-catatan',
+                'url'         => 'kehadiran_approval_catatan',
+                'ikon'        => 'fa-check-circle-o',
+                'urut'        => 9,
+                'level'       => 0,
+                'parent_slug' => 'kehadiran',
+            ],
+            [
+                'modul'       => 'Rekap Catatan Harian',
+                'slug'        => 'rekap-catatan-harian',
+                'url'         => 'kehadiran_rekap_catatan',
+                'ikon'        => 'fa-print',
+                'urut'        => 10,
+                'level'       => 0,
+                'parent_slug' => 'kehadiran',
+            ],
         ]);
     }
 }

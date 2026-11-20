@@ -65,7 +65,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ $ci->controller }}",
+                    url: "{{ $ci->controller . '/datatables' }}",
                     method: 'POST',
                 },
                 columns: [{

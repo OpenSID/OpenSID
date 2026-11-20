@@ -197,6 +197,9 @@ class SettingAplikasiRepository
             $margins['kanan'] * 10,
             $margins['bawah'] * 10,
         ];
+
+        // Kehadiran
+        $ci->setting->jarak_kehadiran = $ci->setting?->jarak_kehadiran ?? SettingAplikasi::JARAK_KEHADIRAN;
     }
 
     /**

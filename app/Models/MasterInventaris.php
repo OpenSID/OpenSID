@@ -113,7 +113,13 @@ class MasterInventaris extends BaseModel
             $query->where('asset', $jns_asset);
         }
 
-        $inventaris    = $query->where('tahun_pengadaan', '<=', $tahun)->get();
+        $inventaris = $query->where('tahun_pengadaan', '<=', $tahun)->get();
+
+        // Return empty array if no data found
+        if ($inventaris->isEmpty()) {
+            return [];
+        }
+
         $inventarisnew = collect($inventaris)->map(static function ($asset) use ($akhir_tahun, $awal_tahun, $kondisi) {
             if (isset($akhir_tahun[$asset->asset][$asset->id])) {
                 $asset->akhir_tahun   = $akhir_tahun[$asset->asset][$asset->id]->kondisi;

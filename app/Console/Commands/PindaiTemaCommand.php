@@ -35,23 +35,36 @@
  *
  */
 
-use App\Traits\Migrator;
-use Illuminate\Database\Migrations\Migration;
+namespace App\Console\Commands;
 
-return new class () extends Migration {
-    use Migrator;
+use Illuminate\Console\Command;
 
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+class PindaiTemaCommand extends Command
+{
+    protected $signature   = 'opensid:pindai-tema';
+    protected $description = 'Pindai tema untuk memperbarui daftar tema yang tersedia.';
+
+    public function handle(): void
     {
-    }
+        $this->components->task('Memulai pindai tema', function () {
+            theme_scan();
+        });
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
+        $themes = theme_list();
+        
+        $this->info('Pindai tema selesai! ' . count($themes) . ' tema ditemukan.');
+
+        $data = collect($themes)->values()->map(function ($theme, $index) {
+            return [
+                $index + 1,
+                $theme->nama,
+                $theme->slug,
+                $theme->versi,
+                $theme->sistem ? 'Ya' : 'Tidak',
+                $theme->status ? 'Ya' : 'Tidak',
+            ];
+        });
+
+        $this->table(['#', 'Nama', 'Slug', 'Versi', 'Sistem', 'Aktif'], $data);
     }
-};
+}

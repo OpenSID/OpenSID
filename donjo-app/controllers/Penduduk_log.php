@@ -40,6 +40,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
 use App\Enums\StatusDasarEnum;
+use App\Enums\Statistik\StatistikPendudukEnum;
 use App\Models\LogPenduduk;
 use App\Models\RentangUmur;
 use App\Models\Wilayah;
@@ -374,16 +375,12 @@ class Penduduk_log extends Admin_Controller
             'main'  => $query->prepareQuery()->results(),
             'judul' => $this->input->post('judul'),
             'aksi'  => $aksi,
+            'file'  => 'Log Penduduk',
         ];
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
         }
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=Log_Penduduk_' . date('Ymd') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
+
         view('admin.penduduk_log.cetak', $data);
     }
 
@@ -397,6 +394,11 @@ class Penduduk_log extends Admin_Controller
 
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
+        // Validasi whitelist tipe yang valid
+        if (! in_array($tipe, ['akta-kematian', 'akta-kematian-wilayah'], true)) {
+            show_404();
+        }
+
         $dusun                          = $this->input->get('dusun');
         $rw                             = $this->input->get('rw');
         $rt                             = $this->input->get('rt');
@@ -406,31 +408,36 @@ class Penduduk_log extends Admin_Controller
         $this->statistikFilter['rw']    = $rw;
         $this->statistikFilter['rt']    = $rt;
         $this->statistikFilter['value'] = $nomor;
-        if ((string) $tipe === 'akta-kematian') {
-            $kategori                                = 'AKTA KEMATIAN : ';
+
+        // Map kategori berdasarkan tipe menggunakan Enum
+        $kategori = match ($tipe) {
+            'akta-kematian'         => strtoupper(StatistikPendudukEnum::KEPEMILIKAN_AKTA_KEMATIAN['label']),
+            'akta-kematian-wilayah' => strtoupper(StatistikPendudukEnum::KEPEMILIKAN_AKTA_KEMATIAN_WILAYAH['label']),
+            default                 => '',
+        };
+
+        // Set filter untuk akta kematian
+        if (in_array($tipe, ['akta-kematian', 'akta-kematian-wilayah'])) {
             $this->statistikFilter['status_dasar']   = StatusDasarEnum::MATI;
             $this->statistikFilter['kode_peristiwa'] = PeristiwaPendudukEnum::MATI->value;
         }
 
-        switch ($nomor) {
-            case BELUM_MENGISI:
-                $this->judulStatistik = $kategori . 'BELUM MENGISI';
-                break;
+        $labelMap = [
+            BELUM_MENGISI => 'BELUM MENGISI',
+            TOTAL         => 'TOTAL',
+            JUMLAH        => 'JUMLAH',
+        ];
 
-            case TOTAL:
-                $this->judulStatistik = $kategori . 'TOTAL';
-                break;
-
-            case JUMLAH:
-                $this->judulStatistik = $kategori . 'JUMLAH';
-                break;
-
-            default:
-                $judul = RentangUmur::find($nomor);
-                if ($judul['nama']) {
-                    $this->judulStatistik = $kategori . $judul['nama'];
-                }
-                break;
+        if (array_key_exists($nomor, $labelMap)) {
+            $this->judulStatistik = $kategori . ': ' . $labelMap[$nomor];
+        } elseif ($tipe === 'akta-kematian-wilayah') {
+            $namaDusun = strip_tags((string) $nomor);
+            $this->judulStatistik = $kategori . ': ' . strtoupper($namaDusun);
+        } else {
+            $judul = RentangUmur::find($nomor);
+            if ($judul && isset($judul['nama'])) {
+                $this->judulStatistik = $kategori . ': ' . $judul['nama'];
+            }
         }
         $this->judulStatistik .= $judulJenisKelamin;
         $this->index();
@@ -448,17 +455,15 @@ class Penduduk_log extends Admin_Controller
         $agama           = $this->input->post_get('agama') ?? null;
         $statistikFilter = $this->input->post_get('statistikfilter') ?? null;
 
-        if ($statistikFilter) {
-            $dusun  = $statistikFilter['dusun'];
-            $rw     = $statistikFilter['dusun'] . '__' . $statistikFilter['rw'];
-            $namaRw = $statistikFilter['rw'];
-            $namaRt = $statistikFilter['rt'];
-            if ($namaRt) {
-                $rt = Wilayah::whereDusun($dusun)->whereRw($namaRw)->whereRt($namaRt)->select(['id'])->first()->id;
-            }
-        }
-
         $idCluster = $rt ? [$rt] : [];
+        $clusterId = null; // Inisialisasi untuk mencegah undefined variable
+
+        if ($statistikFilter) {
+            $dusun     = $statistikFilter['dusun'] ?? $dusun;
+            $rw        = $statistikFilter['rw'] ?? $rw;
+            $rt        = $statistikFilter['rt'] ?? $rt;
+            $clusterId = $statistikFilter['idCluster'] ?? null;
+        }
 
         if (empty($idCluster) && ! empty($rw)) {
             [$namaDusun, $namaRw] = explode('__', $rw);
@@ -467,6 +472,10 @@ class Penduduk_log extends Admin_Controller
 
         if (empty($idCluster) && ! empty($dusun)) {
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        if ($clusterId) {
+            $idCluster = $clusterId;
         }
 
         return LogPenduduk::with([
@@ -483,19 +492,12 @@ class Penduduk_log extends Admin_Controller
             ->when($statistikFilter, static function ($q) use ($statistikFilter) {
                 $kriteria = $statistikFilter['value'];
 
-                switch ($kriteria) {
-                    case TOTAL:
-                        return $q;
-
-                    case BELUM_MENGISI:
-                        return $q->whereNull('file_akta_mati');
-
-                    case JUMLAH:
-                        return $q->whereNotNull('file_akta_mati');
-
-                    default:
-                        return $q->whereNotNull('file_akta_mati');
-                }
+                return match ($kriteria) {
+                    TOTAL         => $q,
+                    BELUM_MENGISI => $q->whereNull('file_akta_mati'),
+                    JUMLAH        => $q->whereNotNull('file_akta_mati'),
+                    default       => $q->whereNotNull('file_akta_mati'),
+                };
             })
             ->whereHas(
                 'penduduk',
@@ -504,28 +506,21 @@ class Penduduk_log extends Admin_Controller
                         ->when($agama, static fn ($s) => $s->whereAgamaId($agama))
                         ->when($sex, static fn ($s) => $s->whereSex($sex));
 
+                    if (! $statistikFilter) {
+                        return;
+                    }
+
                     $kriteria = $statistikFilter['value'];
 
-                    switch ($kriteria) {
-                        case TOTAL:
-                        case BELUM_MENGISI:
-                        case JUMLAH:
-                            // Untuk kasus khusus ini, logika bisa kamu tambahkan sendiri
-                            break;
+                    if (in_array($kriteria, [TOTAL, BELUM_MENGISI, JUMLAH], true)) {
+                        return;
+                    }
 
-                        default:
-                            $judul = RentangUmur::find($kriteria);
-
-                            if ($judul && is_numeric($judul->dari) && is_numeric($judul->sampai)) {
-                                $dari   = $judul->dari;
-                                $sampai = $judul->sampai;
-
-                                $r->whereRaw("(
-                (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y') + 0)
-                BETWEEN {$dari} AND {$sampai}
-            )");
-                            }
-                            break;
+                    $judul = RentangUmur::find($kriteria);
+                    if ($judul && is_numeric($judul->dari) && is_numeric($judul->sampai)) {
+                        $dari   = $judul->dari;
+                        $sampai = $judul->sampai;
+                        $r->whereRaw("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y') + 0) BETWEEN {$dari} AND {$sampai}");
                     }
                 }
             );

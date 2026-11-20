@@ -4,7 +4,7 @@ $(document).on('click', '.btn-lock', function(e) {
 
     $.ajax({
         url: url,
-        method: 'POST',
+        method: 'get',
         dataType: 'json',
         success: function(response) {
             if (response.success) {

@@ -61,6 +61,7 @@
         .vertical-scrollbar {
             overflow-x: hidden;
             overflow-y: auto;
+            border: 1px solid #ddd;
         }
     </style>
 @endpush
@@ -79,7 +80,7 @@
                 </div>
                 <div class="box-body">
                     <div class="form-group">
-                        <label for="nama" class="col-sm-2 control-label">Nama Jenis Lokasi</label>
+                        <label for="nama" class="col-sm-2 control-label">Nama Jenis Lokasi <span class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input
                                 id="nama"
@@ -88,7 +89,6 @@
                                 type="text"
                                 placeholder="Nama Jenis Lokasi"
                                 name="nama"
-                                required=""
                                 value="<?= $point['nama'] ?>"
                             >
                         </div>
@@ -104,14 +104,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="id_master" class="col-sm-2 control-label">Ganti Simbol</label>
+                        <label for="id_master" class="col-sm-2 control-label">Ganti Simbol <span class="text-danger">*</span></label>
                         <div class="col-sm-10">
                             <div class="vertical-scrollbar" style="max-height:300px;">
                                 <ul id="icons" class="bs-glyphicons">
                                     @foreach ($simbol as $data)
                                         <li @if ($point['simbol'] == $data['simbol']) class="active" id="simbol_active" @endif onclick="li_active($(this).val());">
                                             <label>
-                                                <input type="radio" name="simbol" id="simbol" class="hidden" value="{{ $data['simbol'] }}" @checked($point['simbol'] == $data['simbol'])>
+                                                <input type="radio" name="simbol" class="hidden required" value="{{ $data['simbol'] }}" title="Kolom ini diperlukan." @checked($point['simbol'] == $data['simbol'])>
                                                 <img src="{{ base_url(LOKASI_SIMBOL_LOKASI) . $data['simbol'] }}">
                                                 <span class="glyphicon-class">{{ $data['simbol'] }}</span>
                                             </label>
@@ -122,7 +122,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" for="enabled">Status</label>
+                        <label class="col-sm-2 control-label" for="enabled">Status <span class="text-danger">*</span></label>
                         <div class="col-sm-6">
                             <select name="enabled" id="enabled" class="form-control input-sm required">
                                 @foreach (\App\Enums\AktifEnum::all() as $value => $label)
@@ -161,5 +161,24 @@
             $('li.active').removeClass('active');
             $('#simbol_active').addClass('active');
         };
+
+        $(document).ready(function() {
+            // Tunggu validator initialized
+            setTimeout(function() {
+                const validator = $('#validasi').data('validator');
+                if (validator) {
+                    // Set custom error placement untuk radio simbol
+                    validator.settings.errorPlacement = function(error, element) {
+                        if (element.attr('name') === 'simbol') {
+                            // Letakkan error setelah scrollbar div
+                            error.insertAfter($('.vertical-scrollbar'));
+                        } else {
+                            // Default placement
+                            error.insertAfter(element);
+                        }
+                    };
+                }
+            }, 200);
+        });
     </script>
 @endpush

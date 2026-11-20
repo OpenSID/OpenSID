@@ -335,12 +335,28 @@ class UploadHandler
                 }
             }
 
-            return false; // ✅ ekstensi + magic bytes + MIME = aman
+            // Lanjut ke pemindaian isi file untuk mencegah polyglot
         }
 
-        // Untuk ekstensi lainnya, cek tag PHP
-        if (preg_match('/<\?php|<\?=/i', $buffer)) {
-            return true;
+        // Baca sebagian besar isi file untuk memindai payload tersembunyi (Polyglot PHP/XSS).
+        // Dibatasi 4 MB agar tidak menghabiskan memori saat file gambar berukuran besar diunggah.
+        $max_scan_bytes = 4 * 1024 * 1024;
+        $full_content   = file_get_contents($file, false, null, 0, $max_scan_bytes);
+
+        if ($full_content === false) {
+            return true; // gagal membaca isi file = anggap berbahaya
+        }
+
+        // Validasi khusus untuk file SVG guna mencegah XSS ekstensif
+        if ($ext === 'svg') {
+            if (preg_match('/(<\s*script|<\s*object|<\s*iframe|<\s*embed|<\s*foreignObject|<\s*use\b|javascript\s*:|data\s*:[^,]*(?:script|html|svg)|\b(on[a-zA-Z]+)\s*=|xmlns\s*:\s*script|<\?php|<\?=)/i', $full_content)) {
+                return true;
+            }
+        } else {
+            // Untuk format lain (JPG, PNG, dsb), pastikan tidak ada injeksi script atau PHP di dalam metadata/chunk
+            if (preg_match('/(<\s*script|<\?php|<\?=)/i', $full_content)) {
+                return true;
+            }
         }
 
         return false;

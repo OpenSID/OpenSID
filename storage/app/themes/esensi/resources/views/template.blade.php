@@ -1,5 +1,6 @@
 @php
     $themeVersion = 'v2409.0.0';
+    $nama_desa = ucwords(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']);
 @endphp
 <!DOCTYPE html>
 <html lang="id">

@@ -81,14 +81,14 @@ class Man_user extends Admin_Controller
 
         if ($this->input->is_ajax_request()) {
             $input     = $this->input;
-            $status    = $input->post('status') ?: $input->get('status');
+            $status    = $input->post('status') ?? $input->get('status') ?? '';
             $isDeleted = $status === 'deleted';
 
             if ($isDeleted && (! is_super_admin() || ! User::isSoftDeleteReady())) {
                 return datatables()->of(collect())->make();
             }
 
-            $group = $input->post('group') ?: $input->get('group');
+            $group = $input->post('group') ?? $input->get('group');
             $query = User::with('pamong', 'userGrup')
                 ->when($isDeleted, static fn ($q) => $q->onlyTrashed())
                 ->when(! $isDeleted && $status === '' && is_super_admin(), static fn ($q) => $q->withTrashed())
@@ -144,24 +144,26 @@ class Man_user extends Admin_Controller
 
                     $aksi = View::make('admin.layouts.components.buttons.edit', ['url' => 'man_user/form/' . $row->id])->render();
 
-                    if (can('u')) {
-                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                            'url'    => $row->active == '0' ? site_url("man_user/user_unlock/{$row->id}") : site_url("man_user/user_lock/{$row->id}"),
-                            'active' => $row->active,
-                        ])->render();
-                    }
+                    if ($row->id != super_admin()) {
+                        if (can('u')) {
+                            $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                                'url'    => $row->active == '0' ? site_url("man_user/user_unlock/{$row->id}") : site_url("man_user/user_lock/{$row->id}"),
+                                'active' => $row->active,
+                            ])->render();
+                        }
 
-                    if (can('h') && $row->id != super_admin()) {
-                        $nama = htmlspecialchars((string) $row->nama, ENT_QUOTES);
-                        $url  = site_url("man_user/delete/{$row->id}");
-                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'           => $url,
-                            'confirmDelete' => false,
-                            'judul'         => 'Hapus',
-                            'icon'          => 'fa fa-trash-o',
-                            'type'          => 'bg-maroon',
-                            'onclick'       => "konfirmasiHapus('{$url}', '{$nama}')",
-                        ])->render();
+                        if (can('h')) {
+                            $nama = htmlspecialchars((string) $row->nama, ENT_QUOTES);
+                            $url  = site_url("man_user/delete/{$row->id}");
+                            $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                                'url'           => $url,
+                                'confirmDelete' => false,
+                                'judul'         => 'Hapus',
+                                'icon'          => 'fa fa-trash-o',
+                                'type'          => 'bg-maroon',
+                                'onclick'       => "konfirmasiHapus('{$url}', '{$nama}')",
+                            ])->render();
+                        }
                     }
 
                     return $aksi;
@@ -318,6 +320,10 @@ class Man_user extends Admin_Controller
     public function delete_all(): void
     {
         isCan('h');
+
+        if (empty($this->request['id_cb'])) {
+            redirect_with('error', 'Tidak ada data yang dipilih');
+        }
 
         $errors = [];
 

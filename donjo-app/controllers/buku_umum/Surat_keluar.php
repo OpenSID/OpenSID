@@ -38,6 +38,7 @@
 use App\Enums\StatusEnum;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
+use App\Models\Pamong;
 use App\Models\SuratKeluar;
 use App\Traits\Upload;
 use Illuminate\Support\Carbon;
@@ -312,6 +313,7 @@ class Surat_keluar extends Admin_Controller
 
     public function dialog($aksi = 'cetak')
     {
+        $data               = $this->modal_penandatangan();
         $data['aksi']       = $aksi;
         $data['formAction'] = ci_route('surat_keluar.cetak', $aksi);
 
@@ -327,14 +329,18 @@ class Surat_keluar extends Admin_Controller
                 });
             });
 
-        $data                 = $this->modal_penandatangan();
-        $data['aksi']         = $aksi;
-        $data['main']         = $query->prepareQuery()->results();
-        $data['file']         = 'Surat Keluar';
-        $data['letak_ttd']    = ['1', '1', '23'];
-        $data['tahun']        = $this->input->get('tahun') ?? null;
-        $data['tgl_cetak']    = $this->request['tgl_cetak'] ?? date('Y-m-d');
-        $data['is_landscape'] = false;
+        $ttd                    = $this->modal_penandatangan();
+        $pamong_ttd             = $this->input->post('pamong_ttd');
+        $pamong_ketahui         = $this->input->post('pamong_ketahui');
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $pamong_ttd ?: $ttd['pamong_ttd']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ttd'];
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $pamong_ketahui ?: $ttd['pamong_ketahui']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ketahui'];
+        $data['aksi']           = $aksi;
+        $data['main']           = $query->prepareQuery()->results();
+        $data['file']           = 'Surat Keluar';
+        $data['letak_ttd']      = ['1', '1', '23'];
+        $data['tahun']          = $this->input->get('tahun') ?? null;
+        $data['tgl_cetak']      = $this->request['tgl_cetak'] ?? date('Y-m-d');
+        $data['is_landscape']   = false;
 
         return view('admin.surat_keluar.cetak', $data);
     }

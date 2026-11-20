@@ -244,14 +244,22 @@ class Surat_dinas_cetak extends Admin_Controller
         $cetak = $this->session->log_surat;
         if ($cetak) {
             // Cek duplikasi nomor surat sebelum cetak
-            if (LogSuratDinas::isDuplikat($cetak['input']['nomor'], $cetak['surat']['url_surat'])) {
-                $surat_terakhir = LogSuratDinas::lastNomerSurat($cetak['surat']['url_surat']);
-                $pesan          = 'Nomor surat ' . $cetak['input']['nomor'] . ' sudah digunakan. Gunakan nomor surat berikutnya: ' . $surat_terakhir['no_surat_berikutnya'] . '?';
+            if (empty($cetak['ubah'])) {
+                if (LogSuratDinas::isDuplikat($cetak['input']['nomor'], $cetak['surat']['url_surat'])) {
+                    $surat_terakhir = LogSuratDinas::lastNomerSurat($cetak['surat']['url_surat']);
+                    $pesan          = 'Nomor surat ' . $cetak['input']['nomor'] . ' sudah digunakan. Gunakan nomor surat berikutnya: ' . $surat_terakhir['no_surat_berikutnya'] . '?';
 
-                return $this->output
-                    ->set_status_header(409) // 409 Conflict
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(['status' => 'error', 'message' => $pesan, 'next_number' => $surat_terakhir['no_surat_berikutnya']]));
+                    return $this->output
+                        ->set_status_header(409) // 409 Conflict
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode(['status' => 'error', 'message' => $pesan, 'next_number' => $surat_terakhir['no_surat_berikutnya']]));
+                }
+            }
+
+            // Flag ubah sekali pakai — hapus saat unduh final, bukan saat preview
+            if (! $preview && ! empty($cetak['ubah'])) {
+                unset($cetak['ubah']);
+                $this->session->log_surat = $cetak;
             }
 
             $id_pamong = $this->ttd($cetak['input']['pilih_atas_nama'], $cetak['input']['pamong_id']);

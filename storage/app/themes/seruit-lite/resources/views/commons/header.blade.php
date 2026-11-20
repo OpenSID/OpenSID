@@ -33,7 +33,7 @@
             <h1 class="text-2xl lg:text-4xl font-extrabold text-white tracking-wider uppercase drop-shadow-lg h-10 lg:h-12">
                 <span x-text="displayedText"></span><span class="animate-blink border-r-2 border-white"></span>
             </h1>
-            <p class="text-sm lg:text-lg text-gray-200 mt-2 drop-shadow">Kec. {{ ucwords($desa['nama_kecamatan']) }}, Kab. {{ ucwords($desa['nama_kabupaten']) }}</p>
+            <p class="text-sm lg:text-lg text-gray-200 mt-2 drop-shadow">Kec. {{ title_case($desa['nama_kecamatan']) }}, Kab. {{ title_case($desa['nama_kabupaten']) }}</p>
         </div>
 
         @if ($is_single_artikel)
