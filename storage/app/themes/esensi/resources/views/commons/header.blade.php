@@ -14,7 +14,7 @@
                 <figure>
                     <img src="{{ gambar_desa($desa['logo']) }}" alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']) }}" class="h-16 mx-auto pb-2">
                 </figure>
-                <span class="text-h2 block">{{ $desa['nama_desa'] }}</span>
+                <span class="text-h2 block">{{ ucwords(setting('sebutan_desa')) }} {{ $desa['nama_desa'] }}</span>
                 <p>{{ ucfirst(setting('sebutan_kecamatan_singkat')) }}
                     {{ ucwords($desa['nama_kecamatan']) }},
                     {{ ucfirst(setting('sebutan_kabupaten_singkat')) }}

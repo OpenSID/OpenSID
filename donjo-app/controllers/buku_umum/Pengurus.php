@@ -95,8 +95,8 @@ class Pengurus extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status    = $this->input->get('status') ?? null;
-            $kehadiran = $this->input->get('kehadiran') ?? null;
+            $status     = $this->input->get('status') ?? null;
+            $kehadiran  = $this->input->get('kehadiran') ?? null;
             $refJabatan = $this->refJabatan;
 
             $query = Pamong::urut()

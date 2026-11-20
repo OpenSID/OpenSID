@@ -1118,6 +1118,65 @@
                             </div>
                             @endif
 
+                            @if (in_array('data_duplikatartikel', $masalah))
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <strong>Terdeteksi data Duplikat Artikel (slug + config_id)</strong><br><br>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Slug</th>
+                                                <th>Tanggal Upload</th>
+                                                <th>Aksi</th>
+                                            </tr>
+
+                                            @foreach ($data_duplikatartikel as $data)
+                                            <tr>
+                                                <td>{{ $data['id'] }}</td>
+                                                <td>{{ $data['slug'] }}</td>
+                                                <td>{{ $data['tgl_upload'] }}</td>
+                                                <td>Duplikat slug</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="4">
+                                                    <form class="form-dataduplikatartikel"
+                                                        action="{{ ci_route('periksa.dataduplikatartikel') }}"
+                                                        method="post">
+
+                                                        <input type="hidden" name="id" value="{{ $data['id'] }}">
+
+                                                        <div class="row">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Perbaiki Slug Artikel</label>
+                                                                <input name="slug"
+                                                                    class="form-control input-sm"
+                                                                    maxlength="200"
+                                                                    type="text"
+                                                                    placeholder="Slug Baru"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                        <button type="submit"
+                                                                class="btn btn-sm btn-danger">
+                                                            Simpan Perubahan
+                                                        </button>
+                                                    </form>
+                                                    <br>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
                             @if (in_array('data_cluster', $masalah))
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -1584,6 +1643,36 @@
         });
 
         $('.form-datanull').on('submit', function(e) {
+            e.preventDefault();
+
+            let csrfTokenName = '{{ $token_name }}';
+            let csrfTokenValue = '{{ $token_value }}';
+
+            let formData = $(this).serializeArray();
+            formData.push({
+                name: csrfTokenName,
+                value: csrfTokenValue
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(data) {
+                    if (data.status) {
+                        alert('Data berhasil diperbarui');
+                        location.reload();
+                    } else {
+                        alert('Data gagal diperbarui');
+                    }
+                },
+                error: function() {
+                    alert('Data gagal diperbarui');
+                }
+            });
+        });
+
+        $('.form-dataduplikatartikel').on('submit', function(e) {
             e.preventDefault();
 
             let csrfTokenName = '{{ $token_name }}';

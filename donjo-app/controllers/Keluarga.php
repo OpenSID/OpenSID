@@ -383,7 +383,7 @@ class Keluarga extends Admin_Controller
     public function add_exist($id = 0): void
     {
         isCan('u');
-        $data['penduduk']       = PendudukHidup::lepas()->get();
+        $data['penduduk']       = PendudukHidup::lepasSemua()->get();
         $data['nokk_sementara'] = KeluargaModel::formatNomerKKSementara();
         $data['form_action']    = ci_route("keluarga.insert.{$id}");
         view('admin.penduduk.keluarga.modal.ajax_add_keluarga', $data);

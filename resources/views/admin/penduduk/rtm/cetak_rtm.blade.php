@@ -61,7 +61,7 @@
                         <th width='120'>Tanggal Lahir</th>
                         <th width='100'>Agama</th>
                         <th width='100'>Pendidikan</th>
-                        <th width='100'>Pekerjaan</th>
+                        <th width='100'><?= HEADER_PEKERJAAN ?></th>
                     </tr>
                 </thead>
                 <tbody>

@@ -284,7 +284,7 @@
                             <th nowrap>RT</th>
                             <th nowrap>PENDIDIKAN DALAM KK</th>
                             <th nowrap>UMUR</th>
-                            <th nowrap>PEKERJAAN</th>
+                            <th nowrap><?= HEADER_PEKERJAAN ?></th>
                             <th nowrap>KAWIN</th>
                             <th nowrap>TGL PERISTIWA</th>
                             <th nowrap>TGL TERDAFTAR</th>

@@ -109,7 +109,9 @@ return [
 
         'X-Permitted-Cross-Domain-Policies' => 'none',
 
-        'Permissions-Policy' => 'accelerometer=(), camera=(), microphone=()',
+        'Referrer-Policy' => 'strict-origin-when-cross-origin',
+
+        'Permissions-Policy' => 'geolocation=(), microphone=(), camera=(), accelerometer=()',
 
         'Cross-Origin-Embedder-Policy' => 'same-origin',
         'Cross-Origin-Resource-Policy' => 'same-origin',

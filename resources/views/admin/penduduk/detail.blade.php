@@ -267,7 +267,7 @@
                                             <td>{{ strtoupper($penduduk->pendidikan_sedang) }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Pekerjaan</td>
+                                            <td><?= HEADER_PEKERJAAN ?></td>
                                             <td>:</td>
                                             <td>{{ strtoupper($penduduk->pekerjaan) }}</td>
                                         </tr>

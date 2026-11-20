@@ -309,9 +309,9 @@ class Tte extends Tte_Controller
     /**
      * Kirim JSON response dengan proper HTTP status code.
      *
-     * @param string $message      Response dari ClientException (JSON dari BSrE)
-     * @param int    $httpCode     HTTP status code
-     * @param string $errorType    Jenis error untuk logging
+     * @param string $message   Response dari ClientException (JSON dari BSrE)
+     * @param int    $httpCode  HTTP status code
+     * @param string $errorType Jenis error untuk logging
      *
      * @return object
      */

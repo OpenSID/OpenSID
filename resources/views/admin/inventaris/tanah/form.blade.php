@@ -21,7 +21,6 @@
 @endpush
 
 @section('content')
-    @include('admin.layouts.components.notifikasi')
     <div class="row">
         <div class="col-sm-3">
             @include('admin.inventaris.menu')
@@ -118,7 +117,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="no_sertifikat">Nomor Sertifikat</label>
                                 <div class="col-sm-8">
-                                    <input maxlength="50" class="form-control input-sm" name="no_sertifikat" id="no_sertifikat" type="text" value="{{ $main->no_sertifikat }}" />
+                                    <input class="form-control input-sm form-validate" name="no_sertifikat" id="no_sertifikat" type="text" value="{{ old('no_sertifikat', $main->no_sertifikat) }}" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -210,6 +209,39 @@
 
 @push('scripts')
     <script>
+        function displayErrorMessages(errors) {
+            $('.form-group').removeClass('has-error');
+            $('.form-group').find('label.error').remove();
+
+            $.each(errors, function(field, messages) {
+                const input = $(`[name="${field}"]`);
+
+                if (input.length) {
+                    const group = input.closest('.form-group');
+                    group.addClass('has-error');
+
+                    if (!group.find('label.error').length) {
+                        input.after('<label class="error"></label>');
+                    }
+
+                    group.find('label.error').text(messages[0]).show();
+                }
+            });
+        }
+
+        function clearFieldError(fieldName) {
+            const input = $(`[name="${fieldName}"]`);
+            if (input.length) {
+                const group = input.closest('.form-group');
+                group.removeClass('has-error');
+                group.find('label.error').remove();
+            }
+        }
+
+        $('#validasi').on('input change', 'input, select, textarea', function() {
+            clearFieldError($(this).attr('name'));
+        });
+
         $(document).ready(function() {
             var id = "{{ $main->id }}";
             var view = "{{ $view_mark }}";
@@ -242,6 +274,10 @@
                 $("#penggunaan_barang").change();
                 $("#nama_barang").change();
             }
+
+            @if ($errors->any())
+                displayErrorMessages({!! json_encode($errors->messages()) !!});
+            @endif
         });
 
         function price() {

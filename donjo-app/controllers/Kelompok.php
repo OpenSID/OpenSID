@@ -35,7 +35,11 @@
  *
  */
 
+use App\Enums\DokumenEnum;
 use App\Enums\StatusDasarEnum;
+use App\Enums\StatusEnum;
+use App\Models\Dokumen as DokumenModel;
+use App\Models\DokumenHidup;
 use App\Models\Kelompok as KelompokModel;
 use App\Models\KelompokAnggota;
 use App\Models\KelompokMaster;
@@ -92,6 +96,14 @@ class Kelompok extends Admin_Controller
 
                     $aksi .= View::make('admin.layouts.components.buttons.rincian', [
                         'url' => route($row->tipe . '_anggota.detail', $row->id),
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'        => route("{$row->tipe}.dokumen.index", $row->id),
+                        'icon'       => 'fa fa-file',
+                        'judul'      => 'Dokumen',
+                        'type'       => 'bg-info',
+                        'buttonOnly' => true,
                     ])->render();
 
                     if (can('u')) {
@@ -329,6 +341,217 @@ class Kelompok extends Admin_Controller
         }
 
         redirect($this->controller);
+    }
+
+    // ==================== DOKUMEN ====================
+
+    public function indexDokumen($id_kelompok): void
+    {
+        $data['status']      = [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'];
+        $data['kat_nama']    = DokumenEnum::valueOf(DokumenEnum::KELOMPOK);
+        $data['id_kelompok'] = $id_kelompok;
+        $data['tipe']        = $this->tipe; // tambahkan ini
+        $data['module_name'] = ucfirst($this->tipe); // tambahkan ini
+
+        view('admin.kelompok.dokumen.index', $data);
+    }
+
+    public function datatablesDokumen()
+    {
+        if ($this->input->is_ajax_request()) {
+            $status      = $this->input->get('status') ?? null;
+            $id_kelompok = $this->input->get('id_kelompok');
+            $tipe        = $this->tipe;
+            $canDelete   = can('h');
+
+            $query = DokumenHidup::where('id_kelompok', $id_kelompok)
+                ->where('kategori', DokumenEnum::KELOMPOK)
+                ->when($status != null, static fn ($q) => $q->whereEnabled($status));
+
+            return datatables()->of($query)
+                ->addColumn('ceklist', static function ($row) use ($canDelete) {
+                    if ($canDelete) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($tipe): string {
+                    $aksi = '';
+
+                    if (can('u')) {
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => "{$tipe}/dokumen-form/{$row->id}",
+                        ])->render();
+                    }
+
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => route("{$tipe}.dokumen.lock", $row->id),
+                        'active' => $row->isActive(),
+                    ])->render();
+
+                    if ($row->tipe == 1) {
+                        $aksi .= View::make('admin.layouts.components.buttons.unduh', [
+                            'url'        => route("{$tipe}.dokumen.unduh_berkas", $row->id),
+                            'buttonOnly' => true,
+                        ])->render();
+                    }
+
+                    if (can('h')) {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => route("{$tipe}.dokumen.delete", $row->id),
+                            'confirmDelete' => true,
+                        ])->render();
+                    }
+
+                    return $aksi;
+                })
+                ->addColumn('aktif', static fn ($row): string => $row->isActive() ? 'Ya' : 'Tidak')
+                ->addColumn('dimuat', static fn ($row): string => tgl_indo2($row->tgl_upload))
+                ->editColumn('status', static function ($row) {
+                    $statusLabel = $row->enabled ? 'Aktif' : 'Tidak Aktif';
+                    $badgeClass  = $row->enabled ? 'label-success' : 'label-danger';
+
+                    return '<span class="label ' . $badgeClass . '">' . $statusLabel . '</span>';
+                })
+                ->editColumn('keterangan', static fn ($row) => empty($row->keterangan) ? '-' : $row->keterangan)
+                ->rawColumns(['ceklist', 'aksi', 'status'])
+                ->make();
+        }
+
+        return show_404();
+    }
+
+    public function formDokumen($id = '')
+    {
+        isCan('u');
+        $tipe        = $this->tipe;
+        $id_kelompok = $this->input->get('id_kelompok');
+
+        if ($id) {
+            $dokumen             = DokumenHidup::where('id', $id)->first();
+            $data['dokumen']     = $dokumen;
+            $data['form_action'] = route("{$tipe}.dokumen.update", $id);
+            $data['id_kelompok'] = $dokumen->id_kelompok;
+        } else {
+            $data['dokumen']     = null;
+            $data['form_action'] = route("{$tipe}.dokumen.insert") . '?id_kelompok=' . $id_kelompok;
+            $data['id_kelompok'] = $id_kelompok;
+        }
+
+        $data['kat_nama'] = DokumenEnum::valueOf(DokumenEnum::KELOMPOK);
+        $data['tipe']     = $tipe;
+        $data['readonly'] = false;
+
+        return view('admin.kelompok.dokumen.form', $data);
+    }
+
+    public function insertDokumen(): void
+    {
+        isCan('u');
+
+        $id_kelompok = $this->input->get('id_kelompok') ?? $this->input->post('id_kelompok');
+        $post        = $this->input->post();
+
+        $post['kategori']    = DokumenEnum::KELOMPOK;
+        $post['id_kelompok'] = $id_kelompok;
+
+        $data                = DokumenModel::validasi($post);
+        $data['id_kelompok'] = $id_kelompok;
+        $data['kategori']    = DokumenEnum::KELOMPOK;
+        $data['config_id']   = identitas('id');   // <-- wajib ada
+        $data['tahun']       = $post['tahun'] ?? date('Y');
+        $data['published_at'] ??= date('Y-m-d');
+
+        if ($this->request['satuan']) {
+            $config['upload_path']   = LOKASI_DOKUMEN;
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['file_name']     = namafile($this->input->post('nama', true));
+
+            $data['satuan'] = $this->upload('satuan', $config);
+        }
+
+        try {
+            DokumenModel::create($data);
+            redirect_with('success', 'Dokumen berhasil disimpan', site_url("{$this->tipe}/dokumen/{$id_kelompok}"));
+        } catch (Exception $e) {
+            log_message('error', 'insertDokumen error: ' . $e->getMessage());
+            redirect_with('error', 'Dokumen gagal disimpan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateDokumen($id): void
+    {
+        isCan('u');
+
+        $dokumen = DokumenModel::find($id) ?? show_404();
+        $post    = $this->input->post();
+
+        $post['kategori']    = DokumenEnum::KELOMPOK;
+        $post['id_kelompok'] = $dokumen->id_kelompok;
+
+        $data                = DokumenModel::validasi($post);
+        $data['id_kelompok'] = $dokumen->id_kelompok;
+        $data['kategori']    = DokumenEnum::KELOMPOK;
+        $data['tahun']       = $post['tahun'] ?? date('Y');
+        $data['published_at'] ??= date('Y-m-d');
+
+        if ($this->request['satuan']) {
+            $config['upload_path']   = LOKASI_DOKUMEN;
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['file_name']     = namafile($this->input->post('nama', true));
+
+            $data['satuan'] = $this->upload('satuan', $config);
+        }
+
+        if ($dokumen->update($data)) {
+            redirect_with('success', 'Berhasil Ubah Data Dokumen', site_url("{$this->tipe}/dokumen/{$dokumen->id_kelompok}"));
+        }
+
+        redirect_with('error', 'Gagal Ubah Data Dokumen');
+    }
+
+    public function lockDokumen($id): void
+    {
+        isCan('u');
+
+        $dokumen = DokumenModel::find($id);
+
+        if (DokumenModel::gantiStatus($id, 'enabled')) {
+            redirect_with('success', 'Berhasil ubah status dokumen', site_url("{$this->tipe}/dokumen/{$dokumen->id_kelompok}"));
+        }
+
+        redirect_with('error', 'Gagal ubah status dokumen', site_url("{$this->tipe}/dokumen/{$dokumen->id_kelompok}"));
+    }
+
+    public function deleteDokumen($id = 0): void
+    {
+        isCan('h');
+
+        // ambil id_kelompok sebelum dihapus
+        $id_kelompok = null;
+
+        if ($id) {
+            $dokumen     = DokumenModel::find($id);
+            $id_kelompok = $dokumen?->id_kelompok;
+        } elseif (! empty($this->request['id_cb'])) {
+            $dokumen     = DokumenModel::find($this->request['id_cb'][0]);
+            $id_kelompok = $dokumen?->id_kelompok;
+        }
+
+        DokumenModel::destroy($this->request['id_cb'] ?? $id);
+
+        redirect_with('success', 'Dokumen berhasil dihapus', site_url("{$this->tipe}/dokumen/{$id_kelompok}"));
+    }
+
+    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false, $popup = 0): void
+    {
+        $data = DokumenHidup::getDokumen($id_dokumen);
+        ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil, $popup);
+    }
+
+    public function tampilkan_berkas($id_dokumen, $id_pend = null, $popup = 0): void
+    {
+        $this->unduh_berkas($id_dokumen, $id_pend, true, $popup);
     }
 
     protected function validate($request = [], $id = null)

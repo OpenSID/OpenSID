@@ -22,8 +22,8 @@
         /* Scroll only inside Statistik Penduduk & Bantuan cards when list is long */
         .leaflet-popup-content #collapseStatPenduduk .card.card-body,
         .leaflet-popup-content #collapseStatBantuan .card.card-body {
-            max-height: 50vh;
-            overflow-y: auto;
+            /* max-height: 50vh;
+            overflow-y: auto; */
         }
 
         table {
@@ -41,6 +41,28 @@
 
         .persil td {
             padding-right: 1rem;
+        }
+
+        /* Semua collapse default hidden */
+        .leaflet-popup-content [id^="collapseStat"] {
+            display: none;
+        }
+
+        /* Scroll hanya isi dalam collapse */
+        .leaflet-popup-content [id^="collapseStat"] .card.card-body {
+            max-height: 40vh;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        /* Scroll styling */
+        .leaflet-popup-content [id^="collapseStat"] .card.card-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .leaflet-popup-content [id^="collapseStat"] .card.card-body::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 4px;
         }
     </style>
 @endpush
@@ -150,8 +172,8 @@
                         for (let key in data.list_ref) {
                             _listLink.push(`<li><a href="${_link}/${key}/${data.desa.nama_desa.replace(/\s+/g, '_')}" data-remote="false" data-toggle="modal" data-target="#modalSedang" data-title="Statistik Penduduk ${_title}" >${data.list_ref[key]}</a></li>`)
                         }
-                        const _listStatistikPenduduk = `<p><a href="#collapseStatPenduduk" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStatPenduduk" aria-expanded="false" aria-controls="collapseStatPenduduk"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp;Statistik Penduduk&nbsp;&nbsp;</a></p>
-          <div class="collapse box-body no-padding" id="collapseStatPenduduk">
+                        const _listStatistikPenduduk = `<p><a href="#collapseStatPenduduk" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk"  data-target="#collapseStatPenduduk" aria-expanded="false" aria-controls="collapseStatPenduduk"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp;Statistik Penduduk&nbsp;&nbsp;</a></p>
+          <div class="box-body no-padding" id="collapseStatPenduduk" style="display: none;">
             <div class="card card-body">
               <ul>
               ${_listLink.join('')}
@@ -166,8 +188,8 @@
                         for (let key in data.list_bantuan) {
                             _listLink.push(`<li><a href="${_link}/${key}/${data.desa.nama_desa.replace(/\s+/g, '_')}" data-remote="false" data-toggle="modal" data-target="#modalSedang" data-title="Statistik Bantuan ${_title}">${data.list_bantuan[key]}</a></li>`)
                         }
-                        const _listStatistikBantuan = `<p><a href="#collapseStatBantuan" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Bantuan" data-toggle="collapse" data-target="#collapseStatBantuan" aria-expanded="false" aria-controls="collapseStatBantuan"><i class="fa fa-heart"></i>&nbsp;&nbsp;Statistik Bantuan&nbsp;&nbsp;</a></p>
-          <div class="collapse box-body no-padding" id="collapseStatBantuan">
+                        const _listStatistikBantuan = `<p><a href="#collapseStatBantuan" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Bantuan"  data-target="#collapseStatBantuan" aria-expanded="false" aria-controls="collapseStatBantuan"><i class="fa fa-heart"></i>&nbsp;&nbsp;Statistik Bantuan&nbsp;&nbsp;</a></p>
+          <div class="box-body no-padding" id="collapseStatBantuan" style="display: none;">
             <div class="card card-body">
               <ul>
               ${_listLink.join('')}
@@ -249,8 +271,8 @@
                             for (let key in data.list_ref) {
                                 _listLink.push(`<li><a href="${_link}/${key}/${_params}" data-remote="false" data-toggle="modal" data-target="#modalSedang" data-title="Statistik Penduduk ${_newTitle}" >${data.list_ref[key]}</a></li>`)
                             }
-                            _listStatistikPenduduk = `<p><a href="#collapseStatPenduduk" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStatPenduduk" aria-expanded="false" aria-controls="collapseStatPenduduk"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp;Statistik Penduduk&nbsp;&nbsp;</a></p>
-            <div class="collapse box-body no-padding" id="collapseStatPenduduk">
+                            _listStatistikPenduduk = `<p><a href="#collapseStatPenduduk" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk"  data-target="#collapseStatPenduduk" aria-expanded="false" aria-controls="collapseStatPenduduk"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp;Statistik Penduduk&nbsp;&nbsp;</a></p>
+            <div class="box-body no-padding" id="collapseStatPenduduk" style="display: none;">
               <div class="card card-body">
                 <ul>
                 ${_listLink.join('')}
@@ -265,8 +287,8 @@
                             for (let key in data.list_bantuan) {
                                 _listLink.push(`<li><a href="${_link}/${key}/${_params}" data-remote="false" data-toggle="modal" data-target="#modalSedang" data-title="Statistik Bantuan ${_newTitle}">${data.list_bantuan[key]}</a></li>`)
                             }
-                            _listStatistikBantuan = `<p><a href="#collapseStatBantuan" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Bantuan" data-toggle="collapse" data-target="#collapseStatBantuan" aria-expanded="false" aria-controls="collapseStatBantuan"><i class="fa fa-heart"></i>&nbsp;&nbsp;Statistik Bantuan&nbsp;&nbsp;</a></p>
-            <div class="collapse box-body no-padding" id="collapseStatBantuan">
+                            _listStatistikBantuan = `<p><a href="#collapseStatBantuan" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Bantuan"  data-target="#collapseStatBantuan" aria-expanded="false" aria-controls="collapseStatBantuan"><i class="fa fa-heart"></i>&nbsp;&nbsp;Statistik Bantuan&nbsp;&nbsp;</a></p>
+            <div class="box-body no-padding" id="collapseStatBantuan"  style="display: none;">
               <div class="card card-body">
                 <ul>
                 ${_listLink.join('')}
@@ -484,6 +506,36 @@
             }; //EOF window.onload
 
         })();
+
+        document.addEventListener("click", function(e){
+
+            const btn = e.target.closest("a[data-target]");
+            if(!btn) return;
+
+            const targetSelector = btn.getAttribute("data-target");
+            if(!targetSelector || !targetSelector.startsWith("#collapseStat")) return;
+
+            e.preventDefault();
+
+            const popup = btn.closest(".leaflet-popup-content");
+            if(!popup) return;
+
+            const target = popup.querySelector(targetSelector);
+            if(!target) return;
+
+            const isOpen = target.style.display === "block";
+
+            // tutup semua dalam popup ini saja
+            popup.querySelectorAll('[id^="collapseStat"]').forEach(function(el){
+                el.style.display = "none";
+            });
+
+            // toggle diri sendiri
+            if(!isOpen){
+                target.style.display = "block";
+            }
+
+        });
     </script>
     <script src="{{ asset('js/Leaflet.fullscreen.min.js') }}"></script>
     <script src="{{ asset('js/turf.min.js') }}"></script>

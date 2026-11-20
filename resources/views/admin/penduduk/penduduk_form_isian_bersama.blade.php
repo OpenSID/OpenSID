@@ -378,9 +378,9 @@
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
-            <label for="pekerjaan_id">Pekerjaaan</label>
+            <label for="pekerjaan_id"><?= HEADER_PEKERJAAN ?></label>
             <select class="form-control input-sm required" name="pekerjaan_id">
-                <option value="">Pilih Pekerjaan</option>
+                <option value="">Pilih <?= HEADER_PEKERJAAN ?></option>
                  @foreach (\App\Enums\PekerjaanEnum::all() as $key => $value)
                     <option value="{{ $key }}" @selected($penduduk['pekerjaan_id']==$key || ($jenis_peristiwa=='1' && $key==\App\Enums\PekerjaanEnum::BELUM_TIDAK_BEKERJA))>{{ $value }}</option>
                 @endforeach
@@ -1234,7 +1234,10 @@
                             };
                         },
                         processResults: function(data, params) {
-                            // --- hasil dari API pantau
+                            // ambil term pencarian user
+                            let term = (params.term || '').toLowerCase();
+
+                            // --- hasil dari API pantau ---
                             let resultsPantau = (data.results || []).map(item => ({
                                 id: item.name,
                                 text: item.name
@@ -1247,11 +1250,43 @@
                                 @endforeach
                             ];
 
+                            // ✅ FILTER data lokal sesuai teks pencarian (SAMA SEPERTI SUKU)
+                            if (term) {
+                                resultsLokal = resultsLokal.filter(item => item.text.toLowerCase().includes(term));
+                                resultsPantau = resultsPantau.filter(item => item.text.toLowerCase().includes(term));
+                            }
+
                             // --- gabungkan dan hilangkan duplikat ---
                             let allResults = [...resultsPantau, ...resultsLokal];
                             let uniqueResults = allResults.filter(
                                 (v, i, a) => a.findIndex(t => t.id === v.id) === i
                             );
+
+                            // ✅ URUTKAN: exact match dulu, starts with, contains (SAMA SEPERTI SUKU)
+                            if (term) {
+                                uniqueResults.sort((a, b) => {
+                                    let aText = a.text.toLowerCase();
+                                    let bText = b.text.toLowerCase();
+                                    
+                                    // exact match prioritas tertinggi
+                                    let aExact = aText === term ? 0 : 1;
+                                    let bExact = bText === term ? 0 : 1;
+                                    if (aExact !== bExact) return aExact - bExact;
+                                    
+                                    // starts with prioritas kedua
+                                    let aStarts = aText.startsWith(term) ? 0 : 1;
+                                    let bStarts = bText.startsWith(term) ? 0 : 1;
+                                    if (aStarts !== bStarts) return aStarts - bStarts;
+                                    
+                                    // contains prioritas ketiga
+                                    let aContains = aText.includes(term) ? 0 : 1;
+                                    let bContains = bText.includes(term) ? 0 : 1;
+                                    if (aContains !== bContains) return aContains - bContains;
+                                    
+                                    // alfabetis
+                                    return aText.localeCompare(bText);
+                                });
+                            }
 
                             return {
                                 results: uniqueResults,
@@ -1270,9 +1305,41 @@
                         };
                     },
                     insertTag: function(data, tag) {
-                        data.push(tag);
+                        // masukkan tag baru di posisi pertama
+                        data.unshift(tag);
                     },
+                }).on('select2:open', function() {
+                    // ✅ HIGHLIGHT item pertama saat dropdown buka
+                    setTimeout(function() {
+                        highlightFirstMarga();
+                    }, 10);
+                }).on('select2:results', function() {
+                    // ✅ HIGHLIGHT item pertama setiap hasil pencarian muncul
+                    setTimeout(function() {
+                        highlightFirstMarga();
+                    }, 10);
                 });
+
+                // ✅ Fungsi untuk highlight item pertama di Marga
+                function highlightFirstMarga() {
+                    let $allOptions = $('.select2-results__option[role="option"]');
+                    $allOptions.removeClass('select2-results__option--highlighted');
+                    
+                    let $firstOption = $allOptions.not('[aria-live]').not('.loading-results').first();
+                    
+                    if ($firstOption.length) {
+                        $firstOption.addClass('select2-results__option--highlighted');
+                        $allOptions.attr('aria-selected', 'false');
+                        $firstOption.attr('aria-selected', 'true');
+                        
+                        let $resultsContainer = $('.select2-results__options');
+                        if ($resultsContainer.length) {
+                            $resultsContainer.scrollTop(
+                                $firstOption.offset().top - $resultsContainer.offset().top + $resultsContainer.scrollTop()
+                            );
+                        }
+                    }
+                }
 
                 // Pekerja Migran select2
                 $('#pekerja_migran').select2({
@@ -1650,15 +1717,33 @@
             var id_kk = $('#id_kk').val();
             var kk_level = $('#kk_level').val();
             var jenis_peristiwa = '{{ $jenis_peristiwa }}';
+            var data_ayah_nik = @json($data_ayah['nik'] ?? '');
+            var data_ayah_nama = @json($data_ayah['nama'] ?? '');
+            var data_ibu_nik = @json($data_ibu['nik'] ?? '');
+            var data_ibu_nama = @json($data_ibu['nama'] ?? '');
             
             // Untuk bayi baru lahir
             if (jenis_peristiwa == 1) {
                 // Jika SHDK adalah Anak (kk_level == 4), ambil data Kepala Keluarga dan Istri
                 if (id_kk && kk_level == 4) {
-                    $('#ayah_nik').val(@json($data_ayah['nik'] ?? '')).prop('readonly', true);
-                    $('#nama_ayah').val(@json($data_ayah['nama'] ?? '')).prop('readonly', true);
-                    $('#ibu_nik').val(@json($data_ibu['nik'] ?? '')).prop('readonly', true);
-                    $('#nama_ibu').val(@json($data_ibu['nama'] ?? '')).prop('readonly', true);
+                    // Jika data ayah ada, set readonly dan tampilkan datanya
+                    if (data_ayah_nik || data_ayah_nama) {
+                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', true);
+                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', true);
+                    } else {
+                        // Jika data ayah tidak ada, biarkan input manual
+                        $('#ayah_nik').val('').prop('readonly', false);
+                        $('#nama_ayah').val('').prop('readonly', false);
+                    }
+                    // Jika data ibu ada, set readonly dan tampilkan datanya
+                    if (data_ibu_nik || data_ibu_nama) {
+                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', true);
+                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', true);
+                    } else {
+                        // Jika data ibu tidak ada, biarkan input manual
+                        $('#ibu_nik').val('').prop('readonly', false);
+                        $('#nama_ibu').val('').prop('readonly', false);
+                    }
                 } else {
                     // Jika SHDK selain Anak (Cucu, Famili Lain), kosongkan dan biarkan input manual
                     $('#ayah_nik').val('').prop('readonly', false);
@@ -1669,10 +1754,24 @@
             } else {
                 // Untuk bukan bayi baru lahir, gunakan logika lama
                 if (id_kk && kk_level == 4) {
-                    $('#ayah_nik').val(@json($data_ayah['nik'] ?? '')).prop('readonly', true);
-                    $('#nama_ayah').val(@json($data_ayah['nama'] ?? '')).prop('readonly', true);
-                    $('#ibu_nik').val(@json($data_ibu['nik'] ?? '')).prop('readonly', true);
-                    $('#nama_ibu').val(@json($data_ibu['nama'] ?? '')).prop('readonly', true);
+                    // Jika data ayah ada, set readonly dan tampilkan datanya
+                    if (data_ayah_nik || data_ayah_nama) {
+                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', true);
+                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', true);
+                    } else {
+                        // Jika data ayah tidak ada, biarkan input manual
+                        $('#ayah_nik').val('').prop('readonly', false);
+                        $('#nama_ayah').val('').prop('readonly', false);
+                    }
+                    // Jika data ibu ada, set readonly dan tampilkan datanya
+                    if (data_ibu_nik || data_ibu_nama) {
+                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', true);
+                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', true);
+                    } else {
+                        // Jika data ibu tidak ada, biarkan input manual
+                        $('#ibu_nik').val('').prop('readonly', false);
+                        $('#nama_ibu').val('').prop('readonly', false);
+                    }
                 } else {
                     $('#ayah_nik').val('{{ $penduduk['ayah_nik'] }}').prop('readonly', false);
                     $('#nama_ayah').val('{{ $penduduk['nama_ayah'] }}').prop('readonly', false);

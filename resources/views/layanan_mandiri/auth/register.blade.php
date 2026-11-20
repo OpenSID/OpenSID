@@ -12,7 +12,7 @@
                         autocomplete="off"
                         class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
                         name="nama"
-                        placeholder="Nama"
+                        placeholder="Nama*"
                         value="{{ old('nama') }}"
                     >
                 </div>
@@ -22,7 +22,7 @@
                     <div class="input-group">
                         <input
                             style="height: 35px"
-                            placeholder="Tanggal Lahir"
+                            placeholder="Tanggal Lahir*"
                             type="text"
                             class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
                             id="daftar_tgl_lahir"
@@ -44,7 +44,7 @@
                         autocomplete="off"
                         class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
                         name="nik"
-                        placeholder="NIK"
+                        placeholder="NIK*"
                         minlength="16"
                         maxlength="16"
                         value="{{ old('nik') }}"
@@ -59,7 +59,7 @@
                         autocomplete="off"
                         class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
                         name="no_kk"
-                        placeholder="KK"
+                        placeholder="KK*"
                         minlength="16"
                         maxlength="16"
                         value="{{ old('no_kk') }}"
@@ -76,7 +76,7 @@
                         autocomplete="off"
                         class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
                         name="email"
-                        placeholder="Email"
+                        placeholder="Email*"
                         value="{{ old('email') }}"
                     >
                 </div>
@@ -90,7 +90,7 @@
                             autocomplete="off"
                             class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
                             name="telegram"
-                            placeholder="Telegram"
+                            placeholder="Telegram*"
                             value="{{ old('telegram') }}"
                         >
                         <span class="input-group-addon"><i onclick="window.open('https://t.me/opensid_notifikasi_bot', '_blank');" class="fa fa-search"></i></span>
@@ -107,7 +107,7 @@
                             type="password"
                             class="form-control bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
                             name="password"
-                            placeholder="PIN"
+                            placeholder="PIN*"
                             minlength="6"
                             maxlength="6"
                         >
@@ -123,7 +123,7 @@
                             type="password"
                             class="form-control bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
                             name="password_confirmation"
-                            placeholder="Konfirmasi PIN"
+                            placeholder="Konfirmasi PIN*"
                             minlength="6"
                             maxlength="6"
                         >
@@ -135,7 +135,7 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-4">
-                    <label class="control-label">Unggah Scan KTP</label>
+                    <label class="control-label">Unggah Scan KTP*</label>
                 </div>
                 <div class="col-sm-8">
                     <input style="height: 35px" type="file" id="fileInput" name="scan_1" class="form-control required" accept=".gif,.jpg,.jpeg,.png">
@@ -163,7 +163,8 @@
             </div>
         </div>
         <div class="center">
-            <small style="color: crimson; font-size: 12px;">Gambar ukuran maksimal: 1024kb, tipe gambar: .gif,.jpg,.jpeg,.png </small>
+            <small style="color: crimson; font-size: 12px;">Gambar ukuran maksimal: 1024kb, tipe gambar: .gif,.jpg,.jpeg,.png </small><br>
+            <small style="color: crimson; font-size: 12px;">Tanda * wajib diisi </small>
         </div>
 
         <div class="form-group">

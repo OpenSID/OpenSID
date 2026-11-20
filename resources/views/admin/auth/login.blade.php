@@ -33,7 +33,13 @@
         </div>
 
         @if ($isProduction && setting('google_recaptcha'))
-            {!! app('captcha')->display() !!}
+            @if (app('captcha')->isV3())
+                {{-- reCAPTCHA v3 (invisible/score-based) --}}
+                {!! app('captcha')->displayV3('login') !!}
+            @else
+                {{-- reCAPTCHA v2 (checkbox challenge) --}}
+                {!! app('captcha')->display() !!}
+            @endif
         @elseif ($isProduction)
             <div class="form-group">
                 <a href="#" id="b-captcha" onclick="event.preventDefault(); document.getElementById('captcha').src = '{{ site_url('captcha') }}?' + Math.random();" style="color: #000000;">
@@ -72,29 +78,52 @@
 
 @push('js')
     @if ($isProduction && setting('google_recaptcha'))
-        {!! app('captcha')->renderJs('id', true, 'recaptchaCallback') !!}
+        @php
+            $siteKey = $list_setting->firstWhere('key', 'google_recaptcha_site_key')?->value;
+        @endphp
 
+        {{-- Shared error handler untuk v2 dan v3 --}}
         <script>
-            var recaptchaCallback = function() {
-                grecaptcha.render(document.querySelector('.g-recaptcha'), {
-                    'sitekey': '{{ $list_setting->firstWhere('key', 'google_recaptcha_site_key')?->value }}',
-                    'error-callback': function() {
-                        $.ajax({
-                            url: '{{ site_url('siteman/matikan-captcha') }}',
-                            type: 'post',
-                            success: function(response) {
-                                // Redirect to the 'siteman' URL after disabling captcha
-                                window.location.href = '{{ site_url('siteman') }}';
-                            },
-                            error: function(xhr, status, error) {
-                                // Log the error for debugging
-                                console.error('Error in captcha disabling request:', error);
-                            }
-                        });
+            function recaptchaErrorCallback() {
+                $.ajax({
+                    url: '{{ site_url('siteman/matikan-captcha') }}',
+                    type: 'post',
+                    success: function(response) {
+                        window.location.href = '{{ site_url('siteman') }}';
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error in captcha disabling request:', error);
                     }
                 });
             }
         </script>
+
+        @if (app('captcha')->isV3())
+            {{-- reCAPTCHA v3 --}}
+            {!! app('captcha')->renderJsV3('id', $siteKey, 'onRecaptchaV3Load') !!}
+            <script>
+                function onRecaptchaV3Load() {
+                    try {
+                        grecaptcha.execute('{{ $siteKey }}', {action: 'login'})
+                            .then(function(token) { $('#g-recaptcha-response').val(token); })
+                            .catch(recaptchaErrorCallback);
+                    } catch (e) {
+                        recaptchaErrorCallback();
+                    }
+                }
+            </script>
+        @else
+            {{-- reCAPTCHA v2 --}}
+            {!! app('captcha')->renderJs('id', true, 'recaptchaCallback') !!}
+            <script>
+                var recaptchaCallback = function() {
+                    grecaptcha.render(document.querySelector('.g-recaptcha'), {
+                        'sitekey': '{{ $siteKey }}',
+                        'error-callback': recaptchaErrorCallback
+                    });
+                }
+            </script>
+        @endif
     @endif
 
     <script>

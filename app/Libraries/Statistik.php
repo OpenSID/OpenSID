@@ -37,15 +37,15 @@
 
 namespace App\Libraries;
 
-use App\Models\Rtm;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\SasaranEnum;
+use App\Enums\Statistik\StatistikJenisBantuanEnum;
+use App\Enums\StatusEnum;
 use App\Models\Bantuan;
 use App\Models\Kelompok;
-use App\Enums\StatusEnum;
-use App\Enums\SasaranEnum;
 use App\Models\KeluargaAktif;
 use App\Models\PendudukHidup;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\Statistik\StatistikJenisBantuanEnum;
+use App\Models\Rtm;
 
 class Statistik
 {
@@ -115,7 +115,7 @@ class Statistik
             'jumlah'    => $item->peserta_lakilaki_count + $item->peserta_perempuan_count,
             'persen'    => persen2($item->peserta_lakilaki_count + $item->peserta_perempuan_count, $total['lk'] + $total['pr']),
             'laki'      => $item->peserta_lakilaki_count,
-            'persen1'   => persen2($item->peserta_lakilaki_count, $item->peserta_lakilaki_count + $item->peserta_perempuan_count),
+            'persen1'   => persen2($item->peserta_lakilaki_count, $total['lk'] + $total['pr']),
             'perempuan' => $item->peserta_perempuan_count,
             'persen2'   => persen2($item->peserta_perempuan_count, $total['lk'] + $total['pr']),
         ]);
@@ -170,11 +170,7 @@ class Statistik
 
     private static function filterPesertaByGender($query, $sasaran, $gender, $cluster)
     {
-        return $query
-            ->when($sasaran == SasaranEnum::PENDUDUK, static fn ($query) => $query->whereHas('penduduk', static fn ($q) => $q->where('sex', $gender)->when($cluster, static fn ($r) => $r->whereIn('id_cluster', $cluster))))
-            ->when($sasaran == SasaranEnum::KELUARGA, static fn ($query) => $query->whereHas('keluarga', static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($t) => $t->where('sex', $gender)->when($cluster, static fn ($r) => $r->whereIn('id_cluster', $cluster)))))
-            ->when($sasaran == SasaranEnum::RUMAH_TANGGA, static fn ($query) => $query->whereHas('rtm', static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($t) => $t->where('sex', $gender)->when($cluster, static fn ($r) => $r->whereIn('id_cluster', $cluster)))))
-            ->when($sasaran == SasaranEnum::KELOMPOK, static fn ($query) => $query->whereHas('kelompok', static fn ($q) => $q->whereHas('ketua', static fn ($t) => $t->where('sex', $gender)->when($cluster, static fn ($r) => $r->whereIn('id_cluster', $cluster)))));
+        return $query->whereHas('peserta', static fn ($q) => $q->where('sex', $gender)->when($cluster, static fn ($r) => $r->whereIn('id_cluster', $cluster)));
     }
 
     private static function getTotal($sasaran, $isNotEmpty)

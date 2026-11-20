@@ -37,13 +37,13 @@
 
 namespace Modules\Lapak\Database\Seeders;
 
+use App\Actions\GrupAkses\UpsertGrupAkses;
+use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
 use App\Traits\Migrator;
-use App\Models\GrupAkses;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use App\Actions\GrupAkses\UpsertGrupAkses;
+use Illuminate\Database\Seeder;
 
 class ModulSeeder extends Seeder
 {
