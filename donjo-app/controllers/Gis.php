@@ -116,7 +116,7 @@ class Gis extends Admin_Controller
             }
 
             return $result;
-        })->toArray();
+        })->values()->toArray();
         $data['rt_gis'] = Wilayah::rt()->get()->filter(static function ($q) use ($aksesTerbatas): bool {
             $result = false;
             $dusun  = $aksesTerbatas->get($q->dusun);
@@ -128,7 +128,7 @@ class Gis extends Admin_Controller
             }
 
             return $result;
-        })->toArray();
+        })->values()->toArray();
         $data['list_ref']     = unserialize(STAT_PENDUDUK);
         $data['list_bantuan'] = collect(unserialize(STAT_BANTUAN))->toArray() + Bantuan::selectRaw('nama, CONCAT(50,id) as lap')->pluck('nama', 'lap')->toArray();
         $data['persil']       = Persil::activeMap();

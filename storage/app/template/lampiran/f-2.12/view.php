@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <style type="text/css">
-    <?php include FCPATH . '/assets/css/lampiran-surat.css'; ?>
+    <?php include PUBLICPATH . '/assets/css/lampiran-surat.css'; ?>
 </style>
 
 <page orientation="portrait" format="210x330" style="font-size: 8pt">

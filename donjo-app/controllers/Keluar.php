@@ -165,7 +165,7 @@ class Keluar extends Admin_Controller
                                 'confirmDelete' => true,
                             ])->render();
                         }
-                        if (User::superAdmin() && ! setting('tte') && $row->status != 0) {
+                        if (User::superAdmin()->exists() && ! setting('tte') && $row->status != 0) {
                             if ($row->lock !== StatusEnum::YA) {
                                 $aksi .= View::make('admin.layouts.components.buttons.edit', [
                                     'url'   => 'keluar/ajax_edit_surat/' . $row->id,
@@ -383,7 +383,6 @@ class Keluar extends Admin_Controller
 
     public function editSurat($idLogSurat)
     {
-        $this->set_hak_akses_rfm();
         $log_surat          = LogSurat::with(['logPerubahanSurat'])->find($idLogSurat)->toArray();
         $log_surat['input'] = json_decode($log_surat['input'], 1);
         $input              = $log_surat['input'];
@@ -477,7 +476,10 @@ class Keluar extends Admin_Controller
             case kades()->id:
                 $current = 'verifikasi_kades';
                 $next    = (setting('tte') && in_array($surat->formatSurat->jenis, FormatSurat::TINYMCE)) ? 'tte' : null;
-                $log     = (setting('tte')) ? 'TTE' : null;
+                // log_verifikasi 'TTE' hanya relevan kalau surat benar-benar diteruskan ke
+                // tahap tte ($next === 'tte'). Surat RTF tidak mendukung tte via passphrase,
+                // jadi jangan diberi label "Menunggu TTE" walau setting tte aktif.
+                $log = $next === 'tte' ? 'TTE' : null;
                 break;
 
                 // verifikasi sekdes
@@ -546,7 +548,7 @@ class Keluar extends Admin_Controller
             $kirimPesan = setting('notifikasi_pengajuan_surat');
             $kirimFCM   = str_replace(array_keys($pesanFCM), array_values($pesanFCM), $kirimPesan);
             $judul      = 'Pengajuan Surat - ' . $pesan['[judul_surat]'];
-            $payload    = '/permohonan/surat/periksa/' . $id . '/Periksa Surat';
+            $payload    = '/permohonan/surat/periksa/' . $id . '/' . rawurlencode('Periksa Surat');
 
             // log ke notifikasi
             $isi_notifikasi = [

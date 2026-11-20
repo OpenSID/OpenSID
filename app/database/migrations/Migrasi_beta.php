@@ -35,6 +35,7 @@
  *
  */
 
+
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 

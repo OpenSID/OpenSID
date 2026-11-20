@@ -28,7 +28,9 @@
                             @endforeach
                         </select>
                     </td>
-                    <td><input type="text" name="kategori_nama_kode[{{ $value->kategori }}][]" class="form-control input-sm isian" value="{{ $value->nama }}" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
+                    <td>
+                        <input type="hidden" name="kategori_kode_kode[{{ $value->kategori }}][]" value="{{ $value->kode }}">
+                        <input type="text" name="kategori_nama_kode[{{ $value->kategori }}][]" class="form-control input-sm isian" value="{{ $value->nama }}" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
                     </td>
                     <td><input type="text" name="kategori_label_kode[{{ $value->kategori }}][]" class="form-control input-sm isian" value="{{ $value->label ?? '' }}" placeholder="Masukkan Label" @disabled($value->tipe == '')>
                     </td>
@@ -88,7 +90,10 @@
                             @endforeach
                         </select>
                     </td>
-                    <td><input type="text" name="kategori_nama_kode[{{ $item }}][]" class="form-control input-sm isian" placeholder="Masukkan Nama" @disabled($value->tipe == '')></td>
+                    <td>
+                        <input type="hidden" name="kategori_kode_kode[{{ $item }}][]" value="">
+                        <input type="text" name="kategori_nama_kode[{{ $item }}][]" class="form-control input-sm isian" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
+                    </td>
                     <td><input type="text" name="kategori_label_kode[{{ $item }}][]" class="form-control input-sm isian" placeholder="Masukkan Label" @disabled($value->tipe == '')></td>
                     <td><input type="text" name="kategori_deskripsi_kode[{{ $item }}][]" class="form-control input-sm isian" placeholder="Masukkan Placeholder" @disabled($value->tipe == '')></td>
                     <td class="text-center">

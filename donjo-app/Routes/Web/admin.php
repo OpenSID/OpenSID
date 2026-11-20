@@ -650,6 +650,7 @@ Route::group('surat_master', static function (): void {
     Route::post('/kodeIsian/{id?}', 'Surat_master@kodeIsian')->name('surat_master.kodeIsian');
     Route::match(['GET', 'POST'], '/kunci/{id?}', 'Surat_master@kunci')->name('surat_master.kunci');
     Route::match(['GET', 'POST'], '/favorit/{id?}', 'Surat_master@favorit')->name('surat_master.favorit');
+    Route::match(['GET', 'POST'], '/validasi/{id?}', 'Surat_master@validasi')->name('surat_master.validasi');
     Route::match(['GET', 'POST'], 'delete/{id?}', 'Surat_master@delete')->name('surat_master.delete');
     Route::get('/pengaturan', 'Surat_master@pengaturan')->name('surat_master.pengaturan');
     Route::post('/edit_pengaturan', 'Surat_master@edit_pengaturan')->name('surat_master.edit_pengaturan');
@@ -750,6 +751,7 @@ Route::group('surat_dinas', static function (): void {
     Route::post('kodeIsian/{id?}', 'Surat_dinas@kodeIsian')->name('surat_dinas.kodeIsian');
     Route::match(['GET', 'POST'], 'kunci/{id?}', 'Surat_dinas@kunci')->name('surat_dinas.kunci');
     Route::match(['GET', 'POST'], 'favorit/{id?}', 'Surat_dinas@favorit')->name('surat_dinas.favorit');
+    Route::match(['GET', 'POST'], 'validasi/{id?}', 'Surat_dinas@validasi')->name('surat_dinas.validasi');
     Route::match(['GET', 'POST'], 'delete/{id?}', 'Surat_dinas@delete')->name('surat_dinas.delete');
     Route::get('pengaturan', 'Surat_dinas@pengaturan')->name('surat_dinas.pengaturan');
     Route::post('edit_pengaturan', 'Surat_dinas@edit_pengaturan')->name('surat_dinas.edit_pengaturan');

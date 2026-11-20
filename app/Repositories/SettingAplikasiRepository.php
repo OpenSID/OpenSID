@@ -80,6 +80,8 @@ class SettingAplikasiRepository
      * ini cuma menyalin referensinya ke properti publik $ci supaya
      * controller/view CI3 lama yang masih akses $this->setting atau
      * $this->list_setting tidak perlu diubah.
+     *
+     * @param mixed $ci
      */
     public static function applySettingCI($ci): void
     {
@@ -120,6 +122,156 @@ class SettingAplikasiRepository
     {
         static::$resolvedSetting     = null;
         static::$resolvedListSetting = null;
+    }
+
+    /**
+     * Mengambil semua data pengaturan.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function get()
+    {
+        return $this->setting->orderBy('key')->get();
+    }
+
+    /**
+     * Mengambil data pengaturan berdasarkan kategori.
+     *
+     * @param string $kategori
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getByKategori($kategori)
+    {
+        return $this->setting->where('kategori', $kategori)->get();
+    }
+
+    /**
+     * Mengambil pengaturan pertama berdasarkan key.
+     *
+     * @param string $key
+     *
+     * @return SettingAplikasi|null
+     */
+    public function firstByKey($key)
+    {
+        return $this->setting->where('key', $key)->first();
+    }
+
+    /**
+     * Memperbarui pengaturan berdasarkan key.
+     *
+     * @param string $key
+     * @param string $column
+     */
+    public function updateWithKey($key, mixed $value): bool
+    {
+        $data = $this->firstByKey($key);
+
+        if (! $data) {
+            return false;
+        }
+
+        // Validasi value untuk key token layanan
+        if ($this->isKeyTokenLayanan($key)) {
+            $value = $this->validateTokenLayananValue($key, $value);
+        }
+
+        $data->value = $value;
+        $data->save();
+
+        $this->flushCache();
+        $this->forgetResolvedSetting();
+
+        return true;
+    }
+
+    /**
+     * Membersihkan cache query.
+     */
+    public function flushCache(): void
+    {
+        $this->setting->flushQueryCache();
+    }
+
+    public function updateSetting($data)
+    {
+        $hasil = true;
+
+        LogBatch::startBatch();
+
+        foreach ($data as $key => $value) {
+            // Update setting yang diubah
+            if (setting($key) != $value) {
+                if (in_array($key, ['version_build_script', 'current_version', 'warna_tema', 'lock_theme'])) {
+                    continue;
+                }
+
+                $value = is_array($value) ? $value : strip_tags((string) $value);
+                // update password jika terisi saja
+                if ($key == 'email_smtp_pass' && $value === '') {
+                    continue;
+                }
+
+                if ($key == 'tampilkan_pendaftaran' && $value == 1 && (setting('email_notifikasi') == 0 || setting('telegram_notifikasi') == 0)) {
+                    $value = 0;
+                    $hasil = false;
+                    session()->flash('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
+                }
+
+                if ($key == 'google_recaptcha' && $value == 1 && (empty($data['google_recaptcha_site_key']) || empty($data['google_recaptcha_secret_key']))) {
+                    $value = 0;
+                    $hasil = false;
+                    session()->flash('flash_error_msg', 'Untuk mengaktifkan Google reCAPTCHA, Site Key dan Secret Key harus diisi');
+                }
+
+                // Terapkan perlindungan SSRF lokal untuk api_opendk_server via trait
+                if ($key == 'api_opendk_server' && ! empty($value)) {
+                    $this->validateDomain(
+                        data: [$key => $value],
+                        requireCloudWhitelist: false,
+                        attribute: $key,
+                        redirectUrl: url('sinkronisasi#tab_buat_key')
+                    );
+                }
+
+                if ($key == 'ip_adress_kehadiran' || $key == 'mac_adress_kehadiran') {
+                    $value = trim($value);
+                }
+
+                if ($key == 'id_pengunjung_kehadiran') {
+                    $value = alfanumerik(trim($value));
+                }
+
+                if (is_array($post = request()->get($key))) {
+                    if (in_array('-', $post)) {
+                        unset($post[0]);
+                    }
+                    $value = json_encode($post, JSON_THROW_ON_ERROR);
+                }
+
+                $hasil = $hasil && $this->updateWithKey($key, $value);
+                if ($key == 'tte' && $value == 1) {
+                    $this->updateWithKey('verifikasi_kades', $value); // jika tte aktif, aktifkan juga verifikasi kades
+                }
+                // Jika 'login_otp' diatur ke '0' (Tidak), nonaktifkan OTP untuk semua pengguna.
+                if ($key == 'login_otp' && $value == '0') {
+                    (new OtpService())->deactivateForAllUsers();
+                }
+
+                // $this->setting->{$key} = $value;
+                if ($key == 'enable_track') {
+                    $hasil = $hasil && $this->notifikasiTracker($value);
+                }
+            }
+        }
+
+        LogBatch::endBatch();
+
+        // model seperti di atas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+        $this->flushCache();
+
+        return $hasil;
     }
 
     protected function buildSetting(): object
@@ -220,11 +372,11 @@ class SettingAplikasiRepository
 
         // Sebutan kepala desa & sekretaris desa (dari tabel ref_jabatan jenis = 1 / 2)
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
-        $setting->sebutan_kepala_desa = kades()->nama;
+        $setting->sebutan_kepala_desa     = kades()->nama;
         $setting->sebutan_sekretaris_desa = sekdes()->nama;
 
         // Setting Multi Desa / Multi Database untuk OpenKab
-        $setting->multi_desa = Config::count() > 1;
+        $setting->multi_desa     = Config::count() > 1;
         $setting->multi_database = array_key_exists('opensid-gabungan', config('database.connections'));
 
         // Feeds
@@ -241,11 +393,11 @@ class SettingAplikasiRepository
         }
 
         // Konversi nilai margin (global & surat dinas) dari cm ke mm
-        $setting->surat_margin_cm_to_mm = $this->marginCmToMm($setting->surat_margin ?? null);
+        $setting->surat_margin_cm_to_mm       = $this->marginCmToMm($setting->surat_margin ?? null);
         $setting->surat_dinas_margin_cm_to_mm = $this->marginCmToMm($setting->surat_dinas_margin ?? null);
 
         // Kehadiran
-        $setting->jarak_kehadiran = $setting->jarak_kehadiran ?? SettingAplikasi::JARAK_KEHADIRAN;
+        $setting->jarak_kehadiran ??= SettingAplikasi::JARAK_KEHADIRAN;
 
         static::$resolvedListSetting = $listSetting;
 
@@ -267,13 +419,13 @@ class SettingAplikasiRepository
 
             if (empty($host)) {
                 config([
-                    'mail.default' => $protocol,
+                    'mail.default'             => $protocol,
                     "mail.mailers.{$protocol}" => [
-                        'transport'    => $protocol,
-                        'host'         => $setting->email_smtp_host,
-                        'port'         => $setting->email_smtp_port,
-                        'username'     => $setting->email_smtp_user,
-                        'password'     => $setting->email_smtp_pass,
+                        'transport' => $protocol,
+                        'host'      => $setting->email_smtp_host,
+                        'port'      => $setting->email_smtp_port,
+                        'username'  => $setting->email_smtp_user,
+                        'password'  => $setting->email_smtp_pass,
                     ],
                 ]);
             }
@@ -295,6 +447,27 @@ class SettingAplikasiRepository
                     'score_threshold' => $setting->google_recaptcha_score_threshold ?? 0.5,
                 ],
             ]);
+        }
+
+        if (! empty($setting->sso_openkab_base_url)) {
+            config(['sso.openkab_base_url' => $setting->sso_openkab_base_url]);
+        }
+
+        if (! empty($setting->sso_callback_secret)) {
+            config(['sso.callback_secret' => $setting->sso_callback_secret]);
+        }
+
+        if (! empty($setting->sso_allowed_origins)) {
+            config([
+                'sso.allowed_origins' => array_values(array_filter(array_map(
+                    'trim',
+                    explode(',', (string) $setting->sso_allowed_origins)
+                ))),
+            ]);
+        }
+
+        if (! empty($setting->sso_http_timeout)) {
+            config(['sso.http_timeout' => (int) $setting->sso_http_timeout]);
         }
     }
 
@@ -332,68 +505,6 @@ class SettingAplikasiRepository
     }
 
     /**
-     * Mengambil semua data pengaturan.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function get()
-    {
-        return $this->setting->orderBy('key')->get();
-    }
-
-    /**
-     * Mengambil data pengaturan berdasarkan kategori.
-     *
-     * @param string $kategori
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getByKategori($kategori)
-    {
-        return $this->setting->where('kategori', $kategori)->get();
-    }
-
-    /**
-     * Mengambil pengaturan pertama berdasarkan key.
-     *
-     * @param string $key
-     *
-     * @return SettingAplikasi|null
-     */
-    public function firstByKey($key)
-    {
-        return $this->setting->where('key', $key)->first();
-    }
-
-    /**
-     * Memperbarui pengaturan berdasarkan key.
-     *
-     * @param string $key
-     * @param string $column
-     */
-    public function updateWithKey($key, mixed $value): bool
-    {
-        $data = $this->firstByKey($key);
-
-        if (! $data) {
-            return false;
-        }
-
-        // Validasi value untuk key token layanan
-        if ($this->isKeyTokenLayanan($key)) {
-            $value = $this->validateTokenLayananValue($key, $value);
-        }
-
-        $data->value = $value;
-        $data->save();
-
-        $this->flushCache();
-        $this->forgetResolvedSetting();
-
-        return true;
-    }
-
-    /**
      * Cek apakah key adalah token layanan yang perlu validasi khusus.
      */
     private function isKeyTokenLayanan(string $key): bool
@@ -412,8 +523,9 @@ class SettingAplikasiRepository
     /**
      * Validasi value untuk token layanan.
      *
-     * @param  string  $key  Key setting
-     * @param  mixed  $value  Value yang akan divalidasi
+     * @param string $key   Key setting
+     * @param mixed  $value Value yang akan divalidasi
+     *
      * @return mixed Value yang sudah divalidasi
      */
     private function validateTokenLayananValue(string $key, mixed $value): mixed
@@ -431,94 +543,6 @@ class SettingAplikasiRepository
         }
 
         return $value;
-    }
-
-    /**
-     * Membersihkan cache query.
-     */
-    public function flushCache(): void
-    {
-        $this->setting->flushQueryCache();
-    }
-
-    public function updateSetting($data)
-    {
-        $hasil = true;
-
-        LogBatch::startBatch();
-
-        foreach ($data as $key => $value) {
-            // Update setting yang diubah
-            if (setting($key) != $value) {
-                if (in_array($key, ['version_build_script', 'current_version', 'warna_tema', 'lock_theme'])) {
-                    continue;
-                }
-
-                $value = is_array($value) ? $value : strip_tags((string) $value);
-                // update password jika terisi saja
-                if ($key == 'email_smtp_pass' && $value === '') {
-                    continue;
-                }
-
-                if ($key == 'tampilkan_pendaftaran' && $value == 1 && (setting('email_notifikasi') == 0 || setting('telegram_notifikasi') == 0)) {
-                    $value = 0;
-                    $hasil = false;
-                    session()->flash('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
-                }
-
-                if ($key == 'google_recaptcha' && $value == 1 && (empty($data['google_recaptcha_site_key']) || empty($data['google_recaptcha_secret_key']))) {
-                    $value = 0;
-                    $hasil = false;
-                    session()->flash('flash_error_msg', 'Untuk mengaktifkan Google reCAPTCHA, Site Key dan Secret Key harus diisi');
-                }
-
-                // Terapkan perlindungan SSRF lokal untuk api_opendk_server via trait
-                if ($key == 'api_opendk_server' && ! empty($value)) {
-                    $this->validateDomain(
-                        data: [$key => $value],
-                        requireCloudWhitelist: false,
-                        attribute: $key,
-                        redirectUrl: url('sinkronisasi#tab_buat_key')
-                    );
-                }
-
-                if ($key == 'ip_adress_kehadiran' || $key == 'mac_adress_kehadiran') {
-                    $value = trim($value);
-                }
-
-                if ($key == 'id_pengunjung_kehadiran') {
-                    $value = alfanumerik(trim($value));
-                }
-
-                if (is_array($post = request()->get($key))) {
-                    if (in_array('-', $post)) {
-                        unset($post[0]);
-                    }
-                    $value = json_encode($post, JSON_THROW_ON_ERROR);
-                }
-
-                $hasil = $hasil && $this->updateWithKey($key, $value);
-                if ($key == 'tte' && $value == 1) {
-                    $this->updateWithKey('verifikasi_kades', $value); // jika tte aktif, aktifkan juga verifikasi kades
-                }
-                // Jika 'login_otp' diatur ke '0' (Tidak), nonaktifkan OTP untuk semua pengguna.
-                if ($key == 'login_otp' && $value == '0') {
-                    (new OtpService())->deactivateForAllUsers();
-                }
-
-                // $this->setting->{$key} = $value;
-                if ($key == 'enable_track') {
-                    $hasil = $hasil && $this->notifikasiTracker($value);
-                }
-            }
-        }
-
-        LogBatch::endBatch();
-
-        // model seperti di atas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
-        $this->flushCache();
-
-        return $hasil;
     }
 
     private function notifikasiTracker(string|array|int|null|bool $value): bool

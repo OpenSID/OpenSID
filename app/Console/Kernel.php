@@ -62,7 +62,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('webhook-client:clean')->daily();
     }
 
     /**

@@ -6,8 +6,8 @@
   "devDependencies": {
     "@playwright/test": "^1.62.1",
     "@shufo/prettier-plugin-blade": "^1.16.2",
-    "@types/node": "^26.2.0",
-    "mysql2": "^3.23.2",
+    "@types/node": "^26.4.0",
+    "mysql2": "^3.24.2",
     "prettier": "^3.9.6",
     "@e965/xlsx": "^0.20.3"
   },

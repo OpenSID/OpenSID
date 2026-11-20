@@ -311,6 +311,14 @@ class Dokumen extends Admin_Controller
         if ($tipeEkspor == 1) {
             $data = DokumenHidup::informasiPublik()->selectRaw("id, 0 as aksi,'{$kodeDesa}' as kode_desa, satuan, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun")->get()->toArray();
         } else {
+            if (! empty($tglDari) && ! validate_date($tglDari)) {
+                fclose($file);
+                @unlink($tmpfname);
+                redirect_with('error', 'tgl_dari harus tanggal dalam format d-m-Y.');
+
+                return;
+            }
+
             $data = DokumenHidup::informasiPublik()->selectRaw("id,
 			(CASE when deleted = 1
 				then '3'

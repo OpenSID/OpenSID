@@ -1,4 +1,5 @@
 @extends('admin.layouts.index')
+@php filemanager_authorize('qr-code'); @endphp
 
 @push('css')
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-colorpicker.min.css') }}">
@@ -151,7 +152,7 @@
                     <h4 class='modal-title' id='myModalLabel'>Atur QR Code</h4>
                 </div>
                 <div class="modal-body">
-                    <iframe width="100%" height="400px" src="{{ base_url('rfm/dialog.php?type=1&lang=id&field_id=logoqr&fldr=&akey=' . $session->fm_key) }}" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+                    <iframe width="100%" height="400px" src="{{ route('filemanager.dialog', ['type' => 1, 'lang' => app()->getLocale(), 'field_id' => 'logoqr']) }}" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
                 </div>
             </div>
         </div>

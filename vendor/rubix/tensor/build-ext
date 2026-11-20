@@ -1,0 +1,58 @@
+#!/usr/bin/env php
+<?php
+
+const CONFIG_M4_PATH = './ext/config.m4';
+
+const EXECINFO_MATCH = "PHP_SUBST(TENSOR_SHARED_LIBADD)\n";
+const EXECINFO_PATCH = <<<'EOT'
+
+	AC_CANONICAL_BUILD
+	if test "$build_os" = linux-musl; then
+		CPPFLAGS="${CPPFLAGS:-} -DALPINE_LINUX"
+	else
+		AC_CHECK_FUNC(backtrace_symbols, have_backtrace_symbols=yes, have_backtrace_symbols=no)
+		if test $have_backtrace_symbols = no; then
+			LDFLAGS="${LDFLAGS:-} -lexecinfo"
+		fi
+	fi
+
+EOT
+;
+
+chdir(__DIR__);
+
+echo 'Reading config.m4 file... ';
+
+$configM4Contents = file_get_contents(CONFIG_M4_PATH);
+
+if (!$configM4Contents) {
+    fwrite(STDERR, "Failed to read the config.m4 file!\n");
+
+    exit(1);
+}
+
+echo "done.\n";
+
+echo 'Applying libexec patch... ';
+
+if (strpos($configM4Contents, EXECINFO_MATCH) === false) {
+    fwrite(STDERR, "patch entrypoint not found!\n");
+
+    exit(1);
+} elseif (strpos($configM4Contents, trim(EXECINFO_PATCH)) !== false) {
+    echo "already applied.\n";
+} else {
+    $configM4Contents = str_replace(EXECINFO_MATCH, EXECINFO_MATCH . EXECINFO_PATCH, $configM4Contents);
+    
+    echo "done.\n";
+
+    echo 'Saving config.m4 file... ';
+
+    if (!file_put_contents(CONFIG_M4_PATH, $configM4Contents)) {
+        fwrite(STDERR, "Failed to write the config.m4 file\n");
+
+        exit(1);
+    }
+
+    echo "done.\n";
+}

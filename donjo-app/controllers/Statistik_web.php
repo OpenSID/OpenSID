@@ -38,7 +38,6 @@
 use App\Enums\SasaranEnum;
 use App\Enums\StatusEnum;
 use App\Models\Bantuan;
-use App\Models\PendudukSaja;
 use App\Models\Wilayah;
 use App\Repositories\StatistikRepository;
 use App\Services\LaporanPenduduk;
@@ -166,34 +165,19 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/load_chart_gis/{$lap}");
     }
 
-    // sepertinya tidak ada fungsi yang memanggil method ini
-    public function chart_gis_kadus($id_kepala = ''): void
-    {
-        $this->cek_akses($lap);
-
-        ($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
-        $this->session->unset_userdata('rw');
-        $this->session->unset_userdata('rt');
-
-        redirect("statistik_web/load_kadus/{$id_kepala}");
-    }
-
-    // sepertinya tidak ada fungsi yang memanggil method ini
-    public function load_kadus($id_kepala = ''): void
-    {
-        $data['individu'] = PendudukSaja::find($id_kepala);
-
-        $this->load->view('gis/kadus/', $data);
-    }
-
     private function get_data_stat(array &$data, $lap): void
     {
         $data['stat']         = LaporanPenduduk::judulStatistik($lap);
         $data['list_bantuan'] = Bantuan::selectRaw('id, nama, sasaran, ndesc, sdate, edate, CONCAT(50,id) as lap')->get()->toArray();
         if ((int) $lap > 50) {
             // Untuk program bantuan, $lap berbentuk '50<program_id>'
-            $program_id             = preg_replace('/^50/', '', $lap);
-            $program                = Bantuan::find($program_id);
+            $program_id = preg_replace('/^50/', '', $lap);
+            $program    = Bantuan::find($program_id);
+
+            if (! $program) {
+                redirect_with('error', 'Program bantuan tidak ditemukan.');
+            }
+
             $program->judul_sasaran = SasaranEnum::valueOf($program->sasaran);
             $data['program']        = $program->toArray();
             $data['judul_kelompok'] = $data['program']['judul_sasaran'];

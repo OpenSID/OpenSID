@@ -738,26 +738,27 @@ class Stunting extends Admin_Controller
         $data['status_imunisasi_campak'] = Anak::STATUS_IMUNISASI_CAMPAK;
 
         if ($this->input->is_ajax_request()) {
-            $kia     = KIA::find($this->input->get('kia'));
-            $data    = Penduduk::find($kia->anak_id);
-            $tanggal = Carbon::create($data->tanggallahir);
+            $kia = KIA::find($this->input->post('kia'));
+            if (! $kia) {
+                return json(null);
+            }
+            $anak                = Penduduk::find($kia->anak_id);
+            $tanggalLahir        = Carbon::create($anak->tanggallahir);
+            $tanggalPeriksaInput = $this->input->post('tanggal_periksa');
+            $tanggalPeriksa      = $tanggalPeriksaInput ? Carbon::parse($tanggalPeriksaInput) : Carbon::now();
+            $diff                = $tanggalLahir->diff($tanggalPeriksa);
 
-            return json($tanggal->diff(Carbon::now()));
+            return json($diff);
         }
 
         if ($id) {
-            // ambil data bulanan anak
-            $bulanan = Anak::findOrFail($id); // id_bulanan_anak
-
-            // ambil kia dari relasi
+            $bulanan = Anak::findOrFail($id);
             $kia = KIA::findOrFail($bulanan->kia_id);
-
-            // ambil data anak
             $anak = Penduduk::findOrFail($kia->anak_id);
 
-            // hitung umur (tetap pakai sekarang, sesuai permintaan)
-            $tanggal      = Carbon::create($anak->tanggallahir);
-            $data['umur'] = $tanggal->diff(Carbon::now());
+            $tanggalLahir   = Carbon::create($anak->tanggallahir);
+            $tanggalPeriksa = Carbon::parse($bulanan->tanggal_periksa);
+            $data['umur']   = $tanggalLahir->diff($tanggalPeriksa);
 
             $data['action']     = 'Ubah';
             $data['formAction'] = ci_route('stunting.updateAnak', $id);
@@ -765,9 +766,9 @@ class Stunting extends Admin_Controller
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = ci_route('stunting.insertAnak');
-            // provide a default object so blade can read tanggal_periksa
             $data['anak']                  = new Anak();
             $data['anak']->tanggal_periksa = date('Y-m-d');
+            $data['umur'] = null;
         }
 
         return view('admin.stunting.pemantauan_anak_form', $data);

@@ -11,6 +11,11 @@ const MAX_WORKER_AUTH = parseInt(process.env.PLAYWRIGHT_WORKERS || '4', 10);
 async function loginAndSave(filePath: string): Promise<void> {
   const browser = await chromium.launch({
     args: ['--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox'],
+    /* Selaras dengan project 'chromium' di playwright.config.ts: Playwright tidak
+       lagi menyediakan build Chromium untuk macOS 12 ke bawah, sehingga developer
+       pada mesin tersebut memakai Chrome sistem lewat PLAYWRIGHT_CHANNEL=chrome.
+       Dibiarkan kosong di CI agar tetap memakai Chromium bawaan Playwright. */
+    ...(process.env.PLAYWRIGHT_CHANNEL ? { channel: process.env.PLAYWRIGHT_CHANNEL } : {}),
   });
   const context = await browser.newContext();
   const page = await context.newPage();

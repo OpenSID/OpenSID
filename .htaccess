@@ -1,0 +1,61 @@
+# ============================================================================
+# FORWARDER .htaccess ROOT — document root belum diarahkan ke public/
+# ============================================================================
+# Berkas ini DILACAK Git. Tujuannya: instalasi lama yang memperbarui lewat
+# `git pull` tetap hidup tanpa aksi manual — request diteruskan ke public/.
+#
+# Ini KOMPROMI, bukan solusi penuh. Selama document root masih menunjuk root
+# proyek, satu-satunya yang menahan akses ke berkas sensitif adalah berkas
+# .htaccess ini — sama seperti sebelum pemindahan ke public/. Bila web server
+# mengabaikan .htaccess (AllowOverride None) atau memakai nginx, proteksi ini
+# TIDAK berlaku; pindahkan document root ke public/ untuk keamanan sebenarnya.
+# Info Sistem menampilkan peringatan sampai itu dilakukan.
+# Lihat documents/PANDUAN-STRUKTUR-PUBLIC.md
+#
+# VPS yang docroot-nya sudah di public/: berkas ini berada di luar docroot,
+# jadi tidak pernah dibaca web server dan tidak berefek.
+#
+# Bila Anda pernah mengkustomisasi berkas .htaccess root ini sendiri, `git pull`
+# akan gagal sekali dengan pesan "would be overwritten". Selesaikan dengan
+# `git stash` lalu `git stash pop`, atau `git rm --cached .htaccess`.
+# ============================================================================
+
+RewriteEngine On
+
+# =====================================================
+# BLOKIR FOLDER & BERKAS YANG TIDAK PERLU DIAKSES WEB
+# =====================================================
+# Wajib berada DI ATAS aturan forwarder. Pada struktur public/ folder-folder
+# ini memang di luar document root; di sini mereka masih terjangkau, jadi
+# ditolak secara eksplisit.
+
+# Dotfile & dotfolder: .env, .git/, .htaccess, .gitignore, .env.testing, dst.
+RewriteCond %{REQUEST_URI} (^|/)\.[^/]+ [NC]
+RewriteRule .* - [F,L]
+
+# Folder kode & dependensi — tidak ada yang perlu diambil browser.
+RewriteRule ^(app|bootstrap|config|database|donjo-app|routes|resources|tests|bin|vendor|Modules|node_modules|\.git|\.github)(/|$) - [F,L]
+
+# storage/ — hanya disk "public" (diteruskan ke symlink public/storage) yang
+# boleh; sisanya (log, framework, private, template, app_key) ditolak.
+RewriteRule ^storage/(app|logs|framework|debugbar|clockwork)(/|$) - [F,L]
+RewriteRule ^storage/[^/]+\.(key|log|php)$ - [F,L]
+
+# desa/ — hanya folder unggahan/logo/pengaturan/anjungan yang disymlink ke
+# public/ yang boleh. Folder di bawah ini berisi kredensial & kode sumber.
+RewriteRule ^desa/(config|app_key|cache|arsip|log|sqlite|backup|backup_inkremental|template|template-surat|widgets|themes)(/|$) - [F,L]
+
+# Berkas konfigurasi, skrip, dan arsip di root proyek.
+RewriteCond %{REQUEST_URI} (composer\.(json|lock)|package(-lock)?\.json|/artisan|rector\.php|phpstan[^/]*|phpunit[^/]*|/mitra|app_key|\.(md|sql|sh|neon|ya?ml|dist|lock|log))$ [NC]
+RewriteRule .* - [F,L]
+
+# =====================================================
+# FORWARDER KE public/
+# =====================================================
+
+# Jangan teruskan request yang sudah menunjuk ke dalam public/
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ public/$1 [L]
+
+# Matikan directory listing
+Options -Indexes

@@ -79,7 +79,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup arsipFisikDokumenDesa()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup arsipFisikKependudukan()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup dataCetak($kat = 1, ?string $tahun = '', ?string $jenis_peraturan = '')
- * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup getDokumen($id = 0, $id_pend = null)
+ * @method static ?array getDokumen($id = 0, $id_pend = null)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup getTahun($kat)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup informasiPublik()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup newModelQuery()
@@ -285,13 +285,21 @@ class DokumenHidup extends BaseModel
         return $query;
     }
 
-    public function scopeGetDokumen($query, $id = 0, $id_pend = null): ?array
+    public static function getDokumen($id = 0, $id_pend = null): ?array
     {
+        $query = self::query();
+
         if ($id_pend) {
             $query->where('id_pend', $id_pend);
         }
 
-        $data = $query->where('id', $id)->first()->toArray();
+        $row = $query->where('id', $id)->first();
+
+        if (! $row) {
+            return null;
+        }
+
+        $data = $row->toArray();
 
         if ($data) {
             $data['attr'] = json_decode((string) $data['attr'], true);

@@ -1224,18 +1224,22 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * @return bool Whether parentheses are required
      */
     protected function newOperandRequiresParens(Node $node): bool {
-        if ($node instanceof Node\Name || $node instanceof Expr\Variable) {
-            return false;
+        while (true) {
+            if ($node instanceof Node\Name || $node instanceof Expr\Variable) {
+                return false;
+            }
+            if ($node instanceof Expr\ArrayDimFetch || $node instanceof Expr\PropertyFetch ||
+                $node instanceof Expr\NullsafePropertyFetch
+            ) {
+                $node = $node->var;
+                continue;
+            }
+            if ($node instanceof Expr\StaticPropertyFetch) {
+                $node = $node->class;
+                continue;
+            }
+            return true;
         }
-        if ($node instanceof Expr\ArrayDimFetch || $node instanceof Expr\PropertyFetch ||
-            $node instanceof Expr\NullsafePropertyFetch
-        ) {
-            return $this->newOperandRequiresParens($node->var);
-        }
-        if ($node instanceof Expr\StaticPropertyFetch) {
-            return $this->newOperandRequiresParens($node->class);
-        }
-        return true;
     }
 
     /**
@@ -1655,6 +1659,8 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             Stmt\Function_::class . '->params' => ['(', '', ''],
             Stmt\Interface_::class . '->attrGroups' => [null, '', "\n"],
             Stmt\Class_::class . '->attrGroups' => [null, '', "\n"],
+            Stmt\Enum_::class . '->attrGroups' => [null, '', "\n"],
+            Stmt\EnumCase::class . '->attrGroups' => [null, '', "\n"],
             Stmt\ClassConst::class . '->attrGroups' => [null, '', "\n"],
             Stmt\ClassMethod::class . '->attrGroups' => [null, '', "\n"],
             Stmt\Function_::class . '->attrGroups' => [null, '', "\n"],

@@ -142,13 +142,13 @@ class Captcha
 
     protected static function fonts(): void
     {
-        $fonts         = glob(FCPATH . 'assets/captcha/fonts/*.ttf');
+        $fonts         = glob(PUBLICPATH . 'assets/captcha/fonts/*.ttf');
         static::$fonts = (is_array($fonts) && $fonts !== []) ? $fonts : [];
     }
 
     protected static function backgrounds(): void
     {
-        $backgrounds         = glob(FCPATH . 'assets/captcha/backgrounds/*.png');
+        $backgrounds         = glob(PUBLICPATH . 'assets/captcha/backgrounds/*.png');
         static::$backgrounds = (is_array($backgrounds) && $backgrounds !== []) ? $backgrounds : [];
     }
 

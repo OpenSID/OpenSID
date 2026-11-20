@@ -840,7 +840,7 @@ class Keluarga extends Admin_Controller
             }))
             ->when($status == 3, static fn ($q) => $q->orWhereNull('nik_kepala'))
             ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)->when($status == 1, static fn ($s) => $s->where('status_dasar', 1))))
-            ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
+            ->when($idCluster, static fn ($q) => $q->whereIn('tweb_keluarga.id_cluster', $idCluster))
             ->when($kumpulanKK, static fn ($q) => $q->whereIn('no_kk', $kumpulanKK))
             ->when($kkSementara, static fn ($q) => $q->where('no_kk', 'like', '0%'))
             ->when($kelasSosial, static function ($q) use ($kelasSosial) {

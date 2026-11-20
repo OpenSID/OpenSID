@@ -504,6 +504,46 @@ class QueueFake extends QueueManager implements Fake, Queue
     }
 
     /**
+     * Get the number of jobs across every queue.
+     *
+     * @return int
+     */
+    public function totalSize()
+    {
+        return $this->allPendingJobs()->count() + $this->allReservedJobs()->count();
+    }
+
+    /**
+     * Get the number of pending jobs across every queue.
+     *
+     * @return int
+     */
+    public function totalPendingSize()
+    {
+        return $this->allPendingJobs()->count();
+    }
+
+    /**
+     * Get the number of delayed jobs across every queue.
+     *
+     * @return int
+     */
+    public function totalDelayedSize()
+    {
+        return $this->allDelayedJobs()->count();
+    }
+
+    /**
+     * Get the number of reserved jobs across every queue.
+     *
+     * @return int
+     */
+    public function totalReservedSize()
+    {
+        return $this->allReservedJobs()->count();
+    }
+
+    /**
      * Get the pending jobs for the given queue.
      *
      * @param  \UnitEnum|string|null  $queue
@@ -567,7 +607,7 @@ class QueueFake extends QueueManager implements Fake, Queue
         return (new Collection($jobs))
             ->flatten(1)
             ->map(fn ($data) => new InspectedJob(
-                uuid: null,
+                uuid: $data['uuid'] ?? null,
                 queue: $data['queue'],
                 name: is_object($data['job'])
                     ? (method_exists($data['job'], 'displayName') ? $data['job']->displayName() : get_class($data['job']))
@@ -624,6 +664,7 @@ class QueueFake extends QueueManager implements Fake, Queue
             }
 
             $this->jobs[is_object($job) ? get_class($job) : $job][] = [
+                'uuid' => (string) Str::uuid(),
                 'job' => $this->serializeAndRestore ? $this->serializeAndRestoreJob($job) : $job,
                 'queue' => $queue,
                 'data' => $data,
@@ -714,6 +755,7 @@ class QueueFake extends QueueManager implements Fake, Queue
     {
         if ($this->shouldFakeJob($job)) {
             $this->delayed[is_object($job) ? get_class($job) : $job][] = [
+                'uuid' => (string) Str::uuid(),
                 'job' => $job,
                 'queue' => enum_value($queue),
                 'createdAt' => Carbon::now()->getTimestamp(),
@@ -766,6 +808,7 @@ class QueueFake extends QueueManager implements Fake, Queue
         }
 
         $this->reserved[is_object($job) ? get_class($job) : $job][] = [
+            'uuid' => (string) Str::uuid(),
             'job' => $this->serializeAndRestore ? $this->serializeAndRestoreJob($job) : $job,
             'queue' => $queue,
             'createdAt' => Carbon::now()->getTimestamp(),

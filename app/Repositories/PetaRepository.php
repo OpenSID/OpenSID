@@ -44,7 +44,6 @@ use App\Models\Bantuan;
 use App\Models\Garis;
 use App\Models\Lokasi;
 use App\Models\Pembangunan;
-use App\Models\PendudukSaja;
 use App\Models\Persil;
 use App\Models\Wilayah;
 use App\Services\LaporanPenduduk;
@@ -64,7 +63,6 @@ class PetaRepository
             'garis'              => Garis::activeGarisMap(),
             'area'               => Area::activeAreaMap(),
             'lokasi_pembangunan' => Pembangunan::activePembangunanMap(),
-            'penduduk'           => PendudukSaja::activeMap(),
             'dusun_gis'          => Wilayah::dusun()->get()->toArray(),
             'rw_gis'             => Wilayah::rw()->get()->toArray(),
             'rt_gis'             => Wilayah::rt()->get()->toArray(),

@@ -364,10 +364,10 @@ class Rekap
             ->join('kia', 'bulanan_anak.kia_id', '=', 'kia.id')
             ->join('tweb_penduduk', 'kia.anak_id', '=', 'tweb_penduduk.id')
             ->where('bulanan_anak.config_id', identitas('id'))
-            ->whereMonth('bulanan_anak.created_at', '>=', $batasBulanBawah)
-            ->whereMonth('bulanan_anak.created_at', '<=', $batasBulanAtas)
-            ->whereYear('bulanan_anak.created_at', $tahun)
-            ->orderBy('bulanan_anak.created_at')
+            ->whereMonth('bulanan_anak.tanggal_periksa', '>=', $batasBulanBawah)
+            ->whereMonth('bulanan_anak.tanggal_periksa', '<=', $batasBulanAtas)
+            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
+            ->orderBy('bulanan_anak.tanggal_periksa')
             ->select([
                 'bulanan_anak.*',
                 'kia.no_kia',
@@ -383,7 +383,7 @@ class Rekap
 
         $bulananAnak = $bulananAnak->get()->toArray();
         $dataTahun   = DB::table('bulanan_anak')
-            ->selectRaw('YEAR(created_at) as tahun')
+            ->selectRaw('YEAR(tanggal_periksa) as tahun')
             ->distinct()
             ->get();
 
@@ -487,7 +487,7 @@ class Rekap
                     ->where('config_id', identitas('id'))
                     ->where('kia_id', $key)
                     ->where('pengasuhan_paud', '1')
-                    ->whereYear('bulanan_anak.created_at', $tahun)
+                    ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                     ->select('pengasuhan_paud')
                     ->count();
 
@@ -547,8 +547,8 @@ class Rekap
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
                             ->where('pengukuran_tinggi_badan', '1')
-                            ->whereMonth('bulanan_anak.created_at', '2') // februari
-                            ->whereYear('bulanan_anak.created_at', $tahun)
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '2') // februari
+                            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                             ->select('pengukuran_tinggi_badan')
                             ->count();
 
@@ -563,8 +563,8 @@ class Rekap
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
                             ->where('pengukuran_tinggi_badan', '1')
-                            ->whereMonth('bulanan_anak.created_at', '2') // februari
-                            ->whereYear('bulanan_anak.created_at', $tahun)
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '2') // februari
+                            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                             ->select('pengukuran_tinggi_badan')
                             ->count();
 
@@ -579,8 +579,8 @@ class Rekap
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
                             ->where('pengukuran_tinggi_badan', '1')
-                            ->whereMonth('bulanan_anak.created_at', '8') // agustus
-                            ->whereYear('bulanan_anak.created_at', $tahun)
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '8') // agustus
+                            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                             ->select('pengukuran_tinggi_badan')
                             ->count();
 
@@ -589,9 +589,9 @@ class Rekap
                         $hitungTinggiBadan = DB::table('bulanan_anak')
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
-                            ->whereMonth('bulanan_anak.created_at', '2') // februari
-                            ->orWhereMonth('bulanan_anak.created_at', '8') // agustus
-                            ->whereYear('bulanan_anak.created_at', $tahun)
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '2') // februari
+                            ->orWhereMonth('bulanan_anak.tanggal_periksa', '8') // agustus
+                            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                             ->select('pengukuran_tinggi_badan')
                             ->get();
 
@@ -614,7 +614,7 @@ class Rekap
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
                             ->where('pengukuran_tinggi_badan', '1')
-                            ->whereMonth('bulanan_anak.created_at', '8') // agustus
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '8') // agustus
                             ->select('pengukuran_tinggi_badan')
                             ->count();
 
@@ -623,9 +623,9 @@ class Rekap
                         $hitungTinggiBadan = DB::table('bulanan_anak')
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
-                            ->whereMonth('bulanan_anak.created_at', '2') // februari
-                            ->orWhereMonth('bulanan_anak.created_at', '8') // agustus
-                            ->whereYear('bulanan_anak.created_at', $tahun)
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '2') // februari
+                            ->orWhereMonth('bulanan_anak.tanggal_periksa', '8') // agustus
+                            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                             ->select('pengukuran_tinggi_badan')
                             ->get();
 
@@ -649,9 +649,9 @@ class Rekap
                     ->where('config_id', identitas('id'))
                     ->where('kia_id', $key)
                     ->where('pengukuran_tinggi_badan', '1')
-                    ->whereMonth('bulanan_anak.created_at', '>=', $batasBulanBawah)
-                    ->whereMonth('bulanan_anak.created_at', '<=', $batasBulanAtas)
-                    ->whereYear('bulanan_anak.created_at', $tahun)
+                    ->whereMonth('bulanan_anak.tanggal_periksa', '>=', $batasBulanBawah)
+                    ->whereMonth('bulanan_anak.tanggal_periksa', '<=', $batasBulanAtas)
+                    ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                     ->select('pengukuran_tinggi_badan')
                     ->count();
                 $tinggiBadan = $hitungTinggiBadan > 0 ? 'Y' : 'T';
@@ -795,10 +795,10 @@ class Rekap
             ->join('kia', 'bulanan_anak.kia_id', '=', 'kia.id')
             ->join('tweb_penduduk', 'kia.anak_id', '=', 'tweb_penduduk.id')
             ->where('bulanan_anak.config_id', identitas('id'))
-            ->whereMonth('bulanan_anak.created_at', '>=', $batasBulanBawah)
-            ->whereMonth('bulanan_anak.created_at', '<=', $batasBulanAtas)
-            ->whereYear('bulanan_anak.created_at', $tahun)
-            ->orderBy('bulanan_anak.created_at')
+            ->whereMonth('bulanan_anak.tanggal_periksa', '>=', $batasBulanBawah)
+            ->whereMonth('bulanan_anak.tanggal_periksa', '<=', $batasBulanAtas)
+            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
+            ->orderBy('bulanan_anak.tanggal_periksa')
             ->select([
                 'bulanan_anak.*',
                 'kia.no_kia',
@@ -814,7 +814,7 @@ class Rekap
 
         $bulananAnak = $bulananAnak->get()->toArray();
         $dataTahun   = DB::table('bulanan_anak')
-            ->selectRaw('YEAR(created_at) as tahun')
+            ->selectRaw('YEAR(tanggal_periksa) as tahun')
             ->distinct()
             ->get();
 
@@ -918,7 +918,7 @@ class Rekap
                     ->where('config_id', identitas('id'))
                     ->where('kia_id', $key)
                     ->where('pengasuhan_paud', '1')
-                    ->whereYear('bulanan_anak.created_at', $tahun)
+                    ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                     ->select('pengasuhan_paud')
                     ->count();
 
@@ -978,8 +978,8 @@ class Rekap
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
                             ->where('pengukuran_tinggi_badan', '1')
-                            ->whereMonth('bulanan_anak.created_at', '2') // februari
-                            ->whereYear('bulanan_anak.created_at', $tahun)
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '2') // februari
+                            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                             ->select('pengukuran_tinggi_badan')
                             ->count();
 
@@ -994,8 +994,8 @@ class Rekap
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
                             ->where('pengukuran_tinggi_badan', '1')
-                            ->whereMonth('bulanan_anak.created_at', '2') // februari
-                            ->whereYear('bulanan_anak.created_at', $tahun)
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '2') // februari
+                            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                             ->select('pengukuran_tinggi_badan')
                             ->count();
 
@@ -1010,8 +1010,8 @@ class Rekap
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
                             ->where('pengukuran_tinggi_badan', '1')
-                            ->whereMonth('bulanan_anak.created_at', '8') // agustus
-                            ->whereYear('bulanan_anak.created_at', $tahun)
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '8') // agustus
+                            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                             ->select('pengukuran_tinggi_badan')
                             ->count();
 
@@ -1020,9 +1020,9 @@ class Rekap
                         $hitungTinggiBadan = DB::table('bulanan_anak')
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
-                            ->whereMonth('bulanan_anak.created_at', '2') // februari
-                            ->orWhereMonth('bulanan_anak.created_at', '8') // agustus
-                            ->whereYear('bulanan_anak.created_at', $tahun)
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '2') // februari
+                            ->orWhereMonth('bulanan_anak.tanggal_periksa', '8') // agustus
+                            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                             ->select('pengukuran_tinggi_badan')
                             ->get();
 
@@ -1045,7 +1045,7 @@ class Rekap
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
                             ->where('pengukuran_tinggi_badan', '1')
-                            ->whereMonth('bulanan_anak.created_at', '8') // agustus
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '8') // agustus
                             ->select('pengukuran_tinggi_badan')
                             ->count();
 
@@ -1054,9 +1054,9 @@ class Rekap
                         $hitungTinggiBadan = DB::table('bulanan_anak')
                             ->where('config_id', identitas('id'))
                             ->where('kia_id', $key)
-                            ->whereMonth('bulanan_anak.created_at', '2') // februari
-                            ->orWhereMonth('bulanan_anak.created_at', '8') // agustus
-                            ->whereYear('bulanan_anak.created_at', $tahun)
+                            ->whereMonth('bulanan_anak.tanggal_periksa', '2') // februari
+                            ->orWhereMonth('bulanan_anak.tanggal_periksa', '8') // agustus
+                            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                             ->select('pengukuran_tinggi_badan')
                             ->get();
 
@@ -1080,9 +1080,9 @@ class Rekap
                     ->where('config_id', identitas('id'))
                     ->where('kia_id', $key)
                     ->where('pengukuran_tinggi_badan', '1')
-                    ->whereMonth('bulanan_anak.created_at', '>=', $batasBulanBawah)
-                    ->whereMonth('bulanan_anak.created_at', '<=', $batasBulanAtas)
-                    ->whereYear('bulanan_anak.created_at', $tahun)
+                    ->whereMonth('bulanan_anak.tanggal_periksa', '>=', $batasBulanBawah)
+                    ->whereMonth('bulanan_anak.tanggal_periksa', '<=', $batasBulanAtas)
+                    ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
                     ->select('pengukuran_tinggi_badan')
                     ->count();
                 $tinggiBadan = $hitungTinggiBadan > 0 ? 'Y' : 'T';

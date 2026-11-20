@@ -63,6 +63,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 use Throwable;
@@ -233,7 +234,10 @@ class DTKSRegsosEk2022k
             $item->kd_jenis_kelamin    = $tmp_anggota->sex; // 405
             $item->tgl_lahir           = $tmp_anggota->tanggallahir; // 406
             $item->umur                = $tmp_anggota->umur; // getAttribute // 407
-            $item->kd_stat_perkawinan  = $tmp_anggota->status_perkawinan; // 408
+            // status_perkawinan berisi label rinci (mis. KAWIN BELUM TERCATAT), disederhanakan ke kode DTKS (1-4)
+            $item->kd_stat_perkawinan = in_array($tmp_anggota->status_kawin, [2, 21])
+                ? 2
+                : (in_array($tmp_anggota->status_kawin, [3, 31]) ? 3 : $tmp_anggota->status_kawin); // 408
             $item->kd_status_kehamilan = $tmp_anggota->hamil ?? '2'; // 410 // 2. Tidak Hamil
             // digunakan untuk membantu memilih pekerjaan dan pendidikan
             $item->pekerjaan_saat_ini     = $tmp_anggota->pekerjaan;
@@ -558,14 +562,18 @@ class DTKSRegsosEk2022k
         // $dtks_anggota->kd_stat_perkawinan    = $agt->status_perkawinan; // 408
         // jika anggota satu kk dengan kepala rumah tangga, hubungan dengan krt = hubungan dengan kk
         // jika bukan satu kk, maka hubungannya jadi lainnya, biar diatur sendiri oleh user
-        if ($agt->id_kk == ($kepala_keluarga ? $kepala_keluarga->id_kk : null)) {
-            $hubungan_dengan_kk              = $ref_eloquent_collection['hubungan_dengan_kk']->where('id', $agt->kk_level)->pluck('nama')->first();
-            $dtks_anggota->kd_hubungan_dg_kk = $this->getIndexPilihanWithDefault(Regsosek2022kEnum::pilihanBagian4()['409'], $hubungan_dengan_kk);
-        } else {
-            $kd_hubungan_dg_kk = $this->getIndexPilihan(Regsosek2022kEnum::pilihanBagian4()['409'], 'Lainnya');
-            // jika sinkron dengan data dtks, selainnya dapat disesuaikan manual
-            if ($kd_hubungan_dg_kk != 8) {
-                $dtks_anggota->kd_hubungan_dg_kk = $kd_hubungan_dg_kk;
+        // hanya diisi otomatis jika belum pernah diisi/diubah manual oleh pengguna melalui formulir 409,
+        // supaya pilihan yg sudah disimpan tidak tertimpa setiap formulir dibuka ulang
+        if ($dtks_anggota->kd_hubungan_dg_kk === null || $dtks_anggota->kd_hubungan_dg_kk === '') {
+            if ($agt->id_kk == ($kepala_keluarga ? $kepala_keluarga->id_kk : null)) {
+                $hubungan_dengan_kk              = $ref_eloquent_collection['hubungan_dengan_kk']->where('id', $agt->kk_level)->pluck('nama')->first();
+                $dtks_anggota->kd_hubungan_dg_kk = $this->getIndexPilihanWithDefault(Regsosek2022kEnum::pilihanBagian4()['409'], $hubungan_dengan_kk);
+            } else {
+                $kd_hubungan_dg_kk = $this->getIndexPilihan(Regsosek2022kEnum::pilihanBagian4()['409'], 'Lainnya');
+                // jika sinkron dengan data dtks, selainnya dapat disesuaikan manual
+                if ($kd_hubungan_dg_kk != 8) {
+                    $dtks_anggota->kd_hubungan_dg_kk = $kd_hubungan_dg_kk;
+                }
             }
         }
         // if($dtks_anggota->umur >= 10 && $dtks_anggota->umur <= 54 && $dtks_anggota->kd_jenis_kelamin == 2 && in_array($dtks_anggota->kd_stat_perkawinan, ['2', '3', '4'])){
@@ -574,19 +582,23 @@ class DTKSRegsosEk2022k
         // $dtks_anggota->kd_status_kehamilan   = null; // 410
         // }
         // 0:tidak punya, 1:akta lahir, 2:kia, 4:ktp
-        $total = 0;
-        if ($agt->akta_lahir) {
-            $total++;
+        // hanya diisi otomatis jika belum pernah diisi/diubah manual oleh pengguna melalui formulir 411,
+        // supaya pilihan yg sudah disimpan tidak tertimpa setiap formulir dibuka ulang
+        if ($dtks_anggota->kd_punya_kartuid === null || $dtks_anggota->kd_punya_kartuid === '') {
+            $total = 0;
+            if ($agt->akta_lahir) {
+                $total++;
+            }
+            $is_ibu_anak_punya_data_kia = $ref_eloquent_collection['kia']->filter(static fn ($item): bool => $item->ibu_id == $agt->id || $item->anak_id == $agt->id);
+            $ref_ktp_el                 = StatusRekamEnum::all();
+            if ($is_ibu_anak_punya_data_kia->count() > 0 || $agt->ktp_el == $ref_ktp_el['kia']) {
+                $total += 2;
+            }
+            if ($agt->ktp_el == $ref_ktp_el['ktp-el']) {
+                $total += 4;
+            }
+            $dtks_anggota->kd_punya_kartuid = $total; // 411
         }
-        $is_ibu_anak_punya_data_kia = $ref_eloquent_collection['kia']->filter(static fn ($item): bool => $item->ibu_id == $agt->id || $item->anak_id == $agt->id);
-        $ref_ktp_el                 = StatusRekamEnum::all();
-        if ($is_ibu_anak_punya_data_kia->count() > 0 || $agt->ktp_el == $ref_ktp_el['kia']) {
-            $total += 2;
-        }
-        if ($agt->ktp_el == $ref_ktp_el['ktp-el']) {
-            $total += 4;
-        }
-        $dtks_anggota->kd_punya_kartuid = $total; // 411
 
         return $dtks_anggota;
     }
@@ -720,6 +732,7 @@ class DTKSRegsosEk2022k
             // ambil semua bantuan anggota ini
             $semua_kepesertaan_anggota_ini = BantuanPeserta::where('peserta', $agt->nik)
                 ->whereIn('program_id', $pengaturan_programs->pluck('id_bantuan'))
+                ->with('bantuan')
                 ->get();
 
             //1. PBI/JKN, 2. JKN Mandiri, 4. JKN Pemberi Kerja, 8. Jamkes lainnya
@@ -735,27 +748,31 @@ class DTKSRegsosEk2022k
                 $kepesertaan_anggota_ini = $semua_kepesertaan_anggota_ini->where('program_id', $item->id_bantuan)->first();
                 $target_field            = static::relasiPengaturanProgram()[$item->kode][1];
                 $fields                  = explode(',', $target_field);
-                $tgl_sekarang            = Carbon::now();
-                $akhir_program           = Carbon::parse($kepesertaan_anggota_ini->bantuan->edate);
-                $kepesertaannya          = $akhir_program->floatDiffInYears($tgl_sekarang);
+                $is_peserta              = false;
+
+                if ($kepesertaan_anggota_ini && $kepesertaan_anggota_ini->bantuan && $kepesertaan_anggota_ini->bantuan->edate) {
+                    $tgl_sekarang   = Carbon::now();
+                    $akhir_program  = Carbon::parse($kepesertaan_anggota_ini->bantuan->edate);
+                    $kepesertaannya = $akhir_program->floatDiffInYears($tgl_sekarang);
+
+                    if ($kepesertaannya <= 1) {
+                        $is_peserta = true;
+                    }
+                }
 
                 // jika memiliki kepesertaan dan mendapatkan program kurang dari satu tahun lalu
-                if ($kepesertaan_anggota_ini && $kepesertaannya <= 1) {
+                if ($is_peserta) {
                     if (in_array($item->kode, array_keys($nilai_jaminan_kesehatan))) {
-                        $to_be_updated[$fields[0]] += $to_be_updated[$fields[0]]
-                            ? $nilai_jaminan_kesehatan[$item->kode]
-                            : $nilai_jaminan_kesehatan[$item->kode];
+                        $to_be_updated[$fields[0]] = ($to_be_updated[$fields[0]] ?? 0) + (int) $nilai_jaminan_kesehatan[$item->kode];
                     } elseif (in_array($item->kode, array_keys($nilai_jaminan_ketenagakerjaan))) {
-                        $to_be_updated[$fields[0]] += $to_be_updated[$fields[0]]
-                            ? $nilai_jaminan_ketenagakerjaan[$item->kode]
-                            : $nilai_jaminan_ketenagakerjaan[$item->kode];
+                        $to_be_updated[$fields[0]] = ($to_be_updated[$fields[0]] ?? 0) + (int) $nilai_jaminan_ketenagakerjaan[$item->kode];
                     } else {
                         $to_be_updated[$fields[0]] = 1;
                     }
                 } else {
-                    $default_program = $pengaturan_program_default[$fields[0]];
+                    $default_program = $pengaturan_program_default[$fields[0]] ?? null;
                     // jangan ubah, agar bisa di sesuaikan manual
-                    if ($default_program->nilai_default !== null) {
+                    if (! isset($to_be_updated[$fields[0]]) && $default_program && $default_program->nilai_default !== null) {
                         $to_be_updated[$fields[0]] = $default_program->nilai_default;
                     }
                 }
@@ -769,7 +786,7 @@ class DTKSRegsosEk2022k
                 $dtks_anggota->{$key} = $item;
             }
             // lakukan update
-            if ($is_dirty) {
+            if ($is_dirty && $dtks_anggota->id) {
                 DtksAnggota::where('id', $dtks_anggota->id)->update($to_be_updated);
             }
         }
@@ -788,7 +805,7 @@ class DTKSRegsosEk2022k
             // hanya 1 per keluarga atau bisa lebih
 
             // ambil semua kepesertaan keluarga ini
-            $kepesertaan_keluarga_ini = BantuanPeserta::where('peserta', $dtks->kepala_keluarga->keluarga->no_kk)
+            $kepesertaan_keluarga_ini = BantuanPeserta::where('peserta', $dtks->kepala_keluarga?->keluarga?->no_kk)
                 ->whereIn('program_id', $pengaturan_programs->pluck('id_bantuan'))
                 ->with('bantuan')
                 ->get();
@@ -796,13 +813,22 @@ class DTKSRegsosEk2022k
             $to_be_updated = [];
 
             foreach ($kepesertaan_keluarga_ini as $item) {
-                $bantuan        = $item->bantuan->where('id', $item->program_id)->first();
+                $bantuan = $item->bantuan;
+                if (! $bantuan || ! $bantuan->edate) {
+                    continue;
+                }
+
                 $tgl_sekarang   = Carbon::now();
                 $akhir_program  = Carbon::parse($bantuan->edate);
                 $kepesertaannya = $akhir_program->floatDiffInYears($tgl_sekarang);
 
                 // cek kode relasi
-                $kode         = $pengaturan_programs->where('id_bantuan', $item->program_id)->first()->kode; //501a ... e
+                $pengaturan_program = $pengaturan_programs->where('id_bantuan', $item->program_id)->first();
+                if (! $pengaturan_program || ! isset(static::relasiPengaturanProgram()[$pengaturan_program->kode])) {
+                    continue;
+                }
+
+                $kode         = $pengaturan_program->kode; //501a ... e
                 $target_field = static::relasiPengaturanProgram()[$kode][1];
                 $fields       = explode(',', $target_field);
 
@@ -826,6 +852,10 @@ class DTKSRegsosEk2022k
             $bukan_peserta_program = $pengaturan_programs->whereNotIn('id_bantuan', $kepesertaan_keluarga_ini->pluck('program_id'));
 
             foreach ($bukan_peserta_program as $item) {
+                if (! isset(static::relasiPengaturanProgram()[$item->kode])) {
+                    continue;
+                }
+
                 $target_field = static::relasiPengaturanProgram()[$item->kode][1];
                 $fields       = explode(',', $target_field);
 
@@ -836,7 +866,7 @@ class DTKSRegsosEk2022k
                 }
             }
             // lakukan update
-            if ($to_be_updated !== []) {
+            if ($to_be_updated !== [] && $dtks->id) {
                 Dtks::where('id', $dtks->id)->update($to_be_updated);
             }
         }
@@ -1002,6 +1032,7 @@ class DTKSRegsosEk2022k
                 $html2pdf->output($path, $preview ? 'FI' : 'F');
             } catch (Html2PdfException $e) {
                 $html2pdf->clean();
+                $formatter = new ExceptionFormatter($e);
                 log_message('error', $formatter->getHtmlMessage());
             }
         }

@@ -17,13 +17,6 @@ use Tests\BaseTestCase;
  */
 class ModuleMakeCommandTest extends BaseTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        // Beberapa code path saat menjalankan command membaca $_SERVER['PHP_SELF'].
-        $_SERVER['PHP_SELF'] ??= $_SERVER['argv'][0] ?? 'artisan';
-    }
-
     #[Test]
     public function command_resolvable_dan_punya_signature(): void
     {

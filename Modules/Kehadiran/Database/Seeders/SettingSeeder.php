@@ -61,7 +61,8 @@ class SettingSeeder extends Seeder
                 'key'        => 'tampilkan_kehadiran',
                 'value'      => StatusEnum::YA,
                 'keterangan' => 'Aktif / Non-aktifkan Halaman Website Kehadiran',
-                'jenis'      => 'select-boolean',
+                'jenis'      => 'select-array',
+                'option'     => json_encode(StatusEnum::all()),
                 'attribute'  => json_encode([
                     'class' => 'required',
                 ]),
@@ -97,6 +98,9 @@ class SettingSeeder extends Seeder
                 'value'      => null,
                 'keterangan' => 'Latar Kehadiran',
                 'jenis'      => 'unggah',
+                'attribute'  => json_encode([
+                    'preview_url' => url('kehadiran/latar-kehadiran'),
+                ]),
                 'kategori'   => 'Kehadiran',
             ],
             [
@@ -146,7 +150,8 @@ class SettingSeeder extends Seeder
                 'key'        => 'tampilkan_status_kehadiran_pada_hari_libur',
                 'value'      => StatusEnum::YA,
                 'keterangan' => 'Jika diaktifkan, status kehadiran perangkat desa akan tetap muncul di hari libur.',
-                'jenis'      => 'select-boolean',
+                'jenis'      => 'select-array',
+                'option'     => json_encode(StatusEnum::all()),
                 'attribute'  => json_encode([
                     'class' => 'required',
                 ]),
@@ -157,7 +162,8 @@ class SettingSeeder extends Seeder
                 'key'        => 'ikuti_hari_libur_terdaftar',
                 'value'      => StatusEnum::TIDAK,
                 'keterangan' => 'Jika diaktifkan, jam kerja akan otomatis berubah menjadi "Libur" ketika bertepatan dengan hari libur terdaftar.',
-                'jenis'      => 'select-boolean',
+                'jenis'      => 'select-array',
+                'option'     => json_encode(StatusEnum::all()),
                 'attribute'  => json_encode([
                     'class' => 'required',
                 ]),

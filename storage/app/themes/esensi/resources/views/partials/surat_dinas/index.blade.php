@@ -37,7 +37,7 @@
                       <h5><b>Surat tidak ditemukan dalam sistem.</b></h5>
                     </div>`
         document.getElementById('message').innerHTML = _html
-        fetch("{{ route('api.verifikasi-surat-dinas') }}?filter[id]={{ $id }}", {
+        fetch("{{ route('api.verifikasi-surat-dinas', ['id' => $id]) }}", {
             method: 'POST',
         }).then(response => {
             if (response.ok) {

@@ -3,7 +3,7 @@
 <!-- Cara pengisian bisa dilihat di : https://sipenduduk.pekanbaru.go.id/Formulir-F1-01.pdf -->
 
 <style type="text/css">
-    <?php include FCPATH . '/assets/css/dukcapil.css'; ?>
+    <?php include PUBLICPATH . '/assets/css/dukcapil.css'; ?>
 </style>
 
 <page orientation="landscape" format="A3" style="font-size: 8pt">

@@ -64,9 +64,15 @@ trait LoginRequest
     /**
      * Attempt to authenticate the request's credentials.
      *
+     * @param mixed         $extra              Kredensial tambahan untuk attempt.
+     * @param callable|null $afterAuthenticated Callback setelah autentikasi berhasil,
+     *                                          menerima user yang terautentikasi.
+     *                                          ValidationException dari callback ditangani
+     *                                          seperti kegagalan autentikasi.
+     *
      * @throws ValidationException
      */
-    protected function authenticate(mixed $extra = [])
+    protected function authenticate(mixed $extra = [], ?callable $afterAuthenticated = null)
     {
         $this->ensureIsNotRateLimited();
 
@@ -86,6 +92,14 @@ trait LoginRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        if ($afterAuthenticated) {
+            try {
+                return $afterAuthenticated(Auth::guard($this->guard)->user());
+            } catch (ValidationException $e) {
+                return $this->invalid($request, $e);
+            }
+        }
 
         return null;
     }

@@ -51,8 +51,14 @@ class Notif extends Admin_Controller
         $non_aktifkan = $this->input->post('non_aktifkan');
 
         // update tabel notifikasi
-        $notif            = Notifikasi::where('kode', $kode)->first()->toArray();
-        $frekuensi        = $notif['frekuensi'];
+        $notif = Notifikasi::where('kode', $kode)->first();
+
+        if (! $notif) {
+            redirect_with('error', 'Data pengumuman tidak ditemukan', ci_route('notif'));
+        }
+
+        $notif      = $notif->toArray();
+        $frekuensi  = $notif['frekuensi'];
         $string_frekuensi = '+' . $frekuensi . ' Days';
         $tambah_hari      = strtotime($string_frekuensi); // tgl hari ini ditambah frekuensi
         $data             = [

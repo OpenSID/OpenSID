@@ -64,11 +64,9 @@ class Gallery extends Admin_Controller
     {
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
-            'parent'         => strlen($parent) > 20 ? decrypt($parent) : $parent,
-            'originalParent' => $parent,
+            'parent' => $parent,
         ];
-        $data['parentEncrypt'] = encrypt($data['parent']);
-        $data['subtitle']      = $data['parent'] > 0 ? strtoupper(Galery::find($data['parent'])->nama ?? '') : '';
+        $data['subtitle'] = $data['parent'] > 0 ? strtoupper(Galery::find($data['parent'])->nama ?? '') : '';
         view('admin.web.gallery.index', $data);
     }
 
@@ -91,20 +89,20 @@ class Gallery extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($parent, $canUpdate): string {
                     $aksi      = '';
                     $judul     = $parent > 0 ? 'Subgaleri' : 'Galeri';
-                    $idEncrypt = encrypt($row->id);
+                    $id = $row->id;
                     if ($parent == 0) {
                         $aksi .= View::make('admin.layouts.components.tombol_detail', [
-                            'url'   => ci_route('gallery.index') . '?parent=' . $idEncrypt,
+                            'url'   => ci_route('gallery.index') . '?parent=' . $id,
                             'label' => $judul,
                         ])->render();
                     }
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url' => 'gallery/form/' . implode('/', [$row->parent->id ?? $parent, $idEncrypt]),
+                        'url' => 'gallery/form/' . implode('/', [$row->parent->id ?? $parent, $id]),
                     ])->render();
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                         'url' => ci_route('gallery.lock', implode('/', [
                             $row->parent->id ?? $parent,
-                            $idEncrypt,
+                            $id,
                         ])),
                         'active' => $row->isActive(),
                     ])->render();
@@ -113,7 +111,7 @@ class Gallery extends Admin_Controller
                             $aksi .= View::make('admin.layouts.components.buttons.btn', [
                                 'url' => ci_route('gallery.slider', implode('/', [
                                     $row->parent->id ?? $parent,
-                                    $idEncrypt,
+                                    $id,
                                 ])),
                                 'icon'       => $row->isSlider() ? 'fa fa-play' : 'fa fa-eject',
                                 'judul'      => $row->isSlider() ? 'Keluarkan Dari Slider' : 'Tampilkan Di Slider',
@@ -125,7 +123,7 @@ class Gallery extends Admin_Controller
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                         'url' => ci_route('gallery.delete', implode('/', [
                             $row->parent->id ?? $parent,
-                            $idEncrypt,
+                            $id,
                         ])),
                         'confirmDelete' => true,
                     ])->render();
@@ -171,7 +169,6 @@ class Gallery extends Admin_Controller
         if ($id) {
             $action              = ci_route("gallery.update.{$parent}.{$id}");
             $data['parent']      = $parent;
-            $id                  = decrypt($id);
             $gallery             = Galery::findOrFail($id)->toArray();
             $data['gallery']     = $gallery;
             $data['form_action'] = $action;
@@ -192,13 +189,12 @@ class Gallery extends Admin_Controller
         if (! $data) {
             redirect_with('error', $_SESSION['error_msg'], ci_route('gallery.index') . '?parent=' . $parent);
         }
-        $rawParent       = decrypt($parent);
-        $data['parrent'] = $rawParent;
+        $data['parrent'] = $parent;
         $data['enabled'] = 1;
         if ($this->session->grup == 4) {
             $data['enabled'] = 0;
         }
-        $data['tipe'] = $rawParent == 0 ? 1 : 2;
+        $data['tipe'] = $parent == 0 ? 1 : 2;
 
         try {
             Galery::create($data);
@@ -218,7 +214,6 @@ class Gallery extends Admin_Controller
         }
 
         try {
-            $id  = decrypt($id);
             $obj = Galery::findOrFail($id);
             // tipe file
             if ($data['jenis'] == 1) {
@@ -237,9 +232,6 @@ class Gallery extends Admin_Controller
     public function delete($parent, $id = null): void
     {
         isCan('h');
-        if ($id) {
-            $id = decrypt($id);
-        }
         if (Galery::whereIn('id', $this->request['id_cb'] ?? [$id] )->whereHas('children')->count()) {
             redirect_with('error', __('notification.deleted.error') . ', karena masih memiliki subgaleri');
         }
@@ -258,7 +250,6 @@ class Gallery extends Admin_Controller
         isCan('h');
 
         try {
-            $id      = decrypt($id);
             $gallery = Galery::find($id);
             if ($gallery->isSlider() && $gallery->isActive()) {
                 redirect_with('error', __('notification.status.error') . ', karena diatur sebagai slider', ci_route('gallery.index') . '?parent=' . $parent);
@@ -276,7 +267,6 @@ class Gallery extends Admin_Controller
         isCan('h');
 
         try {
-            $id = decrypt($id);
             if (Galery::where('parrent', $id)->doesntExist()) {
                 redirect_with('error', 'Tidak data pada album tersebut, silahkan tambahkan data terlebih dahulu', ci_route('gallery.index') . '?parent=' . $parent);
             }

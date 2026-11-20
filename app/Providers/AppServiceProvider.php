@@ -99,12 +99,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->ensureFileManagerAssetsPublished();
         $this->registerMissingNamedRoutes();
         $this->registerCoreViews();
         $this->registerMacros();
 
         // mapping butuh DB connection, jadi aman dipanggil di boot
         $this->registerDoctrineTypeMappings();
+    }
+
+    /**
+     * Pastikan aset filemanager (bekas RFM) sudah dipublikasikan.
+     *
+     * Jaring pengaman untuk lingkungan yang tidak menjalankan migrasi
+     * (mis. `artisan serve` di mesin dev): Action-nya sendiri murah — hanya
+     * dua cek is_file() — dan baru memicu vendor:publish bila aset hilang.
+     * Alur pembaruan normal menerbitkannya lewat Migrasi_required.
+     */
+    protected function ensureFileManagerAssetsPublished(): void
+    {
+        app(\App\Actions\FileManager\PublishFilemanagerAsset::class)->handle();
     }
 
     private function registerDoctrineTypes(): void

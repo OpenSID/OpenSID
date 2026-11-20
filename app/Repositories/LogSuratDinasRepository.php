@@ -38,18 +38,27 @@
 namespace App\Repositories;
 
 use App\Models\LogSuratDinas;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class LogSuratDinasRepository
 {
-    public function list()
+    
+    /**
+     * Ambil SATU surat dinas untuk keperluan verifikasi publik.
+     *
+     * Endpoint verifikasi surat dinas WAJIB menyertakan id surat spesifik. Sebelumnya
+     * method ini (list()) bisa dipakai menyusun indeks lengkap seluruh surat dinas desa
+     * (nomor, perihal, pamong, tanggal) tanpa auth ketika dipanggil tanpa filter id.
+     * Sekarang: id wajib, hasil maksimal 1 record, dan hanya surat yang sudah
+     * terbit/dicetak (bukan konsep/ditolak). Tanpa paginasi karena datanya otomatis
+     * paling banyak 1. Lihat issue #7002.
+     *
+     * @param int|string|null $id
+     */
+    public function detail($id)
     {
-        return QueryBuilder::for(LogSuratDinas::query())
-            ->allowedFields(...['id', 'tanggal'])
-            ->allowedFilters(...[
-                AllowedFilter::exact('id'),
-            ])
-            ->allowedSorts(...['tanggal', 'bulan', 'tahun'])->jsonPaginate();
+        return LogSuratDinas::query()
+            ->where('status', LogSuratDinas::CETAK)
+            ->where('id', is_numeric($id) ? (int) $id : 0)
+            ->get();
     }
 }

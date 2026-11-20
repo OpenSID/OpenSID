@@ -105,7 +105,7 @@ class AnalisisRespon extends BaseModel
             }
         }
 
-        //CEK ada input
+        // CEK ada input
         if ($ir != 0 || $ic != 0 || $ia != 0 || $it != 0) {
             self::where('id_subjek', $id)->where('id_periode', $idPeriode)->delete();
             if (! empty($postData['rb'])) {
@@ -507,14 +507,18 @@ class AnalisisRespon extends BaseModel
         $list_isi = explode(',', $isi);
 
         foreach ($list_isi as $isi_ini) {
+            $isi_ini = trim($isi_ini);
             if ($indi['is_teks'] == 1) {
                 // Isian sebagai teks pilihan bukan kode
                 $teks  = strtolower($isi_ini);
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()?->toArray();
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])
+                    ->whereRaw('LOWER(jawaban) = ?', [$teks])
+                    ->first()
+                    ?->toArray();
             } else {
                 $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()?->toArray();
             }
-            if ($param['id'] != '') {
+            if (! empty($param['id'])) {
                 $in_param = $param['id'];
                 $respon[] = [
                     'id_parameter' => $in_param,

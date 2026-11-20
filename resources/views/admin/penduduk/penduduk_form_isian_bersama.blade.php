@@ -444,7 +444,7 @@
             @endif
         </div>
     </div>
-    <div class='col-sm-4'> 
+    <div class='col-sm-4'>
         <div class='form-group'>
             <label for="etnis">Suku/Etnis</label>
             @if ($status_pantau)
@@ -598,8 +598,8 @@
     <!-- <div class='col-sm-12'>
         <div class='form-group'>
             <label for="alamat">Alamat KK </label>
-            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk required" 
-                maxlength="200" type="text" placeholder="Alamat di Kartu Keluarga" 
+            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk required"
+                maxlength="200" type="text" placeholder="Alamat di Kartu Keluarga"
                 value="{{ $penduduk['alamat'] }}">
         </div>
     </div> -->
@@ -946,7 +946,7 @@
                         <input name="meninggal_di" class="form-control input-sm" type="text" maxlength="50" placeholder="Tempat Meninggal">
                     </div>
                 </div>
-        
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="jam_mati">Jam Kematian</label>
@@ -958,7 +958,7 @@
                         </div>
                     </div>
                 </div>
-        
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="sebab">Penyebab Kematian</label>
@@ -983,14 +983,14 @@
                         </select>
                     </div>
                 </div>
-        
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="akta_mati">Nomor Akta Kematian</label>
                         <input name="akta_mati" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor Akta Kematian">
                     </div>
                 </div>
-        
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="akta_mati_file">File Akta Kematian : <code>(.jpg, .jpeg, .png, .pdf)</code></label>
@@ -1017,7 +1017,7 @@
                         </div>
                     </div>
                 </div>
-        
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="tgl_lapor">Tanggal Lapor</label>
@@ -1029,14 +1029,14 @@
                         </div>
                     </div>
                 </div>
-        
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="catatan">Catatan Peristiwa</label>
                         <textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" rows="5"></textarea>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     @endif
 </div>
@@ -1267,22 +1267,22 @@
                                 uniqueResults.sort((a, b) => {
                                     let aText = a.text.toLowerCase();
                                     let bText = b.text.toLowerCase();
-                                    
+
                                     // exact match prioritas tertinggi
                                     let aExact = aText === term ? 0 : 1;
                                     let bExact = bText === term ? 0 : 1;
                                     if (aExact !== bExact) return aExact - bExact;
-                                    
+
                                     // starts with prioritas kedua
                                     let aStarts = aText.startsWith(term) ? 0 : 1;
                                     let bStarts = bText.startsWith(term) ? 0 : 1;
                                     if (aStarts !== bStarts) return aStarts - bStarts;
-                                    
+
                                     // contains prioritas ketiga
                                     let aContains = aText.includes(term) ? 0 : 1;
                                     let bContains = bText.includes(term) ? 0 : 1;
                                     if (aContains !== bContains) return aContains - bContains;
-                                    
+
                                     // alfabetis
                                     return aText.localeCompare(bText);
                                 });
@@ -1324,14 +1324,14 @@
                 function highlightFirstMarga() {
                     let $allOptions = $('.select2-results__option[role="option"]');
                     $allOptions.removeClass('select2-results__option--highlighted');
-                    
+
                     let $firstOption = $allOptions.not('[aria-live]').not('.loading-results').first();
-                    
+
                     if ($firstOption.length) {
                         $firstOption.addClass('select2-results__option--highlighted');
                         $allOptions.attr('aria-selected', 'false');
                         $firstOption.attr('aria-selected', 'true');
-                        
+
                         let $resultsContainer = $('.select2-results__options');
                         if ($resultsContainer.length) {
                             $resultsContainer.scrollTop(
@@ -1522,20 +1522,20 @@
         $('#mainform #dusun').change(function() {
             let selectedDusun = $(this).find('option:selected').val();
             let $rwSelect = $('#mainform #rw');
-            
+
             // Reset RW selection
             $rwSelect.val('');
-            
+
             // Disable semua optgroup RW terlebih dahulu
             $rwSelect.find('optgroup').prop('disabled', true);
-            
+
             if (selectedDusun) {
                 $('#mainform #rw').closest('div').show();
-                
+
                 // Enable optgroup yang sesuai dengan dusun terpilih
                 let $activeOptgroup = $rwSelect.find(`optgroup[value="${selectedDusun}"]`);
                 $activeOptgroup.prop('disabled', false);
-                
+
                 // PINDAHKAN optgroup yang aktif ke posisi setelah option "Pilih RW"
                 // Cari option pertama (yang value="")
                 let $firstOption = $rwSelect.find('option:first');
@@ -1543,7 +1543,7 @@
             } else {
                 $('#mainform #rw').closest('div').hide();
             }
-            
+
             // Trigger change untuk update RT
             $rwSelect.trigger('change');
         });
@@ -1552,39 +1552,39 @@
         $('#mainform #rw').change(function() {
             let selectedValue = $(this).find('option:selected').val();
             let $rtSelect = $('#mainform #id_cluster');
-            
+
             // Reset RT selection
             $rtSelect.val('');
-            
+
             // Disable semua optgroup RT terlebih dahulu
             $rtSelect.find('optgroup').prop('disabled', true);
-            
+
             if (selectedValue) {
                 $('#mainform #id_cluster').closest('div').show();
-                
+
                 // Enable optgroup yang sesuai dengan RW terpilih
                 let $activeOptgroup = $rtSelect.find(`optgroup[value="${selectedValue}"]`);
                 $activeOptgroup.prop('disabled', false);
-                
+
                 // DEBUGGING: Log untuk memastikan element ditemukan
                 console.log('Selected RW:', selectedValue);
                 console.log('Active optgroup found:', $activeOptgroup.length);
                 console.log('Active optgroup label:', $activeOptgroup.attr('label'));
-                
+
                 // PINDAHKAN optgroup yang aktif ke posisi setelah option "Pilih RT"
                 // Gunakan children() untuk hanya ambil direct child, bukan nested
                 let $selectChildren = $rtSelect.children();
                 let $firstOption = $selectChildren.filter('option[value=""]').first();
-                
+
                 console.log('First option found:', $firstOption.length);
                 console.log('First option text:', $firstOption.text());
-                
+
                 if ($firstOption.length > 0 && $activeOptgroup.length > 0) {
                     // Detach dulu untuk menghindari clone
                     $activeOptgroup.detach();
                     // Insert setelah option pertama
                     $firstOption.after($activeOptgroup);
-                    
+
                     console.log('Optgroup moved after first option');
                 } else {
                     console.warn('Cannot move optgroup - first option or active optgroup not found');
@@ -1592,7 +1592,7 @@
             } else {
                 $('#mainform #id_cluster').closest('div').hide();
             }
-            
+
             // Trigger change untuk update display
             $rtSelect.trigger('change');
         });
@@ -1635,7 +1635,7 @@
 
             (jenis_peristiwa != 1 && sex == '{{ \App\Enums\JenisKelaminEnum::PEREMPUAN }}') ? $("#isian_hamil").show(): $("#isian_hamil").hide();
 
-            if (old_foto == '') {
+            if (old_foto == '' || old_foto == 'kuser.png' || old_foto == 'wuser.png') {
                 $('#foto').attr("src", AmbilFoto(old_foto, 'kecil_', sex))
             }
         };
@@ -1665,11 +1665,11 @@
         function AmbilFoto(foto, ukuran = "kecil_", sex) {
             //Jika penduduk ada foto, maka pakai foto tersebut
             //Jika tidak, pakai foto default
-            if (foto) {
+            if (foto && foto !== 'kuser.png' && foto !== 'wuser.png') {
                 ukuran_foto = ukuran || null
-                file_foto = '{{ LOKASI_USER_PICT }}' + ukuran_foto + foto;
+                file_foto = '{{ base_url(LOKASI_USER_PICT) }}' + (ukuran_foto || '') + foto;
             } else {
-                file_foto = sex == '2' ? '{{ FOTO_DEFAULT_WANITA }}' : '{{ FOTO_DEFAULT_PRIA }}';
+                file_foto = sex == '2' ? '{{ base_url(FOTO_DEFAULT_WANITA) }}' : '{{ base_url(FOTO_DEFAULT_PRIA) }}';
             }
 
             return file_foto;
@@ -1760,7 +1760,7 @@
             var data_ayah_nama = @json($data_ayah['nama'] ?? '');
             var data_ibu_nik = @json($data_ibu['nik'] ?? '');
             var data_ibu_nama = @json($data_ibu['nama'] ?? '');
-            
+
             // Untuk bayi baru lahir
             if (jenis_peristiwa == 1) {
                 // Jika SHDK adalah Anak (kk_level == 4), ambil data Kepala Keluarga dan Istri

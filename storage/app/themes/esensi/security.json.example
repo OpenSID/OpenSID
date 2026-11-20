@@ -1,0 +1,15 @@
+{
+    "_catatan": [
+        "Contoh konfigurasi security tema. Salin menjadi 'security.json' (tanpa .example) di folder tema.",
+        "Tema HANYA perlu menuliskan sumber TAMBAHAN; nilainya digabung (union) dengan config bawaan OpenSID.",
+        "Tidak perlu menulis 'self' atau mengulang domain yang sudah ada di config/security.php.",
+        "Hanya fetch-directive yang dapat diperluas: script-src, script-src-elem, style-src, style-src-elem,",
+        "img-src, font-src, connect-src, media-src, frame-src, child-src, worker-src, manifest-src, prefetch-src.",
+        "Direktif seperti default-src, frame-ancestors, base-uri, form-action, object-src, dan sandbox diabaikan",
+        "(dicatat di log) karena menentukan batas keamanan dokumen dan tidak boleh dilonggarkan oleh tema.",
+        "Header selain CSP yang sudah diatur config bawaan juga diabaikan; header baru tetap dapat ditambahkan.",
+        "Hapus key _catatan ini pada file security.json milik tema."
+    ],
+    "Content-Security-Policy": "script-src https://cdn.contoh-tema.com; style-src https://cdn.contoh-tema.com; font-src https://cdn.contoh-tema.com; img-src https://cdn.contoh-tema.com; connect-src https://api.contoh-tema.com; frame-src https://www.youtube-nocookie.com; manifest-src data:",
+    "Content-Security-Policy-Report-Only": "script-src https://cdn.contoh-tema.com; style-src https://cdn.contoh-tema.com"
+}

@@ -34,11 +34,9 @@ class MY_Input extends CI_Input
     {
         $this->request = $request;
 
-        if (method_exists($request, 'overrideGlobals')) {
-            $request->overrideGlobals();
-        }
+        $this->overrideGlobals($request);
 
-        if ($this->_enable_csrf === true && ! is_cli()) {
+        if ($this->_enable_csrf === true && ! is_cli() && ENVIRONMENT !== 'testing') {
             $this->security->csrf_verify();
         }
 

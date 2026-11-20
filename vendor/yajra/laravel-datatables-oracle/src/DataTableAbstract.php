@@ -104,6 +104,13 @@ abstract class DataTableAbstract implements DataTable
     protected $orderCallback = null;
 
     /**
+     * Callback to run against each row before it gets processed.
+     *
+     * @var callable|null
+     */
+    protected $processCallback = null;
+
+    /**
      * Skip pagination as needed.
      */
     protected bool $skipPaging = false;
@@ -462,6 +469,21 @@ abstract class DataTableAbstract implements DataTable
     public function order(callable $closure): static
     {
         $this->orderCallback = $closure;
+
+        return $this;
+    }
+
+    /**
+     * Process each row with the given callback before it gets converted to array.
+     *
+     * The row instance is passed to the callback so it can be mutated before
+     * being processed, e.g. setting a relation to avoid an n+1 query.
+     *
+     * @return $this
+     */
+    public function processWith(callable $callback): static
+    {
+        $this->processCallback = $callback;
 
         return $this;
     }
@@ -841,6 +863,10 @@ abstract class DataTableAbstract implements DataTable
             $this->request->start()
         );
 
+        if ($this->processCallback) {
+            $processor->processWith($this->processCallback);
+        }
+
         return $processor->process($object);
     }
 
@@ -1014,6 +1040,21 @@ abstract class DataTableAbstract implements DataTable
     public function minSearchLength(int $length): static
     {
         $this->minSearchLength = $length;
+
+        return $this;
+    }
+
+    /**
+     * Ignore the maximum length configured via datatables.max_length.
+     *
+     * Use it when all the records are needed no matter the configured
+     * maximum, e.g. when exporting every filtered record.
+     *
+     * @return $this
+     */
+    public function ignoreMaxLength(): static
+    {
+        $this->request->ignoreMaxLength();
 
         return $this;
     }

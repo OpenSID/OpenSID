@@ -1,9 +1,45 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 namespace App\Providers;
 
 use App\Events\CallingController;
 use App\Events\ControllerCalled;
+use Error;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Contracts\View\Factory as ViewFactoryContract;
@@ -33,9 +69,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
-        });
+        RateLimiter::for('api', static fn (Request $request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
+
+        // Batasi percobaan POST /admin/sso-login per-IP agar tidak membanjiri
+        // worker (Http::timeout ke OpenKab) maupun tabel opensid_sso_logs.
+        RateLimiter::for('sso-login', static fn (Request $request) => Limit::perMinute(10)->by($request->ip()));
 
         $this->routes(function () {
             $this->app->rebinding('request', function ($app, $request) {
@@ -72,7 +110,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function isMatchedRouteLaravel(Request $request): bool
     {
-        return rescue(fn () => (bool) Route::getRoutes()->match($request), false);
+        return rescue(static fn () => (bool) Route::getRoutes()->match($request), false);
     }
 
     /**
@@ -88,10 +126,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function extendControllerDispatcher()
     {
-        $this->app->singleton(\Illuminate\Routing\Contracts\ControllerDispatcher::class, function ($app) {
-            return new class($app) extends \Illuminate\Routing\ControllerDispatcher {
+        $this->app->singleton(\Illuminate\Routing\Contracts\ControllerDispatcher::class, static function ($app) {
+            return new class ($app) extends \Illuminate\Routing\ControllerDispatcher {
                 /**
                  * Dispatch a request to a given controller and method.
+                 *
+                 * @param mixed $controller
+                 * @param mixed $method
                  */
                 public function dispatch(\Illuminate\Routing\Route $route, $controller, $method)
                 {
@@ -106,7 +147,7 @@ class RouteServiceProvider extends ServiceProvider
                     ob_start();
 
                     try {
-                        $response = (function () use ($controller, $method, $parameters) {
+                        $response = (static function () use ($controller, $method, $parameters) {
                             if (method_exists($controller, 'callAction')) {
                                 return $controller->callAction($method, $parameters);
                             }
@@ -140,8 +181,9 @@ class RouteServiceProvider extends ServiceProvider
                 protected function buildResponseFromBuffer(string $buffered): \Illuminate\Http\Response
                 {
                     $headers = [];
+
                     foreach (headers_list() as $header) {
-                        [$key, $value] = explode(':', $header, 2);
+                        [$key, $value]       = explode(':', $header, 2);
                         $headers[trim($key)] = trim($value);
                     }
 
@@ -174,7 +216,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function extendRedirectInstance()
     {
         $this->app->extend('redirect', function () {
-            $redirector = new class($this->app['url']) extends Redirector {
+            $redirector = new class ($this->app['url']) extends Redirector {
                 /**
                  * {@inheritDoc}
                  */
@@ -182,7 +224,7 @@ class RouteServiceProvider extends ServiceProvider
                 {
                     if ($status === 'refresh') {
                         $headers['Refresh'] = "0; url='{$path}'";
-                        $status = 302;
+                        $status             = 302;
                     }
 
                     $redirect = new RedirectResponse($path, $status, $headers);
@@ -193,7 +235,7 @@ class RouteServiceProvider extends ServiceProvider
 
                     $redirect->setRequest($this->generator->getRequest());
 
-                    throw new class ($redirect) extends \Error implements Responsable {
+                    throw new class ($redirect) extends Error implements Responsable {
                         public function __construct(private RedirectResponse $response)
                         {
                             parent::__construct('Redirect');
@@ -228,8 +270,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function extendViewInstance()
     {
-        $this->app->extend('view', function ($factory, $app) {
-            return new class($factory->getEngineResolver(), $factory->getFinder(), $app['events']) extends Factory {
+        $this->app->extend('view', static function ($factory, $app) {
+            return new class ($factory->getEngineResolver(), $factory->getFinder(), $app['events']) extends Factory {
                 protected null|ViewContract|ViewFactoryContract $pendingView = null;
 
                 public function getPendingView()
@@ -246,7 +288,7 @@ class RouteServiceProvider extends ServiceProvider
 
                 public function make($view, $data = [], $mergeData = [])
                 {
-                    $viewInstance = parent::make($view, $data, $mergeData);
+                    $viewInstance      = parent::make($view, $data, $mergeData);
                     $this->pendingView = $viewInstance;
 
                     return $viewInstance;
@@ -260,7 +302,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureConfig()
     {
-        Event::listen(CallingController::class, function (CallingController $event) {
+        Event::listen(CallingController::class, static function (CallingController $event) {
             $setting = $event->controller->setting ?? null;
 
             if (! $setting) {
@@ -271,13 +313,13 @@ class RouteServiceProvider extends ServiceProvider
             if (! empty($setting->email_smtp_host)) {
                 $protocol = $setting->email_protocol ?: 'smtp';
                 config([
-                    'mail.default' => $protocol,
+                    'mail.default'             => $protocol,
                     "mail.mailers.{$protocol}" => [
-                        'transport'    => $protocol,
-                        'host'         => $setting->email_smtp_host,
-                        'port'         => $setting->email_smtp_port,
-                        'username'     => $setting->email_smtp_user,
-                        'password'     => $setting->email_smtp_pass,
+                        'transport' => $protocol,
+                        'host'      => $setting->email_smtp_host,
+                        'port'      => $setting->email_smtp_port,
+                        'username'  => $setting->email_smtp_user,
+                        'password'  => $setting->email_smtp_pass,
                     ],
                 ]);
             }

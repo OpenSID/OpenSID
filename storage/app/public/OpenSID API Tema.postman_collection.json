@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "9af04ef5-4066-4bef-a27d-64213396f7f3",
     "name": "OpenSID API Tema",
-    "description": "# 📄 Deskripsi API OpenSID Tema\n\nAPI OpenSID Tema adalah antarmuka yang memungkinkan pengembang untuk mengakses berbagai data dan modul yang ada dalam sistem informasi desa (OpenSID). API ini mengikuti **spesifikasi JSON:API** untuk memastikan format data yang konsisten dan mudah digunakan.\n\nAPI OpenSID Tema menyediakan berbagai endpoint untuk mengambil data statistik, informasi desa, dan modul lainnya yang terkait dengan administrasi desa. Dengan API ini, Anda dapat dengan mudah mengakses informasi yang dikelola oleh sistem OpenSID, termasuk data statistik, pembangunan, bantuan, dan lainnya.\n\n## Fitur Utama\n\n- **Akses data statistik**: Mengambil data statistik penduduk, keluarga, bantuan, dan RTM dalam format JSON.\n    \n- **Modul desa**: Menyediakan informasi dan data terkait dengan modul-modul yang digunakan dalam aplikasi OpenSID.\n    \n- **Penyimpanan data terstruktur**: Semua data disajikan dalam format yang terstruktur sesuai dengan spesifikasi **JSON:API**, memungkinkan integrasi yang lebih mudah dengan aplikasi lain.\n    \n- **Rate Limiting**: API ini dilengkapi dengan pembatasan tarif untuk mencegah penggunaan berlebihan dan memastikan kinerja yang optimal.\n    \n\n## Endpoint Utama\n\nAPI OpenSID Tema menyediakan berbagai endpoint untuk mengakses data desa. Berikut adalah beberapa endpoint utama yang dapat diakses:\n\n#### Wilayah\n\n- `GET /api/internal_api/wilayah/get_rw` - Mengambil data RW\n    \n- `GET /api/internal_api/wilayah/get_rt` - Mengambil data RT\n    \n- `GET /api/internal_api/wilayah/administratif` - Mengambil data administratif wilayah\n    \n\n#### Pengaduan\n\n- `GET /api/internal_api/pengaduan` - Mengambil data pengaduan\n    \n\n#### Pembangunan\n\n- `GET /api/internal_api/pembangunan` - Mengambil data pembangunan\n    \n\n#### Arsip Artikel\n\n- `GET /api/internal_api/arsip` - Mengambil data arsip artikel\n    \n\n#### Bantuan\n\n- `GET /api/internal_api/peserta_bantuan/{key}` - Mengambil data peserta bantuan berdasarkan `key`\n    \n\n#### Status Desa\n\n- `GET /api/internal_api/sdgs` - Mengambil data SDGs desa\n    \n- `GET /api/internal_api/idm/{tahun}` - Mengambil data IDM berdasarkan tahun\n    \n\n#### Inventaris\n\n- `GET /api/internal_api/inventaris` - Mengambil data inventaris\n    \n- `GET /api/internal_api/inventaris-tanah` - Mengambil data inventaris tanah\n    \n- `GET /api/internal_api/inventaris-asset` - Mengambil data inventaris aset\n    \n- `GET /api/internal_api/inventaris-gedung` - Mengambil data inventaris gedung\n    \n- `GET /api/internal_api/inventaris-jalan` - Mengambil data inventaris jalan\n    \n- `GET /api/internal_api/inventaris-peralatan` - Mengambil data inventaris peralatan\n    \n- `GET /api/internal_api/inventaris-kontruksi` - Mengambil data inventaris konstruksi\n    \n\n#### Stunting\n\n- `GET /api/internal_api/stunting` - Mengambil data stunting\n    \n\n#### DPT\n\n- `GET /api/internal_api/dpt` - Mengambil data DPT\n    \n\n#### Lapak\n\n- `GET /api/internal_api/lapak/produk` - Mengambil data produk lapak\n    \n- `GET /api/internal_api/lapak/kategori` - Mengambil data kategori lapak\n    \n- `GET /api/internal_api/lapak/pelapak` - Mengambil data pelapak lapak\n    \n\n#### Kelompok\n\n- `GET /api/internal_api/kelompok/{slug}` - Mengambil detail kelompok berdasarkan slug\n    \n- `GET /api/internal_api/kelompok/anggota/{slug}` - Mengambil anggota kelompok berdasarkan slug\n    \n\n#### Lembaga\n\n- `GET /api/internal_api/lembaga/{slug}` - Mengambil detail lembaga berdasarkan slug\n    \n- `GET /api/internal_api/lembaga/anggota/{slug}` - Mengambil anggota lembaga berdasarkan slug\n    \n\n#### Informasi Publik\n\n- `GET /api/internal_api/informasi-publik` - Mengambil data informasi publik\n    \n\n#### Produk Hukum\n\n- `GET /api/internal_api/produk-hukum` - Mengambil data produk hukum\n    \n- `GET /api/internal_api/produk-hukum/tahun` - Mengambil data produk hukum berdasarkan tahun\n    \n- `GET /api/internal_api/produk-hukum/kategori` - Mengambil data produk hukum berdasarkan kategori\n    \n\n#### Peta\n\n- `GET /api/internal_api/peta` - Mengambil data peta\n    \n\n#### Statistik\n\n- `GET /api/internal_api/statistik/{key}` - Mengambil data statistik berdasarkan `key`\n    \n\n#### Pemerintah\n\n- `GET /api/internal_api/pemerintah` - Mengambil data pemerintah\n    \n\n#### Verifikasi Surat\n\n- `GET /api/internal_api/verifikasi-surat` - Verifikasi surat\n    \n- `GET /api/internal_api/verifikasi-surat-dinas` - Verifikasi surat dinas\n    \n\n#### Galeri\n\n- `GET /api/internal_api/galeri` - Mengambil data galeri\n    \n- `GET /api/internal_api/galeri/{parent}` - Mengambil detail galeri berdasarkan `parent`\n    \n\n#### Suplemen\n\n- `GET /api/internal_api/suplemen` - Mengambil data suplemen\n    \n- `GET /api/internal_api/suplemen/{suplemen}` - Mengambil data anggota suplemen berdasarkan ID\n    \n\n#### Analisis\n\n- `GET /api/internal_api/analisis/master` - Mengambil data master analisis\n    \n- `GET /api/internal_api/analisis/indikator` - Mengambil data indikator analisis\n    \n- `GET /api/internal_api/analisis/jawaban` - Mengambil data jawaban analisis\n    \n\n## Format Respons\n\nSemua respons API OpenSID Tema mengikuti spesifikasi [{JSON:API}](https://jsonapi.org), yang berarti bahwa data akan disajikan dalam format yang konsisten dengan elemen-elemen standar, seperti `data`, `errors`, dan `links`. Berikut adalah contoh respons yang dihasilkan oleh API:\n\n### Contoh Respons Sukses\n\n```\n{\n  \"data\": [\n    {\n      \"type\": \"penduduk\",\n      \"id\": \"1\",\n      \"attributes\": {\n        \"nama\": \"Budi Santoso\",\n        \"jenis_kelamin\": \"Laki-laki\",\n        \"alamat\": \"Dusun Seganteng, Desa Rarang Selatan\"\n      }\n    }\n  ]\n}\n\n ```\n\n---\n\nAPI OpenSID Tema menyediakan berbagai produk API yang memungkinkan Anda untuk mengakses data terkait sistem informasi desa, statistik, dan modul-modul yang ada dalam aplikasi OpenSID. API ini mengikuti spesifikasi JSON:API, sehingga memudahkan pengembang dalam berinteraksi dengan data dalam format standar yang konsisten.\n\n### Untuk mulai menggunakan API OpenSID Tema, Anda perlu mengikuti langkah-langkah berikut:\n\n- API OpenSID Tema memiliki batasan penggunaan.\n    \n- API hanya merespon komunikasi yang aman melalui HTTPS. Permintaan yang dikirim melalui HTTP akan diarahkan ulang dengan HTTP 301 ke sumber daya yang sesuai di HTTPS.\n    \n- API mengembalikan respons permintaan dalam format JSON sesuai dengan spesifikasi JSON:API. Ketika permintaan API menghasilkan kesalahan, respons tersebut dikirim dalam format JSON dengan kunci `errors`.\n    \n\n## Batasan penggunaan\n\nBatasan ini adalah 300 permintaan per menit. Jika Anda melebihi salah satu batasan tersebut, permintaan Anda akan mengembalikan status kode HTTP 429 Too Many Requests.\n\nSetiap respons API mengembalikan set header berikut untuk membantu Anda mengidentifikasi status penggunaan:\n\n| Header | Deskripsi |\n| --- | --- |\n| `X-RateLimit-Limit` | Jumlah maksimum permintaan yang diizinkan per menit. |\n| `X-RateLimit-Remaining` | Jumlah permintaan yang tersisa dalam jendela batasan saat ini. |\n| `X-RateLimit-Reset` | Waktu di mana jendela batasan saat ini direset dalam detik epoch UTC. |\n\n### Respons 503\n\nRespons HTTP `503` dari server kami menunjukkan adanya lonjakan trafik akses API yang tidak terduga. Server biasanya beroperasi kembali dalam lima menit berikutnya. Jika gangguan berlanjut atau Anda menerima bentuk lain dari kesalahan HTTP `5XX`, [hubungi dukungan](https://helpdesk.opendesa.id/).\n\n### **Butuh bantuan?**\n\nJika Anda memiliki pertanyaan, lihat tutorial kami [https://panduan.opendesa.id](https://panduan.opendesa.id). Atau kunjungi halaman helpdesk kami [https://helpdesk.opendesa.id](https://helpdesk.opendesa.id).\n\nAnda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/komunitasopendesa) di Facebook atau di [Telegram](https://t.me/komunitasopensidstop). Kedua group ini bersifat informal dan merupakan tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.",
+    "description": "# 📄 Deskripsi API OpenSID Tema\n\nAPI OpenSID Tema adalah antarmuka yang memungkinkan pengembang untuk mengakses berbagai data dan modul yang ada dalam sistem informasi desa (OpenSID). API ini mengikuti **spesifikasi JSON:API** untuk memastikan format data yang konsisten dan mudah digunakan.\n\nAPI OpenSID Tema menyediakan berbagai endpoint untuk mengambil data statistik, informasi desa, dan modul lainnya yang terkait dengan administrasi desa. Dengan API ini, Anda dapat dengan mudah mengakses informasi yang dikelola oleh sistem OpenSID, termasuk data statistik, pembangunan, bantuan, dan lainnya.\n\n## Fitur Utama\n\n- **Akses data statistik**: Mengambil data statistik penduduk, keluarga, bantuan, dan RTM dalam format JSON.\n    \n- **Modul desa**: Menyediakan informasi dan data terkait dengan modul-modul yang digunakan dalam aplikasi OpenSID.\n    \n- **Penyimpanan data terstruktur**: Semua data disajikan dalam format yang terstruktur sesuai dengan spesifikasi **JSON:API**, memungkinkan integrasi yang lebih mudah dengan aplikasi lain.\n    \n- **Rate Limiting**: API ini dilengkapi dengan pembatasan tarif untuk mencegah penggunaan berlebihan dan memastikan kinerja yang optimal.\n    \n\n## Endpoint Utama\n\nAPI OpenSID Tema menyediakan berbagai endpoint untuk mengakses data desa. Berikut adalah beberapa endpoint utama yang dapat diakses:\n\n#### Wilayah\n\n- `GET /api/internal_api/wilayah/get_rw` - Mengambil data RW\n    \n- `GET /api/internal_api/wilayah/get_rt` - Mengambil data RT\n    \n- `GET /api/internal_api/wilayah/administratif` - Mengambil data administratif wilayah\n    \n\n#### Pengaduan\n\n- `GET /api/internal_api/pengaduan` - Mengambil data pengaduan\n    \n\n#### Pembangunan\n\n- `GET /api/internal_api/pembangunan` - Mengambil data pembangunan\n    \n\n#### Arsip Artikel\n\n- `GET /api/internal_api/arsip` - Mengambil data arsip artikel\n    \n\n#### Bantuan\n\n- `GET /api/internal_api/peserta_bantuan/{key}` - Mengambil data peserta bantuan berdasarkan `key`\n    \n\n#### Status Desa\n\n- `GET /api/internal_api/sdgs` - Mengambil data SDGs desa\n    \n- `GET /api/internal_api/idm/{tahun}` - Mengambil data IDM berdasarkan tahun\n    \n\n#### Inventaris\n\n- `GET /api/internal_api/inventaris` - Mengambil data inventaris\n    \n- `GET /api/internal_api/inventaris-tanah` - Mengambil data inventaris tanah\n    \n- `GET /api/internal_api/inventaris-asset` - Mengambil data inventaris aset\n    \n- `GET /api/internal_api/inventaris-gedung` - Mengambil data inventaris gedung\n    \n- `GET /api/internal_api/inventaris-jalan` - Mengambil data inventaris jalan\n    \n- `GET /api/internal_api/inventaris-peralatan` - Mengambil data inventaris peralatan\n    \n- `GET /api/internal_api/inventaris-kontruksi` - Mengambil data inventaris konstruksi\n    \n\n#### Stunting\n\n- `GET /api/internal_api/stunting` - Mengambil data stunting\n    \n\n#### DPT\n\n- `GET /api/internal_api/dpt` - Mengambil data DPT\n    \n\n#### Lapak\n\n- `GET /api/internal_api/lapak/produk` - Mengambil data produk lapak\n    \n- `GET /api/internal_api/lapak/kategori` - Mengambil data kategori lapak\n    \n- `GET /api/internal_api/lapak/pelapak` - Mengambil data pelapak lapak\n    \n\n#### Kelompok\n\n- `GET /api/internal_api/kelompok/{slug}` - Mengambil detail kelompok berdasarkan slug\n    \n- `GET /api/internal_api/kelompok/anggota/{slug}` - Mengambil anggota kelompok berdasarkan slug\n    \n\n#### Lembaga\n\n- `GET /api/internal_api/lembaga/{slug}` - Mengambil detail lembaga berdasarkan slug\n    \n- `GET /api/internal_api/lembaga/anggota/{slug}` - Mengambil anggota lembaga berdasarkan slug\n    \n\n#### Informasi Publik\n\n- `GET /api/internal_api/informasi-publik` - Mengambil data informasi publik\n    \n\n#### Produk Hukum\n\n- `GET /api/internal_api/produk-hukum` - Mengambil data produk hukum\n    \n- `GET /api/internal_api/produk-hukum/tahun` - Mengambil data produk hukum berdasarkan tahun\n    \n- `GET /api/internal_api/produk-hukum/kategori` - Mengambil data produk hukum berdasarkan kategori\n    \n\n#### Peta\n\n- `GET /api/internal_api/peta` - Mengambil data peta\n    \n\n#### Statistik\n\n- `GET /api/internal_api/statistik/{key}` - Mengambil data statistik berdasarkan `key`\n    \n\n#### Pemerintah\n\n- `GET /api/internal_api/pemerintah` - Mengambil data pemerintah\n    \n\n#### Verifikasi Surat\n\n- `GET /api/internal_api/verifikasi-surat/{id}` - Verifikasi satu surat berdasarkan id (wajib)\n    \n- `GET /api/internal_api/verifikasi-surat-dinas/{id}` - Verifikasi satu surat dinas berdasarkan id (wajib)\n    \n\n#### Galeri\n\n- `GET /api/internal_api/galeri` - Mengambil data galeri\n    \n- `GET /api/internal_api/galeri/{parent}` - Mengambil detail galeri berdasarkan `parent`\n    \n\n#### Suplemen\n\n- `GET /api/internal_api/suplemen` - Mengambil daftar suplemen\n    \n- `GET /api/internal_api/suplemen/{slug}` - Mengambil detail suplemen berdasarkan slug\n    \n- `GET /api/internal_api/suplemen/anggota/{slug}` - Mengambil daftar warga terdata suplemen berdasarkan slug\n    \n\n#### Analisis\n\n- `GET /api/internal_api/analisis/master` - Mengambil data master analisis\n    \n- `GET /api/internal_api/analisis/indikator` - Mengambil data indikator analisis\n    \n- `GET /api/internal_api/analisis/jawaban` - Mengambil data jawaban analisis\n    \n\n## Format Respons\n\nSemua respons API OpenSID Tema mengikuti spesifikasi [{JSON:API}](https://jsonapi.org), yang berarti bahwa data akan disajikan dalam format yang konsisten dengan elemen-elemen standar, seperti `data`, `errors`, dan `links`. Berikut adalah contoh respons yang dihasilkan oleh API:\n\n### Contoh Respons Sukses\n\n```\n{\n  \"data\": [\n    {\n      \"type\": \"penduduk\",\n      \"id\": \"1\",\n      \"attributes\": {\n        \"nama\": \"Budi Santoso\",\n        \"jenis_kelamin\": \"Laki-laki\",\n        \"alamat\": \"Dusun Seganteng, Desa Rarang Selatan\"\n      }\n    }\n  ]\n}\n\n ```\n\n---\n\nAPI OpenSID Tema menyediakan berbagai produk API yang memungkinkan Anda untuk mengakses data terkait sistem informasi desa, statistik, dan modul-modul yang ada dalam aplikasi OpenSID. API ini mengikuti spesifikasi JSON:API, sehingga memudahkan pengembang dalam berinteraksi dengan data dalam format standar yang konsisten.\n\n### Untuk mulai menggunakan API OpenSID Tema, Anda perlu mengikuti langkah-langkah berikut:\n\n- API OpenSID Tema memiliki batasan penggunaan.\n    \n- API hanya merespon komunikasi yang aman melalui HTTPS. Permintaan yang dikirim melalui HTTP akan diarahkan ulang dengan HTTP 301 ke sumber daya yang sesuai di HTTPS.\n    \n- API mengembalikan respons permintaan dalam format JSON sesuai dengan spesifikasi JSON:API. Ketika permintaan API menghasilkan kesalahan, respons tersebut dikirim dalam format JSON dengan kunci `errors`.\n    \n\n## Batasan penggunaan\n\nBatasan ini adalah 300 permintaan per menit. Jika Anda melebihi salah satu batasan tersebut, permintaan Anda akan mengembalikan status kode HTTP 429 Too Many Requests.\n\nSetiap respons API mengembalikan set header berikut untuk membantu Anda mengidentifikasi status penggunaan:\n\n| Header | Deskripsi |\n| --- | --- |\n| `X-RateLimit-Limit` | Jumlah maksimum permintaan yang diizinkan per menit. |\n| `X-RateLimit-Remaining` | Jumlah permintaan yang tersisa dalam jendela batasan saat ini. |\n| `X-RateLimit-Reset` | Waktu di mana jendela batasan saat ini direset dalam detik epoch UTC. |\n\n### Respons 503\n\nRespons HTTP `503` dari server kami menunjukkan adanya lonjakan trafik akses API yang tidak terduga. Server biasanya beroperasi kembali dalam lima menit berikutnya. Jika gangguan berlanjut atau Anda menerima bentuk lain dari kesalahan HTTP `5XX`, [hubungi dukungan](https://helpdesk.opendesa.id/).\n\n### **Butuh bantuan?**\n\nJika Anda memiliki pertanyaan, lihat tutorial kami [https://panduan.opendesa.id](https://panduan.opendesa.id). Atau kunjungi halaman helpdesk kami [https://helpdesk.opendesa.id](https://helpdesk.opendesa.id).\n\nAnda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/komunitasopendesa) di Facebook atau di [Telegram](https://t.me/komunitasopensidstop). Kedua group ini bersifat informal dan merupakan tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "16394438",
     "_collection_link": "https://go.postman.co/collection/16394438-9af04ef5-4066-4bef-a27d-64213396f7f3?source=collection_link"
@@ -1315,45 +1315,23 @@
         {
           "name": "Verifikasi",
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/internal_api/verifikasi-surat",
+              "raw": "{{baseUrl}}/internal_api/verifikasi-surat/:id",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "internal_api",
-                "verifikasi-surat"
+                "verifikasi-surat",
+                ":id"
               ],
-              "query": [
+              "variable": [
                 {
-                  "key": "page[number]",
+                  "key": "id",
                   "value": "1",
-                  "description": "Nomor halaman",
-                  "disabled": true
-                },
-                {
-                  "key": "page[size]",
-                  "value": "50",
-                  "description": "Jumlah halaman",
-                  "disabled": true
-                },
-                {
-                  "key": "sort",
-                  "value": "created_at",
-                  "description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'tanggal', 'bulan', 'tahun'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
-                  "disabled": true
-                },
-                {
-                  "key": "filter[id]",
-                  "value": "",
-                  "disabled": true
-                },
-                {
-                  "key": "filter[nama_surat]",
-                  "value": "",
-                  "disabled": true
+                  "description": "ID surat yang akan diverifikasi (wajib). Endpoint hanya mengembalikan maksimal 1 surat dan hanya surat yang sudah terbit."
                 }
               ]
             }
@@ -1369,45 +1347,23 @@
         {
           "name": "Verifikasi",
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/internal_api/verifikasi-surat-dinas",
+              "raw": "{{baseUrl}}/internal_api/verifikasi-surat-dinas/:id",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "internal_api",
-                "verifikasi-surat-dinas"
+                "verifikasi-surat-dinas",
+                ":id"
               ],
-              "query": [
+              "variable": [
                 {
-                  "key": "page[number]",
+                  "key": "id",
                   "value": "1",
-                  "description": "Nomor halaman",
-                  "disabled": true
-                },
-                {
-                  "key": "page[size]",
-                  "value": "50",
-                  "description": "Jumlah halaman",
-                  "disabled": true
-                },
-                {
-                  "key": "sort",
-                  "value": "created_at",
-                  "description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'tanggal', 'bulan', 'tahun'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
-                  "disabled": true
-                },
-                {
-                  "key": "filter[id]",
-                  "value": "",
-                  "disabled": true
-                },
-                {
-                  "key": "filter[nama_surat]",
-                  "value": "",
-                  "disabled": true
+                  "description": "ID surat dinas yang akan diverifikasi (wajib). Endpoint hanya mengembalikan maksimal 1 surat dan hanya surat yang sudah terbit."
                 }
               ]
             }
@@ -1562,19 +1518,40 @@
           "response": []
         },
         {
-          "name": "Daftar Suplemen Anggota",
+          "name": "Detail Suplemen",
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/internal_api/suplemen/{{suplemenID}}",
+              "raw": "{{baseUrl}}/internal_api/suplemen/{{suplemenSlug}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "internal_api",
                 "suplemen",
-                "{{suplemenID}}"
+                "{{suplemenSlug}}"
+              ]
+            },
+            "description": "Mengambil detail satu suplemen berdasarkan slug. Mengembalikan 404 bila menu `data-suplemen/{id}` tidak dipublikasikan admin atau slug tidak dikenal."
+          },
+          "response": []
+        },
+        {
+          "name": "Daftar Suplemen Anggota",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/internal_api/suplemen/anggota/{{suplemenSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "internal_api",
+                "suplemen",
+                "anggota",
+                "{{suplemenSlug}}"
               ],
               "query": [
                 {
@@ -1591,8 +1568,8 @@
                 },
                 {
                   "key": "sort",
-                  "value": "created_at",
-                  "description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'nama', 'sasaran', 'slug'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+                  "value": "tweb_penduduk.nama",
+                  "description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'tweb_penduduk.nama', 'tweb_penduduk.sex'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
                   "disabled": true
                 },
                 {
@@ -1606,7 +1583,8 @@
                   "disabled": true
                 }
               ]
-            }
+            },
+            "description": "Mengambil daftar warga terdata pada suplemen berdasarkan slug. Mengembalikan 404 bila menu `data-suplemen/{id}` tidak dipublikasikan admin atau slug tidak dikenal. Respons tidak memuat tempat/tanggal lahir; alamat hanya RT/RW + dusun."
           },
           "response": []
         }

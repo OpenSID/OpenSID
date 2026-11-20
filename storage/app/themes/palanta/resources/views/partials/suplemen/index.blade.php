@@ -43,7 +43,6 @@
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
-                    <th>Tempat Lahir</th>
                     <th>Jenis-kelamin</th>
                     <th>Alamat</th>
                 </tr>
@@ -58,13 +57,10 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
-        var apiSuplemen = `{{ route('api.suplemen') }}`;
-        var params = {
-            "filter[slug]": `{{ $slug }}`
-        }
+        var apiSuplemenDetail = `{{ route('api.suplemen.detail', $slug) }}`;
 
-        $.get(apiSuplemen, params, function (response) {
-            suplemen = response.data[0];
+        $.get(apiSuplemenDetail, function (response) {
+            suplemen = response.data;
 
             if (!suplemen) {
                 Swal.fire('Error', 'Data tidak ditemukan.', 'error');
@@ -77,11 +73,11 @@
             $('#sasaran').text(suplemen.attributes.nama_sasaran);
             $('#keterangan').text(suplemen.attributes.keterangan);
 
-            loadAnggota(suplemen.id);
+            loadAnggota();
         });
 
-        function loadAnggota(id) {
-            var routeSuplemenAnggota = `{{ route('api.suplemen') }}` + '/' + id;
+        function loadAnggota() {
+            var routeSuplemenAnggota = `{{ route('api.suplemen.anggota', $slug) }}`;
 
             var tabelData = $('#tabelData').DataTable({
                 processing: true,
@@ -120,10 +116,6 @@
                     {
                         data: "attributes.terdata_nama",
                         name: 'tweb_penduduk.nama',
-                    },
-                    {
-                        data: "attributes.tempatlahir",
-                        name: 'tweb_penduduk.tempatlahir',
                     },
                     {
                         data: "attributes.sex",

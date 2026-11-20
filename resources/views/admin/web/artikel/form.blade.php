@@ -1,5 +1,6 @@
 @extends('admin.layouts.index')
 @include('admin.layouts.components.asset_validasi')
+@php filemanager_authorize('artikel'); @endphp
 
 @section('title')
     <h1>
@@ -43,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="kode_desa">Isi Artikel</label>
-                        <textarea name="isi" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' class="form-control input-sm required" style="height:350px;">{{ old('isi', $artikel['isi']) }}</textarea>
+                        <textarea name="isi" data-filemanager='{!! json_encode(['external_filemanager_path' => filemanager_base_url(), 'filemanager_title' => 'File Manager']) !!}' class="form-control input-sm required" style="height:350px;">{{ old('isi', $artikel['isi']) }}</textarea>
                     </div>
                 </div>
             </div>
@@ -297,7 +298,7 @@
             toolbar3: "| laporan_keuangan | penerima_bantuan | sotk",
             image_advtab: true,
             external_plugins: {
-                "filemanager": "{{ base_url('rfm/plugin.min.js') }}"
+                "filemanager": "{{ filemanager_asset('plugin.min.js') }}"
             },
             templates: [{
                     title: 'Test template 1',

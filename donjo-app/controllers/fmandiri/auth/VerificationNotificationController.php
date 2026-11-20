@@ -94,7 +94,10 @@ class VerificationNotificationController extends Web_Controller
             redirect_with('notif', __('passwords.token'), 'layanan-mandiri/daftar/verifikasi/telegram');
         }
 
-        $signature = hash_hmac('sha256', $user->telegram, config_item('encryption_key'));
+        // get_app_key() dipakai, bukan config_item('encryption_key') -- nilai
+        // config_item itu masih default 'lumbungkomunitas' (donjo-app/config/config.php)
+        // yang publik/dikenal, sehingga siapa pun bisa menghitung ulang signature ini.
+        $signature = hash_hmac('sha256', $user->telegram, get_app_key());
 
         // Check signature key
         if (! hash_equals($signature, $this->input->get('signature'))) {
@@ -168,7 +171,7 @@ class VerificationNotificationController extends Web_Controller
             redirect_with('notif', __('passwords.token'), 'layanan-mandiri/daftar/verifikasi/email');
         }
 
-        $signature = hash_hmac('sha256', $user->email, config_item('encryption_key'));
+        $signature = hash_hmac('sha256', $user->email, get_app_key());
 
         // Check signature key
         if (! hash_equals($signature, $this->input->get('signature'))) {

@@ -233,8 +233,28 @@ opensid-laravel-13/
 ├── vendor/
 │   ├── codeigniter/framework/
 │   └── opensid/router/
-└── index.php               # Laravel entry point
+├── desa/                   # Data milik desa (TIDAK di dalam public/)
+│   ├── config/             # kredensial database — tidak boleh publik
+│   ├── app_key             # kunci enkripsi — tidak boleh publik
+│   ├── arsip/              # arsip surat — tidak boleh publik
+│   └── upload/  logo/  themes/  pengaturan/  anjungan/   # disymlink ke public/
+└── public/                 # DOCUMENT ROOT web server
+    ├── index.php           # Laravel entry point
+    ├── assets/             # CSS, JS, gambar, font, captcha
+    ├── favicon.ico
+    ├── desa/               # symlink ke folder publik pada desa/
+    │   ├── upload -> ../../desa/upload
+    │   ├── logo -> ../../desa/logo
+    │   ├── pengaturan -> ../../desa/pengaturan
+    │   ├── anjungan -> ../../desa/anjungan
+    │   └── themes -> ../../desa/themes
+    └── storage -> ../storage/app/public
 ```
+
+Hanya isi `public/` yang terjangkau web server. Berkas seperti `.env`,
+`composer.json`, `vendor/`, `desa/config/database.php`, dan `desa/app_key`
+berada di luar document root sehingga tidak dapat diakses dari internet
+meskipun `.htaccess` hilang atau tidak dibaca server (nginx).
 
 ### Key Components
 

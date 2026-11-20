@@ -42,9 +42,22 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogSuratDinas extends Api_Controller
 {
-    public function verifikasi()
+    public function verifikasi($id = null)
     {
-        $obj = new LogSuratDinasRepository();
-        json($this->fractal($obj->list(), new LogSuratDinasVerifikasiTransformer(), 'log_surat_dinas'));
+        // id surat dinas wajib: tanpa id, endpoint tidak boleh membocorkan indeks seluruh
+        // surat dinas desa. Lihat issue #7002.
+        if (! is_numeric($id)) {
+            return show_404();
+        }
+
+        $obj   = new LogSuratDinasRepository();
+        $surat = $obj->detail($id);
+
+        // Surat tidak ada / belum terbit => 404, jangan kembalikan data kosong.
+        if ($surat->isEmpty()) {
+            return show_404();
+        }
+
+        json($this->fractal($surat, new LogSuratDinasVerifikasiTransformer(), 'log_surat_dinas'));
     }
 }
