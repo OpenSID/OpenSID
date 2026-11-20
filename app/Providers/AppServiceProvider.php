@@ -167,6 +167,7 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMacroConvertToBytes();
         $this->registerMacroHeaderKawinCerai();
         $this->registerMacroGroupByLabel();
+        $this->registerMacroFormatNamaWilayah();
     }
 
     protected function registerMacroGroupByLabel()
@@ -219,6 +220,28 @@ class AppServiceProvider extends ServiceProvider
                 $hasCerai              => 'Tanggal Perceraian',
                 default                => 'Tanggal Perkawinan',
             };
+        });
+    }
+
+    protected function registerMacroFormatNamaWilayah()
+    {
+        Str::macro('FormatNamaWilayah', function (?string $value): ?string {
+            if (! $value) {
+                return $value;
+            }
+
+            return Str::of($value)
+                ->explode(' ')
+                ->map(function ($kata) {
+                    $bersih = preg_replace('/[^A-Za-z]/', '', $kata);
+
+                    if ($bersih !== '' && preg_match('/^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/i', $bersih)) {
+                        return Str::upper($kata);
+                    }
+
+                    return Str::ucfirst(Str::lower($kata));
+                })
+                ->implode(' ');
         });
     }
 

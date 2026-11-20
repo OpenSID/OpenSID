@@ -245,6 +245,21 @@
         });
     }
 
+    $('#sebab').select2({
+        width: '100%',
+        dropdownAutoWidth: true,
+        dropdownParent: $('#sebab').closest('.modal-content'),
+        dropdownPosition: 'below'
+    });
+
+    $(document).on('select2:open', function (e) {
+        if (e.target.id === 'sebab') {
+            setTimeout(function () {
+                $('#modalBox').off('scroll.select2.select2-sebab');
+            }, 0);
+        }
+    });
+
     $('document').ready(function() {
         $(".modal #file_browser").click(function(e) {
             e.preventDefault();

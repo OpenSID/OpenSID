@@ -98,8 +98,8 @@ protected function extendControllerDispatcher()
                 }
                 
                 // Jika controller return null tapi ada output buffer, gunakan buffer
-                if ($response === null && $buffered !== '' && $buffered !== null) {
-                    $response = $buffered;
+                if ($response === null && $buffered !== '' && $buffered !== null && $buffered !== false) {
+                    $response = $this->buildResponseFromBuffer($buffered);
                 }
                 
                 // Jika masih null, resolve pending response (view)
@@ -116,6 +116,16 @@ protected function extendControllerDispatcher()
                 return $response;
             }
             
+            protected function buildResponseFromBuffer(string $buffered): \Illuminate\Http\Response
+            {
+                $headers = [];
+                foreach (headers_list() as $header) {
+                    [$key, $value] = explode(':', $header, 2);
+                    $headers[trim($key)] = trim($value);
+                }
+                return response($buffered)->withHeaders($headers);
+            }
+            
             protected function resolvePendingResponse()
             {
                 // Check pending view dari ViewFactory
@@ -128,8 +138,8 @@ protected function extendControllerDispatcher()
                     }
                 }
                 
-                // Default: empty response
-                return response('');
+                // Default: null (empty response)
+                return null;
             }
         };
     });
@@ -579,35 +589,49 @@ Berikut adalah **implementasi lengkap aktual** yang ada di code:
 ```php
 public function boot(): void
 {
-    // Only extend controllers jika **BUKAN** Laravel route
-    if (! $this->isMatchedRouteLaravel()) {
-        $this->extendControllerDispatcher();
-        $this->extendViewInstance();
-        $this->extendRedirectInstance();
-        $this->configureConfig();
-        
-        // Request rebinding untuk synchronization
+    RateLimiter::for('api', function (Request $request) {
+        return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+    });
+
+    $this->routes(function () {
+        Route::middleware('api')
+            ->prefix('api')
+            ->group(base_path('routes/api.php'));
+
+        Route::middleware('web')
+            ->group(base_path('routes/web.php'));
+
         $this->app->rebinding('request', function ($app, $request) {
-            global $EXT, $URI, $RTR, $OUT, $IN;
-            
-            is_loaded(unsetClass: ['cache', 'form_validation', 'session']);
-            $EXT->call_hook('pre_system');
-            
+            if ($this->isMatchedRouteLaravel($request)) {
+                return;
+            }
+
+            if (! $this->isMatchedRouteCodeIgniter()) {
+                return;
+            }
+
+            $this->extendControllerDispatcher();
+            $this->extendViewInstance();
+            $this->extendRedirectInstance();
+            $this->configureConfig();
+
+            global $URI, $RTR, $OUT, $SEC, $IN;
+
             $URI->setRequest($request);
             $RTR->setRequest($request);
             $OUT->setRequest($request);
+            $SEC->setRequest($request);
             $IN->setRequest($request);
-            
+
             Route::middleware('codeigniter')
                 ->group(base_path('bootstrap/routeCodeIgniter.php'));
         });
-    }
+    });
 }
 
-protected function isMatchedRouteLaravel(): bool
+protected function isMatchedRouteLaravel(Request $request): bool
 {
-    // Check apakah route ini cocok dengan Laravel routes
-    return rescue(fn () => (bool) Route::getRoutes()->match($this->app->make('request')), false);
+    return rescue(fn () => (bool) Route::getRoutes()->match($request), false);
 }
 ```
 
@@ -624,31 +648,27 @@ protected function configureConfig()
         }
         
         // Configure email SMTP
-        if (isset($setting->email_smtp_url)) {
-            $protocol = $setting->email_protocol;
+        if (! empty($setting->email_smtp_host)) {
+            $protocol = $setting->email_protocol ?: 'smtp';
             config([
                 'mail.default' => $protocol,
                 "mail.mailers.{$protocol}" => [
-                    'transport'    => $protocol,
-                    'url'          => $setting->email_smtp_url,
-                    'host'         => $setting->email_smtp_host,
-                    'port'         => $setting->email_smtp_port,
-                    'encryption'   => $setting->email_smtp_encryption ?? 'tls',
-                    'username'     => $setting->email_smtp_user,
-                    'password'     => $setting->email_smtp_pass,
-                    'timeout'      => $setting->email_smtp_timeout,
-                    'local_domain' => $setting->email_smtp_domain,
+                    'transport' => $protocol,
+                    'host'      => $setting->email_smtp_host,
+                    'port'      => $setting->email_smtp_port,
+                    'username'  => $setting->email_smtp_user,
+                    'password'  => $setting->email_smtp_pass,
                 ],
             ]);
         }
         
         // Configure Telegram
-        if (isset($setting->telegram_token)) {
+        if (! empty($setting->telegram_token)) {
             config(['services.telegram-bot-api.token' => $setting->telegram_token]);
         }
         
         // Configure reCAPTCHA
-        if (isset($setting->google_recaptcha_secret_key)) {
+        if (! empty($setting->google_recaptcha_secret_key)) {
             config([
                 'captcha' => [
                     'secret'          => $setting->google_recaptcha_secret_key,

@@ -289,6 +289,27 @@ class LogSuratDinas extends BaseModel
         return $data;
     }
 
+    public static function ambilNomorBerikutnya($url, $nomorAwal = null, $maxRetry = 10)
+    {
+        if ($nomorAwal === null) {
+            $data = self::lastNomerSurat($url);
+            $nomor = (int)$data['no_surat_berikutnya'];
+        } else {
+            $nomor = (int)$nomorAwal;
+        }
+
+        $panjang = (int) setting('panjang_nomor_surat_dinas');
+        for ($i = 0; $i < $maxRetry; $i++) {
+            $formatted = str_pad((string) $nomor, $panjang, '0', STR_PAD_LEFT);
+            if (!self::isDuplikat($formatted, $url)) {
+                return $formatted;
+            }
+            $nomor++;
+        }
+
+        return null;
+    }
+
     public static function boot(): void
     {
         parent::boot();

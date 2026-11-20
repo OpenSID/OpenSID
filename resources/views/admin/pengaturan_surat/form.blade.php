@@ -169,10 +169,9 @@
             $('#validasi').on('submit', function(e) {
                 e.preventDefault();
 
-                if (!$(this).valid()) return false;
-
-                e.preventDefault();
                 tinymce.triggerSave();
+
+                if (!$(this).valid()) return false;
 
                 const form = $(this);
                 const formData = new FormData(this);

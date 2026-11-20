@@ -86,7 +86,10 @@ class Revisions extends \Google\Service\Resource
    * @param string $fileId The ID of the file.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize The maximum number of revisions to return per page.
+   * @opt_param int pageSize The maximum number of revisions to return. The
+   * service may return fewer than this value. If unspecified, at most 200
+   * revisions will be returned. The maximum value is 1000; values above 1000 will
+   * be coerced to 1000.
    * @opt_param string pageToken The token for continuing a previous list request
    * on the next page. This should be set to the value of 'nextPageToken' from the
    * previous response.

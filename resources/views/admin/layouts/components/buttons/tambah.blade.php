@@ -1,14 +1,14 @@
 @if (can('u'))
-    @if ($modal)
+    @if ($modal ?? false)
     <a
-        @if($noTarget)
+        @if($noTarget ?? false)
             href="{{ $url }}"
         @else
-            href="{{ site_url($url) }}"
+            href="{{ url($url) }}"
         @endif
         class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
         title="{{ $judul ?? 'Tambah Data' }}"
-        @if(!$noTarget)
+        @if(!($noTarget ?? false))
             data-target="#{{ $modalTarget ?? 'modalBox' }}"
         @endif
         data-remote="false"
@@ -18,10 +18,10 @@
         data-title="{{ $judul ?? 'Tambah Data' }}"><i class="fa fa fa-plus"></i>
         {{ $judul ?? 'Tambah' }}</a>
     @else
-        @if($buttonOnly)
-        <a href="{{ site_url($url) }}" class="btn btn-success btn-sm" title="{{ $judul ?? 'Tambah Data' }}" @if ($blank) target="_blank" @endif><i class="{{ $icon ?? 'fa fa-plus' }}"></i></a>
-        @else   
-        <a href="{{ site_url($url) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="{{ $judul ?? 'Tambah Data' }}" @if ($blank) target="_blank" @endif><i
+        @if($buttonOnly ?? false)
+        <a href="{{ url($url) }}" class="btn btn-success btn-sm" title="{{ $judul ?? 'Tambah Data' }}" @if ($blank ?? false) target="_blank" @endif><i class="{{ $icon ?? 'fa fa-plus' }}"></i></a>
+        @else
+        <a href="{{ url($url) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="{{ $judul ?? 'Tambah Data' }}" @if ($blank ?? false) target="_blank" @endif><i
             class="fa fa-plus "></i>{{ $judul ?? 'Tambah' }}</a>
         @endif
     @endif

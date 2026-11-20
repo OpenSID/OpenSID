@@ -41,7 +41,6 @@ class Pindai_tema extends CI_Controller
 {
     public function index(): void
     {
-        $this->load->helper('theme');
         theme_scan();
         log_message('notice', 'Pindai tema selesai');
     }

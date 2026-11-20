@@ -143,7 +143,7 @@ class Tte extends Tte_Controller
                 'nama_surat' => $data->nama_surat,
             ];
 
-            return response(json_encode($successData), 200, ['Content-Type' => 'application/json'])->send();
+            return response($successData, 200);
         } catch (GuzzleHttp\Exception\RequestException $e) {
             log_message('error', $e);
 
@@ -261,7 +261,7 @@ class Tte extends Tte_Controller
                 'nama_surat' => $data->nama_surat,
             ];
 
-            return response(json_encode($successData), 200, ['Content-Type' => 'application/json'])->send();
+            return response($successData, 200);
         } catch (GuzzleHttp\Exception\RequestException $e) {
             log_message('error', $e);
 
@@ -324,7 +324,7 @@ class Tte extends Tte_Controller
         ]);
 
         // Teruskan response langsung dari exception ke client
-        return response($message, $httpCode, ['Content-Type' => 'application/json'])->send();
+        return response($message, $httpCode, ['Content-Type' => 'application/json']);
     }
 
     private function logActivity(string $logName, $event, $description, $property): void

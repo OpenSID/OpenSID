@@ -186,6 +186,35 @@ class Periksa extends MY_Controller
         return json(['status' => 1]);
     }
 
+    public function perbaikiKeuanganTemplateItem()
+    {
+        $this->cekUser();
+
+        try {
+            (new LibrariesPeriksa())->perbaikiKeuanganTemplateSingleItem(
+                (string) (request('current_uuid') ?? $this->input->post('current_uuid') ?? ''),
+                (string) (request('expected_uuid') ?? $this->input->post('expected_uuid') ?? ''),
+                request('expected_parent_uuid') ?? $this->input->post('expected_parent_uuid'),
+                request('uraian') ?? $this->input->post('uraian')
+            );
+            session()->forget(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+            if (isset($this->session)) {
+                $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+            }
+        } catch (\Throwable $e) {
+            logger()->error('Error saat perbaikiKeuanganTemplateItem: ' . $e->getMessage(), [
+                'exception' => $e,
+                'file'      => $e->getFile(),
+                'line'      => $e->getLine(),
+                'request'   => request()->all(),
+            ]);
+
+            return json(['status' => 0, 'message' => 'Gagal memperbarui data: ' . $e->getMessage()]);
+        }
+
+        return json(['status' => 1, 'message' => 'Data keuangan_template berhasil dikosongkan dan diisi ulang dari seeder.']);
+    }
+
     public function lepas_kaitan_kk_lama($id)
     {
         $this->cekUser();

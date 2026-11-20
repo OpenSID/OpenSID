@@ -64,6 +64,7 @@ class SecurityHeaders
         $headers = $this->getMergedSecurityHeaders();
 
         foreach ($headers as $key => $value) {
+            $value = $this->normalizeHeaderValue($value);
 
             if ($key === 'Strict-Transport-Security' && ! $request->secure()) {
                 continue;
@@ -111,7 +112,19 @@ class SecurityHeaders
     {
         $existingValue = rtrim($existingValue, '; ');
 
-        return $existingValue . ' ' . $newValue;
+        return $existingValue . ' ' . $this->normalizeHeaderValue($newValue);
+    }
+
+    /**
+     * Pastikan value header satu baris dan aman untuk Response header Symfony/Laravel.
+     */
+    protected function normalizeHeaderValue(string|array $value): string
+    {
+        if (is_array($value)) {
+            $value = implode(' ', $value);
+        }
+
+        return trim(preg_replace('/\s+/', ' ', (string) $value) ?? '');
     }
 
     /**

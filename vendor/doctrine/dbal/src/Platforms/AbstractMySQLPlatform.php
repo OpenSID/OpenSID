@@ -395,7 +395,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
 
         $droppedIndexes = $this->indexIndexesByLowerCaseName($diff->getDroppedIndexes());
         $addedIndexes   = $this->indexIndexesByLowerCaseName($diff->getAddedIndexes());
-        $diffModified   = false;
 
         $noLongerPrimaryKeyColumns = [];
 
@@ -564,11 +563,9 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
         $primaryKeyColumns = [];
 
         foreach ($primaryKey->getColumns() as $columnName) {
-            if (! $table->hasColumn($columnName)) {
-                continue;
+            if ($table->hasColumn($columnName)) {
+                $primaryKeyColumns[] = $table->getColumn($columnName);
             }
-
-            $primaryKeyColumns[] = $table->getColumn($columnName);
         }
 
         if (count($primaryKeyColumns) === 0) {

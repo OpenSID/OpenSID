@@ -43,7 +43,10 @@
                 </small>
             </p>
             <p>
-            <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
+            @php
+                ci()->load->helper('number');
+            @endphp
+            <p>Batas maksimal pengunggahan berkas <strong>{{ byte_format(min(max_upload(), (int) (setting('impor_data_penduduk') ?: 2) * 1024 * 1024), 0) }}</strong></p>
             <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID,
                 banyaknya data dan sambungan internet yang tersedia.</p>
             </p>

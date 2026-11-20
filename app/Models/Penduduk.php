@@ -1573,7 +1573,27 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $data['maksud_tujuan_kedatangan'] = null;
         }
         unset($data['maksud_tujuan_kedatangan']);
-        $this->update($data);
+        $nikLama = $this->nik;
+
+        DB::transaction(function () use ($data, $nikLama): void {
+            $this->update($data);
+
+            // Jika NIK berubah, sinkronkan kolom peserta & kartu_nik agar data peserta program
+            // bantuan penduduk tidak nyangkut/hilang. Dicocokkan lewat kartu_id_pend (lebih presisi)
+            // dengan fallback ke NIK lama untuk data lama yang belum punya kartu_id_pend.
+            if ($nikLama !== $this->nik) {
+                BantuanPeserta::where(function ($q) use ($nikLama): void {
+                    $q->where('kartu_id_pend', $this->id)->orWhere('peserta', $nikLama);
+                })
+                    ->whereExists(static function ($q): void {
+                        $q->select(DB::raw(1))
+                            ->from('program')
+                            ->whereColumn('program.id', 'program_peserta.program_id')
+                            ->where('program.sasaran', SasaranEnum::PENDUDUK);
+                    })
+                    ->update(['peserta' => $this->nik, 'kartu_nik' => $this->nik]);
+            }
+        });
 
         // Perbarui data log, mengecek status dasar dari penduduk, jika status dasar adalah hidup
         // maka akan menupdate data dengan kode_peristiwa 1/5

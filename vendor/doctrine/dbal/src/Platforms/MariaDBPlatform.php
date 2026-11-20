@@ -69,11 +69,9 @@ class MariaDBPlatform extends AbstractMySQLPlatform
         $modifiedForeignKeys = $diff->getModifiedForeignKeys();
 
         foreach ($this->getRemainingForeignKeyConstraintsRequiringRenamedIndexes($diff) as $foreignKey) {
-            if (in_array($foreignKey, $modifiedForeignKeys, true)) {
-                continue;
+            if (! in_array($foreignKey, $modifiedForeignKeys, true)) {
+                $sql[] = $this->getDropForeignKeySQL($foreignKey->getQuotedName($this), $tableName);
             }
-
-            $sql[] = $this->getDropForeignKeySQL($foreignKey->getQuotedName($this), $tableName);
         }
 
         return $sql;
@@ -100,11 +98,9 @@ class MariaDBPlatform extends AbstractMySQLPlatform
         $modifiedForeignKeys = $diff->getModifiedForeignKeys();
 
         foreach ($this->getRemainingForeignKeyConstraintsRequiringRenamedIndexes($diff) as $foreignKey) {
-            if (in_array($foreignKey, $modifiedForeignKeys, true)) {
-                continue;
+            if (! in_array($foreignKey, $modifiedForeignKeys, true)) {
+                $sql[] = $this->getCreateForeignKeySQL($foreignKey, $tableName);
             }
-
-            $sql[] = $this->getCreateForeignKeySQL($foreignKey, $tableName);
         }
 
         return $sql;

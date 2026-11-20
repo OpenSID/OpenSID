@@ -105,11 +105,17 @@ class CodeIgniterResponseMiddleware
         // FASE 1: Session Synchronization (BEFORE controller)
         $this->syncSessionToGlobal($request);
         
+        // Store reference untuk reconciliation
+        $sessionIdBefore = $request->session()->getId();
+        $sessionKeysBefore = array_keys($request->session()->all());
+        
         // Execute controller
         $response = $next($request);
         
-        // FASE 2: Session Reconciliation (AFTER controller)
-        $this->reconcileSessionFromGlobal($request);
+        // FASE 2: Session Reconciliation (AFTER controller, jika session masih sama)
+        if ($request->session()->getId() === $sessionIdBefore) {
+            $this->reconcileSessionFromGlobal($request, $sessionKeysBefore);
+        }
         
         // FASE 3: Response Transformation
         return $this->resolveCodeIgniterResponse($request, $response);
@@ -120,10 +126,13 @@ class CodeIgniterResponseMiddleware
      */
     protected function syncSessionToGlobal(Request $request): void
     {
+        if (! $request->hasSession() || ! $request->session()->isStarted()) {
+            return;
+        }
+        
         $ciVars = $request->session()->get('__ci_vars', []);
         
         foreach ($request->session()->all() as $key => $value) {
-            // Skip flash data yang expired
             if (isset($ciVars[$key]) && 
                 ($ciVars[$key] === 'old' || 
                  (is_int($ciVars[$key]) && $ciVars[$key] < time()))) {
@@ -137,36 +146,27 @@ class CodeIgniterResponseMiddleware
     /**
      * Sync perubahan $_SESSION kembali ke Laravel session
      */
-    protected function reconcileSessionFromGlobal(Request $request): void
+    protected function reconcileSessionFromGlobal(Request $request, array $sessionKeysBefore): void
     {
-        // Skip jika session di-regenerate
-        if ($request->session()->getId() !== $sessionIdBefore) {
+        if (! isset($_SESSION)) {
             return;
         }
         
-        // CI managed keys (tidak boleh di-overwrite)
+        $ciVars = $request->session()->get('__ci_vars', []);
         $ciManagedKeys = array_merge(
             ['__ci_vars', '__ci_last_regenerate'],
-            array_keys($request->session()->get('__ci_vars', []))
+            array_keys($ciVars)
         );
         
-        // Hapus key yang diunset di $_SESSION
         foreach ($sessionKeysBefore as $key) {
-            if (in_array($key, $ciManagedKeys, true)) {
-                continue;
-            }
-            
-            if (! array_key_exists($key, $_SESSION ?? [])) {
+            if (in_array($key, $ciManagedKeys, true)) continue;
+            if (! array_key_exists($key, $_SESSION)) {
                 $request->session()->forget($key);
             }
         }
         
-        // Push perubahan $_SESSION ke Laravel session
-        foreach ($_SESSION ?? [] as $key => $value) {
-            if (in_array($key, $ciManagedKeys, true)) {
-                continue;
-            }
-            
+        foreach ($_SESSION as $key => $value) {
+            if (in_array($key, $ciManagedKeys, true)) continue;
             $request->session()->put($key, $value);
         }
     }
@@ -178,19 +178,16 @@ class CodeIgniterResponseMiddleware
         Request $request, 
         SymfonyResponse $response
     ): SymfonyResponse {
-        // Jika sudah ada X-CodeIgniter header, skip
         if ($response->headers->has('X-CodeIgniter')) {
             return $response;
         }
         
-        // Jika CI tidak di-bootstrap, skip
         if (! function_exists('get_instance')) {
             return $response;
         }
         
         $ci = &get_instance();
         
-        // Transform CI output jika ada
         if (! empty($ci?->output?->get_output())) {
             return $ci->output->toResponse($request);
         }
@@ -752,7 +749,7 @@ if (strlen($output) > 10 * 1024 * 1024) { // 10MB
 
 ## References
 
-- [Laravel Response Documentation](https://laravel.com/docs/10.x/responses)
+- [Laravel Response Documentation](https://laravel.com/docs/11.x/responses)
 - [Symfony HttpFoundation](https://symfony.com/doc/current/components/http_foundation.html)
 - [PSR-7 HTTP Message Interface](https://www.php-fig.org/psr/psr-7/)
 

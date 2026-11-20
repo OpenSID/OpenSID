@@ -16,11 +16,11 @@ class DevCommand extends Command
     use Prohibitable;
 
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'dev';
+    protected $signature = 'dev';
 
     /**
      * The console command description.
@@ -54,7 +54,7 @@ class DevCommand extends Command
 
         putenv('COLUMNS='.max(terminal()->width() - $longestName - 4, 1));
 
-        $this->line('');
+        // $this->line('');
 
         foreach ($devCommands as $devCommand) {
             $this->line(

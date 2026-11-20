@@ -3,6 +3,7 @@
 namespace Rap2hpoutre\FastExcel;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 use OpenSpout\Common\Entity\Cell;
 use OpenSpout\Reader\SheetInterface;
 use OpenSpout\Writer\Common\AbstractOptions;
@@ -11,13 +12,14 @@ use OpenSpout\Writer\Common\AbstractOptions;
  * Trait Importable.
  *
  * @property int  $start_row
+ * @property ?int $end_row
  * @property bool $transpose
  * @property bool $with_header
  */
 trait Importable
 {
     /**
-     * @var int
+     * @var int|string
      */
     private $sheet_number = 1;
 
@@ -42,15 +44,72 @@ trait Importable
     {
         $reader = $this->reader($path);
 
-        foreach ($reader->getSheetIterator() as $key => $sheet) {
-            if ($this->sheet_number != $key) {
-                continue;
+        try {
+            foreach ($reader->getSheetIterator() as $key => $sheet) {
+                if ($this->sheetMatches($key, $sheet)) {
+                    $collection = $this->importSheet($sheet, $callback);
+                    break;
+                }
             }
-            $collection = $this->importSheet($sheet, $callback);
+        } finally {
+            $reader->close();
         }
-        $reader->close();
 
         return collect($collection ?? []);
+    }
+
+    /**
+     * Import file lazily using LazyCollection for memory efficiency.
+     *
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $path
+     * @param callable|null                                              $callback
+     *
+     * @throws \OpenSpout\Common\Exception\UnsupportedTypeException
+     * @throws \OpenSpout\Reader\Exception\ReaderNotOpenedException
+     * @throws \OpenSpout\Common\Exception\IOException
+     *
+     * @return LazyCollection
+     */
+    public function importLazy($path, ?callable $callback = null)
+    {
+        return new LazyCollection(function () use ($path, $callback) {
+            $reader = $this->reader($path);
+
+            try {
+                foreach ($reader->getSheetIterator() as $key => $sheet) {
+                    if (!$this->sheetMatches($key, $sheet)) {
+                        continue;
+                    }
+                    if ($this->transpose) {
+                        // Fallback to non-lazy processing when transposing
+                        throw new \Exception('Transposing is not supported with lazy import.');
+                    }
+
+                    yield from $this->importSheetGenerator($sheet, $callback);
+                    break;
+                }
+            } finally {
+                $reader->close();
+            }
+        });
+    }
+
+    /**
+     * Whether the given sheet is the one selected via sheet().
+     * Selection accepts a 1-based index (int) or a sheet name (string).
+     *
+     * @param int            $key
+     * @param SheetInterface $sheet
+     *
+     * @return bool
+     */
+    private function sheetMatches(int $key, SheetInterface $sheet): bool
+    {
+        if (is_string($this->sheet_number)) {
+            return $this->sheet_number === $sheet->getName();
+        }
+
+        return (int) $this->sheet_number === $key;
     }
 
     /**
@@ -68,14 +127,18 @@ trait Importable
         $reader = $this->reader($path);
 
         $collections = [];
-        foreach ($reader->getSheetIterator() as $key => $sheet) {
-            if ($this->with_sheets_names) {
-                $collections[$sheet->getName()] = $this->importSheet($sheet, $callback);
-            } else {
-                $collections[] = $this->importSheet($sheet, $callback);
+
+        try {
+            foreach ($reader->getSheetIterator() as $sheet) {
+                if ($this->with_sheets_names) {
+                    $collections[$sheet->getName()] = $this->importSheet($sheet, $callback);
+                } else {
+                    $collections[] = $this->importSheet($sheet, $callback);
+                }
             }
+        } finally {
+            $reader->close();
         }
-        $reader->close();
 
         return new SheetCollection($collections);
     }
@@ -92,21 +155,20 @@ trait Importable
     {
         $type = $this->readerType($path);
 
-        if ($type === 'csv') {
-            $options = new \OpenSpout\Reader\CSV\Options();
-            $this->setOptions($options);
-            $reader = new \OpenSpout\Reader\CSV\Reader($options);
-        } elseif ($type === 'ods') {
-            $options = new \OpenSpout\Reader\ODS\Options();
-            $this->setOptions($options);
-            $reader = new \OpenSpout\Reader\ODS\Reader($options);
-        } else {
-            $options = new \OpenSpout\Reader\XLSX\Options();
-            $this->setOptions($options);
-            $reader = new \OpenSpout\Reader\XLSX\Reader($options);
-        }
+        $options = match ($type) {
+            'csv'   => new \OpenSpout\Reader\CSV\Options(),
+            'ods'   => new \OpenSpout\Reader\ODS\Options(),
+            default => new \OpenSpout\Reader\XLSX\Options(),
+        };
 
-        /* @var \OpenSpout\Reader\ReaderInterface $reader */
+        $this->setOptions($options);
+
+        $reader = match ($type) {
+            'csv'   => new \OpenSpout\Reader\CSV\Reader($options),
+            'ods'   => new \OpenSpout\Reader\ODS\Reader($options),
+            default => new \OpenSpout\Reader\XLSX\Reader($options),
+        };
+
         $reader->open($this->readerPath($path));
 
         return $reader;
@@ -287,18 +349,49 @@ trait Importable
 
         foreach ($array as $row => $columns) {
             foreach ($columns as $column => $value) {
-                data_set(
-                    $collection,
-                    implode('.', [
-                        $column,
-                        $row,
-                    ]),
-                    $value
-                );
+                $collection[$column][$row] = $value;
             }
         }
 
         return $collection;
+    }
+
+    /**
+     * Normalize a row according to start_row and headers.
+     * - Updates $headers and $count_header when encountering header row.
+     * - Pads/truncates rows to header size when headers exist.
+     * - Returns combined associative row when headers exist, or the raw row when not.
+     * - Returns null to skip processing (before start_row or header row itself).
+     *
+     * @param int   $key
+     * @param array $row
+     * @param array $headers
+     * @param int   $count_header
+     *
+     * @return array|null
+     */
+    private function normalizeRow(int $key, array $row, array &$headers, int &$count_header): ?array
+    {
+        if ($key < $this->start_row) {
+            return null;
+        }
+
+        if ($this->with_header) {
+            if ($key == $this->start_row) {
+                $headers = $this->uniqueHeaders($this->toStrings($row));
+                $count_header = count($headers);
+
+                return null; // skip header row
+            }
+
+            if ($count_header > $count_row = count($row)) {
+                $row = array_merge($row, array_fill(0, $count_header - $count_row, null));
+            } elseif ($count_header < $count_row = count($row)) {
+                $row = array_slice($row, 0, $count_header);
+            }
+        }
+
+        return empty($headers) ? $row : array_combine($headers, $row);
     }
 
     /**
@@ -312,8 +405,9 @@ trait Importable
         $headers = [];
         $collection = [];
         $count_header = 0;
+        $count_rows = 0;
 
-        foreach ($sheet->getRowIterator() as $k => $rowAsObject) {
+        foreach ($sheet->getRowIterator() as $key => $rowAsObject) {
             $row = array_map(function (Cell $cell) {
                 return match (true) {
                     $cell instanceof Cell\FormulaCell => $cell->getComputedValue(),
@@ -321,26 +415,21 @@ trait Importable
                 };
             }, $rowAsObject->getCells());
 
-            if ($k >= $this->start_row) {
-                if ($this->with_header) {
-                    if ($k == $this->start_row) {
-                        $headers = $this->uniqueHeaders($this->toStrings($row));
-                        $count_header = count($headers);
-                        continue;
-                    }
-                    if ($count_header > $count_row = count($row)) {
-                        $row = array_merge($row, array_fill(0, $count_header - $count_row, null));
-                    } elseif ($count_header < $count_row = count($row)) {
-                        $row = array_slice($row, 0, $count_header);
-                    }
+            $current = $this->normalizeRow($key, $row, $headers, $count_header);
+            if ($current === null) {
+                continue;
+            }
+
+            if ($callback) {
+                if ($result = $callback($current)) {
+                    $collection[] = $result;
                 }
-                if ($callback) {
-                    if ($result = $callback(empty($headers) ? $row : array_combine($headers, $row))) {
-                        $collection[] = $result;
-                    }
-                } else {
-                    $collection[] = empty($headers) ? $row : array_combine($headers, $row);
-                }
+            } else {
+                $collection[] = $current;
+            }
+
+            if ($this->end_row !== null && ++$count_rows >= $this->end_row) {
+                break;
             }
         }
 
@@ -352,6 +441,48 @@ trait Importable
     }
 
     /**
+     * Create a generator that lazily yields imported rows from a sheet.
+     *
+     * @param SheetInterface $sheet
+     * @param callable|null  $callback
+     *
+     * @return \Generator
+     */
+    private function importSheetGenerator(SheetInterface $sheet, ?callable $callback = null): \Generator
+    {
+        $headers = [];
+        $count_header = 0;
+        $count_rows = 0;
+
+        foreach ($sheet->getRowIterator() as $key => $rowAsObject) {
+            $row = array_map(function (Cell $cell) {
+                return match (true) {
+                    $cell instanceof Cell\FormulaCell => $cell->getComputedValue(),
+                    default                           => $cell->getValue(),
+                };
+            }, $rowAsObject->getCells());
+
+            $current = $this->normalizeRow($key, $row, $headers, $count_header);
+            if ($current === null) {
+                continue;
+            }
+
+            if ($callback) {
+                $result = $callback($current);
+                if ($result) {
+                    yield $result;
+                }
+            } else {
+                yield $current;
+            }
+
+            if ($this->end_row !== null && ++$count_rows >= $this->end_row) {
+                break;
+            }
+        }
+    }
+
+    /**
      * @param array $values
      *
      * @return array
@@ -359,9 +490,7 @@ trait Importable
     private function toStrings($values)
     {
         foreach ($values as &$value) {
-            if ($value instanceof \DateTime) {
-                $value = $value->format('Y-m-d H:i:s');
-            } elseif ($value instanceof \DateTimeImmutable) {
+            if ($value instanceof \DateTimeInterface) {
                 $value = $value->format('Y-m-d H:i:s');
             } elseif ($value) {
                 $value = (string) $value;

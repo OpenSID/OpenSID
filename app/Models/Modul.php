@@ -241,7 +241,7 @@ class Modul extends BaseModel
                             $query->select('id_modul')->from('grup_akses')->where('id_grup', $grupId);
                         });
                     })
-                    ->when(config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO), static function ($query) {
+                    ->when(is_demo_mode(), static function ($query) {
                         $query->whereNotIn('slug', ['layanan-pelanggan', 'pendaftaran-kerjasama']);
                     })
                     ->isChild()->isShow()

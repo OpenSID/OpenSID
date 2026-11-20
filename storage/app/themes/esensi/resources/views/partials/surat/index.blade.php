@@ -115,20 +115,23 @@
               </div>`;
                         messageContainer.innerHTML = suratHTML;
 
-                        // Update PDF viewer
+                        // Update PDF viewer with direct URL from server
                         if (surat.pdf) {
-                            const pdfData = `data:application/pdf;base64,${surat.pdf}`;
-                            pdfViewer.src = pdfData;
+                            pdfViewer.src = surat.pdf;
                         } else {
                             pdfViewer.src = '';
-                            console.warn('No PDF data available.');
+                            console.warn('No PDF URL available.');
                             messageContainer.innerHTML = notFoundHTML;
                         }
+                    } else {
+                        messageContainer.innerHTML = notFoundHTML;
+                        pdfViewer.src = '';
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching surat:', error);
                     messageContainer.innerHTML = notFoundHTML;
+                    pdfViewer.src = '';
                 });
         });
     </script>

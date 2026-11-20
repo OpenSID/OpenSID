@@ -77,6 +77,12 @@ return [
             'links'  => 'skip',
         ],
 
+        'template' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/template'),
+            'links'  => 'skip',
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),

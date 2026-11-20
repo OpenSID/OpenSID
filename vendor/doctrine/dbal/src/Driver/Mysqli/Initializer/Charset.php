@@ -23,10 +23,8 @@ final class Charset implements Initializer
             throw InvalidCharset::upcast($e, $this->charset);
         }
 
-        if ($success) {
-            return;
+        if (! $success) {
+            throw InvalidCharset::fromCharset($connection, $this->charset);
         }
-
-        throw InvalidCharset::fromCharset($connection, $this->charset);
     }
 }

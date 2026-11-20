@@ -46,6 +46,8 @@ class UuidObserver
 {
     public function creating(Model $model): void
     {
-        $model->uuid = Str::uuid();
+        if ($model->uuid === null || $model->uuid === '') {
+            $model->uuid = Str::uuid();
+        }
     }
 }

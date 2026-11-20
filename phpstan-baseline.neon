@@ -31,22 +31,10 @@ parameters:
 			path: app/Actions/GrupAkses/DefaultGrupAkses.php
 
 		-
-			message: '#^Offset ''database'' on array\<mixed, mixed\> on left side of \?\? does not exist\.$#'
-			identifier: nullCoalesce.offset
-			count: 2
-			path: app/Bootstrap/CodeIgniterBootstrap.php
-
-		-
 			message: '#^Trait App\\Bootstrap\\RequestAwareTrait is used zero times and is not analysed\.$#'
 			identifier: trait.unused
 			count: 1
 			path: app/Bootstrap/RequestAwareTrait.php
-
-		-
-			message: '#^Parameter \#1 \$string of function str_pad expects string, int given\.$#'
-			identifier: argument.type
-			count: 4
-			path: app/Console/Commands/AcakDataCommand.php
 
 		-
 			message: '#^Access to an undefined property CI_Controller\:\:\$config\.$#'
@@ -319,12 +307,6 @@ parameters:
 			path: app/Http/Transformers/WilayahTransformer.php
 
 		-
-			message: '#^Loose comparison using \=\= between 1 and 1 will always evaluate to true\.$#'
-			identifier: equal.alwaysTrue
-			count: 1
-			path: app/Imports/BantuanImports.php
-
-		-
 			message: '#^Strict comparison using \=\=\= between int and null will always evaluate to false\.$#'
 			identifier: identical.alwaysFalse
 			count: 1
@@ -409,12 +391,6 @@ parameters:
 			path: app/Libraries/Checker.php
 
 		-
-			message: '#^Access to an undefined property CI_Controller\:\:\$session\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Database.php
-
-		-
 			message: '#^Call to function is_object\(\) with object will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -425,12 +401,6 @@ parameters:
 			identifier: property.onlyWritten
 			count: 1
 			path: app/Libraries/Database.php
-
-		-
-			message: '#^Function str_slug not found\.$#'
-			identifier: function.notFound
-			count: 1
-			path: app/Libraries/Ekspor.php
 
 		-
 			message: '#^Method App\\Libraries\\FeedParser\:\:characterData\(\) is unused\.$#'
@@ -641,12 +611,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: app/Libraries/Release.php
-
-		-
-			message: '#^Access to an undefined property CI_Controller\:\:\$cache\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Saas.php
 
 		-
 			message: '#^Offset 0 on non\-empty\-list\<string\> on left side of \?\? always exists and is not nullable\.$#'
@@ -951,12 +915,6 @@ parameters:
 		-
 			message: '#^Method App\\Libraries\\TinyMCE\:\:getDaftarLampiran\(\) should return array but returns Illuminate\\Support\\Collection\<int, string\>\.$#'
 			identifier: return.type
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Method App\\Libraries\\TinyMCE\:\:updateHeightTd\(\) is unused\.$#'
-			identifier: method.unused
 			count: 1
 			path: app/Libraries/TinyMCE.php
 
@@ -1865,12 +1823,6 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: app/Models/BantuanPeserta.php
-
-		-
-			message: '#^Result of function show_404 \(void\) is used\.$#'
-			identifier: function.void
-			count: 2
-			path: app/Models/BaseModel.php
 
 		-
 			message: '#^Using nullsafe property access "\?\-\>alamatWilayah" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
@@ -3883,12 +3835,6 @@ parameters:
 			path: app/Models/SasaranPaud.php
 
 		-
-			message: '#^Empty array passed to foreach\.$#'
-			identifier: foreach.emptyArray
-			count: 1
-			path: app/Models/Setting.php
-
-		-
 			message: '#^PHPDoc type array of property App\\Models\\Setting\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
 			identifier: property.phpDocType
 			count: 1
@@ -4205,12 +4151,6 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: app/Models/UserGrup.php
-
-		-
-			message: '#^Function ci not found\.$#'
-			identifier: function.notFound
-			count: 1
-			path: app/Models/Widget.php
 
 		-
 			message: '#^PHPDoc type array of property App\\Models\\Widget\:\:\$attributes is not covariant with PHPDoc type array\<string, mixed\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$attributes\.$#'
@@ -4537,12 +4477,6 @@ parameters:
 			path: app/Providers/RouteServiceProvider.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between non\-empty\-string and false will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: app/Providers/RouteServiceProvider.php
-
-		-
 			message: '#^Strict comparison using \=\=\= between int and ''refresh'' will always evaluate to false\.$#'
 			identifier: identical.alwaysFalse
 			count: 1
@@ -4639,12 +4573,6 @@ parameters:
 			path: app/Repositories/SettingAplikasiRepository.php
 
 		-
-			message: '#^Loose comparison using \=\= between ''development'' and ''development'' will always evaluate to true\.$#'
-			identifier: equal.alwaysTrue
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
 			message: '#^Method App\\Repositories\\SettingAplikasiRepository\:\:uploadGambar\(\) should return string but returns null\.$#'
 			identifier: return.type
 			count: 1
@@ -4660,90 +4588,6 @@ parameters:
 			message: '#^Result of function json \(void\) is used\.$#'
 			identifier: function.void
 			count: 4
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Result of \|\| is always true\.$#'
-			identifier: booleanOr.alwaysTrue
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>anjungan_layar" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>footer_surat" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>footer_surat_tte" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>google_api_key" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>google_recaptcha" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>google_recaptcha_secret_key" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>google_recaptcha_site_key" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>header_surat" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>jarak_kehadiran" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>link_feed" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>mapbox_key" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>sebutan_anjungan_mandiri" in empty\(\) is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Using nullsafe property access on non\-nullable type stdClass\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 3
 			path: app/Repositories/SettingAplikasiRepository.php
 
 		-
@@ -4879,18 +4723,6 @@ parameters:
 			path: app/Services/DataEkspor.php
 
 		-
-			message: '#^Access to an undefined property CI_Controller\:\:\$config\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DatabaseConfiguratorService.php
-
-		-
-			message: '#^Parameter \#2 \$direction of method Illuminate\\Database\\Query\\Builder\:\:orderBy\(\) expects ''asc''\|''desc''\|SortDirection, ''DESC'' given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Services/Feed.php
-
-		-
 			message: '#^Offset ''0'' does not exist on array\{\}\.$#'
 			identifier: offsetAccess.notFound
 			count: 2
@@ -4931,12 +4763,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: app/Services/NotificationService.php
-
-		-
-			message: '#^Function ci not found\.$#'
-			identifier: function.notFound
-			count: 1
-			path: app/Services/OtpService.php
 
 		-
 			message: '#^Parameter \#1 \$value of static method Illuminate\\Support\\Facades\\Hash\:\:make\(\) expects string, int given\.$#'
@@ -4997,3 +4823,20 @@ parameters:
 			identifier: trait.unused
 			count: 1
 			path: app/Traits/UploadFotoUser.php
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 1
+			path: app/Bootstrap/CodeIgniterBootstrap.php
+
+		-
+			message: '#^Right side of && is always true\.$#'
+			identifier: booleanAnd.rightAlwaysTrue
+			count: 1
+			path: app/Helpers/opensid_helper.php
+
+		-
+			message: '#^Access to an undefined property CI_Controller\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/OtpService.php

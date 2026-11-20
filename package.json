@@ -4,14 +4,14 @@
     "prettier-blade": "prettier \"{resources/views,Modules/**/Views/,storage/**/resources/views}/{**,**/**,**/**/**}.blade.php\" --write"
   },
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
-    "@shufo/prettier-plugin-blade": "^1.11.1",
-    "@types/node": "^22.13.4",
-    "mysql2": "^3.22.3",
-    "prettier": "^3.0.3",
-    "xlsx": "^0.18.5"
+    "@playwright/test": "^1.62.1",
+    "@shufo/prettier-plugin-blade": "^1.16.2",
+    "@types/node": "^26.2.0",
+    "mysql2": "^3.23.2",
+    "prettier": "^3.9.6",
+    "@e965/xlsx": "^0.20.3"
   },
   "dependencies": {
-    "dotenv": "^16.4.7"
+    "dotenv": "^17.4.2"
   }
 }

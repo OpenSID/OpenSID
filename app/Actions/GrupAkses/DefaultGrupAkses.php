@@ -83,6 +83,7 @@ class DefaultGrupAkses
             'satgas-covid-19' => [
                 'statistik'              => 0,
                 'statistik-kependudukan' => 3,
+                'laporan-perkembangan'   => 3,
                 'kesehatan'              => 0,
                 'pendataan'              => 7,
                 'pemantauan'             => 7,
@@ -127,6 +128,7 @@ class DefaultGrupAkses
                 'peristiwa'                         => 7,
                 'statistik'                         => 0,
                 'statistik-kependudukan'            => 7,
+                'laporan-perkembangan'              => 7,
                 'laporan-bulanan'                   => 7,
                 'laporan-kelompok-rentan'           => 7,
                 'laporan-penduduk'                  => 7,
@@ -191,6 +193,7 @@ class DefaultGrupAkses
                 'peristiwa'                         => 3,
                 'statistik'                         => 0,
                 'statistik-kependudukan'            => 3,
+                'laporan-perkembangan'              => 3,
                 'laporan-bulanan'                   => 3,
                 'laporan-kelompok-rentan'           => 3,
                 'laporan-penduduk'                  => 3,

@@ -478,10 +478,10 @@ class HeuristicDetectorDefaultService
 
             // Check if excluded - normalize paths for comparison
             $excluded       = false;
-            $normalizedPath = str_replace('\\', '/', $filepath);
+            $normalizedPath = strtolower(str_replace('\\', '/', $filepath));
 
             foreach ($excludeDirs as $excludeDir) {
-                $normalizedExclude = str_replace('\\', '/', $excludeDir);
+                $normalizedExclude = strtolower(str_replace('\\', '/', $excludeDir));
                 // Check if path contains the excluded directory
                 if (str_contains($normalizedPath, $normalizedExclude)) {
                     $excluded = true;

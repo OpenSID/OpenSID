@@ -249,12 +249,7 @@ class Admin_Controller extends MY_Controller
         $this->header['notif_pengumuman'] = ($kode_desa || $force) ? null : $this->cek_pengumuman();
 
         if (! config_item('demo_mode')) {
-            // cek langganan premium
-            $info_langganan = $this->cache->file->get_metadata('status_langganan');
-
-            if (empty($info_langganan)
-                || (strtotime('+30 day', $info_langganan['mtime']) < time())
-                || ($info_langganan == false && setting('layanan_opendesa_token') != null)) {
+            if (empty(cache()->store('subscription')->get('status_langganan'))) {
                 $this->header['perbaharui_langganan'] = true;
             }
         }
@@ -262,8 +257,7 @@ class Admin_Controller extends MY_Controller
 
     private function cek_pengumuman()
     {
-        if (app()->environment(['development', 'testing'])
-            || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
+        if (is_demo_mode()) {
             return null;
         }
 

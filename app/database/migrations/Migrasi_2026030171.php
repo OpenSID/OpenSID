@@ -35,7 +35,6 @@
  *
  */
 
-use App\Enums\FormatNoRtmEnum;
 use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
@@ -58,7 +57,6 @@ return new class () extends Migration {
         $this->tambahTanggalPeriksa();
         $this->tweb_penduduk_mandiri();
         $this->modifikasiStrukturTabel();
-        $this->tambahPengaturanNoRtm();
         $this->tambahKolomIdKelompokDokumen();
         $this->updateViewDokumenHidup();
         $this->tambahUniqueSlugConfigArtikel();
@@ -173,20 +171,6 @@ return new class () extends Migration {
             logger()->error('Gagal memodifikasi struktur tabel: ' . $e->getMessage());
             set_session('warning', 'Gagal memodifikasi struktur tabel: ' . $e->getMessage() . 'Silahkan cek dan perbaiki data terkait sebelum menjalankan migrasi kembali melalui <a href="' . site_url('periksa') . '">halaman periksa</a>.');
         }
-    }
-
-    public function tambahPengaturanNoRtm(): void
-    {
-        $this->createSetting([
-            'judul'      => 'Format Nomor Rumah Tangga',
-            'key'        => 'format_no_rtm',
-            'value'      => FormatNoRtmEnum::ANGKA,
-            'keterangan' => 'Format yang digunakan untuk penomoran nomor rumah tangga',
-            'jenis'      => 'select-array',
-            'option'     => json_encode(FormatNoRtmEnum::toOptionArray()),
-            'kategori'   => 'Rumah Tangga',
-            'attribute'  => json_encode([]),
-        ]);
     }
 
     public function tambahKolomIdKelompokDokumen(): void

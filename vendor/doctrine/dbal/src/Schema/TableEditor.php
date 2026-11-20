@@ -398,11 +398,9 @@ final class TableEditor
         $this->primaryKeyConstraint = $primaryKeyConstraint;
 
         foreach ($this->indexes->toList() as $index) {
-            if (! $index->isPrimary()) {
-                continue;
+            if ($index->isPrimary()) {
+                $this->indexes->remove($index->getObjectName());
             }
-
-            $this->indexes->remove($index->getObjectName());
         }
 
         return $this;

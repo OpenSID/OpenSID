@@ -1,0 +1,56 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Support\Facades\Request;
+use Yajra\DataTables\Html\Builder;
+use Yajra\DataTables\Html\Button;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\DataTableHtml;
+use Yajra\DataTables\Html\Editor\Fields;
+use Yajra\DataTables\Html\Editor\Editor;
+
+final class DummyClass extends DataTableHtml
+{
+    protected string $tableId = 'DummyTableId';
+
+    public function options(Builder $builder): void
+    {
+        $builder
+            ->orderBy(1)
+            ->languageSearchPlaceholder('Search...');
+    }
+
+    /**
+     * @return array<int, \Yajra\DataTables\Html\Column>
+     */
+    public function columns(): array
+    {
+        return [
+            DummyColumns
+        ];
+    }
+
+    /**
+     * @return array<int, \Yajra\DataTables\Html\Button>
+     */
+    public function buttons(): array
+    {
+        return [
+            DummyButtons
+        ];
+    }
+
+    /**
+     * @return array<int, \Yajra\DataTables\Html\Editor\Editor>
+     */
+    public function editors(): array
+    {
+        return [
+//             Editor::make()
+//                ->fields([
+//                     Fields\Text::make('field_name'),
+//                ]),
+        ];
+    }
+}

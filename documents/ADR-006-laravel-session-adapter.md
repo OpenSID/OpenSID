@@ -502,7 +502,7 @@ Benchmarks (1000 requests):
 
 ## References
 
-- [Laravel Session Documentation](https://laravel.com/docs/10.x/session)
+- [Laravel Session Documentation](https://laravel.com/docs/11.x/session)
 - [CodeIgniter 3 Session Library](https://codeigniter.com/userguide3/libraries/sessions.html)
 - [Adapter Pattern](https://refactoring.guru/design-patterns/adapter)
 

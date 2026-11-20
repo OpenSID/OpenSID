@@ -43,6 +43,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 return new class () extends Migration {
     use Migrator;
@@ -77,7 +78,7 @@ return new class () extends Migration {
         // Daftar url_surat legacy dibangun dari nama surat di JSON (getSuratBawaanTinyMCE),
         // sehingga hanya menghapus yang memang punya padanan bawaan, bukan semua 'surat-*'.
         $legacyUrls = getSuratBawaanTinyMCE()
-            ->map(static fn ($surat): string => 'surat-' . url_title($surat['nama'], '-', true))
+            ->map(static fn ($surat): string => 'surat-' . Str::slug($surat['nama'], '-'))
             ->values()
             ->all();
 

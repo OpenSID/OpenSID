@@ -44,30 +44,89 @@ use App\Models\SettingAplikasi;
 use App\Rules\Traits\ValidateCloudDomainTrait;
 use App\Services\OtpService;
 use App\Traits\Upload;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\Facades\LogBatch;
 
 class SettingAplikasiRepository
 {
     use Upload;
- use ValidateCloudDomainTrait;
+    use ValidateCloudDomainTrait;
 
     protected SettingAplikasi $setting;
+
+    /**
+     * Cache in-memory hasil resolve setting (key => value) yang di-share antar
+     * instance repository. Diisi lewat resolveSetting(), dipakai oleh helper
+     * setting() & shim applySettingCI() sehingga semuanya mereferensi objek.
+     */
+    protected static ?object $resolvedSetting = null;
+
+    /**
+     * Cache in-memory daftar baris setting mentah (dulu $ci->list_setting).
+     */
+    protected static ?Collection $resolvedListSetting = null;
 
     public function __construct()
     {
         $this->setting = new SettingAplikasi();
     }
 
+    /**
+     * Shim BC untuk legacy CI3 (dipanggil dari MY_Controller::__construct()).
+     *
+     * Resolve logic sepenuhnya ada di resolveSetting()/buildSetting() milik
+     * instance repository ini (di-bind sebagai singleton di container), method
+     * ini cuma menyalin referensinya ke properti publik $ci supaya
+     * controller/view CI3 lama yang masih akses $this->setting atau
+     * $this->list_setting tidak perlu diubah.
+     */
     public static function applySettingCI($ci): void
     {
         if ($ci->setting) {
             return;
         }
 
-        $ci->list_setting = SettingAplikasi::urut()->get();
+        $repository = app(static::class);
 
-        // ambil setting dari global.json jika ada
+        $ci->setting      = $repository->resolveSetting();
+        $ci->list_setting = $repository->resolvedListSetting();
+    }
+
+    /**
+     * Mengambil object setting aplikasi (key => value), resolve dulu kalau belum pernah
+     * di-resolve pada instance ini. Dipakai oleh helper setting().
+     */
+    public function resolveSetting(): object
+    {
+        return static::$resolvedSetting ??= $this->buildSetting();
+    }
+
+    /**
+     * Daftar mentah baris setting (dulu $ci->list_setting).
+     */
+    public function resolvedListSetting(): Collection
+    {
+        $this->resolveSetting();
+
+        return static::$resolvedListSetting;
+    }
+
+    /**
+     * Buang cache in-memory hasil resolve. Berguna setelah update setting di
+     * request yang sama, atau di antar test PHPUnit yang sengaja reuse container.
+     */
+    public function forgetResolvedSetting(): void
+    {
+        static::$resolvedSetting     = null;
+        static::$resolvedListSetting = null;
+    }
+
+    protected function buildSetting(): object
+    {
+        $listSetting = SettingAplikasi::urut()->get();
+
+        // Ambil setting dari global.json jika ada (override read-only, mis. instalasi cloud).
         $path = DESAPATH . 'config/global.json';
 
         if (is_file($path)) {
@@ -82,7 +141,7 @@ class SettingAplikasiRepository
                 $configGlobal->put('sebutan_desa', 'Kelurahan');
             }
 
-            $ci->list_setting->transform(static function ($item) use ($configGlobal) {
+            $listSetting = $listSetting->transform(static function ($item) use ($configGlobal) {
                 if (! $configGlobal->has($item->key)) {
                     return $item;
                 }
@@ -100,106 +159,176 @@ class SettingAplikasiRepository
             });
         }
 
-        $ci->setting = (object) $ci->list_setting
+        $setting = (object) $listSetting
             ->pluck('value', 'key')
             ->map(static fn ($value) => SebutanDesa($value))
             ->toArray();
 
-        //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
-        date_default_timezone_set($ci->setting?->timezone); // ganti ke timezone lokal
+        $timezone = $setting->timezone ?? config('app.timezone');
 
-        // Ambil google api key dari desa/config/config.php kalau tidak ada di database
-        if (empty($ci->setting?->mapbox_key) && ! empty(config_item('mapbox_key'))) {
-            $ci->setting->mapbox_key = config_item('mapbox_key');
+        config()->set('app.timezone', $timezone);
+        date_default_timezone_set($timezone);
+
+        // Ambil key layanan pihak ketiga: DB > config('services.*') > config_item() (legacy, fallback terakhir)
+        if (empty($setting->mapbox_key)) {
+            $setting->mapbox_key = $this->configOrLegacy(config('services.map.mapbox_key'), 'mapbox_key');
         }
 
-        if (empty($ci->setting?->google_api_key) && ! empty(config_item('google_api_key'))) {
-            $ci->setting->google_api_key = config_item('google_api_key');
+        if (empty($setting->google_api_key)) {
+            $setting->google_api_key = $this->configOrLegacy(config('services.google.api_key'), 'google_api_key');
         }
 
-        if (empty($ci->setting?->google_recaptcha_site_key) && ! empty(config_item('google_recaptcha_site_key'))) {
-            $ci->setting->google_recaptcha_site_key = config_item('google_recaptcha_site_key');
+        if (empty($setting->google_recaptcha_site_key)) {
+            $setting->google_recaptcha_site_key = $this->configOrLegacy(config('services.google.recaptcha.site_key'), 'google_recaptcha_site_key');
         }
 
-        if (empty($ci->setting?->google_recaptcha_secret_key) && ! empty(config_item('google_recaptcha_secret_key'))) {
-            $ci->setting->google_recaptcha_secret_key = config_item('google_recaptcha_secret_key');
+        if (empty($setting->google_recaptcha_secret_key)) {
+            $setting->google_recaptcha_secret_key = $this->configOrLegacy(config('services.google.recaptcha.secret_key'), 'google_recaptcha_secret_key');
         }
 
-        if (empty($ci->setting?->google_recaptcha) && ! empty(config_item('google_recaptcha'))) {
-            $ci->setting->google_recaptcha = config_item('google_recaptcha');
+        if (empty($setting->google_recaptcha)) {
+            $setting->google_recaptcha = $this->configOrLegacy(config('services.google.recaptcha.enabled'), 'google_recaptcha');
         }
 
         // Validasi google_recaptcha hanya aktif jika site key dan secret key terisi
-        $ci->setting->google_recaptcha = (bool) $ci->setting->google_recaptcha && ! empty($ci->setting->google_recaptcha_site_key) && ! empty($ci->setting->google_recaptcha_secret_key);
+        $setting->google_recaptcha = (bool) $setting->google_recaptcha
+            && ! empty($setting->google_recaptcha_site_key)
+            && ! empty($setting->google_recaptcha_secret_key);
 
-        if (empty($ci->setting?->header_surat)) {
-            $ci->setting->header_surat = TinyMCE::HEADER;
+        if (empty($setting->header_surat)) {
+            $setting->header_surat = TinyMCE::HEADER;
         }
 
-        if (empty($ci->setting?->footer_surat)) {
-            $ci->setting->footer_surat = TinyMCE::FOOTER;
+        if (empty($setting->footer_surat)) {
+            $setting->footer_surat = TinyMCE::FOOTER;
         }
 
-        if (empty($ci->setting?->footer_surat_tte)) {
-            $ci->setting->footer_surat_tte = TinyMCE::FOOTER_TTE;
+        if (empty($setting->footer_surat_tte)) {
+            $setting->footer_surat_tte = TinyMCE::FOOTER_TTE;
         }
 
-        // Ganti token_layanan sesuai config untuk mempermudah development
-        if ((ENVIRONMENT == 'development') || config_item('token_layanan')) {
-            $ci->setting->layanan_opendesa_token = config_item('token_layanan');
+        // Ganti token_layanan sesuai environment untuk mempermudah development
+        $tokenLayanan = $this->configOrLegacy(config('services.opendesa.token_layanan'), 'token_layanan');
+        if (app()->environment('development') || $tokenLayanan) {
+            $setting->layanan_opendesa_token = $tokenLayanan;
         }
 
-        $ci->setting->user_admin = config_item('user_admin');
+        $setting->user_admin = $this->configOrLegacy(config('opensid.user_admin'), 'user_admin');
 
         // Sebutan pemerintah desa diambil dari Pemerintah + sebutan_desa
-        $ci->setting->sebutan_pemerintah_desa = ucwords('Pemerintah ' . $ci->setting->sebutan_desa);
+        $setting->sebutan_pemerintah_desa = ucwords('Pemerintah ' . $setting->sebutan_desa);
 
-        // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
+        // Sebutan kepala desa & sekretaris desa (dari tabel ref_jabatan jenis = 1 / 2)
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
-        $ci->setting->sebutan_kepala_desa = kades()->nama;
+        $setting->sebutan_kepala_desa = kades()->nama;
+        $setting->sebutan_sekretaris_desa = sekdes()->nama;
 
-        // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
-        $ci->setting->sebutan_sekretaris_desa = sekdes()->nama;
-
-        // Setting Multi Desa untuk OpenKab
-        $ci->setting->multi_desa = Config::count() > 1;
-
-        // Setting Multi Database untuk OpenKab
-        $ci->setting->multi_database = array_key_exists('opensid-gabungan', config('database.connections'));
+        // Setting Multi Desa / Multi Database untuk OpenKab
+        $setting->multi_desa = Config::count() > 1;
+        $setting->multi_database = array_key_exists('opensid-gabungan', config('database.connections'));
 
         // Feeds
-        if (empty($ci->setting?->link_feed)) {
-            $ci->setting->link_feed = 'https://www.covid19.go.id/feed/';
+        if (empty($setting->link_feed)) {
+            $setting->link_feed = 'https://www.covid19.go.id/feed/';
         }
 
-        if (empty($ci->setting?->anjungan_layar)) {
-            $ci->setting->anjungan_layar = 1;
+        if (empty($setting->anjungan_layar)) {
+            $setting->anjungan_layar = 1;
         }
 
-        if (empty($ci->setting?->sebutan_anjungan_mandiri)) {
-            $ci->setting->sebutan_anjungan_mandiri = SebutanDesa('Anjungan [desa] Mandiri');
+        if (empty($setting->sebutan_anjungan_mandiri)) {
+            $setting->sebutan_anjungan_mandiri = SebutanDesa('Anjungan [desa] Mandiri');
         }
 
-        // Konversi nilai margin global dari cm ke mm
-        $margins                            = json_decode($ci->setting?->surat_margin, true);
-        $ci->setting->surat_margin_cm_to_mm = [
-            $margins['kiri'] * 10,
-            $margins['atas'] * 10,
-            $margins['kanan'] * 10,
-            $margins['bawah'] * 10,
-        ];
-
-        // Konversi nilai margin surat dinas global dari cm ke mm
-        $margins                                  = json_decode($ci->setting?->surat_dinas_margin, true);
-        $ci->setting->surat_dinas_margin_cm_to_mm = [
-            $margins['kiri'] * 10,
-            $margins['atas'] * 10,
-            $margins['kanan'] * 10,
-            $margins['bawah'] * 10,
-        ];
+        // Konversi nilai margin (global & surat dinas) dari cm ke mm
+        $setting->surat_margin_cm_to_mm = $this->marginCmToMm($setting->surat_margin ?? null);
+        $setting->surat_dinas_margin_cm_to_mm = $this->marginCmToMm($setting->surat_dinas_margin ?? null);
 
         // Kehadiran
-        $ci->setting->jarak_kehadiran = $ci->setting?->jarak_kehadiran ?? SettingAplikasi::JARAK_KEHADIRAN;
+        $setting->jarak_kehadiran = $setting->jarak_kehadiran ?? SettingAplikasi::JARAK_KEHADIRAN;
+
+        static::$resolvedListSetting = $listSetting;
+
+        $this->syncLaravelConfig($setting);
+
+        return $setting;
+    }
+
+    /**
+     * Sinkronisasi setting ke config Laravel (config/mail.php, config/services.php, config/captcha.php)
+     * agar bisa dipakai oleh service Laravel (Mail, Notification, Captcha) tanpa harus
+     * mengubah kode lama yang masih akses setting() secara langsung.
+     */
+    private function syncLaravelConfig(object $setting): void
+    {
+        if (! empty($setting->email_smtp_host)) {
+            $protocol = $setting->email_protocol ?: 'smtp';
+            $host     = $this->configOrLegacy(config("mail.mailers.{$protocol}.host"), 'email_smtp_host');
+
+            if (empty($host)) {
+                config([
+                    'mail.default' => $protocol,
+                    "mail.mailers.{$protocol}" => [
+                        'transport'    => $protocol,
+                        'host'         => $setting->email_smtp_host,
+                        'port'         => $setting->email_smtp_port,
+                        'username'     => $setting->email_smtp_user,
+                        'password'     => $setting->email_smtp_pass,
+                    ],
+                ]);
+            }
+        }
+
+        $telegramToken = $this->configOrLegacy(config('services.telegram-bot-api.token'), 'telegram_token');
+        if (empty($telegramToken) && ! empty($setting->telegram_token)) {
+            config(['services.telegram-bot-api.token' => $setting->telegram_token]);
+        }
+
+        $recaptchaSecret = $this->configOrLegacy(config('captcha.secret'), 'google_recaptcha_secret_key');
+        if (empty($recaptchaSecret) && ! empty($setting->google_recaptcha_secret_key)) {
+            config([
+                'captcha' => [
+                    'secret'          => $setting->google_recaptcha_secret_key,
+                    'sitekey'         => $setting->google_recaptcha_site_key,
+                    'options'         => [],
+                    'version'         => $setting->google_recaptcha_version ?? 'v2',
+                    'score_threshold' => $setting->google_recaptcha_score_threshold ?? 0.5,
+                ],
+            ]);
+        }
+    }
+
+    /**
+     * @return array{0: float|int, 1: float|int, 2: float|int, 3: float|int}
+     */
+    private function marginCmToMm(?string $json): array
+    {
+        $margins = json_decode($json ?? '', true) ?: [];
+
+        return [
+            ($margins['kiri'] ?? 0) * 10,
+            ($margins['atas'] ?? 0) * 10,
+            ($margins['kanan'] ?? 0) * 10,
+            ($margins['bawah'] ?? 0) * 10,
+        ];
+    }
+
+    /**
+     * Ambil nilai config Laravel-native (config/service.php) sebagai sumber utama,
+     * config_item() (desa/config/config.php, CI3) hanya dipakai sebagai fallback
+     * terakhir untuk instalasi lama yang belum memindahkan nilainya ke .env
+     */
+    private function configOrLegacy(mixed $configValue, string $legacyKey): mixed
+    {
+        if (! empty($configValue)) {
+            return $configValue;
+        }
+
+        if (! function_exists('config_item')) {
+            return null;
+        }
+
+        return config_item($legacyKey);
     }
 
     /**
@@ -250,12 +379,58 @@ class SettingAplikasiRepository
             return false;
         }
 
+        // Validasi value untuk key token layanan
+        if ($this->isKeyTokenLayanan($key)) {
+            $value = $this->validateTokenLayananValue($key, $value);
+        }
+
         $data->value = $value;
         $data->save();
 
         $this->flushCache();
+        $this->forgetResolvedSetting();
 
         return true;
+    }
+
+    /**
+     * Cek apakah key adalah token layanan yang perlu validasi khusus.
+     */
+    private function isKeyTokenLayanan(string $key): bool
+    {
+        $tokenKeys = [
+            'layanan_opendesa_token',
+            'mapbox_key',
+            'google_api_key',
+            'google_recaptcha_site_key',
+            'google_recaptcha_secret_key',
+        ];
+
+        return in_array($key, $tokenKeys, true);
+    }
+
+    /**
+     * Validasi value untuk token layanan.
+     *
+     * @param  string  $key  Key setting
+     * @param  mixed  $value  Value yang akan divalidasi
+     * @return mixed Value yang sudah divalidasi
+     */
+    private function validateTokenLayananValue(string $key, mixed $value): mixed
+    {
+        // Untuk layanan_opendesa_token, validasi dilakukan oleh LayananTokenRepository
+        // Method ini hanya untuk validasi dasar format token lainnya
+        if ($key === 'layanan_opendesa_token') {
+            return $value;
+        }
+
+        // Validasi dasar: pastikan value adalah string dan tidak kosong
+        if (is_string($value) && trim($value) !== '') {
+            // Sanitasi input untuk mencegah XSS
+            $value = strip_tags($value);
+        }
+
+        return $value;
     }
 
     /**
@@ -288,13 +463,13 @@ class SettingAplikasiRepository
                 if ($key == 'tampilkan_pendaftaran' && $value == 1 && (setting('email_notifikasi') == 0 || setting('telegram_notifikasi') == 0)) {
                     $value = 0;
                     $hasil = false;
-                    set_session('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
+                    session()->flash('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
                 }
 
                 if ($key == 'google_recaptcha' && $value == 1 && (empty($data['google_recaptcha_site_key']) || empty($data['google_recaptcha_secret_key']))) {
                     $value = 0;
                     $hasil = false;
-                    set_session('flash_error_msg', 'Untuk mengaktifkan Google reCAPTCHA, Site Key dan Secret Key harus diisi');
+                    session()->flash('flash_error_msg', 'Untuk mengaktifkan Google reCAPTCHA, Site Key dan Secret Key harus diisi');
                 }
 
                 // Terapkan perlindungan SSRF lokal untuk api_opendk_server via trait
@@ -303,7 +478,7 @@ class SettingAplikasiRepository
                         data: [$key => $value],
                         requireCloudWhitelist: false,
                         attribute: $key,
-                        redirectUrl: base_url('sinkronisasi#tab_buat_key')
+                        redirectUrl: url('sinkronisasi#tab_buat_key')
                     );
                 }
 

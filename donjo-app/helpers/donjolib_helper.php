@@ -221,10 +221,6 @@ function selected($a, $b, $opt = 0): void
     }
 }
 
-function date_is_empty($tgl): bool
-{
-    return empty($tgl) || substr($tgl, 0, 10) === '0000-00-00';
-}
 
 function rev_tgl($tgl, $replace_with = '-')
 {
@@ -253,41 +249,6 @@ function unpenetration($str): string
 function spaceunpenetration($str): string
 {
     return str_replace('-', ' ', $str);
-}
-
-function bulan()
-{
-    return [1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'];
-}
-
-function getBulan(int $bln)
-{
-    $bulan = bulan();
-
-    return $bulan[$bln];
-}
-
-/**
- * @param mixed      $asc
- * @param mixed|null $tambah
- *
- * @return string[]
- */
-function tahun(?int $awal = null, $asc = false, $tambah = null): array
-{
-    $akhir = $tambah ? date('Y') + $tambah : date('Y');
-    $awal ??= $akhir;
-    $tahun = [];
-
-    for ($i = $akhir; $i >= $awal; $i--) {
-        $tahun[] = $i;
-    }
-
-    if ($asc) {
-        sort($tahun);
-    }
-
-    return $tahun;
 }
 
 function nama_bulan($tgl): string
@@ -353,7 +314,7 @@ function koma($a = 1): string
 
 function tgl_indo2($tgl, $replace_with = '-')
 {
-    if (date_is_empty($tgl)) {
+    if (date_is_empty($tgl) || strlen($tgl) < 7) {
         return $replace_with;
     }
     $tanggal = substr($tgl, 8, 2);
@@ -408,20 +369,6 @@ function tgl_indo_out($tgl, $replace_with = '-')
 
         return $tanggal . '-' . $bulan . '-' . $tahun;
     }
-}
-
-function tgl_indo_in($tgl, $replace_with = '-')
-{
-    if (date_is_empty($tgl)) {
-        return $replace_with;
-    }
-    $tanggal = substr($tgl, 0, 2);
-    $bulan   = substr($tgl, 3, 2);
-    $tahun   = substr($tgl, 6, 4);
-    $jam     = substr($tgl, 11);
-    $jam     = $jam === '' ? '' : ' ' . $jam;
-
-    return $tahun . '-' . $bulan . '-' . $tanggal . $jam;
 }
 
 function waktu_ind($time): string

@@ -4,7 +4,7 @@
             <label>Header Surat Dispenduk</label>
             <textarea
                 name="header_surat_dispenduk"
-                class="form-control input-sm editor required"
+                class="form-control input-sm editor"
                 data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>'
                 data-salintemplate="header-footer"
                 data-jenis="header">{{ setting('header_surat_dispenduk') }}

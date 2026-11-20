@@ -49,7 +49,11 @@ function csrf_semua_form() {
  * biasanya dipanggil setelah AJAX selesai (token bisa diperbarui server).
  */
 function refreshFormCsrf() {
-    $(`form input[type="hidden"][name="${csrfParam}"]`).val($.cookie(csrfParam));
+    const token = $.cookie(csrfParam);
+
+    if (token) {
+        $(`form input[type="hidden"][name="${csrfParam}"]`).val(token);
+    }
 }
 
 // ============================================================
@@ -152,7 +156,7 @@ $.ajaxPrefilter(function (opts) {
         return;
     }
 
-    const token = $.cookie(csrfParam);
+    const token = getCsrfToken();
 
     if (opts.data instanceof FormData) {
         opts.data.append(csrfParam, token);
@@ -213,26 +217,26 @@ $(function () {
     // --------------------------------------------------------
     $(document).on("submit", "form", function () {
         const $form = $(this);
-    
+
         // 1. Validasi: Jangan disable tombol jika form tidak valid
         if (typeof $.fn.valid === 'function' && $form.data('validator') && !$form.valid()) {
             return;
         }
-    
+
         // 2. Cari tombol submit yang aktif dan terlihat
         const $btn = $form.find("button[type=submit]:enabled:visible, input[type=submit]:enabled:visible").first();
-    
+
         // 3. Cek apakah tombol ditemukan
         if ($btn.length === 0) {
             return;
         }
-    
+
         // 4. Disable tombol untuk mencegah double-submit
         disableBtn($btn);
-    
+
         // 5. Penanganan khusus jika form tidak me-reload halaman (misal: target="_blank")
         const isExternalOpen = $form.attr("target") === "_blank";
-        
+
         if (isExternalOpen) {
             const btnRef = $btn[0];
             // Restore button setelah delay singkat agar user bisa klik lagi nanti

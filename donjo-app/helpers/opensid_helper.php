@@ -77,159 +77,6 @@ use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\Kehadiran;
 use voku\helper\AntiXSS;
 
-/**
- * VERSI
- *
- * Versi OpenSID
- */
-define('VERSION', '2707.0.0');
-
-/**
- * VERSI_DATABASE
- * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
- * Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
- * Versi database = [yyyymmdd][nomor urut dua digit]
- * [nomor urut dua digit] : 01 => rilis umum, 71 => rilis premium,
- *
- * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
- */
-define('VERSI_DATABASE', '2026070171');
-
-// Kode laporan statistik
-define('JUMLAH', 666);
-define('BELUM_MENGISI', 777);
-define('TOTAL', 888);
-
-// Kode laporan mandiri di tabel komentar
-define('LAPORAN_MANDIRI', 'pesan-mandiri');
-
-// Kode artikel terkait agenda
-define('AGENDA', 'agenda');
-
-define('MAX_PINDAH', 7);
-define('MAX_ANGGOTA', 7);
-define('SASARAN', serialize([
-    '1' => 'Penduduk',
-    '2' => 'Keluarga / KK',
-    '3' => 'Rumah Tangga',
-    '4' => 'Kelompok/Organisasi Kemasyarakatan',
-]));
-define('ASALDANA', serialize([
-    'Pusat'             => 'Pusat',
-    'Provinsi'          => 'Provinsi',
-    'Kab/Kota'          => 'Kab/Kota',
-    'Dana Desa'         => 'Dana Desa',
-    'Lain-lain (Hibah)' => 'Lain-lain (Hibah)',
-]));
-
-define('TEMPAT_DILAHIRKAN', serialize([
-    'RS/RB'     => '1',
-    'Puskesmas' => '2',
-    'Polindes'  => '3',
-    'Rumah'     => '4',
-    'Lainnya'   => '5',
-]));
-define('JENIS_KELAHIRAN', serialize([
-    'Tunggal'  => '1',
-    'Kembar 2' => '2',
-    'Kembar 3' => '3',
-    'Kembar 4' => '4',
-]));
-define('PENOLONG_KELAHIRAN', serialize([
-    'Dokter'        => '1',
-    'Bidan Perawat' => '2',
-    'Dukun'         => '3',
-    'Lainnya'       => '4',
-]));
-define('JENIS_MUTASI', serialize([
-    'Hapus barang masih baik' => '1',
-    'Hapus barang rusak'      => '4',
-    'Status rusak'            => '2',
-    'Status diperbaiki'       => '3',
-]));
-define('JENIS_PENGHAPUSAN', serialize([
-    'Rusak'     => '1',
-    'Dijual'    => '2',
-    'Disumbang' => '3',
-]));
-define('ASAL_INVENTARIS', serialize([
-    'Dibeli Sendiri'     => '1',
-    'Bantuan Pemerintah' => '2',
-    'Bantuan Provinsi'   => '3',
-    'Bantuan Kabupaten'  => '4',
-    'Sumbangan'          => '5',
-]));
-define('KATEGORI_MAILBOX', serialize([
-    'Kotak Masuk'  => '1',
-    'Kotak Keluar' => '2',
-]));
-
-define('NILAI_PENDAPAT', serialize([
-    1 => 'Sangat Puas',
-    2 => 'Puas',
-    3 => 'Cukup',
-    4 => 'Buruk',
-]));
-
-define('PENGGUNAAN_BARANG', serialize([
-    '01' => 'Pemerintah Desa',
-    '02' => 'Badan Permusyawaratan Desa',
-    '03' => 'PKK',
-    '04' => 'LKMD',
-    '05' => 'Karang Taruna',
-    '06' => 'RW',
-    '07' => 'Puskesdes',
-]));
-
-/**
- * Ambil Versi
- *
- * Mengembalikan nomor versi aplikasi
- */
-function AmbilVersi(): string
-{
-    return VERSION . (PREMIUM ? '-premium' : '');
-}
-
-/**
- * Ambil Current Version
- *
- * Mengembalikan nomor current_version
- */
-function currentVersion(): string
-{
-    return substr_replace(substr(VERSION, 0, 4), '.', 2, 0);
-}
-
-function favico_desa($favico = 'favicon.ico'): string
-{
-    if (! file_exists($favico)) {
-        return base_url($favico);
-    }
-
-    return base_url($favico) . '?v=' . md5_file($favico);
-}
-
-/**
- * gambar_desa / KantorDesa
- *
- * Mengembalikan path lengkap untuk file logo desa / kantor desa
- *
- * @param mixed $nama_file
- * @param mixed $type
- * @param mixed $file
- */
-function gambar_desa(?string $nama_file = null, $type = false, $file = false): string
-{
-    if (is_file(FCPATH . LOKASI_LOGO_DESA . $nama_file)) {
-        return ($file ? FCPATH : base_url()) . LOKASI_LOGO_DESA . $nama_file;
-    }
-
-    // type FALSE = logo, TRUE = kantor
-    $default = ($type) ? 'opensid_kantor.jpg' : 'opensid_logo.png';
-
-    return ($file ? FCPATH : base_url()) . "assets/files/logo/{$default}";
-}
 
 function session_error($pesan = ''): void
 {
@@ -253,18 +100,6 @@ function session_success(): void
         'error_msg' => '',
         'success'   => 1,
     ]);
-}
-
-/**
- * Cek apakah pantau server sedang down berdasarkan circuit breaker cache
- *
- * @return bool true jika pantau sedang down (skip sending), false jika pantau ok
- */
-function pantau_is_down(): bool
-{
-    $cache_key = 'pantau_server_down';
-
-    return cache()->has($cache_key);
 }
 
 /**
@@ -297,92 +132,6 @@ function mark_pantau_down(int $attempt_count = 1): void
     cache()->put($cache_attempt, $attempt_count, 24 * 60 * 60);
 
     logger()->warning("Pantau server marked as down. Attempt: {$attempt_count}, Backoff: {$backoff_minutes} minutes");
-}
-
-/**
- * Reset status pantau server (ketika berhasil kirim)
- */
-function reset_pantau_status(): void
-{
-    cache()->forget('pantau_server_down');
-    cache()->forget('pantau_server_attempts');
-}
-
-/**
- * Ambil jumlah attempt gagal pantau
- */
-function get_pantau_attempt_count(): int
-{
-    return (int) cache()->get('pantau_server_attempts', 0);
-}
-
-/**
- * Untuk mengirim data ke OpenSID tracker.
- *
- * Timeout sengaja dibuat pendek (2 detik + 1 detik connect) karena
- * fungsi ini dipanggil sinkron pada request web (mis. Tracker::kirimData),
- * sehingga user tidak ikut menunggu lama ketika pantau lambat/mati.
- *
- * Retry juga dibatasi (2 attempts, jeda 200ms) agar worst case user pertama
- * tidak melebihi timeout lama (< 5 detik). Setelah itu circuit breaker aktif
- * dan request berikutnya langsung di-skip.
- *
- * @param mixed $url
- * @param mixed $params
- */
-function httpPost($url, $params): ?string
-{
-    // Cek apakah pantau sedang down, skip jika masih dalam backoff period
-    if (pantau_is_down()) {
-        log_message('info', 'Skipping pantau request - server marked as down (circuit breaker active)');
-
-        return null;
-    }
-
-    $max_retries = 2;
-    $attempt     = 0;
-
-    while ($attempt < $max_retries) {
-        try {
-            $response = (new Client())->post($url, [
-                'headers' => [
-                    'X-Requested-With' => 'XMLHttpRequest',
-                    'Authorization'    => 'Bearer ' . config_item('token_pantau'),
-                ],
-                'form_params'     => $params,
-                'timeout'         => 2,
-                'connect_timeout' => 1,
-            ]);
-
-            // Success! Reset pantau status dan return response
-            reset_pantau_status();
-
-            return $response->getBody()->getContents();
-        } catch (ClientException $cx) {
-            logger()->error('Pantau request ClientException (attempt ' . ($attempt + 1) . '): ' . $cx->getMessage());
-            $attempt++;
-
-            if ($attempt < $max_retries) {
-                // Jeda singkat antar retry (200ms) — hindari blocking sleep panjang
-                usleep(200000);
-            }
-        } catch (Exception $e) {
-            logger()->error('Pantau request Exception (attempt ' . ($attempt + 1) . '): ' . $e->getMessage());
-            $attempt++;
-
-            if ($attempt < $max_retries) {
-                usleep(200000);
-            }
-        }
-    }
-
-    // Semua retry gagal, tandai pantau sebagai down
-    $current_attempts = get_pantau_attempt_count() + 1;
-    mark_pantau_down($current_attempts);
-
-    log_message('error', 'Pantau request failed after ' . $max_retries . ' attempts');
-
-    return null;
 }
 
 /**
@@ -448,29 +197,6 @@ function get_data_desa(string $kode_desa)
     return null;
 }
 
-/**
- * Cek ada koneksi internet.
- *
- * @param string $sCheckHost Default: www.google.com
- */
-function cek_koneksi_internet(string $sCheckHost = 'www.google.com'): bool
-{
-    if (! setting('notifikasi_koneksi')) {
-        return true;
-    }
-
-    $connected = @fsockopen($sCheckHost, 80, $errno, $errstr, 5);
-
-    if ($connected) {
-        fclose($connected);
-
-        return true;
-    }
-    log_message('error', 'Gagal menghubungi ' . $sCheckHost . ' dengan status error ' . $errno . ' - ' . $errstr);
-
-    return false;
-}
-
 function cek_bisa_akses_site($url): bool
 {
     $ch = curl_init();
@@ -523,29 +249,6 @@ function fatalErrorShutdownHandler(): void
     }
 }
 
-function get_dynamic_title_page_from_path(): string
-{
-    $parse = str_replace([
-        '/first',
-    ], '', $_SERVER['PATH_INFO']);
-    $explo = explode('/', $parse);
-
-    $title   = '';
-    $counter = count($explo);
-
-    for ($i = 0; $i < $counter; $i++) {
-        $t = trim($explo[$i]);
-        if ($t !== '' && $t !== '1' && $t !== '0') {
-            $title .= ((is_numeric($t)) ? ' ' : ' - ') . $t;
-        }
-    }
-
-    return ucwords(str_replace([
-        '  ',
-        '_',
-    ], ' ', $title));
-}
-
 function show_zero_as($val, $str)
 {
     return empty($val) ? $str : $val;
@@ -579,87 +282,6 @@ function umur($tgl_lahir)
 function isMobile()
 {
     return preg_match("/\\b(?:a(?:ndroid|vantgo)|b(?:lackberry|olt|o?ost)|cricket|do‌\u{200b}como|hiptop|i(?:emob‌\u{200b}ile|p[ao]d)|kitkat|m‌\u{200b}(?:ini|obi)|palm|(?:‌\u{200b}i|smart|windows )phone|symbian|up\\.(?:browser|link)|tablet(?: browser| pc)|(?:hp-|rim |sony )tablet|w(?:ebos|indows ce|os))/i", $_SERVER['HTTP_USER_AGENT']);
-}
-
-if (! function_exists('isPHP')) {
-    /**
-     * Deteksi apakah file berisi kode script PHP
-     *
-     * Fungsi ini memeriksa file untuk mendeteksi kehadiran kode PHP dan pattern berbahaya
-     * dengan teknik pattern matching yang refined untuk mencegah false positive.
-     *
-     * Deteksi mencakup:
-     * - Ekstensi file .php
-     * - Opening tag PHP: <?php, <?=, <script language="php">
-     * - Fungsi berbahaya: __halt_compiler()
-     * - Polyglot files: image files dengan embedded PHP code
-     *
-     * Strategi keamanan:
-     * - Scan pattern dijalankan pada SEMUA file tanpa early-return berdasarkan tipe
-     * - Pola dirancang untuk menangkap variasi bypass umum (spacing, newline, special chars)
-     * - Memory-efficient: hanya scan 1MB pertama file
-     * - Deteksi polyglot di awal file (after magic bytes) dan EXIF metadata
-     *
-     * @param string $file     Path lengkap ke file yang akan diperiksa
-     * @param string $filename Nama file (digunakan untuk ekstraksi extension)
-     *
-     * @return bool True jika file adalah PHP atau mengandung kode PHP, False sebaliknya
-     *
-     * @example
-     * if (isPHP('/tmp/upload_file.jpg', 'photo.jpg')) {
-     *     // File berisi PHP code - DANGEROUS!
-     * }
-     */
-    function isPHP($file, $filename): bool
-    {
-        $ext = get_extension($filename);
-        if ($ext === '.php') {
-            return true;
-        }
-
-        $handle = fopen($file, 'rb');
-        if (! $handle) {
-            return false;
-        }
-
-        // Polyglot files biasanya menyisipkan PHP setelah magic bytes (di awal)
-        // EXIF data juga terletak di awal file, jadi 1MB sudah cukup
-        $buffer = fread($handle, 1024 * 1024);
-        fclose($handle);
-
-        if (empty($buffer)) {
-            return false;
-        }
-
-        // Jalankan pattern matching pada SEMUA file untuk deteksi polyglot
-        // Tidak ada early-return berdasarkan tipe atau magic bytes
-
-        // Deteksi PHP opening tags dengan variasi spacing/newline/parenthesis
-        // Menangkap: <?php, <?= dengan atau tanpa spasi, <?=(variable)
-        if (preg_match('/<\?php[\s\(\r\n]|<\?=[\s\$]/i', $buffer)) {
-            return true;
-        }
-
-        // Deteksi short tag di akhir file
-        if (preg_match('/<\?php$|<\?=$/i', $buffer)) {
-            return true;
-        }
-
-        // Deteksi script tag dengan language=php attribute
-        if (preg_match('/<script\s+language\s*=\s*["\']?php["\']?/i', $buffer)) {
-            return true;
-        }
-
-        // Deteksi halt compiler (sering digunakan dalam polyglot/obfuscator)
-        return (bool) (preg_match('/__halt_compiler\s*\(/i', $buffer));
-    }
-}
-
-function get_extension($filename): string
-{
-    $ext = explode('.', strtolower($filename));
-
-    return '.' . end($ext);
 }
 
 if (! function_exists('max_upload')) {
@@ -714,20 +336,6 @@ function getKodeDesaFromTrackSID()
     return null;
 }
 
-function get_external_ip()
-{
-    // Batasi waktu mencoba
-    $options = stream_context_create([
-        'http' => [
-            'timeout' => 2, //2 seconds
-        ],
-    ]);
-    $externalContent = file_get_contents('http://checkip.dyndns.com/', false, $options);
-    preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $externalContent, $m);
-
-    return $m[0];
-}
-
 // Salin folder rekursif
 // https://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
 function xcopy($src = '', $dest = '', $exclude = [], $only = []): void
@@ -766,21 +374,6 @@ function xcopy($src = '', $dest = '', $exclude = [], $only = []): void
     }
 }
 
-function sql_in_list($list_array)
-{
-    if (empty($list_array)) {
-        return false;
-    }
-
-    $prefix = $list = '';
-
-    foreach ($list_array as $value) {
-        $list .= $prefix . "'" . $value . "'";
-        $prefix = ', ';
-    }
-
-    return $list;
-}
 
 /**
  * @param array 		(0 => (kolom1 => teks, kolom2 => teks, ..), 1 => (kolom1 => teks, kolom2 => teks. ..), ..)
@@ -811,29 +404,6 @@ function is_angka_romawi($roman): bool
     return preg_match($roman_regex, $roman) > 0;
 }
 
-function bulan_romawi($bulan)
-{
-    if ($bulan < 1 || $bulan > 12) {
-        return false;
-    }
-
-    $bulan_romawi = [
-        1  => 'I',
-        2  => 'II',
-        3  => 'III',
-        4  => 'IV',
-        5  => 'V',
-        6  => 'VI',
-        7  => 'VII',
-        8  => 'VIII',
-        9  => 'IX',
-        10 => 'X',
-        11 => 'XI',
-        12 => 'XII',
-    ];
-
-    return $bulan_romawi[$bulan];
-}
 
 function buang_nondigit($str)
 {
@@ -946,23 +516,9 @@ function nama_file($str): ?string
     return preg_replace('/[^a-zA-Z0-9\s]\./', '', strip_tags($str));
 }
 
-function alfanumerik($str): ?string
-{
-    return preg_replace('/[^a-zA-Z0-9]/', '', htmlentities($str));
-}
-
 function alfanumerik_spasi($str): ?string
 {
     return preg_replace('/[^a-zA-Z0-9\s\-]/', '', htmlentities($str));
-}
-
-function bilangan($str)
-{
-    if ($str == null) {
-        return null;
-    }
-
-    return preg_replace('/[^0-9]/', '', strip_tags($str));
 }
 
 function bilangan_spasi($str): ?string
@@ -986,20 +542,9 @@ function alfanumerik_titik($str): ?string
     return preg_replace('/[^a-zA-Z0-9\.]/', '', strip_tags($str));
 }
 
-function nomor_surat_keputusan($str)
-{
-    return preg_replace('/[^a-zA-Z0-9 \.\-\/,]/', '', $str);
-}
-
 function nama_peraturan_desa($str)
 {
     return preg_replace('/[^a-zA-Z0-9 \.\-\/,()]/', '', $str);
-}
-
-// Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
-function nama($str): ?string
-{
-    return preg_replace("/[^a-zA-Z '\\.,\\-]/", '', strip_tags($str));
 }
 
 function nama_desa($str): ?string
@@ -1011,12 +556,6 @@ function nama_desa($str): ?string
 function cekNama($str)
 {
     return preg_match("/[^a-zA-Z '\\.,\\-]/", strip_tags($str));
-}
-
-// Nama hanya boleh berisi karakter alfanumerik, spasi, slash(/) dan strip
-function nama_terbatas($str)
-{
-    return preg_replace('/[^a-zA-Z0-9 \\/\\-]/', '', $str);
 }
 
 // Judul hanya boleh berisi a-zA-Z0-9()[]&_:=°%'".,/ \-
@@ -1045,12 +584,6 @@ function koordinat($str): ?string
     }
 
     return preg_replace('/[^-?(?:\\d+|\\d{1,3}(?:,\\d{3})+)(?:\\.\\d+)?$]/', '', htmlentities($str));
-}
-
-// Email hanya boleh berisi karakter alpha, numeric, titik, strip dan Tanda et,
-function email($str): ?string
-{
-    return preg_replace('/[^a-zA-Z0-9@._\\-]/', '', htmlentities($str));
 }
 
 // website hanya boleh berisi karakter alpha, numeric, titik, titik dua dan garis miring
@@ -1238,30 +771,9 @@ function strReplaceArrayRecursive($replacement = [], $strArray = false, $isRepla
     return $newArr;
 }
 
-function get_domain($url): string
-{
-    $parsed = parse_url($url);
-
-    if ($parsed === false || ! isset($parsed['host'])) {
-        return '';
-    }
-
-    return $parsed['host'];
-}
-
 function get_antrian($antrian)
 {
     return substr_replace($antrian, '-', 6, 0);
-}
-
-// https://stackoverflow.com/questions/24043400/php-check-if-ipaddress-is-local/37725041
-function isLocalIPAddress($IPAddress): bool
-{
-    if (strpos($IPAddress, '127.0.') === 0) {
-        return true;
-    }
-
-    return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 }
 
 function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', $separator = '-', $config_id = null)
@@ -1407,18 +919,11 @@ function getSizeDB()
 
 function idm($kode_desa, $tahun)
 {
-    $ci         = &get_instance();
-    $cache      = "idm_{$tahun}_{$kode_desa}.json";
-    $cache_path = DESAPATH . "/cache/{$cache}";
-
-    // Periksa apakah file cache ada dan tidak kadaluarsa
-    if (file_exists($cache_path)) {
-        $data = unserialize(file_get_contents($cache_path));
-        $ci->cache->file->save($cache, $data['data'], YEAR); // Ubah ke satu tahun
-    }
+    $cache       = "idm_{$tahun}_{$kode_desa}.json";
+    $customCache = new \App\Libraries\Cache();
 
     // Ambil cache IDM
-    if ($data = $ci->cache->file->get($cache)) {
+    if ($data = $customCache->get($cache)) {
         return $data;
     }
 
@@ -1443,9 +948,9 @@ function idm($kode_desa, $tahun)
             if (! empty($body_content)) {
                 $idm_data = json_decode($body_content, null)->mapData;
 
-                $ci->cache->file->save($cache, $idm_data, YEAR);
+                $customCache->put($cache, $idm_data, YEAR);
 
-                return $ci->cache->file->get($cache);
+                return $customCache->get($cache);
             }
         }
     } catch (Exception $e) {
@@ -1462,10 +967,9 @@ function idm($kode_desa, $tahun)
 
 function sdgs()
 {
-    $ci         = &get_instance();
-    $kode_desa  = identitas()->kode_desa_bps;
-    $cache      = "sdgs_{$kode_desa}.json";
-    $cache_path = DESAPATH . "/cache/{$cache}";
+    $kode_desa   = identitas()->kode_desa_bps;
+    $cache       = "sdgs_{$kode_desa}.json";
+    $customCache = new \App\Libraries\Cache();
 
     if (empty($kode_desa)) {
         return (object) [
@@ -1473,14 +977,8 @@ function sdgs()
         ];
     }
 
-    // Periksa apakah file cache ada dan perbaharui cache jika kadaluarsa
-    if (file_exists($cache_path)) {
-        $data = unserialize(file_get_contents($cache_path));
-        $ci->cache->file->save($cache, $data['data'], YEAR); // Ubah ke satu tahun
-    }
-
     // Ambil cache SDGs
-    if ($data = $ci->cache->file->get($cache)) {
+    if ($data = $customCache->get($cache)) {
         return $data;
     }
 
@@ -1517,9 +1015,9 @@ function sdgs()
                     })
                     ->toArray();
 
-                $ci->cache->file->save($cache, $data, YEAR);
+                $customCache->put($cache, $data, YEAR);
 
-                return $ci->cache->file->get($cache);
+                return $customCache->get($cache);
             }
         }
     } catch (Exception $e) {
@@ -1666,45 +1164,6 @@ function gelar($gelar_depan = null, $nama = null, $gelar_belakang = null)
     return $nama;
 }
 
-if (! function_exists('default_file')) {
-    /**
-     * Fungsi untuk menentukan URL file yang akan digunakan, dengan prioritas:
-     * 1. Jika $new_file diberikan dan merupakan file yang valid, gunakan URL dari file tersebut.
-     * 2. Jika $new_file tidak valid atau tidak diberikan, gunakan $default sebagai fallback.
-     *
-     * @param string|null $new_file Path file baru yang ingin digunakan (relatif terhadap FCPATH).
-     * @param string|null $default  Path file default yang akan digunakan jika $new_file
-     */
-    function default_file($new_file = null, $default = null)
-    {
-        // Pastikan $new_file adalah string path file yang valid (bukan null, bukan direktori)
-        $new_file     = trim((string) $new_file);
-        $has_new_file = !empty($new_file) && is_file(FCPATH . $new_file);
-
-        if ($has_new_file) {
-            // Jika file kustom ada, bersihkan prefix assets/ jika ada sebelum dikirim ke asset()
-            $clean_file = preg_replace('/^assets\//i', '', $new_file);
-
-            return asset($clean_file);
-        }
-
-        // Jika tidak ada file kustom, gunakan fallback $default
-        if (empty($default)) {
-            return null;
-        }
-
-        // Jika default merupakan URL modul, langsung kembalikan
-        if (preg_match('/modules\//i', $default)) {
-            return $default;
-        }
-
-        // Bersihkan prefix assets/ dari default sebelum dikirim ke asset() untuk mencegah double prefix
-        $clean_default = preg_replace('/^assets\//i', '', $default);
-
-        return asset($clean_default);
-    }
-}
-
 // https://stackoverflow.com/questions/6824002/capitalize-last-letter-of-a-string
 function uclast($str): string
 {
@@ -1783,30 +1242,6 @@ if (! function_exists('form_kode_isian')) {
     }
 }
 
-if (! function_exists('kades')) {
-    /**
-     * - Fungsi untuk mengambil data jabatan kades.
-     *
-     * @return array|object
-     */
-    function kades()
-    {
-        return RefJabatan::getKades();
-    }
-}
-
-if (! function_exists('sekdes')) {
-    /**
-     * - Fungsi untuk mengambil data jabatan sekdes.
-     *
-     * @return array|object
-     */
-    function sekdes()
-    {
-        return RefJabatan::getSekdes();
-    }
-}
-
 if (! function_exists('cek_kades_sekdes')) {
     /**
      * - Fungsi untuk mengecek apakah jabatan kepala desa dan sekretaris desa sudah terisi.
@@ -1831,38 +1266,6 @@ if (! function_exists('cek_kades_sekdes')) {
             set_session('autodismiss', true);
             set_session('warning', $warningMessage);
         }
-    }
-}
-
-if (! function_exists('super_admin')) {
-    /**
-     * - Fungsi untuk mengambil id dengan grup superadmin.
-     *
-     * @return int
-     */
-    function super_admin()
-    {
-        return User::superAdmin()->id;
-    }
-}
-
-if (! function_exists('is_super_admin')) {
-    /**
-     * - Fungsi untuk mengecek apakah user adalah super admin.
-     */
-    function is_super_admin(): bool
-    {
-        return (int) auth('admin')->id() === super_admin();
-    }
-}
-
-if (! function_exists('is_group_administrator')) {
-    /**
-     * - Fungsi untuk mengecek apakah user login dalam group administrator.
-     */
-    function is_group_administrator(): bool
-    {
-        return (int) ci_auth()->id_grup === UserGrup::getGrupId(UserGrup::ADMINISTRATOR);
     }
 }
 
@@ -2427,75 +1830,6 @@ if (! function_exists('isNestedArray')) {
     }
 }
 
-if (! function_exists('getSuratBawaanTinyMCE')) {
-    function getSuratBawaanTinyMCE($url_surat = null)
-    {
-        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json');
-
-        return collect(json_decode($list_data, true))
-            ->when($url_surat, static fn ($collection) => $collection->where('url_surat', $url_surat))->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa', 'kunci')->toArray());
-    }
-}
-
-if (! function_exists('restoreSuratBawaanTinyMCE')) {
-    function restoreSuratBawaanTinyMCE($id = null)
-    {
-        $id ??= identitas('id');
-        $suratFormats = FormatSurat::withoutConfigId($id)
-            ->where('jenis', 3)
-            ->get()->keyBy('url_surat');
-
-        $suratBawaanTinyMCE = getSuratBawaanTinyMCE();
-
-        foreach ($suratBawaanTinyMCE as $defaultSurat) {
-            $defaultSurat['config_id']  = $id;
-            $defaultSurat['form_isian'] = isset($defaultSurat['form_isian']) ? json_encode($defaultSurat['form_isian']) : null;
-            $defaultSurat['kode_isian'] = isset($defaultSurat['kode_isian']) ? json_encode($defaultSurat['kode_isian']) : null;
-            $urlSurat                   = $defaultSurat['url_surat'];
-            if (isset($suratFormats[$urlSurat])) {
-                $defaultSurat['kunci']   = $suratFormats[$urlSurat]->kunci;
-                $defaultSurat['favorit'] = $suratFormats[$urlSurat]->favorit;
-            }
-            FormatSurat::withoutConfigId($id)->upsert($defaultSurat, ['url_surat', 'config_id']);
-        }
-    }
-}
-
-if (! function_exists('getSuratBawaanDinasTinyMCE')) {
-    function getSuratBawaanDinasTinyMCE($url_surat = null)
-    {
-        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json');
-
-        return collect(json_decode($list_data, true))
-            ->when($url_surat, static fn ($collection) => $collection->where('url_surat', $url_surat))->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa', 'kunci', 'qr_code_tte')->toArray());
-    }
-}
-
-if (! function_exists('restoreSuratBawaanDinasTinyMCE')) {
-    function restoreSuratBawaanDinasTinyMCE($id = null)
-    {
-        $id ??= identitas('id');
-
-        $suratFormats = SuratDinas::withoutConfigId($id)
-            ->where('jenis', 3)
-            ->get()->keyBy('url_surat');
-
-        $suratBawaanTinyMCE = getSuratBawaanDinasTinyMCE();
-
-        foreach ($suratBawaanTinyMCE as $defaultSurat) {
-            $defaultSurat['config_id']  = $id;
-            $defaultSurat['form_isian'] = $defaultSurat['form_isian'] ? json_encode($defaultSurat['form_isian']) : null;
-            $defaultSurat['kode_isian'] = $defaultSurat['kode_isian'] ? json_encode($defaultSurat['kode_isian']) : null;
-            $urlSurat                   = $defaultSurat['url_surat'];
-            if (isset($suratFormats[$urlSurat])) {
-                $defaultSurat['kunci']   = $suratFormats[$urlSurat]->kunci;
-                $defaultSurat['favorit'] = $suratFormats[$urlSurat]->favorit;
-            }
-            SuratDinas::withoutConfigId($id)->upsert($defaultSurat, ['url_surat', 'config_id']);
-        }
-    }
-}
-
 if (! function_exists('terjemahkanTerbilang')) {
     function terjemahkanTerbilang($teks)
     {
@@ -2650,29 +1984,6 @@ if (! function_exists('caseReplaceFoto')) {
 
             return $allImg;
         }, $teks);
-    }
-}
-
-if (! function_exists('usia')) {
-    /**
-     * Menghitung usia berdasarkan tanggal lahir
-     *
-     * @param string $tanggal_lahir
-     * @param string $tanggal_akhir
-     * @param string $format
-     *
-     * contoh format : $y Tahun $m Bulan $d Hari
-     *
-     * return string
-     */
-    function usia($tanggal_lahir, $tanggal_akhir = null, $format = '%y Tahun'): string
-    {
-        $tanggal_akhir ??= date('Y-m-d');
-        $tanggal_lahir = Carbon::parse($tanggal_lahir);
-        $tanggal_akhir = Carbon::parse($tanggal_akhir);
-        $usia          = $tanggal_lahir->diff($tanggal_akhir);
-
-        return $usia->format($format);
     }
 }
 

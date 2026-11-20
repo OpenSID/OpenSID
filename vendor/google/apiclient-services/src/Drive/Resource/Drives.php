@@ -122,7 +122,10 @@ class Drives extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize Maximum number of shared drives to return per page.
+   * @opt_param int pageSize The maximum number of shared drives to return. The
+   * service may return fewer than this value. If unspecified, at most 10 shared
+   * drives will be returned. The maximum value is 100; values above 100 will be
+   * coerced to 100.
    * @opt_param string pageToken Page token for shared drives.
    * @opt_param string q Query string for searching shared drives.
    * @opt_param bool useDomainAdminAccess Issue the request as a domain

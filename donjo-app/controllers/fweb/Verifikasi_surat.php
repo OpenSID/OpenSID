@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\LogSurat;
 use App\Models\Statistics;
 use App\Models\Urls;
 
@@ -84,4 +85,5 @@ class Verifikasi_surat extends Web_Controller
         $id = decodeId($id_encoded);
         view('theme::partials.surat_dinas.index', ['id' => $id]);
     }
+    
 }

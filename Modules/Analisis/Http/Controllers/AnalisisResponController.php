@@ -40,6 +40,7 @@ use App\Enums\StatusEnum;
 use App\Models\Wilayah;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Libraries\Analisis;
 use Modules\Analisis\Libraries\Bdt;
@@ -279,7 +280,7 @@ class AnalisisResponController extends AdminModulController
         isCan('u');
         $data['form_action']     = ci_route("analisis_respon.{$master}.impor_bdt");
         $data['analisis_master'] = $this->analisisMaster;
-        $data['formatImpor']     = ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'contoh-data-bdt2015.xlsx'));
+        $data['formatImpor']     = URL::signedRoute('storage.desa', ['path' => 'impor/contoh-data-bdt2015.xlsx']);
 
         return view('analisis::respon.import.impor_bdt', $data);
     }

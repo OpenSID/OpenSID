@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/select2.min.css') }}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/dataTables.bootstrap.min.css') }}">
 </head>
 
 <body class="hold-transition skin-blue layout-top-nav">
@@ -102,6 +104,8 @@
                                 </div>
                             </div>
                             @else
+                            @include('periksa.masalah.keuangan_template_tidak_sama')
+
                             @if (in_array('kode_kelompok', $masalah))
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -1632,6 +1636,9 @@
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    <!-- DataTables -->
+    <script src="{{ asset('bootstrap/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/dataTables.bootstrap.min.js') }}"></script>
     <!-- SlimScroll -->
     <script src="{{ asset('bootstrap/js/jquery.slimscroll.min.js') }}"></script>
     <!-- FastClick -->

@@ -35,7 +35,10 @@
  *
  */
 
-use App\Models\SettingAplikasi;
+use App\Repositories\LayananTokenRepository;
+use App\Services\Layanan\Exceptions\TokenTidakValidException;
+use App\Services\Layanan\TokenDecoder;
+use Illuminate\Support\Facades\RateLimiter;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,8 +49,13 @@ class Token extends CI_Controller
         parent::__construct();
         $this->load->database();
 
-        if ($this->session->token_kosong === false) {
-            redirect();
+        // Halaman ini hanya boleh diakses melalui alur redirect resmi saat token
+        // memang kosong/kedaluwarsa (CekService::validasiVersi), bukan diakses
+        // langsung — dan tidak lagi bisa diakses begitu ada token tersimpan,
+        // agar token yang sudah sah tidak bisa ditimpa lewat halaman ini.
+
+        if ($this->session->token_kosong !== true || ! empty(setting('layanan_opendesa_token'))) {
+            redirect('/');
         }
     }
 
@@ -58,40 +66,35 @@ class Token extends CI_Controller
 
     public function update()
     {
-        $jwtPayload = $this->decodeTokenPayload($token = $this->input->post('token'));
+        $key = 'token-update:' . $this->input->ip_address();
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            return redirect_with('error', 'Terlalu banyak percobaan. Silakan coba lagi beberapa saat lagi.', 'token');
+        }
+
+        RateLimiter::hit($key, 60);
+
+        $token = (string) $this->input->post('token');
+
+        try {
+            $jwtPayload = app(TokenDecoder::class)->decode($token);
+        } catch (TokenTidakValidException $e) {
+            return redirect_with('error', $e->getMessage(), 'token');
+        }
 
         if ($this->isPremiumVersionExpired($akhir = $jwtPayload->tanggal_berlangganan->akhir)) {
             return redirect_with('error', "Token Berlangganan sudah berakhir. Tanggal berlangganan sampai: {$akhir}", 'token');
         }
 
-        if ($token) {
-            // ini bisa otomatis invalidated cache
-            (SettingAplikasi::where('key', 'layanan_opendesa_token')->first())
-                ->update(['value' => $token]);
+        // Simpan via repository agar token diverifikasi (via TokenDecoder) dan
+        // cache resolveSetting() otomatis dibuang, sehingga pembacaan setting()
+        // berikutnya (mis. di CekService setelah redirect) mengambil nilai token terbaru.
+        (new LayananTokenRepository())->simpan($token);
 
-            $this->session->unset_userdata('token_kosong');
-        }
+        RateLimiter::clear($key);
+        $this->session->unset_userdata('token_kosong');
 
-        redirect(site_url());
-    }
-
-    private function decodeTokenPayload($token)
-    {
-        $tokenParts = explode('.', (string) $token);
-
-        if (count($tokenParts) !== 3) {
-            return redirect_with('error', 'Jumlah segmen token salah', 'token');
-        }
-
-        $tokenParts = array_filter(array_map('trim', $tokenParts));
-
-        if (count($tokenParts) !== 3 || implode('.', $tokenParts) !== $token) {
-            return redirect_with('error', 'Token tidak sesuai', 'token');
-        }
-
-        $tokenPayload = base64_decode($tokenParts[1], true);
-
-        return json_decode($tokenPayload, null);
+        redirect('/');
     }
 
     private function isPremiumVersionExpired($berakhir): bool

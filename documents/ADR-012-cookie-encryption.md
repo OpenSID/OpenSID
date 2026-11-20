@@ -103,7 +103,7 @@ APP_KEY=base64:rN3vXWFRHDKFP2sMySe9f4gna7WulisoXTqn7Yo4Ye8=
 'cipher' => 'AES-256-CBC',
 ```
 
-#### 3. Exempt Cookies (If Needed)
+#### 3. Exempt Cookies (Actual)
 
 ```php
 // app/Http/Middleware/EncryptCookies.php
@@ -114,18 +114,20 @@ class EncryptCookies extends Middleware
      * Cookies yang tidak di-encrypt
      */
     protected $except = [
-        // 'legacy_ci_cookie', // Jika perlu backward compatibility
+        'rfm_access',   // Cookie untuk Rich Filemanager
+        'sidcsrf',      // Cookie untuk CI CSRF token
     ];
 }
 ```
 
 #### 4. Penanganan Cookie Native di CodeIgniter
-Karena CodeIgniter menggunakan superglobal `$_COOKIE` bawaan PHP dan fungsi `setcookie()` bawaan PHP, cookie kustom yang diproduksi oleh CodeIgniter dikirimkan langsung tanpa melalui layer enkripsi Laravel. 
+Karena CodeIgniter menggunakan superglobal `$_COOKIE` bawaan PHP dan fungsi `setcookie()` bawaan PHP, cookie kustom yang diproduksi oleh CodeIgniter dikirimkan langsung tanpa melalui layer enkripsi Laravel. MY_Input hanya menggunakan `RequestAwareTrait` untuk sync request, tanpa ada adapter cookie khusus.
 
 Keuntungan pendekatan ini:
 - Tidak ada overhead enkripsi tambahan untuk cookie kustom legacy.
 - Menghindari isu ketidakcocokan format enkripsi antar framework.
 - Tidak diperlukan class helper/adapter perantara cookie untuk migrasi, karena cookie dibaca langsung secara native.
+- Cookie CSRF (`sidcsrf`) di-exempt dari EncryptCookies middleware agar CI Security class tetap bisa membacanya.
 
 ## Consequences
 
@@ -330,6 +332,7 @@ Hal ini disebabkan karena framework CodeIgniter dan Laravel berjalan dalam lifec
 'secure' => env('SESSION_SECURE_COOKIE', false),
 'http_only' => true,
 'same_site' => 'lax',
+'serialization' => 'php', // ← PHP serialization untuk CI compatibility
 ```
 
 **Flow:**
@@ -619,9 +622,9 @@ console.log('Encrypted:', sessionCookie[1].startsWith('eyJ'));
 - [ADR-003: Custom Bootstrap Process](./ADR-003-custom-bootstrap-process.md)
 
 ## References
+- [Laravel Cookie Documentation](https://laravel.com/docs/11.x/requests#cookies)
 
-- [Laravel Cookie Documentation](https://laravel.com/docs/10.x/requests#cookies)
-- [Laravel Encryption](https://laravel.com/docs/10.x/encryption)
+- [Laravel Encryption](https://laravel.com/docs/11.x/encryption)
 - [HTTP Cookie Specification](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
 - [Cookie Security Best Practices](https://owasp.org/www-community/controls/SecureCookieAttribute)
 
