@@ -59,6 +59,17 @@
                         data-body="Apakah yakin akan mengosongkan peta wilayah ini?"
                     ><i class="fa fa fa-trash-o"></i>Kosongkan</a>
                     @include('admin.layouts.components.buttons.ekspor_gpx')
+                    @if (can('u') && class_exists(\Modules\BatasWilayah\Services\BatasWilayahService::class))
+                        <a
+                            href="#"
+                            data-href="{{ ci_route('identitas_desa.generate_boundary', 'wilayah') }}"
+                            class="btn btn-social bg-olive btn-sm"
+                            title="Ambil batas wilayah dari server pantau"
+                            data-toggle="modal"
+                            data-target="#confirm-status"
+                            data-body="Ambil batas wilayah {{ $nama_wilayah }} (path/polygon) dari server pantau secara otomatis?"
+                        ><i class="fa fa-globe"></i> Ambil dari Pantau</a>
+                    @endif
                     <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i class='fa fa-times'></i> Reset</button>
                     <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
                 </div>

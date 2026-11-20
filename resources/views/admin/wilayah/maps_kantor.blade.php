@@ -41,6 +41,17 @@
                 </div>
                 <a href="{{ $tautan['link'] }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
                 @include('admin.layouts.components.buttons.ekspor_gpx')
+                @if (can('u') && class_exists(\Modules\BatasWilayah\Services\BatasWilayahService::class))
+                    <a
+                        href="#"
+                        data-href="{{ ci_route('identitas_desa.generate_boundary', 'kantor') }}"
+                        class="btn btn-social bg-olive btn-sm"
+                        title="Ambil koordinat kantor dari server pantau"
+                        data-toggle="modal"
+                        data-target="#confirm-status"
+                        data-body="Ambil koordinat kantor {{ $nama_wilayah }} (lat/lng) dari server pantau secara otomatis?"
+                    ><i class="fa fa-map-marker"></i> Ambil dari Pantau</a>
+                @endif
                 <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i class='fa fa-times'></i> Reset</button>
                 @if (can('u'))
                     <button type='submit' class='btn btn-social btn-info btn-sm pull-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>

@@ -120,6 +120,7 @@ class Dokumen extends Mandiri_Controller
             $dataInsert               = DokumenModel::validasi($this->input->post());
             $id_pend                  = $dataInsert['id_pend'];
             $dataInsert['satuan']     = $this->upload_dokumen();
+            $dataInsert['dok_warga']  = StatusEnum::YA;
             $dataInsert['updated_by'] = $dataInsert['id_pend'];
             $dataInsert['created_by'] = $dataInsert['id_pend'];
             $dokumen                  = DokumenModel::create($dataInsert);
@@ -149,6 +150,7 @@ class Dokumen extends Mandiri_Controller
     {
         try {
             $dataUpdate               = DokumenModel::validasi($this->input->post());
+            $dataUpdate['dok_warga']  = StatusEnum::YA;
             $dataUpdate['updated_by'] = $dataUpdate['id_pend'];
             if (isset($_FILES['satuan']) && $_FILES['satuan']['error'] == UPLOAD_ERR_OK) {
                 $dataUpdate['satuan'] = $this->upload_dokumen();

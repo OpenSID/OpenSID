@@ -309,7 +309,7 @@ class Surat_master extends Admin_Controller
         }
 
         if (FormatSurat::create($validasi)) {
-            return json(['success' => true, 'message' => 'Berhasil Tambah Data'], 200);
+            return json(['success' => true, 'message' => 'Berhasil Tambah Data', 'redirect' => site_url('surat_master')], 200);
         }
 
         return json(['success' => false, 'message' => 'Gagal Tambah Data'], 500);

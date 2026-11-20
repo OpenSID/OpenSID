@@ -52,6 +52,8 @@ define('PREMIUM', false);
  */
 define('VERSION_BUILD', [
     // Version Build => Version (premium)
+    '2026.03.15' => '2603.0.1',
+    '2026.03.01' => '2603.0.0',
     '2026.02.01' => '2602.0.0',
     '2026.01.15' => '2601.0.1',
     '2026.01.01' => '2601.0.0',
@@ -80,6 +82,7 @@ define('WEBSITE_DEMO', [
     'pelatihan-opensid.opendesa.id',
     'localhost',
     '127.0.0.1',
+    'devtestpremium.opendesa.id',
 ]);
 
 // Modul bawaan OpenSID
@@ -90,6 +93,7 @@ define('MODUL_BAWAAN', [
     'Kehadiran',
     'Pelanggan',
     'Lapak',
+    'DTSEN',
 ]);
 
 if (! function_exists('cek_anjungan')) {
@@ -99,25 +103,6 @@ if (! function_exists('cek_anjungan')) {
     function cek_anjungan(): bool
     {
         return app(\App\Services\Kapabilitas\GerbangFitur::class)->mengizinkan('anjungan');
-    }
-}
-
-if (! function_exists('token_bursa')) {
-    /**
-     * Token autentikasi ke bursa (marketplace) add-on.
-     *
-     * Accessor netral yang memusatkan pembacaan token pemasang add-on core
-     * (Plugin/ModuleManager/LayananHttpSource). Call-site core memanggil accessor
-     * ini alih-alih menyematkan pengetahuan kunci setting langganan secara langsung.
-     * Bootstrap-kritis: dipakai saat mengunduh add-on apa pun (termasuk modul
-     * konektor layanan itu sendiri), sehingga tetap tinggal di core.
-     *
-     * OpenSID/OpenSID#11931 Fase 3.5: hilang dari sumber v2601-v2609 (fitur
-     * pasca-refaktor), ditambahkan lewat patch bespoke 0010.
-     */
-    function token_bursa(): string
-    {
-        return (string) setting('layanan_opendesa_token');
     }
 }
 
@@ -187,5 +172,20 @@ if (! function_exists('isSiapPakai')) {
 
             redirect(ci()->controller);
         }
+    }
+}
+
+
+if (! function_exists('token_bursa')) {
+    /**
+     * Token autentikasi ke bursa (marketplace) add-on.
+     *
+     * Accessor netral yang memusatkan pembacaan token pemasang add-on core
+     * (ModuleManager/LayananHttpSource). Hilang dari sumber pra-refaktor;
+     * ditambahkan pipeline rilis Umum (patch-wiring-addon-umum.php).
+     */
+    function token_bursa(): string
+    {
+        return (string) setting('layanan_opendesa_token');
     }
 }

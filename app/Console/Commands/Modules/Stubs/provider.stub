@@ -1,0 +1,83 @@
+<?php
+
+namespace Modules\{{ namespace }}\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class {{ class }} extends ServiceProvider
+{
+    /**
+     * @var string
+     */
+    protected $moduleName = '{{ namespace }}';
+
+    /**
+     * @var string
+     */
+    protected $moduleNameLower = '{{ moduleLower }}';
+
+    /**
+     * Boot the application events.
+     */
+    public function boot(): void
+    {
+        $this->registerModuleAutoload();
+        $this->registerConfig();
+        $this->registerHelpers();
+        $this->registerViews();
+    }
+
+    /**
+     * Register config.
+     */
+    protected function registerConfig(): void
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../Config/config.php',
+            $this->moduleNameLower
+        );
+    }
+
+    protected function registerModuleAutoload(): void
+    {
+        $loader = require FCPATH . 'vendor/autoload.php';
+
+        if ($loader instanceof ClassLoader) {
+            $base = FCPATH . "Modules/{{ namespace }}/";
+
+            $loader->addPsr4("Modules\\{{ namespace }}\\", $base . 'app/');
+            $loader->addPsr4("Modules\\{{ namespace }}\\Database\\Factories\\", $base . 'database/factories/');
+            $loader->addPsr4("Modules\\{{ namespace }}\\Database\\Seeders\\", $base . 'database/seeders/');
+        }
+    }
+
+    /**
+     * Register helpers.
+     */
+    protected function registerHelpers(): void
+    {
+        $helperPath = __DIR__ . '/../Helpers/' . $this->moduleNameLower . '_helper.php';
+
+        if (file_exists($helperPath)) {
+            require_once $helperPath;
+        }
+    }
+
+    /**
+     * Register the service provider.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Register views.
+     */
+    public function registerViews(): void
+    {
+        $sourcePath = FCPATH . 'Modules/' . $this->moduleName . '/Views';
+
+        $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
+    }
+}

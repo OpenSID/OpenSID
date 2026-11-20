@@ -44,12 +44,14 @@ class LogSuratDinasVerifikasiTransformer extends TransformerAbstract
 {
     public function transform(LogSuratDinas $surat)
     {
-        $surat->nomor_surat    = $surat->formatPenomoranSurat;
-        $surat->perihal        = $surat->suratDinas->nama;
-        $surat->nama_penduduk  = null;
-        $surat->pamong_nama    = $surat->nama_pamong;
-        $surat->pamong_jabatan = ($surat->pamong->status_pejabat ? setting('sebutan_pj_kepala_desa') : '') . $surat->nama_jabatan;
-
-        return $surat->toArray();
+        return [
+            'id'             => $surat->id,
+            'nomor_surat'    => $surat->formatPenomoranSurat,
+            'perihal'        => $surat->suratDinas->nama,
+            'nama_penduduk'  => null,
+            'pamong_nama'    => $surat->nama_pamong,
+            'pamong_jabatan' => ($surat->pamong->status_pejabat ? setting('sebutan_pj_kepala_desa') : '') . $surat->nama_jabatan,
+            'tanggal'        => $surat->tanggal,
+        ];
     }
 }

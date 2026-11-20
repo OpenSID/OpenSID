@@ -54,9 +54,10 @@ class Penduduk_log extends Admin_Controller
 {
     use Upload;
 
-    public $modul_ini     = 'kependudukan';
-    public $sub_modul_ini = 'peristiwa';
-    private $pertanyaan   = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
+    public $modul_ini           = 'kependudukan';
+    public $sub_modul_ini       = 'peristiwa';
+    public $kategori_pengaturan = 'Catatan Peristiwa';
+    private $pertanyaan         = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
     private $judulStatistik;
     private $statistikFilter = [];
 
@@ -134,9 +135,9 @@ class Penduduk_log extends Admin_Controller
 
                     if ($row->kode_peristiwa == PeristiwaPendudukEnum::MATI->value) {
                         $aksi .= View::make('admin.layouts.components.buttons.lihat', [
-                            'url'   => ci_route("penduduk_log.dokumen.{$row->id}"),
+                            'url'   => ci_route("penduduk_log.dokumen.{$row->id}") . '?tampil=1',
                             'blank' => true,
-                            'judul' => 'Lihat File Akta Kematian',
+                            'judul' => 'Lihat Dokumen Akta Kematian',
                         ])->render();
                     }
 
@@ -169,7 +170,7 @@ class Penduduk_log extends Admin_Controller
 
                         if ($suratTerkait) {
                             foreach ($suratTerkait as $item) {
-                                $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                $aksi .= "<div class='clearfix'>" . View::make('admin.layouts.components.buttons.btn', [
                                     'url' => ci_route("surat.form.{$item}")
                                                     . '#' . $row->penduduk->id
                                                     . '#' . $row->penduduk->nik
@@ -181,7 +182,7 @@ class Penduduk_log extends Admin_Controller
                                     'buttonOnly' => false,
                                     'modal'      => false,
                                     'slug'       => true,
-                                ])->render();
+                                ])->render() . '</div>';
                             }
                         }
                     }
@@ -201,14 +202,16 @@ class Penduduk_log extends Admin_Controller
 
     public function dokumen($id): void
     {
-        $log = LogPenduduk::findOrFail($id);
-
-        // download file
-        $this->load->helper('download');
+        $log  = LogPenduduk::findOrFail($id);
         $file = $log->file_akta_mati;
         if ($file != '') {
-            $path = LOKASI_DOKUMEN . $file;
-            force_download($path, null);
+            $tampil = (int) ($this->input->get('tampil') ?? 0);
+
+            ambilBerkas(
+                nama_berkas: $file,
+                lokasi: LOKASI_DOKUMEN,
+                tampil: $tampil === 1
+            );
         } else {
             show_404();
         }

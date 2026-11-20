@@ -6,3 +6,38 @@
   --accent-base-color: #00BA88;
   --accent-darken-color: #00966D;
 }
+
+/* Marquee CSS Animation (pengganti tag <marquee> yang dihapus Chrome 146+) */
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 20s linear infinite;
+}
+
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Marquee vertikal - agenda lama */
+.marquee-vertical-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee-track-vertical {
+    animation: marquee-scroll-vertical 10s linear infinite;
+}
+
+.marquee-track-vertical:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marquee-scroll-vertical {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+}

@@ -614,6 +614,16 @@ function styleGpx() {
   return style;
 }
 
+function pushPolyCoords(geom, coords) {
+  if (geom.type === "MultiPolygon") {
+    geom.coordinates.forEach(function (polyCoords) {
+      coords.push(polyCoords);
+    });
+  } else {
+    coords.push(geom.coordinates);
+  }
+}
+
 function eximGpxRegion(layerpeta, multi = false) {
   L.Control.FileLayerLoad.LABEL =
     '<img class="icon-map" src="' +
@@ -633,10 +643,10 @@ function eximGpxRegion(layerpeta, multi = false) {
   });
   controlGpxPoly.addTo(layerpeta);
 
+  var coords = [];
   controlGpxPoly.loader.on("data:loaded", function (e) {    
     var type = e.layerType;
     var layer = e.layer;
-    var coords = [];
     var geojson = turf.flip(layer.toGeoJSON());
     var shape_for_db = JSON.stringify(geojson);
     var polygon = L.geoJson(JSON.parse(shape_for_db), {
@@ -644,7 +654,18 @@ function eximGpxRegion(layerpeta, multi = false) {
         return L.marker(latlng);
       },
       onEachFeature: function (feature, layer) {
-        coords.push(feature.geometry.coordinates);
+        var geom = feature.geometry;
+        if (!geom) return;
+        if (geom.type === "GeometryCollection") {
+          if (!Array.isArray(geom.geometries)) return;
+          geom.geometries.forEach(function (subGeom) {
+            if (subGeom && Array.isArray(subGeom.coordinates)) {
+              pushPolyCoords(subGeom, coords);
+            }
+          });
+        } else if (Array.isArray(geom.coordinates)) {
+          pushPolyCoords(geom, coords);
+        }
       },
     }).addTo(layerpeta);
 
@@ -1083,6 +1104,7 @@ function showCurrentMultiPolygon(wilayah, layerpeta, data_wilayah, tampil_luas, 
 
   var area_wilayah = JSON.parse(JSON.stringify(wilayah));
   var bounds = [];
+  var allFeatures = [];
 
   var path = [];
   for (var i = 0; i < wilayah.length; i++) {
@@ -1125,21 +1147,39 @@ function showCurrentMultiPolygon(wilayah, layerpeta, data_wilayah, tampil_luas, 
       );
     });
 
-    var geojson = poligon_wilayah.toGeoJSON();
-    var shape_for_db = JSON.stringify(geojson);
-    var gpxData = togpx(JSON.parse(shape_for_db));
-
-    $("#exportGPX").on("click", function (event) {
-      var data = "data:text/xml;charset=utf-8," + encodeURIComponent(gpxData);
-      $(this).attr({
-        href: data,
-        target: "_blank",
-      });
-    });
+    var feature = poligon_wilayah.toGeoJSON();
+    if (feature && feature.geometry && feature.geometry.coordinates) {
+      allFeatures.push(feature);
+    }
 
     bounds.push(poligon_wilayah.getBounds());
     path.push(poligon_wilayah._latlngs);
   }
+
+  var gpxData = null;
+  try {
+    var validFeatures = allFeatures.filter(function (f) {
+      return f && f.geometry && f.geometry.coordinates;
+    });
+    if (validFeatures.length > 0) {
+      gpxData = togpx({ type: "FeatureCollection", features: validFeatures });
+    }
+  } catch (e) {
+    console.error("Gagal mengonversi GeoJSON ke GPX:", e);
+  }
+
+  // Gunakan namespace event 'click.gpxExport' agar hanya handler ini
+  // yang dihapus/diganti, tidak memengaruhi handler click lain pada elemen
+  $("#exportGPX").off("click.gpxExport").on("click.gpxExport", function (event) {
+    if (!gpxData) {
+      return;
+    }
+    var data = "data:text/xml;charset=utf-8," + encodeURIComponent(gpxData);
+    $(this).attr({
+      href: data,
+      target: "_blank",
+    });
+  });
 
   layerpeta.fitBounds(bounds);
   document.getElementById("path").value = getLatLong("multi", path).toString();

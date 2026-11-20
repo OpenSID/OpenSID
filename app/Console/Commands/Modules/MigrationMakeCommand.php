@@ -37,47 +37,65 @@
 
 namespace App\Console\Commands\Modules;
 
-use Illuminate\Console\GeneratorCommand;
+use Illuminate\Support\Str;
 
-class MigrationMakeCommand extends GeneratorCommand
+class MigrationMakeCommand extends BaseModuleMakeCommand
 {
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $signature = 'module:make-migration {name} {module}';
+    protected $signature   = 'make:migration {name} {--module=}';
+    protected $description = 'Create a new migration (optionally for a specific module)';
 
-    public function handle(): void
+    protected function stub(): string
     {
-        parent::handle();
-        $this->info('Migration has been created successfully!');
+        return 'app/Console/Commands/Modules/Stubs/migration.stub';
+    }
+
+    protected function moduleFolder(): string
+    {
+        return 'Database/Migrations';
+    }
+
+    protected function defaultNamespace(): string
+    {
+        return 'Database\\Migrations';
     }
 
     /**
-     * Get the stub file for the generator.
-     *
-     * @return string
+     * Dapatkan path lengkap file migrasi termasuk timestamp
      */
-    protected function getStub()
+    protected function getDestinationFilePath(): string
     {
-        return base_path('app/Console/Commands/Modules/Stubs/migration.stub');
+        $folder   = $this->getFolder();
+        $filename = $this->getFileName();
+
+        if (! is_dir($folder)) {
+            mkdir($folder, 0755, true);
+        }
+
+        return $folder . DIRECTORY_SEPARATOR . $filename;
     }
 
     /**
-     * Get the destination class path.
-     *
-     * @param string $name
-     *
-     * @return string
+     * Dapatkan nama file migrasi dengan timestamp
      */
-    protected function getPath($name)
+    protected function getFileName(): string
     {
-        return base_path('Modules/' . $this->argument('module') . '/Database/Migrations') . '/' . $this->getFileName() . '.php';
+        $name      = $this->argument('name');
+        $timestamp = date('Y_m_d_His');
+
+        return $timestamp . '_' . Str::snake($name) . '.php';
     }
 
-    private function getFileName(): string
+    /**
+     * Dapatkan folder tujuan migrasi
+     */
+    protected function getFolder(): string
     {
-        return date('Y_m_d_His_') . $this->argument('name') . '_table';
+        $module = $this->option('module');
+
+        if ($module) {
+            return base_path("Modules/{$module}/{$this->moduleFolder()}");
+        }
+
+        return database_path('migrations');
     }
 }

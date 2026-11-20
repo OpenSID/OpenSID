@@ -38,7 +38,7 @@
                             <option value="{{ $key }}">{{ $value }}</option>
                         @endforeach
                     </select>
-                </div>                               
+                </div>
             </div>
             <br>
 
@@ -47,8 +47,8 @@
                 <table id="tabeldata" class="table table-bordered table-striped table-hover">
                     <thead class="bg-gray color-palette">
                         <tr>
-                            <th width="30px">No</th>
-                            <th style="min-width:120px">Aksi</th>
+                            <th class="padat">No</th>
+                            <th class="padat">Aksi</th>
                             <th>Nama Perangkat</th>
                             <th>Jabatan</th>
                             <th>Jenis Izin</th>
@@ -57,29 +57,29 @@
                             <th>Tanggal Selesai</th>
                             <th>Durasi</th>
                             <th>Status</th>
-                            <th>Tanggal Pengajuan</th>                            
+                            <th>Tanggal Pengajuan</th>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
     </div>    
-    @include('admin.layouts.components.konfirmasi_hapus')
+    @include('admin.layouts.components.konfirmasi', ['periksa_data' => can('u')])
 @endsection
 
 @push('scripts')
 <script>
-$(document).ready(function() {          
+$(document).ready(function() {
     // Initialize DataTable
     window.table = $('#tabeldata').DataTable({
         responsive: true,
         processing: true,
-        serverSide: true,                
+        serverSide: true,
         ajax: {
             url: "{{ ci_route('kehadiran_pengajuan_izin.datatables') }}",
             data: function(d) {
                 d.status = $('#filter_status').val();
-                d.jenis_izin = $('#filter_jenis').val();                
+                d.jenis_izin = $('#filter_jenis').val();
             }
         },
         columns: [
@@ -92,7 +92,8 @@ $(document).ready(function() {
             },
             {
                 data: 'aksi',
-                name: 'aksi',                
+                name: 'aksi',
+                class: 'padat',
                 orderable: false,
                 searchable: false
             },
@@ -149,23 +150,9 @@ $(document).ready(function() {
                 name: 'created_at',
                 searchable: true,
                 orderable: true
-            }            
+            }
         ],
         order: [[ 8, "desc" ]],
-        drawCallback: function(settings) {                    
-            $('.approve-btn').click(function(e) {
-                e.preventDefault();
-                $('#ok-delete').html('<i class="fa fa-check"></i> Setujui');
-                $('#ok-delete').removeClass('btn-danger').addClass('btn-primary');  
-                $('#confirm-delete').find('.modal-body').html('Apakah Anda yakin ingin menyetujui pengajuan izin ini?');
-            });
-            $('.reject-btn').on('click', function(e) {
-                e.preventDefault();
-                $('#ok-delete').html('<i class="fa fa-times"></i> Tolak');
-                $('#ok-delete').removeClass('btn-primary').addClass('btn-danger');
-                $('#confirm-delete').find('.modal-body').html('Apakah Anda yakin ingin menolak pengajuan izin ini?');
-            });
-        }
     });
 
     // Filter change events
