@@ -30,7 +30,7 @@ class FormStep
             return null;
         }
 
-        return ($this->step)($responses, $previousResponse);
+        return ($this->step)($responses, $previousResponse, $this->name);
     }
 
     /**

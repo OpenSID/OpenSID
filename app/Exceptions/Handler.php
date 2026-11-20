@@ -37,78 +37,29 @@
 
 namespace App\Exceptions;
 
-use Exception;
-use Illuminate\Contracts\Debug\ExceptionHandler;
-use Monolog\Logger;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Application as ConsoleApplication;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
-class Handler implements ExceptionHandler
+class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that should not be reported.
+     * The list of the inputs that are never flashed to the session on validation exceptions.
      *
-     * @var array
+     * @var array<int, string>
      */
-    protected $dontReport = [];
+    protected $dontFlash = [
+        'current_password',
+        'password',
+        'password_confirmation',
+    ];
 
     /**
-     * {@inheritDoc}
+     * Register the exception handling callbacks for the application.
      */
-    public function report(Throwable $e): void
+    public function register(): void
     {
-        if ($this->shouldntReport($e)) {
-            return;
-        }
-
-        if (method_exists($e, 'report') && $e->report() !== false) {
-            return;
-        }
-
-        try {
-            $logger = new Logger(LoggerInterface::class);
-        } catch (Exception) {
-        }
-
-        log_message('error', $e);
-        $logger?->error($e->getMessage(), ['exception' => $e]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function shouldReport(Throwable $e): bool
-    {
-        return ! $this->shouldntReport($e);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function render($request, Throwable $e): void
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function renderForConsole($output, Throwable $e): void
-    {
-        (new ConsoleApplication())->renderThrowable($e, $output);
-    }
-
-    /**
-     * Determine if the exception is in the "do not report" list.
-     */
-    protected function shouldntReport(Throwable $e): bool
-    {
-        foreach ($this->dontReport as $type) {
-            if ($e instanceof $type) {
-                return true;
-            }
-        }
-
-        return false;
+        $this->reportable(function (Throwable $e) {
+            //
+        });
     }
 }

@@ -60,9 +60,13 @@ final class ProgressBar
     private ?string $previousMessage = null;
     private Cursor $cursor;
     private array $placeholders = [];
+    private ?int $oscProgressState = null;
+    private ?int $oscProgressPercent = null;
 
     private static array $formatters;
     private static array $formats;
+    private static \WeakMap $activeInstances;
+    private static int $pausedCount = 0;
 
     /**
      * @param int $max Maximum steps (0 if unknown)
@@ -195,7 +199,7 @@ final class ProgressBar
 
     public function getMaxSteps(): int
     {
-        return $this->max;
+        return $this->max ?? 0;
     }
 
     public function getProgress(): int
@@ -215,7 +219,7 @@ final class ProgressBar
 
     public function getBarOffset(): float
     {
-        return floor($this->max ? $this->percent * $this->barWidth : (null === $this->redrawFreq ? (int) (min(5, $this->barWidth / 15) * $this->writeCount) : $this->step) % $this->barWidth);
+        return floor(null !== $this->max ? $this->percent * $this->barWidth : (null === $this->redrawFreq ? (int) (min(5, $this->barWidth / 15) * $this->writeCount) : $this->step) % $this->barWidth);
     }
 
     public function getEstimated(): float
@@ -253,7 +257,7 @@ final class ProgressBar
 
     public function getBarCharacter(): string
     {
-        return $this->barChar ?? ($this->max ? '=' : $this->emptyBarChar);
+        return $this->barChar ?? (null !== $this->max ? '=' : $this->emptyBarChar);
     }
 
     public function setEmptyBarCharacter(string $char): void
@@ -315,7 +319,21 @@ final class ProgressBar
      */
     public function iterate(iterable $iterable, ?int $max = null): iterable
     {
-        $this->start($max ?? (is_countable($iterable) ? \count($iterable) : 0));
+        if (0 === $max) {
+            $max = null;
+        }
+
+        $max ??= is_countable($iterable) ? \count($iterable) : null;
+
+        if (0 === $max) {
+            $this->max = 0;
+            $this->stepWidth = 2;
+            $this->finish();
+
+            return;
+        }
+
+        $this->start($max);
 
         foreach ($iterable as $key => $value) {
             yield $key => $value;
@@ -342,6 +360,11 @@ final class ProgressBar
 
         if (null !== $max) {
             $this->setMaxSteps($max);
+        }
+
+        if ($this->output->isDecorated()) {
+            self::$activeInstances ??= new \WeakMap();
+            self::$activeInstances[$this] = true;
         }
 
         $this->display();
@@ -373,11 +396,15 @@ final class ProgressBar
             $step = 0;
         }
 
-        $redrawFreq = $this->redrawFreq ?? (($this->max ?: 10) / 10);
-        $prevPeriod = (int) ($this->step / $redrawFreq);
-        $currPeriod = (int) ($step / $redrawFreq);
+        $redrawFreq = $this->redrawFreq ?? (($this->max ?? 10) / 10);
+        $prevPeriod = $redrawFreq ? (int) ($this->step / $redrawFreq) : 0;
+        $currPeriod = $redrawFreq ? (int) ($step / $redrawFreq) : 0;
         $this->step = $step;
-        $this->percent = $this->max ? (float) $this->step / $this->max : 0;
+        $this->percent = match ($this->max) {
+            null => 0,
+            0 => 1,
+            default => (float) $this->step / $this->max,
+        };
         $timeInterval = microtime(true) - $this->lastWriteTime;
 
         // Draw regardless of other limits
@@ -398,11 +425,20 @@ final class ProgressBar
         }
     }
 
-    public function setMaxSteps(int $max): void
+    public function setMaxSteps(?int $max): void
     {
+        if (0 === $max) {
+            $max = null;
+        }
+
         $this->format = null;
-        $this->max = max(0, $max);
-        $this->stepWidth = $this->max ? Helper::width((string) $this->max) : 4;
+        if (null === $max) {
+            $this->max = null;
+            $this->stepWidth = 4;
+        } else {
+            $this->max = max(0, $max);
+            $this->stepWidth = Helper::width((string) $this->max);
+        }
     }
 
     /**
@@ -410,16 +446,16 @@ final class ProgressBar
      */
     public function finish(): void
     {
-        if (!$this->max) {
+        if (null === $this->max) {
             $this->max = $this->step;
         }
 
-        if ($this->step === $this->max && !$this->overwrite) {
-            // prevent double 100% output
-            return;
+        if (!(($this->step === $this->max || null === $this->max) && !$this->overwrite)) {
+            $this->setProgress($this->max ?? $this->step);
         }
 
-        $this->setProgress($this->max);
+        unset(self::$activeInstances[$this]);
+        $this->writeOscProgressReset();
     }
 
     /**
@@ -436,6 +472,7 @@ final class ProgressBar
         }
 
         $this->overwrite($this->buildLine());
+        $this->writeOscProgress();
     }
 
     /**
@@ -456,6 +493,8 @@ final class ProgressBar
         }
 
         $this->overwrite('');
+        unset(self::$activeInstances[$this]);
+        $this->writeOscProgressReset();
     }
 
     private function setRealFormat(string $format): void
@@ -525,6 +564,108 @@ final class ProgressBar
         ++$this->writeCount;
     }
 
+    /**
+     * Pauses the OSC 9;4 taskbar progress indicator on all active progress bars.
+     *
+     * Calls are reentrant; each call must be paired with a {@see resumeAll()}.
+     * Useful when prompting the user for input while a progress bar is running.
+     */
+    public static function pauseAll(): void
+    {
+        if (1 !== ++self::$pausedCount) {
+            return;
+        }
+
+        foreach (self::$activeInstances ?? [] as $bar => $_) {
+            $bar->writeOscProgress();
+        }
+    }
+
+    /**
+     * Counterpart of {@see pauseAll()}.
+     */
+    public static function resumeAll(): void
+    {
+        if (0 !== --self::$pausedCount) {
+            return;
+        }
+
+        foreach (self::$activeInstances ?? [] as $bar => $_) {
+            $bar->writeOscProgress();
+        }
+    }
+
+    private function writeOscProgress(): void
+    {
+        if (!$this->output->isDecorated()) {
+            return;
+        }
+
+        if (null === $this->max) {
+            $state = 3;
+            $percent = 0;
+        } else {
+            $state = 1;
+            $percent = (int) floor(max(0.0, min(1.0, $this->percent)) * 100);
+        }
+
+        if (1 === $state && \count(self::$activeInstances ?? []) > 1) {
+            // Multiple active determinate bars: collapse to indeterminate so the taskbar
+            // doesn't flicker between unrelated percentages from each bar.
+            $state = 3;
+            $percent = 0;
+        }
+
+        if (self::$pausedCount > 0) {
+            $state = 4;
+        }
+
+        if ($this->oscProgressState === $state && $this->oscProgressPercent === $percent) {
+            return;
+        }
+
+        $this->oscProgressState = $state;
+        $this->oscProgressPercent = $percent;
+
+        $this->writeOscRaw(\sprintf("\033]9;4;%d;%d\033\\", $state, $percent));
+    }
+
+    private function writeOscProgressReset(): void
+    {
+        if (null === $this->oscProgressState) {
+            return;
+        }
+
+        $this->oscProgressState = null;
+        $this->oscProgressPercent = null;
+
+        if (\count(self::$activeInstances ?? []) > 0) {
+            // Other bars still active: let them re-evaluate their state instead of clearing the taskbar.
+            foreach (self::$activeInstances as $bar => $_) {
+                $bar->writeOscProgress();
+            }
+
+            return;
+        }
+
+        if ($this->output->isDecorated()) {
+            $this->writeOscRaw("\033]9;4;0;0\033\\");
+        }
+    }
+
+    private function writeOscRaw(string $bytes): void
+    {
+        // OSC sequences address the terminal (taskbar progress) and have no display width.
+        // For ConsoleSectionOutput, bypass section content tracking so line counting stays correct.
+        if ($this->output instanceof ConsoleSectionOutput) {
+            fwrite($this->output->getStream(), $bytes);
+
+            return;
+        }
+
+        $this->output->write($bytes);
+    }
+
     private function determineBestFormat(): string
     {
         return match ($this->output->getVerbosity()) {
@@ -539,7 +680,7 @@ final class ProgressBar
     private static function initPlaceholderFormatters(): array
     {
         return [
-            'bar' => function (self $bar, OutputInterface $output) {
+            'bar' => static function (self $bar, OutputInterface $output) {
                 $completeBars = $bar->getBarOffset();
                 $display = str_repeat($bar->getBarCharacter(), $completeBars);
                 if ($completeBars < $bar->getBarWidth()) {
@@ -549,25 +690,25 @@ final class ProgressBar
 
                 return $display;
             },
-            'elapsed' => fn (self $bar) => Helper::formatTime(time() - $bar->getStartTime(), 2),
-            'remaining' => function (self $bar) {
-                if (!$bar->getMaxSteps()) {
+            'elapsed' => static fn (self $bar) => Helper::formatTime(time() - $bar->getStartTime(), 2),
+            'remaining' => static function (self $bar) {
+                if (null === $bar->max) {
                     throw new LogicException('Unable to display the remaining time if the maximum number of steps is not set.');
                 }
 
                 return Helper::formatTime($bar->getRemaining(), 2);
             },
-            'estimated' => function (self $bar) {
-                if (!$bar->getMaxSteps()) {
+            'estimated' => static function (self $bar) {
+                if (null === $bar->max) {
                     throw new LogicException('Unable to display the estimated time if the maximum number of steps is not set.');
                 }
 
                 return Helper::formatTime($bar->getEstimated(), 2);
             },
-            'memory' => fn (self $bar) => Helper::formatMemory(memory_get_usage(true)),
-            'current' => fn (self $bar) => str_pad($bar->getProgress(), $bar->getStepWidth(), ' ', \STR_PAD_LEFT),
-            'max' => fn (self $bar) => $bar->getMaxSteps(),
-            'percent' => fn (self $bar) => floor($bar->getProgressPercent() * 100),
+            'memory' => static fn (self $bar) => Helper::formatMemory(memory_get_usage(true)),
+            'current' => static fn (self $bar) => str_pad($bar->getProgress(), $bar->getStepWidth(), ' ', \STR_PAD_LEFT),
+            'max' => static fn (self $bar) => $bar->getMaxSteps(),
+            'percent' => static fn (self $bar) => floor($bar->getProgressPercent() * 100),
         ];
     }
 
@@ -592,7 +733,7 @@ final class ProgressBar
     {
         \assert(null !== $this->format);
 
-        $regex = "{%([a-z\-_]+)(?:\:([^%]+))?%}i";
+        $regex = '{%([a-z\-_]+)(?:\:([^%]+))?%}i';
         $callback = function ($matches) {
             if ($formatter = $this->getPlaceholderFormatter($matches[1])) {
                 $text = $formatter($this, $this->output);

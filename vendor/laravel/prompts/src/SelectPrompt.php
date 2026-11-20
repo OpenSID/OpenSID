@@ -8,6 +8,7 @@ use InvalidArgumentException;
 
 class SelectPrompt extends Prompt
 {
+    use Concerns\HasInfo;
     use Concerns\Scrolling;
 
     /**
@@ -31,6 +32,7 @@ class SelectPrompt extends Prompt
         public string $hint = '',
         public bool|string $required = true,
         public ?Closure $transform = null,
+        public string|Closure $info = '',
     ) {
         if ($this->required === false) {
             throw new InvalidArgumentException('Argument [required] must be true or a string.');
@@ -38,7 +40,7 @@ class SelectPrompt extends Prompt
 
         $this->options = $options instanceof Collection ? $options->all() : $options;
 
-        if ($this->default) {
+        if ($this->default !== null) {
             if (array_is_list($this->options)) {
                 $this->initializeScrolling(array_search($this->default, $this->options) ?: 0);
             } else {
@@ -58,6 +60,18 @@ class SelectPrompt extends Prompt
             Key::ENTER => $this->submit(),
             default => null,
         });
+    }
+
+    /**
+     * Get the value of the highlighted option.
+     */
+    public function highlightedValue(): int|string|null
+    {
+        if (array_is_list($this->options)) {
+            return $this->options[$this->highlighted] ?? null;
+        }
+
+        return array_keys($this->options)[$this->highlighted] ?? null;
     }
 
     /**

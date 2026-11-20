@@ -46,6 +46,7 @@ class SuggestPromptRenderer extends Renderer implements Scrolling
                     $this->cyan($this->truncate($prompt->label, $prompt->terminal()->cols() - 6)),
                     $this->valueWithCursorAndArrow($prompt, $maxWidth),
                     $this->renderOptions($prompt),
+                    info: $prompt->infoText(),
                 )
                 ->when(
                     $prompt->hint,
@@ -97,19 +98,20 @@ class SuggestPromptRenderer extends Renderer implements Scrolling
             return '';
         }
 
-        return $this->scrollbar(
-            collect($prompt->visible())
-                ->map(fn ($label) => $this->truncate($label, $prompt->terminal()->cols() - 10))
-                ->map(fn ($label, $key) => $prompt->highlighted === $key
+        return implode(PHP_EOL, $this->scrollbar(
+            array_map(function ($label, $key) use ($prompt) {
+                $label = $this->truncate($label, $prompt->terminal()->cols() - 12);
+
+                return $prompt->highlighted === $key
                     ? "{$this->cyan('›')} {$label}  "
-                    : "  {$this->dim($label)}  "
-                ),
+                    : "  {$this->dim($label)}  ";
+            }, $visible = $prompt->visible(), array_keys($visible)),
             $prompt->firstVisible,
             $prompt->scroll,
             count($prompt->matches()),
             min($this->longest($prompt->matches(), padding: 4), $prompt->terminal()->cols() - 6),
             $prompt->state === 'cancel' ? 'dim' : 'cyan'
-        )->implode(PHP_EOL);
+        ));
     }
 
     /**

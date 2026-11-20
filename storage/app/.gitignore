@@ -1,0 +1,13 @@
+*
+!backup/
+!private/
+!public/
+!security/
+!template/
+!template/**
+!themes/
+!themes/**
+!vendor/
+!vendor/**
+
+!.gitignore

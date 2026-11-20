@@ -51,6 +51,54 @@ class TelegramLocation extends TelegramBase implements TelegramSenderContract
     }
 
     /**
+     * The location's radius of uncertainty for the location, measured in meters; 0-1500.
+     *
+     * @return $this
+     */
+    public function horizontalAccuracy(float|int|string $horizontalAccuracy): self
+    {
+        $this->payload['horizontal_accuracy'] = $horizontalAccuracy;
+
+        return $this;
+    }
+
+    /**
+     * Period in seconds during which the location can be updated.
+     *
+     * @return $this
+     */
+    public function livePeriod(int $livePeriod): self
+    {
+        $this->payload['live_period'] = $livePeriod;
+
+        return $this;
+    }
+
+    /**
+     * The direction in which the user is moving, in degrees.
+     *
+     * @return $this
+     */
+    public function heading(int $heading): self
+    {
+        $this->payload['heading'] = $heading;
+
+        return $this;
+    }
+
+    /**
+     * Maximum distance for proximity alerts about approaching another chat member, in meters.
+     *
+     * @return $this
+     */
+    public function proximityAlertRadius(int $proximityAlertRadius): self
+    {
+        $this->payload['proximity_alert_radius'] = $proximityAlertRadius;
+
+        return $this;
+    }
+
+    /**
      * @throws CouldNotSendNotification
      */
     public function send(): ?ResponseInterface

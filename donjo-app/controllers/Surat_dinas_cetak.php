@@ -377,13 +377,17 @@ class Surat_dinas_cetak extends Admin_Controller
                 $this->tinymce->generateLampiran(null, $cetak, $cetak['input']);
 
                 if ($preview) {
-                    $this->tinymce->pdfMerge->merge('document.pdf', 'I');
+                    $pdfContent  = $this->tinymce->pdfMerge->merge('document.pdf', 'S');
+                    $namaUnduhan = 'document.pdf';
                 } else {
                     // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
                     $surat->isi_surat = $isi_cetak;
                     $surat->status    = LogSuratDinas::CETAK;
 
-                    $this->tinymce->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
+                    $filePath = FCPATH . LOKASI_ARSIP . $nama_surat;
+                    $this->tinymce->pdfMerge->merge($filePath, 'F');
+                    $pdfContent  = file_get_contents($filePath);
+                    $namaUnduhan = $nama_surat;
                 }
             } catch (Html2PdfException $e) {
                 $formatter = new ExceptionFormatter($e);
@@ -397,6 +401,13 @@ class Surat_dinas_cetak extends Admin_Controller
                     ], JSON_THROW_ON_ERROR));
             }
 
+            $responseHeaders = [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="' . basename($namaUnduhan) . '"',
+                'Cache-Control'       => 'private, must-revalidate, post-check=0, pre-check=0, max-age=1',
+                'Pragma'              => 'public',
+            ];
+
             if (! $preview) {
                 // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
                 $surat->verifikasi_operator = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSuratDinas::PERIKSA : LogSuratDinas::TERIMA;
@@ -405,7 +416,7 @@ class Surat_dinas_cetak extends Admin_Controller
                 if ($surat->urls_id) {
                     $surat->urlId->update(['url' => ci_route('c1.' . $surat->id . '.surat_dinas')]);
                 }
-                header('id_arsip: ' . $surat->id); // sisipkan id
+                $responseHeaders['id_arsip'] = $surat->id; // sisipkan id
 
                 // notifikasi Mobile Admin
                 try {
@@ -433,10 +444,10 @@ class Surat_dinas_cetak extends Admin_Controller
                 // akhir notifikasi Mobile Admin
             }
 
-            redirect('surat_dinas_cetak');
-        } else {
-            redirect_with('error', 'Tidak ada surat yang akan dicetak.');
+            return response($pdfContent, 200, $responseHeaders);
         }
+
+        return redirect_with('error', 'Tidak ada surat yang akan dicetak.');
     }
 
     public function konsep(): void

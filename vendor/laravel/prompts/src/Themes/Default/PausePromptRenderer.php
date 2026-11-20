@@ -13,12 +13,13 @@ class PausePromptRenderer extends Renderer
      */
     public function __invoke(PausePrompt $prompt): string
     {
-        match ($prompt->state) {
-            'submit' => collect(explode(PHP_EOL, $prompt->message))
-                ->each(fn ($line) => $this->line($this->gray(" {$line}"))),
-            default => collect(explode(PHP_EOL, $prompt->message))
-                ->each(fn ($line) => $this->line($this->green(" {$line}")))
-        };
+        $lines = explode(PHP_EOL, $prompt->message);
+
+        $color = $prompt->state === 'submit' ? 'green' : 'gray';
+
+        foreach ($lines as $line) {
+            $this->line(" {$this->{$color}($line)}");
+        }
 
         return $this;
     }

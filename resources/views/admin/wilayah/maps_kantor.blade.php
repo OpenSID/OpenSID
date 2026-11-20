@@ -21,6 +21,7 @@
         <form action="{{ $form_action }}" method="POST" enctype="multipart/form-data" id="validasi" class="form-horizontal">
             <div class="box-body">
                 <div id="tampil-map">
+                    @include('admin.gis.cetak_peta')
                     <input type="hidden" name="zoom" id="zoom" value="{{ $wil_ini['zoom'] }}" />
                     <input type="hidden" name="map_tipe" id="map_tipe" value="{{ $wil_ini['map_tipe'] }}" />
                     <input type="hidden" name="id" id="id" value="{{ $wil_ini['id'] }}" />

@@ -37,16 +37,17 @@
 
 namespace App\Providers;
 
-use App\Services\QueryDetector;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\ServiceProvider;
+use OpenSID\RouteBuilder;
 use Illuminate\Support\Str;
 use Doctrine\DBAL\Types\Type;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\File;
 use Doctrine\DBAL\Types\SmallIntType;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -98,20 +99,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerMacros();
+        $this->registerMissingNamedRoutes();
         $this->registerCoreViews();
+        $this->registerMacros();
 
         // mapping butuh DB connection, jadi aman dipanggil di boot
         $this->registerDoctrineTypeMappings();
-
-        $this->app->make(QueryDetector::class)->boot();
-
-        // DatabaseServiceProvider::boot() sets Model::$dispatcher later in the boot walk;
-        // set it now so observers registered by other providers' boot() can register
-        // their listeners immediately.
-        if (! \Illuminate\Database\Eloquent\Model::getEventDispatcher()) {
-            \Illuminate\Database\Eloquent\Model::setEventDispatcher($this->app['events']);
-        }
     }
 
     private function registerDoctrineTypes(): void
@@ -131,7 +124,11 @@ class AppServiceProvider extends ServiceProvider
             return;
         }
 
-        $platform = DB::connection()->getDoctrineConnection()->getDatabasePlatform();
+        try {
+            $platform = DB::connection()->getDoctrineConnection()->getDatabasePlatform();
+        } catch (\Throwable) {
+            return;
+        }
 
         // Tinyint bawaan MySQL
         if (! $platform->hasDoctrineTypeMappingFor('tinyint')) {
@@ -337,9 +334,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function registerCoreViews(): void
     {
-        $sourcePath = FCPATH . 'resources/views';
-
-        $this->loadViewsFrom($sourcePath, 'core');
+        $this->loadViewsFrom(resource_path('views'), 'core');
     }
 
     /**
@@ -367,5 +362,32 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->register($providerClassOld);
             }
         }
+    }
+
+    /**
+     * Register handling for missing named routes.
+     */
+    private function registerMissingNamedRoutes()
+    {
+        URL::resolveMissingNamedRoutesUsing(function ($name, $parameters, $absolute) {
+            $route = RouteBuilder::getByName($name);
+            $uri   = URL::to($route->buildUrl($parameters), [], $absolute);
+
+            if (! is_array($parameters) || array_keys($parameters) === range(0, count($parameters) - 1)) {
+                $parameters = [];
+            }
+
+            $filteredParameters = array_filter(
+                $parameters,
+                static fn($value, $key) => ! $route->hasParam($key),
+                ARRAY_FILTER_USE_BOTH
+            );
+
+            if ($filteredParameters) {
+                $uri .= '?' . http_build_query($filteredParameters);
+            }
+
+            return $uri;
+        });
     }
 }

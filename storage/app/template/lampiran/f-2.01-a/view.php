@@ -376,9 +376,12 @@
         </tr>
         <tr>
             <td>8.</td>
-            <td colspan="12">Kelahiran anak ke- </td>
+            <td colspan="12">Kelahiran ke</td>
             <td class="kanan">:</td>
-            <?= kotak($isi_data_anak ? $individu['kelahiran_anak_ke'] : '', 1); ?>
+            <td colspan="1" class="kotak padat tengah">
+                <?= $isi_data_anak ? $individu['kelahiran_anak_ke'] : '' ?>
+            </td>
+            <td colspan="33"> 1, 2, 3, 4...</td>
         </tr>
         <tr>
             <td>9.</td>

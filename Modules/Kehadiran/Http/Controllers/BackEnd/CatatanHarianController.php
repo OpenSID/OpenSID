@@ -176,7 +176,7 @@ class CatatanHarianController extends AdminModulController
         ]);
     }
 
-    public function create()
+    public function create(CatatanHarianRequest $request)
     {
         isCan('u');
 
@@ -191,7 +191,6 @@ class CatatanHarianController extends AdminModulController
                 ]);
             }
 
-            $request           = new CatatanHarianRequest();
             $data              = $request->validated();
             $data['config_id'] = identitas('id');
             $data['pamong_id'] = $user->pamong_id;
@@ -243,7 +242,7 @@ class CatatanHarianController extends AdminModulController
         }
     }
 
-    public function update(string $id)
+    public function update(CatatanHarianRequest $request, string $id)
     {
         isCan('u');
 
@@ -281,7 +280,6 @@ class CatatanHarianController extends AdminModulController
                 ]);
             }
 
-            $request = new CatatanHarianRequest();
             $data    = $request->validated();
 
             $fotos = [];

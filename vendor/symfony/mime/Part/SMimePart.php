@@ -18,22 +18,13 @@ use Symfony\Component\Mime\Header\Headers;
  */
 class SMimePart extends AbstractPart
 {
-    /** @internal */
-    protected Headers $_headers;
-
-    private iterable|string $body;
-    private string $type;
-    private string $subtype;
-    private array $parameters;
-
-    public function __construct(iterable|string $body, string $type, string $subtype, array $parameters)
-    {
+    public function __construct(
+        private iterable|string $body,
+        private string $type,
+        private string $subtype,
+        private array $parameters,
+    ) {
         parent::__construct();
-
-        $this->body = $body;
-        $this->type = $type;
-        $this->subtype = $subtype;
-        $this->parameters = $parameters;
     }
 
     public function getMediaType(): string
@@ -90,22 +81,34 @@ class SMimePart extends AbstractPart
         return $headers;
     }
 
-    public function __sleep(): array
+    public function __serialize(): array
     {
         // convert iterables to strings for serialization
         if (is_iterable($this->body)) {
             $this->body = $this->bodyToString();
         }
 
-        $this->_headers = $this->getHeaders();
-
-        return ['_headers', 'body', 'type', 'subtype', 'parameters'];
+        return [
+            '_headers' => $this->getHeaders(),
+            'body' => $this->body,
+            'type' => $this->type,
+            'subtype' => $this->subtype,
+            'parameters' => $this->parameters,
+        ];
     }
 
-    public function __wakeup(): void
+    public function __unserialize(array $data): void
     {
-        $r = new \ReflectionProperty(AbstractPart::class, 'headers');
-        $r->setValue($this, $this->_headers);
-        unset($this->_headers);
+        foreach (['body', 'type', 'subtype'] as $prop) {
+            if (($data[$prop] ?? $data["\0".self::class."\0".$prop] ?? $data["\0*\0".$prop] ?? null) instanceof \Stringable) {
+                throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
+            }
+        }
+
+        parent::__unserialize(['headers' => $data['_headers'] ?? $data["\0*\0_headers"]]);
+        $this->body = $data['body'] ?? $data["\0".self::class."\0body"];
+        $this->type = $data['type'] ?? $data["\0".self::class."\0type"];
+        $this->subtype = $data['subtype'] ?? $data["\0".self::class."\0subtype"];
+        $this->parameters = $data['parameters'] ?? $data["\0".self::class."\0parameters"];
     }
 }

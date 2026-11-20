@@ -18,7 +18,7 @@ use ZipStream\Exception\StreamNotSeekableException;
 /**
  * @internal
  */
-class File
+final class File
 {
     private const CHUNKED_READ_BLOCK_SIZE = 0x1000000;
 
@@ -110,9 +110,11 @@ class File
         $detectedSize = $forecastSize ?? ($this->compressedSize > 0 ? $this->compressedSize : null);
 
         if (
-            $this->isSimulation() &&
-            $detectedSize !== null
+            $this->isSimulation()
+            && $detectedSize !== null
         ) {
+            $this->uncompressedSize = $detectedSize;
+            $this->compressedSize = $detectedSize;
             ($this->recordSentBytes)($detectedSize);
         } else {
             $this->readStream(send: true);
@@ -200,10 +202,10 @@ class File
             compressionMethod: $this->compressionMethod,
             lastModificationDateTime: $this->lastModificationDateTime,
             crc32UncompressedData: $this->crc,
-            compressedSize: $zip64Enabled
+            compressedSize: ($forceEnableZip64 || $this->compressedSize > 0xFFFFFFFF)
                 ? 0xFFFFFFFF
                 : $this->compressedSize,
-            uncompressedSize: $zip64Enabled
+            uncompressedSize: ($forceEnableZip64 || $this->uncompressedSize > 0xFFFFFFFF)
                 ? 0xFFFFFFFF
                 : $this->uncompressedSize,
             fileName: $this->fileName,
@@ -236,8 +238,8 @@ class File
         // Sets Bit 11: Language encoding flag (EFS).  If this bit is set,
         // the filename and comment fields for this file
         // MUST be encoded using UTF-8. (see APPENDIX D)
-        if (mb_check_encoding($this->fileName, 'UTF-8') &&
-                mb_check_encoding($this->comment, 'UTF-8')) {
+        if (mb_check_encoding($this->fileName, 'UTF-8')
+                && mb_check_encoding($this->comment, 'UTF-8')) {
             $this->generalPurposeBitFlag |= GeneralPurposeBitFlag::EFS;
         }
     }
@@ -319,9 +321,9 @@ class File
         $deflate = $this->compressionInit();
 
         while (
-            !feof($this->unpackStream()) &&
-            ($this->maxSize === null || $this->uncompressedSize < $this->maxSize) &&
-            ($this->exactSize === null || $this->uncompressedSize < $this->exactSize)
+            !feof($this->unpackStream())
+            && ($this->maxSize === null || $this->uncompressedSize < $this->maxSize)
+            && ($this->exactSize === null || $this->uncompressedSize < $this->exactSize)
         ) {
             $readLength = min(
                 ($this->maxSize ?? PHP_INT_MAX) - $this->uncompressedSize,
@@ -330,6 +332,10 @@ class File
             );
 
             $data = fread($this->unpackStream(), $readLength);
+
+            if ($data === false) {
+                throw new ResourceActionException('fread', $this->unpackStream());
+            }
 
             hash_update($hash, $data);
 
@@ -341,6 +347,10 @@ class File
                     $data,
                     feof($this->unpackStream()) ? ZLIB_FINISH : ZLIB_NO_FLUSH
                 );
+
+                if ($data === false) {
+                    throw new RuntimeException('deflate_add failed');
+                }
             }
 
             $this->compressedSize += strlen($data);

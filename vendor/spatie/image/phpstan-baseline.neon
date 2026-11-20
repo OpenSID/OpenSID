@@ -1,0 +1,101 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Spatie\\\\Image\\\\Drivers\\\\Gd\\\\GdDriver\\:\\:pngCompression\\(\\) should return int\\<\\-1, 9\\> but returns int\\.$#"
+			count: 1
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of function imagecreatefromstring expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Parameter \\#1 \\$exif of method Spatie\\\\Image\\\\Drivers\\\\Gd\\\\GdDriver\\:\\:getOrientationFromExif\\(\\) expects array\\{Orientation\\?\\: int\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function base64_encode expects string, string\\|false given\\.$#"
+			count: 2
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Parameter \\#2 \\$color of function imagecolorsforindex expects int, int\\<0, max\\>\\|false given\\.$#"
+			count: 1
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Parameter \\#2 \\$color of function imagecolortransparent expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
+			count: 1
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Parameter \\#2 \\$src_image of function imagecopy expects GdImage, mixed given\\.$#"
+			count: 1
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Parameter \\#4 \\$color of function imagefill expects int, int\\<0, max\\>\\|false given\\.$#"
+			count: 1
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Parameter \\#6 \\$color of function imagefilledrectangle expects int, int\\<0, max\\>\\|false given\\.$#"
+			count: 1
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Property Spatie\\\\Image\\\\Drivers\\\\Gd\\\\GdDriver\\:\\:\\$image \\(GdImage\\) does not accept GdImage\\|false\\.$#"
+			count: 4
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Property Spatie\\\\Image\\\\Drivers\\\\Gd\\\\GdDriver\\:\\:\\$image \\(GdImage\\) does not accept mixed\\.$#"
+			count: 1
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Drivers/Gd/GdDriver.php
+
+		-
+			message: "#^Cannot call method evaluateImage\\(\\) on mixed\\.$#"
+			count: 1
+			path: src/Drivers/Imagick/ImagickDriver.php
+
+		-
+			message: "#^Cannot call method setImageOrientation\\(\\) on mixed\\.$#"
+			count: 1
+			path: src/Drivers/Imagick/ImagickDriver.php
+
+		-
+			message: "#^Parameter \\#1 \\$composite_object of method Imagick\\:\\:compositeImage\\(\\) expects Imagick, mixed given\\.$#"
+			count: 1
+			path: src/Drivers/Imagick/ImagickDriver.php
+
+		-
+			message: "#^Property Spatie\\\\Image\\\\Drivers\\\\Imagick\\\\ImagickDriver\\:\\:\\$exif type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Drivers/Imagick/ImagickDriver.php
+
+		-
+			message: "#^Property Spatie\\\\Image\\\\Drivers\\\\Imagick\\\\ImagickDriver\\:\\:\\$image \\(Imagick\\) does not accept mixed\\.$#"
+			count: 1
+			path: src/Drivers/Imagick/ImagickDriver.php
+
+		-
+			message: "#^Part \\$color \\(mixed\\) of encapsed string cannot be cast to string\\.$#"
+			count: 1
+			path: src/Exceptions/InvalidColor.php
+
+		-
+			message: "#^Parameter \\#3 \\$x of method Spatie\\\\Image\\\\Drivers\\\\ImageDriver\\:\\:manualCrop\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: src/Image.php
+
+		-
+			message: "#^Parameter \\#4 \\$y of method Spatie\\\\Image\\\\Drivers\\\\ImageDriver\\:\\:manualCrop\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: src/Image.php

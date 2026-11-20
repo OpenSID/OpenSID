@@ -46,6 +46,7 @@ class TableStyle
     private string $cellRowFormat = '%s';
     private string $cellRowContentFormat = ' %s ';
     private string $borderFormat = '%s';
+    private bool $displayOutsideBorder = true;
     private int $padType = \STR_PAD_RIGHT;
 
     /**
@@ -77,10 +78,11 @@ class TableStyle
      *
      * <code>
      * ╔═══════════════╤══════════════════════════╤══════════════════╗
-     * 1 ISBN          2 Title                    │ Author           ║
-     * ╠═══════════════╪══════════════════════════╪══════════════════╣
+     * ║ ISBN          │ Title                    │ Author           ║
+     * ╠═══════1═══════╪══════════════════════════╪══════════════════╣
      * ║ 99921-58-10-7 │ Divine Comedy            │ Dante Alighieri  ║
      * ║ 9971-5-0210-0 │ A Tale of Two Cities     │ Charles Dickens  ║
+     * ╟───────2───────┼──────────────────────────┼──────────────────╢
      * ║ 960-425-059-0 │ The Lord of the Rings    │ J. R. R. Tolkien ║
      * ║ 80-902734-1-6 │ And Then There Were None │ Agatha Christie  ║
      * ╚═══════════════╧══════════════════════════╧══════════════════╝
@@ -101,11 +103,10 @@ class TableStyle
      *
      * <code>
      * ╔═══════════════╤══════════════════════════╤══════════════════╗
-     * ║ ISBN          │ Title                    │ Author           ║
-     * ╠═══════1═══════╪══════════════════════════╪══════════════════╣
+     * 1 ISBN          2 Title                    │ Author           ║
+     * ╠═══════════════╪══════════════════════════╪══════════════════╣
      * ║ 99921-58-10-7 │ Divine Comedy            │ Dante Alighieri  ║
      * ║ 9971-5-0210-0 │ A Tale of Two Cities     │ Charles Dickens  ║
-     * ╟───────2───────┼──────────────────────────┼──────────────────╢
      * ║ 960-425-059-0 │ The Lord of the Rings    │ J. R. R. Tolkien ║
      * ║ 80-902734-1-6 │ And Then There Were None │ Agatha Christie  ║
      * ╚═══════════════╧══════════════════════════╧══════════════════╝
@@ -358,5 +359,17 @@ class TableStyle
         $this->footerTitleFormat = $format;
 
         return $this;
+    }
+
+    public function setDisplayOutsideBorder($displayOutSideBorder): static
+    {
+        $this->displayOutsideBorder = $displayOutSideBorder;
+
+        return $this;
+    }
+
+    public function displayOutsideBorder(): bool
+    {
+        return $this->displayOutsideBorder;
     }
 }

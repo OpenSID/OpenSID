@@ -21,6 +21,10 @@ use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableSeparator;
+use Symfony\Component\Console\Helper\TreeHelper;
+use Symfony\Component\Console\Helper\TreeNode;
+use Symfony\Component\Console\Helper\TreeStyle;
+use Symfony\Component\Console\Input\File\InputFile;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
@@ -28,8 +32,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\TrimmedBufferOutput;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\FileQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Terminal;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Output decorator helpers for the Symfony Style Guide.
@@ -40,30 +46,28 @@ class SymfonyStyle extends OutputStyle
 {
     public const MAX_LINE_LENGTH = 120;
 
-    private InputInterface $input;
-    private OutputInterface $output;
     private SymfonyQuestionHelper $questionHelper;
     private ProgressBar $progressBar;
     private int $lineLength;
     private TrimmedBufferOutput $bufferedOutput;
 
-    public function __construct(InputInterface $input, OutputInterface $output)
-    {
-        $this->input = $input;
+    public function __construct(
+        private InputInterface $input,
+        private OutputInterface $output,
+        private ?EventDispatcherInterface $dispatcher = null,
+    ) {
         $this->bufferedOutput = new TrimmedBufferOutput(\DIRECTORY_SEPARATOR === '\\' ? 4 : 2, $output->getVerbosity(), false, clone $output->getFormatter());
         // Windows cmd wraps lines as soon as the terminal width is reached, whether there are following chars or not.
         $width = (new Terminal())->getWidth() ?: self::MAX_LINE_LENGTH;
         $this->lineLength = min($width - (int) (\DIRECTORY_SEPARATOR === '\\'), self::MAX_LINE_LENGTH);
 
-        parent::__construct($this->output = $output);
+        parent::__construct($output);
     }
 
     /**
      * Formats a message as a block of text.
-     *
-     * @return void
      */
-    public function block(string|array $messages, ?string $type = null, ?string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true)
+    public function block(string|array $messages, ?string $type = null, ?string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true): void
     {
         $messages = \is_array($messages) ? array_values($messages) : [$messages];
 
@@ -72,10 +76,7 @@ class SymfonyStyle extends OutputStyle
         $this->newLine();
     }
 
-    /**
-     * @return void
-     */
-    public function title(string $message)
+    public function title(string $message): void
     {
         $this->autoPrependBlock();
         $this->writeln([
@@ -85,10 +86,7 @@ class SymfonyStyle extends OutputStyle
         $this->newLine();
     }
 
-    /**
-     * @return void
-     */
-    public function section(string $message)
+    public function section(string $message): void
     {
         $this->autoPrependBlock();
         $this->writeln([
@@ -98,22 +96,16 @@ class SymfonyStyle extends OutputStyle
         $this->newLine();
     }
 
-    /**
-     * @return void
-     */
-    public function listing(array $elements)
+    public function listing(array $elements): void
     {
         $this->autoPrependText();
-        $elements = array_map(fn ($element) => \sprintf(' * %s', $element), $elements);
+        $elements = array_map(static fn ($element) => \sprintf(' * %s', $element), $elements);
 
         $this->writeln($elements);
         $this->newLine();
     }
 
-    /**
-     * @return void
-     */
-    public function text(string|array $message)
+    public function text(string|array $message): void
     {
         $this->autoPrependText();
 
@@ -125,68 +117,91 @@ class SymfonyStyle extends OutputStyle
 
     /**
      * Formats a command comment.
-     *
-     * @return void
      */
-    public function comment(string|array $message)
+    public function comment(string|array $message): void
     {
         $this->block($message, null, null, '<fg=default;bg=default> // </>', false, false);
     }
 
-    /**
-     * @return void
-     */
-    public function success(string|array $message)
+    public function success(string|array $message): void
     {
         $this->block($message, 'OK', 'fg=black;bg=green', ' ', true);
     }
 
-    /**
-     * @return void
-     */
-    public function error(string|array $message)
+    public function error(string|array $message): void
     {
         $this->block($message, 'ERROR', 'fg=white;bg=red', ' ', true);
     }
 
-    /**
-     * @return void
-     */
-    public function warning(string|array $message)
+    public function warning(string|array $message): void
     {
         $this->block($message, 'WARNING', 'fg=black;bg=yellow', ' ', true);
     }
 
-    /**
-     * @return void
-     */
-    public function note(string|array $message)
+    public function note(string|array $message): void
     {
         $this->block($message, 'NOTE', 'fg=yellow', ' ! ');
     }
 
     /**
      * Formats an info message.
-     *
-     * @return void
      */
-    public function info(string|array $message)
+    public function info(string|array $message): void
     {
         $this->block($message, 'INFO', 'fg=green', ' ', true);
     }
 
-    /**
-     * @return void
-     */
-    public function caution(string|array $message)
+    public function caution(string|array $message): void
     {
         $this->block($message, 'CAUTION', 'fg=white;bg=red', ' ! ', true);
     }
 
     /**
-     * @return void
+     * Formats a message as an outlined block of text.
+     *
+     * Unlike block(), this renders colored borders instead of colored backgrounds,
+     * improving readability across terminal color schemes.
      */
-    public function table(array $headers, array $rows)
+    public function outlineBlock(string|array $messages, ?string $type = null, ?string $style = null, bool $padding = true, bool $escape = true): void
+    {
+        $messages = \is_array($messages) ? array_values($messages) : [$messages];
+
+        $this->autoPrependBlock();
+        $this->writeln($this->createOutlineBlock($messages, $type, $style, $padding, $escape));
+        $this->newLine();
+    }
+
+    public function outlineSuccess(string|array $message): void
+    {
+        $this->outlineBlock($message, '✅ Success', 'fg=green');
+    }
+
+    public function outlineError(string|array $message): void
+    {
+        $this->outlineBlock($message, '❌ Error', 'fg=red');
+    }
+
+    public function outlineWarning(string|array $message): void
+    {
+        $this->outlineBlock($message, '⚠️ Warning', 'fg=yellow');
+    }
+
+    public function outlineNote(string|array $message): void
+    {
+        $this->outlineBlock($message, '📝 Note', 'fg=blue');
+    }
+
+    public function outlineInfo(string|array $message): void
+    {
+        $this->outlineBlock($message, 'ℹ️ Info', 'fg=green');
+    }
+
+    public function outlineCaution(string|array $message): void
+    {
+        $this->outlineBlock($message, '🚨 Caution', 'fg=red');
+    }
+
+    public function table(array $headers, array $rows): void
     {
         $this->createTable()
             ->setHeaders($headers)
@@ -199,10 +214,8 @@ class SymfonyStyle extends OutputStyle
 
     /**
      * Formats a horizontal table.
-     *
-     * @return void
      */
-    public function horizontalTable(array $headers, array $rows)
+    public function horizontalTable(array $headers, array $rows): void
     {
         $this->createTable()
             ->setHorizontal(true)
@@ -221,10 +234,8 @@ class SymfonyStyle extends OutputStyle
      * * 'A title'
      * * ['key' => 'value']
      * * new TableSeparator()
-     *
-     * @return void
      */
-    public function definitionList(string|array|TableSeparator ...$list)
+    public function definitionList(string|array|TableSeparator ...$list): void
     {
         $headers = [];
         $row = [];
@@ -285,41 +296,49 @@ class SymfonyStyle extends OutputStyle
         return $this->askQuestion($questionChoice);
     }
 
-    /**
-     * @return void
-     */
-    public function progressStart(int $max = 0)
+    public function askFile(string $question): ?InputFile
     {
-        $this->progressBar = $this->createProgressBar($max);
-        $this->progressBar->start();
+        return $this->askQuestion(new FileQuestion($question));
     }
 
     /**
-     * @return void
+     * @param string|null $format
      */
-    public function progressAdvance(int $step = 1)
+    public function progressStart(int $max = 0 /* , ?string $format = null */): void
+    {
+        $format = 2 <= \func_num_args() ? func_get_arg(1) : null;
+        $this->progressBar = $this->createProgressBar($max, $format);
+        $this->progressBar->start();
+    }
+
+    public function progressAdvance(int $step = 1): void
     {
         $this->getProgressBar()->advance($step);
     }
 
-    /**
-     * @return void
-     */
-    public function progressFinish()
+    public function progressFinish(): void
     {
         $this->getProgressBar()->finish();
         $this->newLine(2);
         unset($this->progressBar);
     }
 
-    public function createProgressBar(int $max = 0): ProgressBar
+    /**
+     * @param string|null $format
+     */
+    public function createProgressBar(int $max = 0 /* , ?string $format = null */): ProgressBar
     {
+        $format = 2 <= \func_num_args() ? func_get_arg(1) : null;
         $progressBar = parent::createProgressBar($max);
 
         if ('\\' !== \DIRECTORY_SEPARATOR || 'Hyper' === getenv('TERM_PROGRAM')) {
             $progressBar->setEmptyBarCharacter('░'); // light shade character \u2591
             $progressBar->setProgressCharacter('');
             $progressBar->setBarCharacter('▓'); // dark shade character \u2593
+        }
+
+        if (null !== $format) {
+            $progressBar->setFormat($format);
         }
 
         return $progressBar;
@@ -333,12 +352,14 @@ class SymfonyStyle extends OutputStyle
      *
      * @param iterable<TKey, TValue> $iterable
      * @param int|null               $max      Number of steps to complete the bar (0 if indeterminate), if null it will be inferred from $iterable
+     * @param string|null            $format   A ProgressBar format string (e.g. ' %current%/%max% [%bar%] %memory:6s%'); null uses the default format
      *
      * @return iterable<TKey, TValue>
      */
-    public function progressIterate(iterable $iterable, ?int $max = null): iterable
+    public function progressIterate(iterable $iterable, ?int $max = null /* , ?string $format = null */): iterable
     {
-        yield from $this->createProgressBar()->iterate($iterable, $max);
+        $format = 3 <= \func_num_args() ? func_get_arg(2) : null;
+        yield from $this->createProgressBar(0, $format)->iterate($iterable, $max);
 
         $this->newLine(2);
     }
@@ -349,7 +370,7 @@ class SymfonyStyle extends OutputStyle
             $this->autoPrependBlock();
         }
 
-        $this->questionHelper ??= new SymfonyQuestionHelper();
+        $this->questionHelper ??= new SymfonyQuestionHelper($this->dispatcher);
 
         $answer = $this->questionHelper->ask($this->input, $this, $question);
 
@@ -366,10 +387,7 @@ class SymfonyStyle extends OutputStyle
         return $answer;
     }
 
-    /**
-     * @return void
-     */
-    public function writeln(string|iterable $messages, int $type = self::OUTPUT_NORMAL)
+    public function writeln(string|iterable $messages, int $type = self::OUTPUT_NORMAL): void
     {
         if (!is_iterable($messages)) {
             $messages = [$messages];
@@ -381,10 +399,7 @@ class SymfonyStyle extends OutputStyle
         }
     }
 
-    /**
-     * @return void
-     */
-    public function write(string|iterable $messages, bool $newline = false, int $type = self::OUTPUT_NORMAL)
+    public function write(string|iterable $messages, bool $newline = false, int $type = self::OUTPUT_NORMAL): void
     {
         if (!is_iterable($messages)) {
             $messages = [$messages];
@@ -396,10 +411,7 @@ class SymfonyStyle extends OutputStyle
         }
     }
 
-    /**
-     * @return void
-     */
-    public function newLine(int $count = 1)
+    public function newLine(int $count = 1): void
     {
         parent::newLine($count);
         $this->bufferedOutput->write(str_repeat("\n", $count));
@@ -426,6 +438,24 @@ class SymfonyStyle extends OutputStyle
     {
         return $this->progressBar
             ?? throw new RuntimeException('The ProgressBar is not started.');
+    }
+
+    /**
+     * @param iterable<string, iterable|string|TreeNode> $nodes
+     */
+    public function tree(iterable $nodes, string $root = ''): void
+    {
+        $this->createTree($nodes, $root)->render();
+    }
+
+    /**
+     * @param iterable<string, iterable|string|TreeNode> $nodes
+     */
+    public function createTree(iterable $nodes, string $root = ''): TreeHelper
+    {
+        $output = $this->output instanceof ConsoleOutputInterface ? $this->output->section() : $this->output;
+
+        return TreeHelper::createTree($output, $root, $nodes, TreeStyle::default());
     }
 
     private function autoPrependBlock(): void
@@ -475,12 +505,14 @@ class SymfonyStyle extends OutputStyle
                 $message = OutputFormatter::escape($message);
             }
 
+            $message = str_replace("\r\n", "\n", $message);
+
             $lines = array_merge(
                 $lines,
-                explode(\PHP_EOL, $outputWrapper->wrap(
+                explode("\n", $outputWrapper->wrap(
                     $message,
                     $this->lineLength - $prefixLength - $indentLength,
-                    \PHP_EOL
+                    "\n"
                 ))
             );
 
@@ -502,7 +534,13 @@ class SymfonyStyle extends OutputStyle
             }
 
             $line = $prefix.$line;
-            $line .= str_repeat(' ', max($this->lineLength - Helper::width(Helper::removeDecoration($this->getFormatter(), $line)), 0));
+            $paddingLength = max($this->lineLength - Helper::width(Helper::removeDecoration($this->getFormatter(), $line)), 0);
+
+            // ECH paints the trailing cells with the current background and CUF moves the cursor past
+            // them without writing characters, so most terminals trim them when copying the selection.
+            $line .= $style && $this->isDecorated() && 0 < $paddingLength
+                ? \sprintf("\e[%1\$dX\e[%1\$dC", $paddingLength)
+                : str_repeat(' ', $paddingLength);
 
             if ($style) {
                 $line = \sprintf('<%s>%s</>', $style, $line);
@@ -510,5 +548,54 @@ class SymfonyStyle extends OutputStyle
         }
 
         return $lines;
+    }
+
+    private function createOutlineBlock(array $messages, ?string $type = null, ?string $style = null, bool $padding = false, bool $escape = false): array
+    {
+        // Line format: ' │ '(3) + content($contentWidth) + ' │'(2) = lineLength
+        $contentWidth = $this->lineLength - 5;
+
+        $lines = [];
+        $outputWrapper = new OutputWrapper();
+
+        foreach ($messages as $key => $message) {
+            if ($escape) {
+                $message = OutputFormatter::escape($message);
+            }
+
+            $message = str_replace("\r\n", "\n", $message);
+            $lines = array_merge($lines, explode("\n", $outputWrapper->wrap($message, $contentWidth, "\n")));
+
+            if (\count($messages) > 1 && $key < \count($messages) - 1) {
+                $lines[] = '';
+            }
+        }
+
+        if ($padding) {
+            array_unshift($lines, '');
+            $lines[] = '';
+        }
+
+        $result = [];
+
+        // Top border: ' ┌─ Type ────┐' or ' ┌────┐' when no type
+        if (null !== $type) {
+            $line = ' ┌─ '.$type.' '.str_repeat('─', max(0, $this->lineLength - 6 - Helper::width($type))).'┐';
+        } else {
+            $line = ' ┌'.str_repeat('─', max(0, $this->lineLength - 3)).'┐';
+        }
+        $result[] = $style ? \sprintf('<%s>%s</>', $style, $line) : $line;
+
+        foreach ($lines as $line) {
+            $lineContentWidth = Helper::width(Helper::removeDecoration($this->getFormatter(), $line));
+            $padded = $line.str_repeat(' ', max($contentWidth - $lineContentWidth, 0));
+            $result[] = $style ? \sprintf('<%s> │ </>%s<%1$s> │</>', $style, $padded) : ' │ '.$padded.' │';
+        }
+
+        $borderDashes = str_repeat('─', max(0, $this->lineLength - 3));
+        $line = ' └'.$borderDashes.'┘';
+        $result[] = $style ? \sprintf('<%s>%s</>', $style, $line) : $line;
+
+        return $result;
     }
 }

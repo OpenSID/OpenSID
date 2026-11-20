@@ -376,17 +376,11 @@ class Suplemen extends Admin_Controller
             $suplemen = $this->input->get('suplemen');
             $sasaran  = $this->input->get('sasaran');
 
-            switch ($sasaran) {
-                case 1:
-                    $this->get_pilihan_penduduk($cari, $suplemen);
-                    break;
-
-                case 2:
-                    $this->get_pilihan_kk($cari, $suplemen);
-                    break;
-
-                default:
-            }
+            return match ((int) $sasaran) {
+                1 => $this->get_pilihan_penduduk($cari, $suplemen),
+                2 => $this->get_pilihan_kk($cari, $suplemen),
+                default => show_404(),
+            };
         }
 
         return show_404();
@@ -424,7 +418,7 @@ class Suplemen extends Admin_Controller
             $data['isi']       = 'admin.suplemen.cetak';
             $data['letak_ttd'] = ['2', '2', '3'];
 
-            return view('admin.layouts.components.format_cetak', $data);
+            return view('admin.suplemen.cetak', $data);
         }
 
         return show_404();

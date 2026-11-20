@@ -67,7 +67,7 @@
         $(document).ready(function () {
 
             // Base URL untuk request AJAX
-            var baseUrl = SITE_URL + '/bumindes_kader/';
+            var baseUrl = SITE_URL + 'bumindes_kader/';
 
             // Cache global untuk autocomplete
             var autoCompleteCache = {};

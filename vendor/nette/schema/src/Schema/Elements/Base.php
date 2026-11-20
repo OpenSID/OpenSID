@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the Nette Framework (https://nette.org)
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
-
-declare(strict_types=1);
 
 namespace Nette\Schema\Elements;
 
@@ -23,10 +21,10 @@ trait Base
 	private bool $required = false;
 	private mixed $default = null;
 
-	/** @var ?callable */
-	private $before;
+	/** @var ?\Closure(mixed): mixed */
+	private ?\Closure $before = null;
 
-	/** @var callable[] */
+	/** @var list<\Closure(mixed, Context): mixed> */
 	private array $transforms = [];
 	private ?string $deprecated = null;
 
@@ -45,9 +43,10 @@ trait Base
 	}
 
 
+	/** @param  callable(mixed): mixed  $handler */
 	public function before(callable $handler): self
 	{
-		$this->before = $handler;
+		$this->before = $handler(...);
 		return $this;
 	}
 
@@ -58,16 +57,18 @@ trait Base
 	}
 
 
+	/** @param  callable(mixed, Context): mixed  $handler */
 	public function transform(callable $handler): self
 	{
-		$this->transforms[] = $handler;
+		$this->transforms[] = $handler(...);
 		return $this;
 	}
 
 
+	/** @param  callable(mixed): bool  $handler */
 	public function assert(callable $handler, ?string $description = null): self
 	{
-		$expected = $description ?: (is_string($handler) ? "$handler()" : '#' . count($this->transforms));
+		$expected = $description ?? (is_string($handler) ? "$handler()" : '#' . count($this->transforms));
 		return $this->transform(function ($value, Context $context) use ($handler, $description, $expected) {
 			if ($handler($value)) {
 				return $value;
@@ -146,7 +147,10 @@ trait Base
 	}
 
 
-	/** @deprecated use Nette\Schema\Validators::validateRange() */
+	/**
+	 * @deprecated use Nette\Schema\Validators::validateRange()
+	 * @param  array{?float, ?float}  $range
+	 */
 	private static function doValidateRange(mixed $value, array $range, Context $context, string $types = ''): bool
 	{
 		$isOk = $context->createChecker();

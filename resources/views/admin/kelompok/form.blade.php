@@ -103,11 +103,16 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="id_ketua">Ketua <?= $title ?></label>
                             <div class="col-sm-7">
-                                <select class="form-control input-sm select2 required" id="kelompok_penduduk" name="id_ketua" @disabled($kelompok !== null)>
+                                <select class="form-control input-sm select2 required" id="kelompok_penduduk" name="id_ketua" data-tipe="{{ $ci->controller }}" data-kelompok="{{ optional($kelompok)['id'] ?? 0 }}" data-ajax-url="{{ site_url($ci->controller . '/apipendudukkelompok') }}" data-ajax-placeholder="Cari NIK / Nama..." @disabled($kelompok !== null)>
                                     <option value="">-- Silakan Masukkan NIK / Nama--</option>
-                                    @foreach ($list_penduduk as $data)
-                                        <option value="{{ $data['id'] }}" @selected($data['id'] == $kelompok['id_ketua'])>NIK :{{ $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['alamat'] }}</option>
-                                    @endforeach
+                                    @if ($kelompok?->id_ketua)
+                                        @php
+                                            $ketua = $list_penduduk->firstWhere('id', $kelompok->id_ketua);
+                                        @endphp
+                                        @if ($ketua)
+                                            <option value="{{ $ketua['id'] }}" selected>NIK : {{ $ketua['nik'] . ' - ' . $ketua['nama'] . ' - ' . $ketua['alamat'] }}</option>
+                                        @endif
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -127,3 +132,65 @@
         </form>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+$(function() {
+    var $select = $('#kelompok_penduduk');
+    
+    // Initialize Select2 with AJAX loading for Ketua Kelompok/Lembaga
+    // Menggunakan endpoint existing: apipendudukkelompok
+    $select.select2({
+        ajax: {
+            url: $select.data('ajax-url'),
+            type: 'GET',
+            dataType: 'json',
+            delay: 300,
+            data: function(params) {
+                var dataTipe = $select.data('tipe') || 'kelompok';
+                var dataKelompok = parseInt($select.data('kelompok')) || 0;
+                
+                return {
+                    q: params.term || '',           // Sesuai dengan parameter endpoint
+                    page: params.page || 1,
+                    tipe: dataTipe,
+                    kelompok: dataKelompok
+                };
+            },
+            processResults: function(data, params) {
+                params.page = params.page || 1;
+                return {
+                    results: (data && data.results) ? data.results : [],
+                    pagination: {
+                        more: (data && data.pagination && data.pagination.more) ? true : false
+                    }
+                };
+            },
+            cache: true,
+            error: function(xhr, status, error) {
+                console.error('Error loading data:', error, status);
+            }
+        },
+        minimumInputLength: 0,
+        placeholder: $select.data('ajax-placeholder') || 'Cari NIK / Nama...',
+        templateResult: function(data) {
+            if (data.loading) {
+                return data.text;
+            }
+            if (!data.id) {
+                return data.text;
+            }
+            return $('<span>').text(data.text);
+        },
+        templateSelection: function(data) {
+            return data.text || '';
+        },
+        language: {
+            searching: function() { return 'Mencari...'; },
+            noResults: function() { return 'Tidak ada data'; },
+            errorLoading: function() { return 'Gagal memuat data'; }
+        }
+    });
+});
+</script>
+@endpush

@@ -72,7 +72,7 @@ class GrupKontak extends BaseModel
     /**
      * Define a one-to-many relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function anggota()
     {

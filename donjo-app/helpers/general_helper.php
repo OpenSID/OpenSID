@@ -68,58 +68,6 @@ if (! function_exists('set_session')) {
     }
 }
 
-if (! function_exists('session')) {
-    function session($nama = '')
-    {
-        // Tanpa argumen: adaptor gaya Laravel (put/get/has/forget/flash/pull) di atas sesi CI3,
-        // dipakai add-on (mis. Pelanggan). Ditambahkan pipeline rilis Umum (patch-wiring-addon-umum.php).
-        if ($nama === '' || $nama === null) {
-            return new class(ci()->session) {
-                public function __construct(private $ci)
-                {
-                }
-
-                public function put($key, $value = null): void
-                {
-                    $this->ci->set_userdata(is_array($key) ? $key : [$key => $value]);
-                }
-
-                public function get($key, $default = null)
-                {
-                    $nilai = $this->ci->userdata($key);
-
-                    return $nilai ?? $this->ci->flashdata($key) ?? $default;
-                }
-
-                public function has($key): bool
-                {
-                    return $this->get($key) !== null;
-                }
-
-                public function forget($keys): void
-                {
-                    $this->ci->unset_userdata(is_array($keys) ? $keys : [$keys]);
-                }
-
-                public function flash($key, $value = true): void
-                {
-                    $this->ci->set_flashdata($key, $value);
-                }
-
-                public function pull($key, $default = null)
-                {
-                    $nilai = $this->get($key, $default);
-                    $this->forget($key);
-
-                    return $nilai;
-                }
-            };
-        }
-
-        return ci()->session->flashdata($nama);
-    }
-}
-
 if (! function_exists('can')) {
     /**
      * Cek akses user
@@ -196,10 +144,7 @@ if (! function_exists('json')) {
         ci()->output
             ->set_status_header($header)
             ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode($content, JSON_THROW_ON_ERROR))
-            ->_display();
-
-        exit();
+            ->set_output(json_encode($content, JSON_THROW_ON_ERROR));
     }
 }
 
@@ -1164,7 +1109,7 @@ if (! function_exists('admin_menu')) {
      */
     function admin_menu()
     {
-        $grupId = ci_auth()->id_grup;
+        $grupId = auth('admin')->user()?->id_grup;
 
         return cache()->rememberForever("{$grupId}_admin_menu", static fn () => (new Modul())->tree($grupId)->toArray());
     }

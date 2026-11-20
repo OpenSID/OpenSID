@@ -339,6 +339,28 @@
                 TableData.column(2).visible(false);
             }
 
+            if (filterColumn) {
+                if (filterColumn['tahun']) {
+                    $('#tahun').val(filterColumn['tahun']).trigger('change');
+                }
+
+                if (filterColumn['dusun']) {
+                    $('#dusun').val(filterColumn['dusun']).trigger('change');
+
+                    if (filterColumn['rw']) {
+                        setTimeout(function() {
+                            $('#rw').val(filterColumn['rw']).trigger('change');
+                        }, 500);
+                    }
+
+                    if (filterColumn['rt']) {
+                        setTimeout(function() {
+                            $('#rt').val(filterColumn['rt']).trigger('change');
+                        }, 1000);
+                    }
+                }
+            }
+
             $('#kode_peristiwa, #bulan, #tahun ,#agama, #jenis_kelamin, #dusun, #rw, #rt').change(function() {
                 TableData.draw()
             })

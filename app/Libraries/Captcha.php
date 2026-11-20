@@ -38,19 +38,17 @@
 namespace App\Libraries;
 
 use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-// Library ini berasal dari https://github.com/esyede/captcha
 class Captcha
 {
-    protected static $fonts       = [];
-    protected static $backgrounds = [];
-    protected static $characters;
+    protected static array $fonts       = [];
+    protected static array $backgrounds = [];
+    protected static string $characters;
 
-    public static function make($case_sensitive = null): bool
+    public static function make(?bool $case_sensitive = null): Response
     {
         if (empty(static::$backgrounds)) {
             static::backgrounds();
@@ -61,7 +59,7 @@ class Captcha
         }
 
         // Jika tidak ada parameter case_sensitive, ambil dari setting
-        if ($case_sensitive === null) {
+        if ($case_sensitive === null && function_exists('setting')) {
             $case_sensitive = (bool) setting('strict_captcha') ?? false;
         }
 
@@ -71,20 +69,20 @@ class Captcha
             Str::random(5)
         );
 
-        $characters            = $case_sensitive ? static::$characters : strtolower(static::$characters);
-        ci()->session->captcha = Hash::make($characters);
+        $characters = $case_sensitive ? static::$characters : strtolower(static::$characters);
+
+        session(['captcha' => Hash::make($characters)]);
 
         $bg   = static::background();
         $font = static::font();
         $info = getimagesize($bg);
         $old  = match ($info['mime']) {
             'image/jpg', 'image/jpeg' => imagecreatefromjpeg($bg),
-            'image/gif' => imagecreatefromgif($bg),
-            'image/png' => imagecreatefrompng($bg),
-            default     => throw new Exception('Only JPG, PNG and GIF are supported for backgrounds.'),
+            'image/gif'               => imagecreatefromgif($bg),
+            'image/png'               => imagecreatefrompng($bg),
+            default                   => throw new Exception('Only JPG, PNG and GIF are supported for backgrounds.'),
         };
 
-        // default settings
         $width  = 120;
         $height = 30;
         $space  = 20;
@@ -115,22 +113,26 @@ class Captcha
             imagettftext($new, random_int(18, 20), $w, $gap, $h, $fg, $font, static::$characters[$i]);
         }
 
-        header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
-        header('Pragma: no-cache');
-        header('Content-type: image/png');
-        header('Content-Disposition: inline; filename=captcha.png');
+        ob_start();
+        imagepng($new);
+        imagedestroy($new);
+        $imageData = ob_get_clean();
 
-        return imagepng($new);
+        return response($imageData, 200)
+            ->header('Content-Type', 'image/png')
+            ->header('Content-Disposition', 'inline; filename=captcha.png')
+            ->header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate')
+            ->header('Pragma', 'no-cache');
     }
 
-    public static function check($value): bool
+    public static function check(mixed $value): bool
     {
         $case_sensitive = (bool) setting('strict_captcha') ?? false;
         $value          = trim((string) ($case_sensitive ? $value : strtolower((string) $value)));
-        $hash           = ci()->session->captcha;
+        $hash           = session('captcha');
 
         if ($value && $hash && Hash::check($value, $hash)) {
-            self::invalidate();
+            static::invalidate();
 
             return true;
         }
@@ -138,19 +140,19 @@ class Captcha
         return false;
     }
 
-    protected static function fonts()
+    protected static function fonts(): void
     {
-        $fonts         = glob(FCPATH . 'assets/captcha/fonts/' . '*.ttf');
+        $fonts         = glob(FCPATH . 'assets/captcha/fonts/*.ttf');
         static::$fonts = (is_array($fonts) && $fonts !== []) ? $fonts : [];
     }
 
-    protected static function backgrounds()
+    protected static function backgrounds(): void
     {
-        $backgrounds         = glob(FCPATH . 'assets/captcha/backgrounds/' . '*.png');
+        $backgrounds         = glob(FCPATH . 'assets/captcha/backgrounds/*.png');
         static::$backgrounds = (is_array($backgrounds) && $backgrounds !== []) ? $backgrounds : [];
     }
 
-    protected static function background()
+    protected static function background(): string
     {
         if (empty(static::$backgrounds)) {
             throw new Exception('No backgrounds found to operate with.');
@@ -159,7 +161,7 @@ class Captcha
         return static::$backgrounds[array_rand(static::$backgrounds)];
     }
 
-    protected static function font()
+    protected static function font(): string
     {
         if (empty(static::$fonts)) {
             throw new Exception('No fonts found to operate with.');
@@ -170,6 +172,6 @@ class Captcha
 
     private static function invalidate(): void
     {
-        unset(ci()->session->captcha);
+        session()->forget('captcha');
     }
 }

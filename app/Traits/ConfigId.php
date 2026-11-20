@@ -51,6 +51,6 @@ trait ConfigId
     {
         static::addGlobalScope(new ConfigIdScope());
 
-        static::observe(ConfigIdObserver::class);
+        static::creating([ConfigIdObserver::class, 'creating']);
     }
 }

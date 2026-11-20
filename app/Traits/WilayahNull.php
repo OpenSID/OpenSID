@@ -62,6 +62,6 @@ trait WilayahNull
     {
         static::addGlobalScope(new WilayahNullScope());
 
-        static::observe(ConfigIdObserver::class);
+        static::creating([ConfigIdObserver::class, 'creating']);
     }
 }

@@ -101,27 +101,15 @@ final class SharedStringsManager
                 ++$sharedStringIndex;
 
                 // jump to the next '<si>' tag
-                if (!$xmlReader->next(self::XML_NODE_SI)) {
-                    // The end of the file leaves the reader on no node. Otherwise, the reader stopped
-                    // without reporting any error (e.g. libxml2 >= 2.15 after a parse error):
-                    // it stays on the current '<si>' tag, which would loop forever.
-                    if (XMLReader::NONE !== $xmlReader->nodeType) {
-                        throw new XMLProcessingException('Unexpected end of the XML document');
-                    }
-
-                    break;
-                }
+                $xmlReader->next(self::XML_NODE_SI);
             }
 
             $this->cachingStrategy->closeCache();
         } catch (XMLProcessingException $exception) {
-            // Remove what was cached so far (e.g. temp files): the reader will not be opened, so it will not be closed
-            $this->cleanup();
-
             throw new IOException("The sharedStrings.xml file is invalid and cannot be read. [{$exception->getMessage()}]");
-        } finally {
-            $xmlReader->close();
         }
+
+        $xmlReader->close();
     }
 
     /**
@@ -200,7 +188,8 @@ final class SharedStringsManager
         $sharedStringValue = '';
 
         // NOTE: expand() will automatically decode all XML entities of the child nodes
-        $siNode = $xmlReader->expandElement();
+        $siNode = $xmlReader->expand();
+        \assert($siNode instanceof DOMElement);
         $textNodes = $siNode->getElementsByTagName(self::XML_NODE_T);
 
         foreach ($textNodes as $textNode) {

@@ -29,18 +29,18 @@ class ApprovalList extends \Google\Collection
    */
   public $kind;
   /**
-   * The page token for the next page of Approvals. This will be absent if the
-   * end of the Approvals list has been reached. If the token is rejected for
-   * any reason, it should be discarded, and pagination should be restarted from
-   * the first page of results.
+   * The page token for the next page of approvals. This is absent if the end of
+   * the approvals list has been reached. If the token is rejected for any
+   * reason, it should be discarded, and pagination should be restarted from the
+   * first page of results.
    *
    * @var string
    */
   public $nextPageToken;
 
   /**
-   * The list of Approvals. If nextPageToken is populated, then this list may be
-   * incomplete and an additional page of results should be fetched.
+   * The list of approvals. If `nextPageToken` is populated, then this list may
+   * be incomplete and an additional page of results should be fetched.
    *
    * @param Approval[] $items
    */
@@ -72,10 +72,10 @@ class ApprovalList extends \Google\Collection
     return $this->kind;
   }
   /**
-   * The page token for the next page of Approvals. This will be absent if the
-   * end of the Approvals list has been reached. If the token is rejected for
-   * any reason, it should be discarded, and pagination should be restarted from
-   * the first page of results.
+   * The page token for the next page of approvals. This is absent if the end of
+   * the approvals list has been reached. If the token is rejected for any
+   * reason, it should be discarded, and pagination should be restarted from the
+   * first page of results.
    *
    * @param string $nextPageToken
    */

@@ -140,10 +140,10 @@
                     }
                 },
                 columns: [{
-                        data: null,
                         class: 'padat',
                         searchable: false,
-                        orderable: false
+                        orderable: false,
+                        defaultContent: ''
                     },
                     {
                         data: 'nama',

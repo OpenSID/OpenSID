@@ -47,13 +47,13 @@ class SuplemenRepository
     {
         return QueryBuilder::for(Suplemen::class)
             ->allowedFields('*')
-            ->allowedFilters([
+            ->allowedFilters(...[
                 'slug',
                 'sasaran',
                 AllowedFilter::partial('nama'),
                 AllowedFilter::partial('keterangan'),
             ])
-            ->allowedSorts(['nama', 'sasaran', 'slug'])
+            ->allowedSorts(...['nama', 'sasaran', 'slug'])
             ->jsonPaginate();
     }
 }

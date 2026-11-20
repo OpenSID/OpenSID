@@ -298,15 +298,12 @@
             </div>
 
             <div id="file_desa" class="tab-pane fade in"></div>
-            
+
             @if (class_exists(\Modules\Keamanan\Services\Security\FileIntegrityService::class))
-            {{-- Tab Keamanan File --}}
-            <div id="keamanan" class="tab-pane fade in">
-                <div class="text-center" style="padding: 20px;">
-                    <i class="fa fa-spinner fa-spin fa-2x"></i> Memuat data keamanan...
+                {{-- Tab Keamanan File --}}
+                <div id="keamanan" class="tab-pane fade in">
+                    @include('keamanan::backend.index')
                 </div>
-                @include('keamanan::backend.index')
-            </div>
             @endif
         </div>
     </form>
@@ -452,7 +449,7 @@
          */
         function loadTabContent(loadType, tabHref) {
             const tabElement = $(tabHref);
-            
+
             if (tabElement.html().trim() === '' || tabElement.html().includes('Memuat')) {
                 const loaderText = tabLoadingText[loadType] || 'Memuat data...';
                 tabElement.html(renderLoader(loaderText));
@@ -594,7 +591,7 @@
                     if (data.users) {
                         $('#username').append(data.users);
                     }
-                    
+
                     // Initialize select2 setelah options loaded
                     $('.select2-lazy').each(function () {
                         const $el = $(this);

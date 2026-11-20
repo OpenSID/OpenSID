@@ -203,13 +203,12 @@ if (! function_exists('theme_scan')) {
         $themeSistem   = glob(Theme::PATH_SISTEM . '*', GLOB_ONLYDIR);
         $themeDesa     = glob('desa/themes/*', GLOB_ONLYDIR);
         $templateBlade = 'resources/views/template.blade.php';
-        $premiumFree   = TEMA_PREMIUM_FREE;
 
         $themeList = collect($themeSistem)->merge($themeDesa)
             ->filter(static fn ($tema): bool => is_file(FCPATH . $tema . '/composer.json') && is_file(FCPATH . $tema . '/' . $templateBlade))
-            ->map(static function (string $tema) use ($premiumFree): array {
+            ->map(static function (string $tema): array {
                 $isStoragePath = (bool) preg_match('/storage/', $tema);
-                $sistem        = $isStoragePath && ! in_array(basename($tema), $premiumFree) ? 1 : 0;
+                $sistem        = $isStoragePath ? 1 : 0;
                 $composer      = json_decode(file_get_contents(FCPATH . $tema . '/composer.json'), true);
                 $versi         = $composer['version'] ?? VERSION;
                 $nama          = str_replace('-', ' ', explode('/', $composer['name'])[1]);
@@ -312,6 +311,22 @@ if (! function_exists('module_asset')) {
         $queryString = http_build_query($params);
 
         return base_url("module_asset/{$name}?{$queryString}");
+    }
+}
+
+if (! function_exists('compare_versions')) {
+    /**
+     * Compare two version strings
+     * Returns: 1 if v1 > v2, -1 if v1 < v2, 0 if equal
+     *
+     * @param string $v1 First version
+     * @param string $v2 Second version
+     *
+     * @return int
+     */
+    function compare_versions($v1, $v2)
+    {
+        return version_compare($v1 ?? '0.0.0', $v2 ?? '0.0.0');
     }
 }
 

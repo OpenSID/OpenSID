@@ -74,7 +74,7 @@ class AnggotaGrup extends BaseModel
     /**
      * Define a one-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function grupKontak()
     {
@@ -84,7 +84,7 @@ class AnggotaGrup extends BaseModel
     /**
      * Define a one-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function daftarKontak()
     {
@@ -94,7 +94,7 @@ class AnggotaGrup extends BaseModel
     /**
      * Define a one-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function penduduk()
     {

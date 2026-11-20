@@ -71,7 +71,9 @@
                                                     @php
                                                         $value['default'] = $tema->opsi[$value['key']] ?? $value['value'];
                                                         $value['readonly'] = $value['readonly'] == true ? 'readonly' : '';
-                                                        $value['class'] = $value['attributes']['class'];
+                                                        $value['attributes'] = $value['attributes'] ?? [];
+                                                        $value['class'] = $value['attributes']['class'] ?? '';
+                                                        $value['placeholder'] = $value['placeholder'] ?? '';
                                                         unset($value['attributes']['class'], $value['attributes']['readonly']);
                                                         if (!empty($value['attributes'])) {
                                                             $value['attributes'] = implode(
@@ -84,6 +86,8 @@
                                                                     $value['attributes'],
                                                                 ),
                                                             );
+                                                        } else {
+                                                            $value['attributes'] = '';
                                                         }
                                                     @endphp
 

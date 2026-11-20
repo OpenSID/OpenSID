@@ -15,7 +15,10 @@
 @section('content')
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('kehadiran_catatan_harian'), 'label' => 'Daftar Catatan Harian'])
+            @include('admin.layouts.components.tombol_kembali', [
+                'url' => ci_route('kehadiran_catatan_harian'),
+                'label' => 'Daftar Catatan Harian',
+            ])
         </div>
 
         <div class="box-body" style="padding-bottom: 0;">
@@ -55,7 +58,7 @@
                     </div>
                 </div>
 
-                @if($catatan->hasil_diharapkan)
+                @if ($catatan->hasil_diharapkan)
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Hasil yang Diharapkan</label>
                         <div class="col-sm-9">
@@ -64,20 +67,22 @@
                     </div>
                 @endif
 
-                @if($catatan->fotos->isNotEmpty())
+                @if ($catatan->fotos->isNotEmpty())
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Foto Kegiatan</label>
                         <div class="col-sm-9">
                             <div class="row">
-                                @foreach($catatan->fotos as $foto)
+                                @foreach ($catatan->fotos as $foto)
                                     <div class="col-sm-4 margin-bottom">
                                         <div class="box box-solid">
                                             <div class="box-body" style="padding: 0;">
-                                                <a href="{{ base_url($foto->file_path) }}" target="_blank" class="thumbnail">
-                                                    <img src="{{ base_url($foto->file_path) }}" class="img-responsive" style="max-width: 100%; height: auto;">
+                                                <a href="{{ base_url($foto->file_path) }}" target="_blank"
+                                                    class="thumbnail">
+                                                    <img src="{{ base_url($foto->file_path) }}" class="img-responsive"
+                                                        style="max-width: 100%; height: auto;">
                                                 </a>
                                             </div>
-                                            @if($foto->keterangan)
+                                            @if ($foto->keterangan)
                                                 <div class="box-footer" style="font-size: 12px; padding: 5px;">
                                                     {{ $foto->keterangan }}
                                                 </div>
@@ -92,24 +97,28 @@
             </div>
         </div>
 
-        <div class="box-footer">
-            <div class="row">
-                <div class="col-sm-6">
-                    @if (can('u'))
-                        <button type="button" class="btn btn-danger btn-social btn-sm" id="btn-reject" onclick="showRejectSweetAlert()">
-                            <i class="fa fa-times"></i> Tolak
-                        </button>
-                    @endif
-                </div>
-                <div class="col-sm-6 text-right">
-                    @if (can('u'))
-                        <button type="button" class="btn btn-success btn-social btn-sm" id="btn-approve" onclick="confirmApprove()">
-                            <i class="fa fa-check"></i> Setujui
-                        </button>
-                    @endif
+        @if ($proses)
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-6">
+                        @if (can('u'))
+                            <button type="button" class="btn btn-danger btn-social btn-sm" id="btn-reject"
+                                onclick="showRejectSweetAlert()">
+                                <i class="fa fa-times"></i> Tolak
+                            </button>
+                        @endif
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        @if (can('u'))
+                            <button type="button" class="btn btn-success btn-social btn-sm" id="btn-approve"
+                                onclick="confirmApprove()">
+                                <i class="fa fa-check"></i> Setujui
+                            </button>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 
     <script>
@@ -134,41 +143,41 @@
             const formData = new FormData();
             formData.append('{{ $token_name }}', '{{ $token_value }}');
 
-            fetch(SITE_URL + '/kehadiran_approval_catatan/approve/{{ $catatan->uuid }}', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status) {
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: data.message,
-                        icon: 'success',
-                        confirmButtonColor: '#28a745',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        window.location.href = data.redirect_url;
-                    });
-                } else {
+            fetch(SITE_URL + 'kehadiran_approval_catatan/approve/{{ $catatan->uuid }}', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: data.message,
+                            icon: 'success',
+                            confirmButtonColor: '#28a745',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = data.redirect_url;
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonColor: '#dc3545',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
                     Swal.fire({
                         title: 'Error!',
-                        text: data.message,
+                        text: 'Terjadi kesalahan: ' + error.message,
                         icon: 'error',
                         confirmButtonColor: '#dc3545',
                         confirmButtonText: 'OK'
                     });
-                }
-            })
-            .catch(error => {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Terjadi kesalahan: ' + error.message,
-                    icon: 'error',
-                    confirmButtonColor: '#dc3545',
-                    confirmButtonText: 'OK'
                 });
-            });
         }
 
         function showRejectSweetAlert() {
@@ -209,41 +218,41 @@
             formData.append('alasan_penolakan', alasanPenolakan);
             formData.append('{{ $token_name }}', '{{ $token_value }}');
 
-            fetch(SITE_URL + '/kehadiran_approval_catatan/reject/{{ $catatan->uuid }}', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status) {
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: data.message,
-                        icon: 'success',
-                        confirmButtonColor: '#28a745',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        window.location.href = data.redirect_url;
-                    });
-                } else {
+            fetch(SITE_URL + 'kehadiran_approval_catatan/reject/{{ $catatan->uuid }}', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: data.message,
+                            icon: 'success',
+                            confirmButtonColor: '#28a745',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = data.redirect_url;
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonColor: '#dc3545',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
                     Swal.fire({
                         title: 'Error!',
-                        text: data.message,
+                        text: 'Terjadi kesalahan: ' + error.message,
                         icon: 'error',
                         confirmButtonColor: '#dc3545',
                         confirmButtonText: 'OK'
                     });
-                }
-            })
-            .catch(error => {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Terjadi kesalahan: ' + error.message,
-                    icon: 'error',
-                    confirmButtonColor: '#dc3545',
-                    confirmButtonText: 'OK'
                 });
-            });
         }
     </script>
 @endsection

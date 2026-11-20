@@ -52,7 +52,7 @@ class Mailbox extends Admin_Controller
         isCan('b');
     }
 
-    public function index(int $kategori): void
+    public function index(int $kategori = 1): void
     {
         $data['submenu']  = array_flip(unserialize(KATEGORI_MAILBOX));
         $data['kategori'] = $kategori;

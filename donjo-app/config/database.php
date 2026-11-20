@@ -35,7 +35,8 @@
  *
  */
 
-use Illuminate\Container\Container;
+use Illuminate\Support\Str;
+use Illuminate\Encryption\Encrypter;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -113,31 +114,85 @@ $active_group = 'default';
 $query_builder = true;
 
 // Pengaturan basisdata standar
-$db['default']['hostname']     = 'localhost';
-$db['default']['username']     = 'root';
-$db['default']['password']     = '';
-$db['default']['database']     = 'opensid';
-$db['default']['port']         = 3306;
-$db['default']['stricton']     = true;
-$db['default']['dbdriver']     = 'mysqli';
-$db['default']['dbprefix']     = '';
-$db['default']['pconnect']     = false;
-$db['default']['db_debug']     = true;
-$db['default']['cache_on']     = false;
-$db['default']['cachedir']     = '';
-$db['default']['char_set']     = 'utf8mb4';
-$db['default']['dbcollat']     = 'utf8mb4_general_ci';
-$db['default']['swap_pre']     = '';
-$db['default']['autoinit']     = false;
-$db['default']['encrypt']      = false;
-$db['default']['compress']     = false;
-$db['default']['failover']     = [];
-$db['default']['save_queries'] = true;
+$db['default'] = [
+    'dsn'          => env('DATABASE_URL'),
+    'hostname'     => env('DB_HOST', '127.0.0.1'),
+    'port'         => env('DB_PORT', 3306),
+    'username'     => env('DB_USERNAME', 'root'),
+    'password'     => env('DB_PASSWORD', ''),
+    'database'     => env('DB_DATABASE'),
+    'dbdriver'     => 'mysqli',
+    'dbprefix'     => '',
+    'pconnect'     => false,
+    'db_debug'     => (ENVIRONMENT !== 'production'),
+    'cache_on'     => false,
+    'cachedir'     => '',
+    'char_set'     => 'utf8mb4',
+    'dbcollat'     => 'utf8mb4_unicode_ci',
+    'swap_pre'     => '',
+    'encrypt'      => false,
+    'compress'     => false,
+    'stricton'     => false,
+    'failover'     => [],
+    'save_queries' => true,
+    'options'      => extension_loaded('pdo_mysql')
+        ? array_filter([
+            PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+        ])
+        : [],
+];
 
-// Ganti pegaturan basisdata sesuai yg ada pada file desa/config/database.php
-include LOKASI_CONFIG_DESA . 'database.php';
+if (file_exists(LOKASI_CONFIG_DESA . 'database.php')) {
+    // Ganti pegaturan basisdata sesuai yg ada pada file desa/config/database.php
+    include LOKASI_CONFIG_DESA . 'database.php';
+}
 
 // diletakkan di bawah, karena encrypter diload dalam eloquent.php
 if (strlen($db['default']['password']) > 80) {
-    $db['default']['password'] = Container::getInstance()->make('encrypter')->decrypt($db['default']['password']);
+    if (app()->bound('encrypter')) {
+        $encrypter = app('encrypter');
+    } else {
+        $key = config('app.key');
+
+        if (Str::startsWith($key, $prefix = 'base64:')) {
+            $key = base64_decode(Str::after($key, $prefix));
+        }
+
+        $encrypter = new Encrypter(
+            $key,
+            config('app.cipher')
+        );
+    }
+
+    $db['default']['password'] = $encrypter->decrypt($db['default']['password']);
+}
+
+$config['default'] = $active_group;
+
+foreach ($db as $name => $settings) {
+    // Store database configuration for CodeIgniter
+    $config['db'][$name] = $settings;
+
+    // Convert database configuration to Laravel format
+    $config['connections'][$name] = [
+        'driver' => match ($settings['dbdriver']) {
+            'mysql', 'mysqli'   => 'mysql',
+            'postgre'           => 'pgsql',
+            'sqlite', 'sqlite3' => 'sqlite',
+            'sqlsrv'            => 'sqlsrv',
+            default             => 'mysql',
+        },
+        'url'       => $settings['dsn'] ?? null,
+        'host'      => $settings['hostname'],
+        'port'      => $settings['port'],
+        'database'  => $settings['database'],
+        'username'  => $settings['username'],
+        'password'  => $settings['password'],
+        'charset'   => $settings['char_set'],
+        'collation' => $settings['dbcollat'],
+        'prefix'    => $settings['dbprefix'],
+        'strict'    => $settings['stricton'],
+        'engine'    => null,
+        'options'   => $settings['options'] ?? [],
+    ];
 }

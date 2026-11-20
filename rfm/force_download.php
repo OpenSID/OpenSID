@@ -6,17 +6,17 @@ include 'include/utils.php';
 include 'include/mime_type_lib.php';
 
 if ($_SESSION['RF']["verify"] != "RESPONSIVEfilemanager") {
-    response(trans('forbidden') . AddErrorLocation(), 403)->send();
+    response(translate('forbidden') . AddErrorLocation(), 403)->send();
     exit;
 }
 
 if (!checkRelativePath($_POST['path']) || strpos($_POST['path'], '/') === 0) {
-    response(trans('wrong path') . AddErrorLocation(), 400)->send();
+    response(translate('wrong path') . AddErrorLocation(), 400)->send();
     exit;
 }
 
 if (strpos($_POST['name'], '/') !== false) {
-    response(trans('wrong path') . AddErrorLocation(), 400)->send();
+    response(translate('wrong path') . AddErrorLocation(), 400)->send();
     exit;
 }
 
@@ -32,7 +32,7 @@ $name = $_POST['name'];
 $info = pathinfo($name);
 
 if (!check_extension($info['extension'], $config)) {
-    response(trans('wrong extension') . AddErrorLocation(), 400)->send();
+    response(translate('wrong extension') . AddErrorLocation(), 400)->send();
     exit;
 }
 
@@ -49,7 +49,7 @@ if ($ftp) {
     readfile($file_path);
 } elseif (is_file($file_path) && is_readable($file_path)) {
     if (!file_exists($path . $name)) {
-        response(trans('File_Not_Found') . AddErrorLocation(), 404)->send();
+        response(translate('File_Not_Found') . AddErrorLocation(), 404)->send();
         exit;
     }
 

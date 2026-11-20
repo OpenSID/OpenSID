@@ -35,16 +35,36 @@
  *
  */
 
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
-
 class Artisan extends CI_Controller
 {
     public function index(): void
     {
-        $kernel = app(Illuminate\Contracts\Console\Kernel::class);
+        $args = array_slice($_SERVER['argv'] ?? [], 2);
 
-        exit($kernel->handle(new ArgvInput(), new ConsoleOutput()));
+        $_SERVER['argv'] = array_merge(['artisan'], $args);
+        $_SERVER['argc'] = count($_SERVER['argv']);
+
+        $kernel = app()->make(Illuminate\Contracts\Console\Kernel::class);
+
+        $status = $kernel->handle(
+            $input = new Symfony\Component\Console\Input\ArgvInput,
+            new Symfony\Component\Console\Output\ConsoleOutput
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Shutdown The Application
+        |--------------------------------------------------------------------------
+        |
+        | Once Artisan has finished running, we will fire off the shutdown events
+        | so that any final work may be done by the application before we shut
+        | down the process. This is the last thing to happen to the request.
+        |
+        */
+
+        $kernel->terminate($input, $status);
+
+        exit($status);
     }
 
     public function _remap()

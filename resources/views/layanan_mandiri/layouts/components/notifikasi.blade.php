@@ -1,4 +1,4 @@
-@if (session('success'))
+@if (session('success') && ! is_numeric(session('success')))
     <div id="notifikasi" class="callout callout-success">
         <h4><i class="icon fa fa-check"></i> Berhasil</h4>
         <p>{{ session('success') }}</p>

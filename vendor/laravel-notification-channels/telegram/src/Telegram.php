@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NotificationChannels\Telegram;
 
 use Exception;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\InvalidArgumentException;
+use GuzzleHttp\Utils;
 use Illuminate\Support\Str;
 use NotificationChannels\Telegram\Exceptions\CouldNotSendNotification;
 use Psr\Http\Message\ResponseInterface;
@@ -14,20 +18,17 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Telegram
 {
-    /** @var HttpClient HTTP Client */
-    protected HttpClient $http;
+    /** Default Telegram Bot API Base URI.*/
+    protected const string API_BASE_URI = 'https://api.telegram.org';
 
-    /** @var null|string Telegram Bot API Token. */
-    protected ?string $token;
-
-    /** @var string Telegram Bot API Base URI */
     protected string $apiBaseUri;
 
-    public function __construct(?string $token = null, ?HttpClient $httpClient = null, ?string $apiBaseUri = null)
-    {
-        $this->token = $token;
-        $this->http = $httpClient ?? new HttpClient();
-        $this->setApiBaseUri($apiBaseUri ?? 'https://api.telegram.org');
+    public function __construct(
+        protected ?string $token = null,
+        protected HttpClient $http = new HttpClient,
+        ?string $apiBaseUri = null
+    ) {
+        $this->setApiBaseUri($apiBaseUri ?? static::API_BASE_URI);
     }
 
     /**
@@ -99,6 +100,8 @@ class Telegram
      *
      * @see https://core.telegram.org/bots/api#sendmessage
      *
+     * @param  array<string, mixed>  $params
+     *
      * @throws CouldNotSendNotification
      */
     public function sendMessage(array $params): ?ResponseInterface
@@ -109,6 +112,7 @@ class Telegram
     /**
      * Send File as Image or Document.
      *
+     * @param  array<string, mixed>|list<array{name: string, contents: mixed, filename?: string}>  $params
      *
      * @throws CouldNotSendNotification
      */
@@ -120,6 +124,7 @@ class Telegram
     /**
      * Send a Poll.
      *
+     * @param  array<string, mixed>  $params
      *
      * @throws CouldNotSendNotification
      */
@@ -131,6 +136,7 @@ class Telegram
     /**
      * Send a Contact.
      *
+     * @param  array<string, mixed>  $params
      *
      * @throws CouldNotSendNotification
      */
@@ -142,6 +148,7 @@ class Telegram
     /**
      * Get updates.
      *
+     * @param  array<string, mixed>  $params
      *
      * @throws CouldNotSendNotification
      */
@@ -153,12 +160,138 @@ class Telegram
     /**
      * Send a Location.
      *
+     * @param  array<string, mixed>  $params
      *
      * @throws CouldNotSendNotification
      */
     public function sendLocation(array $params): ?ResponseInterface
     {
         return $this->sendRequest('sendLocation', $params);
+    }
+
+    /**
+     * Send a Venue.
+     *
+     * @param  array<string, mixed>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function sendVenue(array $params): ?ResponseInterface
+    {
+        return $this->sendRequest('sendVenue', $params);
+    }
+
+    /**
+     * @param  array<string, mixed>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function sendDice(array $params): ?ResponseInterface
+    {
+        return $this->sendRequest('sendDice', $params);
+    }
+
+    /**
+     * @param  array<string, mixed>|list<array{name: string, contents: mixed, filename?: string}>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function sendMediaGroup(array $params, bool $multipart = false): ?ResponseInterface
+    {
+        return $this->sendRequest('sendMediaGroup', $params, $multipart);
+    }
+
+    /**
+     * @param  array<string, mixed>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function sendChatAction(array $params): ?ResponseInterface
+    {
+        return $this->sendRequest('sendChatAction', $params);
+    }
+
+    /**
+     * @param  array<string, mixed>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function editMessageText(array $params): ?ResponseInterface
+    {
+        return $this->sendRequest('editMessageText', $params);
+    }
+
+    /**
+     * @param  array<string, mixed>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function editMessageCaption(array $params): ?ResponseInterface
+    {
+        return $this->sendRequest('editMessageCaption', $params);
+    }
+
+    /**
+     * @param  array<string, mixed>|list<array{name: string, contents: mixed, filename?: string}>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function editMessageMedia(array $params, bool $multipart = false): ?ResponseInterface
+    {
+        return $this->sendRequest('editMessageMedia', $params, $multipart);
+    }
+
+    /**
+     * @param  array<string, mixed>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function editMessageReplyMarkup(array $params): ?ResponseInterface
+    {
+        return $this->sendRequest('editMessageReplyMarkup', $params);
+    }
+
+    /**
+     * @param  array<string, mixed>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function stopPoll(array $params): ?ResponseInterface
+    {
+        return $this->sendRequest('stopPoll', $params);
+    }
+
+    /**
+     * @param  array<string, mixed>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function deleteMessage(array $params): ?ResponseInterface
+    {
+        return $this->sendRequest('deleteMessage', $params);
+    }
+
+    /**
+     * @param  array<string, mixed>  $params
+     *
+     * @throws CouldNotSendNotification
+     */
+    public function deleteMessages(array $params): ?ResponseInterface
+    {
+        return $this->sendRequest('deleteMessages', $params);
+    }
+
+    /**
+     * @return array<string, mixed>
+     *
+     * @throws InvalidArgumentException
+     */
+    public static function decodeResponse(ResponseInterface $response): array
+    {
+        /** @var array<string, mixed> $decodedResponse */
+        $decodedResponse = Utils::jsonDecode($response->getBody()->getContents(), true);
+
+        return $decodedResponse;
     }
 
     /**
@@ -172,6 +305,7 @@ class Telegram
     /**
      * Send an API request and return response.
      *
+     * @param  array<string, mixed>|list<array{name: string, contents: mixed, filename?: string}>  $params
      *
      * @throws CouldNotSendNotification
      */
@@ -190,7 +324,7 @@ class Telegram
         } catch (ClientException $exception) {
             throw CouldNotSendNotification::telegramRespondedWithAnError($exception);
         } catch (Exception $exception) {
-            throw CouldNotSendNotification::couldNotCommunicateWithTelegram($exception);
+            throw CouldNotSendNotification::couldNotCommunicateWithTelegram($exception->getMessage());
         }
     }
 }

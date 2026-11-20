@@ -122,9 +122,7 @@ class PlaywrightController extends CI_Controller
 
     protected function jsonResponse($data, int $status = 200)
     {
-        return response(json_encode($data), $status)
-            ->header('Content-Type', 'application/json')
-            ->send();
+        return response()->json($data, $status);
     }
 
     protected function handleWithJsonResponse(Closure $callback)

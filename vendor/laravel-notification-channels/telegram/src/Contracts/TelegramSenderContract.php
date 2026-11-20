@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NotificationChannels\Telegram\Contracts;
 
 use NotificationChannels\Telegram\Exceptions\CouldNotSendNotification;
@@ -10,6 +12,7 @@ interface TelegramSenderContract
     /**
      * Send the message.
      *
+     * @return ResponseInterface|array<int, array<string, mixed>>|null
      *
      * @throws CouldNotSendNotification
      */

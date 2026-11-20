@@ -52,6 +52,7 @@ define('PREMIUM', false);
  */
 define('VERSION_BUILD', [
     // Version Build => Version (premium)
+    '2026.06.01' => '2606.0.0',
     '2026.05.15' => '2605.0.1',
     '2026.05.01' => '2605.0.0',
     '2026.04.15' => '2604.0.1',
@@ -128,41 +129,6 @@ if (! function_exists('desa_storage')) {
     }
 }
 
-function set_app_key(): string
-{
-    return 'base64:' . base64_encode(random_bytes(32));
-}
-
-function get_app_key(): string
-{
-    $app_key = file_get_contents(DESAPATH . 'app_key');
-
-    if ($app_key === '' || $app_key === false) {
-        $app_key = set_app_key();
-        file_put_contents(DESAPATH . 'app_key', $app_key);
-    }
-
-    return trim($app_key);
-}
-
-if (! function_exists('identitas')) {
-    /**
-     * Get identitas desa.
-     *
-     * @return object|string
-     */
-    function identitas(?string $params = null)
-    {
-        $identitas = cache()->remember('identitas_desa', 604800, static fn () => Config::appKey()->first());
-
-        if ($params) {
-            return $identitas->{$params};
-        }
-
-        return $identitas;
-    }
-}
-
 if (! function_exists('isSiapPakai')) {
     /**
      * Cek apakah digunakan untuk desa siap pakai.
@@ -180,20 +146,5 @@ if (! function_exists('isSiapPakai')) {
 
             redirect(ci()->controller);
         }
-    }
-}
-
-
-if (! function_exists('token_bursa')) {
-    /**
-     * Token autentikasi ke bursa (marketplace) add-on.
-     *
-     * Accessor netral yang memusatkan pembacaan token pemasang add-on core
-     * (ModuleManager/LayananHttpSource). Hilang dari sumber pra-refaktor;
-     * ditambahkan pipeline rilis Umum (patch-wiring-addon-umum.php).
-     */
-    function token_bursa(): string
-    {
-        return (string) setting('layanan_opendesa_token');
     }
 }

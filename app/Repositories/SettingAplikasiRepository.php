@@ -165,7 +165,7 @@ class SettingAplikasiRepository
         $ci->setting->multi_desa = Config::count() > 1;
 
         // Setting Multi Database untuk OpenKab
-        $ci->setting->multi_database = count(config('database.connections')) >= 2;
+        $ci->setting->multi_database = array_key_exists('opensid-gabungan', config('database.connections'));
 
         // Feeds
         if (empty($ci->setting?->link_feed)) {
@@ -244,7 +244,12 @@ class SettingAplikasiRepository
      */
     public function updateWithKey($key, mixed $value): bool
     {
-        $data        = $this->setting->where('key', $key)->first();
+        $data = $this->firstByKey($key);
+
+        if (! $data) {
+            return false;
+        }
+
         $data->value = $value;
         $data->save();
 

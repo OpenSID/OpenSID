@@ -16,20 +16,22 @@
         }
     ],
     "require": {
-        "php": "^8.1",
-        "spatie/laravel-package-tools": "^1.16",
-        "illuminate/contracts": "^10.0|^11.0|^12.0"
+        "php": "^8.4",
+        "spatie/laravel-package-tools": "^1.92.7",
+        "illuminate/contracts": "^12.0|^13.0"
+    },
+    "suggest": {
+        "livewire/flux": "For an enhanced OTP input UI component"
     },
     "require-dev": {
-        "laravel/pint": "^1.14",
-        "livewire/livewire": "^3.6",
-        "nunomaduro/collision": "^7.10.0|^8.1.1",
-        "orchestra/testbench": "^8.22|^9.0|^10.0.0",
-        "pestphp/pest": "^2.30|^3.0",
-        "pestphp/pest-plugin-arch": "^2.7|^3.0",
-        "pestphp/pest-plugin-laravel": "^2.2|^3.0",
-        "phpstan/phpstan": "^1.10|^2.1",
-        "spatie/laravel-ray": "^1.35"
+        "laravel/pint": "^1.25.1",
+        "livewire/livewire": "^3.7|^4.0",
+        "nunomaduro/collision": "^8.8.3",
+        "orchestra/testbench": "^10.0.0|^11.0",
+        "pestphp/pest": "^3.0|^4.1.5",
+        "pestphp/pest-plugin-laravel": "^3.0|^4.0",
+        "phpstan/phpstan": "^2.1.32",
+        "spatie/laravel-ray": "^1.43.1"
     },
     "autoload": {
         "psr-4": {

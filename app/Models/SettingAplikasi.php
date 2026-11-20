@@ -155,6 +155,8 @@ class SettingAplikasi extends BaseModel
     public static function deleteFile($model, ?string $file, $deleting = false): void
     {
         if ($model->isDirty() || $deleting) {
+            $lokasi = null;
+
             if ($model->key == 'latar_website') {
                 $lokasi = 'desa/pengaturan/images/';
             }
@@ -245,11 +247,18 @@ class SettingAplikasi extends BaseModel
 
     public function getValueAttribute()
     {
-        if ($this->attributes['jenis'] == 'select-simbol') {
-            return base_url(LOKASI_SIMBOL_LOKASI . $this->attributes['value']);
+        $jenis = $this->attributes['jenis'] ?? '';
+        $value = $this->attributes['value'] ?? null;
+
+        if ($jenis == 'select-simbol') {
+            return base_url(LOKASI_SIMBOL_LOKASI . $value);
         }
 
-        return $this->attributes['value'];
+        if ($jenis == 'input-number' && is_numeric($value)) {
+            return $value + 0;
+        }
+
+        return $value;
     }
 
     public function scopeUrut($query)

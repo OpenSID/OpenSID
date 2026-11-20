@@ -54,9 +54,20 @@ class StatistikJenisBantuanEnum extends BaseEnum
         'label' => 'Bantuan Keluarga',
     ];
 
+    /**
+     * Inline array (hindari self:: constant di sini untuk kompatibilitas ioncube)
+     */
     public static $data = [
-        self::PENDUDUK,
-        self::KELUARGA,
+        [
+            'key'   => 'bantuan_penduduk',
+            'slug'  => 'bantuan-penduduk',
+            'label' => 'Bantuan Penduduk',
+        ],
+        [
+            'key'   => 'bantuan_keluarga',
+            'slug'  => 'bantuan-keluarga',
+            'label' => 'Bantuan Keluarga',
+        ],
     ];
 
     /**

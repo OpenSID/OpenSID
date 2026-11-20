@@ -91,7 +91,7 @@ class Otp extends Admin_Controller
         // Validate identifier based on channel
         if ($channel === 'email') {
             $emailValidator = Validator::make(['email' => $identifier], [
-                'email' => 'required|email|not_regex:/[\r\n]/',
+                'email' => 'required|email',
             ]);
 
             if ($emailValidator->fails()) {

@@ -2,6 +2,25 @@
 
 ![readme-image](https://user-images.githubusercontent.com/46939846/103254436-d5381f80-49b7-11eb-8c2b-99dc4c7de30b.png "OpenSID membantu penanggulangan COVID-19")
 
+---
+
+> ## ⚠️ REPOSITORI INI ADALAH VERSI PREMIUM
+>
+> | | |
+> |---|---|
+> | 🔴 **Bukan open source** | Repositori ini adalah versi premium, bukan repo publik OpenSID |
+> | 🔴 **Bukan GPL v3** | Versi Premium **tidak** berlisensi GPL v3 — lisensi yang berlaku adalah lisensi komersial proprietary |
+> | 🔴 **Bukan akses bebas** | Kode tidak bebas digunakan, dimodifikasi, atau didistribusikan ulang |
+> | ✅ **Produk premium berlangganan** | Akses versi terbaru hanya untuk pelanggan aktif |
+>
+> **Biaya langganan: Rp 1.000.000 / tahun · Aktivasi token diperlukan**
+>
+> Lihat [LICENSE](./LICENSE) · [EULA.md](./EULA.md) · [TERMS.md](./TERMS.md) untuk ketentuan lengkap.
+>
+> Versi gratis tersedia di repo publik: [github.com/OpenSID/OpenSID](https://github.com/OpenSID/OpenSID)
+
+---
+
 ### 🤔 Apa itu OpenSID?
 
 [OpenSID](https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) yang dikembangkan secara terbuka dan kolaboratif oleh komunitas yang peduli dengan SID.
