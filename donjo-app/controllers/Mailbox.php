@@ -63,9 +63,9 @@ class Mailbox extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $tipe       = $this->input->get('tipe');
-            $status     = $this->input->get('status');
-            $pendudukId = $this->input->get('nik');
+            $tipe       = $this->input->post_get('tipe');
+            $status     = $this->input->post_get('status');
+            $pendudukId = $this->input->post_get('nik');
 
             $canDelete = can('h');
             $canUpdate = can('u');

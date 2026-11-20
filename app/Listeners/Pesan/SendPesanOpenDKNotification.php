@@ -44,13 +44,6 @@ use App\Notifications\Pesan\PesanOpenDK;
 class SendPesanOpenDKNotification
 {
     /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Handle the event.
      */
     public function handle(PesanOpenDKReceived $event): void
@@ -63,7 +56,7 @@ class SendPesanOpenDKNotification
 
             return can(akses: 'b', slugModul: 'pesan', user: $user);
         })
-            ->each(static function (User $user) use ($event) {
+            ->each(static function (User $user) use ($event): void {
                 $user->notify(new PesanOpenDK(pesan: $event->pesan));
             });
     }

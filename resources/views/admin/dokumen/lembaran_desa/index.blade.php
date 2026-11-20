@@ -92,6 +92,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('lembaran_desa.datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

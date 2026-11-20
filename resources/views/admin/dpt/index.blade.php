@@ -110,6 +110,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('dpt.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.tgl_pemilihan = $('input[name=tgl_pemilihan]').val()
                         req.sex = $('select[name=sex]').val()

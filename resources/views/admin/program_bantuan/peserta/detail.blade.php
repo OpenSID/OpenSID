@@ -82,6 +82,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('peserta_bantuan.datatable_peserta') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.cat = {{ $cat }},
                             req.id = '{{ $id }}'

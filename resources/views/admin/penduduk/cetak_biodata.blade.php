@@ -184,26 +184,30 @@
                     <td>:</td>
                     <td>{{ strtoupper($penduduk->dokumen_kitas) }}</td>
                 </tr>
-                <tr>
-                    <td>Akta Perkawinan</td>
-                    <td>:</td>
-                    <td>{{ strtoupper($penduduk->akta_perkawinan) }}</td>
-                </tr>
-                <tr>
-                    <td>Tanggal Perkawinan</td>
-                    <td>:</td>
-                    <td>{{ tgl_indo_out($penduduk->tanggalperkawinan) }}</td>
-                </tr>
-                <tr>
-                    <td>Akta Perceraian</td>
-                    <td>:</td>
-                    <td>{{ strtoupper($penduduk->akta_perceraian) }}</td>
-                </tr>
-                <tr>
-                    <td>Tanggal Perceraian</td>
-                    <td>:</td>
-                    <td>{{ tgl_indo_out($penduduk->tanggalperceraian) }}</td>
-                </tr>
+                @if ($penduduk->status_kawin == App\Enums\StatusKawinEnum::KAWIN)
+                    <tr>
+                        <td>Akta Perkawinan</td>
+                        <td>:</td>
+                        <td>{{ strtoupper($penduduk->akta_perkawinan) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal Perkawinan</td>
+                        <td>:</td>
+                        <td>{{ tgl_indo_out($penduduk->tanggalperkawinan) }}</td>
+                    </tr>
+                @endif
+                @if ($penduduk->status_kawin == App\Enums\StatusKawinEnum::CERAIHIDUP || $penduduk->status_kawin == App\Enums\StatusKawinEnum::CERAIMATI)
+                    <tr>
+                        <td>Akta Perceraian</td>
+                        <td>:</td>
+                        <td>{{ strtoupper($penduduk->akta_perceraian) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal Perceraian</td>
+                        <td>:</td>
+                        <td>{{ tgl_indo_out($penduduk->tanggalperceraian) }}</td>
+                    </tr>
+                @endif
                 <tr>
                     <td>Nomor BPJS Ketenagakerjaan</td>
                     <td>:</td>

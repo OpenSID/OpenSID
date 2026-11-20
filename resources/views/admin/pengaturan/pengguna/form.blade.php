@@ -54,18 +54,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="nama">Data Staf </label>
-                            <div class="col-sm-8">
-                                <select class="form-control select2 input-sm" id="pamong_id" name="pamong_id">
-                                    <option value>-- Silakan Masukan Nama Staf --</option>
-                                    @foreach ($pamong as $item)
-                                        <option value="{{ $item->pamong_id }}" data-nama="{{ $item['pamong_nama'] }}" @selected($user['pamong_id'] == $item->pamong_id)>
-                                            {{ $item->pamong_jabatan . ' - ' . $item->pamong_nama }}</option>
-                                    @endforeach
-                                </select>
+                        @if ($user->id != super_admin())
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="nama">Data Staf </label>
+                                <div class="col-sm-8">
+                                    <select class="form-control select2 input-sm" id="pamong_id" name="pamong_id">
+                                        <option value>-- Silakan Masukan Nama Staf --</option>
+                                        @foreach ($pamong as $item)
+                                            <option value="{{ $item->pamong_id }}" data-nama="{{ $item['pamong_nama'] }}" @selected($user['pamong_id'] == $item->pamong_id)>
+                                                {{ $item->pamong_jabatan . ' - ' . $item->pamong_nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="username">Username</label>
                             <div class="col-sm-8">

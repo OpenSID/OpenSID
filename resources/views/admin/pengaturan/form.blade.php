@@ -164,6 +164,27 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
+            // Toggle visibilitas password untuk komponen input-password.
+            $('#validasi')
+                .off('click', '.show-hide-password')
+                .on('click', '.show-hide-password', function() {
+                const $toggle = $(this);
+                const $input = $toggle.closest('.input-group').find('input').first();
+                const $icon = $toggle.find('i').first();
+
+                if ($input.length === 0) {
+                    return;
+                }
+
+                const isPassword = $input.attr('type') === 'password';
+                $input.attr('type', isPassword ? 'text' : 'password');
+
+                if ($icon.length > 0) {
+                    $icon.toggleClass('fa-eye', isPassword);
+                    $icon.toggleClass('fa-eye-slash', !isPassword);
+                }
+                });
+
             // Generic handler untuk required_if
             $('[data-required-if]').each(function() {
                 const $formGroup = $(this);

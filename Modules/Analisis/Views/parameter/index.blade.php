@@ -85,7 +85,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ $baseRoute . '/' . 'datatables' }}",
+                ajax: {
+                    url: "{{ $baseRoute . '/' . 'datatables' }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+﻿@extends('theme::layouts.right-sidebar')
 
 @section('content')
     <nav role="navigation" aria-label="navigation" class="breadcrumb">
@@ -41,7 +41,7 @@
                 ordering: true,
                 ajax: {
                     url: `{{ ci_route('internal_api.arsip') }}`,
-                    method: 'get',
+                    method: 'POST',
                     data: function(row) {
                         return {
                             "page[size]": row.length,

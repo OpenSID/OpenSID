@@ -82,6 +82,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('point.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                         req.root = 1;

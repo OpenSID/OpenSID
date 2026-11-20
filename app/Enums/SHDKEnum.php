@@ -77,7 +77,7 @@ class SHDKEnum extends BaseEnum
     {
         $cases = self::all();
 
-        if (empty($statusKawinKk)) {
+        if ($statusKawinKk === null || $statusKawinKk === 0) {
             // selain 'kepala keluarga' semua berlaku
             unset($cases[self::KEPALA_KELUARGA]);
 

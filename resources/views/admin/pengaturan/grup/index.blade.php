@@ -91,6 +91,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('grup.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                     }

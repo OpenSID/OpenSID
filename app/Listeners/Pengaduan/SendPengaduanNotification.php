@@ -46,20 +46,13 @@ use NotificationChannels\Telegram\Telegram;
 class SendPengaduanNotification
 {
     /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Handle the event.
      */
     public function handle(PengaduanSubmitted $event): void
     {
         // Send database notifications to users with pengaduan access
         User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'pengaduan', user: $user))
-            ->each(static function (User $user) use ($event) {
+            ->each(static function (User $user) use ($event): void {
                 $user->notify(new PengaduanBaru(pengaduan: $event->pengaduan));
             });
 

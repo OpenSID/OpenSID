@@ -278,7 +278,7 @@
 
             $.ajax({
                 url: "{{ site_url('qrcode/qrcode_generate') }}",
-                type: 'POST',
+                method: 'POST',
                 data: {
                     isiqr: isiqr,
                     changeqr: changeqr,

@@ -3,7 +3,7 @@
 @include('admin.layouts.components.datetime_picker')
 
 @section('title')
-    <h1>Pengaturan {{ $kat_nama }} Di {{ ucwords(setting('sebutan_desa')) }}</h1>
+    <h1>Pengaturan {{ $kat_nama }}</h1>
 @endsection
 
 @section('breadcrumb')
@@ -22,7 +22,7 @@
 
         <div class="box-header with-border">
             <x-kembali-button
-                judul="Kembali ke Daftar {{ $kat_nama }} Di {{ ucwords(setting('sebutan_desa')) }}"
+                judul="Kembali ke Daftar {{ $kat_nama }}"
                 url="#"
                 onclick="window.history.back()"
             />

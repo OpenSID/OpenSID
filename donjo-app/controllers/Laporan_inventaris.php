@@ -65,7 +65,7 @@ class Laporan_inventaris extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $mutasi = $this->input->get('mutasi');
+            $mutasi = $this->input->post_get('mutasi');
 
             return datatables()->of($this->sumberData(null, $mutasi))
                 ->addIndexColumn()

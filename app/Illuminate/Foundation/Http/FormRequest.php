@@ -247,7 +247,7 @@ abstract class FormRequest
 
         // Check if this is an AJAX request
         $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH'])
-                  && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+                  && strtolower((string) $_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
         // For AJAX requests, build JSON response
         if ($isAjax) {
@@ -283,16 +283,16 @@ abstract class FormRequest
     {
         try {
             $ci = app('ci');
-            if ($ci && isset($ci->session)) {
+            if ($ci && (property_exists($ci, 'session') && $ci->session !== null)) {
                 return $ci->session;
             }
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             // Fallback to session helper
         }
 
         // Create a simple session wrapper for compatibility
         return new class () {
-            public function set_flashdata($key, $value)
+            public function set_flashdata($key, $value): void
             {
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
@@ -324,7 +324,7 @@ abstract class FormRequest
                 $_SESSION[$property] = $value;
             }
 
-            public function mark_as_flash($key)
+            public function mark_as_flash($key): void
             {
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
@@ -335,7 +335,7 @@ abstract class FormRequest
                 $_SESSION['__flash_keys'][$key] = true;
             }
 
-            public function set_userdata($key, $value)
+            public function set_userdata($key, $value): void
             {
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();

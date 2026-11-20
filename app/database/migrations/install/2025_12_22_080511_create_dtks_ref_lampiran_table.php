@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('dtks_ref_lampiran', static function (Blueprint $table) {
+        Schema::create('dtks_ref_lampiran', static function (Blueprint $table): void {
             $table->integer('id_dtks')->index('fk_ref_lampiran_dtks');
             $table->integer('id_lampiran')->index('fk_lampiran_dtks');
             $table->integer('config_id')->nullable()->index('dtks_ref_lampiran_config_id_foreign');

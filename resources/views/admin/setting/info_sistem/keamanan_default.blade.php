@@ -181,7 +181,7 @@ function runFullScan() {
 
     $.ajax({
         url: '{{ ci_route("info_sistem.security_default_scan") }}',
-        type: 'POST',
+        method: 'POST',
         dataType: 'json',
         success: function(response) {
             $('#scan-progress').hide();
@@ -258,7 +258,7 @@ function generateBaseline() {
 
     $.ajax({
         url: '{{ ci_route("info_sistem.security_default_generate_baseline") }}', // PERHATIAN: Route ini perlu dibuat di backend
-        type: 'POST',
+        method: 'POST',
         dataType: 'json',
         success: function(response) {
             $('#scan-progress').hide();
@@ -305,7 +305,7 @@ function deleteFile(filePath, btn) {
             $(btn).prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Menghapus...');
             $.ajax({
                 url: '{{ ci_route("info_sistem.security_default_delete_file") }}',
-                type: 'POST',
+                method: 'POST',
                 dataType: 'json',
                 data: { file_path: filePath },
                 success: function(response) {
@@ -341,7 +341,7 @@ function restoreFile(filePath, btn) {
             $(btn).prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Memulihkan...');
              $.ajax({
                 url: '{{ ci_route("info_sistem.security_default_restore_file") }}',
-                type: 'POST',
+                method: 'POST',
                 dataType: 'json',
                 data: { file_path: filePath },
                 success: function(response) {
@@ -380,7 +380,7 @@ function loadSecurityReports() {
             ordering: false,
             ajax: {
                 url: "{{ ci_route('info_sistem.security_default_reports') }}",
-                type: 'GET',
+                method: 'POST',
                 data: function (d) {
                     d.type = 'scan';
                 }
@@ -431,7 +431,7 @@ function viewReport(filename) {
 
     $.ajax({
         url: url,
-        type: 'GET',
+        method: 'POST',
         dataType: 'json',
         success: function(response) {
             if (response.success) {
@@ -690,7 +690,7 @@ function deleteReport(filename) {
         preConfirm: () => {
             return $.ajax({
                 url: '{{ ci_route("info_sistem.security_default_delete_report", ["filename" => ""]) }}'.replace(/\/$/, '') + '/' + encodeURIComponent(filename).replace(/\./g, '~'),
-                type: 'POST',
+                method: 'POST',
                 dataType: 'json',
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'

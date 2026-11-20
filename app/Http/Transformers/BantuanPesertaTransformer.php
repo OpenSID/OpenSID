@@ -43,7 +43,7 @@ use League\Fractal\TransformerAbstract;
 
 class BantuanPesertaTransformer extends TransformerAbstract
 {
-    public function transform(BantuanPeserta $peserta)
+    public function transform(BantuanPeserta $peserta): array
     {
         $sembunyikanNama   = setting('sembunyikan_nama_penerima_bantuan');
         $sembunyikanAlamat = setting('sembunyikan_alamat_penerima_bantuan');

@@ -109,6 +109,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('plan.datatables') }}?parent={{ $parent }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                         req.point = $('#point').val();

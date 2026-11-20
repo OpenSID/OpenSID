@@ -60,9 +60,9 @@ class Point extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status   = $this->input->get('status');
-            $root     = $this->input->get('root') ?? null;
-            $subpoint = $this->input->get('subpoint') ?? null;
+            $status   = $this->input->post_get('status');
+            $root     = $this->input->post_get('root') ?? null;
+            $subpoint = $this->input->post_get('subpoint') ?? null;
 
             return datatables()->of(
                 ModelsPoint::when(
@@ -173,6 +173,11 @@ class Point extends Admin_Controller
     public function insert($subpoint = 0): void
     {
         isCan('u');
+
+        if ($this->validation() === false) {
+            redirect_with('error', trim(validation_errors()), ci_route('point.form', $subpoint));
+        }
+
         $data  = $this->input->post();
         $url   = $subpoint ? "point/sub_point/{$subpoint}" : null;
         $label = $subpoint ? 'Kategori' : 'Tipe';
@@ -189,6 +194,11 @@ class Point extends Admin_Controller
     public function update($id = '', $subpoint = 0): void
     {
         isCan('u');
+
+        if ($this->validation() === false) {
+            redirect_with('error', trim(validation_errors()), ci_route('point.form', implode('/', [$id, $subpoint])));
+        }
+
         $data  = $this->input->post();
         $url   = $subpoint ? "point/sub_point/{$subpoint}" : null;
         $label = $subpoint ? 'Kategori' : 'Tipe';
@@ -255,6 +265,16 @@ class Point extends Admin_Controller
                 'message' => __('notification.status.error'),
             ]);
         }
+    }
+
+    private function validation()
+    {
+        $this->form_validation->set_error_delimiters('', '');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim|max_length[' . PEMETAAN_NAMA_MAX_LENGTH . ']');
+        $this->form_validation->set_rules('simbol', 'Simbol', 'required');
+        $this->form_validation->set_rules('enabled', 'Status', 'required');
+
+        return $this->form_validation->run();
     }
 
     private function validasi(array $post, $parent = 0)

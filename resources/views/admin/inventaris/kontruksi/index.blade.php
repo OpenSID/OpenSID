@@ -109,7 +109,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('inventaris_kontruksi.datatables') }}"
+                    url: "{{ ci_route('inventaris_kontruksi.datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('inbox', static function (Blueprint $table) {
+        Schema::create('inbox', static function (Blueprint $table): void {
             $table->timestamp('UpdatedInDB')->useCurrentOnUpdate()->useCurrent();
             $table->timestamp('ReceivingDateTime')->useCurrent();
             $table->text('Text');

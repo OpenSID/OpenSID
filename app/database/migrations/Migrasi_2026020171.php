@@ -56,7 +56,7 @@ return new class () extends Migration {
 
         // tambahkan kolom publikasi di tabel program
         if (Schema::hasTable('program') && ! Schema::hasColumn('program', 'publikasi')) {
-            Schema::table('program', static function ($table) {
+            Schema::table('program', static function ($table): void {
                 $table->integer('publikasi')->default(StatusEnum::TIDAK)->after('edate');
             });
 
@@ -67,7 +67,7 @@ return new class () extends Migration {
         cache()->forget('identitas_desa');
 
         if (Schema::hasTable('tweb_penduduk') && ! Schema::hasColumn('tweb_penduduk', 'is_historical')) {
-            Schema::table('tweb_penduduk', static function (Blueprint $table) {
+            Schema::table('tweb_penduduk', static function (Blueprint $table): void {
                 $table->boolean('is_historical')->default(false)->after('ket');
             });
         }

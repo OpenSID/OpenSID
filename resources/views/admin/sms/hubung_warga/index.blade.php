@@ -60,7 +60,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('sms.arsipdatatables') }}",
+                ajax: {
+                    url: "{{ ci_route('sms.arsipdatatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

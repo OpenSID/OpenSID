@@ -74,7 +74,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('cdesa.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('cdesa.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

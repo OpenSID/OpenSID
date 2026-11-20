@@ -225,6 +225,10 @@ class SettingAplikasi extends BaseModel
 
     public function getOptionAttribute()
     {
+        if ($this->attributes['key'] == 'apbdes_tahun') {
+            return Keuangan::tahunAnggaran()->pluck('tahun', 'tahun')->toArray();
+        }
+
         if ($this->attributes['jenis'] == 'option' && $this->attributes['key'] == 'tampilan_anjungan_slider') {
             return Galeri::whereParrent(Galeri::PARRENT)->whereEnabled(StatusEnum::YA)->pluck('nama', 'id');
         }

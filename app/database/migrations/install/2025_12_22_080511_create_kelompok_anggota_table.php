@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('kelompok_anggota', static function (Blueprint $table) {
+        Schema::create('kelompok_anggota', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id');
             $table->integer('id_kelompok')->index('kelompok_anggota_kelompok_fk');

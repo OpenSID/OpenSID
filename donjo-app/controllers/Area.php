@@ -72,10 +72,10 @@ class Area extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status     = $this->input->get('status');
-            $subpolygon = $this->input->get('subpolygon') ?? null;
-            $polygon    = $this->input->get('polygon') ?? null;
-            $parent     = $this->input->get('parent') ?? 0;
+            $status     = $this->input->post_get('status');
+            $subpolygon = $this->input->post_get('subpolygon') ?? null;
+            $polygon    = $this->input->post_get('polygon') ?? null;
+            $parent     = $this->input->post_get('parent') ?? 0;
 
             return datatables()->of(AreaModel::status($status)
                 ->when($polygon, static fn ($q) => $q->whereIn('ref_polygon', static fn ($q) => $q->select('id')->from('polygon')->whereParrent($polygon)))
@@ -218,6 +218,11 @@ class Area extends Admin_Controller
 
         try {
             $data = $this->input->post();
+
+            if (isset($data['nama']) && mb_strlen((string) $data['nama']) > PEMETAAN_NAMA_MAX_LENGTH) {
+                redirect_with('error', 'Nama tidak boleh lebih dari ' . PEMETAAN_NAMA_MAX_LENGTH . ' karakter', ci_route('area.index', $parent));
+            }
+
             if ($data['path'] !== '[[]]') {
                 AreaModel::whereId($id)->update($data);
                 redirect_with('success', 'Area berhasil disimpan', ci_route('area.index', $parent));
@@ -246,9 +251,11 @@ class Area extends Admin_Controller
     public function insert($parent): void
     {
         isCan('u');
-        if ($this->validation()) {
-            $data = $this->validasi($this->input->post());
+        if ($this->validation() === false) {
+            redirect_with('error', trim(validation_errors()), ci_route('area.form', $parent));
         }
+
+        $data = $this->validasi($this->input->post());
 
         try {
             AreaModel::create($data);
@@ -263,9 +270,11 @@ class Area extends Admin_Controller
     {
         isCan('u');
 
-        if ($this->validation()) {
-            $data = $this->validasi($this->input->post());
+        if ($this->validation() === false) {
+            redirect_with('error', trim(validation_errors()), ci_route('area.form', implode('/', [$parent, $id])));
         }
+
+        $data = $this->validasi($this->input->post());
 
         try {
             $obj = AreaModel::findOrFail($id);
@@ -314,7 +323,8 @@ class Area extends Admin_Controller
 
     private function validation()
     {
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_error_delimiters('', '');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim|max_length[' . PEMETAAN_NAMA_MAX_LENGTH . ']');
         $this->form_validation->set_rules('ref_polygon', 'Kategori', 'required');
         $this->form_validation->set_rules('desk', 'Keterangan', 'required|trim');
         $this->form_validation->set_rules('enabled', 'Status', 'required');

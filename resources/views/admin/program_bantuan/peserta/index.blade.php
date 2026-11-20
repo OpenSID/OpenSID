@@ -106,6 +106,7 @@
                 serverSide: false,
                 ajax: {
                     url: "{{ ci_route('peserta_bantuan.datatables', $detail['id']) }}",
+                    method: 'POST',
                     data: function(req) {}
                 },
                 columns: [{

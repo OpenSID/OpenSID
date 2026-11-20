@@ -146,7 +146,13 @@
                                                 <tr>
                                                     <td class="text-center">{{ $key + 1 }}</td>
                                                     <td>{{ $data['status_perkawinan'] ?? '' }}</td>
-                                                    <td class="text-center">{{ str_contains($data['status_perkawinan'], 'KAWIN') ? tgl_indo_out($data['tanggalperkawinan']) : tgl_indo_out($data['tanggalperceraian']) }}</td>
+                                                    <td class="text-center">
+                                                        @if ($data['status_kawin'] == App\Enums\StatusKawinEnum::KAWIN)
+                                                            {{ tgl_indo_out($data['tanggalperkawinan']) }}
+                                                        @elseif ($data['status_kawin'] == App\Enums\StatusKawinEnum::CERAIHIDUP || $data['status_kawin'] == App\Enums\StatusKawinEnum::CERAIMATI)
+                                                            {{ tgl_indo_out($data['tanggalperceraian']) }}
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $data['penduduk_hubungan'] }}</td>
                                                     <td>{{ $data['warganegara'] }}</td>
                                                     <td>{{ $data['dokumen_pasport'] }}</td>

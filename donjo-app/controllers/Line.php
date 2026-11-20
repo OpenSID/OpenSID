@@ -68,9 +68,9 @@ class Line extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status');
-            $parent = $this->input->get('parent') ?? $this->parent;
-            $tipe   = $this->input->get('tipe') ?? $this->tipe;
+            $status = $this->input->post_get('status');
+            $parent = $this->input->post_get('parent') ?? $this->parent;
+            $tipe   = $this->input->post_get('tipe') ?? $this->tipe;
 
             return datatables()->of(LineModel::status($status)->whereParrent($parent)->whereTipe($tipe))
                 ->addColumn('ceklist', static function ($row) {
@@ -139,6 +139,11 @@ class Line extends Admin_Controller
     public function insert(int $parent, $tipe): void
     {
         isCan('u');
+
+        if ($this->validation() === false) {
+            redirect_with('error', trim(validation_errors()), ci_route('line.form', $parent) . '?tipe=' . $tipe);
+        }
+
         $dataInsert            = $this->validasi($this->input->post());
         $dataInsert['parrent'] = $parent;
         $dataInsert['tipe']    = $tipe;
@@ -155,6 +160,11 @@ class Line extends Admin_Controller
     public function update($parent, $id): void
     {
         isCan('u');
+
+        if ($this->validation() === false) {
+            redirect_with('error', trim(validation_errors()), ci_route('line.form', implode('/', [$parent, $id])));
+        }
+
         $dataUpdate            = $this->validasi($this->input->post());
         $dataUpdate['parrent'] = $parent;
         $tipe                  = $this->tipe($id);
@@ -206,6 +216,17 @@ class Line extends Admin_Controller
                 'message' => __('notification.status.error'),
             ]);
         }
+    }
+
+    private function validation()
+    {
+        $this->form_validation->set_error_delimiters('', '');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim|max_length[' . PEMETAAN_NAMA_MAX_LENGTH . ']');
+        $this->form_validation->set_rules('tebal', 'Tebal', 'required|numeric');
+        $this->form_validation->set_rules('color', 'Warna', 'required');
+        $this->form_validation->set_rules('enabled', 'Status', 'required');
+
+        return $this->form_validation->run();
     }
 
     private function hasChild($id): bool

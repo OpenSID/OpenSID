@@ -88,6 +88,7 @@
                 order: false,
                 ajax: {
                     url: "{{ ci_route('notifikasi.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                         req.kategori = $('#kategori').val();

@@ -1,50 +1,66 @@
-Rilis versi 2603.1.0 ini berisi penambahan fitur pindah 1 keluarga sekaligus  dan perbaikan lainnya yang diminta oleh komunitas SID.
+Rilis versi 2604.1.0 ini berisi penambahan fitur batasan kaitkan akun pada tingkat superadmin  dan perbaikan lainnya yang diminta oleh komunitas SID.
 
 ### FITUR
-1. [#10877](https://github.com/OpenSID/OpenSID/issues/10877) Penambahan Deaktivasi akun tidak aktif dengan lazy check saat login.
-2. [#10888](https://github.com/OpenSID/OpenSID/issues/10888) Penambahan filter status hubungan dalam keluarga dalam pencarian spesifik di menu penduduk.
-3. [#10428](https://github.com/OpenSID/OpenSID/issues/10428) Penambahan fitur pada menu Pembangunan untuk SILPA bisa ditambahkan rumus & auto isi dan pelaksanan diambil dari perangkat desa.
-4. [#9850](https://github.com/OpenSID/OpenSID/issues/9850) Penambahan fitur bolehkan inputan selain angka pada kuisioner "Nomor Sertifikat Buku Letter C/Persil" di Buku Kas Desa.
-5. [#10818](https://github.com/OpenSID/OpenSID/issues/10818) Penambahan fitur tambahkan opsi penduduk luar desa ketika menambahkan anggota pada lembaga.
-6. [#10816](https://github.com/OpenSID/OpenSID/issues/10816) Penambahan fitur tambahkan opsi penduduk luar desa ketika menambahkan anggota pada pada kelompok.
-7. [#10913](https://github.com/OpenSID/OpenSID/issues/10913) Penambahan fitur alur hapus pengguna: implementasi soft delete dan validasi relasi.
-8. [#10843](https://github.com/OpenSID/OpenSID/issues/10843) Penambahan fitur peta batas desa dibuat otomatis disediakan oleh opensid.
-9. [#10921](https://github.com/OpenSID/OpenSID/issues/10921) Penambahan fitur lampiran f1.02 untuk surat keterangan kematian.
-10. [#10429](https://github.com/OpenSID/OpenSID/issues/10429) Penambahan fitur setiap pengajuan izin dari kehadiran ditambahkan notifikasi.
-11. [#8642](https://github.com/OpenSID/OpenSID/issues/8642) Penambahan fitur notifikasi adanya Pengaduan baru pada halaman siteman.
-12. [#10950](https://github.com/OpenSID/OpenSID/issues/10950) Penambahan fitur ubah aksi lihat dokumen kematian ke preview.
-13. [#10527](https://github.com/OpenSID/OpenSID/issues/10527) Penambahan fitur upload peta wilayah desa dengan banyak area.
-14. [#10903](https://github.com/OpenSID/OpenSID/issues/10903) Penambahan fitur pencarian spesifik berdasarkan nomor KK sebelumnya di menu Penduduk.
-15. [#10905](https://github.com/OpenSID/OpenSID/issues/10905) Penambahan fitur pindah 1 keluarga sekaligus.
-16. [#10931](https://github.com/OpenSID/OpenSID/issues/10931) Penambahan fitur filter tahun pada menu statistik.
-17. [#10721](https://github.com/OpenSID/OpenSID/issues/10721) Penambahan modul DTSEN.
+1. [#11040](https://github.com/OpenSID/OpenSID/issues/11040) Penambahan fitur animasi skeleton wave (shimmer loading) pada modal AJAX global.
+2. [#589](https://github.com/OpenSID/pantau/issues/589) Penambahan fitur tracking layanan aktif dan sebutan desa ke sistem pantau.
+3. [#11051](https://github.com/OpenSID/OpenSID/issues/11051) Penambahan fitur penyesuaian input jenis kelamin berdasarkan shdk dan tanggal kawin berdasarkan status kawin.
+4. [#11017](https://github.com/OpenSID/OpenSID/issues/11017) Penambahan fitur agar data orang tua bisa diubah dengan shdk anak.
+5. [#10973](https://github.com/OpenSID/OpenSID/issues/10973) Penambahan pekerjaan ASN menggantikan PNS.
+6. [#11033](https://github.com/OpenSID/OpenSID/issues/11033) Penambahan batasan kaitkan akun pada tingkat superadmin.
 
 
 ### BUG
-1. [#10925](https://github.com/OpenSID/OpenSID/issues/10925) Perbaikan gagal upload file pada artikel.
-2. [#10944](https://github.com/OpenSID/OpenSID/issues/10944) Perbaikan tombol keterangan tidak merespon saat diklik pada halaman permohonan surat layanan mandiri.
-3. [#10945](https://github.com/OpenSID/OpenSID/issues/10945) Perbaikan tampilan text berjalan tidak berfungsi di browser versi terbaru.
-4. [#10940](https://github.com/OpenSID/OpenSID/issues/10940) Perbaikan nomor akta perceraian pada lampiran F101-Tabanan tidak muncul pada previews dan unduh pdf.
-5. [#10930](https://github.com/OpenSID/OpenSID/issues/10930) Perbaikan gagal import data penduduk jika nama ayah/ ibu berisi karakter "-".
-6. [#10947](https://github.com/OpenSID/OpenSID/issues/10947) Perbaikan error 500 impor data suplement ketika ada data yang tidak valid.
-7. [#10946](https://github.com/OpenSID/OpenSID/issues/10946) Perbaikan pesan response sinkronisasi data pada menu OpenDK.
-8. [#10924](https://github.com/OpenSID/OpenSID/issues/10924) Perbaikan hasil scan QR code surat dinas yang tidak sesuai.
-9. [#10948](https://github.com/OpenSID/OpenSID/issues/10948) Perbaikan NIK tidak tampil dengan benar saat cetak/unduh bantuan.
-10. [#10949](https://github.com/OpenSID/OpenSID/issues/10949) Perbaikan tampilan Penomoran Surat di Menu Pengaturan Surat/Lainnya.
-11. [#10939](https://github.com/OpenSID/OpenSID/issues/10939) Perbaikan sinkronisasi data program bantuan ke OpenDK.
-12. [#10938](https://github.com/OpenSID/OpenSID/issues/10938) Perbaikan dokumen yang diupload warga melalui Layanan Mandiri otomatis dapat diubah.
-13. [#10927](https://github.com/OpenSID/OpenSID/issues/10927) Perbaikan inkonsisten status pada rekap kehadiran jika keluar dari presensi PC dan aplikasi mobile Kelola Desa.
-14. [#10937](https://github.com/OpenSID/OpenSID/issues/10937) Perbaikan export peta wilayah dengan banyak area ke format gpx.
-15. [#10958](https://github.com/OpenSID/OpenSID/issues/10958) Perbaikan pesan sukses hapus data dokumen penduduk.
-16. [#10961](https://github.com/OpenSID/OpenSID/issues/10961) Perbaikan unduh pada input data sensus / survei excel isi data dan kode data.
-17. [#10878](https://github.com/OpenSID/OpenSID/issues/10878) Perbaikan inputan lat/long pada pengaturan peta lokasi agar tidak bisa menerima inputan huruf.
-18. [#10963](https://github.com/OpenSID/OpenSID/issues/10963) Perbaikan tidak bisa upload file galeri dan gambar tidak tampil di slider.
+
+1. [#10974](https://github.com/OpenSID/OpenSID/issues/10974) Perbaikan tanggal cetak yang dipilih tidak digunakan pada hasil cetak di Buku Administrasi Umum (selalu menampilkan tanggal hari ini).
+2. [#10977](https://github.com/OpenSID/OpenSID/issues/10977) Perbaikan informasi masa berlaku OTP tidak sesuai antara aplikasi dan email.
+3. [#10976](https://github.com/OpenSID/OpenSID/issues/10976) Perbaikan isian data perkawinan ketika merubah status menjadi cerai hidup dan mati, isian data pelengkapnya tidak secara otomatis terhiden kolomnya.
+4. [#6129](https://github.com/OpenSID/premium/issues/6129) Perbaikan tidak ada validasi jenis file (Unrestricted File Upload) pada menu upload foto profil.
+5. [#10987](https://github.com/OpenSID/OpenSID/issues/10987) Perbaikan data penduduk tidak tampil benar pada peta wilayah dusun.
+6. [#10982](https://github.com/OpenSID/OpenSID/issues/10982) Perbaikan nama file hasil unduh xls pada menu laporan kelompok rentan tidak berisi nama hanya timestamp saja.
+7. [#10966](https://github.com/OpenSID/OpenSID/issues/10966) Perbaikan pengaturan tahun apbdes.
+8. [#10986](https://github.com/OpenSID/OpenSID/issues/10986) Perbaikan data akta kematian tidak tampil benar pada laporan statistik.
+9. [#11018](https://github.com/OpenSID/OpenSID/issues/11018) Perbaikan data rincian lembaga tidak tampil di web.
+10. [#11019](https://github.com/OpenSID/OpenSID/issues/11019) Perbaikan banyaknya foto setiap produk di menu lapk tidak bisa di isi angka lebih dari 5.
+11. [#11020](https://github.com/OpenSID/OpenSID/issues/11020) Perbaikan peta desa tidak muncul di menu pemetaan.
+12. [#11026](https://github.com/OpenSID/OpenSID/issues/11026) Perbaikan tombol enter pada keyboard pada saat isi "HAPUS" pada modal alert konfirmasi hapus tidak berfungsi.
+13. [#11028](https://github.com/OpenSID/OpenSID/issues/11028) Perbaikan label tombol "Kembali ke Daftar Kelompok Di Desa" pada form tambah/ubah dokumen kelompok tidak sesuai dengan aksi.
+14. [#11015](https://github.com/OpenSID/OpenSID/issues/11015) Perbaikan beberapa bug pada fitur dtsen yang harus disesuaikan.
+15. [#11021](https://github.com/OpenSID/OpenSID/issues/11021) Perbaikan filter pada menu statistik kependudukan tidak sesuai.
+16. [#11036](https://github.com/OpenSID/OpenSID/issues/11036) Perbaikan peta desa ketika dicetak tampil kecil.
+17. [#11038](https://github.com/OpenSID/OpenSID/issues/11038) Perbaikan tombol kembalikan penduduk tidak tampil di riwayat mutasi penduduk.
+18. [#11052](https://github.com/OpenSID/OpenSID/issues/11052) Perbaikan info mohon tunggu pada tombol simpan terus muncul setelah data berhasil disimpan.
+19. [#11057](https://github.com/OpenSID/OpenSID/issues/11057) Perbaikan struktur tabel artikel agar saat kategori artikel dihapus maka artikel tidak ikut terhapus.
+20. [#11058](https://github.com/OpenSID/OpenSID/issues/110580) Perbaikan dataTables gagal load (net::ERR_EMPTY_RESPONSE) karena URL GET terlalu panjang di-drop WAF/edge di modul penduduk dan keluarga.
+21. [#11053](https://github.com/OpenSID/OpenSID/issues/11053) Perbaikan tidak ada keterangan/validasi maksimal karakter saat input di pengaturan peta.
+22. [#11042](https://github.com/OpenSID/OpenSID/issues/11042) Perbaikan menampilkan '0' untuk nomor KK dan NIK sementara di halaman hasil unduh F109.
+23. [#11045](https://github.com/OpenSID/OpenSID/issues/11045) Perbaikan menampilkan data berelasi pada layanan mandiri.
+24. [#11047](https://github.com/OpenSID/OpenSID/issues/11047) Perbaikan lihat password pada halaman pengaturan aplikasi tidak berfungsi.
+25. [#11046](https://github.com/OpenSID/OpenSID/issues/11046) Perbaikan saat aplikasi patau down, website desa dengan data lengkap atau stabil ikut menjadi lambat diakses.
+26. [#11063](https://github.com/OpenSID/OpenSID/issues/11063) Perbaikan sebutan nama di soal DTSEN pada tab anggota keluarga tidak mencantumkan nama sesuai data yang dipilih.
+27. [#11074](https://github.com/OpenSID/OpenSID/issues/11074) Perbaikan SHDK pada isian 409 DTSEN tidak otomatis terisi berdasarkan data penduduk.
+28. [#11071](https://github.com/OpenSID/OpenSID/issues/11071) Perbaikan pada hasil pemantauan dtsen, nama petugas tidak tampil, padahal sudah di isi manual.
+29. [#11075](https://github.com/OpenSID/OpenSID/issues/11075) Perbaikan isian memiliki kartu Identitas pada isian 411 di DTSEN tidak sesuai.
+30. [#11068](https://github.com/OpenSID/OpenSID/issues/11068) Perbaikan tutup modal anggota keluarga setelah berhasil simpan di menu DTSEN.
+31. [#11073](https://github.com/OpenSID/OpenSID/issues/11073) Perbaikan status perkawinan pada isian 408 DTSEN tidak otomatis terisi berdasarkan data penduduk.
+32. [#11043](https://github.com/OpenSID/OpenSID/issues/11043) Perbaikan gambar tema bawaan tidak tampil atau menampilkan gambar rusak.
+33. [#11048](https://github.com/OpenSID/OpenSID/issues/11048) Perbaikan saat verifikasi telegram berhasil, tombol verifikasi masih tampil jika tidak direfresh.
+34. [#11014](https://github.com/OpenSID/OpenSID/issues/11014) Perbaikan terdapat perbedaan hasil rekapitulasi desa rejasa.
+35. [#11066](https://github.com/OpenSID/OpenSID/issues/11066) Perbaikan sebutan desa berubah menjadi desa saat ubah indentitas desa.
+36. [#11080](https://github.com/OpenSID/OpenSID/issues/11080) Perbaikan pemanggilan foto default jika tidak ada foto pada inputan area di Pemetaan.
+37. [#11059](https://github.com/OpenSID/OpenSID/issues/11059) Perbaikan data kesukuan data yang tampil tidak konsisten.
+38. [#11069](https://github.com/OpenSID/OpenSID/issues/11069) Perbaikan tidak ada border pada preview cetak menu statistik.
+39. [#11083](https://github.com/OpenSID/OpenSID/issues/11083) Perbaikan tidak bisa upload file kematian lewat form tambah penduduk meninggal.
+40. [#11079](https://github.com/OpenSID/OpenSID/issues/11079) Perbaikan gagal cetak atau unduh kartu keluarga.
 
 ### KEAMANAN
-1. [#6081](https://github.com/OpenSID/premium/issues/6081) Peningkatan keamanan pada ekspor excel data terdata.
-
+1. [#6160](https://github.com/OpenSID/premium/issues/6160) Perbaikan SQL injection (blind) pada parameter filter[tahun] di endpoint Bantuan Penduduk.
+2. [#6174](https://github.com/OpenSID/premium/issues/6174) Perbaikan celah SSRF pada modul Sinkronisasi OpenDK (api_opendk_server).
 
 ### TEKNIS
-1. [#10898](https://github.com/OpenSID/OpenSID/issues/10898) Pengelompokan surat sistem dan surat desa pada pengaturan catatan peristiwa di menu Riwayat Mutasi Penduduk.
-2. [#10929](https://github.com/OpenSID/OpenSID/issues/10929) Penyederhanaan logika pemesanan tema premium.
-
+1. [#10908](https://github.com/OpenSID/OpenSID/issues/10908) Tema wira menjadi tema default pada instalasi baru aplikasi OpenSID Premium dan juga penambahan tema Lestari dan Seruit Lite selama berstatus pelanggan premium.
+2. [#11076](https://github.com/OpenSID/OpenSID/issues/11076) Penambahan halaman peringatan ketika ionCube loader belum terpasang.
+3. [#10953](https://github.com/OpenSID/OpenSID/issues/10953) Optimasi browser cache untuk static asset tema & module.
+4. [#11070](https://github.com/OpenSID/OpenSID/issues/11070) Perbaikan pilihan desil pada form pemantauan dtsen.
+5. [#11085](https://github.com/OpenSID/OpenSID/issues/11085) Pada DTSEN ketika tombol simpan diklik maka halaman form tertutup, trigernya adalah kolom pertanyaan nomor 205.
+6. [#11082](https://github.com/OpenSID/OpenSID/issues/11082) Penyesuaian opensid ke PHP versi 8.2 dan ioncube bundle.
+7. [#11088](https://github.com/OpenSID/OpenSID/issues/11088) penyesuaian OpenSID API Tema.postman_collection.json ke method post.

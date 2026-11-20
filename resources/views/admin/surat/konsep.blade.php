@@ -203,7 +203,7 @@
             })
             $.ajax({
                     url: `{{ $aksi_cetak }}` + ubah,
-                    type: 'POST',
+                    method: 'POST',
                     xhrFields: {
                         responseType: 'blob'
                     },
@@ -313,7 +313,7 @@
 
                 $.ajax({
                     url: `{{ $aksi_cetak . '/true' }}` + ubah,
-                    type: 'POST',
+                    method: 'POST',
                     xhrFields: {
                         responseType: 'blob'
                     },
@@ -371,7 +371,7 @@
                 e.preventDefault(); // Prevent the form from submitting via the browser
 
                 $.ajax({
-                    type: 'POST',
+                    method: 'POST',
                     url: '{{ ci_route('surat_master.pengaturan_sementara') }}',
                     data: $(this).serialize(), // Serialize form data
                     success: function(response) {

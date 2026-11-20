@@ -56,7 +56,10 @@
             var tabelData = $('#tabeldata').DataTable({
                 'processing': true,
                 'serverSide': true,
-                'ajax': "{{ site_url('layanan-mandiri/kehadiran/datatables') }}",
+                'ajax': {
+                    url: "{{ site_url('layanan-mandiri/kehadiran/datatables') }}",
+                    method: 'POST',
+                },
                 'columnDefs': [{
                         targets: [0, 3, 4],
                         searchable: false,

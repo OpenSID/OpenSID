@@ -97,6 +97,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('program_bantuan.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                         req.sasaran = $('#sasaran').val();

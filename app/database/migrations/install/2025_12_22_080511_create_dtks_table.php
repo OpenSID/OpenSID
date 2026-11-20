@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('dtks', static function (Blueprint $table) {
+        Schema::create('dtks', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id')->index('dtks_config_fk');
             $table->boolean('is_draft')->default(true);

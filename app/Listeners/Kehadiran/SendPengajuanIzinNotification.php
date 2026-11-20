@@ -44,13 +44,6 @@ use App\Notifications\Kehadiran\PengajuanIzinBaru;
 class SendPengajuanIzinNotification
 {
     /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Handle the event.
      */
     public function handle(PengajuanIzinSubmitted $event): void
@@ -60,7 +53,7 @@ class SendPengajuanIzinNotification
         $submitterPamongId = $event->pengajuanIzin->id_pamong;
 
         User::status()->get()
-            ->filter(static fn (User $user) => $user->pamong_id !== $submitterPamongId)
+            ->filter(static fn (User $user): bool => $user->pamong_id !== $submitterPamongId)
             ->filter(static fn (User $user) => can(akses: 'b', slugModul: 'approval-izin', user: $user))
             ->each(static function (User $user) use ($event): void {
                 $user->notify(new PengajuanIzinBaru(pengajuanIzin: $event->pengajuanIzin));

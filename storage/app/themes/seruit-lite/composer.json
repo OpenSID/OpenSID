@@ -1,0 +1,18 @@
+{
+    "name": "themes/seruit-lite",
+    "type": "opensid-theme",
+    "description": "Tema Seruit Versi Umum",
+    "homepage": "https://temaseruit.updesa.com",
+    "license": "GPL-3.0-or-later",
+    "keywords": [
+        "Themes",
+        "OpenSID",
+        "Umum"
+    ],
+    "authors": [
+        {
+            "name": "Mariyadi",
+            "email": "mariyadiara@gmail.com"
+        }
+    ]
+}
