@@ -26,7 +26,7 @@ test.describe('Acak Data — database hasil lolos pemeriksaan /periksa', () => {
     // Render surat sintetis + pemrosesan foto bisa memakan beberapa menit.
     test.setTimeout(15 * 60 * 1000);
 
-    await page.goto('database/acak');
+    await page.goto('acak-data');
     await expect(page.locator('#maincontent')).toContainText('Arsip Surat');
 
     // Pilih opsi paling ringan agar proses cepat (tidak mengubah perilaku periksa).
@@ -44,7 +44,7 @@ test.describe('Acak Data — database hasil lolos pemeriksaan /periksa', () => {
 
     // Proses berjalan via SSE lalu mengarahkan ke halaman hasil saat selesai.
     await Promise.all([
-      page.waitForURL('**/database/acak/hasil', { timeout: 15 * 60 * 1000 }),
+      page.waitForURL('**/acak-data/hasil', { timeout: 15 * 60 * 1000 }),
       lanjut.click(),
     ]);
 

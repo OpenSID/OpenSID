@@ -102,11 +102,9 @@ final class EasyConnectString
         foreach ($params as $key => $value) {
             $string = self::renderValue($value);
 
-            if ($string === '') {
-                continue;
+            if ($string !== '') {
+                $chunks[] = sprintf('(%s=%s)', $key, $string);
             }
-
-            $chunks[] = sprintf('(%s=%s)', $key, $string);
         }
 
         return implode('', $chunks);

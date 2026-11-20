@@ -37,13 +37,13 @@
                             placeholder="Judul Artikel"
                             minlength="5"
                             maxlength="200"
-                            value="{{ $artikel['judul'] }}"
+                            value="{{ old('judul', $artikel['judul']) }}"
                         ></input>
                         <span class="help-block"><code>Judul artikel minimal 5 karakter dan maksimal 200 karakter</code></span>
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="kode_desa">Isi Artikel</label>
-                        <textarea name="isi" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' class="form-control input-sm required" style="height:350px;">{{ $artikel['isi'] }}</textarea>
+                        <textarea name="isi" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' class="form-control input-sm required" style="height:350px;">{{ old('isi', $artikel['isi']) }}</textarea>
                     </div>
                 </div>
             </div>
@@ -236,6 +236,21 @@
                                 <input class="form-control input-sm pull-right tgl_jam" name="tgl_upload" type="text" value="{{ $artikel['tgl_upload'] }}">
                             </div>
                             <span class="help-block"><code>(Kosongkan jika ingin langsung di post, bisa digunakan untuk artikel terjadwal)</code></span>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" id="b-captcha" onclick="event.preventDefault(); document.getElementById('captcha').src = '{{ url('captcha') }}?' + Math.random();" style="color: #000000;">
+                                <img id="captcha" src="{{ url('captcha') }}" alt="CAPTCHA Image" />
+                            </a>
+                        </div>
+                        <div class="form-group captcha">
+                            <input
+                                name="captcha_code"
+                                type="text"
+                                class="form-control input-sm required"
+                                maxlength="6"
+                                placeholder="Masukkan kode di atas"
+                                autocomplete="off"
+                            />
                         </div>
                     </div>
                 </div>

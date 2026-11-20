@@ -108,10 +108,8 @@ final class Driver extends AbstractMySQLDriver
         #[SensitiveParameter]
         array $params,
     ): Generator {
-        if (! isset($params['charset'])) {
-            return;
+        if (isset($params['charset'])) {
+            yield new Charset($params['charset']);
         }
-
-        yield new Charset($params['charset']);
     }
 }

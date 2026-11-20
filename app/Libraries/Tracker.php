@@ -98,8 +98,6 @@ class Tracker
         $suratTTE   = LogSurat::whereNull('deleted_at')->where('tte', '=', 1)->count();
         $settingTTE = SettingAplikasi::where('key', 'tte')->first()->value ?? 0;
 
-        (get_instance())->load->helper('theme');
-
         $desa = [
             'nama_desa'           => $config->nama_desa,
             'sebutan_desa'        => e(setting('sebutan_desa')) ?? 'desa',
@@ -116,7 +114,7 @@ class Tracker
             'alamat_kantor'       => $config->alamat_kantor,
             'email_desa'          => $config->email_desa,
             'telepon'             => $config->telepon,
-            'url'                 => current_url(),
+            'url'                 => url()->current(),
             'ip_address'          => $_SERVER['SERVER_ADDR'] ?? '127.0.0.1',
             'external_ip'         => get_external_ip(),
             'version'             => AmbilVersi(),
@@ -212,7 +210,6 @@ class Tracker
 
     private function isDemoMode(): bool
     {
-        return app()->environment(['development', 'testing'])
-            || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO));
+        return is_demo_mode();
     }
 }

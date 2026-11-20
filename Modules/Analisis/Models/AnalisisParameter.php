@@ -39,6 +39,7 @@ namespace Modules\Analisis\Models;
 
 use App\Models\BaseModel;
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -46,6 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class AnalisisParameter extends BaseModel
 {
     use ConfigId;
+    use HasFactory;
 
     public $timestamps = false;
 

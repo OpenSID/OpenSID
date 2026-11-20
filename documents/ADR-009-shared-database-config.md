@@ -168,22 +168,36 @@ protected function configureConfig(Application $app): void
         return;
     }
     
-    // Load CI database config
+    // Skip di environment testing untuk menghindari override
+    if ($app->environment('testing')) {
+        return;
+    }
+    
+    // Cleanup database config untuk reload
+    $GLOBALS['CFG']->is_loaded = array_values(array_filter(
+        $GLOBALS['CFG']->is_loaded,
+        fn ($path) => ! str_contains($path, 'database.php')
+    ));
+    
+    unset($GLOBALS['CFG']->config['database']);
     $GLOBALS['CFG']->load('database', true);
     
     $config = $app['config'];
     $configCI = $GLOBALS['CFG']->config;
     
-    // Sync database configuration FROM Laravel TO CI
-    if (isset($configCI['database']['connections'])) {
-        $config->set('database.connections', array_merge(
-            $config->get('database.connections', []),
-            $configCI['database']['connections']
-        ));
+    // Sync app URL jika tidak dalam console mode dan APP_URL env tidak di-set
+    if (! $app->runningInConsole()) {
+        $appUrl = $configCI['app_url'] ?? config('app.url');
+        $config->set('app.url', $appUrl);
+        $config->set('app.asset_url', $appUrl . '/assets');
     }
     
-    // Also sync FROM CI TO Laravel if needed (for custom CI configs)
+    // Sync database configuration
     $config->set('database.default', $configCI['database']['default'] ?? 'default');
+    $config->set('database.connections', array_merge(
+        $config->get('database.connections', []),
+        $configCI['database']['connections'] ?? []
+    ));
 }
 ```
 
@@ -649,9 +663,9 @@ php artisan db:backup
 - [ADR-001: Hybrid Architecture](./ADR-001-hybrid-laravel-codeigniter.md)
 
 ## References
+- [Laravel Database Configuration](https://laravel.com/docs/11.x/database)
 
-- [Laravel Database Configuration](https://laravel.com/docs/10.x/database)
-- [Eloquent ORM](https://laravel.com/docs/10.x/eloquent)
+- [Eloquent ORM](https://laravel.com/docs/11.x/eloquent)
 - [CodeIgniter Database](https://codeigniter.com/userguide3/database/index.html)
 - [MySQL Connection Pooling](https://dev.mysql.com/doc/refman/8.0/en/connection-pooling.html)
 

@@ -194,7 +194,14 @@ class Dpt extends Admin_Controller
             })
             ->when($filterKategori, static fn ($q) => $q->where($filterKategori))
             ->when($sex, static fn ($q) => $q->where('sex', $sex))
-            ->when($listCluster, static fn ($q) => $q->whereIn('id_cluster', $listCluster))
+            ->when($listCluster, static fn ($q) => $q->where(static function ($q) use ($listCluster) {
+                // Kolom dusun/rw/rt yang ditampilkan mengutamakan wilayah KELUARGA
+                // (lihat addColumn('dusun', ...) di bawah), jadi filter wilayah pun
+                // harus ikut menyaring berdasarkan id_cluster keluarga, bukan hanya
+                // id_cluster penduduk itu sendiri.
+                $q->whereIn('id_cluster', $listCluster)
+                    ->orWhereHas('keluarga', static fn ($qk) => $qk->whereIn('id_cluster', $listCluster));
+            }))
             ->withOnly(['keluarga', 'wilayah']);
     }
 }

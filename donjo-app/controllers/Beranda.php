@@ -112,7 +112,6 @@ class Beranda extends Admin_Controller
 
     private function isDemoMode(): bool
     {
-        return app()->environment(['development', 'testing'])
-            || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO));
+        return is_demo_mode();
     }
 }

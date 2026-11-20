@@ -223,7 +223,7 @@
                                                                                         {{ strip_tags($log['content']) }}
                                                                                         @if (array_key_exists('extra', $log))
                                                                                             <div class="collapse" id="collapse{{ $key }}">
-                                                                                                {!! $log['extra'] !!}
+                                                                                                {!! strip_tags($log['extra'], '<br>') !!}
                                                                                             </div>
                                                                                         @endif
                                                                                     </td>

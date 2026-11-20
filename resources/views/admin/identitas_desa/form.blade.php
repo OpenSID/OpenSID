@@ -185,26 +185,14 @@
                     })
                     .done(function(response) {
                         if (demo == false) {
+                            // Server yang memanggil layanan.opendesa.id secara langsung
+                            // (server-to-server), bukan browser, agar respons API tidak
+                            // bisa dipalsukan lewat DNS hijack / MITM di sisi klien.
                             $.ajax({
-                                    url: `{{ config_item('server_layanan') }}/api/v1/pelanggan/pemesanan`,
-                                    headers: {
-                                        "Authorization": `Bearer {{ $list_setting->firstWhere('key', 'layanan_opendesa_token')?->value }}`,
-                                        "X-Requested-With": `XMLHttpRequest`,
-                                    },
-                                    type: 'Post',
-                                })
-                                .done(function(response) {
-                                    let data = {
-                                        body: response
-                                    }
-
-                                    $.ajax({
-                                        url: `${SITE_URL}pelanggan/pemesanan`,
-                                        type: 'Post',
-                                        dataType: 'json',
-                                        data: data,
-                                    })
-                                })
+                                url: `${SITE_URL}pelanggan/pemesanan`,
+                                type: 'Post',
+                                dataType: 'json',
+                            })
                         }
 
                         if (response.status) {

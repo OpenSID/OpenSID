@@ -850,7 +850,7 @@
     {
         "judul": "Anjungan Youtube",
         "key": "anjungan_youtube",
-        "value": "https:\/\/www.youtube.com\/embed\/PuxiuH-YUF4",
+        "value": "PuxiuH-YUF4",
         "urut": 96,
         "keterangan": "Pengaturan profil video youtube untuk anjungan",
         "jenis": "input-url",

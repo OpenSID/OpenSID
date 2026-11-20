@@ -261,7 +261,12 @@ class Surat_masuk extends Admin_Controller
             $disposisi[] = ['id' => $key, 'nama' => $item];
         })->toArray();
 
-        $data                          = $this->modal_penandatangan();
+        $ttd                           = $this->modal_penandatangan();
+        $pamong_ttd                    = $this->input->post('pamong_ttd');
+        $pamong_ketahui                = $this->input->post('pamong_ketahui');
+        $data                          = $ttd;
+        $data['pamong_ttd']            = Pamong::selectData()->where(['pamong_id' => $pamong_ttd ?: $ttd['pamong_ttd']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ttd'];
+        $data['pamong_ketahui']        = Pamong::selectData()->where(['pamong_id' => $pamong_ketahui ?: $ttd['pamong_ketahui']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ketahui'];
         $data['aksi']                  = 'cetak';
         $data['file']                  = 'Lembar Disposisi Surat Masuk';
         $data['isi']                   = 'admin.surat_masuk.disposisi';

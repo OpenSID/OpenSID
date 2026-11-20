@@ -723,10 +723,10 @@ class Surat_dinas_arsip extends Admin_Controller
         view('admin.surat_dinas.arsip.graph', $data);
     }
 
-    public function unduh($tipe, $id, $preview = false): void
+    public function unduh($tipe, $id, $preview = false)
     {
         if ($tipe == 'tinymce') {
-            $this->tinymce->cetak_surat_dinas($id);
+            return $this->tinymce->cetak_surat_dinas($id);
         }
     }
 

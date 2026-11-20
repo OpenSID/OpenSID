@@ -105,6 +105,20 @@
       0 => 'STS\\ZipStream\\ZipStreamServiceProvider',
     ),
   ),
+  'yajra/laravel-datatables-buttons' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Yajra\\DataTables\\ButtonsServiceProvider',
+    ),
+  ),
+  'yajra/laravel-datatables-html' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Yajra\\DataTables\\HtmlServiceProvider',
+    ),
+  ),
   'yajra/laravel-datatables-oracle' => 
   array (
     'aliases' => 

@@ -54,12 +54,29 @@ class KeywordAnalyzer extends AbstractAnalyzer
         'pinjaman_online',
     ];
 
+    /**
+     * Keyword dengan keyakinan sangat tinggi bahwa konten adalah spam.
+     * Satu kemunculan saja cukup untuk menaikkan skor melampaui threshold.
+     */
+    private const HIGH_CONFIDENCE_KEYWORDS = [
+        'spinjam', 'spaylater', 'shopee paylater', 'pinjaman shopee',
+        'kredit shopee', 'pinjol shopee', 'cair shopee',
+        'pinjol', 'pinjaman online', 'akulaku', 'kredivo', 'pinjamflexi', 'tunaiku',
+        'call center', 'customer service',
+        'kreditpintar', 'kredit pintar',
+    ];
+
+    private const HIGH_CONFIDENCE_BONUS = 50;
+
     private const KEYWORDS = [
         'pinjaman_online' => [
             'pinjamflexi', 'akulaku', 'kredivo', 'tunaiku',
             'pinjaman online', 'pinjol', 'cicilan', 'kredit tanpa',
             'uang cepat', 'uang instan', 'dana tunai', 'tunai cepat',
             'modal usaha', 'investasi menguntungkan',
+            'spinjam', 'spaylater', 'shopee paylater', 'pinjaman shopee',
+            'kredit shopee', 'pinjol shopee', 'cair shopee',
+            'kreditpintar', 'kredit pintar',
         ],
         'judi_gambling' => [
             'togel', 'slot online', 'situs judi', 'bandar togel',
@@ -77,6 +94,9 @@ class KeywordAnalyzer extends AbstractAnalyzer
         'phishing' => [
             'klik link berikut', 'konfirmasi identitas',
             'verifikasi akun', 'reset password anda', 'ubah password anda',
+        ],
+        'layanan_spam' => [
+            'call center', 'customer service',
         ],
     ];
 
@@ -126,11 +146,24 @@ class KeywordAnalyzer extends AbstractAnalyzer
             }
         }
 
+        // Bonus keyakinan tinggi — keyword seperti "spinjam", "pinjol", merek
+        // pinjol tertentu sudah cukup untuk menganggap konten sebagai spam.
+        $highConfidenceBonus = 0;
+
+        foreach ($found as $keywords) {
+            foreach ($keywords as $keyword) {
+                if (in_array($keyword, self::HIGH_CONFIDENCE_KEYWORDS, true)) {
+                    $highConfidenceBonus = self::HIGH_CONFIDENCE_BONUS;
+                    break 2;
+                }
+            }
+        }
+
         // Bonus khusus jika pinjaman_online terdeteksi (high-risk category)
         $pinjamanOnlineBonus = 0;
 
         return $this->result(
-            rawScore: $baseScore + $bonusScore + $highRiskBonus + $pinjamanOnlineBonus,
+            rawScore: $baseScore + $bonusScore + $highRiskBonus + $highConfidenceBonus + $pinjamanOnlineBonus,
             metadata: [
                 'categories'            => array_keys($found),
                 'category_count'        => $categoryCount,
@@ -138,6 +171,7 @@ class KeywordAnalyzer extends AbstractAnalyzer
                 'total'                 => $totalFound,
                 'bonus'                 => $bonusScore,
                 'high_risk_bonus'       => $highRiskBonus,
+                'high_confidence_bonus' => $highConfidenceBonus,
                 'pinjaman_online_bonus' => $pinjamanOnlineBonus,
             ],
         );

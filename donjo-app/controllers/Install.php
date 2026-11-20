@@ -346,9 +346,8 @@ class Install extends CI_Controller
 
         $db = '$db';
 
-        $this->config->set_item(
-            'database',
-            <<<EOS
+        config([
+            'installer.database' => <<<EOS
                 <?php
                 // -------------------------------------------------------------------------
                 //
@@ -379,7 +378,7 @@ class Install extends CI_Controller
                     // PDO::ATTR_EMULATE_PREPARES => true,
                 ];
                 EOS
-        );
+        ]);
 
         return [
             'dsn'      => '',

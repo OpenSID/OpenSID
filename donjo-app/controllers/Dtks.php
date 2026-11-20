@@ -155,11 +155,11 @@ class Dtks extends Admin_Controller
                             'url'         => '#',
                             'icon'        => 'fa fa-trash',
                             'judul'       => 'Hapus Data',
-                            'type'        => 'bg-maroon',
+                            'type'        => 'btn-hapus bg-maroon',
                             'modalTarget' => 'modal-confirm-delete-dtks',
                             'buttonOnly'  => true,
                             'modal'       => true,
-                            'attributes'  => ['data-id' => $row->id],
+                            'attribut'    => 'data-id=' . $row->id,
                         ])->render();
                     }
 
@@ -437,7 +437,13 @@ class Dtks extends Admin_Controller
     {
         isCan('h');
 
-        ModelDtks::find($id)->delete();
+        $dtks = ModelDtks::find($id);
+
+        if (! $dtks) {
+            return json(['message' => 'Formulir Tidak ditemukan'], 404);
+        }
+
+        $dtks->delete();
 
         return json(['message' => 'Berhasil'], 200);
     }

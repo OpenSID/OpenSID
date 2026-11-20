@@ -156,11 +156,9 @@ final class OptionallyUnqualifiedNamedObjectSet implements ObjectSet
         unset($this->elementPositionsByKey[$key]);
 
         foreach ($this->elementPositionsByKey as $elementKey => $elementPosition) {
-            if ($elementPosition <= $position) {
-                continue;
+            if ($elementPosition > $position) {
+                $this->elementPositionsByKey[$elementKey]--;
             }
-
-            $this->elementPositionsByKey[$elementKey]--;
         }
     }
 

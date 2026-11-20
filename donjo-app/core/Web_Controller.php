@@ -58,7 +58,6 @@ use Modules\Kehadiran\Models\HariLibur;
 use Modules\Kehadiran\Models\JamKerja;
 use App\Services\Penjaga\PenjagaPermintaan;
 use Modules\Pelanggan\Services\PelangganService;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -70,7 +69,6 @@ class Web_Controller extends MY_Controller implements HasMiddleware
     {
         parent::__construct();
         $this->header = identitas();
-        $this->load->helper('theme');
 
         theme_active();
 
@@ -192,17 +190,19 @@ class Web_Controller extends MY_Controller implements HasMiddleware
 
     public function pemesanan(): void
     {
-        if (empty(app('ci')->header['desa'])) {
-            app('ci')->header['desa'] = collect(identitas())->toArray();
+        if (empty($this->header['desa'])) {
+            $this->header['desa'] = collect(identitas())->toArray();
         }
 
-        $pemesanan = cache()->remember('tema_premium', 60 * 60 * 24 * 7, static function () {
-            $data = app('ci')->cache->file->get('status_langganan');
+        $controller = $this->controller;
+
+        $pemesanan = cache()->remember('tema_premium', 60 * 60 * 24 * 7, function () use ($controller) {
+            $data = cache()->store('subscription')->get('status_langganan');
 
             if (empty($data) || empty($data->body)) {
-                app('ci')->header['perbaharui_langganan'] = true;
+                $this->header['perbaharui_langganan'] = true;
                 app(\App\Services\Kapabilitas\PerbaruiLangganan::class)->refresh();
-                $data = app('ci')->cache->file->get('status_langganan');
+                $data = cache()->store('subscription')->get('status_langganan');
             }
 
             if (empty($data->body->pemesanan)) {

@@ -2,16 +2,16 @@
 
 @include('admin.layouts.components.asset_datatables')
 @section('title')
-    <h1>
-        <h1>Peta Wilayah {{ $nama_wilayah }}</h1>
+    <h1 class="text-truncate" style="max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Peta Wilayah {{ $nama_wilayah }}">
+        Peta Wilayah {{ $nama_wilayah }}
     </h1>
 @endsection
 
 @section('breadcrumb')
     @foreach ($breadcrumb as $tautan)
-        <li><a href="{{ $tautan['link'] }}"> {{ $tautan['judul'] }}</a></li>
+        <li><a href="{{ $tautan['link'] }}" class="text-truncate" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle;" title="{{ $tautan['judul'] }}"> {{ $tautan['judul'] }}</a></li>
     @endforeach
-    <li class="active">Peta Wilayah {{ $nama_wilayah }}</li>
+    <li class="active text-truncate" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle;" title="Peta Wilayah {{ $nama_wilayah }}">Peta Wilayah {{ $nama_wilayah }}</li>
 @endsection
 
 @section('content')

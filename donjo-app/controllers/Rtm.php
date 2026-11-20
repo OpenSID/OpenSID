@@ -51,6 +51,7 @@ use App\Models\Wilayah;
 use App\Services\DtksService;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use OpenSpout\Reader\XLSX\Reader;
 
@@ -97,7 +98,7 @@ class Rtm extends Admin_Controller
             'wilayah'         => Wilayah::treeAccess(),
             'judul_statistik' => $this->judulStatistik,
             'filterColumn'    => $this->filterColumn,
-            'formatImpor'     => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-rtm.xlsx')),
+            'formatImpor'     => URL::signedRoute('storage.desa', ['path' => 'impor/format-impor-rtm.xlsx']),
         ];
         view('admin.penduduk.rtm.index', $data);
     }
@@ -686,7 +687,7 @@ class Rtm extends Admin_Controller
     public function datables_anggota($id_pend = null)
     {
         if ($this->input->is_ajax_request()) {
-            $keluarga = null;
+            $keluarga = [];
             $penduduk = Penduduk::with(['keluarga', 'keluarga.anggota'])
                 ->find($id_pend);
 

@@ -45,6 +45,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -129,10 +132,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @method static Builder<static>|Artikel whereTipe($value)
  * @method static Builder<static>|Artikel whereUrut($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Artikel withoutConfigId($configId = '')
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @mixin \Eloquent
  */
 class Artikel extends BaseModel
 {
+    use LogsActivity;
     use WilayahNull;
 
     public const ENABLE              = 1;
@@ -221,6 +227,39 @@ class Artikel extends BaseModel
             static::deleteFile($model, 'gambar2', true);
             static::deleteFile($model, 'gambar3', true);
         });
+    }
+
+    public function tapActivity(Activity $activity, string $eventName): void
+    {
+        $request = request();
+
+        $activity->properties = $activity->properties->merge([
+            'ip'         => $request->ip(),
+            'url'        => $request->fullUrl(),
+            'method'     => $request->method(),
+            'user_agent' => $request->userAgent(),
+        ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('Artikel')
+            ->setDescriptionForEvent(fn ($event) => sprintf(
+                'Artikel dengan judul "%s" telah di%s',
+                $this->judul ?? 'tidak diketahui',
+                match ($event) {
+                    'created' => 'buat',
+                    'updated' => 'ubah',
+                    'deleted' => 'hapus',
+                    default   => $event,
+                }
+            ))
+            ->logAll()
+            ->logOnlyDirty();
     }
 
     public static function deleteFile($model, ?string $file, $deleting = false): void

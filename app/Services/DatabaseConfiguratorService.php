@@ -44,8 +44,8 @@ use Illuminate\Support\Facades\DB;
 /**
  * Service untuk konfigurasi database.
  *
- * Menggunakan CI3 config system (sama dengan Installer)
- * karena folder_desa() membaca dari config_item('database').
+ * Menggunakan Laravel config system (sama dengan Installer)
+ * karena folder_desa() membaca dari config('installer.database').
  *
  * Bisa digunakan oleh:
  * - Installer (Install controller)
@@ -95,19 +95,19 @@ class DatabaseConfiguratorService
     }
 
     /**
-     * Update konfigurasi database di CI3 config dan Laravel config.
+     * Update konfigurasi database di Laravel config.
      *
-     * Menggunakan CI3's config system (sama dengan Installer):
-     * - CI3 config untuk config_item('database') dan folder_desa()
-     * - Laravel config untuk DB::reconnect()
+     * Menggunakan Laravel config system (sama dengan Installer):
+     * - config('installer.database') untuk folder_desa()
+     * - config('database.connections.default') untuk DB::reconnect()
      */
     public function updateConfig(string $host, int $port, string $database, string $username, string $password): void
     {
-        // 1. Set CI3 config (untuk config_item() dan folder_desa())
-        $CI = &get_instance();
-        $CI->config->set_item('database', $this->generateDatabaseContent($host, $port, $database, $username, $password));
+        // 1. Set Laravel config 'installer.database' (untuk folder_desa() dan DB::reconnect())
+        // folder_desa() membaca dari config('installer.database') saat menulis desa/config/database.php
+        config(['installer.database' => $this->generateDatabaseContent($host, $port, $database, $username, $password)]);
 
-        // 2. Set Laravel config (untuk DB::reconnect())
+        // 2. Set Laravel connection config (untuk DB::reconnect())
         // Update connection 'default' karena DB::reconnect('default') menggunakannya
         config()->set('database.connections.default', [
             'driver'    => 'mysql',
@@ -142,11 +142,11 @@ class DatabaseConfiguratorService
      * Setup lengkap: update config dan test koneksi.
      *
      * File database.php akan ditulis oleh folder_desa()
-     * menggunakan config_item('database') yang sudah di-update.
+     * menggunakan config('installer.database') yang sudah di-update.
      */
     public function setup(string $host, int $port, string $database, string $username, string $password): bool
     {
-        // 1. Update CI3 config
+        // 1. Update Laravel config
         $this->updateConfig($host, $port, $database, $username, $password);
 
         // 2. Test koneksi

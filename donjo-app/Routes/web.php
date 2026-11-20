@@ -54,7 +54,6 @@ Route::get('sitemap', 'Sitemap@index');
 Route::get('feed.xml', 'Feed@index');
 Route::get('feed', 'Feed@index');
 
-Route::get('/arsip/{p?}', 'First@arsip');
 Route::post('/add_comment/{id?}', 'First@add_comment');
 Route::get('/load_apbdes', 'First@load_apbdes');
 Route::get('/load_aparatur_desa', 'First@load_aparatur_desa');
@@ -70,13 +69,7 @@ Route::group('/first', static function (): void {
     Route::get('/get_form_info', 'First@get_form_info')->name('first.get_form_info');
 });
 
-// Dokumen web
-Route::group('/dokumen_web', static function (): void {
-    Route::get('/tampil/{slug?}', 'Dokumen_web@tampil');
-    Route::get('/unduh/{slug?}', 'Dokumen_web@unduh');
-    Route::get('/unduh_berkas/{id_dokumen}', 'Dokumen_web@unduh_berkas');
-});
-
+// Statistik web
 Route::group('/statistik_web', static function (): void {
     Route::get('/load_chart_gis/{lap?}', 'Statistik_web@load_chart_gis');
     Route::get('/get_data_stat/{data?}/{lap?}', 'Statistik_web@get_data_stat');
@@ -90,10 +83,6 @@ Route::group('/statistik_web', static function (): void {
     Route::get('/chart_gis_kadus/{id_kepala?}', 'Statistik_web@chart_gis_kadus');
     Route::get('/load_kadus/{tipe?}/{lap?}', 'Statistik_web@load_kadus');
 });
-
-// Tampil assets
-Route::get('/tampil/{slug?}', 'Dokumen_web@tampil');
-Route::get('/unduh/{slug?}', 'Dokumen_web@unduh');
 
 // Koneksi database
 Route::get('koneksi-database', 'Koneksi_database@index');
@@ -120,10 +109,6 @@ Route::group('notif_web', static function (): void {
     Route::get('inbox', 'Notif_web@inbox')->name('fweb.notif_web.inbox');
     Route::get('surat_perlu_perhatian', 'Notif_web@surat_perlu_perhatian')->name('fweb.notif_web.surat_perlu_perhatian');
 });
-
-Route::get('theme_asset/{theme}', 'Asset@serveTheme');
-Route::get('module_asset/{module}', 'Asset@serveModule');
-Route::get('storage-desa', 'ServeFileController@index')->name('storage.desa');
 
 // Include all routes in folder Web
 foreach (glob(APPPATH . 'Routes/Web/*.php') as $file) {

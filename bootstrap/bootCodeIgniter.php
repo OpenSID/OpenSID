@@ -442,16 +442,6 @@ $EXT = $GLOBALS['EXT'] = &load_class('Hooks', 'core');
 
 /**
  * ------------------------------------------------------
- *  Is there a "pre_system" hook?
- * ------------------------------------------------------
- */
-$app->rebinding('request', function ($app, $request) use ($EXT) {
-    $EXT->setRequest($request);
-    $EXT->call_hook('pre_system');
-});
-
-/**
- * ------------------------------------------------------
  *  Instantiate the config class
  * ------------------------------------------------------
  *
@@ -593,11 +583,23 @@ require_once APPPATH.'core/Controller.php';
  *
  * Returns current CI instance object
  *
- * @return CI_Controller
+ * @return \CI_Controller
  */
 function &get_instance()
 {
     return CI_Controller::get_instance();
+}
+
+/**
+ * Returns the framework singleton
+ *
+ * (Alias of &get_instance() CodeIgniter function)
+ *
+ * @return \CI_Controller
+ */
+function &ci()
+{
+    return get_instance();
 }
 
 if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php')) {

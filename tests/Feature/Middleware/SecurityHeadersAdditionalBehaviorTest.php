@@ -188,4 +188,26 @@ class SecurityHeadersAdditionalBehaviorTest extends TestCase
         $response->assertHeader('Cross-Origin-Resource-Policy', 'same-origin');
         $response->assertHeader('Cross-Origin-Opener-Policy', 'same-origin');
     }
+
+    public function test_header_multiline_dinormalisasi_sebelum_diset_ke_response(): void
+    {
+        $this->bindEmptyThemePath();
+
+        Config::set('security.enabled', true);
+        Config::set('security.headers', [
+            'Content-Security-Policy' => "default-src 'self';\n\nscript-src 'self' 'unsafe-inline'\n    cdn.example.test;",
+        ]);
+
+        $this->registerRoute('/normalize-header-test', function () {
+            return response('OK');
+        });
+
+        $response = $this->get('/normalize-header-test');
+
+        $response->assertOk();
+        $response->assertHeader(
+            'Content-Security-Policy',
+            "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.example.test;"
+        );
+    }
 }

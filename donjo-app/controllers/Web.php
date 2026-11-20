@@ -43,6 +43,8 @@ use App\Models\Artikel;
 use App\Models\Kategori;
 use App\Models\Menu;
 use App\Models\UserGrup;
+use App\Rules\CaptchaRule;
+use App\Rules\NotSpam;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
 
@@ -230,6 +232,12 @@ class Web extends Admin_Controller
             redirect_with('error', 'Judul atau isi harus diisi', ci_route('web', $cat));
         }
 
+        $this->validated(request(), [
+            'judul'        => ['required', 'string', 'min:5', 'max:255', 'not_regex:/<[^>]*>/', new NotSpam(threshold: 65)],
+            'isi'          => ['required', 'string', 'min:10', new NotSpam(threshold: 70)],
+            'captcha_code' => ['required', new CaptchaRule()],
+        ]);
+
         // Batasi judul menggunakan teks polos
         $data['judul']    = judul($data['judul']);
         $data['tampilan'] = (int) $data['tampilan'];
@@ -331,6 +339,12 @@ class Web extends Admin_Controller
         if (empty($data['judul']) || empty($data['isi'])) {
             redirect_with('error', 'Judul atau isi harus diisi', ci_route('web', $cat));
         }
+
+        $this->validated(request(), [
+            'judul'        => ['required', 'string', 'min:5', 'max:255', 'not_regex:/<[^>]*>/', new NotSpam(threshold: 65)],
+            'isi'          => ['required', 'string', 'min:10', new NotSpam(threshold: 70)],
+            'captcha_code' => ['required', new CaptchaRule()],
+        ]);
 
         // Batasi judul menggunakan teks polos
         $data['judul']    = judul($data['judul']);

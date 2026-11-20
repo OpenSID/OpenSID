@@ -115,13 +115,10 @@ API route         → Laravel        → (none)                 → N/A
 
 ```php
 protected $middlewareGroups = [
-    'web' => [
-        \App\Http\Middleware\EncryptCookies::class,
-        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \App\Http\Middleware\VerifyCsrfToken::class,  // ← Laravel handles web routes
+    'api' => [
+        \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        // ✅ NO CSRF for API (stateless authentication)
     ],
 
     'codeigniter' => [
@@ -130,15 +127,19 @@ protected $middlewareGroups = [
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \App\Http\Middleware\AuthenticateSession::class,
         \App\Http\Middleware\CodeIgniterResponseMiddleware::class,
         // ✅ NO VerifyCsrfToken middleware
         // ✅ CI3 handles its own CSRF via Security class
     ],
 
-    'api' => [
-        \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+    'web' => [
+        \App\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,  // ← Laravel handles web routes
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        // ✅ NO CSRF for API (stateless authentication)
     ],
 ];
 ```
@@ -276,6 +277,10 @@ if (!$laravelCsrfValid && !$ciCsrfValid) {
 
 public function boot(): void
 {
+    RateLimiter::for('api', function (Request $request) {
+        return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+    });
+
     $this->routes(function () {
         // API: No CSRF
         Route::middleware('api')
@@ -286,11 +291,34 @@ public function boot(): void
         Route::middleware('web')
             ->group(base_path('routes/web.php'));
         
-        // CI: No Laravel CSRF (CI handles own)
-        if (!$this->isMatchedRouteLaravel()) {
+        // CI: No Laravel CSRF (CI handles own) via request rebinding
+        $this->app->rebinding('request', function ($app, $request) {
+            if ($this->isMatchedRouteLaravel($request)) {
+                return;
+            }
+
+            // pre_system sudah dijalankan oleh rebinding CodeIgniterBootstrap
+            // (1x per request), sehingga current route sudah ter-resolve
+            if (! $this->isMatchedRouteCodeIgniter()) {
+                return;
+            }
+
+            $this->extendControllerDispatcher();
+            $this->extendRedirectInstance();
+            $this->extendViewInstance();
+            $this->configureConfig();
+
+            global $URI, $RTR, $OUT, $SEC, $IN;
+
+            $URI->setRequest($request);
+            $RTR->setRequest($request);
+            $OUT->setRequest($request);
+            $SEC->setRequest($request);
+            $IN->setRequest($request);
+
             Route::middleware('codeigniter')
                 ->group(base_path('bootstrap/routeCodeIgniter.php'));
-        }
+        });
     });
 }
 ```
@@ -621,7 +649,7 @@ public function token()
 
 ## References
 
-- [Laravel CSRF Protection](https://laravel.com/docs/10.x/csrf)
+- [Laravel CSRF Protection](https://laravel.com/docs/11.x/csrf)
 - [CI Security Class](https://codeigniter.com/userguide3/libraries/security.html)
 - [OWASP CSRF Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
 

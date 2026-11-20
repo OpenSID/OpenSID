@@ -153,10 +153,11 @@ class Permissions extends \Google\Service\Resource
    *
    * @opt_param string includePermissionsForView Specifies which additional view's
    * permissions to include in the response. Only `published` is supported.
-   * @opt_param int pageSize The maximum number of permissions to return per page.
-   * When not set for files in a shared drive, at most 100 results will be
-   * returned. When not set for files that are not in a shared drive, the entire
-   * list will be returned.
+   * @opt_param int pageSize The maximum number of permissions to return. The
+   * service may return fewer than this value. If unspecified, at most 100
+   * permissions will be returned for shared drives, and the entire list of
+   * permissions for non-shared drives. The maximum value is 100; values above 100
+   * will be coerced to 100.
    * @opt_param string pageToken The token for continuing a previous list request
    * on the next page. This should be set to the value of `nextPageToken` from the
    * previous response.

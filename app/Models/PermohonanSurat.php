@@ -85,6 +85,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @method static Builder<static>|PermohonanSurat whereSyarat($value)
  * @method static Builder<static>|PermohonanSurat whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PermohonanSurat withoutConfigId($configId = '')
+ * @method static Builder<static>|PermohonanSurat milikPenduduk(int $idPemohon)
  * @mixin \Eloquent
  */
 class PermohonanSurat extends BaseModel
@@ -237,6 +238,16 @@ class PermohonanSurat extends BaseModel
     public function scopeBaru($query)
     {
         return $query->where('status', self::SEDANG_DIPERIKSA);
+    }
+
+    /**
+     * Scope query untuk membatasi permohonan surat hanya milik penduduk tertentu.
+     *
+     * @param Builder $query
+     */
+    public function scopeMilikPenduduk($query, int $idPemohon)
+    {
+        return $query->where('id_pemohon', $idPemohon);
     }
 
     /**

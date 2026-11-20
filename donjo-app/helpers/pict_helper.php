@@ -35,79 +35,6 @@
  *
  */
 
-define('FOTO_DEFAULT_PRIA', base_url('assets/images/pengguna/kuser.png'));
-define('FOTO_DEFAULT_WANITA', base_url('assets/images/pengguna/wuser.png'));
-
-define('MIME_TYPE_SIMBOL', serialize([
-    'image/png',
-    'image/x-png',
-]));
-
-define('EXT_SIMBOL', serialize([
-    '.png',
-]));
-
-define('MIME_TYPE_DOKUMEN', serialize([
-    'application/x-download',
-    'application/pdf',
-    'application/ppt',
-    'application/pptx',
-    'application/excel',
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'text/rtf',
-    'application/powerpoint',
-    'application/vnd.ms-powerpoint',
-    'application/vnd.ms-excel',
-    'application/msexcel',
-]));
-
-define('EXT_DOKUMEN', serialize([
-    '.pdf',
-    '.ppt',
-    '.pptx',
-    '.pps',
-    '.ppsx',
-    '.doc',
-    '.docx',
-    '.rtf',
-    '.xls',
-    '.xlsx',
-]));
-
-define('MIME_TYPE_GAMBAR', serialize([
-    'image/jpeg',
-    'image/pjpeg',
-    'image/png',
-    'image/x-png',
-    'image/gif',
-    'image/webp',
-]));
-
-define('EXT_GAMBAR', serialize([
-    '.jpg',
-    '.jpeg',
-    '.png',
-    '.gif',
-    '.webp',
-]));
-
-define('MIME_TYPE_ARSIP', serialize([
-    'application/rar',
-    'application/x-rar',
-    'application/x-rar-compressed',
-    'application/octet-stream',
-    'application/zip',
-    'application/x-zip',
-    'application/x-zip-compressed',
-]));
-
-define('EXT_ARSIP', serialize([
-    '.zip',
-    '.rar',
-]));
-
 /**
  * Tambahkan suffix unik ke nama file dan batasi panjang total nama file jika diperlukan.
  *
@@ -154,44 +81,6 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter =
     $base = $urlEncode ? urlencode($namaFileUnik) : $namaFileUnik;
 
     return $base . $delimiterUniqueKey . $uniqueKey . '.' . $ekstensiFile;
-}
-
-/**
- * Ambil foto profil berdasarkan parameter
- */
-function AmbilFoto(?string $foto, string $ukuran = 'kecil_', ?string $sex = '1', string $lokasi = LOKASI_USER_PICT): string
-{
-    $sex       = $sex ?: '1';
-    $file_foto = Foto_Default($foto, $sex);
-
-    if ($foto == $file_foto) {
-        $ukuran    = ($ukuran == 'kecil_') ? 'kecil_' : '';
-        $file_foto = base_url($lokasi . $ukuran . $foto);
-
-        if (! file_exists(FCPATH . $lokasi . $ukuran . $foto)) {
-            $file_foto = Foto_Default(null, $sex);
-        }
-    }
-
-    return $file_foto;
-}
-
-/**
- * Ambil foto default berdasarkan parameter
- */
-function Foto_Default(?string $foto, ?string $sex = '1'): string
-{
-    if (! in_array($foto, ['kuser.png', 'wuser.png']) && ($foto !== null && $foto !== '' && $foto !== '0')) {
-        return $foto;
-    }
-    if (($foto == 'kuser.png') || $sex == 1) {
-        return FOTO_DEFAULT_PRIA;
-    }
-    if (($foto == 'wuser.png') || $sex == 2) {
-        return FOTO_DEFAULT_WANITA;
-    }
-
-    return FOTO_DEFAULT_PRIA;
 }
 
 /**
@@ -243,29 +132,14 @@ function AmbilGaleri(string $foto, string $ukuran)
         return get_google_drive_direct_url($foto);
     }
 
-    return base_url(LOKASI_GALERI . $ukuran . '_' . $foto);
+    $relatif = LOKASI_GALERI . $ukuran . '_' . $foto;
+
+    return versi_foto($relatif, base_url($relatif));
 }
 
-// $file_upload = $_FILES['<lokasi>']
-function TipeFile(array $file_upload)
-{
-    $lokasi_file = $file_upload['tmp_name'];
-    if (empty($lokasi_file)) {
-        return '';
-    }
-    if (isPHP($file_upload['tmp_name'], $file_upload['name'])) {
-        return 'application/x-php';
-    }
-    if (function_exists('finfo_open')) {
-        $finfo     = finfo_open(FILEINFO_MIME_TYPE);
-        $tipe_file = finfo_file($finfo, $lokasi_file);
-        finfo_close($finfo);
-    } else {
-        $tipe_file = $file_upload['type'];
-    }
-
-    return $tipe_file;
-}
+// TipeFile() dan DeteksiMimeType() dipindahkan ke app/Helpers/pict_helper.php
+// (di-autoload composer) agar bisa dipakai tanpa memuat helper CI ini,
+// dan agar lebih mudah diuji lewat unit test.
 
 // $file_upload = $_FILES['<lokasi>']
 function UploadError(array $file_upload): bool
@@ -328,7 +202,9 @@ function AmbilFotoArtikel(string $foto, string $ukuran)
         return get_google_drive_direct_url($foto);
     }
 
-    return base_url(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto);
+    $relatif = LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto;
+
+    return versi_foto($relatif, base_url($relatif));
 }
 
 function UploadArtikel(string $fupload_name, $gambar): bool

@@ -82,7 +82,7 @@ class Plugin extends Admin_Controller
             'paket_bawaan'      => json_encode(MODUL_BAWAAN),
             'token_layanan'     => setting('layanan_opendesa_token'),
             'default_thumbnail' => URL::signedRoute('storage.desa', [
-                'path'        => 'images/404-image-not-found.jpg',
+                'path'        => 'upload/404-image-not-found.jpg',
                 'default'     => 'images/404-image-not-found.jpg',
                 'defaultDisk' => 'assets',
             ]),
@@ -256,7 +256,8 @@ class Plugin extends Admin_Controller
 
             return redirect_with('error', $e->getMessage(), 'plugin');
         } catch (Exception $e) {
-            log_message('error', 'Gagal memasang paket (unexpected): ' . $e->getMessage());
+            logger()->error('Gagal memasang paket (unexpected): ' . $e->getMessage());
+            logger()->error($e);
 
             return redirect_with('error', 'Terjadi kesalahan tidak terduga saat memasang paket.', 'plugin');
         }
@@ -430,6 +431,15 @@ class Plugin extends Admin_Controller
         }
 
         $subfolder = rtrim($zip->getNameIndex(0), '/');
+
+        // Validasi setiap nama entry untuk mencegah path traversal RCE
+        if (($entry = validate_zip_entries($zip)) !== true) {
+            $zip->close();
+            @unlink($zipFilePath);
+
+            throw new RuntimeException("Gagal mengekstrak paket {$name}: file mengandung path ilegal ({$entry}).");
+        }
+
         $sourceDir = $this->modulesDirectory . $subfolder;
         $zip->extractTo($this->modulesDirectory);
         $zip->close();

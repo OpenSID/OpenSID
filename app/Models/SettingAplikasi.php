@@ -216,6 +216,17 @@ class SettingAplikasi extends BaseModel
 
         cache()->forget('setting_aplikasi');
 
+        // Buang cache in-memory resolveSetting() pada setiap perubahan data
+        // (update/delete langsung lewat model) agar setting() tidak membaca
+        // nilai usang dalam request yang sama.
+        static::updated(static function (): void {
+            app(\App\Repositories\SettingAplikasiRepository::class)->forgetResolvedSetting();
+        });
+
+        static::deleted(static function (): void {
+            app(\App\Repositories\SettingAplikasiRepository::class)->forgetResolvedSetting();
+        });
+
         static::updating(static function ($model): void {
             if (is_string($model->value)) {
                 static::deleteFile($model, $model->value);
@@ -283,7 +294,7 @@ class SettingAplikasi extends BaseModel
         $value = $this->attributes['value'] ?? null;
 
         if ($jenis == 'select-simbol') {
-            return base_url(LOKASI_SIMBOL_LOKASI . $value);
+            return default_file(LOKASI_SIMBOL_LOKASI . $value);
         }
 
         if ($jenis == 'input-number' && is_numeric($value)) {

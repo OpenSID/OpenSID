@@ -1,5 +1,5 @@
 @php
-    $themeVersion = 'v2409.0.0';
+    $themeVersion = theme_version('esensi');
     $nama_desa = ucwords(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']);
 @endphp
 <!DOCTYPE html>

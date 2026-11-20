@@ -115,6 +115,7 @@ Route::group('periksa', static function (): void {
     Route::post('/datacluster', 'Periksa@datacluster')->name('periksa.datacluster');
     Route::post('/menu_tanpa_parent', 'Periksa@menuTanpaParent')->name('periksa.menu_tanpa_parent');
     Route::post('suplemen_terdata', 'Periksa@suplemenTerdata')->name('periksa.suplemen_terdata');
+    Route::post('perbaiki-keuangan-template-item', 'Periksa@perbaikiKeuanganTemplateItem')->name('periksa.perbaiki.keuangan_template_item');
 });
 Route::group('periksaKlasifikasiSurat', static function (): void {
     Route::get('/hapus', 'PeriksaKlasifikasiSurat@hapus')->name('periksaKlasifikasiSurat.hapus');
@@ -736,16 +737,6 @@ Route::group('keluar', static function (): void {
 });
 
 // Layanan Surat > Daftar Persyaratan
-Route::group('surat_mohon', static function (): void {
-    Route::get('/', 'Surat_mohon@index')->name('surat_mohon.index');
-    Route::post('/datatables', 'Surat_mohon@datatables')->name('surat_mohon.datatables');
-    Route::get('/form/{id?}', 'Surat_mohon@form')->name('surat_mohon.form');
-    Route::post('/insert', 'Surat_mohon@insert')->name('surat_mohon.insert');
-    Route::post('/update/{id?}', 'Surat_mohon@update')->name('surat_mohon.update');
-    Route::get('/delete/{id?}', 'Surat_mohon@delete')->name('surat_mohon.delete');
-    Route::post('/deleteAll', 'Surat_mohon@deleteAll')->name('surat_mohon.delete_all');
-});
-
 // Surat Dinas > Pengaturan Surat Dinas
 Route::group('surat_dinas', static function (): void {
     Route::get('', 'Surat_dinas@index')->name('surat_dinas.index');
@@ -1707,7 +1698,7 @@ Route::group('database', static function (): void {
     Route::get('/inkremental_download', 'Database@inkremental_download')->name('database.inkremental_download');
     Route::get('/inkremental_delete/{id?}', 'Database@inkremental_delete')->name('database.inkremental_delete');
     Route::post('/restore', 'Database@restore')->name('database.restore');
-    Route::get('/acak', 'Database@acak')->name('database.acak');
+    // Tab Acak Data kini murni Laravel-native — lihat routes/admin.php & AcakController.
     Route::get('/mutakhirkan_data_server', 'Database@mutakhirkan_data_server')->name('database.mutakhirkan_data_server');
     Route::post('/proses_sinkronkan', 'Database@proses_sinkronkan')->name('database.proses_sinkronkan');
     Route::get('/batal_backup', 'Database@batal_backup')->name('database.batal_backup');
@@ -1715,6 +1706,10 @@ Route::group('database', static function (): void {
     Route::post('/verifikasi_otp', 'Database@verifikasi_otp')->name('database.verifikasi_otp');
     Route::post('/upload_restore', 'Database@upload_restore')->name('database.upload_restore');
     Route::get('/batal_restore', 'Database@batal_restore')->name('database.batal_restore');
+    Route::get('/status_restore', 'Database@status_restore')->name('database.status_restore');
+    Route::get('/bersih-folder', 'Database@bersih_folder')->name('database.bersih_folder');
+    Route::post('/bersih-folder/hapus', 'Database@hapus_bersih_folder')->name('database.bersih_folder.hapus');
+    Route::post('/bersih-folder/simpan', 'Database@simpan_bersih_folder')->name('database.bersih_folder.simpan');
 });
 
 Route::group('multiDB', static function (): void {
@@ -2038,9 +2033,7 @@ Route::group('shortcut', static function (): void {
 Route::group('theme', static function (): void {
     Route::get('/', 'Theme@index')->name('theme.index');
     Route::get('/aktifkan/{id}', 'Theme@aktifkan')->name('theme.aktifkan');
-    Route::get('/unggah', 'Theme@unggah')->name('theme.unggah');
     Route::post('/unduh', 'Theme@unduh')->name('theme.unduh');
-    Route::post('/proses-unggah', 'Theme@proses_unggah')->name('theme.proses-unggah');
     Route::get('/pengaturan/{id?}', 'Theme@pengaturan')->name('theme.pengaturan');
     Route::post('/ubah-pengaturan/{id?}', 'Theme@ubah_pengaturan')->name('theme.ubah-pengaturan');
     Route::get('/salin_config/{id?}', 'Theme@salin_config')->name('theme.salin-config');

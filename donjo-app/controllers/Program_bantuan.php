@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Enums\AktifEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\StatusEnum;
+use App\Enums\StatusDasarEnum;
 use App\Imports\BantuanImports;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
@@ -47,6 +48,7 @@ use App\Models\Kelompok;
 use App\Models\Penduduk;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Row;
@@ -85,7 +87,7 @@ class Program_bantuan extends Admin_Controller
         $data['list_status']  = AktifEnum::all();
         $data['list_sasaran'] = SasaranEnum::all();
         $data['func']         = 'index';
-        $data['formatImpor']  = ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-program-bantuan.xlsx'));
+        $data['formatImpor']  = URL::signedRoute('storage.desa', ['path' => 'impor/format-impor-program-bantuan.xlsx']);
         $data['filterColumn'] = $this->filterColumn;
 
         view('admin.program_bantuan.program', $data);
@@ -364,7 +366,7 @@ class Program_bantuan extends Admin_Controller
         $list_sasaran = array_keys(unserialize(SASARAN));
 
         foreach ($list_sasaran as $sasaran) {
-            $invalid = Bantuan::peserta_tidak_valid($sasaran);
+            $invalid = array_merge($invalid, Bantuan::peserta_tidak_valid($sasaran));
         }
 
         $duplikat     = [];
@@ -406,6 +408,7 @@ class Program_bantuan extends Admin_Controller
                         ->orWhere('nama', 'like', "%{$cari}%");
                 });
             })
+            ->whereNot('status_dasar', StatusDasarEnum::MATI) // Tidak menampilkan penduduk yang sudah mati
             ->whereNotIn('nik', $peserta)
             ->paginate(10);
 
@@ -443,6 +446,7 @@ class Program_bantuan extends Admin_Controller
                 });
             })
             ->whereIn('tweb_penduduk.kk_level', $kk_level)
+            ->whereNot('tweb_penduduk.status_dasar', StatusDasarEnum::MATI) // Tidak menampilkan penduduk yang sudah mati
             ->whereNotIn('keluarga_aktif.no_kk', $peserta)
             ->orderBy('tweb_penduduk.id_kk')
             ->paginate(10);
@@ -469,6 +473,7 @@ class Program_bantuan extends Admin_Controller
                         ->orWhere('id_rtm', 'like', "%{$cari}%");
                 });
             })
+            ->whereNot('status_dasar', StatusDasarEnum::MATI) // Tidak menampilkan penduduk yang sudah mati
             ->whereHas('rtm', static function ($query) use ($peserta): void {
                 $query->whereNotIn('no_kk', $peserta);
             })
@@ -498,6 +503,7 @@ class Program_bantuan extends Admin_Controller
                         ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
                 });
             })
+            ->whereNot('tweb_penduduk.status_dasar', StatusDasarEnum::MATI) // Tidak menampilkan penduduk yang sudah mati
             ->whereNotIn('kelompok.id', $peserta)
             ->paginate(10);
 

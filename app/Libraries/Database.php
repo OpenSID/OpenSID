@@ -44,13 +44,12 @@ use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use App\Services\Penjaga\PenjagaPermintaan;
 
 class Database
 {
     use Migration;
-
-    public \CI_Controller $ci;
 
     public string $minimumVersionBuild = MINIMUM_VERSION_BUILD;
 
@@ -61,7 +60,6 @@ class Database
 
     public function __construct()
     {
-        $this->ci             = app()->make(\CI_Controller::class);
         $this->databaseOption = DB::getConnections()['default']->getConfig();
         $this->databaseName   = $this->databaseOption['database'];
     }
@@ -91,7 +89,7 @@ class Database
                 $lastVersion = 'v' . $lastVersionPremium . '-premium / ' . $lastVersionUmum . '-umum';
             }
 
-            show_error('<h2>OpenSID bisa diupgrade dengan minimal ' . $minVersion . '. Versi terakhir yang digunakan adalah ' . $lastVersion . '.</h2>');
+            throw new \RuntimeException('OpenSID bisa diupgrade dengan minimal ' . $minVersion . '. Versi terakhir yang digunakan adalah ' . $lastVersion . '.');
         }
 
         $migrations = File::files('app/database/migrations');
@@ -112,7 +110,8 @@ class Database
                     $migrateName = $matches[0] ?? null;
                 }
 
-                if ($migrateName && ! isset($migratedDatabase[$migrateName])) {
+                // Jalankan migrasi jika belum pernah dijalankan dan selalu jalankan migrasi default
+                if ($migrateName && (! isset($migratedDatabase[$migrateName]) || in_array($migrateName, $defaultMigrasi, true))) {
                     if ($this->getShowProgress()) {
                         echo json_encode(['message' => 'Jalankan Migrasi_' . $migrateName, 'status' => 0]);
                     }
@@ -120,10 +119,15 @@ class Database
                     if ($this->getShowProgress()) {
                         echo json_encode(['message' => $resultMigration['message'], 'status' => $resultMigration['status'] ? 0 : 500]);
                     }
-                    log_message($resultMigration['status'] ? 'notice' : 'error', $resultMigration['message']);
+                    $resultMigration['status'] ? Log::notice($resultMigration['message']) : Log::error($resultMigration['message']);
 
                     if (isset($resultMigration['exception'])) {
                         logger()->error($resultMigration['exception']);
+                    }
+
+                    // skip update versi untuk migrasi default
+                    if (in_array($migrateName, $defaultMigrasi, true)) {
+                        continue;
                     }
 
                     $this->updateVersi($migrateName);
@@ -132,18 +136,17 @@ class Database
 
             $this->updateVersi(VERSI_DATABASE);
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
+            Log::error($e->getMessage());
             if ($this->getShowProgress()) {
                 echo json_encode(['message' => $e->getMessage(), 'status' => 0]);
             }
         }
 
         // Untuk pembaruan font
-        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
+        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', base_path('desa/upload/fonts'));
 
         // Lengkapi folder desa
         folder_desa();
-        kosongkanFolder(config_item('cache_blade'));
 
         // Clear cache and update settings
         cache()->forget('siappakai');
@@ -153,16 +156,29 @@ class Database
         SettingAplikasi::where('key', '=', 'current_version')->update(['value' => $currentVersion]);
         SettingAplikasi::where(['key' => 'version_build_script'])->update(['value' => array_key_first(VERSION_BUILD)]);
 
-        log_message('notice', 'Versi database sudah terbaru');
+        Log::notice('Versi database sudah terbaru');
         if ($this->getShowProgress()) {
             echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
         }
-        $password = $this->databaseOption['password'];
-        if (strlen((string) $password) < 80 && ! $this->ci->session->has_userdata('instalasi')) {
-            updateConfigFile('password', encrypt($password));
+        // Simpan password DB dalam bentuk terenkripsi jika masih plaintext (< 80 char).
+        // Password kosong dibiarkan kosong — meng-encrypt('') menghasilkan blob non-kosong
+        // yang menimpa setelan "tanpa password" di desa/config/database.php (mis. saat
+        // restore dengan opsi pertahankan kredensial lokal).
+        $password = (string) $this->databaseOption['password'];
+        if ($password !== '' && strlen($password) < 80 && ! session()->has('instalasi')) {
+            $file    = base_path('desa/config/database.php');
+            $pattern = '/(\$db\[\'default\'\]\[\'password\'\]\s*=\s*\'.*\';)/';
+            $newKey  = "\$db['default']['password'] = '" . encrypt($password) . "';";
+            $configContent = file_get_contents($file);
+            if (preg_match($pattern, $configContent)) {
+                $configContent = preg_replace($pattern, $newKey, $configContent);
+            } else {
+                $configContent .= PHP_EOL . $newKey;
+            }
+            file_put_contents($file, $configContent);
         }
 
-        set_session('success', 'Migrasi berhasil dilakukan');
+        session()->flash('success', 'Migrasi berhasil dilakukan');
     }
 
     public function checkMigration($install = false): void

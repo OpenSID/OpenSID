@@ -42,15 +42,14 @@ use Illuminate\Database\Seeder;
 
 class KeuanganTemplateSeeder extends Seeder
 {
-    public function run(): void
+    public static function listData(): array
     {
-        if (KeuanganTemplate::count() === 0) {
-            $keuanganTemplate = [
-                [
-                    'uuid'        => '4',
-                    'parent_uuid' => null,
-                    'uraian'      => 'Pendapatan',
-                ],
+        return [
+            [
+                'uuid'        => '4',
+                'parent_uuid' => null,
+                'uraian'      => 'Pendapatan',
+            ],
                 [
                     'uuid'        => '4.1',
                     'parent_uuid' => '4',
@@ -1176,9 +1175,13 @@ class KeuanganTemplateSeeder extends Seeder
                     'parent_uuid' => '6.2.9',
                     'uraian'      => 'Pengeluaran Pembiayaan Lainnya',
                 ],
-            ];
+        ];
+    }
 
-            foreach ($keuanganTemplate as $template) {
+    public function run(): void
+    {
+        if (KeuanganTemplate::count() === 0) {
+            foreach (static::listData() as $template) {
                 KeuanganTemplate::updateOrCreate(
                     ['uuid' => $template['uuid']],
                     [

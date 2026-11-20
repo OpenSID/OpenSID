@@ -37,7 +37,7 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Artikel;
 
 class Feed
 {
@@ -47,25 +47,37 @@ class Feed
 
     public static function list_feeds()
     {
-        return DB::table('artikel as a')
-            ->select([
-                'a.*',
-                'u.nama as owner',
-                'k.kategori',
-                'k.slug as kat_slug',
-                DB::raw('YEAR(tgl_upload) as thn'),
-                DB::raw('MONTH(tgl_upload) as bln'),
-                DB::raw('DAY(tgl_upload) as hri'),
-            ])
-            ->leftJoin('user as u', 'a.id_user', '=', 'u.id')
-            ->leftJoin('kategori as k', 'a.id_kategori', '=', 'k.id')
-            ->where('a.enabled', static::ENABLE)
-            ->where('a.config_id', identitas('id'))
-            ->where('tgl_upload', '<', DB::raw('NOW()'))
-            ->whereNotIn('a.id_kategori', [static::STATIS, static::AGENDA])
-            ->orderBy('a.tgl_upload', 'DESC')
+        $feeds = Artikel::select([
+            'artikel.*',
+            'user.nama as owner',
+            'k.kategori as kategori_nama',
+            'k.slug as kat_slug',
+        ])
+            ->selectRaw('YEAR(tgl_upload) as thn')
+            ->selectRaw('MONTH(tgl_upload) as bln')
+            ->selectRaw('DAY(tgl_upload) as hri')
+            ->leftJoin('user', 'artikel.id_user', '=', 'user.id')
+            ->leftJoin('kategori as k', 'artikel.id_kategori', '=', 'k.id')
+            ->where('artikel.enabled', static::ENABLE)
+            ->where('tgl_upload', '<', Artikel::raw('NOW()'))
+            ->where(static function ($query) {
+                $query->whereNotIn('artikel.id_kategori', [static::STATIS, static::AGENDA])
+                    ->orWhereNull('artikel.id_kategori');
+            })
+            ->orderBy('artikel.tgl_upload', 'desc')
             ->limit(50)
-            ->get()
-            ->toArray();
+            ->get();
+
+        // Ubah Eloquent collection menjadi array of stdClass objects
+        return $feeds->map(function ($feed) {
+            return (object) array_merge($feed->getAttributes(), [
+                'owner'         => $feed->owner ?? null,
+                'kategori_nama' => $feed->kategori_nama ?? null,
+                'kat_slug'      => $feed->kat_slug ?? null,
+                'thn'           => $feed->thn ?? null,
+                'bln'           => $feed->bln ?? null,
+                'hri'           => $feed->hri ?? null,
+            ]);
+        })->toArray();
     }
 }

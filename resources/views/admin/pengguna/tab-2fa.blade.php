@@ -7,15 +7,22 @@
     {!! form_open_multipart(ci_route('pengguna.update_keamanan'), 'id="validasi"') !!}
     <div class="box-body">
         <div class="form-group">
-            <label for="aktif" class="col-sm-3 control-label">Status</label>
-            <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
-                <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($userData['two_factor_enabled'] == '1')">
-                    <input type="radio" name="two_factor_enabled" class="form-check-input" value="1"
-                        @checked($userData['two_factor_enabled'] == '1')> Aktif
+            <label for="pass_baru">Konfirmasi Kata Sandi</label>
+            <div class="input-group">
+                <input id="pass_baru" class="form-control input-sm required pwdLengthNist" type="password" name="konfirmasi_password" autocomplete="off" />
+                <span class="input-group-addon input-sm reveal-baru" data-toggle="tooltip"><i class="fa fa-eye-slash"></i></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="notif_telegram" class="control-label">Status</label>
+            <div class="btn-group col-xs-12 col-sm-8 input-group" data-toggle="buttons">
+                <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($userData['two_factor_enabled'] == '1')">
+                    <input type="radio" name="two_factor_enabled" class="form-check-input" value="1" autocomplete="off" @checked($userData->two_factor_enabled == 1) />
+                    Aktif
                 </label>
-                <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($userData['two_factor_enabled'] != '1')">
-                    <input type="radio" name="two_factor_enabled" class="form-check-input" value="0"
-                        @checked($userData['two_factor_enabled'] != '1')> Tidak Aktif
+                <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($userData['two_factor_enabled'] != '1')">
+                    <input type="radio" name="two_factor_enabled" class="form-check-input" value="0" autocomplete="off" @checked($userData->two_factor_enabled == 0) />
+                    Tidak Aktif
                 </label>
             </div>
         </div>

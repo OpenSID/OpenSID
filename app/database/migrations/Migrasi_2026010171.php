@@ -48,8 +48,8 @@ use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
-
 return new class () extends Migration {
     use Migrator;
 
@@ -81,17 +81,11 @@ return new class () extends Migration {
 
     public function tambahUuidTableAnjungan(): void
     {
-        try {
-            if (Schema::hasTable('anjungan') && ! Schema::hasColumn('anjungan', 'uuid')) {
-                Schema::table('anjungan', static function ($table): void {
-                    $table->string('uuid')->unique()->nullable()->after('id');
-                    $table->text('user_agent')->nullable()->after('uuid');
-                });
-            }
-
-            set_session('success', 'Kolom uuid berhasil ditambahkan pada tabel anjungan.');
-        } catch (Exception $e) {
-            log_message('error', 'Gagal menambahkan kolom uuid pada tabel anjungan: ' . $e->getMessage());
+        if (Schema::hasTable('anjungan') && ! Schema::hasColumn('anjungan', 'uuid')) {
+            Schema::table('anjungan', static function ($table): void {
+                $table->string('uuid')->unique()->nullable()->after('id');
+                $table->text('user_agent')->nullable()->after('uuid');
+            });
         }
     }
 
@@ -193,7 +187,7 @@ return new class () extends Migration {
     {
         return User::status()
             ->get()
-            ->filter(static fn (User $user) => can(akses: $akses, slugModul: $modul, user: $user));
+            ->filter(static fn (User $user) => Gate::forUser($user)->allows("{$modul}:{$akses}"));
     }
 
     /**

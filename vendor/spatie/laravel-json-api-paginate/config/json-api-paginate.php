@@ -47,8 +47,9 @@ return [
     'use_cursor_pagination' => false,
 
     /*
-     * use simpleFastPaginate() or fastPaginate from https://github.com/aarondfrancis/fast-paginate
-     * use may installed it via `composer require aaronfrancis/fast-paginate`
+     * Use fastPaginate() or simpleFastPaginate() instead of the regular paginators.
+     * These are added by a separate package, such as spatie/laravel-fast-paginate,
+     * which you can install with `composer require spatie/laravel-fast-paginate`.
      */
     'use_fast_pagination' => false,
 

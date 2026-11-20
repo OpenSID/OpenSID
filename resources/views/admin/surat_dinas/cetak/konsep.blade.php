@@ -160,12 +160,69 @@
                     }
                 })
                 .fail(function(response, status, xhr) {
-
-                    Swal.fire({
-                        title: xhr.statusText,
-                        icon: 'error',
-                        text: response.statusText,
-                    })
+                    if (response.status === 409) {
+                        var handleJson = function(jsonStr) {
+                            try {
+                                var data = JSON.parse(jsonStr);
+                                if (data.saved_as_konsep) {
+                                    Swal.fire({
+                                        title: 'Nomor Surat Bentrok',
+                                        icon: 'warning',
+                                        text: data.message,
+                                        confirmButtonText: 'Ke Arsip Permohonan',
+                                        allowOutsideClick: false
+                                    }).then((result) => {
+                                        window.location.href = data.redirect || '{{ ci_route("surat_dinas_arsip/masuk") }}';
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Nomor Surat Bentrok',
+                                        icon: 'error',
+                                        text: data.message
+                                    });
+                                }
+                            } catch (e) {
+                                Swal.fire({
+                                    title: 'Sistem Sibuk',
+                                    icon: 'error',
+                                    text: 'Nomor surat sudah digunakan oleh pengguna lain. Silakan coba lagi.'
+                                });
+                            }
+                        };
+                        
+                        if (response.response instanceof Blob) {
+                            var reader = new FileReader();
+                            reader.onload = function() {
+                                handleJson(reader.result);
+                            };
+                            reader.readAsText(response.response);
+                        } else if (response.responseText) {
+                            handleJson(response.responseText);
+                        } else {
+                            var rawResponse = response.responseJSON || response.response;
+                            if (rawResponse instanceof Blob) {
+                                var reader = new FileReader();
+                                reader.onload = function() {
+                                    handleJson(reader.result);
+                                };
+                                reader.readAsText(rawResponse);
+                            } else if (typeof rawResponse === 'string') {
+                                handleJson(rawResponse);
+                            } else {
+                                Swal.fire({
+                                    title: 'Gagal',
+                                    icon: 'error',
+                                    text: 'Nomor surat sudah digunakan oleh pengguna lain. Silakan coba lagi.'
+                                });
+                            }
+                        }
+                    } else {
+                        Swal.fire({
+                            title: xhr.statusText || 'Gagal',
+                            icon: 'error',
+                            text: response.statusText || 'Gagal mencetak PDF.',
+                        });
+                    }
                 });
         }
 

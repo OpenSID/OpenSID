@@ -71,7 +71,6 @@
             </div>
         </div>
     </div>
-    @include('admin.pengaturan.modul.acak_modal')
 @endsection
 
 @push('scripts')

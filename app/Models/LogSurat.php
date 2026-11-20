@@ -295,6 +295,27 @@ class LogSurat extends BaseModel
         return $data;
     }
 
+    public static function ambilNomorBerikutnya($url, $nomorAwal = null, $maxRetry = 10)
+    {
+        if ($nomorAwal === null) {
+            $data = self::lastNomerSurat($url);
+            $nomor = (int)$data['no_surat_berikutnya'];
+        } else {
+            $nomor = (int)$nomorAwal;
+        }
+
+        $panjang = (int) setting('panjang_nomor_surat');
+        for ($i = 0; $i < $maxRetry; $i++) {
+            $formatted = str_pad((string) $nomor, $panjang, '0', STR_PAD_LEFT);
+            if (!self::isDuplikat('log_surat', $formatted, $url)) {
+                return $formatted;
+            }
+            $nomor++;
+        }
+
+        return null;
+    }
+
     public static function boot(): void
     {
         parent::boot();
@@ -505,6 +526,16 @@ class LogSurat extends BaseModel
         return $statusPeriksa;
     }
 
+    /**
+     * Kembalikan path file RTF di dalam folder arsip resmi.
+     *
+     * @deprecated Hanya digunakan untuk backward-compatibility dengan arsip LAMA.
+     *             File RTF TIDAK boleh disimpan ke LOKASI_ARSIP (desa/arsip/)
+     *             karena arsip resmi harus bersifat immutable (PDF).
+     *             Untuk keperluan baru, gunakan rtfFileSementara().
+     *
+     * @return string Path ke file RTF di LOKASI_ARSIP (untuk surat arsip lama)
+     */
     public function rtfFile(): string
     {
         $nama_surat = pathinfo($this->nama_surat, PATHINFO_FILENAME);
@@ -516,6 +547,28 @@ class LogSurat extends BaseModel
         }
 
         return LOKASI_ARSIP . $berkas_rtf;
+    }
+
+    /**
+     * Kembalikan path file RTF di folder sementara (BUKAN arsip resmi).
+     *
+     * Gunakan method ini untuk menyimpan file RTF baru. File RTF adalah derivative
+     * yang dapat diubah (mutable) sehingga TIDAK layak disimpan di arsip resmi.
+     * Arsip resmi hanya boleh berisi file PDF (immutable).
+     *
+     * @return string Path ke file RTF di LOKASI_RTF_SEMENTARA (desa/upload/rtf/)
+     */
+    public function rtfFileSementara(): string
+    {
+        $nama_surat = pathinfo($this->nama_surat, PATHINFO_FILENAME);
+
+        if ($nama_surat !== '' && $nama_surat !== '0') {
+            $berkas_rtf = $nama_surat . '.rtf';
+        } else {
+            $berkas_rtf = $this->formatSurat->url_surat . '_' . $this->penduduk->nik . '_' . date('Y-m-d') . '.rtf';
+        }
+
+        return LOKASI_RTF_SEMENTARA . $berkas_rtf;
     }
 
     public function pdfFile(): string

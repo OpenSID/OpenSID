@@ -40,7 +40,9 @@ use App\Models\Theme as ThemeModel;
 use App\Traits\Upload;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Modules\Pelanggan\Services\PelangganService;
 use Spatie\Image\Image;
 
@@ -57,7 +59,6 @@ class Theme extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->helper('theme');
     }
 
     public function index()
@@ -82,6 +83,7 @@ class Theme extends Admin_Controller
             ->get();
 
         $allThemes = $themeModel->toArray();
+
         $themeApi = [];
 
         try {
@@ -112,7 +114,7 @@ class Theme extends Admin_Controller
                 'id'           => null,
                 'config_id'    => null,
                 'nama'         => $theme['name'],
-                'slug'         => "desa-{$theme['alias']}",
+                'slug'         => 'desa-' . Str::slug($theme['alias']),
                 'versi'        => $theme['version'],
                 'sistem'       => 0,
                 'path'         => null,
@@ -194,17 +196,6 @@ class Theme extends Admin_Controller
         return view('admin.theme.index', compact('kategori', 'themeOrder', 'themeList'));
     }
 
-    public function unggah()
-    {
-        // isMultiDB();
-        // isSiapPakai();
-        isCan('u');
-
-        $form_action = site_url('theme/proses-unggah');
-
-        return view('admin.theme.unggah', ['form_action' => $form_action]);
-    }
-
     public function unduh()
     {
         isCan('u');
@@ -266,16 +257,6 @@ class Theme extends Admin_Controller
         }
     }
 
-    public function proses_unggah(): void
-    {
-        // isMultiDB();
-        // isSiapPakai();
-        isCan('u');
-
-        $tema = $this->unggah_tema();
-
-        redirect_with($tema['status'] ? 'success' : 'error', $tema['data']);
-    }
 
     public function pengaturan($id = '')
     {
@@ -362,30 +343,6 @@ class Theme extends Admin_Controller
         redirect_with('success', 'Berhasil Memindai Tema');
     }
 
-    protected function unggah_tema()
-    {
-        $this->load->library('Upload');
-
-        $nama_tema               = mt_rand(1000, 9999) . '-tema';
-        $config['upload_path']   = sys_get_temp_dir();
-        $config['allowed_types'] = 'zip';
-        $config['overwrite']     = true;
-        $config['max_size']      = max_upload() * 5 * 1024;
-        $config['file_name']     = $nama_tema . '.zip';
-
-        $this->upload->initialize($config);
-
-        if ($this->upload->do_upload('userfile')) {
-            $upload = $this->upload->data();
-
-            return $this->extractAndValidateTheme($upload);
-        }
-
-        return [
-            'status' => false,
-            'data'   => $this->upload->display_errors(),
-        ];
-    }
 
     protected function extractAndValidateTheme($upload)
     {
@@ -397,6 +354,17 @@ class Theme extends Admin_Controller
             return [
                 'status' => false,
                 'data'   => 'Tema tidak valid',
+            ];
+        }
+
+        // Validasi setiap nama entry untuk mencegah path traversal RCE
+        if (($entry = validate_zip_entries($zip)) !== true) {
+            $zip->close();
+            unlink($upload['full_path']);
+
+            return [
+                'status' => false,
+                'data'   => 'Tema mengandung path ilegal: ' . $entry,
             ];
         }
 
@@ -417,6 +385,9 @@ class Theme extends Admin_Controller
         }
 
         theme_scan();
+
+        Artisan::call('view:clear');
+        cache()->flush();
 
         return [
             'status' => true,
