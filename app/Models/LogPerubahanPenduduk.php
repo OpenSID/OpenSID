@@ -41,6 +41,24 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_pend
+ * @property int|null $id_cluster
+ * @property \Illuminate\Support\Carbon $tanggal
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanPenduduk newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanPenduduk newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanPenduduk query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanPenduduk whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanPenduduk whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanPenduduk whereIdCluster($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanPenduduk whereIdPend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanPenduduk whereTanggal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanPenduduk withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogPerubahanPenduduk extends BaseModel
 {
     use ConfigId;

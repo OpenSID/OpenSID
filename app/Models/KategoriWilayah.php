@@ -41,6 +41,26 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $kategori_id
+ * @property string $tingkat_wilayah
+ * @property string $kode_wilayah
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Kategori $kategori
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KategoriWilayah newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KategoriWilayah newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KategoriWilayah query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KategoriWilayah whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KategoriWilayah whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KategoriWilayah whereKategoriId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KategoriWilayah whereKodeWilayah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KategoriWilayah whereTingkatWilayah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KategoriWilayah whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KategoriWilayah withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KategoriWilayah extends BaseModel
 {
     public const TINGKAT_KABUPATEN = 'kabupaten';

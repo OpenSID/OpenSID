@@ -53,6 +53,18 @@ use Migrator;
         $this->tambah_ubah_surat_bawaan();
         $this->tambah_ulang_pengaturan();
         $this->versionBuild();
+
+        try {
+            theme_scan();
+        } catch (Exception $e) {
+            logger()->error('Gagal update theme cache: ' . $e->getMessage());
+        }
+
+        try {
+            cache()->forget('identitas_desa');
+        } catch (Exception $e) {
+            logger()->error('Gagal hapus cache identitas desa: ' . $e->getMessage());
+        }
     }
 
     /**

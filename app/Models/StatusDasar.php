@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string|null $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusDasar newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusDasar newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusDasar query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusDasar whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusDasar whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusDasar withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class StatusDasar extends BaseModel
 {
     /**

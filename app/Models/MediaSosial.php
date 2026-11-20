@@ -42,6 +42,30 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $gambar
+ * @property string|null $link
+ * @property string $nama
+ * @property int|null $tipe
+ * @property int $enabled
+ * @property-read mixed $new_link
+ * @property-read mixed $url_icon
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial status($status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial whereGambar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MediaSosial withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class MediaSosial extends BaseModel
 {
     use ConfigId;

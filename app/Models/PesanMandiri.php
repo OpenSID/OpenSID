@@ -45,6 +45,41 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property string $uuid
+ * @property int $config_id
+ * @property string $owner
+ * @property int $penduduk_id
+ * @property string|null $subjek
+ * @property string $komentar
+ * @property string $tgl_upload
+ * @property int|null $status
+ * @property int|null $tipe
+ * @property string|null $permohonan
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property int|null $is_archived
+ * @property-read \App\Models\Penduduk $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri belumDibaca($pendudukId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereIsArchived($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereKomentar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereOwner($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri wherePendudukId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri wherePermohonan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereSubjek($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereTglUpload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanMandiri withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class PesanMandiri extends BaseModel
 {
     use ConfigId;

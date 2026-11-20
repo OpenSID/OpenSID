@@ -1,81 +1,52 @@
 # ============================================================================
-# HTACCESS CONFIGURATION - OpenSID
+# HTACCESS CONFIGURATION - OpenSID (Optimized for Apache & OpenLiteSpeed)
 # ============================================================================
 # Kompatibel dengan: Apache 2.4, OpenLiteSpeed (OLS), Root Domain, & Subfolder
 #
 # FITUR UTAMA:
 # • Simple URL rewriting yang proven stable
 # • ONE file untuk root domain DAN subfolder
-# • Keamanan file sensitif
+# • Keamanan file sensitif (dioptimalkan untuk OLS & Apache)
 # • Browser caching untuk performa optimal
 # • HTTPS redirect (production default, disable untuk development)
-#
-# INSTALASI - ROOT DOMAIN:
-# 1. Ubah nama file ini menjadi .htaccess
-# 2. Pastikan .htaccess allowed di server Apache configuration
-# 3. Leave RewriteBase commented (baris 44)
-#
-# INSTALASI - SUBFOLDER (e.g., /opensid/):
-# 1. Ubah nama file ini menjadi .htaccess
-# 2. Uncomment RewriteBase di baris 44 dan sesuaikan dengan nama folder Anda
-# 3. Contoh: RewriteBase /opensid/
-#
-# CATATAN PENTING:
-# 1. DEFAULT: HTTPS redirect AKTIF untuk production
-# 2. DEVELOPMENT: Comment-out HTTPS section (baris 90-96) jika belum punya SSL certificate
-# 3. PRODUCTION: Pastikan sudah punya SSL certificate (Let's Encrypt / Cloudflare)
-# ============================================================================
-
-# ============================================================================
-# URL REWRITING - Intelligent Routing
-# ============================================================================
-# Routes all requests through index.php for application routing.
-# Compatible with both root domain and subfolder installations.
 # ============================================================================
 
 RewriteEngine On
 
 # =====================================================
-# BLOCK SENSITIVE DIRECTORIES (WAJIB DI ATAS)
+# BLOCK SENSITIVE DIRECTORIES & FILES (WAJIB DI ATAS)
 # =====================================================
-# Prevent access to sensitive folders
+
+# 1. Proteksi Folder Sensitif
 RewriteRule ^(\.git|\.github|bin|vendor|Modules)(/|$) - [F,L]
 
-# Block storage - KECUALI file gambar thumbnail tema (jpg/jpeg/png/gif/webp/svg)
-# Pola tanpa leading slash agar tetap jalan di instalasi root domain maupun subfolder.
+# 2. Block Storage (Kecuali file gambar thumbnail tema)
 RewriteCond %{REQUEST_URI} !storage/app/themes/[^/]+/assets/thumbnail/[^/]+\.(jpe?g|png|gif|webp|svg)$ [NC]
 RewriteRule ^storage(/|$) - [F,L]
 
-# Block dotfiles (.htaccess, .env, .gitignore, etc.)
-<FilesMatch "^\.">
-    Require all denied
-</FilesMatch>
+# 3. Block Dotfiles (.htaccess, .env, .gitignore, dll)
+RewriteCond %{REQUEST_URI} (^|/)\.[^/]+$ [NC]
+RewriteRule .* - [F,L]
 
-# Block configuration and sensitive files
-<FilesMatch "^(composer\.json|composer\.lock|mitra|app_key|phputil\.xml|phpunit\.xml\.dist|rector|htaccess\.apache\.txt|LICENSE)">
-    Require all denied
-</FilesMatch>
+# 4. Block File Konfigurasi & Kredensial Sensitif
+RewriteCond %{REQUEST_URI} (composer\.json|composer\.lock|mitra|app_key|phputil\.xml|phpunit\.xml\.dist|artisan|rector|htaccess\.apache\.txt|LICENSE)$ [NC]
+RewriteRule .* - [F,L]
 
-# Block all markdown files
-<FilesMatch "\.md$">
-    Require all denied
-</FilesMatch>
+# 5. Block Berkas Markdown & Berkas Arsip
+RewriteCond %{REQUEST_URI} \.(md|zip|rar)$ [NC]
+RewriteRule .* - [F,L]
 
-# Block archive files
-<FilesMatch "(?i)\.(zip|rar)$">
-    Require all denied
-</FilesMatch>
+# =====================================================
+# URL REWRITING - Intelligent Routing
+# =====================================================
 
-
-# FOR SUBFOLDER INSTALLATION: Uncomment RewriteBase below and change path to match your folder name
-# Replace /opensid/ with your actual folder name where OpenSID is installed
-# Example: If installed in folder named 'desa', change to: RewriteBase /desa/
-# Example: If installed in folder named 'sid-premium', change to: RewriteBase /sid-premium/
+# UNTUK INSTALASI DI SUBFOLDER: Hilangkan tanda pagar (#) pada RewriteBase di bawah ini
+# dan sesuaikan dengan nama folder Anda (Contoh: RewriteBase /opensid/)
 #
-# For root domain installation: Leave RewriteBase commented (do NOT uncomment)
+# Untuk instalasi di root domain: Biarkan RewriteBase tetap mati (ada tanda pagar)
 # RewriteBase /opensid/
 
-# Allow existing files and directories (css, js, img, dll)
+# Izinkan akses jika file atau folder asli memang ada (css, js, img, dll)
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
@@ -86,53 +57,35 @@ RewriteRule ^(assets|desa|themes|uploads|resources)/ - [L]
 # Jangan rewrite index.php
 RewriteRule ^index\.php$ - [L]
 
-# Route all requests to index.php (AMAN UNTUK OLS & APACHE)
+# Alihkan semua request sisa ke index.php (Aman untuk OLS & Apache)
 RewriteRule ^ index.php [L,QSA]
 
-# Disable directory listing
+# Matikan directory listing
 Options -Indexes
 
 # ============================================================================
 # ENFORCE HTTPS
 # ============================================================================
-# Redirect all HTTP requests to HTTPS
-# Compatible with: Apache 2.4, OpenLiteSpeed (OLS), Cloudflare
-# DEFAULT: Enabled for production environments with SSL certificates
-#
-# FOR LOCAL DEVELOPMENT (if you don't have SSL certificate):
-# Comment-out the entire HTTPS redirect section below (lines 77-86)
-#
-# ============================================================================
-
-# Detect Cloudflare SSL proxy (prevent redirect loops)
+# Deteksi Cloudflare SSL proxy agar tidak terjadi looping
 RewriteCond %{HTTP:CF-Visitor} "https" [NC]
 RewriteRule .* - [S=1]
 
-# Redirect HTTP to HTTPS (OLS & Apache compatible)
-# Check if NOT already on HTTPS (port 443)
+# Redirect HTTP ke HTTPS (Kompatibel OLS & Apache)
 RewriteCond %{SERVER_PORT} !^443$
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # ============================================================================
-# SECURITY - File Protection
-# ============================================================================
-# Prevent access to sensitive files
-
-
-
-# ============================================================================
 # BROWSER CACHING - Optimize Performance
 # ============================================================================
-# Cache static assets for 1 year to improve load times
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access 1 year"
-  
+
   # Fonts
   AddType application/Cabin-Regular-TTF .ttf
   AddType application/fontawesome-webfont .woff2
-  
+
   # Images
   ExpiresByType image/jpg "access 1 year"
   ExpiresByType image/jpeg "access 1 year"
@@ -157,23 +110,3 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   ExpiresByType application/font-woff "access 1 year"
   ExpiresByType application/font-woff2 "access 1 year"
 </IfModule>
-
-# ============================================================================
-# MODSECURITY CONFIGURATION
-# ============================================================================
-# Disable ModSecurity for specific routes to prevent false positives
-
-
-# ============================================================================
-# ENVIRONMENT CONFIGURATION
-# ============================================================================
-# Set application environment. Choose one and uncomment:
-# - development : Debug mode ON, errors displayed (use for development only)
-# - production  : Debug mode OFF, errors hidden (recommended for live sites)
-# - testing     : For running unit tests
-#
-# WARNING: Always use 'production' on live servers to prevent exposing errors
-# ============================================================================
-# SetEnv CI_ENV "development"
-# SetEnv CI_ENV "production"
-# SetEnv CI_ENV "testing"

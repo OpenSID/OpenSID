@@ -100,24 +100,30 @@ class Dpt extends Admin_Controller
 
     public function cetak($aksi = 'cetak', $privasi_nik = 0): void
     {
-        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
+        $tglPemilihan = $this->input->post_get('tgl_pemilihan') ?: Pemilihan::tanggalPemilihan();
+
+        // Validate date format d-m-Y
+        if (! preg_match('/^\d{2}-\d{2}-\d{4}$/', $tglPemilihan)) {
+            $tglPemilihan = Pemilihan::tanggalPemilihan();
+        }
+
+        // Validate it's a real date
+        $dateObj = DateTime::createFromFormat('d-m-Y', $tglPemilihan);
+        if (! $dateObj || $dateObj->format('d-m-Y') !== $tglPemilihan) {
+            $tglPemilihan = Pemilihan::tanggalPemilihan();
+        }
 
         $query = datatables($this->sumberData());
         $data  = [
-            'main'  => $query->prepareQuery()->results(),
-            'start' => app('datatables.request')->start(),
-            'aksi'  => 'cetak',
+            'main'              => $query->prepareQuery()->results(),
+            'start'             => app('datatables.request')->start(),
+            'aksi'              => $aksi,
+            'privasi_nik'       => $privasi_nik == 1,
+            'tglPemilihan'      => $tglPemilihan,
+            'tanggal_pemilihan' => tgl_indo($tglPemilihan),
+            'nameFileCustom'    => 'DPT_Tgl_Pemilihan_' . $tglPemilihan,
         ];
 
-        if ($privasi_nik == 1) {
-            $data['privasi_nik'] = true;
-        }
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=DPT_' . $paramDatatable['tgl_pemilihan'] . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
         view('admin.dpt.dpt_cetak', $data);
     }
 

@@ -2,11 +2,11 @@
 
 namespace Rap2hpoutre\FastExcel;
 
-use Generator;
 use Illuminate\Support\Collection;
 use OpenSpout\Reader\CSV\Options as CsvReaderOptions;
 use OpenSpout\Writer\Common\AbstractOptions;
 use OpenSpout\Writer\CSV\Options as CsvWriterOptions;
+use Traversable;
 
 /**
  * Class FastExcel.
@@ -17,7 +17,7 @@ class FastExcel
     use Exportable;
 
     /**
-     * @var Collection|Generator|array
+     * @var Collection|Traversable|array
      */
     protected $data;
 
@@ -52,16 +52,21 @@ class FastExcel
     ];
 
     /**
-     * @var callable
+     * @var callable|null
      */
     protected $options_configurator = null;
 
     /**
+     * @var callable|null
+     */
+    protected $writer_configurator = null;
+
+    /**
      * FastExcel constructor.
      *
-     * @param array|Generator|Collection|null $data
+     * @param array|Traversable|null $data
      */
-    public function __construct(array|Generator|Collection $data = null)
+    public function __construct(array|Traversable|null $data = null)
     {
         $this->data = $data;
     }
@@ -69,7 +74,7 @@ class FastExcel
     /**
      * Manually set data apart from the constructor.
      *
-     * @param Collection|Generator|array $data
+     * @param Collection|Traversable|array $data
      *
      * @return FastExcel
      */
@@ -163,17 +168,20 @@ class FastExcel
     }
 
     /**
-     * Configure the underlying Spout Reader using a callback.
+     * Configure a custom writer factory using a callback.
      *
-     * @param callable|null $callback
+     * The callback receives the configured options and file extension
+     * ('csv', 'ods' or 'xlsx') and should return a \OpenSpout\Writer\WriterInterface instance.
+     * Return null to fall back to the default writer for that extension.
+     *
+     * @param callable|null $callback function (AbstractOptions $options, string $extension): ?\OpenSpout\Writer\WriterInterface
      *
      * @return $this
-     *
-     * @deprecated Has no effect with spout v4
-     * @see        configureOptionsUsing
      */
     public function configureWriterUsing(?callable $callback = null)
     {
+        $this->writer_configurator = $callback;
+
         return $this;
     }
 

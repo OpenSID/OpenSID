@@ -45,6 +45,13 @@ use Modules\Kehadiran\Models\Kehadiran;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KehadiranPamong newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KehadiranPamong newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KehadiranPamong query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KehadiranPamong withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KehadiranPamong extends BaseModel
 {
     // Ambil data untuk widget aparatur desa

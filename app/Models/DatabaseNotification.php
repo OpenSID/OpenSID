@@ -39,6 +39,35 @@ namespace App\Models;
 
 use App\Traits\ConfigId;
 
+/**
+ * @property string $id
+ * @property int|null $config_id
+ * @property string $type
+ * @property string $notifiable_type
+ * @property int $notifiable_id
+ * @property array|null $data
+ * @property \Illuminate\Support\Carbon|null $read_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model $notifiable
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> all($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> get($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification query()
+ * @method static Builder<static>|DatabaseNotification read()
+ * @method static Builder<static>|DatabaseNotification unread()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification whereNotifiableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification whereNotifiableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification whereReadAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DatabaseNotification whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class DatabaseNotification extends \Illuminate\Notifications\DatabaseNotification
 {
     use ConfigId;

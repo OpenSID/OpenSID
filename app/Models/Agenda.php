@@ -41,6 +41,26 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int $id_artikel
+ * @property \Illuminate\Support\Carbon $tgl_agenda
+ * @property string $koordinator_kegiatan
+ * @property string $lokasi_kegiatan
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda show($type = '')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda whereIdArtikel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda whereKoordinatorKegiatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda whereLokasiKegiatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda whereTglAgenda($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agenda withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Agenda extends BaseModel
 {
     use ConfigId;

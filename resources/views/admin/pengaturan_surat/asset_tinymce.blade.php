@@ -121,12 +121,6 @@ src: url($url) format('truetype');
                         if (toolbarFontSize) toolbarFontSize.value = '12pt';
                     });
 
-                    ed.on('click', function(e) {
-                        let target = e.target;
-                        if (target.nodeName !== 'BODY') {
-                            ed.execCommand('fontSize', false, pxToPt(ed.queryCommandValue('fontSize')));
-                        }
-                    });
                     ed.on('BeforeExecCommand', function(e) {
                         if (e.command === 'mcePageBreak') {
                             e.preventDefault();
@@ -158,6 +152,7 @@ src: url($url) format('truetype');
                 content_style: `
                     body {
                         font-family: ${default_font};
+                        font-size: 12pt;
                         background: #fff;
                     }
                     @media (min-width: 840px) {
@@ -278,6 +273,7 @@ src: url($url) format('truetype');
                 content_style: `
                     body {
                         font-family: ${default_font};
+                        font-size: 12pt;
                         background: #fff;
                     }
                     @media (min-width: 940px) {

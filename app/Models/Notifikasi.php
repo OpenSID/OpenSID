@@ -42,6 +42,39 @@ use DateTime;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $kode
+ * @property string $judul
+ * @property string $jenis
+ * @property string $isi
+ * @property string $server
+ * @property string $tgl_berikutnya
+ * @property string $updated_at
+ * @property int $updated_by
+ * @property int $frekuensi
+ * @property string $aksi
+ * @property int $aktif
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereAksi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereAktif($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereFrekuensi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereIsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereKode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereServer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereTglBerikutnya($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notifikasi withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Notifikasi extends BaseModel
 {
     use ConfigId;

@@ -41,6 +41,36 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $no_kk
+ * @property int|null $nik_kepala
+ * @property string|null $tgl_daftar
+ * @property int|null $kelas_sosial
+ * @property string|null $tgl_cetak_kk
+ * @property string|null $alamat
+ * @property int|null $id_cluster
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\Penduduk|null $kepalaKeluarga
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereAlamat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereIdCluster($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereKelasSosial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereNikKepala($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereNoKk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereTglCetakKk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereTglDaftar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeluargaAktif withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KeluargaAktif extends BaseModel
 {
     use ConfigId;

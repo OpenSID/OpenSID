@@ -41,6 +41,30 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_kk
+ * @property int $id_peristiwa
+ * @property string $tgl_peristiwa
+ * @property int|null $id_pend
+ * @property int|null $updated_by
+ * @property int|null $id_log_penduduk
+ * @property-read \App\Models\Keluarga|null $Keluarga
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga whereIdKk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga whereIdLogPenduduk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga whereIdPend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga whereIdPeristiwa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga whereTglPeristiwa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogKeluarga withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogKeluarga extends BaseModel
 {
     use ConfigId;

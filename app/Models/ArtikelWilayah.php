@@ -41,6 +41,26 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $artikel_id
+ * @property string $tingkat_wilayah
+ * @property string $kode_wilayah
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Artikel $artikel
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArtikelWilayah newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArtikelWilayah newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArtikelWilayah query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArtikelWilayah whereArtikelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArtikelWilayah whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArtikelWilayah whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArtikelWilayah whereKodeWilayah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArtikelWilayah whereTingkatWilayah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArtikelWilayah whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ArtikelWilayah withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class ArtikelWilayah extends BaseModel
 {
     public const TINGKAT_KABUPATEN = 'kabupaten';

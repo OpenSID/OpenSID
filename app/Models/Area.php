@@ -44,6 +44,39 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string|null $path
+ * @property int $enabled
+ * @property int $ref_polygon
+ * @property string|null $foto
+ * @property int|null $id_cluster
+ * @property string $desk
+ * @property-read string|null $foto_area
+ * @property-read string|null $foto_kecil
+ * @property-read string|null $foto_sedang
+ * @property-read string $status_label
+ * @property-read \App\Models\Polygon|null $polygon
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area status(?int $status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area whereDesk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area whereIdCluster($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area whereRefPolygon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Area withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Area extends BaseModel
 {
     use ConfigId;

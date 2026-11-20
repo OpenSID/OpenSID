@@ -39,7 +39,6 @@ use App\Models\Config;
 use App\Models\Komentar;
 use App\Models\Menu;
 use App\Models\Modul;
-use App\Models\SettingAplikasi;
 use App\Models\Simbol;
 use App\Models\User;
 use App\Models\Widget;
@@ -313,32 +312,6 @@ if (! function_exists('parsedown')) {
     }
 }
 
-if (! function_exists('SebutanDesa')) {
-    /**
-     * Mengganti kata [Desa], [desa], [Pemerintah Desa], [dusun] sesuai pengaturan.
-     *
-     * @param string|null $params
-     *
-     * @return string|null
-     */
-    function SebutanDesa($params = null)
-    {
-        $replaceWord = ['[Desa]', '[desa]', '[Pemerintah Desa]', '[dusun]'];
-        if (! Str::contains($params, $replaceWord)) {
-            return $params;
-        }
-
-        // Tidak bisa gunakan helper setting karena value belum di load
-        $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_dusun', 'default_tampil_peta_infrastruktur'])->pluck('value', 'key')->toArray();
-
-        return str_replace(
-            $replaceWord,
-            [ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_desa']), ucwords('Pemerintah ' . $setting['sebutan_desa']), ucwords($setting['sebutan_dusun'])],
-            $params
-        );
-    }
-}
-
 if (! function_exists('underscore')) {
     /**
      * Membuat spasi menjadi underscore atau sebaliknya
@@ -440,7 +413,7 @@ if (! function_exists('folder_desa')) {
 
         // Buat folder dan subfolder desa
         foreach ($list_folder as $folder => $lainnya) {
-            folder($folder, $lainnya[0], $lainnya[1], $lainnya[2] ?? []);
+            folder($folder, $lainnya[0], $lainnya[1] ?? null, $lainnya[2] ?? []);
         }
 
         write_file(LOKASI_CONFIG_DESA . 'config.php', config_item('config'), 'x');

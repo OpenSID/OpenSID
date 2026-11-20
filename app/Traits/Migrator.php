@@ -222,9 +222,9 @@ trait Migrator
     /**
      * Tambah indeks ke tabel.
      *
-     * @param string $tabel Nama tabel
-     * @param string $kolom Nama kolom
-     * @param string $index Tipe indeks (UNIQUE, INDEX, dll)
+     * @param string       $tabel Nama tabel
+     * @param string|array $kolom Nama kolom
+     * @param string       $index Tipe indeks (UNIQUE, INDEX, dll)
      * @param bool   $multi Apakah indeks multi kolom
      *
      * @return bool

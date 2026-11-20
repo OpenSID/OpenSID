@@ -766,7 +766,7 @@ class Route
      * Get or set the domain for the route.
      *
      * @param  \BackedEnum|string|null  $domain
-     * @return $this|string|null
+     * @return ($domain is null ? string|null : $this)
      *
      * @throws \InvalidArgumentException
      */
@@ -1332,6 +1332,49 @@ class Route
     public function waitsFor()
     {
         return $this->waitSeconds;
+    }
+
+    /**
+     * Add metadata to the route.
+     *
+     * @param  array  $metadata
+     * @return $this
+     */
+    public function metadata(array $metadata)
+    {
+        $this->action['metadata'] = RouteGroup::mergeMetadata(
+            $this->action['metadata'] ?? [],
+            $metadata
+        );
+
+        return $this;
+    }
+
+    /**
+     * Get metadata for the route.
+     *
+     * @param  string|null  $key
+     * @param  mixed  $default
+     * @return ($key is null ? array<array-key, mixed> : mixed)
+     */
+    public function getMetadata($key = null, $default = null)
+    {
+        $metadata = $this->action['metadata'] ?? [];
+
+        return is_null($key) ? $metadata : Arr::get($metadata, $key, $default);
+    }
+
+    /**
+     * Set the metadata for the route, replacing any existing metadata.
+     *
+     * @param  array  $metadata
+     * @return $this
+     */
+    public function setMetadata(array $metadata)
+    {
+        $this->action['metadata'] = $metadata;
+
+        return $this;
     }
 
     /**

@@ -42,6 +42,59 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama_barang
+ * @property string $kondisi_bangunan
+ * @property string $kontruksi_bertingkat
+ * @property int|null $kontruksi_beton
+ * @property int $luas_bangunan
+ * @property string $letak
+ * @property string|null $tanggal_dokument
+ * @property string|null $no_dokument
+ * @property string|null $tanggal
+ * @property string|null $status_tanah
+ * @property string|null $kode_tanah
+ * @property string $asal
+ * @property float $harga
+ * @property string $keterangan
+ * @property int $status
+ * @property int $visible
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi aktif()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi visible($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereAsal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereHarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereKodeTanah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereKondisiBangunan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereKontruksiBertingkat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereKontruksiBeton($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereLetak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereLuasBangunan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereNamaBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereNoDokument($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereStatusTanah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereTanggal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereTanggalDokument($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi whereVisible($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisKontruksi withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class InventarisKontruksi extends BaseModel
 {
     use Author;

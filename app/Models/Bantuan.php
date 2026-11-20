@@ -52,6 +52,54 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int|null $config_id
+ * @property string $nama
+ * @property string|null $slug
+ * @property int $sasaran
+ * @property string|null $kk_level
+ * @property string|null $ndesc
+ * @property Carbon $sdate
+ * @property Carbon $edate
+ * @property int $publikasi
+ * @property string|null $asaldana
+ * @property string|null $created_at
+ * @property int|null $created_by
+ * @property string|null $updated_at
+ * @property int|null $updated_by
+ * @property-read string $status_masa_aktif
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BantuanPeserta> $peserta
+ * @property-read int|null $peserta_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BantuanPeserta> $peserta_bantuan
+ * @property-read int|null $peserta_bantuan_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan configId()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan findSimilarSlugs(string $attribute, array $config, string $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan getProgram($program_id = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan listProgram($sasaran = 0)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan status(?mixed $value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereAsaldana($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereEdate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereKkLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereNdesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan wherePublikasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereSasaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereSdate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bantuan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Bantuan extends BaseModel
 {
     use ShortcutCache;

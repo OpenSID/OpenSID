@@ -59,6 +59,7 @@
                                             x-transition.opacity>
                                             @foreach ($childrens['childrens'] as $children)
                                                 @php $has_dropdown3 = count($children['childrens'] ?? []) > 0 @endphp
+                                                @php $menu_link3 = $has_dropdown3 ? '#!' : $children['link_url'] @endphp
                                                 <li
                                                     @if ($has_dropdown3) x-data="{dropdownSub2: false}" @endif>
                                                     <a href="{{ $menu_link3 }}"
@@ -82,6 +83,7 @@
                                                             }"
                                                             x-transition.opacity>
                                                             @foreach ($children['childrens'] as $ggchild)
+                                                                @php $menu_link4 = $ggchild['link_url'] @endphp
                                                                 <li>
                                                                     <a href="{{ $menu_link4 }}"
                                                                         class="block py-3 pr-4 pl-6 hover:bg-primary-200 hover:text-white">

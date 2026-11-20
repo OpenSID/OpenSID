@@ -42,6 +42,62 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama_barang
+ * @property string $kode_barang
+ * @property string $register
+ * @property string|null $merk
+ * @property string|null $ukuran
+ * @property string|null $bahan
+ * @property string $tahun_pengadaan
+ * @property string|null $no_pabrik
+ * @property string|null $no_rangka
+ * @property string|null $no_mesin
+ * @property string|null $no_polisi
+ * @property string|null $no_bpkb
+ * @property string $asal
+ * @property float $harga
+ * @property string $keterangan
+ * @property int $status
+ * @property int $visible
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\MutasiInventarisPeralatan|null $mutasi
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan aktif()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan visible($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereAsal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereBahan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereHarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereKodeBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereMerk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereNamaBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereNoBpkb($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereNoMesin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereNoPabrik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereNoPolisi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereNoRangka($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereRegister($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereTahunPengadaan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereUkuran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan whereVisible($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisPeralatan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class InventarisPeralatan extends BaseModel
 {
     use Author;

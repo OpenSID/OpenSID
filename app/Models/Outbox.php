@@ -42,6 +42,53 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property \Illuminate\Support\Carbon $UpdatedInDB
+ * @property \Illuminate\Support\Carbon $InsertIntoDB
+ * @property string $SendingDateTime
+ * @property string $SendBefore
+ * @property string $SendAfter
+ * @property string|null $Text
+ * @property string $DestinationNumber
+ * @property string $Coding
+ * @property string|null $UDH
+ * @property int|null $Class
+ * @property string $TextDecoded
+ * @property int $ID
+ * @property int $config_id
+ * @property string|null $MultiPart
+ * @property int|null $RelativeValidity
+ * @property string|null $SenderID
+ * @property string|null $SendingTimeOut
+ * @property string|null $DeliveryReport
+ * @property string|null $CreatorID
+ * @property-read \App\Models\DaftarKontak|null $kontak
+ * @property-read \App\Models\PendudukSaja|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereCoding($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereCreatorID($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereDeliveryReport($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereDestinationNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereID($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereInsertIntoDB($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereMultiPart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereRelativeValidity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereSendAfter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereSendBefore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereSenderID($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereSendingDateTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereSendingTimeOut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereTextDecoded($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereUDH($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox whereUpdatedInDB($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Outbox withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Outbox extends BaseModel
 {
     use ConfigId;

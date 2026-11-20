@@ -41,6 +41,26 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int|null $id_user
+ * @property int $config_id
+ * @property string $device
+ * @property string $token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmToken newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmToken newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmToken query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmToken whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmToken whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmToken whereDevice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmToken whereIdUser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmToken whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmToken whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmToken withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class FcmToken extends BaseModel
 {
     use ConfigId;

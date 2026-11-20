@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string|null $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GolonganDarah newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GolonganDarah newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GolonganDarah query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GolonganDarah whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GolonganDarah whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GolonganDarah withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class GolonganDarah extends BaseModel
 {
     /**

@@ -39,6 +39,21 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $Kelompok
+ * @property string $Jenis
+ * @property string $Nama_Jenis
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganManualRefRek3 newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganManualRefRek3 newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganManualRefRek3 query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganManualRefRek3 whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganManualRefRek3 whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganManualRefRek3 whereKelompok($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganManualRefRek3 whereNamaJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganManualRefRek3 withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KeuanganManualRefRek3 extends BaseModel
 {
     /**

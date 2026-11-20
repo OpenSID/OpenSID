@@ -43,6 +43,41 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_cdesa_masuk
+ * @property int|null $cdesa_keluar
+ * @property int|null $jenis_mutasi
+ * @property string|null $tanggal_mutasi
+ * @property string|null $keterangan
+ * @property int $id_persil
+ * @property int|null $no_bidang_persil
+ * @property numeric|null $luas
+ * @property string|null $no_objek_pajak
+ * @property string|null $path
+ * @property int|null $id_peta
+ * @property-read \App\Models\Cdesa|null $cdesaKeluar
+ * @property-read \App\Models\Cdesa|null $cdesaMasuk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereCdesaKeluar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereIdCdesaMasuk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereIdPersil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereIdPeta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereJenisMutasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereLuas($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereNoBidangPersil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereNoObjekPajak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa whereTanggalMutasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiCdesa withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class MutasiCdesa extends BaseModel
 {
     use ConfigId;

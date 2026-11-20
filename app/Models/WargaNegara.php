@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string|null $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WargaNegara newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WargaNegara newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WargaNegara query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WargaNegara whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WargaNegara whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WargaNegara withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class WargaNegara extends BaseModel
 {
     /**

@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPendudukBidang newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPendudukBidang newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPendudukBidang query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPendudukBidang whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPendudukBidang whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPendudukBidang withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class RefPendudukBidang extends BaseModel
 {
     /**

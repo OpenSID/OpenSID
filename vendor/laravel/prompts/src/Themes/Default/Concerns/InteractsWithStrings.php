@@ -32,6 +32,9 @@ trait InteractsWithStrings
      */
     protected function stripEscapeSequences(string $text): string
     {
+        // Strip OSC 8 hyperlink sequences.
+        $text = preg_replace("/\e\]8;[^\e]*\e\\\\/", '', $text);
+
         // Strip ANSI escape sequences.
         $text = preg_replace("/\e[^m]*m/", '', $text);
 
@@ -144,7 +147,7 @@ trait InteractsWithStrings
             $segmentChars = mb_str_split($segment['text']);
 
             foreach ($segmentChars as $char) {
-                $chars[] = ['char' => $char, 'codes' => $segment['codes']];
+                $chars[] = ['char' => $char, 'codes' => $segment['codes'], 'link' => $segment['link']];
             }
         }
 
@@ -159,6 +162,7 @@ trait InteractsWithStrings
         foreach ($plainLines as $plainLine) {
             $line = '';
             $lastCodes = '';
+            $lastLink = '';
             $lineChars = mb_str_split($plainLine);
 
             foreach ($lineChars as $lineChar) {
@@ -173,7 +177,20 @@ trait InteractsWithStrings
                 }
 
                 if ($charIndex < count($chars)) {
+                    $link = $chars[$charIndex]['link'];
                     $codes = $chars[$charIndex]['codes'];
+
+                    if ($link !== $lastLink) {
+                        if ($lastLink !== '') {
+                            $line .= "\e]8;;\e\\";
+                        }
+
+                        if ($link !== '') {
+                            $line .= $link;
+                        }
+
+                        $lastLink = $link;
+                    }
 
                     if ($codes !== $lastCodes) {
                         if ($lastCodes !== '') {
@@ -199,6 +216,10 @@ trait InteractsWithStrings
                 $line .= "\e[0m";
             }
 
+            if ($lastLink !== '') {
+                $line .= "\e]8;;\e\\";
+            }
+
             $result[] = $line;
         }
 
@@ -208,42 +229,72 @@ trait InteractsWithStrings
     /**
      * Parse text into segments with their associated ANSI codes.
      *
-     * @return array<int, array{text: string, codes: string}>
+     * @return array<int, array{text: string, codes: string, link: string}>
      */
     protected function parseAnsiText(string $text): array
     {
         $segments = [];
         $currentCodes = '';
+        $currentLink = '';
         $currentText = '';
         $i = 0;
         $textLength = strlen($text);
 
         while ($i < $textLength) {
-            if ($text[$i] === "\e" && ($i + 1 < $textLength) && $text[$i + 1] === '[') {
-                // Save current segment if it has text
-                if ($currentText !== '') {
-                    $segments[] = ['text' => $currentText, 'codes' => $currentCodes];
-                    $currentText = '';
-                }
-
-                // Extract ANSI escape sequence
-                $escapeSequence = '';
-                while ($i < $textLength) {
-                    $escapeSequence .= $text[$i];
-                    $i++;
-
-                    if (preg_match('/^\\e\\[[0-9;]*m$/', $escapeSequence)) {
-                        // Update current codes
-                        if ($escapeSequence === "\e[0m") {
-                            $currentCodes = '';
-                        } else {
-                            $currentCodes = $escapeSequence;
-                        }
-                        break;
+            if ($text[$i] === "\e" && ($i + 1 < $textLength)) {
+                if ($text[$i + 1] === '[') {
+                    // Save current segment if it has text
+                    if ($currentText !== '') {
+                        $segments[] = ['text' => $currentText, 'codes' => $currentCodes, 'link' => $currentLink];
+                        $currentText = '';
                     }
-                }
 
-                continue;
+                    // Extract CSI escape sequence
+                    $escapeSequence = '';
+                    while ($i < $textLength) {
+                        $escapeSequence .= $text[$i];
+                        $i++;
+
+                        if (preg_match('/^\\e\\[[0-9;]*m$/', $escapeSequence)) {
+                            if ($escapeSequence === "\e[0m") {
+                                $currentCodes = '';
+                            } else {
+                                $currentCodes = $escapeSequence;
+                            }
+                            break;
+                        }
+                    }
+
+                    continue;
+                } elseif ($text[$i + 1] === ']') {
+                    // Save current segment if it has text
+                    if ($currentText !== '') {
+                        $segments[] = ['text' => $currentText, 'codes' => $currentCodes, 'link' => $currentLink];
+                        $currentText = '';
+                    }
+
+                    // Extract OSC sequence (read until ST: ESC \)
+                    $escapeSequence = "\e]";
+                    $i += 2;
+
+                    while ($i < $textLength) {
+                        if ($text[$i] === "\e" && ($i + 1 < $textLength) && $text[$i + 1] === '\\') {
+                            $escapeSequence .= "\e\\";
+                            $i += 2;
+                            break;
+                        }
+                        $escapeSequence .= $text[$i];
+                        $i++;
+                    }
+
+                    if ($escapeSequence === "\e]8;;\e\\") {
+                        $currentLink = '';
+                    } else {
+                        $currentLink = $escapeSequence;
+                    }
+
+                    continue;
+                }
             }
 
             $currentText .= $text[$i];
@@ -252,7 +303,7 @@ trait InteractsWithStrings
 
         // Add final segment
         if ($currentText !== '') {
-            $segments[] = ['text' => $currentText, 'codes' => $currentCodes];
+            $segments[] = ['text' => $currentText, 'codes' => $currentCodes, 'link' => $currentLink];
         }
 
         return $segments;

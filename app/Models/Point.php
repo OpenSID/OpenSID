@@ -45,6 +45,40 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int|null $config_id
+ * @property string $nama
+ * @property string|null $simbol
+ * @property int|null $tipe
+ * @property int $parrent
+ * @property int $enabled
+ * @property string $sumber
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Point> $children
+ * @property-read int|null $children_count
+ * @property-read string $path_simbol
+ * @property-read string $status_label
+ * @property-read Point|null $parent
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point child(int $parent)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point root()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point status(?int $status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point subPoint()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereParrent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereSimbol($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereSumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Point extends BaseModel
 {
     use ConfigIdNull;

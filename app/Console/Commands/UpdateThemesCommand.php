@@ -38,6 +38,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -48,14 +49,14 @@ class UpdateThemesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'themes:update';
+    protected $signature = 'themes:update {theme? : Nama tema yang ingin diperbarui (wira, seruit-lite, lestari)}';
 
     /**
      * Deskripsi dari console command.
      *
      * @var string
      */
-    protected $description = 'Perbarui tema - hapus semua kecuali esensi, clone dari repo, dan checkout ke branch rilis';
+    protected $description = 'Perbarui tema - hapus tema lama kecuali esensi, clone dari repo, dan checkout ke branch rilis';
 
     /**
      * Tema-tema yang akan di-clone beserta URL repository mereka
@@ -63,6 +64,7 @@ class UpdateThemesCommand extends Command
      * @var array
      */
     protected $themesToClone = [
+        'palanta'     => 'https://github.com/OpenSID/tema-palanta.git',
         'wira'        => 'https://github.com/OpenSID/tema-wira.git',
         'seruit-lite' => 'https://github.com/OpenSID/tema-seruit-lite.git',
         'lestari'     => 'https://github.com/OpenSID/tema-lestari.git',
@@ -73,14 +75,35 @@ class UpdateThemesCommand extends Command
      */
     public function handle(): int
     {
-        $themesPath = storage_path('app/themes');
+        $themesPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, storage_path('app/themes'));
+        $themeInput = $this->argument('theme');
+        $selectedThemes = [];
+
+        if ($themeInput) {
+            $themeInput = strtolower($themeInput);
+            if (! array_key_exists($themeInput, $this->themesToClone)) {
+                $this->error("Tema '{$themeInput}' tidak valid. Pilihan yang tersedia: " . implode(', ', array_keys($this->themesToClone)));
+
+                return Command::FAILURE;
+            }
+            $selectedThemes[$themeInput] = $this->themesToClone[$themeInput];
+        } else {
+            $choices = array_merge(['Semua Tema'], array_keys($this->themesToClone));
+            $choice = $this->choice('Pilih tema yang ingin diperbarui', $choices, 0);
+
+            if ($choice === 'Semua Tema') {
+                $selectedThemes = $this->themesToClone;
+            } else {
+                $selectedThemes[$choice] = $this->themesToClone[$choice];
+            }
+        }
 
         $this->info('Memulai proses pembaruan tema...');
         $this->newLine();
 
-        // Langkah 1: Hapus semua folder tema kecuali esensi
+        // Langkah 1: Hapus folder tema yang terpilih kecuali esensi
         $this->info('Langkah 1: Menghapus folder tema lama (menjaga esensi)...');
-        if (! $this->deleteOldThemes($themesPath)) {
+        if (! $this->deleteOldThemes($themesPath, array_keys($selectedThemes))) {
             return Command::FAILURE;
         }
 
@@ -88,35 +111,35 @@ class UpdateThemesCommand extends Command
 
         // Langkah 2: Clone repository dan checkout ke branch rilis
         $this->info('Langkah 2: Clone repository dan checkout ke branch rilis...');
-        if (! $this->cloneThemes($themesPath)) {
+        if (! $this->cloneThemes($themesPath, $selectedThemes)) {
             return Command::FAILURE;
         }
 
         $this->newLine();
         $this->info('✓ Pembaruan tema berhasil diselesaikan!');
-        $this->table(['Nama Tema', 'Repository', 'Status'], $this->getThemeSummary($themesPath));
+        $this->table(['Nama Tema', 'Repository', 'Branch', 'Status'], $this->getThemeSummary($themesPath, $selectedThemes));
 
         return Command::SUCCESS;
     }
 
     /**
-     * Hapus semua folder tema kecuali esensi
+     * Hapus folder tema yang terpilih kecuali esensi
      */
-    protected function deleteOldThemes(string $themesPath): bool
+    protected function deleteOldThemes(string $themesPath, array $selectedThemeNames): bool
     {
+        clearstatcache();
         if (! is_dir($themesPath)) {
             $this->error("Direktori tema tidak ditemukan: {$themesPath}");
 
             return false;
         }
 
-        $directories = array_diff(scandir($themesPath), ['.', '..', '.gitkeep', 'esensi']);
+        foreach ($selectedThemeNames as $themeName) {
+            $dirPath = $themesPath . DIRECTORY_SEPARATOR . $themeName;
 
-        foreach ($directories as $dir) {
-            $dirPath = $themesPath . DIRECTORY_SEPARATOR . $dir;
-
+            clearstatcache();
             if (is_dir($dirPath)) {
-                $this->info("  Menghapus: {$dir}");
+                $this->info("  Menghapus: {$themeName}");
                 $this->deleteDirectory($dirPath);
             }
         }
@@ -127,10 +150,16 @@ class UpdateThemesCommand extends Command
     /**
      * Clone tema dan checkout ke branch rilis
      */
-    protected function cloneThemes(string $themesPath): bool
+    protected function cloneThemes(string $themesPath, array $selectedThemes): bool
     {
-        foreach ($this->themesToClone as $themeName => $repoUrl) {
+        foreach ($selectedThemes as $themeName => $repoUrl) {
             $themeDir = $themesPath . DIRECTORY_SEPARATOR . $themeName;
+
+            // Jika folder masih ada sebelum clone (karena proses hapus tertunda atau terkunci), hapus sekali lagi
+            clearstatcache();
+            if (is_dir($themeDir)) {
+                $this->deleteDirectory($themeDir);
+            }
 
             // Clone repository
             $this->info("  Mengclone {$themeName} dari {$repoUrl}...");
@@ -166,14 +195,12 @@ class UpdateThemesCommand extends Command
                     if ($checkoutProcess->isSuccessful()) {
                         $this->line('    ✓ Berhasil checkout ke branch rilis');
                     } else {
-                        $this->error('    ✗ Gagal checkout ke branch rilis: ' . $checkoutProcess->getErrorOutput());
-
-                        return false;
+                        $this->warn('    ! Gagal checkout ke branch rilis: ' . trim($checkoutProcess->getErrorOutput()));
+                        $this->warn('    ! Menggunakan branch default dari repository.');
                     }
                 } catch (ProcessFailedException $fe) {
-                    $this->error('    ✗ Gagal mengambil: ' . $fe->getProcess()->getErrorOutput());
-
-                    return false;
+                    $this->warn('    ! Gagal mengambil branch remote: ' . trim($fe->getProcess()->getErrorOutput()));
+                    $this->warn('    ! Menggunakan branch default dari repository.');
                 }
             }
         }
@@ -182,47 +209,77 @@ class UpdateThemesCommand extends Command
     }
 
     /**
-     * Hapus direktori secara rekursif
-     *
-     * @return void
+     * Hapus direktori secara paksa menggunakan perintah sistem operasi
      */
     protected function deleteDirectory(string $path)
     {
+        if (! is_dir($path)) {
+            return;
+        }
+
+        if (strncasecmp(PHP_OS, 'WIN', 3) === 0) {
+            // Windows: rmdir /S /Q
+            $process = new Process(['cmd', '/c', 'rmdir', '/S', '/Q', $path]);
+            $process->run();
+        } else {
+            // Linux/macOS: rm -rf
+            $process = new Process(['rm', '-rf', $path]);
+            $process->run();
+        }
+
+        clearstatcache();
+
+        // Fallback jika proses OS gagal
         if (is_dir($path)) {
-            $files = array_diff(scandir($path), ['.', '..']);
-
-            foreach ($files as $file) {
-                $filePath = $path . DIRECTORY_SEPARATOR . $file;
-
-                if (is_dir($filePath)) {
-                    $this->deleteDirectory($filePath);
-                } else {
-                    unlink($filePath);
-                }
-            }
-
-            rmdir($path);
+            File::deleteDirectory($path);
+            clearstatcache();
         }
     }
 
     /**
      * Dapatkan informasi summary tema
      */
-    protected function getThemeSummary(string $themesPath): array
+    protected function getThemeSummary(string $themesPath, array $selectedThemes): array
     {
         $summary = [];
 
-        foreach ($this->themesToClone as $themeName => $repoUrl) {
+        foreach ($selectedThemes as $themeName => $repoUrl) {
             $themeDir = $themesPath . DIRECTORY_SEPARATOR . $themeName;
             $status   = is_dir($themeDir) ? 'Terpasang' : 'Gagal';
+            $branch   = is_dir($themeDir) ? $this->getActiveBranch($themeDir) : '-';
 
             $summary[] = [
                 $themeName,
                 $repoUrl,
+                $branch,
                 $status,
             ];
         }
 
         return $summary;
+    }
+
+    /**
+     * Dapatkan branch git aktif dari direktori tema
+     */
+    protected function getActiveBranch(string $themeDir): string
+    {
+        if (! is_dir($themeDir . DIRECTORY_SEPARATOR . '.git')) {
+            return '-';
+        }
+
+        $process = new Process(['git', 'branch', '--show-current'], $themeDir);
+        try {
+            $process->mustRun();
+            return trim($process->getOutput()) ?: '-';
+        } catch (ProcessFailedException) {
+            $alternativeProcess = new Process(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], $themeDir);
+            try {
+                $alternativeProcess->mustRun();
+                return trim($alternativeProcess->getOutput()) ?: '-';
+            } catch (ProcessFailedException) {
+                return '-';
+            }
+        }
     }
 }

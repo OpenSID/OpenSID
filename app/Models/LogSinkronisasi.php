@@ -42,6 +42,27 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $modul
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi whereModul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSinkronisasi withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogSinkronisasi extends BaseModel
 {
     use Author;

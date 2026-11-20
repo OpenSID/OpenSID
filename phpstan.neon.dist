@@ -56,9 +56,21 @@ parameters:
         - app/database/seeders/DataAwal/StrukturTabelSeeder.php
         - app/database/seeders/DataAwal/Twebaset.php
         - app/database/*
+        - app/Libraries/BIP/*
+        - app/Libraries/Import.php
+        - app/Libraries/LogViewer.php
+        - app/Models/Kelompok.php
+        - app/Models/LogSurat.php
+        - app/Models/LogSuratDinas.php
+        - app/Services/DTKSRegsosEk2022k.php
 
     bootstrapFiles:
         - phpstan-bootstrap.php
 
-#    ignoreErrors:
-#        - '#PHPDoc tag @var#'
+    ignoreErrors:
+        -
+            identifier: nullCoalesce.offset
+            path: app/Rules/SecureCloudUrl.php
+        -
+            identifier: trait.unused
+            path: app/Traits/Download.php

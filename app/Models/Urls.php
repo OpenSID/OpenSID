@@ -41,6 +41,23 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $url
+ * @property string $alias
+ * @property string $created
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Urls newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Urls newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Urls query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Urls whereAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Urls whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Urls whereCreated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Urls whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Urls whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Urls withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Urls extends BaseModel
 {
     use ConfigId;

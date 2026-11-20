@@ -41,6 +41,31 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $pesan_id
+ * @property string $text
+ * @property string|null $pengirim
+ * @property string|null $nama_pengirim
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $custom_date
+ * @property-read \App\Models\Pesan|null $headerPesan
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail whereNamaPengirim($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail wherePengirim($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail wherePesanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PesanDetail withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class PesanDetail extends BaseModel
 {
     use ConfigId;

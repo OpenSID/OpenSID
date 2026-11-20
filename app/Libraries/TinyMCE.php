@@ -883,7 +883,7 @@ class TinyMCE
     {
         $this->defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
         $surat             = LogSurat::find($id);
-        $this->cetak_surat_tinymce($surat);
+        return $this->cetak_surat_tinymce($surat);
     }
 
     public function cetak_surat_dinas($id)
@@ -891,14 +891,14 @@ class TinyMCE
         $this->defaultFont  = underscore(setting('font_surat_dinas'));
         $surat              = LogSuratDinas::find($id);
         $surat->formatSurat = $surat->suratDinas;
-        $this->cetak_surat_tinymce($surat, '_dinas');
+        return $this->cetak_surat_tinymce($surat, '_dinas');
     }
 
     public function cetak_surat_tinymce($surat, $jenis = null)
     {
         // Cek ada file
         if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
-            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
+            ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
         }
         $tagTTE           = self::TAG_TTE;
         $input            = json_decode($surat->input, true) ?? [];

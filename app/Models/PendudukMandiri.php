@@ -56,6 +56,51 @@ use Illuminate\Support\Facades\Hash;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $pin
+ * @property int $config_id
+ * @property string|null $last_login
+ * @property \Illuminate\Support\Carbon|null $tanggal_buat
+ * @property int|null $id_pend
+ * @property int|null $aktif
+ * @property string|null $scan_ktp
+ * @property string|null $scan_kk
+ * @property string|null $foto_selfie
+ * @property int $ganti_pin
+ * @property string|null $email_verified_at
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Dokumen|null $dokumen
+ * @property-read string $email
+ * @property-read string $status_label
+ * @property-read string $telegram
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri status(?int $status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereAktif($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereFotoSelfie($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereGantiPin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereIdPend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereLastLogin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri wherePin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereScanKk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereScanKtp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereTanggalBuat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMandiri withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class PendudukMandiri extends BaseModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, MustVerifyEmailContract
 {
     use ConfigId;

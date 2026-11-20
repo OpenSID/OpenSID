@@ -44,6 +44,22 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $simbol
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Simbol imageOnly()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Simbol newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Simbol newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Simbol notImageOnly()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Simbol query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Simbol root()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Simbol whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Simbol whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Simbol whereSimbol($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Simbol withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Simbol extends BaseModel
 {
     use ConfigId;

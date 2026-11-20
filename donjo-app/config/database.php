@@ -120,7 +120,10 @@ $db['default'] = [
     'port'         => env('DB_PORT', 3306),
     'username'     => env('DB_USERNAME', 'root'),
     'password'     => env('DB_PASSWORD', ''),
-    'database'     => env('DB_DATABASE'),
+    // OPENSID_DB_DATABASE menimpa DB_DATABASE (digunakan Playwright untuk mengarah ke
+    // database tes terisolasi tanpa mengubah .env). getenv() dipakai agar membaca variabel
+    // env yang di-set langsung pada perintah `php -S` di playwright.config.ts webServer.
+    'database'     => getenv('OPENSID_DB_DATABASE') ?: env('DB_DATABASE'),
     'dbdriver'     => 'mysqli',
     'dbprefix'     => '',
     'pconnect'     => false,

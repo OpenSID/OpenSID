@@ -41,6 +41,26 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $penduduk_id
+ * @property string|null $kursus
+ * @property string|null $bidang
+ * @property string|null $keterangan
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KaderMasyarakat newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KaderMasyarakat newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KaderMasyarakat query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KaderMasyarakat whereBidang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KaderMasyarakat whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KaderMasyarakat whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KaderMasyarakat whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KaderMasyarakat whereKursus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KaderMasyarakat wherePendudukId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KaderMasyarakat withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KaderMasyarakat extends BaseModel
 {
     use ConfigId;

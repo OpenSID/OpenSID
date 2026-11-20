@@ -50,6 +50,38 @@ use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $judul
+ * @property string|null $raw_query
+ * @property string|null $icon
+ * @property string|null $warna
+ * @property int $urut
+ * @property int $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $akses
+ * @property-read mixed $count
+ * @property-read mixed $link
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut ordered(string $direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut status($status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut whereIcon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut whereRawQuery($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut whereWarna($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shortcut withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Shortcut extends BaseModel
 {
     use ConfigId;

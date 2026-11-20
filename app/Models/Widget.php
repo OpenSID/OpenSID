@@ -44,6 +44,41 @@ use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $isi
+ * @property int|null $enabled
+ * @property mixed|null $judul
+ * @property int $jenis_widget
+ * @property int|null $urut
+ * @property string|null $form_admin
+ * @property string|null $setting
+ * @property string|null $foto
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget getSetting(string $widget, $opsi = '')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget getWidget($id)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget jenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget listWidgetBaru()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget nomorUrut($id, $direction)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget ordered(string $direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget status($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget urutMax()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget whereFormAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget whereIsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget whereJenisWidget($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget whereSetting($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Widget withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Widget extends BaseModel
 {
     use ConfigId;

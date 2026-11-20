@@ -165,39 +165,32 @@ class Database extends Admin_Controller
         set_time_limit(0);
         ignore_user_abort(true);
 
-        try {
-            // Mapping file dengan path yang benar dan validasi symlink
-            $files = collect(Storage::disk('desa')->allFiles())
-                ->filter(static function ($file) {
-                    $fullPath = Storage::disk('desa')->path($file);
+        // Mapping file dengan path yang benar dan validasi symlink
+        $files = collect(Storage::disk('desa')->allFiles())
+            ->filter(static function ($file) {
+                $fullPath = Storage::disk('desa')->path($file);
 
-                    // Skip symlink untuk mencegah corrupt/infinite loop
-                    if (is_link($fullPath)) {
-                        return false; // Skip symbolic link
-                    }
+                // Skip symlink untuk mencegah corrupt/infinite loop
+                if (is_link($fullPath)) {
+                    return false; // Skip symbolic link
+                }
 
-                    // Skip file yang tidak bisa dibaca atau tidak ada
-                    return ! (! file_exists($fullPath) || ! is_readable($fullPath));
-                })
-                ->mapWithKeys(static fn ($file) => [
-                    Storage::disk('desa')->path($file) => $file,
-                ])
-                ->toArray();
+                // Skip file yang tidak bisa dibaca atau tidak ada
+                return ! (! file_exists($fullPath) || ! is_readable($fullPath));
+            })
+            ->mapWithKeys(static fn ($file) => [
+                Storage::disk('desa')->path($file) => $file,
+            ])
+            ->toArray();
 
-            if (empty($files)) {
-                throw new Exception('Tidak ada file dalam folder desa untuk di-backup');
-            }
-
-            // Langsung return response, biarkan Laravel handle streaming
-            return Zip::create(
-                name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
-                files: $files
-            )->response()->send();
-        } catch (Exception $e) {
-            logger()->error($e);
-
-            return redirect_with('error', "Backup folder desa gagal:\n{$e->getMessage()}", 'database');
+        if (empty($files)) {
+            return redirect_with('error', 'Backup folder desa gagal: Tidak ada file dalam folder desa untuk di-backup', 'database');
         }
+
+        return Zip::create(
+            name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
+            files: $files
+        );
     }
 
     public function desa_inkremental()

@@ -41,6 +41,33 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id_kontak
+ * @property int $config_id
+ * @property string $nama
+ * @property string|null $telepon
+ * @property string|null $email
+ * @property string|null $telegram
+ * @property string $hubung_warga
+ * @property string|null $keterangan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak whereHubungWarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak whereIdKontak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak whereTelegram($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak whereTelepon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DaftarKontak withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class DaftarKontak extends BaseModel
 {
     use ConfigId;

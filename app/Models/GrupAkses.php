@@ -41,6 +41,25 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int $id_grup
+ * @property int $id_modul
+ * @property int|null $akses
+ * @property-read \App\Models\UserGrup $grup
+ * @property-read \App\Models\Modul $modul
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupAkses newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupAkses newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupAkses query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupAkses whereAkses($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupAkses whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupAkses whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupAkses whereIdGrup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupAkses whereIdModul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupAkses withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class GrupAkses extends BaseModel
 {
     use ConfigId;

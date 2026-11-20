@@ -54,7 +54,7 @@ class LapakKategoriRepository
         return QueryBuilder::for($this->produkKategori)
             ->allowedFields('*')
             ->allowedFilters('*')
-            ->allowedSorts(['id', 'kategori', 'status'])
+            ->allowedSorts(...['id', 'kategori', 'status'])
             ->jsonPaginate();
     }
 }

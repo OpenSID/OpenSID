@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RtmHubungan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RtmHubungan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RtmHubungan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RtmHubungan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RtmHubungan whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RtmHubungan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class RtmHubungan extends BaseModel
 {
     /**

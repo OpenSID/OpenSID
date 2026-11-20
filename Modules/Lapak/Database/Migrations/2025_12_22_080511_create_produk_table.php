@@ -46,36 +46,32 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        try {
-            if (! Schema::hasTable('produk')) {
-                Schema::create('produk', static function (Blueprint $table) {
-                    $table->integer('id', true);
-                    $table->configId();
-                    $table->integer('id_pelapak')->nullable();
-                    $table->integer('id_produk_kategori')->nullable();
-                    $table->string('nama')->nullable();
-                    $table->integer('harga')->nullable();
-                    $table->string('satuan', 20)->nullable();
-                    $table->boolean('tipe_potongan')->default(true);
-                    $table->integer('potongan')->default(0);
-                    $table->text('deskripsi')->nullable();
-                    $table->longText('foto')->nullable();
-                    $table->boolean('status')->default(true);
-                    $table->timestamps();
+        if (! Schema::hasTable('produk')) {
+            Schema::create('produk', static function (Blueprint $table) {
+                $table->integer('id', true);
+                $table->configId();
+                $table->integer('id_pelapak')->nullable();
+                $table->integer('id_produk_kategori')->nullable();
+                $table->string('nama')->nullable();
+                $table->integer('harga')->nullable();
+                $table->string('satuan', 20)->nullable();
+                $table->boolean('tipe_potongan')->default(true);
+                $table->integer('potongan')->default(0);
+                $table->text('deskripsi')->nullable();
+                $table->longText('foto')->nullable();
+                $table->boolean('status')->default(true);
+                $table->timestamps();
 
-                    $table->foreign('id_pelapak', 'lapak_fk')
-                        ->references('id')->on('pelapak')
-                        ->cascadeOnUpdate()
-                        ->cascadeOnDelete();
+                $table->foreign('id_pelapak', 'lapak_fk')
+                    ->references('id')->on('pelapak')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
 
-                    $table->foreign('id_produk_kategori', 'produk_kategori_fk')
-                        ->references('id')->on('produk_kategori')
-                        ->cascadeOnUpdate()
-                        ->cascadeOnDelete();
-                });
-            }
-        } catch (Throwable $th) {
-            log_message('error', 'Migrasi Produk Gagal: ' . $th->getMessage());
+                $table->foreign('id_produk_kategori', 'produk_kategori_fk')
+                    ->references('id')->on('produk_kategori')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+            });
         }
     }
 
