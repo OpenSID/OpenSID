@@ -44,6 +44,48 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nomor
+ * @property string $nama_kepemilikan
+ * @property int $jenis_pemilik
+ * @property string|null $nik_pemilik_luar
+ * @property string|null $nama_pemilik_luar
+ * @property string|null $alamat_pemilik_luar
+ * @property string|null $created_at
+ * @property int|null $created_by
+ * @property string|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CdesaMutasi> $cdesaMutasi
+ * @property-read int|null $cdesa_mutasi_count
+ * @property-read \App\Models\CdesaPenduduk|null $cdesaPenduduk
+ * @property-read mixed $alamat
+ * @property-read mixed $id_pemilik
+ * @property-read mixed $nama_pemilik
+ * @property-read mixed $nik_pemilik
+ * @property-read \App\Models\PendudukSaja|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa jumlahPersil(string $alias = 'jumlah')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa listCdesa($kecuali = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa listPersil($id_cdesa)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereAlamatPemilikLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereJenisPemilik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereNamaKepemilikan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereNamaPemilikLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereNikPemilikLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereNomor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cdesa withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Cdesa extends BaseModel
 {
     use ConfigId;

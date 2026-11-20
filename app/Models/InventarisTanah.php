@@ -42,6 +42,58 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama_barang
+ * @property string $kode_barang
+ * @property string $register
+ * @property int $luas
+ * @property string $tahun_pengadaan
+ * @property string $letak
+ * @property string $hak
+ * @property string|null $no_sertifikat
+ * @property string|null $tanggal_sertifikat
+ * @property string $penggunaan
+ * @property string $asal
+ * @property float $harga
+ * @property string $keterangan
+ * @property int $status
+ * @property int $visible
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\MutasiInventarisTanah|null $mutasi
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah aktif()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah visible($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereAsal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereHak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereHarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereKodeBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereLetak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereLuas($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereNamaBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereNoSertifikat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah wherePenggunaan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereRegister($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereTahunPengadaan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereTanggalSertifikat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah whereVisible($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisTanah withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class InventarisTanah extends BaseModel
 {
     use Author;

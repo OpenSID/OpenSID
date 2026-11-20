@@ -42,6 +42,43 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_inventaris_asset
+ * @property string|null $jenis_mutasi
+ * @property string $tahun_mutasi
+ * @property float|null $harga_jual
+ * @property string|null $sumbangkan
+ * @property string $keterangan
+ * @property int $visible
+ * @property string $status_mutasi
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\InventarisAsset|null $inventaris
+ * @property-read \App\Models\InventarisAsset|null $inventaris_asset
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereHargaJual($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereIdInventarisAsset($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereJenisMutasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereStatusMutasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereSumbangkan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereTahunMutasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset whereVisible($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MutasiInventarisAsset withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class MutasiInventarisAsset extends BaseModel
 {
     use ConfigId;

@@ -18,20 +18,21 @@ if (! function_exists('get_app_key')) {
      */
     function get_app_key(): string
     {
+        if ($app_key = env('APP_KEY')) {
+            return $app_key;
+        }
+
         $path = base_path('desa/app_key');
 
-        if (! is_dir(dirname($path))) {
-            return '';
+        if (is_file($path) && trim(file_get_contents($path))) {
+            return trim(file_get_contents($path));
         }
 
-        $app_key = is_file($path) ? file_get_contents($path) : '';
+        $app_key = set_app_key();
 
-        if (empty(trim($app_key))) {
-            $app_key = set_app_key();
-            file_put_contents($path, $app_key, LOCK_EX);
-        }
+        file_put_contents($path, $app_key, LOCK_EX);
 
-        return trim($app_key);
+        return $app_key;
     }
 }
 

@@ -45,6 +45,54 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int $id_master
+ * @property int|null $id_ketua
+ * @property string $nama
+ * @property string|null $slug
+ * @property string|null $keterangan
+ * @property string $kode
+ * @property string|null $logo
+ * @property string|null $no_sk_pendirian
+ * @property string|null $tipe
+ * @property-read mixed $kategori
+ * @property-read mixed $nama_ketua
+ * @property-read mixed $url_logo
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\KelompokAnggota> $kelompokAnggota
+ * @property-read int|null $kelompok_anggota_count
+ * @property-read \App\Models\KelompokMaster|null $kelompokMaster
+ * @property-read \App\Models\Penduduk|null $ketua
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\KelompokAnggota> $pengurus
+ * @property-read int|null $pengurus_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok findSimilarSlugs(string $attribute, array $config, string $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok inListPenduduk(?mixed $kelompok, ?mixed $pendId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok jenisKelaminKetua(?mixed $session = '')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok listJabatan($id_kelompok = 0)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok listPenduduk(?mixed $exKelompok = 0, ?mixed $pendId = 0)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok penerimaBantuan()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok slug(?mixed $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok status(?mixed $status = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok tipe(?mixed $tipe = 'kelompok')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereIdKetua($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereIdMaster($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereKode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereLogo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereNoSkPendirian($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kelompok withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Kelompok extends BaseModel
 {
     use ConfigId;

@@ -43,6 +43,22 @@ use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property string $Tanggal
+ * @property int $config_id
+ * @property string $ipAddress
+ * @property int $Jumlah
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatistikPengunjung filter($type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatistikPengunjung newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatistikPengunjung newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatistikPengunjung query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatistikPengunjung whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatistikPengunjung whereIpAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatistikPengunjung whereJumlah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatistikPengunjung whereTanggal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatistikPengunjung withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class StatistikPengunjung extends BaseModel
 {
     use ConfigId;

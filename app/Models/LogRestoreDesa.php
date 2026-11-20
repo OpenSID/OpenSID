@@ -42,6 +42,35 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $ukuran
+ * @property string|null $path
+ * @property string|null $restore_at
+ * @property int $status
+ * @property int|null $pid_process
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa wherePidProcess($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa whereRestoreAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa whereUkuran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogRestoreDesa withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogRestoreDesa extends BaseModel
 {
     use Author;

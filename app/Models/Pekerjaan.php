@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string|null $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pekerjaan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pekerjaan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pekerjaan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pekerjaan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pekerjaan whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pekerjaan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Pekerjaan extends BaseModel
 {
     /**

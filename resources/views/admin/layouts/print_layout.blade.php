@@ -3,9 +3,11 @@
         $ekstensi = 'xls';
     }
 
+    $file = ($nameFileCustom ?? null) ?: namafile($file);
+
     if ($aksi == 'unduh') {
         header('Content-type: application/' . $ekstensi);
-        header('Content-Disposition: attachment; filename=' . namafile($file) . '.' . $ekstensi);
+        header('Content-Disposition: attachment; filename="' . $file . '.' . $ekstensi . '"');
         header('Pragma: no-cache');
         header('Expires: 0');
     }

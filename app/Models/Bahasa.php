@@ -39,6 +39,19 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @property string $inisial
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bahasa newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bahasa newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bahasa query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bahasa whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bahasa whereInisial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bahasa whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bahasa withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Bahasa extends BaseModel
 {
     /**

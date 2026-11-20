@@ -43,6 +43,56 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $nomor_urut
+ * @property string|null $nomor_surat
+ * @property string|null $kode_surat
+ * @property string $tanggal_surat
+ * @property string $tanggal_catat
+ * @property string|null $tujuan
+ * @property string|null $isi_singkat
+ * @property string|null $berkas_scan
+ * @property int|null $ekspedisi
+ * @property string|null $tanggal_pengiriman
+ * @property string|null $tanda_terima
+ * @property string|null $keterangan
+ * @property string|null $lokasi_arsip
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property int|null $arsip_id
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar arsipFisikSuratKeluar()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar autocomplete()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar tahun()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereArsipId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereBerkasScan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereEkspedisi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereIsiSingkat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereKodeSurat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereLokasiArsip($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereNomorSurat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereNomorUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereTandaTerima($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereTanggalCatat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereTanggalPengiriman($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereTanggalSurat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereTujuan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratKeluar withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class SuratKeluar extends BaseModel
 {
     use ConfigId;

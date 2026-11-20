@@ -99,27 +99,34 @@ class Database
         // sort by name
         usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
 
+        // gabungkan migrasi tambahan (default) ke daftar migrasi
+        $defaultMigrasi = ['required', 'rev', 'beta', 'module'];
+        $migrations     = array_merge($migrations, $defaultMigrasi);
+
         try {
             foreach ($migrations as $migrate) {
-                preg_match('/\d+/', $migrate->getFilename(), $matches);
-                if ($matches) {
-                    $migrateName = $matches[0];
-                    if (! isset($migratedDatabase[$migrateName])) {
-                        if ($this->getShowProgress()) {
-                            echo json_encode(['message' => 'Jalankan Migrasi_' . $migrateName, 'status' => 0]);
-                        }
-                        $resultMigration = $this->runMigration('Migrasi_' . $migrateName);
-                        if ($this->getShowProgress()) {
-                            echo json_encode(['message' => $resultMigration['message'], 'status' => $resultMigration['status'] ? 0 : 500]);
-                        }
-                        log_message($resultMigration['status'] ? 'notice' : 'error', $resultMigration['message']);
+                if (is_string($migrate)) {
+                    $migrateName = $migrate;
+                } else {
+                    preg_match('/\d+/', $migrate->getFilename(), $matches);
+                    $migrateName = $matches[0] ?? null;
+                }
 
-                        if (isset($resultMigration['exception'])) {
-                            logger()->error($resultMigration['exception']);
-                        }
-
-                        $this->updateVersi($migrateName);
+                if ($migrateName && ! isset($migratedDatabase[$migrateName])) {
+                    if ($this->getShowProgress()) {
+                        echo json_encode(['message' => 'Jalankan Migrasi_' . $migrateName, 'status' => 0]);
                     }
+                    $resultMigration = $this->runMigration('Migrasi_' . $migrateName);
+                    if ($this->getShowProgress()) {
+                        echo json_encode(['message' => $resultMigration['message'], 'status' => $resultMigration['status'] ? 0 : 500]);
+                    }
+                    log_message($resultMigration['status'] ? 'notice' : 'error', $resultMigration['message']);
+
+                    if (isset($resultMigration['exception'])) {
+                        logger()->error($resultMigration['exception']);
+                    }
+
+                    $this->updateVersi($migrateName);
                 }
             }
 
@@ -128,20 +135,6 @@ class Database
             log_message('error', $e->getMessage());
             if ($this->getShowProgress()) {
                 echo json_encode(['message' => $e->getMessage(), 'status' => 0]);
-            }
-        }
-
-        // Run additional migrations
-        $defaultMigrasi = ['Migrasi_required', 'Migrasi_rev', 'Migrasi_beta', 'Migrasi_module'];
-
-        foreach ($defaultMigrasi as $migrateName) {
-            if ($this->getShowProgress()) {
-                echo json_encode(['message' => 'Jalankan ' . $migrateName, 'status' => 0]);
-            }
-            $resultMigration = $this->runMigration($migrateName);
-            if ($this->getShowProgress()) {
-                log_message($resultMigration['status'] ? 'notice' : 'error', $resultMigration['message']);
-                echo json_encode(['message' => $resultMigration['message'], 'status' => $resultMigration['status'] ? 0 : 500]);
             }
         }
 

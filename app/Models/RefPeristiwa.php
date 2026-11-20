@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPeristiwa newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPeristiwa newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPeristiwa query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPeristiwa whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPeristiwa whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPeristiwa withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class RefPeristiwa extends BaseModel
 {
     /**

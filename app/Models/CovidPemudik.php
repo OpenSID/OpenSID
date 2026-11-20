@@ -39,6 +39,41 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_terdata
+ * @property int $pantau
+ * @property string|null $tanggal_datang
+ * @property string|null $asal_mudik
+ * @property string|null $durasi_mudik
+ * @property string|null $tujuan_mudik
+ * @property string|null $keluhan_kesehatan
+ * @property string|null $status_covid
+ * @property string|null $no_hp
+ * @property string|null $email
+ * @property string|null $keterangan
+ * @property string|null $is_wajib_pantau
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereAsalMudik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereDurasiMudik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereIdTerdata($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereIsWajibPantau($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereKeluhanKesehatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereNoHp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik wherePantau($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereStatusCovid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereTanggalDatang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik whereTujuanMudik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidPemudik withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class CovidPemudik extends BaseModel
 {
     /**

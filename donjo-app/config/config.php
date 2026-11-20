@@ -610,7 +610,7 @@ $config['proxy_ips'] = '';
 */
 $config['nama_aplikasi']  = 'OpenSID';
 $config['nama_lembaga']   = 'OpenDesa';
-$config['fb_opendesa']    = 'https://www.facebook.com/groups/komunitasopendesa';
+$config['fb_opendesa']    = 'https://www.facebook.com/groups/httpsopendesa.id';
 $config['tg_opendesa']    = 'https://t.me/komunitasopensidstop';
 $config['tg_kontributor'] = 'https://t.me/+mi5ydVtVfmw0YWY1';
 $config['github']         = 'https://github.com/OpenSID/OpenSID';

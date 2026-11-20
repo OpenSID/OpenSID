@@ -5,7 +5,7 @@ namespace Tests\Feature\Modules\DTSEN;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
 use App\Models\Wilayah;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Traits\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Modules\DTSEN\Models\Dtsen as ModelDtsen;
 use PHPUnit\Framework\Attributes\Test;
@@ -14,22 +14,6 @@ use Tests\BaseTestCase;
 class LaporanControllerQueryTest extends BaseTestCase
 {
     use RefreshDatabase;
-
-    protected function migrateFreshUsing(): array
-    {
-        $seeder = $this->seeder();
-
-        return array_merge(
-            [
-                '--drop-views'  => $this->shouldDropViews(),
-                '--drop-types'  => $this->shouldDropTypes(),
-                '--schema-path' => base_path('tests/playwright/storage/database/schema.sql'),
-                '--path'        => 'database/migrations',
-                '--realpath'    => false,
-            ],
-            $seeder ? ['--seeder' => $seeder] : ['--seed' => $this->shouldSeed()]
-        );
-    }
 
     // =========================================================================
     // Helper: replika query datatables dari controller

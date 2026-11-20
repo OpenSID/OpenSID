@@ -199,17 +199,33 @@ class Laporan_apbdes extends Admin_Controller
 
         $response  = json_decode(curl_exec($curl), null);
         $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-        if (! curl_errno($curl) && $http_code !== 422) {
-            // Ubah tgl kirim
-            LaporanSinkronisasi::where(['id' => $id])->update(['kirim' => date('Y-m-d H:i:s')]);
-        }
+        $curl_error = curl_errno($curl);
 
         curl_close($curl);
-        $this->session->unset_userdata(['success', 'error_msg']);
-        $this->session->set_flashdata('notif', $response);
 
-        redirect($this->controller);
+        if ($curl_error) {
+            redirect_with('error', 'Gagal koneksi ke server OpenDK: ' . curl_strerror($curl_error), $this->controller);
+        }
+
+        if ($http_code === 422) {
+            $pesan = $response->message ?? 'Validasi data gagal di server OpenDK';
+            redirect_with('error', 'Error OpenDK: ' . $pesan, $this->controller);
+        }
+
+        if ($http_code >= 400) {
+            $pesan = $response->message ?? "HTTP {$http_code} dari server OpenDK";
+            redirect_with('error', 'Error OpenDK: ' . $pesan, $this->controller);
+        }
+
+        if (! $response) {
+            redirect_with('error', 'Response tidak valid dari server OpenDK', $this->controller);
+        }
+
+        // Ubah tgl kirim
+        LaporanSinkronisasi::where(['id' => $id])->update(['kirim' => date('Y-m-d H:i:s')]);
+
+        $pesan = $response->message ?? 'Berhasil kirim data ke OpenDK';
+        redirect_with('success', $pesan, $this->controller);
     }
 
     private function getTahun()

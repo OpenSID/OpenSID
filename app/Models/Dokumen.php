@@ -45,6 +45,88 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_kelompok
+ * @property string|null $satuan
+ * @property string $nama
+ * @property int $enabled
+ * @property string $tgl_upload
+ * @property int|null $id_pend
+ * @property int $kategori
+ * @property array<array-key, mixed> $attr
+ * @property int|null $tipe
+ * @property string|null $url
+ * @property int|null $tahun
+ * @property int|null $kategori_info_publik
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property int $deleted
+ * @property int|null $id_syarat
+ * @property int|null $id_parent
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property int|null $dok_warga
+ * @property string|null $lokasi_arsip
+ * @property string|null $retensi_number
+ * @property string|null $retensi_unit
+ * @property string|null $retensi_date
+ * @property string|null $published_at
+ * @property string|null $keterangan
+ * @property string $status
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Dokumen> $children
+ * @property-read int|null $children_count
+ * @property-read void $download_dokumen
+ * @property-read string $expired_at_formatted
+ * @property-read string|null $url_file
+ * @property-read \App\Models\SyaratSurat|null $jenisDokumen
+ * @property-read \App\Models\RefDokumen|null $kategoriDokumen
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen activePublish()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen aktif($status = '1')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen filters(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen hidup()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen kategori(?mixed $value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen pengguna()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen produkHukum()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen tahun()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereAttr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereDokWarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereIdKelompok($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereIdParent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereIdPend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereIdSyarat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereKategoriInfoPublik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereLokasiArsip($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereRetensiDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereRetensiNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereRetensiUnit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereSatuan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereTahun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereTglUpload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Dokumen withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Dokumen extends BaseModel
 {
     use ConfigId;

@@ -68,7 +68,7 @@
 @push('scripts')
 <script>
 	$(document).ready(function() {
-		$('.dropdown-submenu a').on("click", function(e) {
+		$('.dropdown-submenu > a').on("click", function(e) {
 			var submenu = $(this).next('.dropdown-menu');
 			if (submenu.is(':visible')) {
 				submenu.hide();

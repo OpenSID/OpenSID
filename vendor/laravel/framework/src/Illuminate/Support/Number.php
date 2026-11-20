@@ -205,6 +205,10 @@ class Number
      */
     public static function fileSize(int|float $bytes, int $precision = 0, ?int $maxPrecision = null)
     {
+        if (! is_finite($bytes)) {
+            return sprintf('%s B', static::format($bytes, $precision, $maxPrecision));
+        }
+
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
         $unitCount = count($units);
@@ -263,9 +267,15 @@ class Number
      * @param  int|null  $maxPrecision
      * @param  array<int, string>  $units
      * @return string|false
+     *
+     * @phpstan-return ($number is INF ? '∞' : ($number is NAN ? 'NaN' : ($number is 0 ? ($precision is non-positive-int ? '0' : non-empty-string|false) : non-empty-string|false)))
      */
     protected static function summarize(int|float $number, int $precision = 0, ?int $maxPrecision = null, array $units = [])
     {
+        if (! is_finite($number)) {
+            return static::format($number, $precision, $maxPrecision);
+        }
+
         if (empty($units)) {
             $units = [
                 3 => 'K',

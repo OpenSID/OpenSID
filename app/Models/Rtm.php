@@ -46,6 +46,34 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $nik_kepala
+ * @property string $no_kk
+ * @property string $tgl_daftar
+ * @property int|null $kelas_sosial
+ * @property string|null $bdt
+ * @property int $terdaftar_dtks
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PendudukSaja> $anggota
+ * @property-read int|null $anggota_count
+ * @property-read mixed $jumlah_kk
+ * @property-read \App\Models\Penduduk|null $kepalaKeluarga
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm status()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm whereBdt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm whereKelasSosial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm whereNikKepala($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm whereNoKk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm whereTerdaftarDtks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm whereTglDaftar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Rtm withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Rtm extends BaseModel
 {
     use ConfigId;

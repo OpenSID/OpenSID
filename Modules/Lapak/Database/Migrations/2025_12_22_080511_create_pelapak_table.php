@@ -46,35 +46,31 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        try {
-            if (! Schema::hasTable('pelapak')) {
-                Schema::create('pelapak', static function (Blueprint $table) {
-                    $table->integer('id', true);
-                    $table->configId();
-                    $table->integer('id_pend')->nullable();
-                    $table->string('telepon', 20)->nullable();
-                    $table->string('lat', 20)->nullable();
-                    $table->string('lng', 20)->nullable();
-                    $table->tinyInteger('zoom')->default(10);
-                    $table->tinyInteger('status')->default(1);
-                    $table->timestamps();
+        if (! Schema::hasTable('pelapak')) {
+            Schema::create('pelapak', static function (Blueprint $table) {
+                $table->integer('id', true);
+                $table->configId();
+                $table->integer('id_pend')->nullable();
+                $table->string('telepon', 20)->nullable();
+                $table->string('lat', 20)->nullable();
+                $table->string('lng', 20)->nullable();
+                $table->tinyInteger('zoom')->default(10);
+                $table->tinyInteger('status')->default(1);
+                $table->timestamps();
 
-                    // Foreign key
-                    $table->foreign('config_id', 'pelapak_config_fk')
-                        ->references('id')
-                        ->on('config')
-                        ->cascadeOnUpdate()
-                        ->cascadeOnDelete();
+                // Foreign key
+                $table->foreign('config_id', 'pelapak_config_fk')
+                    ->references('id')
+                    ->on('config')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
 
-                    $table->foreign('id_pend', 'pelapak_pend_fk')
-                        ->references('id')
-                        ->on('tweb_penduduk')
-                        ->cascadeOnUpdate()
-                        ->cascadeOnDelete();
-                });
-            }
-        } catch (Throwable $th) {
-            log_message('error', 'Migrasi Pelapak Gagal: ' . $th->getMessage());
+                $table->foreign('id_pend', 'pelapak_pend_fk')
+                    ->references('id')
+                    ->on('tweb_penduduk')
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
+            });
         }
     }
 

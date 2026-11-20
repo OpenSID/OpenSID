@@ -44,6 +44,82 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $satuan
+ * @property string $nama
+ * @property int $enabled
+ * @property string $tgl_upload
+ * @property int|null $id_pend
+ * @property int $kategori
+ * @property string $attr
+ * @property int|null $tipe
+ * @property string|null $url
+ * @property int|null $tahun
+ * @property int|null $kategori_info_publik
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property int $deleted
+ * @property int|null $id_syarat
+ * @property int|null $id_parent
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property int|null $dok_warga
+ * @property string|null $lokasi_arsip
+ * @property string|null $keterangan
+ * @property string $status
+ * @property string|null $retensi_date
+ * @property string|null $retensi_number
+ * @property string|null $retensi_unit
+ * @property string|null $published_at
+ * @property int|null $id_kelompok
+ * @property-read string $expired_at_formatted
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup arsipFisikDokumenDesa()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup arsipFisikKependudukan()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup dataCetak($kat = 1, ?string $tahun = '', ?string $jenis_peraturan = '')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup getDokumen($id = 0, $id_pend = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup getTahun($kat)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup informasiPublik()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup nonActive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup peraturanDesa($kat, $tahun = '')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup status($status)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereAttr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereDokWarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereIdKelompok($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereIdParent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereIdPend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereIdSyarat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereKategoriInfoPublik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereLokasiArsip($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereRetensiDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereRetensiNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereRetensiUnit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereSatuan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereTahun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereTglUpload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DokumenHidup withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class DokumenHidup extends BaseModel
 {
     use ConfigId;

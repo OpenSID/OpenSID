@@ -39,6 +39,19 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @property string|null $ndesc
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilMutasi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilMutasi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilMutasi query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilMutasi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilMutasi whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilMutasi whereNdesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilMutasi withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class RefPersilMutasi extends BaseModel
 {
     /**

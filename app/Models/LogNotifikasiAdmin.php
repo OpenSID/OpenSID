@@ -41,6 +41,37 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int|null $id_user
+ * @property int $config_id
+ * @property string $judul
+ * @property string $isi
+ * @property string|null $token
+ * @property string|null $device
+ * @property string|null $image
+ * @property string $payload
+ * @property int $read
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereDevice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereIdUser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereIsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin wherePayload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereRead($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogNotifikasiAdmin withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogNotifikasiAdmin extends BaseModel
 {
     use ConfigId;

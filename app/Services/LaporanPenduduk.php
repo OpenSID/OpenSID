@@ -449,12 +449,18 @@ class LaporanPenduduk
 
             case 'akta-kematian':
                 // Akta Kematian
+                $tahun = $this->filter['tahun'] ?? null;
                 $where = "TIMESTAMPDIFF(YEAR, b.tanggallahir, l.tgl_peristiwa) BETWEEN u.dari AND u.sampai
                     AND l.akta_mati IS NOT NULL
                     AND l.akta_mati != ''
-                    AND l.file_akta_mati IS NOT NULL";
+                    AND l.file_akta_mati IS NOT NULL
+                    AND l.kode_peristiwa = " . PeristiwaPendudukEnum::MATI->value;
 
-                $jml = $this->select_jml($where, '2');
+                if ($tahun) {
+                    $where .= " AND YEAR(l.tgl_lapor) = {$tahun}";
+                }
+
+                $jml = $this->select_jml($where, '2', true);
 
                 return DB::table('tweb_penduduk_umur as u')
                     ->select('u.*')
@@ -473,6 +479,7 @@ class LaporanPenduduk
             case 'akta-kematian-wilayah':
                 // Kepemilikan Akta Kematian Berdasarkan Wilayah
                 $idCluster   = $this->filter['idCluster'];
+                $tahun       = $this->filter['tahun'] ?? null;
                 $adaAktaMati = 'l.akta_mati IS NOT NULL AND l.akta_mati != "" AND l.file_akta_mati IS NOT NULL';
 
                 return DB::table('tweb_wil_clusterdesa as w')
@@ -481,9 +488,12 @@ class LaporanPenduduk
                     ->selectRaw("COUNT(DISTINCT CASE WHEN {$adaAktaMati} AND b.sex = 1 THEN b.id END) as laki")
                     ->selectRaw("COUNT(DISTINCT CASE WHEN {$adaAktaMati} AND b.sex = 2 THEN b.id END) as perempuan")
                     ->leftJoin('tweb_penduduk as b', 'b.id_cluster', '=', 'w.id')
-                    ->leftJoin('log_penduduk as l', static function ($join) {
+                    ->leftJoin('log_penduduk as l', static function ($join) use ($tahun) {
                         $join->on('b.id', '=', 'l.id_pend')
                              ->where('l.kode_peristiwa', PeristiwaPendudukEnum::MATI->value);
+                        if ($tahun) {
+                            $join->whereYear('l.tgl_lapor', $tahun);
+                        }
                     })
                     ->where('b.status_dasar', StatusDasarEnum::MATI)
                     ->where('b.config_id', identitas('id'))
@@ -851,7 +861,7 @@ class LaporanPenduduk
         return $query;
     }
 
-    private function str_jml_penduduk(string $where, string $sex = '', string $status_dasar = '1')
+    private function str_jml_penduduk(string $where, string $sex = '', string $status_dasar = '1', bool $skipTahunFilter = false)
     {
         $query = DB::table('tweb_penduduk as b')
             ->selectRaw('COUNT(b.id)')
@@ -871,10 +881,12 @@ class LaporanPenduduk
             $sq->whereIn('a.id', $idCluster);
         });
 
-        $tahun = $this->filter['tahun'] ?? null;
-        $query->when($tahun, function ($sq) use ($tahun) {
-            $this->filterTahunPenduduk($sq, $tahun, 'b');
-        });
+        if (! $skipTahunFilter) {
+            $tahun = $this->filter['tahun'] ?? null;
+            $query->when($tahun, function ($sq) use ($tahun) {
+                $this->filterTahunPenduduk($sq, $tahun, 'b');
+            });
+        }
 
         return $query
             ->where('b.status_dasar', $status_dasar)
@@ -883,11 +895,11 @@ class LaporanPenduduk
             ->toRawSql();
     }
 
-    private function select_jml(string $where, string $status_dasar = '1')
+    private function select_jml(string $where, string $status_dasar = '1', bool $skipTahunFilter = false)
     {
-        $str_jml_penduduk  = $this->str_jml_penduduk($where, '', $status_dasar);
-        $str_jml_laki      = $this->str_jml_penduduk($where, '1', $status_dasar);
-        $str_jml_perempuan = $this->str_jml_penduduk($where, '2', $status_dasar);
+        $str_jml_penduduk  = $this->str_jml_penduduk($where, '', $status_dasar, $skipTahunFilter);
+        $str_jml_laki      = $this->str_jml_penduduk($where, '1', $status_dasar, $skipTahunFilter);
+        $str_jml_perempuan = $this->str_jml_penduduk($where, '2', $status_dasar, $skipTahunFilter);
 
         return [
             'str_jml_penduduk'  => $str_jml_penduduk,

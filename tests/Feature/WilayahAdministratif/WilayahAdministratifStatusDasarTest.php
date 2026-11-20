@@ -5,29 +5,13 @@ namespace Tests\Feature\WilayahAdministratif;
 use App\Enums\StatusDasarEnum;
 use App\Models\Penduduk;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Traits\RefreshDatabase;
 use Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class WilayahAdministratifStatusDasarTest extends BaseTestCase
 {
     use RefreshDatabase;
-
-    protected function migrateFreshUsing(): array
-    {
-        $seeder = $this->seeder();
-
-        return array_merge(
-            [
-                '--drop-views'  => $this->shouldDropViews(),
-                '--drop-types'  => $this->shouldDropTypes(),
-                '--schema-path' => base_path('tests/playwright/storage/database/schema.sql'),
-                '--path'        => 'database/migrations',
-                '--realpath'    => false,
-            ],
-            $seeder ? ['--seeder' => $seeder] : ['--seed' => $this->shouldSeed()]
-        );
-    }
 
     #[Test]
     public function filter_data_status_dasar_hidup()

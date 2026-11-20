@@ -41,6 +41,19 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $simbol
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GisSimbol newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GisSimbol newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GisSimbol query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GisSimbol whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GisSimbol whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GisSimbol whereSimbol($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GisSimbol withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class GisSimbol extends BaseModel
 {
     use ConfigId;

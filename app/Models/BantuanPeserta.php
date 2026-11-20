@@ -43,6 +43,53 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property \App\Models\Penduduk|null $peserta
+ * @property int|null $program_id
+ * @property string|null $no_id_kartu
+ * @property string $kartu_nik
+ * @property string $kartu_nama
+ * @property string $kartu_tempat_lahir
+ * @property string $kartu_tanggal_lahir
+ * @property string $kartu_alamat
+ * @property string|null $kartu_peserta
+ * @property int|null $kartu_id_pend
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\Bantuan|null $bantuan
+ * @property-read \App\Models\Bantuan|null $bantuanKeluarga
+ * @property-read \App\Models\Bantuan|null $bantuanPenduduk
+ * @property-read \App\Models\Kelompok|null $kelompok
+ * @property-read \App\Models\Keluarga|null $keluarga
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @property-read \App\Models\Rtm|null $rtm
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta peserta()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereKartuAlamat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereKartuIdPend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereKartuNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereKartuNik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereKartuPeserta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereKartuTanggalLahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereKartuTempatLahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereNoIdKartu($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta wherePeserta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereProgramId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BantuanPeserta withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class BantuanPeserta extends BaseModel
 {
     use ConfigId;

@@ -39,6 +39,19 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @property int|null $sex
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KB newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KB newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KB query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KB whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KB whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KB whereSex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KB withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KB extends BaseModel
 {
     /**

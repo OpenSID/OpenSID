@@ -41,6 +41,32 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_rtm
+ * @property string $judul
+ * @property string $keterangan
+ * @property string $foto
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Dtks> $dtks
+ * @property-read int|null $dtks_count
+ * @property-read string $foto_kecil
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran whereIdRtm($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksLampiran withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class DtksLampiran extends BaseModel
 {
     use ConfigId;

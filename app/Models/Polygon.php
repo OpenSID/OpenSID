@@ -45,6 +45,40 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string|null $simbol
+ * @property string|null $color
+ * @property int|null $tipe
+ * @property int|null $parrent
+ * @property int $enabled
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Polygon> $children
+ * @property-read int|null $children_count
+ * @property-read mixed $parrent_id
+ * @property-read string $status_label
+ * @property-read Polygon|null $parent
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon child(int $parent)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon root()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon status(?int $status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon subPolygon()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon whereColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon whereParrent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon whereSimbol($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Polygon withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Polygon extends BaseModel
 {
     use ConfigId;

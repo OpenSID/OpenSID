@@ -49,6 +49,110 @@ use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $pamong_id
+ * @property int $config_id
+ * @property string $pamong_nama
+ * @property string|null $gelar_depan
+ * @property string|null $gelar_belakang
+ * @property string|null $pamong_nip
+ * @property string|null $pamong_tag_id_card
+ * @property string|null $pamong_pin
+ * @property string|null $pamong_nik
+ * @property int|null $pamong_status
+ * @property string|null $pamong_tgl_terdaftar
+ * @property int|null $pamong_ttd
+ * @property string|null $foto
+ * @property int|null $id_pend
+ * @property string $pamong_tempatlahir
+ * @property string $pamong_tanggallahir
+ * @property string $pamong_sex
+ * @property string $pamong_pendidikan
+ * @property string $pamong_agama
+ * @property string|null $pamong_nosk
+ * @property string|null $pamong_tglsk
+ * @property string|null $pamong_masajab
+ * @property int|null $urut
+ * @property string|null $pamong_niap
+ * @property string|null $pamong_pangkat
+ * @property string|null $pamong_nohenti
+ * @property string|null $pamong_tglhenti
+ * @property int $pamong_ub
+ * @property int|null $atasan
+ * @property int|null $bagan_tingkat
+ * @property int|null $bagan_offset
+ * @property string|null $bagan_layout
+ * @property string|null $bagan_warna
+ * @property int $kehadiran
+ * @property int|null $jabatan_id
+ * @property array<array-key, mixed>|null $media_sosial
+ * @property int $status_pejabat
+ * @property-read mixed $foto_staff
+ * @property-read string $pamong_agama_id
+ * @property-read string $pamong_sex_id
+ * @property-read \App\Models\RefJabatan|null $jabatan
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, KehadiranPengaduan> $kehadiranPengaduan
+ * @property-read int|null $kehadiran_pengaduan_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Kehadiran> $kehadiranPerangkat
+ * @property-read int|null $kehadiran_perangkat_count
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong aktif()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong bukanPengguna(?mixed $id = '')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong daftar(?mixed $value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong kehadiranPamong()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong kepalaDesa()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong listAtasan($id = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong ordered(string $direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong penandaTangan()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong sekretarisDesa()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong selectData()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong status(?mixed $value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong ttd($jenis = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong urut()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereAtasan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereBaganLayout($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereBaganOffset($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereBaganTingkat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereBaganWarna($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereGelarBelakang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereGelarDepan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereIdPend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereJabatanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereKehadiran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereMediaSosial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongAgama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongMasajab($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongNiap($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongNik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongNip($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongNohenti($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongNosk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongPangkat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongPendidikan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongPin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongSex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongTagIdCard($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongTanggallahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongTempatlahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongTglTerdaftar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongTglhenti($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongTglsk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongTtd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong wherePamongUb($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereStatusPejabat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pamong withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Pamong extends BaseModel
 {
     use ConfigId;

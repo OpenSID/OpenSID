@@ -41,6 +41,25 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $pengguna
+ * @property string $tanggal
+ * @property int $pilihan
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendapat newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendapat newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendapat pendapat($tipe, $pilih = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendapat query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendapat whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendapat whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendapat wherePengguna($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendapat wherePilihan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendapat whereTanggal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendapat withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Pendapat extends BaseModel
 {
     use ConfigId;

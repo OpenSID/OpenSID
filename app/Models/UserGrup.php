@@ -44,6 +44,36 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string|null $slug
+ * @property int $jenis
+ * @property int $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup status(?mixed $status = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserGrup withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class UserGrup extends BaseModel
 {
     use ConfigId;

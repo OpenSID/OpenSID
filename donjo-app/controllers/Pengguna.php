@@ -163,8 +163,8 @@ class Pengguna extends Admin_Controller
     public function kirim_otp_telegram()
     {
         // cek telegram sudah pernah terpakai atau belum
-        $id_telegram = (int) $this->input->get('id_telegram');
-        if (User::where('id_telegram', '=', $id_telegram)->where('id', '!=', ci_auth()->id)->exists()) {
+        $id_telegram = (int) $this->input->post('id_telegram');
+        if (! empty($id_telegram) && User::where('id_telegram', '=', $id_telegram)->where('id', '!=', ci_auth()->id)->exists()) {
             return json([
                 'status'  => false,
                 'message' => 'ID telegram harus unik. ID telegram yang Anda masukkan sudah digunakan oleh pengguna lain',
@@ -172,7 +172,7 @@ class Pengguna extends Admin_Controller
         }
 
         try {
-            $user  = User::find(ci_auth()->id);
+            $user  = Auth::user() ?: User::find(ci_auth()->id);
             $token = hash('sha256', $raw_token = random_int(100000, 999999));
 
             $user->id_telegram = $id_telegram;

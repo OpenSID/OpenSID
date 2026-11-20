@@ -75,6 +75,247 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string $nik
+ * @property int|null $id_kk
+ * @property int $kk_level
+ * @property string|null $id_rtm
+ * @property int|null $rtm_level
+ * @property int $sex
+ * @property string $tempatlahir
+ * @property \Illuminate\Support\Carbon $tanggallahir
+ * @property int $agama_id
+ * @property int $pendidikan_kk_id
+ * @property int|null $pendidikan_sedang_id
+ * @property int $pekerjaan_id
+ * @property int $status_kawin
+ * @property int $warganegara_id
+ * @property string $dokumen_pasport
+ * @property string $dokumen_kitas
+ * @property string|null $ayah_nik
+ * @property string|null $ibu_nik
+ * @property string $nama_ayah
+ * @property string $nama_ibu
+ * @property string|null $foto
+ * @property string $golongan_darah_id
+ * @property int|null $id_cluster
+ * @property int|null $status
+ * @property string|null $alamat_sebelumnya
+ * @property string|null $alamat_sekarang
+ * @property int $status_dasar
+ * @property int|null $hamil
+ * @property int|null $cacat_id
+ * @property int|null $sakit_menahun_id
+ * @property string|null $akta_lahir
+ * @property string|null $akta_perkawinan
+ * @property string|null $tanggalperkawinan
+ * @property string|null $akta_perceraian
+ * @property string|null $tanggalperceraian
+ * @property int|null $cara_kb_id
+ * @property string|null $telepon
+ * @property string|null $tanggal_akhir_paspor
+ * @property string|null $no_kk_sebelumnya
+ * @property int|null $ktp_el
+ * @property int|null $status_rekam
+ * @property string|null $waktu_lahir
+ * @property int|null $tempat_dilahirkan
+ * @property int|null $jenis_kelahiran
+ * @property int|null $kelahiran_anak_ke
+ * @property int|null $penolong_kelahiran
+ * @property int|null $berat_lahir
+ * @property string|null $panjang_lahir
+ * @property string|null $tag_id_card
+ * @property int|null $id_asuransi
+ * @property string|null $no_asuransi
+ * @property int|null $status_asuransi
+ * @property string|null $email
+ * @property string|null $email_token
+ * @property string|null $email_tgl_kadaluarsa
+ * @property string|null $email_tgl_verifikasi
+ * @property string|null $telegram
+ * @property string|null $telegram_token
+ * @property string|null $telegram_tgl_kadaluarsa
+ * @property string|null $telegram_tgl_verifikasi
+ * @property int|null $bahasa_id
+ * @property string|null $ket
+ * @property bool $is_historical
+ * @property string|null $negara_asal
+ * @property string|null $tempat_cetak_ktp
+ * @property string|null $tanggal_cetak_ktp
+ * @property string|null $suku
+ * @property string|null $marga
+ * @property string|null $adat
+ * @property string|null $pekerja_migran
+ * @property string|null $bpjs_ketenagakerjaan
+ * @property string|null $hubung_warga
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\Wilayah|null $Wilayah
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Bantuan> $bantuan
+ * @property-read int|null $bantuan_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Dokumen> $dokumen
+ * @property-read int|null $dokumen_count
+ * @property-read string $agama
+ * @property-read mixed $alamat_wilayah
+ * @property-read mixed $alamat_wilayah_kartu_keluarga
+ * @property-read string $asuransi
+ * @property-read string $bahasa
+ * @property-read string $cacat
+ * @property-read string $cara_kb
+ * @property-read string $di_lahirkan
+ * @property-read string $golongan_darah
+ * @property-read string $jenis_kelamin
+ * @property-read mixed $jenis_kelamin_id
+ * @property-read string $jenis_kelamin_inisial
+ * @property-read string $jenis_lahir
+ * @property-read string $jml_anak
+ * @property-read mixed $lokasi
+ * @property-read string $nama_asuransi
+ * @property-read string $pekerjaan
+ * @property-read mixed $pendidikan
+ * @property-read mixed $pendidikan_k_k
+ * @property-read mixed $pendidikan_sedang
+ * @property-read string $penduduk_hubungan
+ * @property-read string $penduduk_status
+ * @property-read string $penolong_lahir
+ * @property-read mixed $sakit_menahun
+ * @property-read string $status_hamil
+ * @property-read string $status_perkawinan
+ * @property-read mixed $umur
+ * @property-read string $url_foto
+ * @property-read string $usia
+ * @property-read string $wajib_k_t_p
+ * @property-read string $warganegara
+ * @property-read \App\Models\Keluarga|null $keluarga
+ * @property-read \App\Models\KIA|null $kia_anak
+ * @property-read \App\Models\KIA|null $kia_ibu
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LogPenduduk> $log
+ * @property-read int|null $log_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LogSurat> $logSurat
+ * @property-read int|null $log_surat_count
+ * @property-read \App\Models\LogPenduduk|null $log_latest
+ * @property-read \App\Models\PendudukMandiri|null $mandiri
+ * @property-read \App\Models\PendudukMap|null $map
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \App\Models\Pamong|null $pamong
+ * @property-read \App\Models\Pamong|null $pamongUser
+ * @property-read \App\Models\User|null $pembuat
+ * @property-read \App\Models\User|null $pengubah
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PesanMandiri> $pesan
+ * @property-read int|null $pesan_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BantuanPeserta> $pesertaBantuan
+ * @property-read int|null $peserta_bantuan_count
+ * @property-read \App\Models\Rtm|null $rtm
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk ayah($idKk)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk batasiUmur($tglPemilihan, $umurObj = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk dpt($tglPemilihan = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk dusun($dusun = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk eksporData()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk filterLog(array $filters)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk filters(array $filters = [], array $allowedFilters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk hidup(int $value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk hubungWarga()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk ibu($idKk)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk kepalaKeluarga()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk orderKeluarga()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk status($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk statusDasar(array $value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk statusPenduduk($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk urut()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk wajibKtp()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereAdat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereAgamaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereAktaLahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereAktaPerceraian($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereAktaPerkawinan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereAlamatSebelumnya($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereAlamatSekarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereAyahNik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereBahasaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereBeratLahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereBpjsKetenagakerjaan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereCacatId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereCaraKbId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereDokumenKitas($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereDokumenPasport($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereEmailTglKadaluarsa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereEmailTglVerifikasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereEmailToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereGolonganDarahId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereHamil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereHubungWarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereIbuNik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereIdAsuransi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereIdCluster($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereIdKk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereIdRtm($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereIsHistorical($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereJenisKelahiran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereKelahiranAnakKe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereKet($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereKkLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereKtpEl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereMarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereNamaAyah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereNamaIbu($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereNegaraAsal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereNik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereNoAsuransi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereNoKkSebelumnya($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk wherePanjangLahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk wherePekerjaMigran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk wherePekerjaanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk wherePendidikanKkId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk wherePendidikanSedangId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk wherePenolongKelahiran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereRtmLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereSakitMenahunId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereSex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereStatusAsuransi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereStatusDasar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereStatusKawin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereStatusRekam($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereSuku($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTagIdCard($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTanggalAkhirPaspor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTanggalCetakKtp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTanggallahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTanggalperceraian($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTanggalperkawinan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTelegram($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTelegramTglKadaluarsa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTelegramTglVerifikasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTelegramToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTelepon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTempatCetakKtp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTempatDilahirkan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereTempatlahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereWaktuLahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk whereWarganegaraId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Penduduk withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Penduduk extends BaseModel implements AuthenticatableContract
 {
     use Author;

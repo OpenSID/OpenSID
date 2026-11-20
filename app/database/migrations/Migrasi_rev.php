@@ -49,17 +49,6 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        try {
-            theme_scan();
-        } catch (Exception $e) {
-            logger()->error('Gagal update theme cache: ' . $e->getMessage());
-        }
-
-        try {
-            cache()->forget('identitas_desa');
-        } catch (Exception $e) {
-            logger()->error('Gagal hapus cache identitas desa: ' . $e->getMessage());
-        }
     }
 
     /**

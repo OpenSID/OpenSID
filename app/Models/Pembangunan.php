@@ -43,6 +43,87 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_lokasi
+ * @property array<array-key, mixed>|null $sumber_dana
+ * @property string|null $judul
+ * @property string|null $slug
+ * @property string|null $keterangan
+ * @property string|null $lokasi
+ * @property string|null $lat
+ * @property string|null $lng
+ * @property string|null $volume
+ * @property string|null $tahun_anggaran
+ * @property string|null $pelaksana_kegiatan
+ * @property int|null $pamong_id
+ * @property int $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $foto
+ * @property int|null $anggaran
+ * @property int|null $perubahan_anggaran
+ * @property int|null $sumber_biaya_pemerintah
+ * @property int|null $sumber_biaya_provinsi
+ * @property int|null $sumber_biaya_kab_kota
+ * @property int|null $sumber_biaya_swadaya
+ * @property int|null $sumber_biaya_jumlah
+ * @property string|null $manfaat
+ * @property int|null $waktu
+ * @property int $satuan_waktu 1 = Hari, 2 = Minggu, 3 = Bulan, 4 = Tahun
+ * @property string|null $sifat_proyek
+ * @property int|null $realisasi_anggaran
+ * @property int|null $silpa
+ * @property-read mixed $alamat
+ * @property-read string|null $lokasi_lengkap
+ * @property-read mixed $max_persentase
+ * @property-read string $lokasi_pemb
+ * @property-read \App\Models\Pamong|null $pamong
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PembangunanDokumentasi> $pembangunanDokumentasi
+ * @property-read int|null $pembangunan_dokumentasi_count
+ * @property-read \App\Models\Wilayah|null $wilayah
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan slug($slug)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan status($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan tipe($tipe = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereAnggaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereIdLokasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereLat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereLng($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereLokasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereManfaat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan wherePamongId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan wherePelaksanaKegiatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan wherePerubahanAnggaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereRealisasiAnggaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereSatuanWaktu($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereSifatProyek($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereSilpa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereSumberBiayaJumlah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereSumberBiayaKabKota($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereSumberBiayaPemerintah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereSumberBiayaProvinsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereSumberBiayaSwadaya($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereSumberDana($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereTahunAnggaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereVolume($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan whereWaktu($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pembangunan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Pembangunan extends BaseModel
 {
     use ConfigId;
@@ -151,7 +232,7 @@ class Pembangunan extends BaseModel
 
     public function getAlamatAttribute()
     {
-        return $this->lokasi ?? $this->wilayah->dusun;
+        return $this->lokasi ?? $this->wilayah?->dusun;
     }
 
     public function getLokasiLengkapAttribute(): ?string
@@ -159,7 +240,7 @@ class Pembangunan extends BaseModel
         if ($this->alamat == null) {
             return 'Lokasi tidak diketahui';
         }
-        if ($this->id_lokasi == $this->wilayah->id) {
+        if ($this->wilayah && $this->id_lokasi == $this->wilayah->id) {
             $alamat = '';
             if ($this->wilayah->rt != '0') {
                 $alamat .= 'RT ' . $this->wilayah->rt . ' / ';

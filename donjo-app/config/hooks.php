@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\File;
+
 /*
  *
  * File ini bagian dari:
@@ -47,6 +49,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 | https://codeigniter.com/user_guide/general/hooks.html
 |
 */
+$hook['pre_system'][] = static function () {
+    if (File::exists(base_path('Modules/FolderDesa'))) {
+        File::deleteDirectory(base_path('Modules/FolderDesa'));
+    }
+};
 $hook['pre_system'][] = [
     'class'    => 'RouterHook',
     'function' => 'handlePreSystem',

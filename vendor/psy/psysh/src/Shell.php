@@ -32,6 +32,7 @@ use Psy\ExecutionLoop\UopzReloader;
 use Psy\Formatter\TraceFormatter;
 use Psy\Input\ShellInput;
 use Psy\Input\SilentInput;
+use Psy\Output\BuiltinOutputPager;
 use Psy\Output\ShellOutput;
 use Psy\Readline\InteractiveReadlineInterface;
 use Psy\Readline\LegacyReadline;
@@ -70,7 +71,7 @@ use Symfony\Component\Console\Output\StreamOutput;
  */
 class Shell extends Application
 {
-    const VERSION = 'v0.12.23';
+    const VERSION = 'v0.12.24';
 
     private Configuration $config;
     private ?CodeCleaner $cleaner = null;
@@ -237,8 +238,12 @@ class Shell extends Application
             $readline->setTheme($this->config->theme());
             $readline->setRequireSemicolons($this->config->requireSemicolons());
             $readline->setUseBracketedPaste($this->config->useBracketedPaste());
+            if ($readline instanceof \Psy\Readline\InteractiveReadline) {
+                $readline->setUseUnicode($this->config->useUnicode());
+            }
             $readline->setUseSyntaxHighlighting($this->config->useSyntaxHighlighting());
             $readline->setUseSuggestions($this->config->useSuggestions());
+            $this->wireUserlandPagerIfRequested($readline);
         } else {
             $readline->setRequireSemicolons($this->config->requireSemicolons());
         }
@@ -251,6 +256,25 @@ class Shell extends Application
         $readline->setShell($this);
 
         return $readline;
+    }
+
+    /**
+     * Install the userland BuiltinOutputPager on the ShellOutput if the
+     * config asked for `pager => true` (or auto-selected it because the
+     * interactive readline is active).
+     */
+    private function wireUserlandPagerIfRequested(InteractiveReadlineInterface $readline): void
+    {
+        if ($this->config->getPager() !== true) {
+            return;
+        }
+
+        $output = $this->output ?? $this->config->getOutput();
+        if (!($output instanceof ShellOutput)) {
+            return;
+        }
+
+        $output->setPager(new BuiltinOutputPager($output, $readline->getPager()));
     }
 
     /**
@@ -525,6 +549,11 @@ class Shell extends Application
                 case 'pager':
                     if ($this->output instanceof ShellOutput) {
                         $pager = $this->config->getPager();
+                        if ($pager === true) {
+                            $pager = $this->readline instanceof InteractiveReadlineInterface
+                                ? new BuiltinOutputPager($this->output, $this->readline->getPager())
+                                : null;
+                        }
                         $this->output->setPager($pager === false ? null : $pager);
                     }
                     break;
@@ -543,6 +572,12 @@ class Shell extends Application
 
                 case 'useBracketedPaste':
                     $this->readline->setUseBracketedPaste($this->config->useBracketedPaste());
+                    break;
+
+                case 'useUnicode':
+                    if ($this->readline instanceof \Psy\Readline\InteractiveReadline) {
+                        $this->readline->setUseUnicode($this->config->useUnicode());
+                    }
                     break;
 
                 case 'useSyntaxHighlighting':
@@ -1942,7 +1977,7 @@ class Shell extends Application
 
         $message = \preg_replace(
             [
-                "#(?:[A-Za-z]:)?[\\\\/][^\\r\\n]*?[\\\\/]src[\\\\/]Execution(?:Loop)?Closure\\.php\\(\\d+\\) : eval\\(\\)'d code#",
+                "#(?:[A-Za-z]:)?[\\\\/][^\\s]*?[\\\\/]src[\\\\/]Execution(?:Loop)?Closure\\.php\\(\\d+\\) : eval\\(\\)'d code#",
                 "#\\bsrc[\\\\/]Execution(?:Loop)?Closure\\.php\\(\\d+\\) : eval\\(\\)'d code#",
             ],
             "eval()'d code",

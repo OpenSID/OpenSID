@@ -41,6 +41,23 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id_disposisi
+ * @property int $config_id
+ * @property int $id_surat_masuk
+ * @property int|null $id_desa_pamong
+ * @property string|null $disposisi_ke
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DisposisiSuratmasuk newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DisposisiSuratmasuk newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DisposisiSuratmasuk query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DisposisiSuratmasuk whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DisposisiSuratmasuk whereDisposisiKe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DisposisiSuratmasuk whereIdDesaPamong($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DisposisiSuratmasuk whereIdDisposisi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DisposisiSuratmasuk whereIdSuratMasuk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DisposisiSuratmasuk withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class DisposisiSuratmasuk extends BaseModel
 {
     use ConfigId;

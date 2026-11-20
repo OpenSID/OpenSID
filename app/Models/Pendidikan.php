@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendidikan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendidikan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendidikan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendidikan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendidikan whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pendidikan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Pendidikan extends BaseModel
 {
     /**

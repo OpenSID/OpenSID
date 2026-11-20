@@ -43,6 +43,50 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_pemohon
+ * @property int|null $id_surat
+ * @property array<array-key, mixed> $isian_form
+ * @property int $status
+ * @property string|null $alasan
+ * @property string|null $keterangan
+ * @property string $no_hp_aktif
+ * @property array<array-key, mixed>|null $syarat
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property string|null $no_antrian
+ * @property-read string $kode_status_permohonan
+ * @property-read string $status_permohonan
+ * @property-read string $syarat_surat
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LogSurat> $logSurat
+ * @property-read int|null $log_surat_count
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @property-read \App\Models\FormatSurat|null $surat
+ * @method static Builder<static>|PermohonanSurat baru()
+ * @method static Builder<static>|PermohonanSurat belumDiambil()
+ * @method static Builder<static>|PermohonanSurat newModelQuery()
+ * @method static Builder<static>|PermohonanSurat newQuery()
+ * @method static Builder<static>|PermohonanSurat pengguna()
+ * @method static Builder<static>|PermohonanSurat query()
+ * @method static Builder<static>|PermohonanSurat status(string $status = '')
+ * @method static Builder<static>|PermohonanSurat whereAlasan($value)
+ * @method static Builder<static>|PermohonanSurat whereConfigId($value)
+ * @method static Builder<static>|PermohonanSurat whereCreatedAt($value)
+ * @method static Builder<static>|PermohonanSurat whereId($value)
+ * @method static Builder<static>|PermohonanSurat whereIdPemohon($value)
+ * @method static Builder<static>|PermohonanSurat whereIdSurat($value)
+ * @method static Builder<static>|PermohonanSurat whereIsianForm($value)
+ * @method static Builder<static>|PermohonanSurat whereKeterangan($value)
+ * @method static Builder<static>|PermohonanSurat whereNoAntrian($value)
+ * @method static Builder<static>|PermohonanSurat whereNoHpAktif($value)
+ * @method static Builder<static>|PermohonanSurat whereStatus($value)
+ * @method static Builder<static>|PermohonanSurat whereSyarat($value)
+ * @method static Builder<static>|PermohonanSurat whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PermohonanSurat withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class PermohonanSurat extends BaseModel
 {
     use ConfigId;

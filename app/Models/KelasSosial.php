@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string|null $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelasSosial newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelasSosial newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelasSosial query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelasSosial whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelasSosial whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelasSosial withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KelasSosial extends BaseModel
 {
     /**
