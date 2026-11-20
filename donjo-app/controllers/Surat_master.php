@@ -78,6 +78,7 @@ class Surat_master extends Admin_Controller
         $validasi = [
             'tinggi_header'                  => (float) $request['tinggi_header'],
             'header_surat'                   => $request['header_surat'],
+            'header_surat_dispenduk'         => $request['header_surat_dispenduk'],
             'tinggi_footer'                  => (float) $request['tinggi_footer'],
             'verifikasi_sekdes'              => (int) $request['verifikasi_sekdes'],
             'verifikasi_kades'               => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],

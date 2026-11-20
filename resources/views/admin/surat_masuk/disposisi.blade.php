@@ -56,6 +56,33 @@
             font-size: larger;
         }
     </style>
+    @if(isset($is_landscape) && $is_landscape)
+        @push('css')
+        <style>
+            /* Mendukung landscape orientation untuk print preview */
+            body.landscape #print-modal {
+                width: 1122px;
+                margin: 0 0 0 -589px;
+            }
+
+            /* Override overflow hidden untuk enable scrolling */
+            body.landscape #print-modal-content {
+                overflow: auto !important;
+            }
+
+            @media print {
+                @page {
+                    margin: 0.5cm;
+                }
+
+                body {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        </style>
+        @endpush
+        @endif
 </head>
 
 <body>
@@ -140,7 +167,6 @@
                     </tr>
                 </tbody>
             </table>
-            @include('admin.layouts.components.blok_ttd_pamong', ['total_col' => 6, 'spasi_kiri' => 1, 'spasi_tengah' => 2])
         </div>
     </div>
 </body>

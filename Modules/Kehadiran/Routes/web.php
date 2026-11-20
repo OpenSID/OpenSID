@@ -61,6 +61,10 @@ Route::group('kehadiran_rekapitulasi', ['namespace' => 'Kehadiran/BackEnd'], sta
     Route::get('/', 'RekapitulasiController@index')->name('kehadiran_rekapitulasi.index');
     Route::post('/datatables', 'RekapitulasiController@datatables')->name('kehadiran_rekapitulasi.datatables');
     Route::get('/ekspor', 'RekapitulasiController@ekspor')->name('kehadiran_rekapitulasi.ekspor');
+    Route::get('/bulanan', 'RekapitulasiController@bulanan')->name('kehadiran_rekapitulasi.bulanan');
+    Route::get('/bulanan/dialog/{aksi}', 'RekapitulasiController@dialogBulanan')->name('kehadiran_rekapitulasi.bulanan.dialog');
+    Route::post('/bulanan/cetak', 'RekapitulasiController@cetakBulanan')->name('kehadiran_rekapitulasi.bulanan.cetak');
+    Route::post('/bulanan/ekspor', 'RekapitulasiController@eksporBulanan')->name('kehadiran_rekapitulasi.bulanan.ekspor');
 });
 
 // Kehadiran > Pengaduan
@@ -100,6 +104,38 @@ Route::group('kehadiran_pengajuan_izin_pamong', ['namespace' => 'Kehadiran/BackE
     Route::post('/update/{id}', 'PengajuanIzinPamongController@update')->name('kehadiran_pengajuan_izin_pamong.update');
     Route::get('/delete/{id}', 'PengajuanIzinPamongController@delete')->name('kehadiran_pengajuan_izin_pamong.delete');
     Route::get('/detail/{id}', 'PengajuanIzinPamongController@detail')->name('kehadiran_pengajuan_izin_pamong.detail');
+});
+
+// Kehadiran > Catatan Harian Kerja (Self-Service Pamong)
+Route::group('kehadiran_catatan_harian', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
+    Route::get('/', 'CatatanHarianController@index')->name('kehadiran_catatan_harian.index');
+    Route::get('/datatables', 'CatatanHarianController@datatables')->name('kehadiran_catatan_harian.datatables');
+    Route::get('/form/{id?}', 'CatatanHarianController@form')->name('kehadiran_catatan_harian.form');
+    Route::get('/view/{id}', 'CatatanHarianController@view')->name('kehadiran_catatan_harian.view');
+    Route::post('/create', 'CatatanHarianController@create')->name('kehadiran_catatan_harian.create');
+    Route::post('/update/{id}', 'CatatanHarianController@update')->name('kehadiran_catatan_harian.update');
+    Route::post('/submit/{id}', 'CatatanHarianController@submit')->name('kehadiran_catatan_harian.submit');
+    Route::get('/delete/{id}', 'CatatanHarianController@delete')->name('kehadiran_catatan_harian.delete');
+    Route::post('/delete-fotos-batch', 'CatatanHarianController@deleteFotosBatch')->name('kehadiran_catatan_harian.delete_fotos_batch');
+    Route::get('/fotos', 'CatatanHarianController@fotos')->name('kehadiran_catatan_harian.fotos');
+});
+
+// Kehadiran > Persetujuan Catatan Harian (Atasan/Admin)
+Route::group('kehadiran_approval_catatan', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
+    Route::get('/', 'ApprovalCatatanController@index')->name('kehadiran_approval_catatan.index');
+    Route::get('/datatables', 'ApprovalCatatanController@datatables')->name('kehadiran_approval_catatan.datatables');
+    Route::get('/detail/{id}', 'ApprovalCatatanController@detail')->name('kehadiran_approval_catatan.detail');
+    Route::post('/approve/{id}', 'ApprovalCatatanController@approve')->name('kehadiran_approval_catatan.approve');
+    Route::post('/reject/{id}', 'ApprovalCatatanController@reject')->name('kehadiran_approval_catatan.reject');
+    Route::post('/bulk-approve', 'ApprovalCatatanController@bulkApprove')->name('kehadiran_approval_catatan.bulk-approve');
+});
+
+// Kehadiran > Rekap Catatan Harian (Admin)
+Route::group('kehadiran_rekap_catatan', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
+    Route::get('/', 'RekapCatatanController@index')->name('kehadiran_rekap_catatan.index');
+    Route::get('/datatables', 'RekapCatatanController@datatables')->name('kehadiran_rekap_catatan.datatables');
+    Route::get('/cetak', 'RekapCatatanController@cetak')->name('kehadiran_rekap_catatan.cetak');
+    Route::get('/ekspor', 'RekapCatatanController@ekspor')->name('kehadiran_rekap_catatan.ekspor');
 });
 
 // FRONTEND

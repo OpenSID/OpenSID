@@ -178,11 +178,16 @@ class Surat_dinas_arsip extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($state, $canUpdate, $canDelete, $jabatanId, $idJabatanKades, $idJabatanSekdes, $redirectDelete): string {
                     $aksi          = '';
                     $statusPeriksa = $row->statusPeriksa($jabatanId, $idJabatanKades, $idJabatanSekdes);
-                    if ($state == 'arsip' && $canUpdate && $row->status == 0) {
-                        $aksi .= '<a href="' . ci_route('surat_dinas_cetak.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
-                        // hapus surat draft
-                        if ($canDelete) {
-                            $aksi .= '<a href="#" data-href="' . ci_route('surat_dinas_arsip.delete', $row->id) . '?redirect=' . $redirectDelete . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                    if ($state == 'arsip' && $canUpdate) {
+                        if ($row->status == 0) {
+                            $aksi .= '<a href="' . ci_route('surat_dinas_cetak.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
+                            // hapus surat draft
+                            if ($canDelete) {
+                                $aksi .= '<a href="#" data-href="' . ci_route('surat_dinas_arsip.delete', $row->id) . '?redirect=' . $redirectDelete . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                            }
+                        }
+                        if (User::superAdmin() && ! setting('tte') && $row->status != 0) {
+                            $aksi .= '<a href="' . ci_route('surat_dinas_arsip.ajax_edit_surat', $row->id) . '" class="btn bg-info btn-sm" title="Ubah Surat" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah Surat"><i class="fa fa-edit"></i></a> ';
                         }
                     }
 
@@ -204,7 +209,7 @@ class Surat_dinas_arsip extends Admin_Controller
 
                     // hanya untuk arsip surat -->
                     if ($row->status == '1') {
-                        if ($row->urls_id) {
+                        if ($row->urls_id && $row->tte == 1) {
                             $aksi .= '<a href="' . ci_route('surat_dinas_arsip.qrcode', $row->urls_id) . '" title="QR Code" data-size="modal-sm" class="viewQR btn bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a> ';
                         }
                         if ($row->isi_surat && $row->verifikasi_operator != '-1') {
@@ -590,6 +595,107 @@ class Surat_dinas_arsip extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Gagal menyimpan data surat');
         }
+    }
+
+    public function ajaxEditSurat(int $id): void
+    {
+        isCan('u');
+        if (! is_super_admin() || setting('tte')) {
+            redirect_with('error', 'Akses ditolak');
+        }
+        $data['form_action'] = ci_route('surat_dinas_arsip.edit_surat', $id);
+        view('admin.surat_dinas.arsip.ajax_edit_surat', $data);
+    }
+
+    public function editSurat(int $idLogSurat)
+    {
+        isCan('u');
+        if (! is_super_admin() || setting('tte')) {
+            redirect_with('error', 'Akses ditolak');
+        }
+
+        $alasan = trim((string) $this->input->post('alasan'));
+        if ($alasan === '') {
+            redirect_with('error', 'Alasan wajib diisi');
+        }
+
+        $this->set_hak_akses_rfm();
+        $surat_dinas_log    = LogSuratDinas::findOrFail($idLogSurat);
+
+        // Catat audit trail
+        activity()
+            ->causedBy(auth()->id)
+            ->performedOn($surat_dinas_log)
+            ->inLog('surat_dinas_arsip')
+            ->event('edit_arsip')
+            ->withProperties(['alasan' => $alasan])
+            ->log('edit_arsip_surat_dinas');
+
+        $log_surat          = $surat_dinas_log->toArray();
+        $log_surat['input'] = json_decode($log_surat['input'], true);
+        $surat              = SuratDinas::cetak($surat_dinas_log->suratDinas->url_surat)->first();
+
+        if ($surat) {
+            $log_surat['surat'] = $surat;
+
+            $isi_surat = $log_surat['isi_surat'];
+            // Bersihkan header/footer untuk semua status final (bukan hanya status == 1)
+            if ($surat_dinas_log->status != 0) {
+                if (strpos($isi_surat, '</page_header>') !== false) {
+                    $isi_surat = explode('</page_header>', $isi_surat)[1];
+                }
+                if (strpos($isi_surat, '<page_footer>') !== false) {
+                    $isi_surat = explode('<page_footer>', $isi_surat)[0];
+                }
+                $isi_surat = str_replace('</page>', '', $isi_surat);
+                $isi_surat = trim($isi_surat);
+            }
+
+            $header = preg_replace('/\\\\/', '', setting('header_surat_dinas'));
+            $footer = preg_replace('/\\\\/', '', setting('footer_surat_dinas'));
+            $isi_surat = $header . '<!-- pagebreak -->' . $isi_surat . '<!-- pagebreak -->' . $footer;
+
+            unset($log_surat['isi_surat']);
+
+            $aksi_konsep = ci_route('surat_dinas_cetak.konsep');
+            $aksi_cetak  = ci_route('surat_dinas_cetak.pdf');
+
+            $id_surat = $surat->id;
+
+            $pamong = Pamong::find($log_surat['id_pamong']);
+            if (! $pamong) {
+                redirect_with('error', 'Data Pamong penanda tangan tidak ditemukan');
+            }
+            $atas_nama = '';
+            if ($pamong->pamong_ttd === 1) {
+                $atas_nama .= 'a.n ' . ucwords($pamong->pamong_jabatan . ' ' . identitas()->nama_desa);
+            } elseif ($pamong->pamong_ub === 1) {
+                $atas_nama .= 'u.b ' . ucwords($pamong->pamong_jabatan . ' ' . identitas()->nama_desa);
+            }
+
+            $log_surat['input']['nomor'] = $log_surat['no_surat'];
+            $log_surat['input']['pilih_atas_nama'] = $atas_nama;
+            $log_surat['input']['pamong_id'] = $pamong->pamong_id;
+            $log_surat['ubah'] = true;
+
+            $this->session->log_surat = $log_surat;
+
+            $lampiran = $this->tinymce->generateLampiran(null, $log_surat, $log_surat['input'], true);
+
+            return view('admin.surat_dinas.cetak.konsep', [
+                'viewOnly'    => true,
+                'lampiran'    => $lampiran,
+                'surat'       => $surat,
+                'aksi_konsep' => $aksi_konsep,
+                'aksi_cetak'  => $aksi_cetak,
+                'isi_surat'   => $isi_surat,
+                'id_surat'    => $id_surat,
+                'ubah'        => true,
+                'tolak'       => $surat_dinas_log->verifikasi_operator,
+            ]);
+        }
+
+        redirect_with('error', 'Data Surat tidak ditemukan');
     }
 
     public function delete(int $id): void

@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tanggal Periksa</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control input-sm required" name="tanggal_periksa" placeholder="Masukkan tanggal periksa" value="{{ old('tanggal_periksa', $anak->tanggal_periksa ?? date('Y-m-d')) }}" />
+                            <input type="text" class="form-control input-sm tgl_sekarang required" name="tanggal_periksa" placeholder="Masukkan tanggal periksa" value="{{ old('tanggal_periksa', $anak->tanggal_periksa ?? date('Y-m-d')) }}" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -485,6 +485,13 @@
 
 @push('scripts')
     <script>
+        // $('.datepicker').datepicker({
+        //     weekStart: 1,
+        //     language: 'id',
+        //     format: 'dd-mm-yyyy',
+        //     autoclose: true
+        // });
+
         $('input[type=radio][name=pengukuran_berat_badan]').change(function() {
             if (this.value == 1) {
                 $('#berat_badan').prop("disabled", false);

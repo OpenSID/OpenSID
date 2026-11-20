@@ -121,7 +121,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ $ci->controller }}",
+                    url: "{{ ci_route($ci->controller . '.datatables') }}",
                     method: 'POST',
                     data: function(req) {
                         req.status_dasar = $('#status_dasar').val();

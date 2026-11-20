@@ -1,0 +1,17 @@
+{
+    "name": "themes/palanta",
+    "version": "2508.0.0",
+    "type": "library",
+    "description": "Tema OpenSID",
+    "license": "GPL-3.0-or-later",
+    "keywords": [
+        "Themes",
+        "OpenSID"
+    ],
+    "authors": [
+        {
+            "name": "Dafris",
+            "email": "dafrissusandra@gmail.com"
+        }
+    ]
+}

@@ -223,6 +223,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
 
         $data                 = $this->modal_penandatangan();
         $data['aksi']         = $aksi;
+        $data['file']         = 'Tanah Kas Desa ' . ucwords(setting('sebutan_desa'));
         $data['main']         = $query->prepareQuery()->results();
         $data['letak_ttd']    = ['1', '1', '23'];
         $data['bulan']        = date('m');

@@ -52,6 +52,8 @@ define('PREMIUM', false);
  */
 define('VERSION_BUILD', [
     // Version Build => Version (premium)
+    '2026.05.15' => '2605.0.1',
+    '2026.05.01' => '2605.0.0',
     '2026.04.15' => '2604.0.1',
     '2026.04.01' => '2604.0.0',
     '2026.03.15' => '2603.0.1',
@@ -85,6 +87,7 @@ define('WEBSITE_DEMO', [
     'localhost',
     '127.0.0.1',
     'devtestpremium.opendesa.id',
+    'premium.test',
 ]);
 
 // Modul bawaan OpenSID

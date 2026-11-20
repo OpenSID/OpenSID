@@ -44,6 +44,7 @@ class KodeIsianPendudukLuar
     public static array $kodeIsian = [
         'nik',
         'nama',
+        'status_kehidupan',
         'tempatlahir',
         'tanggallahir',
         'ttl',
@@ -180,6 +181,10 @@ class KodeIsianPendudukLuar
 
             if ($item === 'alamat_lengkap') {
                 $value = $input['alamat_jalan'] . ' RT ' . $input['nama_rt'] . ' / RW ' . $input['nama_rw'] . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $input['nama_dusun'] . ', ' . setting('sebutan_desa') . ' ' . $input['pend_desa'] . ', ' . setting('sebutan_kecamatan') . ' ' . $input['pend_kecamatan'] . ', ' . setting('sebutan_kabupaten') . ' ' . $input['pend_kabupaten'] . ', Provinsi ' . $input['pend_provinsi']);
+            }
+
+            if ($item === 'status_kehidupan') {
+                $value = ucfirst(strtolower($input[$item])); // "Masih Hidup" / "Sudah Meninggal"
             }
 
             return ['[' . ucfirst(uclast($item . $prefix)) . ']' => $value];

@@ -168,12 +168,12 @@ if (! function_exists('kotak')) {
     /**
      * Membuat kotak-kotak HTML untuk lampiran dengan data kolom.
      *
-     * @param array $data_kolom Data yang akan ditampilkan dalam kotak
-     * @param int   $max_kolom  Jumlah maksimal kolom yang akan dibuat
+     * @param array|string|null $data_kolom Data yang akan ditampilkan dalam kotak
+     * @param int               $max_kolom  Jumlah maksimal kolom yang akan dibuat
      *
      * @return string HTML berisi kotak-kotak data
      */
-    function kotak(array $data_kolom, $max_kolom = 26): string
+    function kotak($data_kolom, $max_kolom = 26): string
     {
         $view = '';
 
@@ -204,7 +204,7 @@ if (! function_exists('checklist')) {
     {
         $view = '<td class="kotak padat tengah">';
         if ($kondisi_1 == $kondisi_2) {
-            $view .= '<img src="' . base_url('assets/images/check.png') . '" height="10" width="10"/>';
+            $view .= '<img src="' . base_path('assets/images/check.png') . '" height="10" width="10"/>';
         }
 
         return $view . '</td>';

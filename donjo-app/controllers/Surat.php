@@ -264,7 +264,7 @@ class Surat extends Admin_Controller
             } else {
                 $log_surat['id_pend']        = null;
                 $log_surat['nama_non_warga'] = $this->request['individu']['nama'];
-                $log_surat['nik_non_warga']  = $this->request['individu']['nik'];
+                $log_surat['nik_non_warga']  = $this->request['individu']['nik'] ?: null;
             }
 
             if ($this->request['sebagai']) {
@@ -439,7 +439,7 @@ class Surat extends Admin_Controller
         } else {
             // Surat untuk non-warga
             $log_surat['nama_non_warga'] = $cetak['input']['individu']['nama'];
-            $log_surat['nik_non_warga']  = $cetak['input']['individu']['nik'];
+            $log_surat['nik_non_warga']  = $cetak['input']['individu']['nik'] ?: null;
             $nik                         = $log_surat['nik_non_warga'];
         }
 
@@ -566,7 +566,7 @@ class Surat extends Admin_Controller
             } else {
                 // Surat untuk non-warga
                 $log_surat['nama_non_warga'] = $cetak['input']['individu']['nama'];
-                $log_surat['nik_non_warga']  = $cetak['input']['individu']['nik'];
+                $log_surat['nik_non_warga']  = $cetak['input']['individu']['nik'] ?: null;
                 $nik                         = $log_surat['nik_non_warga'];
             }
 
@@ -853,10 +853,12 @@ class Surat extends Admin_Controller
         return Pamong::kepalaDesa()->first()->pamong_id;
     }
 
-    private function nama_surat_arsip(string $url, string $nik, $nomor): string
+    private function nama_surat_arsip(string $url, ?string $nik, $nomor): string
     {
         $nomor_surat = str_replace("'", '', $nomor);
         $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
+
+        $nik = $nik ?: 'TANPA_NIK';
 
         return $url . '_' . $nik . '_' . date('Y-m-d') . '_' . $nomor_surat . '.pdf';
     }

@@ -23,7 +23,9 @@
             formGroup.next('.penduduk_desa').find('select.select2-nik-ajax').val('').trigger('change');
             formGroup.next('.penduduk_desa').find('.data_penduduk_desa').empty();
             formGroup.nextAll('.penduduk_luar_desa').find('input, textarea').val('');
-            formGroup.nextAll('.penduduk_luar_desa').find('select, select2').val('').trigger('change');
+            formGroup.nextAll('.penduduk_luar_desa').find('select:not(.status-kehidupan-select), select2').val('').trigger('change');
+            // Reset status kehidupan ke "Masih Hidup" dan trigger change untuk reset field capil
+            formGroup.nextAll('.penduduk_luar_desa').find('.status-kehidupan-select').val('{{ \App\Enums\StatusKehidupanEnum::MASIH_HIDUP }}').trigger('change');
 
             if (value == 1) {
                 formGroup.next('.penduduk_desa').removeClass('hide');

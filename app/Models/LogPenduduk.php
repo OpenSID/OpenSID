@@ -236,40 +236,50 @@ class LogPenduduk extends BaseModel
         // Semua nilai yang diinterpolasi ($configId, $bulanMulai, $bulanAkhir)
         // sudah melewati validasi ketat di atas dan tidak dapat mengandung
         // karakter SQL berbahaya.
+        // Pola subquery wrapper: lapisan dalam GROUP BY pada kolom mentah w2.dusun
+        // (literal di GROUP BY = literal di SELECT), lapisan luar yang menerapkan
+        // COALESCE. Diperlukan karena MariaDB tidak mengenali ekspresi COALESCE
+        // di SELECT sebagai functional dependency dari ekspresi yang sama di
+        // GROUP BY, sehingga pola COALESCE-di-GROUP-BY ditolak only_full_group_by.
         $kkJlhSql = "
             SELECT
-                COALESCE(w2.dusun, '__NULL__') AS dusun,
-                COUNT(DISTINCT k2.id)          AS KK_JLH
-            FROM tweb_keluarga k2
-            JOIN tweb_penduduk p2
-                ON  k2.nik_kepala = p2.id
-                AND p2.config_id  = k2.config_id
-            LEFT JOIN tweb_wil_clusterdesa w2
-                ON p2.id_cluster = w2.id
-            WHERE k2.config_id    = {$configId}
-            AND p2.is_historical = 0
-            AND p2.kk_level      = 1
-            AND (
-                p2.status_dasar = 1
-                OR k2.id IN (
-                    SELECT lk_d.id_kk
-                    FROM   log_keluarga lk_d
-                    WHERE  lk_d.config_id     = {$configId}
-                        AND  lk_d.id_kk         IS NOT NULL
-                        AND  lk_d.id_peristiwa  IN (2, 3, 4)
-                        AND  lk_d.tgl_peristiwa >= '{$bulanMulai}'
-                        AND  lk_d.tgl_peristiwa  < '{$bulanAkhir}'
+                COALESCE(inner_kk_jlh.dusun, '__NULL__') AS dusun,
+                inner_kk_jlh.KK_JLH                       AS KK_JLH
+            FROM (
+                SELECT
+                    w2.dusun                AS dusun,
+                    COUNT(DISTINCT k2.id)   AS KK_JLH
+                FROM tweb_keluarga k2
+                JOIN tweb_penduduk p2
+                    ON  p2.id_kk      = k2.id
+                    AND p2.config_id  = k2.config_id
+                LEFT JOIN tweb_wil_clusterdesa w2
+                    ON p2.id_cluster = w2.id
+                WHERE k2.config_id    = {$configId}
+                AND p2.is_historical = 0
+                AND p2.kk_level      = 1
+                AND (
+                    p2.status_dasar = 1
+                    OR k2.id IN (
+                        SELECT lk_d.id_kk
+                        FROM   log_keluarga lk_d
+                        WHERE  lk_d.config_id     = {$configId}
+                            AND  lk_d.id_kk         IS NOT NULL
+                            AND  lk_d.id_peristiwa  IN (2, 3, 4)
+                            AND  lk_d.tgl_peristiwa >= '{$bulanMulai}'
+                            AND  lk_d.tgl_peristiwa  < '{$bulanAkhir}'
+                    )
                 )
-            )
-            AND k2.id NOT IN (
-                SELECT lk2.id_kk
-                FROM   log_keluarga lk2
-                WHERE  lk2.config_id = {$configId}
-                    AND  lk2.id_kk     IS NOT NULL
-                GROUP BY lk2.id_kk
-                HAVING MIN(lk2.tgl_peristiwa) >= '{$bulanMulai}'
-            )
-            GROUP BY COALESCE(w2.dusun, '__NULL__')
+                AND k2.id NOT IN (
+                    SELECT lk2.id_kk
+                    FROM   log_keluarga lk2
+                    WHERE  lk2.config_id = {$configId}
+                        AND  lk2.id_kk     IS NOT NULL
+                    GROUP BY lk2.id_kk
+                    HAVING MIN(lk2.tgl_peristiwa) >= '{$bulanMulai}'
+                )
+                GROUP BY w2.dusun
+            ) inner_kk_jlh
         ";
 
         // Derived table untuk menghitung net change KK dalam bulan berjalan per dusun.
@@ -278,27 +288,33 @@ class LogPenduduk extends BaseModel
         // KK keluar (id_peristiwa 2, 3, 4) selama rentang bulan ini. Mencakup kasus
         // tambahKeluargaDariPenduduk() dan pecahKK() yang hanya mencatat ke
         // log_keluarga tanpa menulis ke log_penduduk.
+        // Pola subquery wrapper, alasan sama seperti $kkJlhSql.
         $kkMasukSql = "
             SELECT
-                COALESCE(w3.dusun, '__NULL__') AS dusun,
-                (
-                    COUNT(DISTINCT CASE WHEN lk.id_peristiwa IN (1, 5)    THEN lk.id_kk END)
-                - COUNT(DISTINCT CASE WHEN lk.id_peristiwa IN (2, 3, 4) THEN lk.id_kk END)
-                ) AS KK_MASUK_JLH
-            FROM log_keluarga lk
-            JOIN tweb_keluarga k3
-                ON  lk.id_kk     = k3.id
-                AND k3.config_id = lk.config_id
-            JOIN tweb_penduduk p3
-                ON  k3.nik_kepala = p3.id
-                AND p3.config_id  = k3.config_id
-            LEFT JOIN tweb_wil_clusterdesa w3
-                ON p3.id_cluster = w3.id
-            WHERE lk.config_id     = {$configId}
-            AND lk.tgl_peristiwa >= '{$bulanMulai}'
-            AND lk.tgl_peristiwa  < '{$bulanAkhir}'
-            AND p3.is_historical  = 0
-            GROUP BY COALESCE(w3.dusun, '__NULL__')
+                COALESCE(inner_kk_masuk.dusun, '__NULL__') AS dusun,
+                inner_kk_masuk.KK_MASUK_JLH                AS KK_MASUK_JLH
+            FROM (
+                SELECT
+                    w3.dusun AS dusun,
+                    (
+                        COUNT(DISTINCT CASE WHEN lk.id_peristiwa IN (1, 5)    THEN lk.id_kk END)
+                    - COUNT(DISTINCT CASE WHEN lk.id_peristiwa IN (2, 3, 4) THEN lk.id_kk END)
+                    ) AS KK_MASUK_JLH
+                FROM log_keluarga lk
+                JOIN tweb_keluarga k3
+                    ON  lk.id_kk     = k3.id
+                    AND k3.config_id = lk.config_id
+                JOIN tweb_penduduk p3
+                    ON  p3.id_kk      = k3.id
+                    AND p3.config_id  = k3.config_id
+                LEFT JOIN tweb_wil_clusterdesa w3
+                    ON p3.id_cluster = w3.id
+                WHERE lk.config_id     = {$configId}
+                AND lk.tgl_peristiwa >= '{$bulanMulai}'
+                AND lk.tgl_peristiwa  < '{$bulanAkhir}'
+                AND p3.is_historical  = 0
+                GROUP BY w3.dusun
+            ) inner_kk_masuk
         ";
 
         /**
@@ -374,7 +390,7 @@ class LogPenduduk extends BaseModel
         $query
             // Dusun NULL dinormalisasi agar tidak menghasilkan baris tanpa identitas
             // pada hasil GROUP BY. Nilai '__NULL__' digunakan sebagai sentinel string.
-            ->selectRaw("COALESCE(tweb_wil_clusterdesa.dusun, '__NULL__') AS DUSUN")
+            ->selectRaw("MAX(COALESCE(tweb_wil_clusterdesa.dusun, '__NULL__')) AS DUSUN")
 
             // Saldo penduduk di awal bulan, dihitung dari semua log sebelum bulan berjalan.
             ->selectRaw($buildSelect(1, false, null, 'WNI_L_AWAL', true))
@@ -407,12 +423,14 @@ class LogPenduduk extends BaseModel
             ->selectRaw($buildSelect(2, true, [3, 4], 'WNA_P_KURANG_KELUAR'))
 
             // Jumlah dan mutasi KK diambil dari derived table yang sudah di-GROUP BY dusun.
-            // ANY_VALUE() diperlukan untuk mematuhi sql_mode=only_full_group_by karena
+            // MAX() diperlukan untuk mematuhi sql_mode=only_full_group_by karena
             // kolom ini berasal dari JOIN, bukan dari aggregate query utama.
+            // (Dipakai sebagai pengganti ANY_VALUE() agar kompatibel dengan MariaDB
+            // versi lama yang belum mendukung ANY_VALUE().)
             // Penggunaannya aman secara semantik karena derived table menjamin
             // tepat satu nilai per dusun.
-            ->selectRaw('ANY_VALUE(COALESCE(kk_jlh_dt.KK_JLH, 0)) AS KK_JLH')
-            ->selectRaw('ANY_VALUE(COALESCE(kk_masuk_dt.KK_MASUK_JLH, 0)) AS KK_MASUK_JLH')
+            ->selectRaw('MAX(COALESCE(kk_jlh_dt.KK_JLH, 0)) AS KK_JLH')
+            ->selectRaw('MAX(COALESCE(kk_masuk_dt.KK_MASUK_JLH, 0)) AS KK_MASUK_JLH')
 
             ->join('tweb_penduduk', 'log_penduduk.id_pend', '=', 'tweb_penduduk.id')
             ->leftJoin('tweb_wil_clusterdesa', 'tweb_penduduk.id_cluster', '=', 'tweb_wil_clusterdesa.id')
@@ -464,7 +482,7 @@ class LogPenduduk extends BaseModel
     {
         $configId = identitas('id');
         $subQuery = DB::raw(
-            '(SELECT MAX(id) as id, id_pend from log_penduduk where config_id = ' . $configId . ' and tgl_peristiwa <= \'' . $tanggal . ' 23:59:59\' group by id_pend) as logMax'
+            '(SELECT MAX(id) as id, id_pend from log_penduduk where config_id = ' . $configId . ' and tgl_lapor <= \'' . $tanggal . ' 23:59:59\' group by id_pend) as logMax'
         );
 
         return $query->join($subQuery, 'logMax.id', '=', 'log_penduduk.id');

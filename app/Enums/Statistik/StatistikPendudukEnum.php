@@ -183,6 +183,11 @@ class StatistikPendudukEnum extends BaseEnum
         'slug'  => 'kepemilikan-akta-kematian',
         'label' => 'Kepemilikan Akta Kematian',
     ];
+    public const KEPEMILIKAN_AKTA_KEMATIAN_WILAYAH = [
+        'key'   => 'akta-kematian-wilayah',
+        'slug'  => 'kepemilikan-akta-kematian-wilayah',
+        'label' => 'Kepemilikan Akta Kematian Berdasarkan Wilayah',
+    ];
 
     public static $data = [
         self::RENTANG_UMUR,
@@ -213,6 +218,7 @@ class StatistikPendudukEnum extends BaseEnum
         self::STATUS_KEHAMILAN,
         self::KEPEMILIKAN_KIA,
         self::KEPEMILIKAN_AKTA_KEMATIAN,
+        self::KEPEMILIKAN_AKTA_KEMATIAN_WILAYAH,
     ];
 
     /**

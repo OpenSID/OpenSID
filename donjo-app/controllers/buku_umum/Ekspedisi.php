@@ -241,6 +241,7 @@ class Ekspedisi extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog_cetak($aksi = 'cetak')
     {
+        $data                  = $this->modal_penandatangan();
         $data['tahun_laporan'] = ModelsEkspedisi::GetTahun();
         $data['aksi']          = $aksi;
         $data['form_action']   = route('buku-umum.ekspedisi.daftar', ['aksi' => $aksi]);
@@ -290,10 +291,11 @@ class Ekspedisi extends Admin_Controller
 
     private function data_cetak()
     {
-        // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
         $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']['pamong_id']])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']['pamong_id']])->first()->toArray();
+        $pamong_ttd             = $this->input->post('pamong_ttd');
+        $pamong_ketahui         = $this->input->post('pamong_ketahui');
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $pamong_ttd ?: $ttd['pamong_ttd']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ttd'];
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $pamong_ketahui ?: $ttd['pamong_ketahui']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ketahui'];
 
         $post          = $this->input->post();
         $data['input'] = $post;

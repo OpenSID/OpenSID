@@ -267,11 +267,7 @@
             price();
 
             $("#nama_barang").change(function() {
-                if ($('#register').val().length != 21) {
-                    $('#register').val($('#nama_barang').val().split('_').pop());
-                } else {
-                    $('#register').val($('#nama_barang').val().split('_').pop() + $('#register').val().slice(-6));
-                }
+                $('#register').val($('#nama_barang').val().split('_').pop());
                 $('#nama_barang_save').val($('#nama_barang').find(':selected').data('nama'));
             });
 

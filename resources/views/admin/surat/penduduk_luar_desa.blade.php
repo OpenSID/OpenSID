@@ -6,15 +6,30 @@
     $isVisible = old("{$kategori}.nama") // has old data
         || old("{$kategori}.opsi_penduduk") == $index // selected in old input
         || (!old("{$kategori}.opsi_penduduk") && $index == $opsiSumberPenduduk[0]); // first option in the list
+
+    // Cek apakah status meninggal dipilih
+    $isMeninggal = old("{$kategori}.status_kehidupan") === \App\Enums\StatusKehidupanEnum::SUDAH_MENINGGAL;
 @endphp
 <div class="penduduk_form penduduk_luar_desa penduduk_luar_{{ $index }} {{ $isVisible ? '' : 'hide' }}">
+    {{-- Pilihan Status Kehidupan --}}
     <div class="form-group">
-        <label class="col-sm-3 control-label"><strong>Nama Lengkap / NIK KTP</strong></label>
+        <label class="col-sm-3 control-label"><strong>Status Kehidupan</strong></label>
+        <div class="col-sm-4">
+            <select class="form-control input-sm status-kehidupan-select" name="{{ $kategori }}[status_kehidupan]" data-kategori="{{ $kategori }}">
+                @foreach (\App\Enums\StatusKehidupanEnum::all() as $key => $data)
+                    <option value="{{ $key }}" @selected(old("{$kategori}.status_kehidupan", \App\Enums\StatusKehidupanEnum::MASIH_HIDUP) == $key)>{{ $data }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label"><strong class="label-nama-nik">Nama Lengkap / NIK KTP</strong></label>
         <div class="col-sm-5 col-lg-6">
             <input {{ $kategori == 'individu' || $surat->form_isian->{$kategori}->sumber_wajib ? 'data-visible-required=1' : '' }} name="{{ $kategori }}[nama]" value="{{ old("{$kategori}.nama") }}" class="form-control input-sm isi-penduduk-luar" type="text" placeholder="Nama Lengkap" />
         </div>
         <div class="col-sm-3 col-lg-2">
-            <input {{ $kategori == 'individu' || $surat->form_isian->{$kategori}->sumber_wajib ? 'data-visible-required=1' : '' }} name="{{ $kategori }}[nik]" value="{{ old("{$kategori}.nik") }}" class="form-control input-sm isi-penduduk-luar nik" type="text" placeholder="NIK" />
+            <input {{ ($kategori == 'individu' || $surat->form_isian->{$kategori}->sumber_wajib) && !$isMeninggal ? 'data-visible-required=1' : '' }} name="{{ $kategori }}[nik]" value="{{ old("{$kategori}.nik") }}" class="form-control input-sm isi-penduduk-luar nik field-capil" type="text" placeholder="NIK" />
         </div>
     </div>
     @if (in_array('tempat_lahir', $input) && in_array('tanggal_lahir', $input))
@@ -166,10 +181,10 @@
     @endif
 
     @if (in_array('golongan_darah', $input))
-        <div class="form-group">
+        <div class="form-group field-capil-group">
             <label class="col-sm-3 control-label"><strong>Golongan Darah</strong></label>
             <div class="col-sm-3">
-                <select class="form-control input-sm" name="{{ $kategori }}[gol_darah]">
+                <select class="form-control input-sm field-capil" name="{{ $kategori }}[gol_darah]">
                     <option value="">-- Pilih Golongan Darah --</option>
                     @foreach (\App\Enums\GolonganDarahEnum::all() as $key => $data)
                         <option @selected(old("{$kategori}.gol_darah") == $data) value="{{ $data }}">{{ $data }}</option>
@@ -183,7 +198,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label"><strong>Status Perkawinan</strong></label>
             <div class="col-sm-3">
-                <select class="form-control input-sm" name="{{ $kategori }}[status_kawin]">
+                <select class="form-control input-sm status-kawin-select" name="{{ $kategori }}[status_kawin]">
                     <option value="">-- Pilih Status Perkawinan --</option>
                     @foreach (\App\Enums\StatusKawinEnum::all() as $key => $data)
                         <option @selected(old("{$kategori}.status_kawin") == $data) value="{{ $data }}">{{ $data }}</option>
@@ -194,7 +209,7 @@
     @endif
 
     @if (in_array('tanggal_perkawinan', $input))
-        <div class="form-group">
+        <div class="form-group tanggal-perkawinan-group {{ old("{$kategori}.status_kawin") === \App\Enums\StatusKawinEnum::all()[\App\Enums\StatusKawinEnum::KAWIN] ? '' : 'hide' }}">
             <label class="col-sm-3 control-label"><strong>Tanggal Perkawinan</strong></label>
             <div class="col-sm-3 col-lg-2">
                 <div class="input-group input-group-sm date">
@@ -222,19 +237,19 @@
     @endif
 
     @if (in_array('no_paspor', $input))
-        <div class="form-group">
+        <div class="form-group field-capil-group">
             <label class="col-sm-3 control-label"><strong>No. Paspor</strong></label>
             <div class="col-sm-5 col-lg-6">
-                <input class="form-control input-sm" type="text" name="{{ $kategori }}[dokumen_pasport]" value="{{ old("{$kategori}.dokumen_pasport") }}" placeholder="No. Paspor" />
+                <input class="form-control input-sm field-capil" type="text" name="{{ $kategori }}[dokumen_pasport]" value="{{ old("{$kategori}.dokumen_pasport") }}" placeholder="No. Paspor" />
             </div>
         </div>
     @endif
 
     @if (in_array('no_kitas', $input))
-        <div class="form-group">
+        <div class="form-group field-capil-group">
             <label class="col-sm-3 control-label"><strong>No. KITAS / KITAP</strong></label>
             <div class="col-sm-5 col-lg-6">
-                <input class="form-control input-sm" type="text" name="{{ $kategori }}[dokumen_kitas]" value="{{ old("{$kategori}.dokumen_kitas") }}" placeholder="No. KITAS / KITAP" />
+                <input class="form-control input-sm field-capil" type="text" name="{{ $kategori }}[dokumen_kitas]" value="{{ old("{$kategori}.dokumen_kitas") }}" placeholder="No. KITAS / KITAP" />
             </div>
         </div>
     @endif
@@ -258,20 +273,118 @@
     @endif
 
     @if (in_array('no_kk', $input))
-        <div class="form-group">
+        <div class="form-group field-capil-group">
             <label class="col-sm-3 control-label"><strong>No. KK</strong></label>
             <div class="col-sm-5 col-lg-6">
-                <input class="form-control input-sm no_kk" type="text" name="{{ $kategori }}[no_kk]" value="{{ old("{$kategori}.no_kk") }}" placeholder="No. KK" />
+                <input class="form-control input-sm no_kk field-capil" type="text" name="{{ $kategori }}[no_kk]" value="{{ old("{$kategori}.no_kk") }}" placeholder="No. KK" />
             </div>
         </div>
     @endif
 
     @if (in_array('kepala_kk', $input))
-        <div class="form-group">
+        <div class="form-group field-capil-group">
             <label class="col-sm-3 control-label"><strong>Kepala Keluarga</strong></label>
             <div class="col-sm-5 col-lg-6">
-                <input class="form-control input-sm" type="text" name="{{ $kategori }}[kepala_kk]" value="{{ old("{$kategori}.kepala_kk") }}" placeholder="Kepala Keluarga" />
+                <input class="form-control input-sm field-capil" type="text" name="{{ $kategori }}[kepala_kk]" value="{{ old("{$kategori}.kepala_kk") }}" placeholder="Kepala Keluarga" />
             </div>
         </div>
     @endif
 </div>
+
+@once
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Handler untuk perubahan status kehidupan
+        $(document).on('change', '.status-kehidupan-select', function() {
+            var $container = $(this).closest('.penduduk_luar_desa');
+            var isMeninggal = $(this).val() === '{{ \App\Enums\StatusKehidupanEnum::SUDAH_MENINGGAL }}';
+
+            toggleFieldCapil($container, isMeninggal);
+        });
+
+        // Jalankan saat halaman di-load untuk mengatur state awal
+        $('.status-kehidupan-select').each(function() {
+            var $container = $(this).closest('.penduduk_luar_desa');
+            var isMeninggal = $(this).val() === '{{ \App\Enums\StatusKehidupanEnum::SUDAH_MENINGGAL }}';
+
+            toggleFieldCapil($container, isMeninggal);
+        });
+
+        // Handler untuk perubahan status perkawinan
+        $(document).on('change', '.status-kawin-select', function() {
+            var $container = $(this).closest('.penduduk_luar_desa');
+            var status = $(this).val();
+            var $tglKawinGroup = $container.find('.tanggal-perkawinan-group');
+
+            if (status === '{{ \App\Enums\StatusKawinEnum::all()[\App\Enums\StatusKawinEnum::KAWIN] }}') {
+                $tglKawinGroup.removeClass('hide');
+            } else {
+                $tglKawinGroup.addClass('hide').find('input').val('');
+            }
+        });
+
+        // Jalankan saat halaman di-load untuk mengatur state awal
+        $('.status-kawin-select').each(function() {
+            var $container = $(this).closest('.penduduk_luar_desa');
+            var status = $(this).val();
+            var $tglKawinGroup = $container.find('.tanggal-perkawinan-group');
+
+            if (status === '{{ \App\Enums\StatusKawinEnum::all()[\App\Enums\StatusKawinEnum::KAWIN] }}') {
+                $tglKawinGroup.removeClass('hide');
+            } else {
+                $tglKawinGroup.addClass('hide');
+            }
+        });
+
+        function toggleFieldCapil($container, isMeninggal) {
+
+            // Validasi bahwa container adalah jQuery object yang valid dan spesifik
+            if (!$container || !$container.jquery || $container.length === 0) {
+                console.error('Invalid container provided to toggleFieldCapil');
+                return;
+            }
+
+
+            var $nikInput = $container.find('input.nik.field-capil');
+            var $nikCol = $nikInput.closest('.col-sm-3');
+            var $namaLabel = $container.find('.label-nama-nik');
+            var $namaCol = $container.find('input.isi-penduduk-luar').not('.nik').first().closest('[class*="col-sm"]');
+
+            if (isMeninggal) {
+                // Hilangkan required dari field NIK dan field capil lainnya
+                $container.find('.field-capil').removeClass('required').val('');
+                $container.find('.field-capil').removeAttr('data-visible-required');
+
+                // Sembunyikan kolom NIK dan perlebar kolom Nama
+                $nikCol.addClass('hide');
+                $namaCol.removeClass('col-sm-5 col-lg-6').addClass('col-sm-8');
+                $namaLabel.text('Nama Lengkap');
+
+                // Sembunyikan semua field-capil-group
+                $container.find('.field-capil-group').addClass('hide');
+            } else {
+                // Tampilkan kembali kolom NIK dan kembalikan lebar kolom Nama
+                $nikCol.removeClass('hide');
+                $namaCol.removeClass('col-sm-8').addClass('col-sm-5 col-lg-6');
+                $namaLabel.text('Nama Lengkap / NIK KTP');
+
+                // Kembalikan required ke field NIK jika memenuhi syarat
+                if ($nikInput.closest('.penduduk_luar_desa').is(':visible')) {
+                    var $namaInput = $container.find('input.isi-penduduk-luar').not('.nik').first();
+                    if ($namaInput.attr('data-visible-required') === '1') {
+                        $nikInput.attr('data-visible-required', '1');
+                        if ($nikInput.is(':visible')) {
+                            $nikInput.addClass('required');
+                        }
+                    }
+                }
+
+                // Tampilkan kembali semua field-capil-group
+                $container.find('.field-capil-group').removeClass('hide');
+            }
+        }
+    });
+</script>
+@endpush
+@endonce
