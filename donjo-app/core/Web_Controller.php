@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,6 +37,7 @@
 
 use App\Enums\SistemEnum;
 use App\Enums\StatusEnum;
+use App\Http\Middleware\SecurityHeaders;
 use App\Libraries\Keuangan;
 use App\Models\Agenda;
 use App\Models\ArsipArtikel;
@@ -51,7 +52,6 @@ use App\Models\StatistikPengunjung;
 use App\Models\TeksBerjalan;
 use App\Models\Widget;
 use App\Services\LaporanPenduduk;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Modules\Kehadiran\Models\HariLibur;
 use Modules\Kehadiran\Models\JamKerja;
@@ -62,13 +62,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_Controller extends MY_Controller
 {
-    public $CI;
     public $cek_anjungan;
 
     public function __construct()
     {
         parent::__construct();
-        $CI           = &get_instance();
+        SecurityHeaders::handle();
         $this->header = identitas();
         $this->load->helper('theme');
 
@@ -99,17 +98,14 @@ class Web_Controller extends MY_Controller
         }
 
         $statistik_pengunjung = StatistikPengunjung::summary();
-        $teksBerjalan         = null;
-        if (Schema::hasColumn('teks_berjalan', 'tipe')) {
-            $teksBerjalan = TeksBerjalan::with(['artikel'])->status(StatusEnum::YA)->get()->map(static function ($item, $index) {
-                $item->no            = $index + 1;
-                $item->tautan        = $item->tipe == 1 ? $item->artikel->url_slug : $item->tautan;
-                $item->tampil_tautan = $item->tipe == 1 ? tgl_indo($item->artikel->tgl_upload) . ' <br> ' . $item->artikel->judul : $item->tautan;
-                $item->tampilkan     = SistemEnum::valueOf($item->tipe);
+        $teksBerjalan         = TeksBerjalan::with(['artikel'])->status(StatusEnum::YA)->get()->map(static function ($item, $index) {
+            $item->no            = $index + 1;
+            $item->tautan        = $item->tipe == 1 ? $item->artikel->url_slug : $item->tautan;
+            $item->tampil_tautan = $item->tipe == 1 ? tgl_indo($item->artikel->tgl_upload) . ' <br> ' . $item->artikel->judul : $item->tautan;
+            $item->tampilkan     = SistemEnum::valueOf($item->tipe);
 
-                return $item;
-            })->toArray();
-        }
+            return $item;
+        })->toArray();
 
         $sumber = setting('sumber_gambar_slider');
         $limit  = setting('jumlah_gambar_slider') ?? 10;
@@ -146,23 +142,17 @@ class Web_Controller extends MY_Controller
             'tampilkan_status_kehadiran' => ! HariLibur::liburNasional()->exists(),
         ];
 
-        if (Schema::hasTable('profil_desa')) {
-            $sharedData['profil_ekologi']  = ProfilDesa::where('kategori', 'ekologi')->get();
-            $sharedData['profil_internet'] = ProfilDesa::where('kategori', 'internet')->get();
-            $sharedData['profil_status']   = ProfilDesa::whereIn('kategori', ['adat', 'lainnya'])
-                ->get()
-                ->map(static function ($item) {
-                    if (($item->key ?? null) === 'status_desa') {
-                        $item->judul = SebutanDesa('Status [Desa]');
-                    }
+        $sharedData['profil_ekologi']  = ProfilDesa::where('kategori', 'ekologi')->get();
+        $sharedData['profil_internet'] = ProfilDesa::where('kategori', 'internet')->get();
+        $sharedData['profil_status']   = ProfilDesa::whereIn('kategori', ['adat', 'lainnya'])
+            ->get()
+            ->map(static function ($item) {
+                if (($item->key ?? null) === 'status_desa') {
+                    $item->judul = SebutanDesa('Status [Desa]');
+                }
 
-                    return $item;
-                });
-        } else {
-            $sharedData['profil_ekologi']  = collect();
-            $sharedData['profil_internet'] = collect();
-            $sharedData['profil_status']   = collect();
-        }
+                return $item;
+            });
 
         if (setting('apbdes_footer') && setting('apbdes_footer_all')) {
             $sharedData['transparansi'] = (new Keuangan())->grafik_keuangan_tema(setting('apbdes_tahun'));
@@ -202,7 +192,7 @@ class Web_Controller extends MY_Controller
             if (empty($data->body->pemesanan)) {
                 app('ci')->header['desa']                 = collect(identitas())->toArray();
                 app('ci')->header['perbaharui_langganan'] = true;
-                PelangganService::perbaruiLangganan();
+                app(\App\Services\Kapabilitas\PerbaruiLangganan::class)->refresh();
                 $data = app('ci')->cache->file->get('status_langganan');
             }
 

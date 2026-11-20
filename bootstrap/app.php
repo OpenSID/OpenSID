@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -89,6 +89,16 @@ $app->configure('mail');
 $app->configure('notifications');
 $app->configure('user_agents');
 $app->configure('security');
+// OpenSID/OpenSID#11931 Fase 3.5: config/bursa.php ADA di tree (dibawa
+// 03-tambah.sh) tapi tak pernah diregistrasi -- ModuleManager/LayananHttpSource
+// membaca config('bursa.url_penyedia'), yang tanpa baris ini SELALU null
+// terlepas dari env var apa pun. (config/services.php SENGAJA TIDAK
+// didaftarkan di sini -- filenya masih pakai env() Laravel langsung, bukan
+// $bacaEnv() portabel; Umum tak membundel phpoption/dotenv sehingga env()
+// tak ada, registrasinya bikin fatal "Call to undefined function env()".
+// Tak dibutuhkan wiring modul: hanya bursa.php yang dipakai ModuleManager/
+// LayananHttpSource/SumberTemaBursa.)
+$app->configure('bursa');
 
 /*
 |--------------------------------------------------------------------------

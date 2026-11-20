@@ -175,7 +175,7 @@
             @if ($list_cacat)
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="cacat">Cacat</label>
+                        <label for="cacat">Disabilitas</label>
                         <select class="form-control input-sm select2" id="cacat" name="cacat">
                             <option value=""> -- </option>
                             @foreach ($list_cacat as $key => $item)

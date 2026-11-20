@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,12 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Actions\Theme\ActivateTheme;
 use App\Models\Theme as ThemeModel;
 use App\Traits\Upload;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -73,7 +74,7 @@ class Theme extends Admin_Controller
             ->orderBy('sistem', 'desc')
             ->paginate($perPage);
 
-        $themeOrder = collect(PelangganService::apiPelangganPemesanan()?->body?->pemesanan ?? [])
+        $themeOrder = collect([])
             ->flatMap(static fn ($item) => collect($item?->layanan ?? [])
                 ->map(static fn ($layanan) => (array) $layanan))
             ->filter(static fn ($layanan) => ($layanan['nama_kategori'] ?? null) === 'Tema');
@@ -260,10 +261,7 @@ class Theme extends Admin_Controller
     {
         isCan('u');
 
-        $status = ThemeModel::findOrFail($id);
-        $status->update(['status' => 1]);
-
-        ThemeModel::where('id', '!=', $id)->update(['status' => 0]);
+        (new ActivateTheme())->handle($id);
 
         redirect_with('success', 'Berhasil Ubah Data');
     }

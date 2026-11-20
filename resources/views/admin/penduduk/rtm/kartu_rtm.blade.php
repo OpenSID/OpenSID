@@ -101,13 +101,13 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ strtoupper($data['nama']) }}</td>
                                         <td>{{ $data['nik'] }}</td>
-                                        <td>{{ $data['keluarga']['no_kk'] ?? '' }}</td>
-                                        <td>{{ $data['jenis_kelamin'] }}</td>
-                                        <td>{{ $data['tempatlahir'] }}</td>
-                                        <td>{{ $data['tanggallahir'] }}</td>
-                                        <td>{{ $data['agama'] }}</td>
-                                        <td>{{ $data['pendidikan_kk'] }}</td>
-                                        <td>{{ $data['pekerjaan'] }}</td>
+                                        <td>{{ $data['keluarga']['no_kk'] ?? '-' }}</td>
+                                        <td>{{ strtoupper($data['jenis_kelamin'] ?? '-') }}</td>
+                                        <td>{{ strtoupper($data['tempatlahir'] ?? '-') }}</td>
+                                        <td>{{ tgl_indo($data['tanggallahir'] ?? '') }}</td>
+                                        <td>{{ strtoupper($data['agama'] ?? '-') }}</td>
+                                        <td>{{ strtoupper($data['pendidikan_kk'] ?? '-') }}</td>
+                                        <td>{{ strtoupper($data['pekerjaan'] ?? '-') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -134,12 +134,12 @@
                                 @foreach ($main as $key => $data)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $data['status_perkawinan'] ?? '' }}</td>
+                                        <td>{{ strtoupper($data['status_kawin'] ?? '-') }}</td>
                                         <td>{{ App\Enums\HubunganRTMEnum::valueOf($data['rtm_level']) }}</td>
-                                        <td>{{ $data['warganegara'] }}</td>
-                                        <td>{{ strtoupper($data['nama_ayah']) }}</td>
-                                        <td>{{ strtoupper($data['nama_ibu']) }}</td>
-                                        <td>{{ $data['golongan_darah'] }}</td>
+                                        <td>{{ strtoupper($data['warganegara'] ?? '-') }}</td>
+                                        <td>{{ strtoupper($data['nama_ayah'] ?? '-') }}</td>
+                                        <td>{{ strtoupper($data['nama_ibu'] ?? '-') }}</td>
+                                        <td>{{ strtoupper($data['golongan_darah'] ?? '-') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

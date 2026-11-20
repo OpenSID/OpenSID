@@ -1,7 +1,6 @@
 <div class="box box-info">
     <div class="box-header with-border">
-        <x-tambah-button :url="'bumindes_tanah_kas_desa/form/'" />
-       
+        <x-tambah-button :url="'bumindes_tanah_kas_desa/form/'"/>
         @php
             $listCetakUnduh = [
                 [

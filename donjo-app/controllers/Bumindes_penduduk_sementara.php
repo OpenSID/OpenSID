@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -56,12 +56,9 @@ class Bumindes_penduduk_sementara extends Admin_Controller
 
     public function index()
     {
-        $data['selectedNav'] = 'sementara';
-        $data['subtitle']    = 'Buku Penduduk Sementara';
         $data['tahun']       = LogPenduduk::tahun()->pluck('tahun');
-        $data['mainContent'] = 'admin.bumindes.penduduk.sementara.index';
 
-        return view('admin.bumindes.penduduk.index', $data);
+        return view('admin.bumindes.penduduk.sementara.index', $data);
     }
 
     public function datatables()
@@ -88,27 +85,25 @@ class Bumindes_penduduk_sementara extends Admin_Controller
         return view('admin.bumindes.penduduk.induk.dialog', $data);
     }
 
-    public function cetak($aksi = '')
+    public function cetak($aksi = 'cetak')
     {
-        $paramDatatable = json_decode($this->input->post('params'), 1);
-        $_GET           = $paramDatatable;
+        $paramDatatable = json_decode(request('params'), 1);
         $query          = $this->sumberData();
         if ($paramDatatable['start']) {
             $query->skip($paramDatatable['start']);
         }
 
-        $data         = $this->modal_penandatangan();
-        $data['aksi'] = $aksi;
-        $data['main'] = $query->take($paramDatatable['length'])->get();
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['main']         = $query->take($paramDatatable['length'])->get();
+        $data['filters']      = $paramDatatable;
+        $data['tgl_cetak']    = request('tgl_cetak');
+        $data['privasi_nik']  = request('privasi_nik') ?? null;
+        $data['file']         = 'Buku Penduduk Sementara';
+        $data['letak_ttd']    = ['2', '2', '9'];
+        $data['is_landscape'] = true;
 
-        $data['filters']     = $paramDatatable;
-        $data['tgl_cetak']   = $this->input->post('tgl_cetak');
-        $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
-        $data['file']        = 'Buku Penduduk Sementara';
-        $data['isi']         = 'admin.bumindes.penduduk.sementara.cetak';
-        $data['letak_ttd']   = ['2', '2', '9'];
-
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.bumindes.penduduk.sementara.cetak', $data);
     }
 
     private function sumberData()

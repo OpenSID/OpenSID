@@ -17,7 +17,7 @@ use OpenSpout\Reader\XLSX\Manager\StyleManagerInterface;
 /**
  * This class provides helper functions to format cell values.
  */
-final class CellValueFormatter
+final readonly class CellValueFormatter
 {
     /**
      * Definition of all possible cell types.
@@ -49,19 +49,19 @@ final class CellValueFormatter
     public const NUM_SECONDS_IN_ONE_DAY = 86400;
 
     /** @var SharedStringsManager Manages shared strings */
-    private readonly SharedStringsManager $sharedStringsManager;
+    private SharedStringsManager $sharedStringsManager;
 
     /** @var StyleManagerInterface Manages styles */
-    private readonly StyleManagerInterface $styleManager;
+    private StyleManagerInterface $styleManager;
 
     /** @var bool Whether date/time values should be returned as PHP objects or be formatted as strings */
-    private readonly bool $shouldFormatDates;
+    private bool $shouldFormatDates;
 
     /** @var bool Whether date/time values should use a calendar starting in 1904 instead of 1900 */
-    private readonly bool $shouldUse1904Dates;
+    private bool $shouldUse1904Dates;
 
     /** @var XLSX Used to unescape XML data */
-    private readonly XLSX $escaper;
+    private XLSX $escaper;
 
     /**
      * @param SharedStringsManager  $sharedStringsManager Manages shared strings
@@ -199,9 +199,15 @@ final class CellValueFormatter
         } elseif ($this->styleManager->shouldFormatNumericValueAsDate($cellStyleId)) {
             $cellValue = $this->formatExcelTimestampValue((float) $nodeValue, $cellStyleId);
         } else {
-            $nodeIntValue = (int) $nodeValue;
-            $nodeFloatValue = (float) $nodeValue;
-            $cellValue = ((float) $nodeIntValue === $nodeFloatValue) ? $nodeIntValue : $nodeFloatValue;
+            $cellValue = $nodeValue;
+            if (\is_string($nodeValue)) {
+                $cellValue = (float) $nodeValue;
+            }
+            if ($nodeValue < PHP_INT_MAX && $nodeValue > PHP_INT_MIN) {
+                $nodeIntValue = (int) $nodeValue;
+                $nodeFloatValue = (float) $nodeValue;
+                $cellValue = ((float) $nodeIntValue === $nodeFloatValue) ? $nodeIntValue : $nodeFloatValue;
+            }
         }
 
         return $cellValue;
@@ -279,9 +285,7 @@ final class CellValueFormatter
         $dateObj = DateTimeImmutable::createFromFormat('|Y-m-d', $baseDate);
         \assert(false !== $dateObj);
         $dateObj = $dateObj->modify($daysSign.$daysSinceBaseDate.'days');
-        \assert(false !== $dateObj);
         $dateObj = $dateObj->modify($secondsSign.$secondsRemainder.'seconds');
-        \assert(false !== $dateObj);
 
         if ($this->shouldFormatDates) {
             $styleNumberFormatCode = $this->styleManager->getNumberFormatCode($cellStyleId);

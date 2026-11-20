@@ -1,8 +1,6 @@
 @extends('layanan_mandiri.auth.index')
 
 @section('content')
-    @include('admin.layouts.components.notifikasi')
-    
     <form id="validasi" autocomplete="off" action="{{ $form_action }}" method="post" class="login-form">
         <div class="form-group form-login">
             <input type="text" autocomplete="off" class="form-control angka required {!! jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') !!}" name="nik" maxlength="16" placeholder="NIK">
@@ -43,7 +41,7 @@
                 <button type="button" class="btn btn-block bg-green"><b>LUPA PIN</b></button>
             </a>
         </div>
-        @if (in_array(\Modules\Anjungan\Models\Anjungan::ANJUNGAN, $cek_anjungan['tipe'] ?? []))
+        @if (class_exists(\Modules\Anjungan\Models\Anjungan::class) && in_array(\Modules\Anjungan\Models\Anjungan::ANJUNGAN, $cek_anjungan['tipe'] ?? []))
             <div class="form-group">
                 <a href="<?= route('anjungan.index') ?>">
                     <button type="button" class="btn btn-block bg-green"><b>ANJUNGAN</b></button>

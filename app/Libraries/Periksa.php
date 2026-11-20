@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -53,14 +53,14 @@ use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
 use App\Traits\Collation;
-use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
-use Illuminate\Support\Facades\Artisan;
+use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class Periksa
 {
     use Collation;
+    use Migrator;
 
     private array $databaseOption;
     private array $periksa = [];
@@ -359,12 +359,6 @@ class Periksa
             $this->periksa['modul_asing'] = $modulAsing->toArray();
         }
 
-        $settingAplikasiTidakLengkap = $this->deteksiSettingAplikasiTidakLengkap();
-        if (! empty($settingAplikasiTidakLengkap)) {
-            $this->periksa['masalah'][]                      = 'setting_aplikasi_tidak_lengkap';
-            $this->periksa['setting_aplikasi_tidak_lengkap'] = $settingAplikasiTidakLengkap;
-        }
-
         return $calon;
     }
 
@@ -507,18 +501,10 @@ class Periksa
     {
         return DB::table('tweb_wil_clusterdesa')
             ->where('config_id', identitas('id'))
-            ->whereIn(DB::raw('LOWER(TRIM(dusun))'), static function ($query) {
-                $query->selectRaw('LOWER(TRIM(dusun))')
-                    ->from('tweb_wil_clusterdesa')
-                    ->where('config_id', identitas('id'))
-                    ->groupBy(DB::raw('LOWER(TRIM(dusun))'))
-                    ->havingRaw('COUNT(DISTINCT BINARY TRIM(dusun)) > 1');
-            })
-            ->select(DB::raw('LOWER(TRIM(dusun)) as dusun_lower'), 'dusun')
-            ->orderByRaw('TRIM(dusun)')
-            ->get()
-            ->groupBy('dusun_lower')
-            ->map(static fn ($group) => $group->pluck('dusun')->unique()->values()->toArray())
+            ->pluck('dusun')
+            ->groupBy(static fn ($dusun) => strtolower(trim($dusun)))
+            ->filter(static fn ($group) => $group->unique()->count() > 1)
+            ->map(static fn ($group) => $group->unique()->sort()->values()->toArray())
             ->values();
     }
 
@@ -527,36 +513,6 @@ class Periksa
         return Menu::where('parrent', '>', 0)
             ->whereDoesntHave('parent')
             ->get();
-    }
-
-    private function deteksiSettingAplikasiTidakLengkap(): array
-    {
-        $configId = identitas('id');
-
-        // Ambil data setting yang seharusnya ada dari seeder
-        $seeder     = new SettingAplikasiSeeder();
-        $dataSeeder = collect($seeder->getData())
-            ->whereNotIn('key', $seeder->unusedKeys())
-            ->pluck('key')
-            ->toArray();
-
-        // Ambil data setting yang ada di database
-        $dataDatabase = SettingAplikasi::where('config_id', $configId)
-            ->pluck('key')
-            ->toArray();
-
-        // Cari setting yang tidak ada di database
-        $settingTidakAda = array_diff($dataSeeder, $dataDatabase);
-
-        if (empty($settingTidakAda)) {
-            return [];
-        }
-
-        // Ambil detail setting yang tidak ada
-        return collect($seeder->getData())
-            ->whereIn('key', $settingTidakAda)
-            ->values()
-            ->toArray();
     }
 
     private function perbaikiAutoincrement(): void
@@ -720,38 +676,6 @@ class Periksa
         GrupAkses::whereDoesntHave('modul')->delete();
     }
 
-    private function perbaikiSettingAplikasiTidakLengkap(): void
-    {
-        $configId = identitas('id');
-        $userId   = ci_auth()->id ?? 1;
-
-        if (empty($this->periksa['setting_aplikasi_tidak_lengkap'])) {
-            return;
-        }
-
-        // Insert setting yang tidak ada
-        foreach ($this->periksa['setting_aplikasi_tidak_lengkap'] as $setting) {
-            SettingAplikasi::updateOrCreate(
-                [
-                    'config_id' => $configId,
-                    'key'       => $setting['key'],
-                ],
-                [
-                    'judul'      => $setting['judul'],
-                    'value'      => $setting['value'],
-                    'keterangan' => $setting['keterangan'],
-                    'jenis'      => $setting['jenis'],
-                    'option'     => $setting['option'],
-                    'attribute'  => $setting['attribute'],
-                    'kategori'   => $setting['kategori'],
-                    'updated_by' => $userId,
-                ]
-            );
-
-            Log::notice("Setting aplikasi '{$setting['key']}' telah ditambahkan.");
-        }
-    }
-
     private function perbaikiKeluargaKepalaGanda(): void
     {
         $keluarga = $this->periksa['keluarga_kepala_ganda'];
@@ -761,6 +685,20 @@ class Periksa
                     Keluarga::where('id', $k['id'])->update(['nik_kepala' => null]);
                 }
             }
+        }
+    }
+
+    public function lepasKaitanKkLama(int $id): void
+    {
+        session(['user_id' => session('user_id') ?: 1]);
+
+        $keluarga = Keluarga::find($id);
+
+        if ($keluarga) {
+            $keluarga->update(['nik_kepala' => null]);
+            log_message('notice', "Keterkaitan KK lama untuk ID {$id} telah dilepas dengan mengosongkan nik_kepala.");
+        } else {
+            log_message('notice', "Gagal melepas kaitan KK lama, ID keluarga {$id} tidak ditemukan.");
         }
     }
 
@@ -841,28 +779,24 @@ class Periksa
                 $this->perbaikiModulAsingGrupAkses();
                 break;
 
-            case 'setting_aplikasi_tidak_lengkap':
-                $this->perbaikiSettingAplikasiTidakLengkap();
-                break;
-
             case 'view_dokumen_hidup_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewDokumenHidupSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_dokumen_hidup_view');
                 break;
 
             case 'view_keluarga_aktif_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewKeluargaAktifSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_keluarga_aktif_view');
                 break;
 
             case 'view_master_inventaris_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewMasterInventarisSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_master_inventaris_view');
                 break;
 
             case 'view_penduduk_hidup_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewPendudukHidupSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_penduduk_hidup_view');
                 break;
 
             case 'view_rekap_mutasi_inventaris_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewRekapMutasiInventarisSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_rekap_mutasi_inventaris_view');
                 break;
 
             default:

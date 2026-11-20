@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -58,32 +58,56 @@ class Qr_code extends Admin_Controller
         return view('admin.qrcode.setting_qr', $data);
     }
 
-    public function qrcode_generate(): void
+    public function qrcode_generate()
     {
         isCan('u');
         $post     = $this->input->post();
         $changeqr = $post['changeqr'];
+        
+        // Sanitize QR code content to prevent XSS
+        $isiqr = htmlspecialchars($post['isiqr'], ENT_QUOTES, 'UTF-8');
         // $logoqr = yg akan ditampilkan, url
         // $logoqr1 = yg akan disimpan, directory
+        $logoqr1 = '';
         if ($changeqr == '1') {
             // Ambil absolute path, bukan url
             $logoqr1 = gambar_desa($this->header['desa']['logo'], false, true);
-        } else {
+        } elseif ($changeqr == '2') {
             $logoqr = $post['logoqr'];
-            // Ubah url (http) menjadi absolute path ke file di lokasi media
-            $lokasi_media = preg_quote(LOKASI_MEDIA, '/');
-            $file_logoqr  = preg_split('/' . $lokasi_media . '/', (string) $logoqr)[1];
-            $logoqr1      = FCPATH . LOKASI_MEDIA . $file_logoqr;
+            // Ubah url (http) menjadi absolute path ke file di lokasi media, hanya jika logoqr tidak kosong
+            if (! empty($logoqr)) {
+                $lokasi_media = preg_quote(LOKASI_MEDIA, '/');
+                $file_logoqr  = preg_split('/' . $lokasi_media . '/', (string) $logoqr)[1];
+                $logoqr1      = FCPATH . LOKASI_MEDIA . $file_logoqr;
+            }
+        }
+
+        // Validate foreground color format (hex color)
+        $foreqr = $post['foreqr'];
+        if (! preg_match('/^#[0-9A-F]{6}$/i', $foreqr)) {
+            $foreqr = '#000000'; // Default to black if invalid
+        }
+
+        // Validate foreground color format (hex color)
+        $foreqr = $post['foreqr'];
+        if (! preg_match('/^#[0-9A-F]{6}$/i', $foreqr)) {
+            $foreqr = '#000000'; // Default to black if invalid
         }
 
         $qrCode = [
-            'isiqr'    => $post['isiqr'], // Isi / arti dr qrcode
+            'isiqr'    => $isiqr, // Isi / arti dr qrcode (sanitized)
             'changeqr' => $changeqr, // Pilihan jenis sisipkan logo
             'logoqr'   => $logoqr1,
             'sizeqr'   => bilangan($post['sizeqr']), // Ukuran qrcode
-            'foreqr'   => $post['foreqr'],
+            'foreqr'   => $foreqr,
         ];
 
-        json(qrcode_generate($qrCode, true));
+        try {
+            return json(qrcode_generate($qrCode, true));
+        } catch (\Exception $e) {
+            logger()->error($e);
+
+            return json(['status' => 'error', 'message' => "Gagal membuat QR Code: {$e->getMessage()}"], 400);
+        }
     }
 }

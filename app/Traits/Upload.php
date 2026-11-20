@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -413,5 +413,91 @@ trait Upload
         }
 
         return null;
+    }
+
+    /**
+     * Mengkonversi URL Google Drive menjadi format yang bisa ditampilkan sebagai gambar
+     */
+    protected function processImageUrl($url)
+    {
+        // Jika URL kosong, return apa adanya
+        if (empty($url)) {
+            return $url;
+        }
+
+        // Decode URL jika sudah di-encode sebelumnya
+        $decodedUrl = urldecode($url);
+
+        // Handle Google Image Search URLs
+        if (strpos($decodedUrl, 'google.com/imgres?imgurl=') !== false) {
+            $parts = parse_url($decodedUrl);
+            if (isset($parts['query'])) {
+                parse_str($parts['query'], $query);
+                if (isset($query['imgurl'])) {
+                    return $query['imgurl'];
+                }
+            }
+        }
+
+        // Jika sudah dalam format yang benar, return apa adanya
+        if (strpos($decodedUrl, 'drive.google.com/uc?') !== false || strpos($decodedUrl, 'drive.google.com/thumbnail?') !== false) {
+            return $decodedUrl;
+        }
+
+        // Ekstrak ID file dari berbagai format Google Drive URL
+        $patterns = [
+            '/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/?/', // https://drive.google.com/file/d/1HdrQiVDy2vQeD7wv1-Zp9gpMcGhtMqXG/view
+            '/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/',     // https://drive.google.com/open?id=1HdrQiVDy2vQeD7wv1-Zp9gpMcGhtMqXG
+            '/docs\.google\.com\/uc\?id=([a-zA-Z0-9_-]+)/',        // https://docs.google.com/uc?id=1HdrQiVDy2vQeD7wv1-Zp9gpMcGhtMqXG
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $decodedUrl, $matches)) {
+                $fileId = $matches[1];
+                // Gunakan format uc export view yang lebih reliable
+                return "https://drive.google.com/uc?id={$fileId}";
+            }
+        }
+
+        // Jika tidak ada pattern yang match, return URL asli
+        return $url;
+    }
+
+    /**
+     * Proxy untuk menampilkan gambar dari Google Drive untuk mengatasi masalah CORS/X-Frame-Options.
+     */
+    protected function image_proxy()
+    {
+        $url = $this->input->get('url');
+
+        if (empty($url)) {
+            return show_404();
+        }
+        
+        $url = urldecode($url);
+
+        // Gunakan cURL untuk mengambil gambar dan menangani redirect
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0');
+
+        $imageData = curl_exec($ch);
+        $httpCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+
+        curl_close($ch);
+
+        if ($httpCode == 200 && $imageData && strpos($contentType, 'image/') !== false) {
+            header('Content-Type: ' . $contentType);
+            header('Content-Length: ' . strlen($imageData));
+            echo $imageData;
+            exit;
+        }
+
+        // Jika gagal, tampilkan 404
+        return show_404();
     }
 }

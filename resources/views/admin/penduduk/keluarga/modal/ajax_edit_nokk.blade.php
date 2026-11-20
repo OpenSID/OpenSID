@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
             <label for="alamat">Alamat </label>
-            <textarea id="alamat" name="alamat" class="form-control input-sm alamat required" maxlength="200" placeholder="Alamat Jalan/Perumahan" rows="3">{{ $kk->alamat }}</textarea>
+            <textarea id="alamat" name="alamat" class="form-control input-sm alamat" maxlength="200" placeholder="Alamat Jalan/Perumahan" rows="3">{{ $kk->alamat }}</textarea>
         </div>
         <div class="row">
             <div class="form-group col-sm-6">

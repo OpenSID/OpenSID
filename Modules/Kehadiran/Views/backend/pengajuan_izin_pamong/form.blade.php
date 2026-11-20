@@ -86,7 +86,7 @@
                             <label class="control-label">File Saat Ini:</label><br>
                             <i class="fa fa-file-pdf-o pop-up-file" aria-hidden="true" style="font-size: 60px; cursor: pointer; color: red;" 
                                data-title="Berkas {{ ucfirst($kehadiran_pengajuan_izin->jenis_izin ?? 'Lampiran') }}" 
-                               data-url="{{ base_url('desa/upload/pengajuan_izin/' . $kehadiran_pengajuan_izin->lampiran) }}" 
+                               data-url="{{ base_url(LOKASI_PENGAJUAN_IZIN . $kehadiran_pengajuan_izin->lampiran) }}" 
                                title="{{ $kehadiran_pengajuan_izin->lampiran }}"></i>
                             <br><small class="text-info">{{ $kehadiran_pengajuan_izin->lampiran }}</small>
                             <input type="hidden" name="existing_lampiran" value="{{ $kehadiran_pengajuan_izin->lampiran }}">

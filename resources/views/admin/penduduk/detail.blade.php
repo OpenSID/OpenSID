@@ -344,9 +344,19 @@
                                             <th colspan="3" class="subtitle_head"><strong>ALAMAT</strong></th>
                                         </tr>
                                         <tr>
-                                            <td>Alamat</td>
+                                            <td>Alamat KK</td>
                                             <td>:</td>
                                             <td>{{ strtoupper($penduduk->keluarga->alamat) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat Sekarang</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->alamat_sekarang) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat Sebelumnya</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->alamat_sebelumnya) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Dusun</td>
@@ -357,11 +367,6 @@
                                             <td>RT/ RW</td>
                                             <td>:</td>
                                             <td>{{ strtoupper($penduduk->wilayah->rt) }} / {{ $penduduk->wilayah->rw }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Alamat Sebelumnya</td>
-                                            <td>:</td>
-                                            <td>{{ strtoupper($penduduk->alamat_sebelumnya) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Nomor Telepon</td>
@@ -424,7 +429,7 @@
                                             <td>{{ $penduduk->golongan_darah ?? 'TIDAK TAHU' }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Cacat</td>
+                                            <td>Disabilitas</td>
                                             <td>:</td>
                                             <td>{{ $penduduk->cacat }}</td>
                                         </tr>

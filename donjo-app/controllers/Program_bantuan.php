@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,21 +37,22 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Enums\AktifEnum;
-use App\Enums\SasaranEnum;
-use App\Imports\BantuanImports;
+use App\Traits\Upload;
 use App\Models\Bantuan;
-use App\Models\BantuanPeserta;
+use App\Enums\AktifEnum;
 use App\Models\Kelompok;
 use App\Models\Penduduk;
-use App\Traits\Upload;
+use App\Enums\StatusEnum;
+use App\Enums\SasaranEnum;
+use Illuminate\Support\Str;
+use App\Models\BantuanPeserta;
+use App\Imports\BantuanImports;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Str;
-use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Writer\XLSX\Writer;
 
 class Program_bantuan extends Admin_Controller
 {
@@ -133,7 +134,8 @@ class Program_bantuan extends Admin_Controller
                 ->editColumn('tampil_tanggal', static fn ($row): string|null => fTampilTgl($row->sdate, $row->edate))
                 ->editColumn('sasaran', static fn ($row): string|null => SasaranEnum::valueOf($row->sasaran))
                 ->editColumn('status_masa_aktif', static fn ($row): string => $row->status_masa_aktif === 'Aktif' ? '<span class="label label-success">' . $row->status_masa_aktif . '</span>' : '<span class="label label-danger">' . $row->status_masa_aktif . '</span>')
-                ->rawColumns(['aksi', 'status_masa_aktif'])
+                ->editColumn('status_publikasi', static fn ($row): string => $row->publikasi == StatusEnum::YA ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
+                ->rawColumns(['aksi', 'status_masa_aktif', 'status_publikasi'])
                 ->make();
         }
 
@@ -535,6 +537,7 @@ class Program_bantuan extends Admin_Controller
         $this->form_validation->set_rules('sdate', 'Tanggal awal', 'required');
         $this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
         $this->form_validation->set_rules('asaldana', 'Asal Dana', 'required');
+        $this->form_validation->set_rules('publikasi', 'Publikasi', 'required');
     }
 
     private function validasi_bantuan(array $post): array
@@ -553,6 +556,7 @@ class Program_bantuan extends Admin_Controller
             'sdate'    => date('Y-m-d', strtotime((string) $post['sdate'])),
             'edate'    => date('Y-m-d', strtotime((string) $post['edate'])),
             'kk_level' => $kk_level,
+            'publikasi' => $post['publikasi'],
         ];
     }
 }

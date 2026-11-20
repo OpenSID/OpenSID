@@ -171,9 +171,11 @@
             </div>
             <div id="manual_nomor_surat" style="display: none;">
                 <div class="col-sm-7 col-sm-offset-3">
-                    <input type="text" class="form-control input-sm" name="format_nomor" placeholder="[nomor_surat, 3]/PK-TBT/[bulan_romawi]/[tahun]" value="{{ $format_nomor }}">
+                    <input type="text" maxlength="35" oninput="this.value=this.value.slice(0,35)" class="form-control input-sm" name="format_nomor" placeholder="[nomor_surat, 3]/PK-TBT/[bulan_romawi]/[tahun]" value="{{ $format_nomor }}">
+                    <label class="text-muted text-red">Isi dengan jumlah karakter maksimal 35.</label>
                 </div>
             </div>
+            
         </div>
 
         <div class="form-group">
