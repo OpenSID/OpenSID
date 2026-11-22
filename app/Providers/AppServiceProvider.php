@@ -190,17 +190,17 @@ class AppServiceProvider extends ServiceProvider
     {
         Str::macro('convertToBytes', static function (string $value): int {
             $value = trim($value);
-
+    
             // Jika bernilai -1, berarti tidak terbatas
             if ($value === '-1') {
                 return PHP_INT_MAX;
             }
-
+    
             // Ambil angka dan unit secara lebih akurat
             if (preg_match('/^(\d+)([KMG]?)$/i', $value, $matches)) {
                 $number = (int) $matches[1];
                 $unit   = strtolower($matches[2] ?? '');
-
+    
                 return match ($unit) {
                     'g' => $number * 1024 * 1024 * 1024,
                     'm' => $number * 1024 * 1024,
@@ -208,7 +208,7 @@ class AppServiceProvider extends ServiceProvider
                     default => $number,
                 };
             }
-
+    
             return 0; // Jika format tidak sesuai
         });
     }
