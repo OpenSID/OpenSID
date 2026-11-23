@@ -168,6 +168,33 @@ final class PemeriksaIonCube
         }
     }
 
+    /**
+     * Penjaga RUTE (T31): saring daftar berkas rute modul (`<Modules>/<Nama>/Routes/web.php|api.php`) sebelum di-`require`.
+     *
+     * Pemuat rute (`vendor/opensid/router` `Hook.php` pada 2701–2705, `donjo-app/hooks/RouterHook.php` pada 2706+) berjalan di `pre_system`
+     * dan me-`require` SETIAP `Routes/web.php` modul tanpa melewati penjaga boot. Berkas terenkripsi tanpa Loader mematikan seluruh situs,
+     * jadi modul terenkripsi dibuang dari daftar saat Loader tak ada (penentuan memakai manifest/provider saja, tak bergantung urutan boot).
+     *
+     * @param  array<int, string>  $berkas
+     * @return list<string>
+     */
+    public static function saringRute(array $berkas): array
+    {
+        if (self::loaderTersedia()) {
+            return array_values($berkas);
+        }
+
+        $hasil = [];
+        foreach ($berkas as $b) {
+            if (self::modulTerenkripsi(dirname((string) $b, 2))) {
+                continue;
+            }
+            $hasil[] = $b;
+        }
+
+        return $hasil;
+    }
+
     public static function dilewati(string $nama): bool
     {
         return isset(self::$dilewati[$nama]);

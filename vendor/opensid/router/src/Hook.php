@@ -86,7 +86,7 @@ class Hook
             // Include all routes web.php
             $mapModules = [];
             foreach ($modulesLocation as $key => $value) {
-                $mapModules = array_merge($mapModules, glob($key . '*/Routes/web.php'));
+                $mapModules = array_merge($mapModules, \App\Services\Module\PemeriksaIonCube::saringRute(glob($key . '*/Routes/web.php')));
             }
 
             $fileWeb = array_merge($mapModules, glob(APPPATH . 'Routes/web.php'));
@@ -108,7 +108,7 @@ class Hook
                     // Include all routes web.php
                     $mapModules = [];
                     foreach ($modulesLocation as $key => $value) {
-                        $mapModules = array_merge($mapModules, glob($key . '*/Routes/api.php'));
+                        $mapModules = array_merge($mapModules, \App\Services\Module\PemeriksaIonCube::saringRute(glob($key . '*/Routes/api.php')));
                     }
                     // Include all routes api.php
                     $fileApi = array_merge($mapModules, glob(APPPATH . 'Routes/api.php'));
