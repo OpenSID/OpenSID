@@ -39,6 +39,7 @@ use App\Models\User;
 use App\Rules\CaptchaRule;
 use App\Rules\SecretCodeRule;
 use App\Services\Auth\Traits\LoginRequest;
+use App\Services\MasaAktifAkunService;
 use App\Services\OtpService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -141,6 +142,12 @@ class AuthenticatedSessionController extends MY_Controller
             redirect_with('notif', 'Pengguna tidak ditemukan atau tidak aktif.', ci_route('siteman.otp.form_login_otp'));
         }
 
+        // Lazy check: periksa masa aktif akun setelah user ditemukan dan aktif
+        $message = (new MasaAktifAkunService())->checkAndDeactivateIfInactive($user);
+        if ($message) {
+            redirect_with('notif', $message, ci_route('siteman.otp.form_login_otp'));
+        }
+
         if (! $user->otp_enabled) {
             redirect_with('notif', 'OTP belum di aktivasi di halaman profile > Pengaturan Aktivasi OTP. Silakan aktivasi terlebih dahulu atau login dengan password.', ci_route('siteman.otp.form_login_otp'));
         }
@@ -237,6 +244,13 @@ class AuthenticatedSessionController extends MY_Controller
             redirect_with('notif', $result['message'], ci_route('siteman.otp.verify_login'));
         }
 
+        // Lazy check: periksa masa aktif akun sebelum login menggunakan OTP
+        $message = (new MasaAktifAkunService())->checkAndDeactivateIfInactive($user);
+        if ($message) {
+            $this->session->unset_userdata('otp_login');
+            redirect_with('notif', $message, ci_route('siteman.otp.form_login_otp'));
+        }
+
         // Simpan URL tujuan sebelum login, karena listener akan menghapus session 'intended'
         $redirectUrl = $this->session->intended ?? 'beranda';
 
@@ -278,17 +292,27 @@ class AuthenticatedSessionController extends MY_Controller
         $requestUsername = request('username');
         $requestPassword = request('password');
 
+        $masaAktifService = new MasaAktifAkunService();
+
         if ($isDemoMode && $requestUsername == $demoUser['username'] && $requestPassword == $demoUser['password']) {
             $this->validated(request(), $this->rules());
-
             $user = User::superAdmin()->first();
             Auth::guard($this->guard)->login($user);
         } else {
+            $user = User::status()->where('username', $requestUsername)->first();
+
+            if ($user) {
+                $message = $masaAktifService->checkAndDeactivateIfInactive($user);
+
+                if ($message) {
+                    redirect_with('notif', $message, 'siteman');
+                }
+            }
+
             $this->authenticate(['active' => 1]);
         }
 
         $this->session->sess_regenerate();
-
         $user = Auth::guard($this->guard)->user();
 
         if ($user->two_factor_enabled) {

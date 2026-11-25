@@ -35,9 +35,12 @@
  *
  */
 
+use App\Enums\AgamaEnum;
 use App\Enums\JabatanKelompokEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
 use App\Enums\StatusDasarEnum;
+use App\Http\Requests\Kelompok\KelompokAnggotaRequest;
 use App\Models\Kelompok;
 use App\Models\KelompokAnggota as KelompokAnggotaModel;
 use App\Models\Pamong;
@@ -92,8 +95,14 @@ class Kelompok_anggota extends Admin_Controller
                 ->orderBy('jabatan');
 
             if ($status_dasar) {
-                $query->whereHas('anggota', static function ($q) use ($status_dasar) {
-                    $q->where('status_dasar', $status_dasar);
+                $query->where(static function ($q) use ($status_dasar) {
+                    $q->whereHas('anggota', static function ($q2) use ($status_dasar) {
+                        $q2->where('status_dasar', $status_dasar);
+                    });
+                    // Penduduk luar desa dianggap selalu Hidup
+                    if ((int) $status_dasar === StatusDasarEnum::HIDUP) {
+                        $q->orWhereNull('id_penduduk');
+                    }
                 });
             }
 
@@ -109,13 +118,13 @@ class Kelompok_anggota extends Admin_Controller
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => "{$controller}/form/" . $row->id_kelompok . '/' . $row->id_penduduk,
+                            'url' => "{$controller}/form/" . $row->id_kelompok . '/' . $row->id,
                         ])->render();
                     }
 
                     if (can('h') && $row->jml_anggota <= 0) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'           => route("{$controller}.delete", ['id_kelompok' => $row->id_kelompok, 'id' => $row->id_penduduk]),
+                            'url'           => route("{$controller}.delete", ['id_kelompok' => $row->id_kelompok, 'id' => $row->id]),
                             'confirmDelete' => true,
                         ])->render();
                     }
@@ -123,16 +132,44 @@ class Kelompok_anggota extends Admin_Controller
                     return $aksi;
                 })
                 ->editColumn('foto', static function ($row) use ($tipe): string {
-                    $foto       = $row->foto ?? $row->anggota->foto;
+                    $sex        = $row->id_penduduk === null ? $row->sex_luar : ($row->anggota ? $row->anggota->sex : null);
+                    $foto       = $row->foto ?? ($row->anggota ? $row->anggota->foto : null);
                     $lokasiFoto = $row->foto && $tipe === 'kelompok'
                         ? LOKASI_FOTO_KELOMPOK
                         : ($row->foto ? LOKASI_FOTO_LEMBAGA : LOKASI_USER_PICT);
 
-                    $urlFoto = AmbilFoto($foto, '', $row->anggota->sex, $lokasiFoto);
+                    $urlFoto = AmbilFoto($foto, '', $sex, $lokasiFoto);
 
                     return '<img src="' . $urlFoto . '" alt="Foto Penduduk" class="img-circle" width="50px">';
                 })
-                ->editColumn('jk', static fn ($row): string => JenisKelaminEnum::valueOf($row->anggota->sex))
+                ->editColumn('nik', static function ($row): string {
+                    if ($row->id_penduduk === null) {
+                        return $row->nik_luar ?? '-';
+                    }
+
+                    return $row->anggota ? $row->anggota->nik : '-';
+                })
+                ->editColumn('nama', static function ($row): string {
+                    if ($row->id_penduduk === null) {
+                        return strtoupper($row->nama_luar ?? '-');
+                    }
+
+                    return $row->anggota ? strtoupper($row->anggota->nama) : '-';
+                })
+                ->editColumn('alamat', static function ($row): string {
+                    if ($row->id_penduduk === null) {
+                        return $row->alamat_luar ?? '-';
+                    }
+
+                    return $row->anggota ? ($row->anggota->alamat_wilayah ?? '-') : '-';
+                })
+                ->editColumn('jk', static function ($row): string {
+                    if ($row->id_penduduk === null) {
+                        return JenisKelaminEnum::valueOf($row->sex_luar) ?: '-';
+                    }
+
+                    return $row->anggota ? JenisKelaminEnum::valueOf($row->anggota->sex) : '-';
+                })
                 ->editColumn('jabatan', static function ($row): string {
                     if ($row->jabatan != 90) {
                         return JabatanKelompokEnum::valueOf($row->jabatan) ?: strtoupper($row->jabatan);
@@ -141,31 +178,47 @@ class Kelompok_anggota extends Admin_Controller
                     return JabatanKelompokEnum::valueOf($row->jabatan);
                 })
                 ->editColumn('status_dasar', static function ($row): string {
+                    if ($row->id_penduduk === null) {
+                        return '<span class="label label-success">Hidup</span>';
+                    }
+
+                    if (! $row->anggota) {
+                        return '<span class="label label-default">-</span>';
+                    }
+
                     $status = StatusDasarEnum::valueOf($row->anggota->status_dasar);
-                    $badge  = '';
 
                     switch($row->anggota->status_dasar) {
                         case StatusDasarEnum::HIDUP:
-                            $badge = '<span class="label label-success">' . $status . '</span>';
-                            break;
+                            return '<span class="label label-success">' . $status . '</span>';
 
                         case StatusDasarEnum::MATI:
-                            $badge = '<span class="label label-danger">' . $status . '</span>';
-                            break;
+                            return '<span class="label label-danger">' . $status . '</span>';
 
                         case StatusDasarEnum::PINDAH:
-                            $badge = '<span class="label label-warning">' . $status . '</span>';
-                            break;
+                            return '<span class="label label-warning">' . $status . '</span>';
 
                         default:
-                            $badge = '<span class="label label-default">' . $status . '</span>';
+                            return '<span class="label label-default">' . $status . '</span>';
+                    }
+                })
+                ->editColumn('umur', static function ($row): string {
+                    if ($row->id_penduduk === null) {
+                        return $row->tanggallahir_luar ? usia($row->tanggallahir_luar, null, '%y') : '-';
                     }
 
-                    return $badge;
+                    return $row->anggota ? $row->anggota->umur : '-';
                 })
-                ->editColumn('umur', static fn ($row): string => $row->anggota->umur)
-                ->editColumn('tanggallahir', static fn ($row): string => strtoupper($row->anggota->tempatlahir) . ' / ' . strtoupper((string) tgl_indo($row->anggota->tanggallahir)))
-                ->rawColumns(['aksi', 'ceklist', 'foto', 'tanggallahir', 'jk', 'jabatan', 'umur', 'status_dasar'])
+                ->editColumn('tanggallahir', static function ($row): string {
+                    if ($row->id_penduduk === null) {
+                        return strtoupper($row->tempatlahir_luar ?? '-') . ' / ' . strtoupper((string) tgl_indo($row->tanggallahir_luar));
+                    }
+
+                    return $row->anggota
+                        ? strtoupper($row->anggota->tempatlahir) . ' / ' . strtoupper((string) tgl_indo($row->anggota->tanggallahir))
+                        : '-';
+                })
+                ->rawColumns(['aksi', 'ceklist', 'foto', 'tanggallahir', 'jk', 'jabatan', 'umur', 'status_dasar', 'nik', 'nama', 'alamat'])
                 ->make();
         }
 
@@ -182,29 +235,50 @@ class Kelompok_anggota extends Admin_Controller
     public function form($id = 0, $id_a = 0): void
     {
         isCan('u');
-        $data['controller']    = $this->controller;
-        $data['kelompok']      = $id;
-        $data['tipe']          = ucwords((string) $this->tipe);
-        $data['list_jabatan1'] = JabatanKelompokEnum::all();
-        $data['list_jabatan2'] = KelompokAnggotaModel::listJabatan($id, $this->tipe);
+        $data['controller']      = $this->controller;
+        $data['kelompok']        = $id;
+        $data['tipe']            = ucwords((string) $this->tipe);
+        $data['list_jabatan1']   = JabatanKelompokEnum::all();
+        $data['list_jabatan2']   = KelompokAnggotaModel::listJabatan($id, $this->tipe);
+        $data['list_jk']         = JenisKelaminEnum::all();
+        $data['list_agama']      = AgamaEnum::all();
+        $data['list_pendidikan'] = PendidikanKKEnum::all();
 
         if ($id_a == 0) {
             $data['pend']        = null;
             $data['form_action'] = route($this->controller . '.insert', $id);
         } else {
-            $kelompok = KelompokAnggotaModel::whereIdKelompok($id)->whereIdPenduduk($id_a)->first();
-            $pend     = Penduduk::whereId($id_a)->first();
-            $penduduk = collect($pend)->merge([
-                'alamat' => $pend->getAlamatWilayahAttribute() ?? '',
-            ])->toArray();
+            $kelompok = KelompokAnggotaModel::find($id_a);
 
-            $data['pend'] = collect($kelompok)->merge([
-                'nama'         => $penduduk['nama'],
-                'id_sex'       => $penduduk['sex'],
-                'nik'          => $penduduk['nik'],
-                'alamat'       => $penduduk['alamat'],
-                'foto_anggota' => $penduduk['foto'],
-            ])->toArray();
+            if (! $kelompok || $kelompok->id_kelompok != $id) {
+                show_404();
+            }
+
+            if ($kelompok->id_penduduk === null) {
+                $data['pend'] = collect($kelompok)->merge([
+                    'nama'            => $kelompok->nama_luar,
+                    'id_sex'          => $kelompok->sex_luar,
+                    'nik'             => $kelompok->nik_luar,
+                    'alamat'          => $kelompok->alamat_luar,
+                    'agama_luar'      => $kelompok->agama_luar,
+                    'pendidikan_luar' => $kelompok->pendidikan_luar,
+                    'foto_anggota'    => $kelompok->foto,
+                ])->toArray();
+            } else {
+                $pend     = Penduduk::whereId($kelompok->id_penduduk)->first();
+                $penduduk = collect($pend)->merge([
+                    'alamat' => $pend->getAlamatWilayahAttribute() ?? '',
+                ])->toArray();
+
+                $data['pend'] = collect($kelompok)->merge([
+                    'nama'         => $penduduk['nama'],
+                    'id_sex'       => $penduduk['sex'],
+                    'nik'          => $penduduk['nik'],
+                    'alamat'       => $penduduk['alamat'],
+                    'foto_anggota' => $penduduk['foto'],
+                ])->toArray();
+            }
+
             $data['form_action'] = route($this->controller . '.update', ['id_kelompok' => $id, 'id' => $id_a]);
         }
 
@@ -214,31 +288,31 @@ class Kelompok_anggota extends Admin_Controller
     public function insert($id = 0)
     {
         isCan('u');
-        $data                = $this->validasi_anggota($this->input->post());
-        $data['id_kelompok'] = $id;
-        KelompokAnggotaModel::UbahJabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], null);
-
-        if ($data['id_kelompok']) {
-            $validasi_anggota  = KelompokAnggotaModel::whereIdPenduduk($data['id_penduduk'])->whereIdKelompok($data['id_kelompok'])->first();
-            $validasi_anggota1 = KelompokAnggotaModel::where('id_penduduk', '!=', $data['id_penduduk'])->whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
-            if ($validasi_anggota->id_penduduk == $data['id_penduduk']) {
-                redirect_with(
-                    'error',
-                    'Nama Anggota yang dipilih sudah masuk kelompok',
-                    "{$this->controller}/form/{$id}"
-                );
-            }
-
-            if ($validasi_anggota1->no_anggota == $data['no_anggota']) {
-                redirect_with(
-                    'error',
-                    "<br/>Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silakan gunakan nomor anggota yang lain!",
-                    "{$this->controller}/form/{$id}"
-                );
-            }
-        }
 
         try {
+            $data                = (new KelompokAnggotaRequest())->validated();
+            $data['id_kelompok'] = $id;
+            $data['tipe']        = $this->tipe;
+
+            if (! empty($data['id_penduduk'])) {
+                KelompokAnggotaModel::UbahJabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], null);
+            }
+
+            if ($data['id_kelompok']) {
+                // Cek duplikat hanya untuk penduduk desa
+                if (! empty($data['id_penduduk'])) {
+                    $validasi_anggota = KelompokAnggotaModel::whereIdPenduduk($data['id_penduduk'])->whereIdKelompok($data['id_kelompok'])->first();
+                    if ($validasi_anggota && $validasi_anggota->id_penduduk == $data['id_penduduk']) {
+                        return json(['status' => false, 'message' => 'Nama Anggota yang dipilih sudah masuk kelompok']);
+                    }
+                }
+
+                $validasi_anggota1 = KelompokAnggotaModel::whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
+                if ($validasi_anggota1 && $validasi_anggota1->no_anggota == $data['no_anggota']) {
+                    return json(['status' => false, 'message' => "Nomor anggota {$data['no_anggota']} tidak bisa digunakan. Silakan gunakan nomor anggota yang lain!"]);
+                }
+            }
+
             $result     = KelompokAnggotaModel::create($data);
             $id_anggota = $result->id;
 
@@ -249,38 +323,43 @@ class Kelompok_anggota extends Admin_Controller
                 KelompokAnggotaModel::where('id', $id_anggota)->update(['foto' => $foto]);
             }
 
-            if ($this->session->aksi != 1) {
-                $redirect = $_SERVER['HTTP_REFERER'];
-            } else {
-                $redirect = route($this->controller . '.detail', $id);
-                $this->session->unset_userdata('aksi');
-            }
-
-            redirect_with('success', 'Anggota berhasil disimpan', $redirect);
+            return json([
+                'status'       => true,
+                'message'      => 'Anggota berhasil disimpan',
+                'redirect_url' => route($this->controller . '.detail', $id),
+            ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Anggota gagal disimpan', $redirect);
-        }
 
-        redirect("{$this->controller}/form/{$id}");
+            return json(['status' => false, 'message' => 'Anggota gagal disimpan']);
+        }
     }
 
-    public function update($id = 0, $id_a = 0): void
+    public function update($id = 0, $id_a = 0)
     {
         isCan('u');
-        $data                = $this->validasi_anggota($this->input->post());
-        $data['id_kelompok'] = $id;
-        KelompokAnggotaModel::UbahJabatan($id, $id_a, $data['jabatan'], $this->input->post('jabatan_lama'));
-        if ($data['id_kelompok']) {
-            // $validasi_anggota1 = KelompokAnggotaModel::whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
-            $validasi_anggota1 = KelompokAnggotaModel::where('id_penduduk', '!=', $data['id_penduduk'])->whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
-        }
-        $anggota = KelompokAnggotaModel::whereIdKelompok($data['id_kelompok'])->whereIdPenduduk($id_a)->first();
-        if ($anggota->no_anggota != $data['no_anggota'] && $validasi_anggota1->no_anggota == $data['no_anggota']) {
-            redirect_with('error', "Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silakan gunakan nomor anggota yang lain!", route($this->controller . '.form', ['id_kelompok' => $id, 'id' => $id_a]));
-        }
 
         try {
+            $data                = (new KelompokAnggotaRequest())->validated();
+            $data['id_kelompok'] = $id;
+            $data['tipe']        = $this->tipe;
+            $anggota             = KelompokAnggotaModel::find($id_a);
+
+            if (! $anggota || $anggota->id_kelompok != $id) {
+                return json(['status' => false, 'message' => 'Data anggota tidak ditemukan']);
+            }
+
+            if ($anggota->id_penduduk !== null && ! empty($data['id_penduduk'])) {
+                KelompokAnggotaModel::UbahJabatan($id, $anggota->id_penduduk, $data['jabatan'], $this->input->post('jabatan_lama'));
+            }
+
+            if ($data['id_kelompok']) {
+                $validasi_anggota1 = KelompokAnggotaModel::where('id', '!=', $id_a)->whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
+                if ($anggota->no_anggota != $data['no_anggota'] && $validasi_anggota1 && $validasi_anggota1->no_anggota == $data['no_anggota']) {
+                    return json(['status' => false, 'message' => "Nomor anggota {$data['no_anggota']} tidak bisa digunakan. Silakan gunakan nomor anggota yang lain!"]);
+                }
+            }
+
             if ($foto = $this->uploadFotoPenduduk(
                 nama_file: time() . '-' . $id_a . '-' . random_int(10000, 999999),
                 lokasi: $this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA
@@ -288,16 +367,20 @@ class Kelompok_anggota extends Admin_Controller
                 $data['foto'] = $foto;
             }
 
+            // Jangan ubah id_penduduk dan luar_desa saat update
+            unset($data['id_penduduk'], $data['luar_desa']);
+
             $anggota->update($data);
 
-            $redirect = ($this->session->aksi != 1) ? $_SERVER['HTTP_REFERER'] : route($this->controller . '.detail', $id);
-
-            $this->session->unset_userdata('aksi');
-
-            redirect_with('success', 'Anggota berhasil diubah', $redirect);
+            return json([
+                'status'       => true,
+                'message'      => 'Anggota berhasil diubah',
+                'redirect_url' => route($this->controller . '.detail', $id),
+            ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Anggota gagal diubah', $redirect);
+
+            return json(['status' => false, 'message' => 'Anggota gagal diubah']);
         }
     }
 
@@ -307,7 +390,12 @@ class Kelompok_anggota extends Admin_Controller
         $kelompok = Kelompok::find($id);
 
         try {
-            $anggota = KelompokAnggotaModel::whereIdPenduduk($a)->first();
+            $anggota = KelompokAnggotaModel::find($a);
+
+            if (! $anggota || $anggota->id_kelompok != $id) {
+                redirect_with('error', 'Data anggota tidak ditemukan', route($this->controller . '.detail', $id));
+            }
+
             KelompokAnggotaModel::destroy($anggota->id);
             redirect_with('success', 'Anggota ' . ucfirst($kelompok->nama) . ' berhasil dihapus', route($this->controller . '.detail', $id));
         } catch (Exception $e) {
@@ -322,10 +410,10 @@ class Kelompok_anggota extends Admin_Controller
 
         try {
             KelompokAnggotaModel::destroy($this->request['id_cb']);
-            redirect_with('success', 'Anggota ' . ucfirst($this->lembaga) . ' berhasil dihapus', route($this->controller . '.detail', $id_kelompok));
+            redirect_with('success', 'Anggota ' . ucfirst($this->tipe) . ' berhasil dihapus', route($this->controller . '.detail', $id_kelompok));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Anggota ' . ucfirst($this->lembaga) . ' gagal dihapus', route($this->controller . '.detail', $id_kelompok));
+            redirect_with('error', 'Anggota ' . ucfirst($this->tipe) . ' gagal dihapus', route($this->controller . '.detail', $id_kelompok));
         }
     }
 
@@ -342,27 +430,45 @@ class Kelompok_anggota extends Admin_Controller
     {
         $post = $this->input->post();
 
-        $kelompok     = KelompokAnggotaModel::with('anggota')->tipe($this->tipe)->where('id_kelompok', '=', $id)->orderByRaw('CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)')->get();
+        $kelompok     = KelompokAnggotaModel::with('anggota.Wilayah')->tipe($this->tipe)->where('id_kelompok', '=', $id)->orderByRaw('CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)')->get();
         $list_anggota = collect($kelompok)
             ->map(
                 static fn ($item) => collect($item)->merge(
-                    [
-                        'nama'         => $item->anggota->nama,
-                        'nik'          => $item->anggota->nik,
-                        'tempatlahir'  => $item->anggota->tempatlahir,
-                        'tanggallahir' => $item->anggota->tanggallahir,
-                        'id_sex'       => $item->anggota->jenis_kelamin_id,
-                        'sex'          => $item->anggota->jenis_kelamin,
-                        'foto'         => $item->anggota->foto,
-                        'pendidikan'   => $item->anggota->pendidikan_kk,
-                        'agama'        => $item->anggota->agama,
-                        'umur'         => $item->anggota->umur,
-                        'jabatan'      => $item->nama_jabatan,
-                        'dusun'        => $item->anggota->wilayah->dusun,
-                        'rw'           => $item->anggota->wilayah->rw,
-                        'rt'           => $item->anggota->wilayah->rt,
-                        'alamat'       => $item->anggota->alamat_wilayah,
-                    ]
+                    $item->id_penduduk === null
+                        ? [
+                            'nama'         => $item->nama_luar,
+                            'nik'          => $item->nik_luar,
+                            'tempatlahir'  => $item->tempatlahir_luar,
+                            'tanggallahir' => $item->tanggallahir_luar,
+                            'id_sex'       => $item->sex_luar,
+                            'sex'          => JenisKelaminEnum::valueOf($item->sex_luar) ?: '-',
+                            'foto'         => null,
+                            'pendidikan'   => PendidikanKKEnum::valueOf($item->pendidikan_luar) ?: '-',
+                            'agama'        => AgamaEnum::valueOf($item->agama_luar) ?: '-',
+                            'umur'         => $item->tanggallahir_luar ? usia($item->tanggallahir_luar, null, '%y') : '-',
+                            'jabatan'      => $item->nama_jabatan,
+                            'dusun'        => '',
+                            'rw'           => '',
+                            'rt'           => '',
+                            'alamat'       => $item->alamat_luar ?? '-',
+                        ]
+                        : [
+                            'nama'         => $item->anggota->nama,
+                            'nik'          => $item->anggota->nik,
+                            'tempatlahir'  => $item->anggota->tempatlahir,
+                            'tanggallahir' => $item->anggota->tanggallahir,
+                            'id_sex'       => $item->anggota->jenis_kelamin_id,
+                            'sex'          => $item->anggota->jenis_kelamin,
+                            'foto'         => $item->anggota->foto,
+                            'pendidikan'   => $item->anggota->pendidikan_kk,
+                            'agama'        => $item->anggota->agama,
+                            'umur'         => $item->anggota->umur,
+                            'jabatan'      => $item->nama_jabatan,
+                            'dusun'        => $item->anggota->wilayah->dusun,
+                            'rw'           => $item->anggota->wilayah->rw,
+                            'rt'           => $item->anggota->wilayah->rt,
+                            'alamat'       => $item->anggota ? ($item->anggota->alamat_wilayah ?? '-') : '-',
+                        ]
                 )
                     ->forget('anggota')
             )
@@ -409,28 +515,5 @@ class Kelompok_anggota extends Admin_Controller
         return $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($sumber, JSON_THROW_ON_ERROR));
-    }
-
-    private function validasi_anggota(array $post)
-    {
-        if ($post['id_penduduk']) {
-            $data['id_penduduk'] = bilangan($post['id_penduduk']);
-        }
-
-        $data['no_anggota']    = bilangan($post['no_anggota']);
-        $data['jabatan']       = alfanumerik_spasi($post['jabatan']);
-        $data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
-        $data['keterangan']    = htmlentities((string) $post['keterangan']);
-        $data['tipe']          = $this->tipe;
-
-        if ($this->tipe == 'lembaga') {
-            $data['nmr_sk_pengangkatan']  = nomor_surat_keputusan($post['nmr_sk_pengangkatan']);
-            $data['tgl_sk_pengangkatan']  = empty($post['tgl_sk_pengangkatan']) ? null : tgl_indo_in($post['tgl_sk_pengangkatan']);
-            $data['nmr_sk_pemberhentian'] = nomor_surat_keputusan($post['nmr_sk_pemberhentian']);
-            $data['tgl_sk_pemberhentian'] = empty($post['tgl_sk_pemberhentian']) ? null : tgl_indo_in($post['tgl_sk_pemberhentian']);
-            $data['periode']              = htmlentities((string) $post['periode']);
-        }
-
-        return $data;
     }
 }

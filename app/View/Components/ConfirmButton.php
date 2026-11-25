@@ -53,7 +53,8 @@ class ConfirmButton extends Component
         public string $icon = 'fa fa-times',
         public string $judul = '',
         public string $target = 'confirm-status',
-        public string $confirmMessage = ''
+        public string $confirmMessage = '',
+        public string $method = ''
     ) {
     }
 

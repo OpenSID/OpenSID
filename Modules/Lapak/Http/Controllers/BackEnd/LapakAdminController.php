@@ -152,7 +152,8 @@ class LapakAdminController extends AdminModulController
             redirect_with('success', 'Berhasil menambah data', 'lapak_admin/produk');
         }
 
-        redirect_with('error', 'Gagal menambah data', 'lapak_admin/produk');
+        $error = session('error') ?: 'Gagal menambah data';
+        redirect_with('error', $error, 'lapak_admin/produk_form');
     }
 
     public function produkUpdate($id = ''): void
@@ -163,7 +164,8 @@ class LapakAdminController extends AdminModulController
             redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/produk');
         }
 
-        redirect_with('error', 'Gagal mengubah data', 'lapak_admin/produk');
+        $error = session('error') ?: 'Gagal mengubah data';
+        redirect_with('error', $error, "lapak_admin/produk_form/{$id}");
     }
 
     public function produkDelete($id): void

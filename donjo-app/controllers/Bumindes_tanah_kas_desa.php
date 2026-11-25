@@ -255,7 +255,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
         }
 
         $data['nama_pemilik_asal']    = strip_tags((string) $data['pemilik_asal']);
-        $data['letter_c']             = bilangan($data['letter_c_persil']);
+        $data['letter_c']             = strip_tags($data['letter_c_persil']);
         $data['kelas']                = strip_tags((string) $data['kelas']);
         $data['luas']                 = bilangan($data['luas']);
         $data['asli_milik_desa']      = bilangan($data['asli_milik_desa']);

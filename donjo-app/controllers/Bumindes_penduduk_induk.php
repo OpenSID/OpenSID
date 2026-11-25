@@ -41,6 +41,7 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Models\LogPenduduk;
+use App\Models\Pamong;
 use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -105,11 +106,13 @@ class Bumindes_penduduk_induk extends Admin_Controller
                 'tahun' => request()->get('tahun'),
                 'bulan' => request()->get('bulan'),
             ],
-            'file'         => 'Buku Induk Kependudukan',
-            'tgl_cetak'    => request()->get('tgl_cetak'),
-            'privasi_nik'  => request()->get('privasi_nik'),
-            'letak_ttd'    => ['1', '1', '9'],
-            'is_landscape' => true,
+            'file'           => 'Buku Induk Kependudukan',
+            'tgl_cetak'      => request()->get('tgl_cetak'),
+            'privasi_nik'    => request()->get('privasi_nik'),
+            'letak_ttd'      => ['1', '1', '9'],
+            'is_landscape'   => true,
+            'pamong_ttd'     => Pamong::kepalaDesa()->first(),
+            'pamong_ketahui' => Pamong::sekretarisDesa()->first(),
         ];
 
         return view('admin.bumindes.penduduk.induk.cetak', $data);

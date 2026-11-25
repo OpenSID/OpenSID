@@ -36,6 +36,8 @@
  */
 
 use App\Enums\AktifEnum;
+use App\Http\Requests\Lokasi\LokasiRequest;
+use App\Http\Requests\Map\MapLokasiRequest;
 use App\Models\Area;
 use App\Models\Garis;
 use App\Models\Lokasi;
@@ -278,57 +280,105 @@ class Plan extends Admin_Controller
         return view('admin.peta.lokasi.maps', $data);
     }
 
-    public function update_maps($parent, $id): void
+    public function update_maps($parent, $id)
     {
         isCan('u');
+        $request = new MapLokasiRequest();
 
         try {
             $data = $this->input->post();
+
+            // Normalisasi pemisah desimal dari koma ke titik
+            if (! empty($data['lat'])) {
+                $data['lat'] = str_replace(',', '.', (string) $data['lat']);
+            }
+            if (! empty($data['lng'])) {
+                $data['lng'] = str_replace(',', '.', (string) $data['lng']);
+            }
+
             if (! empty($data['lat']) && ! empty($data['lng'])) {
-                Lokasi::whereId($id)->update($data);
-                redirect_with('success', 'Lokasi berhasil disimpan', ci_route('plan.index', $parent));
-            } else {
-                redirect_with('error', 'Titik koordinat lokasi harus diisi', ci_route('plan.index', $parent));
+                Lokasi::whereId($id)->update($request->validated());
+
+                return json([
+                    'status'       => true,
+                    'message'      => 'Lokasi berhasil disimpan',
+                    'redirect_url' => ci_route('plan.index', $parent),
+                ]);
+            }
+
+                return json([
+                    'status'  => false,
+                    'message' => 'Titik koordinat lokasi harus diisi',
+                ]);
+
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return json([
+                'status'  => false,
+                'message' => 'Lokasi gagal disimpan',
+            ]);
+        }
+    }
+
+    public function insert($parent)
+    {
+        isCan('u');
+
+        try {
+            $request = new LokasiRequest();
+
+            if ($lokasi = Lokasi::create($request->validated())) {
+                if (request()->hasFile('foto')) {
+                    $lokasi->foto = $this->uploadPicture('foto', LOKASI_FOTO_LOKASI);
+                    $lokasi->save();
+                }
+
+                return json([
+                    'status'       => true,
+                    'message'      => 'Berhasil Tambah Data',
+                    'redirect_url' => ci_route('plan.index', $parent),
+                ]);
+            }
+
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+        }
+
+        return json([
+            'status'  => false,
+            'message' => 'Gagal Tambah Data',
+        ]);
+    }
+
+    public function update($parent, $id)
+    {
+        isCan('u');
+
+        try {
+            $request = new LokasiRequest();
+            $lokasi  = Lokasi::findOrFail($id);
+
+            if ($lokasi->update($request->validated())) {
+                if (request()->hasFile('foto')) {
+                    $lokasi->foto = $this->uploadPicture('foto', LOKASI_FOTO_LOKASI);
+                    $lokasi->save();
+                }
+
+                return json([
+                    'status'       => true,
+                    'message'      => 'Berhasil Ubah Data',
+                    'redirect_url' => ci_route('plan.index', $parent),
+                ]);
             }
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal disimpan', ci_route('plan.index', $parent));
-        }
-    }
-
-    public function insert($parent): void
-    {
-        isCan('u');
-
-        if ($this->validation()) {
-            $data = $this->validasi($this->input->post());
+            logger()->error($e->getMessage());
         }
 
-        try {
-            Lokasi::create($data);
-            redirect_with('success', 'Lokasi berhasil disimpan', ci_route('plan.index', $parent));
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal disimpan', ci_route('plan.index', $parent));
-        }
-    }
-
-    public function update($parent, $id): void
-    {
-        isCan('u');
-
-        if ($this->validation()) {
-            $data = $this->validasi($this->input->post());
-        }
-
-        try {
-            $obj = Lokasi::findOrFail($id);
-            $obj->update($data);
-            redirect_with('success', 'Lokasi berhasil disimpan', ci_route('plan.index', $parent));
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal disimpan', ci_route('plan.index', $parent));
-        }
+        return json([
+            'status'  => false,
+            'message' => 'Gagal Ubah Data',
+        ]);
     }
 
     public function delete($parent, $id = null): void
@@ -339,7 +389,7 @@ class Plan extends Admin_Controller
             Lokasi::destroy($this->request['id_cb'] ?? $id);
             redirect_with('success', 'Lokasi berhasil dihapus', ci_route('plan.index', $parent));
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
+            logger()->error($e->getMessage());
             redirect_with('error', 'Lokasi gagal dihapus', ci_route('plan.index', $parent));
         }
     }
@@ -357,36 +407,12 @@ class Plan extends Admin_Controller
                 'message' => $success ? __('notification.status.success') : __('notification.status.error'),
             ]);
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-
-            return json([
-                'success' => false,
-                'message' => __('notification.status.error'),
-            ]);
-        }
-    }
-
-    private function validation()
-    {
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
-        $this->form_validation->set_rules('ref_point', 'Kategori', 'required');
-        $this->form_validation->set_rules('desk', 'Keterangan', 'required|trim');
-        $this->form_validation->set_rules('enabled', 'Status', 'required');
-
-        return $this->form_validation->run();
-    }
-
-    private function validasi(array $post)
-    {
-        $data['nama']      = nomor_surat_keputusan($post['nama']);
-        $data['ref_point'] = bilangan($post['ref_point']);
-        $data['desk']      = htmlentities((string) $post['desk']);
-        $data['enabled']   = bilangan($post['enabled']);
-
-        if ($_FILES['foto']['name']) {
-            $data['foto'] = $this->uploadPicture('foto', LOKASI_FOTO_LOKASI);
+            logger()->error($e->getMessage());
         }
 
-        return $data;
+        return json([
+            'success' => false,
+            'message' => __('notification.status.error'),
+        ]);
     }
 }
