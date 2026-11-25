@@ -291,17 +291,16 @@ class MY_Controller extends CI_Controller
                 return;
             }
 
-            // Rate limit: sekali setiap 10 menit per config_id
             $configId = identitas('id');
             $cacheKey = "last_deactivate_accounts_{$configId}";
-            $interval = 10 * 60;
+            $seconds  = 86400; // 1 hari
 
-            cache()->remember($cacheKey, $interval, static function () {
+            // Mencoba menambah lock selama 1 hari
+            if (cache()->add($cacheKey, true, $seconds)) {
                 $service = new MasaAktifAkunService();
                 $service->deactivateInactiveAccounts();
+            }
 
-                return true;
-            });
         } catch (Throwable $e) {
             // Jangan ganggu request user jika ada kesalahan, cukup log
             log_message('error', 'Gagal menjalankan maybeRunDeactivateAccounts: ' . $e->getMessage());
@@ -346,6 +345,11 @@ class MY_Controller extends CI_Controller
     {
         $macAddress   = $this->session->mac_address;
         $anjunganUuid = $this->session->anjungan_uuid;
+
+        // jika sesi tidak berisi pengenal apa pun, jangan ambil row generik
+        if (! $macAddress && ! $anjunganUuid) {
+            return [];
+        }
 
         try {
             $data = DB::table('anjungan')

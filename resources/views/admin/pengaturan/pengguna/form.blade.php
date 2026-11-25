@@ -23,8 +23,10 @@
                         <img class="penduduk img-responsive" src="{{ AmbilFoto($user['foto']) }}" alt="Foto Pengguna">
                         <br />
                         <p class="text-center text-bold">Foto Pengguna</p>
+                        @if($user)
                         <p class="text-muted text-center text-red">(Kosongkan, jika foto tidak berubah)</p>
                         <br />
+                        @endif
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control file-path" readonly name="foto">
                             <input type="file" class="hidden file-input" name="foto" accept=".gif,.jpg,.jpeg,.png">

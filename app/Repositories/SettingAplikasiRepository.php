@@ -37,12 +37,12 @@
 
 namespace App\Repositories;
 
-use App\Models\Config;
-use App\Traits\Upload;
 use App\Libraries\TinyMCE;
+use App\Models\Config;
 use App\Models\Notifikasi;
-use App\Services\OtpService;
 use App\Models\SettingAplikasi;
+use App\Services\OtpService;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\Facades\LogBatch;
 
@@ -66,21 +66,21 @@ class SettingAplikasiRepository
         $ci->list_setting = SettingAplikasi::urut()->get();
 
         // ambil setting dari global.json jika ada
-        $path = DESAPATH.'config/global.json';
+        $path = DESAPATH . 'config/global.json';
 
         if (is_file($path)) {
-            $hash     = md5_file($path);
-            $cacheKey = 'desa.config.global.' . $hash;
+            $hash         = md5_file($path);
+            $cacheKey     = 'desa.config.global.' . $hash;
             $configGlobal = Cache::rememberForever(
                 $cacheKey,
-                fn () => collect(json_decode(file_get_contents($path), true))
+                static fn () => collect(json_decode(file_get_contents($path), true))
             );
 
             if (isKelurahan()) {
                 $configGlobal->put('sebutan_desa', 'Kelurahan');
             }
 
-            $ci->list_setting->transform(function ($item) use ($configGlobal) {
+            $ci->list_setting->transform(static function ($item) use ($configGlobal) {
                 if (! $configGlobal->has($item->key)) {
                     return $item;
                 }
@@ -126,6 +126,9 @@ class SettingAplikasiRepository
         if (empty($ci->setting?->google_recaptcha) && ! empty(config_item('google_recaptcha'))) {
             $ci->setting->google_recaptcha = config_item('google_recaptcha');
         }
+
+        // Validasi google_recaptcha hanya aktif jika site key dan secret key terisi
+        $ci->setting->google_recaptcha = (bool) $ci->setting->google_recaptcha && ! empty($ci->setting->google_recaptcha_site_key) && ! empty($ci->setting->google_recaptcha_secret_key);
 
         if (empty($ci->setting?->header_surat)) {
             $ci->setting->header_surat = TinyMCE::HEADER;
@@ -282,6 +285,14 @@ class SettingAplikasiRepository
                         $value = 0;
                         $hasil = false;
                         set_session('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
+                    }
+                }
+
+                if ($key == 'google_recaptcha' && $value == 1) {
+                    if (empty($data['google_recaptcha_site_key']) || empty($data['google_recaptcha_secret_key'])) {
+                        $value = 0;
+                        $hasil = false;
+                        set_session('flash_error_msg', 'Untuk mengaktifkan Google reCAPTCHA, Site Key dan Secret Key harus diisi');
                     }
                 }
 

@@ -292,7 +292,7 @@ class Import
                 $nomor      = $cells[0]->getValue();
                 $pertanyaan = $cells[1]->getValue();
 
-                if (empty($nomor) || empty($pertanyaan)) {
+                if (null === $nomor || $nomor === '' || null === $pertanyaan || $pertanyaan === '') {
                     $this->addError("Sheet pertanyaan (baris {$index}): Nomor dan Pertanyaan tidak boleh kosong");
 
                     continue;
@@ -341,7 +341,7 @@ class Import
                 $kode_pertanyaan = $cells[0]->getValue();
                 $jawaban         = $cells[2]->getValue();
 
-                if (empty($kode_pertanyaan) || empty($jawaban)) {
+                if (null === $kode_pertanyaan || $kode_pertanyaan === '' || null === $jawaban || $jawaban === '') {
                     $this->addError("Sheet jawaban (baris {$index}): Kode Pertanyaan dan Jawaban tidak boleh kosong");
 
                     continue;
@@ -447,7 +447,7 @@ class Import
                 $minval = $cells[1]->getValue();
                 $maxval = $cells[2]->getValue();
 
-                if (empty($nama) || $minval === '' || $maxval === '') {
+                if (null === $nama || $nama === '' || null === $minval || $minval === '' || null === $maxval || $maxval === '') {
                     $this->addError("Sheet klasifikasi (baris {$index}): Nama, Nilai Minimal, dan Nilai Maksimal tidak boleh kosong");
 
                     continue;

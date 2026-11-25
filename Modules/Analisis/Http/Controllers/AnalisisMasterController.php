@@ -477,12 +477,17 @@ class AnalisisMasterController extends AdminModulController
         $header = Row::fromValues($judul, $this->styleJudul());
         $writer->addRow($header);
         // Tulis data
-        $parameter = AnalisisIndikator::with(['parameter'])->where(['id_master' => $master['id']])->get();
+        $indikator = AnalisisIndikator::with(['parameter'])->where(['id_master' => $master['id']])->get();
 
-        foreach ($parameter as $p) {
-            $baris_data = [$p['nomor'], $p['parameter']['kode_jawaban'] ?? '', $p['parameter']['jawaban'] ?? '', $p['parameter']['nilai'] ?? ''];
-            $baris      = Row::fromValues($baris_data, $this->styleBaris());
-            $writer->addRow($baris);
+        foreach ($indikator as $p) {
+            // Looping melalui semua parameter karena relationship adalah hasMany
+            if (! empty($p['parameter'])) {
+                foreach ($p['parameter'] as $param) {
+                    $baris_data = [$p['nomor'], $param['kode_jawaban'] ?? '', $param['jawaban'] ?? '', $param['nilai'] ?? ''];
+                    $baris      = Row::fromValues($baris_data, $this->styleBaris());
+                    $writer->addRow($baris);
+                }
+            }
         }
     }
 

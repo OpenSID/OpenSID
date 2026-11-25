@@ -48,6 +48,11 @@ class Config extends BaseModel
     use Author;
     use QueryCacheable;
 
+    /**
+     * Path upload file config
+     */
+    public const UPLOAD_PATH = LOKASI_LOGO_DESA;
+
     // forever remember cache
     public $cacheFor = -1;
 
@@ -71,11 +76,6 @@ class Config extends BaseModel
      * @var string
      */
     protected $table = 'config';
-
-    /**
-     * Path upload file config
-     */
-    public const UPLOAD_PATH = LOKASI_LOGO_DESA;
 
     /**
      * The fillable with the model.
@@ -170,21 +170,6 @@ class Config extends BaseModel
         });
     }
 
-    private static function updateOtomatisKelurahan($model = null): void
-    {
-        $sebutanDesa = 'Desa';
-        $sebutanKades = 'Kepala Desa';
-
-        if (isKelurahan($model ? $model->kode_desa : null)) {
-            $sebutanDesa = 'Kelurahan';
-            $sebutanKades = 'Lurah';
-        }
-
-        SettingAplikasi::where('key', 'sebutan_desa')->update(['value' => $sebutanDesa]);
-        RefJabatan::whereJenis(RefJabatan::KADES)->update(['nama' => $sebutanKades]);
-        RefJabatan::whereJenis(RefJabatan::SEKDES)->update(['nama' => 'Sekretaris ' . $sebutanKades]);
-    }
-
     // Hapus cache config dan modul
     public static function clearCache(): void
     {
@@ -204,6 +189,21 @@ class Config extends BaseModel
                 unlink($logo);
             }
         }
+    }
+
+    private static function updateOtomatisKelurahan($model = null): void
+    {
+        $sebutanDesa  = 'Desa';
+        $sebutanKades = 'Kepala Desa';
+
+        if (isKelurahan($model ? $model->kode_desa : null)) {
+            $sebutanDesa  = 'Kelurahan';
+            $sebutanKades = 'Lurah';
+        }
+
+        SettingAplikasi::where('key', 'sebutan_desa')->update(['value' => $sebutanDesa]);
+        RefJabatan::whereJenis(RefJabatan::KADES)->update(['nama' => $sebutanKades]);
+        RefJabatan::whereJenis(RefJabatan::SEKDES)->update(['nama' => 'Sekretaris ' . $sebutanKades]);
     }
 
     /**
@@ -280,7 +280,7 @@ class Config extends BaseModel
     {
         return null;
     }
-    
+
     public function getPathKantorDesaAttribute()
     {
         return null;
