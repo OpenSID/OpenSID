@@ -87,6 +87,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('polygon.datatables') }}?parent={{ $parent }}&tipe={{ $tipe }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                     }

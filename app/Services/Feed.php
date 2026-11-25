@@ -47,7 +47,7 @@ class Feed
 
     public static function list_feeds()
     {
-        $data = DB::table('artikel as a')
+        return DB::table('artikel as a')
             ->select([
                 'a.*',
                 'u.nama as owner',
@@ -67,7 +67,5 @@ class Feed
             ->limit(50)
             ->get()
             ->toArray();
-
-        return $data;
     }
 }

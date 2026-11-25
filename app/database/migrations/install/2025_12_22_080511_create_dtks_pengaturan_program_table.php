@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('dtks_pengaturan_program', static function (Blueprint $table) {
+        Schema::create('dtks_pengaturan_program', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id');
             $table->integer('versi_kuisioner');

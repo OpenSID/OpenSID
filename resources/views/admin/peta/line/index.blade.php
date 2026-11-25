@@ -82,6 +82,7 @@
             serverSide: true,
             ajax: {
                 url: "{{ ci_route('line.datatables') }}",
+                method: 'POST',
                 data: function(req) {
                     req.parent = parent;
                     req.tipe = tipe;

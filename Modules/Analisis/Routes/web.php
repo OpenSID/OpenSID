@@ -38,7 +38,7 @@
 Route::group('analisis_master', ['namespace' => 'Analisis'], static function (): void {
     Route::get('', 'AnalisisMasterController@index')->name('analisis_master.index-default');
     Route::get('clear', 'AnalisisMasterController@index')->name('analisis_master.clear');
-    Route::get('datatables', 'AnalisisMasterController@datatables')->name('analisis_master.datatables');
+    Route::post('datatables', 'AnalisisMasterController@datatables')->name('analisis_master.datatables');
     Route::get('form/{id?}', 'AnalisisMasterController@form')->name('analisis_master.form');
     Route::post('insert', 'AnalisisMasterController@insert')->name('analisis_master.insert');
     Route::post('update/{id?}', 'AnalisisMasterController@update')->name('analisis_master.update');
@@ -59,7 +59,7 @@ Route::group('analisis_master', ['namespace' => 'Analisis'], static function ():
 
 Route::group('analisis_indikator/{master}', ['namespace' => 'Analisis'], static function (): void {
     Route::get('', 'AnalisisIndikatorController@index')->name('analisis_indikator.index-default');
-    Route::get('datatables', 'AnalisisIndikatorController@datatables')->name('analisis_indikator.datatables');
+    Route::post('datatables', 'AnalisisIndikatorController@datatables')->name('analisis_indikator.datatables');
     Route::get('form/{id?}', 'AnalisisIndikatorController@form')->name('analisis_indikator.form');
     Route::post('insert', 'AnalisisIndikatorController@insert')->name('analisis_indikator.insert');
     Route::post('update/{id?}', 'AnalisisIndikatorController@update')->name('analisis_indikator.update');
@@ -67,7 +67,7 @@ Route::group('analisis_indikator/{master}', ['namespace' => 'Analisis'], static 
     Route::post('delete', 'AnalisisIndikatorController@delete')->name('analisis_indikator.delete-all');
     Route::group('parameter/{indikator}', static function (): void {
         Route::get('', 'AnalisisParameterController@index')->name('analisis_parameter.index-default');
-        Route::get('datatables', 'AnalisisParameterController@datatables')->name('analisis_parameter.datatables');
+        Route::post('datatables', 'AnalisisParameterController@datatables')->name('analisis_parameter.datatables');
         Route::get('form/{id?}', 'AnalisisParameterController@form')->name('analisis_parameter.form');
         Route::post('insert', 'AnalisisParameterController@insert')->name('analisis_parameter.insert');
         Route::post('update/{id?}', 'AnalisisParameterController@update')->name('analisis_parameter.update');
@@ -78,7 +78,7 @@ Route::group('analisis_indikator/{master}', ['namespace' => 'Analisis'], static 
 
 Route::group('analisis_kategori/{master}', ['namespace' => 'Analisis'], static function (): void {
     Route::get('', 'AnalisisKategoriController@index')->name('analisis_kategori.index-default');
-    Route::get('datatables', 'AnalisisKategoriController@datatables')->name('analisis_kategori.datatables');
+    Route::post('datatables', 'AnalisisKategoriController@datatables')->name('analisis_kategori.datatables');
     Route::get('form/{id?}', 'AnalisisKategoriController@form')->name('analisis_kategori.form');
     Route::post('insert', 'AnalisisKategoriController@insert')->name('analisis_kategori.insert');
     Route::post('update/{id?}', 'AnalisisKategoriController@update')->name('analisis_kategori.update');
@@ -88,7 +88,7 @@ Route::group('analisis_kategori/{master}', ['namespace' => 'Analisis'], static f
 
 Route::group('analisis_klasifikasi/{master}', ['namespace' => 'Analisis'], static function (): void {
     Route::get('', 'AnalisisKlasifikasiController@index')->name('analisis_klasifikasi.index-default');
-    Route::get('datatables', 'AnalisisKlasifikasiController@datatables')->name('analisis_klasifikasi.datatables');
+    Route::post('datatables', 'AnalisisKlasifikasiController@datatables')->name('analisis_klasifikasi.datatables');
     Route::get('form/{id?}', 'AnalisisKlasifikasiController@form')->name('analisis_klasifikasi.form');
     Route::post('insert', 'AnalisisKlasifikasiController@insert')->name('analisis_klasifikasi.insert');
     Route::post('update/{id?}', 'AnalisisKlasifikasiController@update')->name('analisis_klasifikasi.update');
@@ -98,7 +98,7 @@ Route::group('analisis_klasifikasi/{master}', ['namespace' => 'Analisis'], stati
 
 Route::group('analisis_respon/{master}', ['namespace' => 'Analisis'], static function (): void {
     Route::get('', 'AnalisisResponController@index');
-    Route::get('datatables', 'AnalisisResponController@datatables')->name('analisis_respon.datatables');
+    Route::post('datatables', 'AnalisisResponController@datatables')->name('analisis_respon.datatables');
     Route::get('form/{id}/{fs?}', 'AnalisisResponController@form')->name('analisis_respon.form');
     Route::get('perbaharui/{id_subjek}', 'AnalisisResponController@perbaharui')->name('analisis_respon.perbaharui');
     Route::post('update/{id}', 'AnalisisResponController@update')->name('analisis_respon.update');
@@ -117,7 +117,7 @@ Route::group('analisis_respon/{master}', ['namespace' => 'Analisis'], static fun
 
 Route::group('analisis_periode/{master}', ['namespace' => 'Analisis'], static function (): void {
     Route::get('', 'AnalisisPeriodeController@index')->name('analisis_periode.index-default');
-    Route::get('datatables', 'AnalisisPeriodeController@datatables')->name('analisis_periode.datatables');
+    Route::post('datatables', 'AnalisisPeriodeController@datatables')->name('analisis_periode.datatables');
     Route::get('form/{id?}', 'AnalisisPeriodeController@form')->name('analisis_periode.form');
     Route::post('insert', 'AnalisisPeriodeController@insert')->name('analisis_periode.insert');
     Route::post('update/{id?}', 'AnalisisPeriodeController@update')->name('analisis_periode.update');
@@ -128,7 +128,7 @@ Route::group('analisis_periode/{master}', ['namespace' => 'Analisis'], static fu
 
 Route::group('analisis_laporan/{master}', ['namespace' => 'Analisis'], static function (): void {
     Route::get('', 'AnalisisLaporanController@index');
-    Route::get('datatables', 'AnalisisLaporanController@datatables')->name('analisis_laporan.datatables');
+    Route::post('datatables', 'AnalisisLaporanController@datatables')->name('analisis_laporan.datatables');
     Route::get('form/{id}', 'AnalisisLaporanController@form')->name('analisis_laporan.form');
     Route::get('dialog_kuisioner/{id}/{aksi?}', 'AnalisisLaporanController@dialogKuisioner')->name('analisis_laporan.dialog_kuisioner');
     Route::post('daftar/{id}/{aksi?}', 'AnalisisLaporanController@daftar')->name('analisis_laporan.daftar');
@@ -142,7 +142,7 @@ Route::group('analisis_laporan/{master}', ['namespace' => 'Analisis'], static fu
 
 Route::group('analisis_statistik_jawaban/{master}', ['namespace' => 'Analisis'], static function (): void {
     Route::get('', 'AnalisisStatistikJawabanController@index');
-    Route::get('datatables', 'AnalisisStatistikJawabanController@datatables')->name('analisis_statistik_jawaban.datatables');
+    Route::post('datatables', 'AnalisisStatistikJawabanController@datatables')->name('analisis_statistik_jawaban.datatables');
     Route::get('grafik_parameter/{id?}', 'AnalisisStatistikJawabanController@grafikParameter')->name('analisis_statistik_jawaban.grafik_parameter');
     Route::get('subjek_parameter/{id}/{par}', 'AnalisisStatistikJawabanController@subjekParameter')->name('analisis_statistik_jawaban.subjek_parameter');
     Route::post('cetak', 'AnalisisStatistikJawabanController@cetak')->name('analisis_statistik_jawaban.cetak');

@@ -920,3 +920,40 @@ table.dataTable thead th.sorting[rowspan="2"]::after, table.dataTable thead th.s
 .text-left {
     text-align: left !important;
 }
+
+@keyframes pulse-badge {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 5px rgba(255, 193, 7, 0);
+    }
+}
+.notification-badge {
+    animation: pulse-badge 2s infinite;
+}
+
+/* Shimmer / Skeleton Wave */
+@keyframes modal-wave-shimmer {
+    0%   { background-position: 100% 50%; }
+    100% { background-position:   0% 50%; }
+}
+/* Hanya shimmer — dimensi & layout delegasi ke Bootstrap (.form-control, .btn, .modal-body, .modal-footer) */
+/* background-size: 400% 100% membuat gradient 4× lebih lebar dari elemen → sweep mulus di ukuran apapun */
+.sk-line {
+    background-image: linear-gradient(90deg, #eeeeee 25%, #e0e0e0 37%, #eeeeee 63%) !important;
+    background-size: 400% 100% !important;
+    background-color: transparent !important;
+    background-repeat: no-repeat !important;
+    animation: modal-wave-shimmer 1.4s ease infinite;
+    border-radius: 4px;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    color: transparent !important;
+    pointer-events: none;
+}
+/* Hanya label yang tidak memiliki padanan di Bootstrap */
+.sk-label    { display: block; height: 13px; width: 38%;  margin-bottom: 6px; }
+.sk-label-sm { display: block; height: 13px; width: 22%;  margin-bottom: 6px; }

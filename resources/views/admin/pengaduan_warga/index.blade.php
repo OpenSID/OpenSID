@@ -65,6 +65,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('pengaduan_admin.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                     },

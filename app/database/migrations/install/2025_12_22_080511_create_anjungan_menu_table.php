@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('anjungan_menu', static function (Blueprint $table) {
+        Schema::create('anjungan_menu', static function (Blueprint $table): void {
             $table->increments('id');
             $table->integer('config_id')->index('anjungan_menu_config_fk');
             $table->string('nama');

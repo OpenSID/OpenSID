@@ -84,6 +84,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('modul.datatables') }}?parent={{ $parent }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

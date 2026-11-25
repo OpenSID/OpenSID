@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('anjungan', static function (Blueprint $table) {
+        Schema::create('anjungan', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id')->index('anjungan_config_fk');
             $table->string('ip_address', 100);

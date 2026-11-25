@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('gambar_gallery', static function (Blueprint $table) {
+        Schema::create('gambar_gallery', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id')->index('gambar_gallery_config_fk');
             $table->integer('parrent')->nullable()->default(0)->index('parrent');

@@ -376,7 +376,7 @@ class Surat_masuk extends Admin_Controller
 
     private function sumberData()
     {
-        $tahun = $this->input->get('tahun') ?? null;
+        $tahun = $this->input->post_get('tahun') ?? null;
 
         return SuratMasuk::when($tahun, static fn ($q) => $q->whereYear('tanggal_surat', $tahun));
     }

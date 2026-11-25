@@ -101,6 +101,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('opendk_pesan.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                         @if ($selected_nav == 'arsip')

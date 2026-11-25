@@ -2,6 +2,12 @@ var error_message = "";
 var sebutan_dusun;
 var layers = {};
 
+/**
+ * Parses a JSON string safely, handling double-encoded JSON objects.
+ * 
+ * @param {string|object} str - The string to parse.
+ * @returns {object|null} The parsed JSON object, or null if parsing fails.
+ */
 function tryParseJson(str) {
     if (typeof str !== 'string') {
         return str;
@@ -19,7 +25,12 @@ function tryParseJson(str) {
     }
 }
 
-// Normalize polygon coordinates (ensure [lng,lat] order and closed rings)
+/**
+ * Normalizes polygon coordinates to ensure `[lng, lat]` order and closed rings.
+ * 
+ * @param {Array} polygonCoords - The raw polygon coordinates array.
+ * @returns {Array|null} Normalized coordinates array, or null if invalid.
+ */
 function normalizePolygonCoords(polygonCoords) {
   try {
     if (!Array.isArray(polygonCoords)) return null;
@@ -48,6 +59,13 @@ function normalizePolygonCoords(polygonCoords) {
   }
 }
 
+/**
+ * Safely creates a Turf.js polygon feature from coordinates, applying given properties.
+ * 
+ * @param {Array} polygonCoords - The raw coordinates of the polygon.
+ * @param {Object} props - Properties to assign to the Turf feature.
+ * @returns {Object|null} A Turf.js polygon feature, or null if creation fails.
+ */
 function safeTurfPolygon(polygonCoords, props) {
   const rings = normalizePolygonCoords(polygonCoords);
   if (!rings) return null;
@@ -59,63 +77,86 @@ function safeTurfPolygon(polygonCoords, props) {
   }
 }
 
-function set_marker(marker, daftar_path, judul, nama_wil, favico_desa) {
-  var daftar = JSON.parse(daftar_path);
-  var jml_path;
-  for (var x = 0; x < daftar.length; x++) {
-    if (daftar[x].path) {
-      daftar[x].path = JSON.parse(daftar[x].path);
-      jml_path = daftar[x].path[0].length;
-        for (var y = 0; y < jml_path; y++) {
-          daftar[x].path[0][y].reverse();
-        }
-        var marker_style = setAreaStyle(daftar[x], false);
-        daftar[x].path[0].push(daftar[x].path[0][0]);
-        const poly = safeTurfPolygon(daftar[x].path, {
-          content: daftar[x][nama_wil],
-          style: marker_style,
-        });
+/**
+ * Renders polygons from normalized paths and adds them to a marker list.
+ * 
+ * @param {Array} path - Geographic coordinates representing the polygon/multipolygon.
+ * @param {Array} markerList - The target array to push generated geometry features into.
+ * @param {Object} props - Metadata and styles for the polygon.
+ * @param {string} judul - The title/name of the geographic area used for error messages.
+ * @returns {boolean} True if successfully rendered; otherwise false.
+ */
+function renderPolygons(path, markerList, props, judul) {
+  if (isValidMultiPolygonPath(path) || isValidPolygonPath(path)) {
+    let anySuccess = false;
+    if (Array.isArray(path[0][0][0])) {
+      for (var a = 0; a < path.length; a++) {
+        const poly = safeTurfPolygon(path[a], props);
         if (poly) {
-          marker.push(poly);
+          markerList.push(poly);
+          anySuccess = true;
         } else {
           error_message += message(judul);
         }
+      }
+    } else {
+      const poly = safeTurfPolygon(path, props);
+      if (poly) {
+        markerList.push(poly);
+        anySuccess = true;
+      } else {
+        error_message += message(judul);
+      }
+    }
+    return anySuccess;
+  }
+  return false;
+}
+
+/**
+ * Parses layer paths and injects polygon geometry into the map marker list.
+ * 
+ * @param {Array} marker - The array where geographic markers are stored.
+ * @param {string} daftar_path - JSON stringified array of path features.
+ * @param {string} judul - Title of the map layer.
+ * @param {string} nama_wil - Property key representing the name of the region.
+ * @param {string} favico_desa - URL icon path for the village favicon.
+ */
+function set_marker(marker, daftar_path, judul, nama_wil, favico_desa) {
+  var daftar = JSON.parse(daftar_path);
+  for (var x = 0; x < daftar.length; x++) {
+    if (daftar[x].path) {
+      daftar[x].path = JSON.parse(daftar[x].path);
+      var marker_style = setAreaStyle(daftar[x], false);
+
+      if (!renderPolygons(daftar[x].path, marker, { content: daftar[x][nama_wil], style: marker_style }, judul)) {
+        error_message += message(judul);
+      }
     }
   }
 }
 
+/**
+ * Sets markers for multi-polygon layers, primarily for regions with sub-areas (e.g., dusun).
+ * 
+ * @param {Array} marker - The array where geographic markers are stored.
+ * @param {string} daftar_path - JSON stringified array of path features.
+ * @param {string} judul - Title of the map layer.
+ * @param {string} nama_wil - Property key for the region name.
+ * @param {string} favico_desa - URL icon path for the village favicon.
+ */
 function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa) {
   if (nama_wil == "dusun") {
     sebutan_dusun = judul;
   }
 
   var daftar = JSON.parse(daftar_path);
-  var jml_path;
   for (var x = 0; x < daftar.length; x++) {
     if (daftar[x].path) {
       daftar[x].path = JSON.parse(daftar[x].path);
-      if (isValidMultiPolygonPath(daftar[x].path)) {
-        var jml_path_x = daftar[x].path.length;
-        for (var a = 0; a < jml_path_x; a++) {
-          for (var b = 0; b < daftar[x].path[a].length; b++) {
-            jml_path = daftar[x].path[a][0].length;
-            for (var z = 0; z < jml_path; z++) {
-              daftar[x].path[a][0][z].reverse();
-            }
-            var marker_style = setAreaStyle(daftar[x], false);
-            daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
-            const poly = safeTurfPolygon(daftar[x].path[a], {
-              content: daftar[x][nama_wil],
-              style: marker_style,
-            });
-            if (poly) {
-              marker.push(poly);
-            } else {
-              error_message += message(judul);
-            }
-          }
-        }
-      } else {
+      var marker_style = setAreaStyle(daftar[x], false);
+
+      if (!renderPolygons(daftar[x].path, marker, { content: daftar[x][nama_wil], style: marker_style }, judul)) {
         error_message += message(
           null,
           daftar[x].dusun,
@@ -127,6 +168,14 @@ function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa) {
   }
 }
 
+/**
+ * Initializes the primary village (desa) polygon and its central point marker.
+ * 
+ * @param {Array} marker_desa - Array to store village polygon and map points.
+ * @param {Object} desa - Village data object containing path, lat, and lng properties.
+ * @param {string} judul - The title identifier for the village layer.
+ * @param {string} favico_desa - Path to the village's custom map icon.
+ */
 function set_marker_desa(marker_desa, desa, judul, favico_desa) {
   var desa_path = JSON.parse(desa["path"]);
   var polygon_style = setAreaStyle(desa, false);
@@ -137,25 +186,21 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa) {
       marker_desa.push(turf.point([desa.lng, desa.lat], { content: desa, style: L.icon(point_style) }));
     }
 
-    // Use global safeTurfPolygon helper to build a Turf polygon safely
-
-    // Check if it's a MultiPolygon by checking the depth of the array
-    if (Array.isArray(desa_path[0][0][0])) {
-      desa_path.forEach(polygon => {
-        const poly = safeTurfPolygon(polygon, { content: desa, style: polygon_style });
-        if (poly) marker_desa.push(poly);
-        else error_message += message(judul);
-      });
-    } else { // It's a single Polygon
-      const poly = safeTurfPolygon(desa_path, { content: desa, style: polygon_style });
-      if (poly) marker_desa.push(poly);
-      else error_message += message(judul);
-    }
+    renderPolygons(desa_path, marker_desa, { content: desa, style: polygon_style }, judul);
   } else {    
     error_message += message(judul);
   }
 }
 
+/**
+ * Renders the village polygon layer along with highly customized HTML popup content.
+ * 
+ * @param {Array} marker_desa - Array to store village polygon layer data.
+ * @param {Object} desa - Village configuration object containing geographics.
+ * @param {string} judul - Title context for the layer.
+ * @param {string} favico_desa - The icon mapped to the village center point.
+ * @param {string} contents - Predefined HTML structure for the map popup.
+ */
 function set_marker_desa_content(
   marker_desa,
   desa,
@@ -169,7 +214,6 @@ function set_marker_desa_content(
     return;
   }
 
-  var jml = desa_path.length;
   var polygon_style = setAreaStyle(desa);
 
   content = $(contents).html();
@@ -185,13 +229,8 @@ function set_marker_desa_content(
     );
   }
 
-  for (var x = 0; x < jml; x++) {
-    const poly = safeTurfPolygon(desa_path[x], { content: content, style: polygon_style });
-    if (poly) {
-      marker_desa.push(poly);
-    } else {
-      error_message += message(judul);
-    }
+  if (!renderPolygons(desa_path, marker_desa, { content: content, style: polygon_style }, judul)) {
+    error_message += message(judul);
   }
 }
 
@@ -204,17 +243,10 @@ function set_marker_persil_content(
   favico_desa
 ) {
   var daftar = daftar_path == "null" ? new Array() : JSON.parse(daftar_path);
-  var jml = daftar.length;
-  var jml_path;
-
-  for (var x = 0; x < jml; x++) {
+  for (var x = 0; x < daftar.length; x++) {
     if (daftar[x].path) {
       var data = daftar[x];
       daftar[x].path = JSON.parse(daftar[x].path);
-      jml_path = daftar[x].path[0].length;
-      for (var y = 0; y < jml_path; y++) {
-        daftar[x].path[0][y].reverse();
-      }
 
       content = `
         <div class="persil">
@@ -255,15 +287,8 @@ function set_marker_persil_content(
       };
 
       var marker_style = setAreaStyle(daftar[x], false);
-      daftar[x].path[0].push(daftar[x].path[0][0]);
-      const poly = safeTurfPolygon(daftar[x].path, {
-        name: judul,
-        content: content,
-        style: marker_style,
-      });
-      if (poly) {
-        marker.push(poly);
-      } else {
+
+      if (!renderPolygons(daftar[x].path, marker, { name: judul, content: content, style: marker_style }, judul)) {
         error_message += message(judul);
       }
     }
@@ -279,26 +304,13 @@ function set_marker_content(
   favico_desa
 ) {
   var daftar = JSON.parse(daftar_path);
-  var jml = daftar.length;
-  var jml_path;
-  for (var x = 0; x < jml; x++) {
+  for (var x = 0; x < daftar.length; x++) {
     if (daftar[x].path) {
       daftar[x].path = JSON.parse(daftar[x].path);
-      jml_path = daftar[x].path[0].length;
-      for (var y = 0; y < jml_path; y++) {
-        daftar[x].path[0][y].reverse();
-      }
       content = $(contents + x).html();
       var marker_style = setAreaStyle(daftar[x], false);
-      daftar[x].path[0].push(daftar[x].path[0][0]);
-      const poly = safeTurfPolygon(daftar[x].path, {
-        name: judul,
-        content: content,
-        style: marker_style,
-      });
-      if (poly) {
-        marker.push(poly);
-      } else {
+
+      if (!renderPolygons(daftar[x].path, marker, { name: judul, content: content, style: marker_style }, judul)) {
         error_message += message(judul);
       }
     }
@@ -314,32 +326,14 @@ function set_marker_multi_content(
   favico_desa
 ) {
   var daftar = JSON.parse(daftar_path);
-  var jml = daftar.length;
-  var jml_path;
-  for (var x = 0; x < jml; x++) {
+  for (var x = 0; x < daftar.length; x++) {
     if (daftar[x].path) {
       daftar[x].path = JSON.parse(daftar[x].path);
-      var jml_path_x = daftar[x].path.length;
-      for (var a = 0; a < jml_path_x; a++) {
-        for (var b = 0; b < daftar[x].path[a].length; b++) {
-          jml_path = daftar[x].path[a][0].length;
-          for (var z = 0; z < jml_path; z++) {
-            daftar[x].path[a][0][z].reverse();
-          }
-          content = $(contents + x).html();
-          var marker_style = setAreaStyle(daftar[x], false);
-          daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
-          const poly = safeTurfPolygon(daftar[x].path[a], {
-            name: judul,
-            content: content,
-            style: marker_style,
-          });
-          if (poly) {
-            marker.push(poly);
-          } else {
-            error_message += message(judul);
-          }
-        }
+      content = $(contents + x).html();
+      var marker_style = setAreaStyle(daftar[x], false);
+
+      if (!renderPolygons(daftar[x].path, marker, { name: judul, content: content, style: marker_style }, judul)) {
+        error_message += message(judul);
       }
     }
   }
@@ -1943,41 +1937,59 @@ function clearMap(peta) {
 }
 
 $(document).ready(function () {
-  $("#modalKecil").on("show.bs.modal", function (e) {
-    var link = $(e.relatedTarget);
-    var title = link.data("title");
-    var modal = $(this);
-    modal.find(".modal-title").text(title);
-    $(this).find(".fetched-data").load(link.attr("href"));
-  });
-
-  $("#modalSedang").on("show.bs.modal", function (e) {
-    var link = $(e.relatedTarget);
-    var title = link.data("title");
-    var modal = $(this);
-    modal.find(".modal-title").text(title);
-    $(this).find(".fetched-data").load(link.attr("href"));
-  });
-
-  $("#modalBesar").on("show.bs.modal", function (e) {
-    var link = $(e.relatedTarget);
-    var title = link.data("title");
-    var modal = $(this);
-    modal.find(".modal-title").text(title);
-    $(this).find(".fetched-data").load(link.attr("href"));
+  ["#modalKecil", "#modalSedang", "#modalBesar"].forEach(function (selector) {
+    $(selector)
+      .on("show.bs.modal", function (e) {
+        var link = $(e.relatedTarget);
+        var modal = $(this);
+        var fetchedData = modal.find(".fetched-data");
+        modal.find(".modal-title").text(link.data("title"));
+        fetchedData.html(
+          `<div class="modal-body">
+            <div class="sk-line sk-label" style="width:60%"></div>
+            <div class="sk-line sk-label" style="width:80%; margin-top:8px"></div>
+            <div class="sk-line sk-label" style="width:70%; margin-top:8px"></div>
+            <div class="sk-line sk-label" style="width:50%; margin-top:8px"></div>
+            <div class="sk-line sk-label" style="width:75%; margin-top:8px"></div>
+          </div>
+        `);
+        $.ajax({
+          url: link.attr("href"),
+          type: 'GET',
+          success: function(response) {
+            fetchedData.html(response);
+          },
+          error: function(xhr) {
+            fetchedData.html(
+              `<div class="modal-body">
+                <div class="alert alert-danger">
+                  <i class="fa fa-exclamation-triangle"></i>
+                  Gagal memuat konten (${xhr.status} ${xhr.statusText}).
+                </div>
+              </div>`
+            );
+          }
+        });
+      })
+      .on("hidden.bs.modal", function () {
+        $(this).find(".fetched-data").html("");
+        $(this).find(".modal-title").text("");
+      });
   });
   return false;
 });
 
 //Cetak Peta ke PNG
 function cetakPeta(layerpeta) {
-  // Simpan zoom awal dan posisi tengah peta untuk dikembalikan setelah cetak
-  var initialZoom;
-  var initialCenter;
+  // Deteksi base layer aktif dan buat tile layer raster untuk cetak
+  // MapboxGL menggunakan WebGL canvas yang TIDAK bisa dicetak oleh window.print()
+  // Sehingga perlu fallback ke tile raster standar
+  var printTileLayer = _createPrintTileLayer(layerpeta);
 
   L.control
     .browserPrint({
       documentTitle: "Peta_Wilayah",
+      printLayer: printTileLayer,
       printModes: [
         L.control.browserPrint.mode.landscape("Landscape"),
         L.control.browserPrint.mode.portrait("Portrait"),
@@ -1993,37 +2005,137 @@ function cetakPeta(layerpeta) {
     }
   );
 
+  // MapboxGL WebGL canvas tidak bisa dicetak, register sebagai null
+  // agar plugin tidak mencoba clone-nya (printLayer sudah di-set sebagai raster)
   L.Control.BrowserPrint.Utils.registerLayer(
     L.MapboxGL,
     "L.MapboxGL",
     function (layer, utils) {
-      return L.mapboxGL(layer.options);
+      return null;
     }
   );
 
-  layerpeta.on("browser-print-start", function (e) {
-    // Cek apakah ada layer poligon/garis (wilayah) yang aktif
-    let isWilayahActive = false;
-    layerpeta.eachLayer(function (layer) {
-      if (layer instanceof L.GeoJSON && typeof layer.getLayers === 'function' && layer.getLayers().length > 0) {
-        isWilayahActive = true;
-      } else if (layer instanceof L.Polygon || layer instanceof L.Polyline) {
-        // Ini akan menangkap poligon/garis tunggal yang mungkin bukan bagian dari GeoJSON group
-        isWilayahActive = true;
+  // Buat tile layer raster berdasarkan base layer aktif
+  function _createPrintTileLayer(map) {
+    var mapboxToken = null;
+    var activeStyle = null;
+
+    // Cari base layer MapboxGL yang aktif
+    map.eachLayer(function (layer) {
+      if (layer instanceof L.MapboxGL && layer.options) {
+        if (layer.options.accessToken) {
+          mapboxToken = layer.options.accessToken;
+        }
+        if (layer.options.style) {
+          activeStyle = layer.options.style;
+        }
       }
     });
 
-    // Jika ada layer wilayah aktif, lakukan zoom out
-    if (isWilayahActive) {
-      initialZoom = layerpeta.getZoom();
-      initialCenter = layerpeta.getCenter();
-      layerpeta.setZoom(11.95);
+    // Jika MapboxGL aktif dengan token valid, gunakan Mapbox Raster Tiles API
+    if (mapboxToken && activeStyle) {
+      var tilesetId = 'mapbox.streets';
+      if (activeStyle.indexOf('satellite-streets') !== -1) {
+        tilesetId = 'mapbox.satellite';
+      } else if (activeStyle.indexOf('satellite') !== -1) {
+        tilesetId = 'mapbox.satellite';
+      } else if (activeStyle.indexOf('streets') !== -1) {
+        tilesetId = 'mapbox.streets';
+      }
+
+      // Menggunakan Mapbox Static Tiles API (raster, bisa dicetak)
+      return L.tileLayer(
+        'https://api.mapbox.com/styles/v1/mapbox/' + _getMapboxStyleName(activeStyle) + '/tiles/256/{z}/{x}/{y}?access_token=' + mapboxToken,
+        {
+          attribution: '&copy; <a href="https://www.mapbox.com/about/maps">Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+          tileSize: 256,
+          maxZoom: 18
+        }
+      );
     }
 
-    // --- Kode yang sudah ada untuk memastikan label jalan ikut tercetak ---
+    // Fallback ke OpenStreetMap standar
+    return L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+      maxZoom: 18
+    });
+  }
+
+  // Konversi style URL mapbox ke nama style untuk Static Tiles API
+  function _getMapboxStyleName(styleUrl) {
+    if (!styleUrl) return 'streets-v11';
+
+    if (styleUrl.indexOf('satellite-streets') !== -1) return 'satellite-streets-v11';
+    if (styleUrl.indexOf('satellite') !== -1) return 'satellite-v9';
+    if (styleUrl.indexOf('streets') !== -1) return 'streets-v11';
+    if (styleUrl.indexOf('outdoors') !== -1) return 'outdoors-v11';
+    if (styleUrl.indexOf('light') !== -1) return 'light-v10';
+    if (styleUrl.indexOf('dark') !== -1) return 'dark-v10';
+
+    return 'streets-v11';
+  }
+
+  // Kumpulkan bounds dari semua layer polygon/geoJSON yang terlihat di peta asli
+  function _collectVisibleBounds(map) {
+    var bounds = null;
+    map.eachLayer(function (layer) {
+      // Lewati tile layers, controls, dan marker cluster
+      if (layer._url || layer._mutant) return;
+
+      try {
+        if (
+          (layer instanceof L.Polygon) ||
+          (layer instanceof L.Polyline) ||
+          (layer instanceof L.GeoJSON && typeof layer.getBounds === 'function')
+        ) {
+          var layerBounds = layer.getBounds();
+          if (layerBounds && layerBounds.isValid()) {
+            if (bounds) {
+              bounds.extend(layerBounds);
+            } else {
+              bounds = L.latLngBounds(layerBounds.getSouthWest(), layerBounds.getNorthEast());
+            }
+          }
+        }
+      } catch (err) {
+        // Abaikan layer yang gagal mendapatkan bounds
+      }
+    });
+    return bounds;
+  }
+
+  layerpeta.on("browser-print-start", function (e) {
+    var printMap = e.printMap;
+
+    // Pastikan print map di-invalidate ukurannya agar full container
+    setTimeout(function () {
+      printMap.invalidateSize({ reset: true, animate: false, pan: false });
+
+      // Kumpulkan bounds dari layer polygon/wilayah yang aktif di peta ASLI
+      var wilayahBounds = _collectVisibleBounds(layerpeta);
+
+      if (wilayahBounds && wilayahBounds.isValid()) {
+        // FitBounds pada print map agar polygon pas di cetakan
+        // Selalu auto-zoom agar polygon mengisi halaman secara optimal
+        // Tidak peduli level zoom saat ini di peta asli
+        printMap.fitBounds(wilayahBounds, {
+          padding: [30, 30],
+          animate: false
+        });
+      } else {
+        // Jika tidak ada polygon, gunakan view yang sama dengan peta asli
+        printMap.setView(layerpeta.getCenter(), layerpeta.getZoom());
+      }
+
+      // Invalidate lagi setelah fitBounds untuk memastikan tiles dimuat
+      setTimeout(function () {
+        printMap.invalidateSize({ reset: true, animate: false, pan: false });
+      }, 200);
+    }, 100);
+
+    // Pastikan label jalan (text path) ikut tercetak
     try {
-      // Make sure text path labels remain visible in print
-      e.printMap.eachLayer(function (layer) {
+      printMap.eachLayer(function (layer) {
         if (
           layer &&
           layer._text &&
@@ -2031,29 +2143,18 @@ function cetakPeta(layerpeta) {
           typeof layer.setText === "function"
         ) {
           try {
-            // Re-apply text path to ensure it appears in print
             setTimeout(function () {
               if (layer._path && layer._map) {
                 layer.setText(layer._text, layer._textOptions);
               }
-            }, 50);
+            }, 300);
           } catch (err) {
             console.warn("Error re-applying text path on print:", err);
           }
         }
       });
-    } catch (e) {
-      console.warn("Error during browser print start:", e);
-    }
-  });
-
-  // Event listener setelah proses cetak selesai untuk mengembalikan tampilan peta
-  layerpeta.on("browser-print-end", function (e) {
-    // Kembalikan ke zoom dan posisi tengah semula jika sebelumnya diubah
-    if (initialCenter && initialZoom) {
-      layerpeta.setView(initialCenter, initialZoom);
-      initialZoom = null;
-      initialCenter = null;
+    } catch (ex) {
+      console.warn("Error during browser print start:", ex);
     }
   });
 

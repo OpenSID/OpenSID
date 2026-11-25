@@ -49,8 +49,9 @@ class Keuangan_manual extends Admin_Controller
     use ApiResponseHelpers;
     use Upload;
 
-    public $modul_ini     = 'keuangan';
-    public $sub_modul_ini = 'input-data';
+    public $modul_ini           = 'keuangan';
+    public $sub_modul_ini       = 'input-data';
+    public $kategori_pengaturan = 'Keuangan';
     private $tahun;
     private $nama_file;
     private array $data_siskeudes = [
@@ -82,10 +83,10 @@ class Keuangan_manual extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $query = Keuangan::with('template')
                 ->whereRaw('length(template_uuid) <= 5')
-                ->when($this->input->get('jenis_anggaran'), static function ($query, $jenis) {
+                ->when($this->input->post_get('jenis_anggaran'), static function ($query, $jenis) {
                     $query->where('template_uuid', 'like', "{$jenis}%");
                 })
-                ->when($this->input->get('tahun_anggaran'), static function ($query, $tahun) {
+                ->when($this->input->post_get('tahun_anggaran'), static function ($query, $tahun) {
                     $query->where('tahun', $tahun);
                 }, static function ($query) {
                     $query->where('tahun', date('Y'));
@@ -278,7 +279,7 @@ class Keuangan_manual extends Admin_Controller
                     if (isset($templateTahun[$kodeCoa])) {
                         $obj = $templateTahun[$kodeCoa];
 
-                        switch($key) {
+                        switch ($key) {
                             case 'keuangan_ta_rab_rinci':
                                 $obj->anggaran = $item->sum('AnggaranStlhPAK');
                                 break;
@@ -337,7 +338,6 @@ class Keuangan_manual extends Admin_Controller
             if (! $this->tahun) {
                 redirect_with('error', 'File tidak berisi data siskeudes', ci_route('keuangan_manual.impor_data'));
             }
-
         } else {
             redirect_with('error', 'File harus dalam format .zip', ci_route('keuangan_manual.impor_data'));
         }

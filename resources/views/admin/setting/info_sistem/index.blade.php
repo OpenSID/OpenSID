@@ -345,12 +345,12 @@
         `;
 
         const tabUrls = {
-            log_aktivitas: '{{ ci_route("info_sistem.datatablesLogAktifitas") }}',
-            ekstensi: '{{ route("info_sistem.index") }}',
-            info_sistem: '{{ route("info_sistem.index") }}',
-            folder_desa: '{{ ci_route("info_sistem.folder_desa") }}',
+            log_aktivitas: '{{ ci_route("info_sistem.datatables-log") }}',
+            ekstensi: '{{ ci_route("info_sistem.load_ekstensi") }}',
+            info_sistem: '{{ ci_route("info_sistem.load_phpinfo") }}',
+            folder_desa: '{{ ci_route("info_sistem.load_folder_desa") }}',
             file_desa: '{{ ci_route("info_sistem.file_desa") }}',
-            keamanan: '{{ ci_route("info_sistem.keamanan") }}'
+            keamanan: '{{ ci_route("info_sistem.load_security_reports") }}'
         };
 
         $(function() {
@@ -537,7 +537,7 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
                                 <h4 class="modal-title"><i class="fa fa-exclamation-triangle text-red"></i> &nbsp;Detail Log Aktivitas</h4>
                             </div>
                             <div class="modal-body">
@@ -582,7 +582,7 @@
             $loader.show();
             $.ajax({
                 url: '{{ ci_route("info_sistem.get_select_options") }}',
-                type: 'GET',
+                method: 'POST',
                 dataType: 'json',
                 success: function(data) {
                     if (data.log_names) {
@@ -622,7 +622,7 @@
                 order: [[8, 'desc']],
                 ajax: {
                     url: '{{ ci_route("info_sistem.datatables-log") }}',
-                    type: 'GET',
+                    method: 'POST',
                     data: function (d) {
                         d.log_name = $('#log_name').val();
                         d.log_event = $('#log_event').val();
@@ -723,7 +723,7 @@
 
             $.ajax({
                 url: '{{ ci_route("info_sistem.load_ekstensi") }}',
-                type: 'GET',
+                method: 'POST',
                 success: function(data) {
                     $target.html(data);
                     loadedTabs.ekstensi = true;
@@ -744,7 +744,7 @@
 
             $.ajax({
                 url: '{{ ci_route("info_sistem.load_phpinfo") }}',
-                type: 'GET',
+                method: 'POST',
                 success: function(data) {
                     $target.html(data);
                     loadedTabs.info_sistem = true;
@@ -765,7 +765,7 @@
 
             $.ajax({
                 url: '{{ ci_route("info_sistem.load_folder_desa") }}',
-                type: 'GET',
+                method: 'POST',
                 success: function(data) {
                     $target.html(data);
                     loadedTabs.folder_desa = true;
@@ -807,7 +807,7 @@
 
             $.ajax({
                 url: '{{ ci_route("info_sistem.load_security_reports") }}',
-                type: 'GET',
+                method: 'POST',
                 success: function(data) {
                     $target.html(data);
                     loadedTabs.keamanan = true;
@@ -836,7 +836,7 @@
                     }
                 });
                 $.ajax({
-                    url: 'info_sistem/set_permission_desa',
+                    url: '{{ ci_route("info_sistem.set_permission_desa") }}',
                     dataType: "JSON",
                     data: {
                         folders: _data

@@ -65,7 +65,7 @@ class Web_widget extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status') ?? null;
+            $status = $this->input->post_get('status') ?? null;
 
             $query = Widget::orderBy('urut')
                 ->when($status == AktifEnum::AKTIF, static fn ($q) => $q->where('enabled', AktifEnum::AKTIF))

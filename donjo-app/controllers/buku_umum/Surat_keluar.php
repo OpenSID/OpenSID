@@ -475,7 +475,7 @@ class Surat_keluar extends Admin_Controller
 
     private function sumberData()
     {
-        $tahun = $this->input->get('tahun') ?? null;
+        $tahun = $this->input->post_get('tahun') ?? null;
 
         return SuratKeluar::when($tahun, static fn ($q) => $q->whereYear('tanggal_surat', $tahun));
     }

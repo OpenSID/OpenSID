@@ -70,7 +70,7 @@ class Pengaduan_admin extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status');
+            $status = $this->input->post_get('status');
 
             return datatables()->of(Pengaduan::tipe()->filter($status))
                 ->addColumn('ceklist', static function ($row) {

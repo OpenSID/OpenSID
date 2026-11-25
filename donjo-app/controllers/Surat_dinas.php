@@ -126,8 +126,8 @@ class Surat_dinas extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $kunci = $this->input->get('status');
-            $jenis = $this->input->get('jenis');
+            $kunci = $this->input->post_get('status');
+            $jenis = $this->input->post_get('jenis');
 
             return datatables((new SuratDinas())->jenis($jenis)->kunci($kunci))
                 ->addIndexColumn()

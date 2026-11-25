@@ -103,7 +103,7 @@ class Area extends BaseModel
     public static function areaMap()
     {
         return self::with(['polygon' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol', 'color'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol', 'color'])]),
-        ])->get()->map(function ($item) {
+        ])->get()->map(function ($item): \Illuminate\Database\Eloquent\Model {
             $item->jenis    = $item->polygon->parent->nama ?? '';
             $item->kategori = $item->polygon->nama ?? '';
             $item->simbol   = $item->polygon->simbol ?? '';
@@ -189,11 +189,11 @@ class Area extends BaseModel
         }
 
         $foto = LOKASI_FOTO_AREA . $this->attributes['foto'];
-        if (file_exists(FCPATH . $foto)) {
+        if (! empty($this->attributes['foto']) && file_exists(FCPATH . $foto)) {
             return base_url($foto);
         }
 
-        return null;
+        return base_url('assets/images/404-image-not-found.jpg');
     }
 
     /**

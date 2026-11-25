@@ -130,13 +130,13 @@ class Import
     protected array $kodeStatus;
     protected array $kodeGolonganDarah;
     protected array $kodeKtpEl;
-    protected $kodeStatusRekam;
+    protected array $kodeStatusRekam;
     protected array $kodeStatusDasar;
     protected array $kodeCacat;
     protected array $kodeCaraKb;
     protected array $kodeWargaNegara;
     protected array $kodeHamil;
-    protected $kodeAsuransi;
+    protected array $kodeAsuransi;
     protected $errorTulisPenduduk;
     protected $infoTulisPenduduk;
 

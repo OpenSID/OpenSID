@@ -135,6 +135,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('bumindes_arsip') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.jenis = $('[name="jenis"').val();
                         req.tahun = $('[name="tahun"').val();

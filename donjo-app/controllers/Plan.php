@@ -75,10 +75,10 @@ class Plan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status   = $this->input->get('status') ?? null;
-            $subpoint = $this->input->get('subpoint') ?? null;
-            $point    = $this->input->get('point') ?? null;
-            $parent   = $this->input->get('parent') ?? 0;
+            $status   = $this->input->post_get('status') ?? null;
+            $subpoint = $this->input->post_get('subpoint') ?? null;
+            $point    = $this->input->post_get('point') ?? null;
+            $parent   = $this->input->post_get('parent') ?? 0;
 
             // Tidak filter data invalid, tampilkan semua
             $query = Lokasi::status($status)

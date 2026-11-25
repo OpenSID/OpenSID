@@ -63,14 +63,14 @@ use Migrator;
 
     }
 
-    public function tambah_ubah_surat_bawaan()
+    public function tambah_ubah_surat_bawaan(): void
     {
         $id = identitas('id');
         restoreSuratBawaanTinyMCE($id);
         restoreSuratBawaanDinasTinyMCE($id);
     }
 
-    public function tambah_ulang_pengaturan()
+    public function tambah_ulang_pengaturan(): void
     {
         (new ImportSetting())->handle();
 
@@ -83,7 +83,7 @@ use Migrator;
     }
 
     // Menentukan build version
-    protected function versionBuild()
+    protected function versionBuild(): void
     {
         $setting = SettingAplikasi::firstOrCreate(
             ['key' => 'version_build_script'],

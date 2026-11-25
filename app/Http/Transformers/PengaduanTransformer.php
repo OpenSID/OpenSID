@@ -44,7 +44,7 @@ use League\Fractal\TransformerAbstract;
 
 class PengaduanTransformer extends TransformerAbstract
 {
-    public function transform(Pengaduan $pengaduan)
+    public function transform(Pengaduan $pengaduan): array
     {
         $nama = setting('sembunyikan_sensor_nama_pelapor') ? sensorNama($pengaduan->nama) : $pengaduan->nama;
 

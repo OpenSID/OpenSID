@@ -65,7 +65,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('stunting.datatablesKia') }}",
+                ajax: {
+                    url: "{{ ci_route('stunting.datatablesKia') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

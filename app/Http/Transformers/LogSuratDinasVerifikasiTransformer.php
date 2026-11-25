@@ -42,7 +42,7 @@ use League\Fractal\TransformerAbstract;
 
 class LogSuratDinasVerifikasiTransformer extends TransformerAbstract
 {
-    public function transform(LogSuratDinas $surat)
+    public function transform(LogSuratDinas $surat): array
     {
         return [
             'id'             => $surat->id,

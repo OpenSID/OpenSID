@@ -78,6 +78,7 @@
                 ],
                 ajax: {
                     url: "{{ ci_route('gallery.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.parent = parent;
                         req.status = $('#status').val();

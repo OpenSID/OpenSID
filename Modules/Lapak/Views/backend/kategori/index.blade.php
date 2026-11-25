@@ -92,7 +92,7 @@
                 ],
                 'ajax': {
                     'url': "{{ ci_route('lapak_admin/kategori') }}",
-                    'method': 'get',
+                    'method': 'POST',
                     'data': function(d) {
                         d.status = $('#status').val();
                     }

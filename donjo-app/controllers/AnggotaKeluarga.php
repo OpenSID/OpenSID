@@ -462,6 +462,13 @@ class AnggotaKeluarga extends Admin_Controller
         $data['suku_penduduk']      = Penduduk::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
         $data['adat_penduduk']      = Penduduk::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
 
+        $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
+        if (! $data['status_pantau']) {
+            $data['suku']                    = SukuEnum::all();
+            $data['marga']                   = ['Lainnya' => 'Lainnya'];
+            $data['pekerja_migran_penduduk'] = Penduduk::distinct()->select('pekerja_migran')->whereNotNull('pekerja_migran')->whereRaw('LENGTH(pekerja_migran) > 0')->where('pekerja_migran', '!=', 'BUKAN PEKERJA MIGRAN')->pluck('pekerja_migran', 'pekerja_migran');
+        }
+
         // data orang tua
         $orangTua          = Penduduk::orangTua($id);
         $data['data_ayah'] = $orangTua['ayah'];

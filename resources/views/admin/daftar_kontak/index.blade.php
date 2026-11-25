@@ -58,7 +58,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('daftar_kontak.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('daftar_kontak.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

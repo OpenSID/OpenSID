@@ -146,7 +146,7 @@ class Kelompok extends BaseModel
 
     public function getKategoriAttribute()
     {
-        return $this->kelompokMaster->kelompok;
+        return $this->kelompokMaster?->kelompok ?? '-';
     }
 
     public function getUrlLogoAttribute()

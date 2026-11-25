@@ -51,13 +51,13 @@ class ImportModul
 
         $data = json_decode(file_get_contents($path), true);
 
-        if (! is_array($data) || empty($data)) {
+        if (! is_array($data) || $data === []) {
             return false;
         }
 
         $module = new UpsertModul();
 
-        DB::transaction(static function () use ($data, $module) {
+        DB::transaction(static function () use ($data, $module): void {
             foreach ($data as $item) {
                 $module->handle($item);
             }

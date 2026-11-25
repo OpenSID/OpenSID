@@ -103,6 +103,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('suplemen.datatables_terdata') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.id = {{ $suplemen->id }};
                         req.sasaran = {{ $suplemen->sasaran }};

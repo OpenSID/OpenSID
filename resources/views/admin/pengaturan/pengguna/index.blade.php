@@ -104,6 +104,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('man_user.index') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status = $('#status').val();
                         req.group = $('#group').val();

@@ -52,6 +52,8 @@ define('PREMIUM', false);
  */
 define('VERSION_BUILD', [
     // Version Build => Version (premium)
+    '2026.04.15' => '2604.0.1',
+    '2026.04.01' => '2604.0.0',
     '2026.03.15' => '2603.0.1',
     '2026.03.01' => '2603.0.0',
     '2026.02.01' => '2602.0.0',
@@ -95,6 +97,9 @@ define('MODUL_BAWAAN', [
     'Lapak',
     'DTSEN',
 ]);
+
+// Tema premium gratis
+define('TEMA_PREMIUM_FREE', []);
 
 if (! function_exists('cek_anjungan')) {
     /**

@@ -47,7 +47,10 @@
             var tabelData = $('#tabeldata').DataTable({
                 'processing': true,
                 'serverSide': true,
-                'ajax': '{{ base_url('layanan-mandiri/arsip-surat') }}',
+                'ajax': {
+                    url: '{{ base_url('layanan-mandiri/arsip-surat') }}',
+                    method: 'POST',
+                },
                 'order': [
                     [5, 'desc']
                 ],

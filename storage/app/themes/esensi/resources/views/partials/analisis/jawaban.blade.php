@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+﻿@extends('theme::layouts.right-sidebar')
 @include('theme::commons.asset_sweetalert')
 @include('theme::commons.asset_highcharts')
 
@@ -46,7 +46,7 @@
             searching: false,
             ajax: {
                 url: '{{ route('api.analisis.jawaban') }}',
-                method: 'GET',
+                method: 'POST',
                 data: row => ({
                     ...@json($params),
                     "page[size]": row.length,

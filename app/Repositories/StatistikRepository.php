@@ -55,6 +55,6 @@ class StatistikRepository
         }
 
         // Program bantuan berbentuk '50<program_id>'
-        return (bool) ((int) $lap > 50 && substr($lap, 0, 2) == '50');
+        return (int) $lap > 50 && str_starts_with((string) $lap, '50');
     }
 }

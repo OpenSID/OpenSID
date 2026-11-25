@@ -142,7 +142,7 @@
                 });
                 $.ajax({
                         url: '{{ ci_route('pengguna.kirim_otp_telegram') }}',
-                        type: 'get',
+                        method: 'POST',
                         data: {
                             'sidcsrf': getCsrfToken(),
                             'id_telegram': $('#id_telegram').val()
@@ -189,6 +189,8 @@
                                 if (result.isConfirmed) {
                                     if (result.value.status == true) {
                                         $('.close').trigger("click"); //close modal
+                                        $('#verif_telegram').next('br').hide();
+                                        $('#verif_telegram').hide();
                                         Swal.fire({
                                             icon: 'success',
                                             title: result.value.message,
@@ -226,6 +228,25 @@
                     $('#id_telegram').closest('.form-group').addClass('hide')
                 }
             })
+
+            // Cek status verifikasi ketika tab kembali aktif
+            document.addEventListener("visibilitychange", function() {
+                if (document.visibilityState === 'visible') {
+                    $.get(window.location.href, function(data) {
+                        let html = $(data);
+                        if (html.find('.box-profile').length > 0) {
+                            if (html.find('form[action="{{ ci_route('pengguna.kirim_verifikasi') }}"]').length === 0) {
+                                $('form[action="{{ ci_route('pengguna.kirim_verifikasi') }}"]').next('br').hide();
+                                $('form[action="{{ ci_route('pengguna.kirim_verifikasi') }}"]').hide();
+                            }
+                            if (html.find('#verif_telegram').length === 0) {
+                                $('#verif_telegram').next('br').hide();
+                                $('#verif_telegram').hide();
+                            }
+                        }
+                    });
+                }
+            });
         });
     </script>
 @endpush

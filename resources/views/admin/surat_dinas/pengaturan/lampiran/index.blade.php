@@ -93,6 +93,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('lampiran.index') }}",
+                    method: 'POST',
                     data: function(d) {
                         d.jenis = $('#jenis').val();
                     }

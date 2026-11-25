@@ -139,7 +139,7 @@
                 for (let i = 1; i <= totalFiles; i++) {
                     await $.ajax({
                             url: '{{ ci_route('optimasi_gambar.resize') }}',
-                            type: 'POST',
+                            method: 'POST',
                             dataType: 'json',
                             data: {
                                 'file': files[i - 1]
