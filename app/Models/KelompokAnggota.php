@@ -122,12 +122,15 @@ class KelompokAnggota extends BaseModel
 
     public function scopePengurus($query)
     {
-        return $query->where('jabatan', '!=', JabatanKelompokEnum::ANGGOTA)->orderBy('jabatan');
+        return $query->where('jabatan', '!=', JabatanKelompokEnum::ANGGOTA)
+            ->whereNull('tgl_sk_pemberhentian')
+            ->orderBy('jabatan');
     }
 
     public function scopeAnggota($query)
     {
-        return $query->where('jabatan', '=', JabatanKelompokEnum::ANGGOTA);
+        return $query->where('jabatan', '=', JabatanKelompokEnum::ANGGOTA)
+            ->whereNull('tgl_sk_pemberhentian');
     }
 
     public function scopeSlugKelompok($query, $slug)

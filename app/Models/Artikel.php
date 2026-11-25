@@ -38,7 +38,7 @@
 namespace App\Models;
 
 use App\Libraries\UserAgent;
-use App\Traits\ConfigIdNull;
+use App\Traits\WilayahNull;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -50,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Artikel extends BaseModel
 {
-    use ConfigIdNull;
+    use WilayahNull;
 
     public const ENABLE              = 1;
     public const HEADLINE            = 1;
@@ -358,6 +358,30 @@ class Artikel extends BaseModel
     public function agenda()
     {
         return $this->hasOne(Agenda::class, 'id_artikel');
+    }
+
+    /**
+     * Relasi ke tabel jembatan artikel_wilayah.
+     */
+    public function wilayah(): HasMany
+    {
+        return $this->hasMany(ArtikelWilayah::class);
+    }
+
+    /**
+     * Nama tabel pivot wilayah untuk model ini.
+     */
+    public function wilayahPivotTable(): string
+    {
+        return 'artikel_wilayah';
+    }
+
+    /**
+     * Nama foreign key di tabel pivot wilayah.
+     */
+    public function wilayahPivotForeignKey(): string
+    {
+        return 'artikel_id';
     }
 
     public function getPerkiraanMembacaAttribute()

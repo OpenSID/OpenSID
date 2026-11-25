@@ -7,15 +7,11 @@
     <link rel="stylesheet" href="{{ asset('lib/print/css/print-preview.css') }}" type="text/css" media="screen">
     <link rel="stylesheet" href="{{ asset('lib/print/css/print.css') }}" type="text/css" media="print">
     <link rel="shortcut icon" href="{{ favico_desa() }}">
-    <script src="{{ asset('lib/print/js/jquery.tools.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
     <script src="{{ asset('lib/print/js/jquery.print-preview.js') }}" type="text/javascript" charset="utf-8"></script>
 
     <script type="text/javascript">
         $(function() {
-            $("#feature > div").scrollable({
-                interval: 2000
-            }).autoscroll();
-
             $('#aside').prepend('<a class="print-preview">Cetak </a>');
             $('a.print-preview').printPreview();
 

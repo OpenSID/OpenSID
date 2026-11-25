@@ -132,7 +132,7 @@ class Database extends Admin_Controller
             }
 
             // Parameter force_all untuk backup semua desa (hanya valid untuk super admin, bukan database gabungan)
-            $forceAll = $this->input->get('force_all') === '1' && super_admin() && ! setting('multi_desa');
+            $forceAll = $this->input->get('force_all') === '1' && is_super_admin() && ! setting('multi_desa');
 
             if ($forceAll) {
                 $dbName = (new Ekspor())->backup();
@@ -202,8 +202,13 @@ class Database extends Admin_Controller
 
     public function desa_inkremental()
     {
+        return view('admin.database.inkremental');
+    }
+
+    public function desa_inkremental_datatables()
+    {
         if ($this->input->is_ajax_request()) {
-            return datatables(LogBackup::query())
+            return datatables()->of(LogBackup::query())
                 ->addIndexColumn()
                 ->addColumn('aksi', static fn ($row): string => View::make('admin.layouts.components.buttons.hapus', [
                     'url'           => ci_route('database.inkremental_delete', $row->id),
@@ -213,7 +218,7 @@ class Database extends Admin_Controller
                 ->make();
         }
 
-        return view('admin.database.inkremental');
+        return show_404();
     }
 
     public function inkremental_job()

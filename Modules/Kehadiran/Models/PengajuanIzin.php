@@ -278,7 +278,7 @@ class PengajuanIzin extends BaseModel
         return $this->update([
             'status_approval'     => StatusApproval::APPROVED,
             'approved_by'         => $approvedBy,
-            'tanggal_approval'    => now(),
+            'tanggal_approval'    => Carbon::now(),
             'keterangan_approval' => $keterangan,
         ]);
     }
@@ -291,7 +291,7 @@ class PengajuanIzin extends BaseModel
         return $this->update([
             'status_approval'     => StatusApproval::REJECTED,
             'approved_by'         => $approvedBy,
-            'tanggal_approval'    => now(),
+            'tanggal_approval'    => Carbon::now(),
             'keterangan_approval' => $keterangan,
         ]);
     }

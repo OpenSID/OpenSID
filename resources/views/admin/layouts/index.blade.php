@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        {{ setting('admin_title') . ' ' . ucwords(setting('sebutan_desa') . ' ' . ($desa['nama_desa'] ?? '')) . get_dynamic_title_page_from_path() }}
+        {{ setting('admin_title') . ' ' . ucwords(setting('sebutan_desa') . ' ' . ($desa['nama_desa'] ?? '')) .
+        get_dynamic_title_page_from_path() }}
     </title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
@@ -40,9 +41,6 @@
         @include('admin.layouts.partials.sidebar')
 
         <div class="content-wrapper">
-
-            @include('admin.layouts.components.alert_layanan_hosting_expired')
-
             <section class="content-header">
                 @yield('title')
 
@@ -61,8 +59,8 @@
 
         @include('admin.pengaturan.pengaturan_modal')
 
-        @if ($notif['pengumuman'])
-            @include('admin.layouts.components.pengumuman', $notif['pengumuman'])
+        @if ($moduleDetail['rilis'])
+        @include('simpel-core::components.buttons.rilis', $moduleDetail)
         @endif
 
         @include('admin.layouts.partials.footer')
@@ -121,11 +119,11 @@
     @endif
     <!-- Modifikasi -->
     @if (config_item('demo_mode'))
-        <!-- Website Demo -->
-        <script src="{{ asset('js/demo.js') }}"></script>
+    <!-- Website Demo -->
+    <script src="{{ asset('js/demo.js') }}"></script>
     @endif
     @if (! setting('inspect_element'))
-        <script src="{{ asset('js/disabled.min.js') }}"></script>
+    <script src="{{ asset('js/disabled.min.js') }}"></script>
     @endif
     @stack('scripts')
     <script>

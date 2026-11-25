@@ -1,21 +1,25 @@
 <form action="{{ $form_action }}" method="post" target="_blank" id="validasi">
     <div class='modal-body'>
         <p>
-            Ekspor data dan dokumen informasi publik untuk diimpor ke aplikasi di tingkat supra-desa, seperti PPID kabupaten atau ke aplikasi OpenDK
+            Ekspor data dan dokumen informasi publik untuk diimpor ke aplikasi di tingkat supra-desa, seperti PPID
+            kabupaten atau ke aplikasi OpenDK
         </p>
         @if ($log_semua)
             <p>
-                Ekspor lengkap terakhir pada {{ tgl_indo_out($log_semua->tgl_ekspor) }} dengan total data {{ $log_semua->total }}.
+                Ekspor lengkap terakhir pada {{ tgl_indo_out($log_semua->tgl_ekspor) }} dengan total data
+                {{ $log_semua->total }}.
             </p>
         @endif
         @if ($log_perubahan)
             <p>
-                Ekspor perubahan terakhir pada {{ tgl_indo_out($log_perubahan->tgl_ekspor) }} dengan total data {{ $log_perubahan->total }}.
+                Ekspor perubahan terakhir pada {{ tgl_indo_out($log_perubahan->tgl_ekspor) }} dengan total data
+                {{ $log_perubahan->total }}.
             </p>
         @endif
         <div class="form-group">
             <label class="control-label">Data untuk diekspor</label>
-            <select class="form-control input-sm select2 required" name="data_ekspor" id="data_ekspor">>
+            <select class="form-control input-sm select2 required" name="data_ekspor" id="data_ekspor"
+                style="width: 100%;">
                 <option value="">Pilih data untuk diekspor</option>
                 <option value="1">Semua</option>
                 @if ($log_semua)
@@ -41,20 +45,23 @@
     </div>
 </form>
 @include('admin.layouts.components.form_modal_validasi')
-<!-- moment js -->
-<script src="{{ asset('bootstrap/js/moment.min.js') }}"></script>
-<!-- bootstrap Date time picker -->
-<script src="{{ asset('bootstrap/js/bootstrap-datetimepicker.min.js') }}"></script>
-<script src="{{ asset('bootstrap/js/id.js') }}"></script>
-<!-- bootstrap Date picker -->
-<script src="{{ asset('bootstrap/js/bootstrap-datepicker.min.js') }}"></script>
-<script src="{{ asset('bootstrap/js/bootstrap-datepicker.id.min.js') }}"></script>
-<!-- Script-->
-<script src="{{ asset('js/custom-datetimepicker.js') }}"></script>
 <script type="text/javascript">
-    $('document').ready(function() {
-        $("#data_ekspor").change(function(e) {
-            e.preventDefault();
+    $(document).ready(function() {
+        // Inisialisasi Select2 secara manual untuk menghindari konflik dengan inisialisasi global
+        $("#data_ekspor").select2();
+
+        // Inisialisasi DateTimePicker
+        @if ($log_perubahan || $log_semua)
+            var lastDate =
+                '{{ date('d/m/Y H:i:s', strtotime($log_perubahan ? $log_perubahan->tgl_ekspor : $log_semua->tgl_ekspor)) }}';
+            $('.tgl').datetimepicker({
+                locale: 'id',
+                format: 'DD/MM/YYYY HH:mm:ss',
+                date: moment(lastDate, 'DD/MM/YYYY HH:mm:ss')
+            });
+        @endif
+
+        $("#data_ekspor").on('change', function(e) {
             var tgl_dari = $("input[name='tgl_dari']");
             if ($(this).val() == '2') {
                 $('#tanggal_dari').show();
@@ -64,11 +71,5 @@
                 tgl_dari.removeClass('required');
             }
         });
-
-        $('#validasi').submit(function(e) {
-            if ($('#validasi').valid())
-                $('#modalBox').modal('hide');
-        });
-        $('.tgl').data('DateTimePicker').date('{{ date('d/m/Y H:i:s', strtotime($log_perubahan ? $log_perubahan->tgl_ekspor : $log_semua->tgl_ekspor)) }}');
     });
 </script>

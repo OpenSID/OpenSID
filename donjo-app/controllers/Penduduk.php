@@ -110,7 +110,7 @@ class Penduduk extends Admin_Controller
             }
         }
 
-        $manualFilters = ['status_dasar', 'dusun', 'rw', 'rt', 'sex', 'status_penduduk'];
+        $manualFilters = ['status_dasar', 'tahun', 'dusun', 'rw', 'rt', 'sex', 'status_penduduk'];
 
         foreach ($manualFilters as $filter) {
             if ($this->input->get($filter)) {
@@ -341,6 +341,17 @@ class Penduduk extends Admin_Controller
     public function form($id = null, $peristiwa = null)
     {
         isCan('u');
+
+        $logPeristiwa = [
+            PeristiwaPendudukEnum::BARU_LAHIR->value,
+            PeristiwaPendudukEnum::MATI->value,
+            PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
+        ];
+
+        if ($peristiwa && ! in_array($peristiwa, $logPeristiwa)) {
+            redirect_with('error', 'Peristiwa tidak valid.', ci_route('penduduk'));
+        }
+
         $penduduk = new PendudukModel();
         // cek_nik
         if ($id) {
@@ -1090,9 +1101,14 @@ class Penduduk extends Admin_Controller
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
         $this->statistikFilter['status_dasar'] = StatusDasarEnum::HIDUP;
+        $tahun                                 = $this->input->get('tahun') ?? null;
         $dusun                                 = $this->input->get('dusun') ?? null;
         $rw                                    = $this->input->get('rw') ?? null;
         $rt                                    = $this->input->get('rt') ?? null;
+
+        if (! empty($tahun)) {
+            $this->statistikFilter['tahun'] = $tahun;
+        }
 
         if (! empty($dusun)) {
             $this->statistikFilter['dusun'] = $dusun;
@@ -1616,7 +1632,8 @@ class Penduduk extends Admin_Controller
         }
         $penduduk->foto = null;
         $penduduk->save();
-        redirect(ci_route('penduduk.form', $penduduk->id));
+
+        return redirect_with('success', 'Foto berhasil dikembalikan ke foto bawaan.', ci_route('penduduk.form', $penduduk->id));
     }
 
     public function get_judul_statistik($tipe = '0', $nomor = 0, $sex = null)
@@ -1816,6 +1833,7 @@ class Penduduk extends Admin_Controller
         $statusDasar     = $this->input->post_get('status_dasar') ?? null;
         $statusPenduduk  = $this->input->post_get('status_penduduk') ?? null;
         $sex             = $this->input->post_get('jenis_kelamin') ?? null;
+        $tahun           = $this->input->post_get('tahun') ?? null;
         $dusun           = $this->input->post_get('dusun') ?? null;
         $rw              = $this->input->post_get('rw') ?? null;
         $rt              = $this->input->post_get('rt') ?? null;
@@ -1835,9 +1853,9 @@ class Penduduk extends Admin_Controller
                 unset($statistikFilter);
             }
 
-            $dusun     = $statistikFilter['dusun'] ?? null;
-            $rw        = $statistikFilter['rw'] ?? null;
-            $rt        = $statistikFilter['rt'] ?? null;
+            $dusun     = $statistikFilter['dusun'] ?? $dusun;
+            $rw        = $statistikFilter['rw'] ?? $rw;
+            $rt        = $statistikFilter['rt'] ?? $rt;
             $clusterId = $statistikFilter['idCluster'] ?? null;
 
             if ($rt) {
@@ -1861,6 +1879,7 @@ class Penduduk extends Admin_Controller
 
         return PendudukModel::with(['log_latest'])
             ->select('tweb_penduduk.*')
+            ->filterLog(['tahun' => $tahun])
             ->when($idCluster, static fn ($q) => $q->whereIn('tweb_penduduk.id_cluster', $idCluster))
             ->when($statusDasar, static fn ($q) => $q->whereStatusDasar($statusDasar))
             ->when($statusPenduduk, static fn ($q) => $q->whereStatus($statusPenduduk))

@@ -226,6 +226,8 @@
                             ])
 
                             @includeWhen($data['status'] == 1, 'layanan_mandiri.layouts.components.notif', $ci->session->flashdata('notif'))
+
+                            @includeWhen($ci->session->has_userdata('force_change_password_penduduk'), 'layanan_mandiri.layouts.components.notif', $ci->session->userdata('force_change_password_penduduk'))
                         </div>
                     </div>
                 </section>

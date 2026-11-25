@@ -312,26 +312,6 @@
         "kategori": "Website"
     },
     {
-        "judul": "Covid Desa",
-        "key": "covid_desa",
-        "value": "0",
-        "urut": 6,
-        "keterangan": "Apakah akan tampilkan status Covid-19 Desa di halaman muka",
-        "jenis": "select-boolean",
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Website"
-    },
-    {
-        "judul": "Covid RSS",
-        "key": "covid_rss",
-        "value": "0",
-        "urut": 7,
-        "keterangan": "Apakah akan tampilkan RSS Covid-19 di halaman muka",
-        "jenis": "select-boolean",
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Website"
-    },
-    {
         "judul": "Statistik Chart 3D",
         "key": "statistik_chart_3d",
         "value": "1",
@@ -984,17 +964,6 @@
         },
         "attribute": "{\"class\":\"required\"}",
         "kategori": "openkab"
-    },
-    {
-        "judul": "Link Feed",
-        "key": "link_feed",
-        "value": "https:\\\/\\\/www.covid19.go.id\\\/feed\\\/",
-        "urut": 2,
-        "keterangan": "Alamat Feed yang digunakan <code>(contoh: https://www.covid19.go.id/feed/)</code>",
-        "jenis": "input-url",
-        "option": null,
-        "attribute": "{\"class\":\"required\", \"placeholder\":\"https://www.covid19.go.id/feed/\", \"maxlength\":255}",
-        "kategori": "Website"
     },
     {
         "judul": "Kode Isian data kosong",
@@ -1791,7 +1760,7 @@
         "kategori": "Anjungan"
     },
     {
-        "judul": "Pencahayaan Anjuangan",
+        "judul": "Pencahayaan Anjungan",
         "key": "pencahayaan_anjungan",
         "value": "light",
         "urut": null,

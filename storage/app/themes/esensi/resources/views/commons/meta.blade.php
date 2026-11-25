@@ -1,5 +1,5 @@
 @php
-    $nama_desa = ucwords(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']);
+    $nama_desa = ucwords(setting('sebutan_desa')) . ' ' . title_case($desa['nama_desa']);
 
     $title = preg_replace('/[^A-Za-z0-9- ]/', '', trim(str_replace('-', ' ', get_dynamic_title_page_from_path())));
     $suffix = setting('website_title') . ' ' . ucwords(setting('sebutan_desa')) . ($desa['nama_desa'] ? ' ' . $desa['nama_desa'] : '');
@@ -17,7 +17,7 @@
 <meta name='theme:version' content='{{ $themeVersion }}' />
 <meta name="theme-color" content="#efefef">
 <meta name='keywords'
-    content="{{ $desa_title }} @if (!strpos($desa_title, $nama_desa)) {{ $nama_desa }} @endif {{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }}, {{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}, Provinsi  {{ ucwords($desa['nama_propinsi']) }}"
+    content="{{ $desa_title }} @if (!strpos($desa_title, $nama_desa)) {{ $nama_desa }} @endif {{ ucfirst(setting('sebutan_kecamatan')) }} {{ title_case($desa['nama_kecamatan']) }}, {{ ucfirst(setting('sebutan_kabupaten')) }} {{ title_case($desa['nama_kabupaten']) }}, Provinsi  {{ title_case($desa['nama_propinsi']) }}"
 />
 <meta property="og:site_name" content="{{ $nama_desa }}" />
 <meta property="og:type" content="article" />
@@ -58,12 +58,12 @@
 @else
     <title>{{ $desa_title }}</title>
     <meta name='description'
-        content="{{ $desa_title }} @if (!strpos($desa_title, $nama_desa)) {{ $nama_desa }} @endif {{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }}, {{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}, Provinsi  {{ ucwords($desa['nama_propinsi']) }}"
+        content="{{ $desa_title }} @if (!strpos($desa_title, $nama_desa)) {{ $nama_desa }} @endif {{ ucfirst(setting('sebutan_kecamatan')) }} {{ title_case($desa['nama_kecamatan']) }}, {{ ucfirst(setting('sebutan_kabupaten')) }} {{ title_case($desa['nama_kabupaten']) }}, Provinsi  {{ title_case($desa['nama_propinsi']) }}"
     />
     <meta itemprop="name" content="{{ $desa_title }}" />
     <meta property="og:title" content="{{ $desa_title }}" />
     <meta property='og:description'
-        content="{{ $desa_title }} @if (!strpos($desa_title, $nama_desa)) {{ $nama_desa }} @endif {{ ucfirst(setting('sebutan_kecamatan')) }} {{ ucwords($desa['nama_kecamatan']) }}, {{ ucfirst(setting('sebutan_kabupaten')) }} {{ ucwords($desa['nama_kabupaten']) }}, Provinsi  {{ ucwords($desa['nama_propinsi']) }}"
+        content="{{ $desa_title }} @if (!strpos($desa_title, $nama_desa)) {{ $nama_desa }} @endif {{ ucfirst(setting('sebutan_kecamatan')) }} {{ title_case($desa['nama_kecamatan']) }}, {{ ucfirst(setting('sebutan_kabupaten')) }} {{ title_case($desa['nama_kabupaten']) }}, Provinsi  {{ title_case($desa['nama_propinsi']) }}"
     />
 @endif
 <meta property='og:url' content="{{ current_url() }}" />

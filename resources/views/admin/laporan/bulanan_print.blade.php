@@ -3,10 +3,6 @@
 @section('title', 'Cetak Laporan Bulanan')
 
 @section('styles')
-    <!-- Untuk ubahan style desa -->
-    @if (is_file('desa/css/siteman.css'))
-        <link type='text/css' href="{{ base_url('desa/css/siteman.css') }}" rel='Stylesheet' />
-    @endif
     <style type="text/css">
         .underline {
             text-decoration: underline;

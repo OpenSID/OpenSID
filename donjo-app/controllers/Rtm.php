@@ -686,19 +686,22 @@ class Rtm extends Admin_Controller
     public function datables_anggota($id_pend = null)
     {
         if ($this->input->is_ajax_request()) {
+            $keluarga = null;
             $penduduk = Penduduk::with(['keluarga', 'keluarga.anggota'])
-                ->where('kk_level', '=', 1)
                 ->find($id_pend);
-            $anggota = collect($penduduk->keluarga->anggota)->whereIn('id_rtm', ['0', null]);
 
-            if ($anggota->count() > 1) {
-                $keluarga = $anggota->map(static fn ($item, $key): array => [
-                    'no'       => $key + 1,
-                    'id'       => $item->id,
-                    'nik'      => $item->nik,
-                    'nama'     => $item->nama,
-                    'kk_level' => SHDKEnum::valueOf($item->kk_level),
-                ])->values();
+            if ($penduduk && $penduduk->keluarga && $penduduk->keluarga->anggota) {
+                $anggota = collect($penduduk->keluarga->anggota)->whereIn('id_rtm', ['0', null]);
+
+                if ($anggota->count() > 1) {
+                    $keluarga = $anggota->map(static fn ($item, $key): array => [
+                        'no'       => $key + 1,
+                        'id'       => $item->id,
+                        'nik'      => $item->nik,
+                        'nama'     => $item->nama,
+                        'kk_level' => SHDKEnum::valueOf($item->kk_level),
+                    ])->values();
+                }
             }
 
             return json([

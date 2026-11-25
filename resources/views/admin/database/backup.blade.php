@@ -37,13 +37,12 @@
                                                                         <i class="fa fa-arrow-circle-down"></i> Pilih Aksi
                                                                     </a>
                                                                     <ul class="dropdown-menu" role="menu">
-                                                                        @if (is_super_admin() && ! setting('multi_desa'))
+                                                                        @if (is_group_administrator() && ! setting('multi_desa'))
                                                                             <li>
-                                                                                <a href="{{ ci_route('database.exec_backup') }}?force_all=1" class="btn btn-social btn-block btn-sm backup-link" @disabled(!$memory_limit) title="Unduh Database (.sql atau .sql.gz) - Perkiraan Ukuran: {{ $size_sql }}">
+                                                                                <a href="{{ ci_route('database.exec_backup') }}{{ is_super_admin() ? '?force_all=1' : '' }}" class="btn btn-social btn-block btn-sm backup-link" @disabled(!$memory_limit) title="Unduh Database (.sql atau .sql.gz) - Perkiraan Ukuran: {{ $size_sql }}">
                                                                                     <i class="fa fa-download"></i> Backup Seluruh Database <b><code>{{ $size_sql }}</code></b>
                                                                                 </a>
                                                                             </li>
-                                                                            <li class="divider"></li>
                                                                         @endif
                                                                         @if (setting('multi_desa'))
                                                                             <li>

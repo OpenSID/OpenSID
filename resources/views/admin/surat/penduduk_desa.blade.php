@@ -83,17 +83,21 @@
             let selectedValue = $(element).val();
             let kategori = $(element).data('kategori');
             let pendudukDesaElement = $(element).closest('.penduduk_desa');
-            pendudukDesaElement.find('.data_penduduk_desa').empty();
+            let dataPendudukElement = pendudukDesaElement.find('.data_penduduk_desa');
+            dataPendudukElement.empty();
 
             if (! $.isEmptyObject(selectedValue)) {
                 $(`#ubah-biodata-${kategori}`).prop('disabled', false);
+                dataPendudukElement.html('<div class="text-center"><i class="fa fa-spinner fa-spin"></i> Mohon tunggu...</div>');
 
                 $.get('{{ ci_route('datasuratpenduduk.index') }}', {
                     id_surat: suratId,
                     id_penduduk: selectedValue,
                     kategori: kategori
                 }, function(response) {
-                    pendudukDesaElement.find('.data_penduduk_desa').html(response.html);
+                    dataPendudukElement.slideUp(200, function() {
+                        $(this).html(response.html).slideDown(300);
+                    });
 
                     for (let i = 0; i < response.hubungan.length; i++) {
                         let hubungan = response.hubungan[i];
@@ -104,10 +108,14 @@
 
                         $(`#ubah-biodata-${hubungan}`).prop('disabled', $.isEmptyObject(option));
                     }
-                }, 'json');
+                }, 'json').fail(function() {
+                    dataPendudukElement.slideUp(200, function() {
+                        $(this).html('<div class="alert alert-danger">Gagal memuat data penduduk.</div>').slideDown(300);
+                    });
+                });
             }
 
-            pendudukDesaElement.find('.data_penduduk_desa').show();
+            dataPendudukElement.show();
         }
 
         function ubahBiodataPenduduk(kategori, btn) {
