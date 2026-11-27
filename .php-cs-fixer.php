@@ -92,7 +92,7 @@ $finder = Symfony\Component\Finder\Finder::create()
         __DIR__ . '/donjo-app/libraries/Spreadsheet_Excel_Reader.php',
     ])
     ->append([
-        __DIR__ . '/index.php',
+        __DIR__ . '/public/index.php',
         __DIR__ . '/.php-cs-fixer.php',
         __DIR__ . '/.rector.php',
     ])

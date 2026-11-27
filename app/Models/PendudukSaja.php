@@ -282,6 +282,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukSaja whereWarganegaraId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukSaja withoutConfigId($configId = '')
  * @property-read \App\Models\Keluarga|null $keluarga
+ * @property-read \App\Models\LogPenduduk|null $logMati
  * @mixin \Eloquent
  */
 class PendudukSaja extends Penduduk

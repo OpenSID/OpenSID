@@ -36,12 +36,13 @@
  */
 
 use App\Enums\FormatNoRtmEnum;
+use App\Models\Modul;
+use App\Models\SettingAplikasi;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use App\Models\SettingAplikasi;
-use App\Models\Modul;
 
 return new class () extends Migration {
     use Migrator;
@@ -188,7 +189,7 @@ return new class () extends Migration {
             'value'      => '2',
             'urut'       => 1,
             'keterangan' => 'Maksimal impor data penduduk (MB)',
-            'jenis'      => 'input',
+            'jenis'      => 'input-number',
             'option'     => null,
             'kategori'   => 'Data Lengkap',
             'attribute'  => null,

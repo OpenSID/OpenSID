@@ -11,3 +11,10 @@
 !vendor/**
 
 !.gitignore
+
+# Model ML deteksi spam — sengaja di-track agar deploy tidak perlu melatih ulang.
+# Dataset latih (spam-model/dataset_judol.csv) TIDAK di-track (diunduh saat training).
+# Seed OpenSID (spam-seed.csv) di-track karena dikelola manual dan dibutuhkan untuk training.
+!spam-model/
+!spam-model/model.rbx
+!spam-model/spam-seed.csv

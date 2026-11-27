@@ -25,8 +25,6 @@ class ModuleCommandTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        // Beberapa code path saat menjalankan command membaca $_SERVER['PHP_SELF'].
-        $_SERVER['PHP_SELF'] ??= $_SERVER['argv'][0] ?? 'artisan';
 
         $this->namaModulUji = 'ModuleCommandTestDummy';
         $this->pathModulUji = base_path('Modules') . DIRECTORY_SEPARATOR . $this->namaModulUji;
@@ -34,6 +32,8 @@ class ModuleCommandTest extends BaseTestCase
         // Folder migrasi kosong: cukup agar jalankanMigrasiModule() mengenali
         // modul ini tanpa menjalankan migrasi database sungguhan apa pun.
         File::ensureDirectoryExists($this->pathModulUji . '/database/migrations');
+        // module.json menandai folder ini sebagai modul valid untuk daftar interaktif.
+        File::put($this->pathModulUji . '/module.json', json_encode(['name' => $this->namaModulUji]));
     }
 
     protected function tearDown(): void
@@ -56,6 +56,53 @@ class ModuleCommandTest extends BaseTestCase
         $this->assertSame('up', $definition->getOption('migrasi')->getDefault());
         $this->assertTrue($definition->hasOption('delete'));
         $this->assertTrue($definition->hasOption('no-report'));
+    }
+
+    #[Test]
+    public function mode_interaktif_berhenti_jika_tidak_ada_modul_terdeteksi(): void
+    {
+        File::deleteDirectory($this->pathModulUji);
+
+        $this->artisan('opensid:module')
+            ->expectsOutput('Tidak ada modul yang terdeteksi.')
+            ->doesntExpectOutput('Module:')
+            ->assertExitCode(0);
+    }
+
+    #[Test]
+    public function mode_interaktif_mengabaikan_folder_tanpa_module_json(): void
+    {
+        $folderIseng = base_path('Modules') . DIRECTORY_SEPARATOR . 'FolderIsengTanpaManifest';
+        File::ensureDirectoryExists($folderIseng);
+
+        try {
+            $this->artisan('opensid:module')
+                ->expectsOutput('Module:')
+                ->expectsOutput(" [1] {$this->namaModulUji}")
+                ->doesntExpectOutput(' [2] FolderIsengTanpaManifest')
+                ->expectsQuestion('Pilih modul yang akan dipasang (masukkan nomor):', 999)
+                ->expectsOutput('Modul tidak ditemukan')
+                ->assertExitCode(1);
+        } finally {
+            File::deleteDirectory($folderIseng);
+        }
+    }
+
+    #[Test]
+    public function mode_interaktif_berhenti_jika_hanya_ada_folder_tanpa_module_json(): void
+    {
+        File::deleteDirectory($this->pathModulUji);
+        $folderIseng = base_path('Modules') . DIRECTORY_SEPARATOR . 'FolderIsengTanpaManifest';
+        File::ensureDirectoryExists($folderIseng);
+
+        try {
+            $this->artisan('opensid:module')
+                ->expectsOutput('Tidak ada modul yang terdeteksi.')
+                ->doesntExpectOutput('Module:')
+                ->assertExitCode(0);
+        } finally {
+            File::deleteDirectory($folderIseng);
+        }
     }
 
     #[Test]
@@ -164,5 +211,32 @@ class ModuleCommandTest extends BaseTestCase
     {
         $this->artisan('opensid:module', ['module' => 'ModulTidakAdaSamaSekali', '--delete' => true])
             ->assertExitCode(1);
+    }
+
+    #[Test]
+    public function pasang_modul_mempublikasikan_aset_ke_public_modules(): void
+    {
+        $nama = 'ModuleCommandTestDummyAsset';
+        $path = base_path('Modules') . DIRECTORY_SEPARATOR . $nama;
+        $slug = strtolower($nama);
+
+        File::ensureDirectoryExists($path . '/database/migrations');
+        File::ensureDirectoryExists($path . '/Views/assets/css');
+        File::put($path . '/Views/assets/css/style.css', 'body {}');
+
+        try {
+            $this->artisan('opensid:module', ['module' => $nama])
+                ->assertExitCode(0);
+
+            $this->assertFileExists(public_path("modules/{$slug}/css/style.css"));
+
+            $this->artisan('opensid:module', ['module' => $nama, '--delete' => true])
+                ->assertExitCode(0);
+
+            $this->assertDirectoryDoesNotExist(public_path("modules/{$slug}"));
+        } finally {
+            File::deleteDirectory($path);
+            File::deleteDirectory(public_path("modules/{$slug}"));
+        }
     }
 }

@@ -38,18 +38,26 @@
 namespace App\Repositories;
 
 use App\Models\LogSurat;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class LogSuratRepository
 {
-    public function list()
+    /**
+     * Ambil SATU surat untuk keperluan verifikasi publik.
+     *
+     * Endpoint verifikasi surat WAJIB menyertakan id surat spesifik. Sebelumnya method
+     * ini (list()) mengembalikan seluruh arsip surat desa (paginasi) lengkap dengan
+     * nama warga dan link unduh PDF berisi PII (NIK, alamat, keperluan surat) ketika
+     * dipanggil tanpa filter id. Sekarang: id wajib, hasil maksimal 1 record, dan hanya
+     * surat yang sudah terbit/dicetak (bukan konsep/ditolak). Tanpa paginasi karena
+     * datanya otomatis paling banyak 1. Lihat issue #7002.
+     *
+     * @param int|string|null $id
+     */
+    public function detail($id)
     {
-        return QueryBuilder::for(LogSurat::withOnly(['formatSurat']))
-            ->allowedFields(...['id', 'tanggal'])
-            ->allowedFilters(...[
-                AllowedFilter::exact('id'),
-            ])
-            ->allowedSorts(...['tanggal', 'bulan', 'tahun'])->jsonPaginate();
+        return LogSurat::withOnly(['formatSurat'])
+            ->where('status', LogSurat::CETAK)
+            ->where('id', is_numeric($id) ? (int) $id : 0)
+            ->get();
     }
 }

@@ -46,6 +46,13 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
+        var setting = {
+            max_zoom_peta: @json(setting('max_zoom_peta')),
+            min_zoom_peta: @json(setting('min_zoom_peta')),
+            mapbox_key: @json(setting('mapbox_key')),
+            jenis_peta: @json(setting('jenis_peta')),
+            icon_lapak_peta: @json(setting('icon_lapak_peta')),
+        };
         var apiKategori = '{{ route("api.lapak.kategori") }}';
         $.get(apiKategori, function (data) {
             var kategori = data.data;

@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Models\User;
 use App\Rules\CaptchaRule;
 use App\Rules\SecretCodeRule;
@@ -45,6 +46,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends MY_Controller
 {
@@ -306,17 +308,24 @@ class AuthenticatedSessionController extends MY_Controller
             $user = User::superAdmin()->first();
             Auth::guard($this->guard)->login($user);
         } else {
-            $user = User::status()->where('username', $requestUsername)->first();
-
-            if ($user) {
+            // Lazy check: periksa masa aktif akun setelah kredensial terverifikasi.
+            // Tanpa filter status aktif agar pesan penonaktifan tetap konsisten
+            // pada setiap percobaan login.
+            $this->authenticate([], function ($user) use ($masaAktifService) {
                 $message = $masaAktifService->checkAndDeactivateIfInactive($user);
 
                 if ($message) {
+                    Auth::guard($this->guard)->logout();
                     redirect_with('notif', $message, 'siteman');
                 }
-            }
 
-            $this->authenticate(['active' => 1]);
+                // Tolak akun nonaktif lainnya seperti kredensial salah.
+                if ((int) $user->active === AktifEnum::TIDAK_AKTIF) {
+                    Auth::guard($this->guard)->logout();
+
+                    throw ValidationException::withMessages(['email' => trans('auth.failed')]);
+                }
+            });
         }
 
         $this->session->sess_regenerate();

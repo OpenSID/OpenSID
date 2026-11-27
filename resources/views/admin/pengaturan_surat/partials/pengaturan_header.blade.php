@@ -1,3 +1,4 @@
+@php filemanager_authorize('pengaturan-surat'); @endphp
 <div class="tab-pane active" id="header">
     <div class="box-body">
         <div class="form-group">
@@ -17,7 +18,7 @@
         </div>
         <div class="form-group">
             <label>Template Header Surat</label>
-            <textarea name="header_surat" class="form-control input-sm editor required" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="header-footer"
+            <textarea name="header_surat" class="form-control input-sm editor required" data-filemanager='<?= json_encode(['external_filemanager_path' => filemanager_base_url(), 'filemanager_title' => 'File Manager']) ?>' data-salintemplate="header-footer"
                 data-jenis="header">{{ setting('header_surat') }}</textarea>
         </div>
     </div>

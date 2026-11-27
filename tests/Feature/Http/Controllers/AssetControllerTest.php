@@ -123,6 +123,43 @@ final class AssetControllerTest extends BaseTestCase
             ->assertStatus(200);
     }
 
+    // —— theme_asset: slug pada URL menentukan tema yang dilayani —-
+    //
+    // Halaman pemilihan tema menampilkan thumbnail SETIAP tema, bukan hanya tema
+    // aktif. Sebelum perbaikan, parameter {theme} diabaikan sehingga seluruh
+    // tema menampilkan gambar tema aktif. Sejak folder storage/app/themes berada
+    // di luar document root, route ini satu-satunya jalur penyajiannya.
+
+    #[Test]
+    public function themeAssetMelayaniAsetSesuaiSlugPadaUrl(): void
+    {
+        $esensi  = $this->get('theme_asset/esensi?file=thumbnail/preview-1.jpg');
+        $lestari = $this->get('theme_asset/lestari?file=thumbnail/preview-1.jpg');
+
+        $esensi->assertStatus(200);
+        $lestari->assertStatus(200);
+
+        $this->assertNotSame(
+            $esensi->streamedContent(),
+            $lestari->streamedContent(),
+            'Tiap tema harus menyajikan thumbnail-nya sendiri, bukan thumbnail tema aktif.'
+        );
+    }
+
+    #[Test]
+    public function themeAssetSlugTidakDikenalJatuhKeTemaAktif(): void
+    {
+        $this->get('theme_asset/slug-yang-tidak-terdaftar?file=thumbnail/preview-1.jpg')
+            ->assertStatus(200);
+    }
+
+    #[Test]
+    public function themeAssetSlugTidakBolehDipakaiSebagaiPath(): void
+    {
+        $this->get('theme_asset/' . urlencode('../../../etc') . '?file=passwd')
+            ->assertStatus(404);
+    }
+
     // —— module_asset: pola yang sama —-
 
     #[Test]

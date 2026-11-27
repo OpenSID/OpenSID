@@ -73,11 +73,22 @@ class Pengaduan extends Web_Controller
             ->count();
 
         if ($sudahKirim >= $batasAduan) {
-            return redirect_with('error', "Pengaduan gagal dikirim. Anda hanya dapat mengirimkan {$batasAduan} pengaduan dalam satu hari.");
+            $msg = "Pengaduan gagal dikirim. Anda hanya dapat mengirimkan {$batasAduan} pengaduan dalam satu hari.";
+            set_session('notif', ['status' => -1, 'pesan' => $msg]);
+
+            return redirect_with('error', $msg);
         }
 
-        $validated = $this->validated(request(), [
-            'nik'          => 'required|digits:16',
+        // Normalisasi empty string ke null untuk field nullable agar validasi nullable berjalan benar (ConvertEmptyStringsToNull tidak selalu aktif di CI route)
+        $req = request();
+        foreach (['nik', 'email', 'telepon'] as $field) {
+            if ($req->input($field) === '') {
+                $req->merge([$field => null]);
+            }
+        }
+
+        $validated = $this->validated($req, [
+            'nik'          => 'nullable|digits:16',
             'nama'         => ['required', 'string', 'min:3', 'max:100', 'regex:/^[\p{L}\s\.\,\-\']+$/u'],
             'email'        => 'nullable|email:rfc,dns|max:100',
             'telepon'      => ['nullable', 'regex:/^(\+62|62|0)[0-9]{8,12}$/', 'max:15'],
@@ -112,7 +123,7 @@ class Pengaduan extends Web_Controller
         }
 
         $data = [
-            'nik'        => bilangan($validated['nik']),
+            'nik'        => ! empty($validated['nik']) ? bilangan($validated['nik']) : null,
             'nama'       => nama($validated['nama']),
             'email'      => isset($validated['email']) ? email($validated['email']) : null,
             'telepon'    => isset($validated['telepon']) ? bilangan($validated['telepon']) : null,
@@ -130,6 +141,9 @@ class Pengaduan extends Web_Controller
         $payload = '/pengaduan/detail/' . $id_pengaduan;
         $isi     = 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.';
         $this->kirim_notifikasi_admin('all', $isi, $data['judul'], $payload);
+
+        // Set notif legacy untuk tema seruit-lite yang masih cek session('notif')
+        set_session('notif', ['status' => 1, 'pesan' => 'Pengaduan berhasil dikirim.']);
 
         return redirect_with('success', 'Pengaduan berhasil dikirim.');
     }
@@ -149,6 +163,9 @@ class Pengaduan extends Web_Controller
         // Set pesan error pertama dari semua field untuk ditampilkan
         // via notifikasi yang sudah ada di view
         $firstError = collect($exception->errors())->flatten()->first();
+
+        // Set notif legacy untuk tema seruit-lite yang masih cek session('notif')
+        set_session('notif', ['status' => -1, 'pesan' => $firstError]);
 
         return redirect_with('error', $firstError);
     }

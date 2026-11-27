@@ -232,7 +232,7 @@ class Database extends Admin_Controller
             ]);
         }
 
-        $index = escapeshellarg(FCPATH . 'index.php');
+        $index = escapeshellarg(PUBLICPATH . 'index.php');
         $lok   = escapeshellarg($lokasi);
         shell_exec('nohup ' . escapeshellarg($this->phpCliBinary()) . " -f {$index} job backup_inkremental {$lok} > /dev/null 2>&1 &");
 
@@ -599,7 +599,7 @@ class Database extends Admin_Controller
                 'paksa_restore' => $this->input->post('paksa_restore_desa') === 'Y',
             ])->id;
 
-            $index = escapeshellarg(FCPATH . 'index.php');
+            $index = escapeshellarg(PUBLICPATH . 'index.php');
             shell_exec('nohup ' . escapeshellarg($this->phpCliBinary()) . " -f {$index} job restore_desa " . (int) $id . ' > /dev/null 2>&1 &');
 
             return json([

@@ -81,6 +81,7 @@
                             <th>NAMA SURAT</th>
                             <th class="padat">KODE / KLASIFIKASI</th>
                             <th class="padat">LAMPIRAN</th>
+                            <th class="padat">STATUS VALIDASI</th>
                         </tr>
                     </thead>
                 </table>
@@ -146,6 +147,12 @@
                         searchable: true,
                         orderable: true
                     },
+                    {
+                        data: 'status_validasi',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
                 ],
                 order: [
                     [3, 'asc']
@@ -174,6 +181,55 @@
             $('#jenis').on('select2:select', function(e) {
                 TableData.draw();
             });
+
+            window.validasiTemplateSurat = function(url) {
+                Swal.fire({
+                    title: 'Memvalidasi template..',
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    },
+                    allowOutsideClick: () => false
+                });
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    dataType: 'json',
+                }).done(function(response) {
+                    TableData.draw(false);
+
+                    var temuan = response.temuan || [];
+                    if (temuan.length === 0) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Template Valid',
+                            text: 'Tidak ditemukan masalah pada template surat ini.',
+                        });
+
+                        return;
+                    }
+
+                    var html = '<ul style="text-align:left;">';
+                    temuan.forEach(function(item) {
+                        var warna = item.level === 'error' ? 'red' : '#c09853';
+                        html += `<li style="color:${warna};margin-bottom:6px;">${item.pesan}</li>`;
+                    });
+                    html += '</ul>';
+
+                    Swal.fire({
+                        icon: response.status === 2 ? 'error' : 'warning',
+                        title: response.status === 2 ? 'Template Tidak Valid' : 'Template Valid (dengan peringatan)',
+                        html: html,
+                    });
+                }).fail(function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Validasi',
+                        text: xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Terjadi kesalahan saat memvalidasi template.',
+                    });
+                });
+            };
         });
     </script>
 @endpush

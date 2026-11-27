@@ -50,6 +50,11 @@ $config = [
             'name'  => BACKUPPATH,
             'check' => static fn (): bool => is_dir(BACKUPPATH) ? substr(sprintf('%o', fileperms(BACKUPPATH)), -4) >= '0755' : true,
         ],
+        // Symlink folder publik desa sengaja TIDAK diperiksa di sini. Langkah ini
+        // berjalan sebelum folder_desa() membuat desa/*, sehingga tidak ada yang
+        // bisa diperiksa — melaporkan lulus maupun gagal sama-sama menyesatkan.
+        // Statusnya ditampilkan pada halaman Info Sistem setelah instalasi
+        // selesai, ketika hasilnya benar-benar bermakna.
     ],
 
     'server' => (static function (): array {
@@ -60,6 +65,15 @@ $config = [
                 'name'    => $syaratPhp['name'],
                 'version' => ">= {$syaratPhp['min']}, <= {$syaratPhp['max']}",
                 'check'   => static fn (): bool => version_compare(PHP_VERSION, $syaratPhp['min'], '>=') && version_compare(PHP_VERSION, $syaratPhp['max'], '<='),
+            ],
+            'docroot' => [
+                'name'    => 'Document root mengarah ke folder public',
+                'version' => 'sangat disarankan',
+                'check'   => static fn (): bool => docroot_sudah_benar(),
+                // Document root cPanel domain utama dan instalasi subfolder tidak
+                // dapat diubah. Memblokir instalasi membuat OpenSID tidak dapat
+                // dipasang sama sekali, jadi cukup diperingatkan.
+                'peringatan' => true,
             ],
         ];
 

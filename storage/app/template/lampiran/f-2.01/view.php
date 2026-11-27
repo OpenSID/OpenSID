@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <style type="text/css">
-    <?php include FCPATH . '/assets/css/lampiran-surat.css'; ?>
+    <?php include PUBLICPATH . '/assets/css/lampiran-surat.css'; ?>
 </style>
 
 <page orientation="portrait" format="210x330" style="font-size: 7pt">
@@ -421,7 +421,9 @@
             <td>8.</td>
             <td colspan="12">Kelahiran anak ke- </td>
             <td class="kanan">:</td>
-            <?= kotak($individu['kelahiran_anak_ke'], 1); ?>
+            <td colspan="1" class="kotak padat tengah">
+                <?= $individu['kelahiran_anak_ke'] ?>
+            </td>
         </tr>
         <tr>
             <td>9.</td>

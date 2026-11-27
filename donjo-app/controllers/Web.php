@@ -120,16 +120,16 @@ class Web extends Admin_Controller
                         // jika artikel milik openkab, nonaktifkan tombol edit, hapus, dan ubah kategori dll.
                         if (! $isOpenKab) {
                             $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                                'url' => 'web/form/' . $row->kategori . '/' . encrypt($row->id),
+                                'url' => 'web/form/' . $row->kategori . '/' . $row->id,
                             ])->render();
 
                             $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                                'url'           => ci_route('web.delete.' . $row->kategori, encrypt($row->id)),
+                                'url'           => ci_route('web.delete.' . $row->kategori, $row->id),
                                 'confirmDelete' => true,
                             ])->render();
 
                             $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                'url'        => ci_route('web.ubah_kategori_form', encrypt($row->id)),
+                                'url'        => ci_route('web.ubah_kategori_form', $row->id),
                                 'judul'      => 'Ubah Kategori',
                                 'icon'       => 'fa fa-folder-open',
                                 'type'       => 'bg-purple',
@@ -138,7 +138,7 @@ class Web extends Admin_Controller
                             ])->render();
 
                             $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                'url'        => ci_route('web.lock.' . $row->kategori . '.boleh_komentar', encrypt($row->id)),
+                                'url'        => ci_route('web.lock.' . $row->kategori . '.boleh_komentar', $row->id),
                                 'judul'      => ($row->boleh_komentar == 1 ? 'Tutup' : 'Buka') . ' Komentar Artikel',
                                 'icon'       => 'fa fa-comment' . ($row->boleh_komentar == 1 ? '-o' : ''),
                                 'type'       => 'bg-info',
@@ -146,13 +146,13 @@ class Web extends Admin_Controller
                             ])->render();
 
                             $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                                'url'    => ci_route('web.lock.' . $row->kategori . '.enabled', encrypt($row->id)),
+                                'url'    => ci_route('web.lock.' . $row->kategori . '.enabled', $row->id),
                                 'active' => $row->enabled,
                             ])->render();
 
                             if ($row->enabled == '1') {
                                 $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                    'url'        => ci_route('web.lock.' . $row->kategori . '.headline', encrypt($row->id)),
+                                    'url'        => ci_route('web.lock.' . $row->kategori . '.headline', $row->id),
                                     'icon'       => ($row->headline == 1 ? 'fa fa-star' : 'fa fa-star-o'),
                                     'judul'      => 'Jadikan Berita Utama',
                                     'type'       => 'bg-teal',
@@ -160,7 +160,7 @@ class Web extends Admin_Controller
                                 ])->render();
 
                                 $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                    'url'        => ci_route('web.lock.' . $row->kategori . '.slider', encrypt($row->id)),
+                                    'url'        => ci_route('web.lock.' . $row->kategori . '.slider', $row->id),
                                     'icon'       => ($row->slider == 1 ? 'fa fa-pause' : 'fa fa-play'),
                                     'judul'      => (($row->slider == 1) ? 'Keluarkan dari slide' : 'Masukkan ke dalam slide'),
                                     'type'       => 'bg-gray',
@@ -194,10 +194,7 @@ class Web extends Admin_Controller
     {
         isCan('u');
 
-        $this->set_hak_akses_rfm();
-
         if (null !== $id) {
-            $id        = decrypt($id);
             $relations = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? ['agenda'] : ['category'];
             $artikel   = Artikel::withOnly($relations)->findOrFail($id);
             $artikel?->agenda?->mergeCasts(['tgl_agenda' => 'datetime:d-m-Y H:i:s']);
@@ -448,7 +445,7 @@ class Web extends Admin_Controller
     {
         isCan('h');
 
-        $idArtikel = $this->request['id_cb'] ?? decrypt($id);
+        $idArtikel = $this->request['id_cb'] ?? $id;
         $artikels  = Artikel::whereIn('id', (array) $idArtikel)->get();
 
         // hapus file terkait (gambar + cache)
@@ -485,7 +482,6 @@ class Web extends Admin_Controller
 
     public function ubah_kategori_form($id = 0): void
     {
-        $id = decrypt($id);
         isCan('u');
         $artikel = Artikel::findOrFail($id);
         if (! $artikel->bolehUbah()) {
@@ -545,7 +541,7 @@ class Web extends Admin_Controller
                 $pesan = 'Status Slide';
                 break;
         }
-        if (Artikel::gantiStatus(decrypt($id), $column, $onlyOne)) {
+        if (Artikel::gantiStatus($id, $column, $onlyOne)) {
             redirect_with('success', 'Berhasil Ubah ' . $pesan, ci_route('web', $cat));
         }
 

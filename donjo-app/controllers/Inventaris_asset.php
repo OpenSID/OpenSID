@@ -163,12 +163,14 @@ class Inventaris_asset extends Admin_Controller
     {
         isCan('h');
 
-        // cek jika inventaris sudah di mutasi
-        if (InventarisAsset::with('mutasi')->find($id)->mutasi) {
-            // Set kolom id_inventaris_jalan menjadi null untuk baris terkait di tabel mutasi_inventaris_jalan
-            MutasiInventarisAsset::where('id_inventaris_jalan', $id)->update(['id_inventaris_jalan' => null]);
+        $asset = InventarisAsset::with('mutasi')->findOrFail($id);
+
+        // cek jika inventaris sudah di mutasi, putuskan relasinya
+        if ($asset->mutasi) {
+            // Set kolom id_inventaris_asset menjadi null untuk baris terkait di tabel mutasi_inventaris_asset
+            MutasiInventarisAsset::where('id_inventaris_asset', $id)->update(['id_inventaris_asset' => null]);
         }
-        if (InventarisAsset::with('mutasi')->find($id)->delete()) {
+        if ($asset->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');

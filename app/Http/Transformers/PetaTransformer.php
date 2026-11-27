@@ -41,8 +41,32 @@ use League\Fractal\TransformerAbstract;
 
 class PetaTransformer extends TransformerAbstract
 {
-    public function transform($peta)
+    /**
+     * Kolom identitas desa yang boleh tampil di endpoint peta publik.
+     */
+    private const DESA_FIELDS = ['nama_desa', 'kode_desa', 'path', 'lat', 'lng', 'zoom'];
+
+    /**
+     * Whitelist kunci payload peta publik. Jangan pernah `return $peta->toArray()`
+     * mentah di sini: payload bisa memuat model ber-relasi `tweb_penduduk`
+     * sehingga berisiko membocorkan data pribadi warga (NIK, TTL, nama ortu,
+     * telepon, koordinat rumah, dst) tanpa autentikasi.
+     */
+    private const ALLOWED_KEYS = [
+        'id', 'desa', 'wilayah', 'dusun_gis', 'rw_gis', 'rt_gis',
+        'lokasi', 'garis', 'area', 'lokasi_pembangunan', 'persil',
+        'list_ref', 'list_bantuan', 'list_dusun', 'title',
+        'pengaturan', 'tampilkan_cdesa', 'covid',
+    ];
+
+    public function transform($peta): array
     {
-        return $peta->toArray();
+        $data = collect($peta)->only(self::ALLOWED_KEYS)->toArray();
+
+        if (isset($data['desa'])) {
+            $data['desa'] = collect($data['desa'])->only(self::DESA_FIELDS)->toArray();
+        }
+
+        return $data;
     }
 }

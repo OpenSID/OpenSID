@@ -53,7 +53,10 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    /* Perekaman video butuh biner ffmpeg bawaan Playwright, yang tidak tersedia
+       untuk macOS 12 ke bawah. Setel PLAYWRIGHT_VIDEO=off pada mesin tersebut.
+       Dibiarkan kosong di CI agar video kegagalan tetap direkam. */
+    video: (process.env.PLAYWRIGHT_VIDEO as 'off' | 'on' | 'retain-on-failure') || 'retain-on-failure',
     /* Fixed viewport: smaller surface = less rendering work, still wide enough for all layouts */
     viewport: { width: 1280, height: 900 },
     /* Fix 1: disable GPU to avoid CVDisplayLink exhaustion on macOS under parallel load */
@@ -72,6 +75,10 @@ export default defineConfig({
     {
       name: 'setup',
       testMatch: /.*\.setup\.ts/,
+      use: {
+        /* Lihat catatan PLAYWRIGHT_CHANNEL pada project 'chromium' di bawah. */
+        ...(process.env.PLAYWRIGHT_CHANNEL ? { channel: process.env.PLAYWRIGHT_CHANNEL } : {}),
+      },
     },
     {
       name: 'chromium',
@@ -79,6 +86,11 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         deviceScaleFactor: undefined,
         viewport: { width: 1280, height: 900 },
+        /* Playwright tidak lagi menyediakan build Chromium untuk macOS 12 ke bawah.
+           Setel PLAYWRIGHT_CHANNEL=chrome untuk memakai Google Chrome yang sudah
+           terpasang di sistem. Dibiarkan kosong di CI agar tetap memakai Chromium
+           bawaan Playwright. */
+        ...(process.env.PLAYWRIGHT_CHANNEL ? { channel: process.env.PLAYWRIGHT_CHANNEL } : {}),
       },
       dependencies: ['setup'],
     },
@@ -87,7 +99,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: process.platform === 'win32'
-      ? `set APP_ENV=testing && set CI_ENV=testing && set APP_KEY=${TEST_APP_KEY} && set DB_CONNECTION=default && set DEBUGBAR_ENABLED=false && set OPENSID_DB_DATABASE=${process.env.PLAYWRIGHT_DB_DATABASE || process.env.DB_DATABASE || 'opensid_playwright'} && php -S 127.0.0.1:8000 > nul 2>&1`
+      ? `set APP_ENV=testing && set CI_ENV=testing && set APP_KEY=${TEST_APP_KEY} && set DB_CONNECTION=default && set DEBUGBAR_ENABLED=false && set OPENSID_DB_DATABASE=${process.env.PLAYWRIGHT_DB_DATABASE || process.env.DB_DATABASE || 'opensid_playwright'} && php -S 127.0.0.1:8000 -t public > nul 2>&1`
       /* Fix 4: PHP workers = 3× Playwright workers so requests never queue.
          APP_ENV=testing + CI_ENV=testing → lingkungan "testing" yang konsisten
          (sama dengan PHPUnit/Larastan), bukan "development". Gerbang Laravel
@@ -100,7 +112,7 @@ export default defineConfig({
          env('DB_CONNECTION','mysql')); Database.php memakai getConnections()['default'],
          tanpa ini koneksi bernama "mysql" → null → 500.
          DEBUGBAR_ENABLED=false mematikan Debugbar via env (bukan hack runtime). */
-      : `PHP_CLI_SERVER_WORKERS=${3 * parseInt(process.env.PLAYWRIGHT_WORKERS || '4', 10)} APP_ENV=testing CI_ENV=testing APP_KEY=${TEST_APP_KEY} DB_CONNECTION=default DEBUGBAR_ENABLED=false OPENSID_DB_DATABASE=${process.env.PLAYWRIGHT_DB_DATABASE || process.env.DB_DATABASE || 'opensid_playwright'} php -S 127.0.0.1:8000 > /dev/null 2>&1`,
+      : `PHP_CLI_SERVER_WORKERS=${3 * parseInt(process.env.PLAYWRIGHT_WORKERS || '4', 10)} APP_ENV=testing CI_ENV=testing APP_KEY=${TEST_APP_KEY} DB_CONNECTION=default DEBUGBAR_ENABLED=false OPENSID_DB_DATABASE=${process.env.PLAYWRIGHT_DB_DATABASE || process.env.DB_DATABASE || 'opensid_playwright'} php -S 127.0.0.1:8000 -t public > /dev/null 2>&1`,
     url: 'http://127.0.0.1:8000/siteman',
     /* Fix 2: never reuse an existing server — memastikan env webServer (APP_KEY,
        DEBUGBAR_ENABLED, PHP_CLI_SERVER_WORKERS) selalu ter-set */

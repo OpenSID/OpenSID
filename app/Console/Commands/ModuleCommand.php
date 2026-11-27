@@ -85,12 +85,29 @@ class ModuleCommand extends Command
      */
     private function pilihModulInteraktif(): int
     {
-        $this->info('Module:');
+        if (! File::isDirectory(base_path('Modules'))) {
+            $this->warn('Tidak ada modul yang terdeteksi.');
+
+            return self::SUCCESS;
+        }
+
+        // Hanya folder yang punya module.json yang dianggap modul, sehingga folder
+        // kosong / sisa worktree / cadangan (NamaModul_backup_...) tidak ikut terbaca
+        // sebagai modul dan tidak bisa dipilih untuk dimigrasi.
         $modules = collect(File::directories(base_path('Modules')))
+            ->filter(static fn ($path): bool => File::isFile($path . DIRECTORY_SEPARATOR . 'module.json'))
             ->map(static fn ($path): string => basename((string) $path))
             ->diff(MODUL_BAWAAN)
             ->values()
             ->mapWithKeys(static fn ($module, $index) => [$index + 1 => $module]);
+
+        if ($modules->isEmpty()) {
+            $this->warn('Tidak ada modul yang terdeteksi.');
+
+            return self::SUCCESS;
+        }
+
+        $this->info('Module:');
 
         foreach ($modules as $key => $module) {
             $this->info(" [{$key}] {$module}");

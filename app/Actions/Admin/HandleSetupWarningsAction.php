@@ -2,6 +2,7 @@
 
 namespace App\Actions\Admin;
 
+use App\Models\User;
 use App\Repositories\SettingAplikasiRepository;
 use Illuminate\Session\Store as SessionStore;
 
@@ -29,7 +30,7 @@ class HandleSetupWarningsAction
             return null;
         }
 
-        if ($adminUser && $adminUser->superAdmin()) {
+        if ($adminUser && User::superAdmin()->exists()) {
             return null;
         }
 

@@ -37,7 +37,7 @@
                       <h5><b>Surat tidak ditemukan dalam sistem.</b></h5>
                     </div>`
       document.getElementById('message').innerHTML = _html
-      fetch("{{ route('api.verifikasi-surat') }}?filter[id]={{ $id }}", {        
+      fetch("{{ route('api.verifikasi-surat', ['id' => $id]) }}", {        
         method: 'get',        
       }).then(response => {
         if (response.ok) {

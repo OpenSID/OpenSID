@@ -19,6 +19,13 @@
 <script src="{{ theme_asset('js/helper.js') }}"></script>
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
+        const setting = {
+            max_zoom_peta: @json(setting('max_zoom_peta')),
+            min_zoom_peta: @json(setting('min_zoom_peta')),
+            mapbox_key: @json(setting('mapbox_key')),
+            jenis_peta: @json(setting('jenis_peta')),
+            icon_pembangunan_peta: @json(setting('icon_pembangunan_peta')),
+        };
         const slug = '{{ $slug }}';
         const apiPembangunan = `{{ ci_route('internal_api.pembangunan') }}?filter[slug]=${slug}`;
 

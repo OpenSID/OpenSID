@@ -102,7 +102,7 @@
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtks', [
                                             'class' => 'select2',
-                                            'attribut' => 'disabled multiple id="pilihan_4_411" name="pilihan[4][411]"',
+                                            'attribut' => 'multiple id="pilihan_4_411" name="pilihan[4][411]"',
                                             'pilihan' => $pilihan4['411'],
                                         ])
                                     </td>

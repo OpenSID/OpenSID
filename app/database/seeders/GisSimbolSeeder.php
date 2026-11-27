@@ -45,9 +45,10 @@ class GisSimbolSeeder extends Seeder
 {
     public function run(): void
     {
+        // Sumber berada di public/assets, tujuan di desa/ pada root proyek.
         (new Filesystem())->copyDirectory(
-            LOKASI_SIMBOL_LOKASI_DEF,
-            LOKASI_SIMBOL_LOKASI
+            public_path(LOKASI_SIMBOL_LOKASI_DEF),
+            base_path(LOKASI_SIMBOL_LOKASI)
         );
 
         $data = [

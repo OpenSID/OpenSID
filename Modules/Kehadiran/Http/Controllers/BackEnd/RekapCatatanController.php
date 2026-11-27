@@ -143,36 +143,36 @@ class RekapCatatanController extends AdminModulController
         return show_404();
     }
 
-    public function cetak(): void
+    public function cetak()
     {
         try {
-            $bulan  = request('bulan') ?? date('m');
-            $tahun  = request('tahun') ?? date('Y');
-            $pamong = request('pamong');
+            $filters  = $this->getFilters();
+            $bulanStr = $this->formatBulanStr($filters['tahun'], $filters['bulan']);
+            $pamong   = $filters['pamong'] ?? null;
 
             $catatans = $this->service->getDataForExcelExport(
                 StatusCatatan::DISETUJUI->value,
-                $tahun . '-' . $bulan,
-                $tahun,
+                $bulanStr,
+                (string) $filters['tahun'],
                 $pamong
             );
 
             $data = [
                 'aksi'     => 'cetak',
-                'bulan'    => $tahun . '-' . $bulan,
+                'bulan'    => $bulanStr,
                 'pamong'   => $pamong,
                 'catatans' => $catatans,
                 'file'     => 'Rekap Catatan Harian Kerja',
             ];
 
-            view('kehadiran::backend.rekap_catatan.cetak', $data);
+            return view('kehadiran::backend.rekap_catatan.cetak', $data);
         } catch (Exception $e) {
             log_message('error', 'Gagal cetak rekap catatan: ' . $e->getMessage());
-            redirect_with('error', 'Gagal mencetak rekap catatan harian.');
+            return redirect_with('error', 'Gagal mencetak rekap catatan harian.');
         }
     }
 
-    public function ekspor(): void
+    public function ekspor()
     {
         try {
             $filters  = $this->getFilters();
@@ -183,9 +183,9 @@ class RekapCatatanController extends AdminModulController
                 $filters['pamong'] ?? null
             );
 
-            $export->download();
+            return $export->download();
         } catch (Exception $e) {
-            redirect_with('error', $e->getMessage());
+            return redirect_with('error', $e->getMessage());
         }
     }
 

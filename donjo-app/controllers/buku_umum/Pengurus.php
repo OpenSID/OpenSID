@@ -583,10 +583,9 @@ class Pengurus extends Admin_Controller
             $jabatan     = null;
         }
 
-        $kades_sekdes = $this->refJabatan;
         $selected_nav = 'pengurus';
 
-        return view('admin.jabatan.form', ['selected_nav' => $selected_nav, 'action' => $action, 'form_action' => $form_action, 'jabatan' => $jabatan, 'kades_sekdes' => $kades_sekdes]);
+        return view('admin.jabatan.form', ['selected_nav' => $selected_nav, 'action' => $action, 'form_action' => $form_action, 'jabatan' => $jabatan]);
     }
 
     public function jabataninsert(): void
@@ -605,10 +604,6 @@ class Pengurus extends Admin_Controller
 
         $jabatan = RefJabatan::find($id) ?? show_404();
         $input   = static::jabatanValidate($this->request, $jabatan->id);
-
-        if (isKelurahan() && in_array($jabatan->id, $this->refJabatan)) {
-            $input['nama'] = $jabatan->nama;
-        }
 
         if ($jabatan->update($input)) {
             redirect_with('success', 'Berhasil Ubah Data', 'pengurus/jabatan');

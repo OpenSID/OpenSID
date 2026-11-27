@@ -37,7 +37,7 @@ class FileProfilerStorage implements ProfilerStorageInterface
         }
         $this->folder = substr($dsn, 5);
 
-        if (!is_dir($this->folder) && false === @mkdir($this->folder, 0o777, true) && !is_dir($this->folder)) {
+        if (!is_dir($this->folder) && !@mkdir($this->folder, 0o777, true) && !is_dir($this->folder)) {
             throw new \RuntimeException(\sprintf('Unable to create the storage directory (%s).', $this->folder));
         }
     }
@@ -140,7 +140,7 @@ class FileProfilerStorage implements ProfilerStorageInterface
         if (!$profileIndexed) {
             // Create directory
             $dir = \dirname($file);
-            if (!is_dir($dir) && false === @mkdir($dir, 0o777, true) && !is_dir($dir)) {
+            if (!is_dir($dir) && !@mkdir($dir, 0o777, true) && !is_dir($dir)) {
                 throw new \RuntimeException(\sprintf('Unable to create the storage directory (%s).', $dir));
             }
         }
@@ -205,9 +205,15 @@ class FileProfilerStorage implements ProfilerStorageInterface
 
     /**
      * Gets filename to store data, associated to the token.
+     *
+     * @throws \InvalidArgumentException when the token cannot be used as a file name
      */
     protected function getFilename(string $token): string
     {
+        if (!self::isValidToken($token)) {
+            throw new \InvalidArgumentException(\sprintf('The profiler token "%s" is invalid: only letters, digits, dashes and underscores are allowed.', $token));
+        }
+
         // Uses 4 last characters, because first are mostly the same.
         $folderA = substr($token, -2, 2);
         $folderB = substr($token, -4, 2);
@@ -299,7 +305,7 @@ class FileProfilerStorage implements ProfilerStorageInterface
 
     private function doRead($token, ?Profile $profile = null): ?Profile
     {
-        if (!$token || !file_exists($file = $this->getFilename($token))) {
+        if (!$token || !self::isValidToken($token) || !file_exists($file = $this->getFilename($token))) {
             return null;
         }
 
@@ -345,11 +351,18 @@ class FileProfilerStorage implements ProfilerStorageInterface
                 break;
             }
 
-            @unlink($this->getFilename($csvToken));
+            if (self::isValidToken($csvToken)) {
+                @unlink($this->getFilename($csvToken));
+            }
             $offset += \strlen($line);
         }
         fclose($handle);
 
         file_put_contents($file.'.offset', $offset);
+    }
+
+    private static function isValidToken(string $token): bool
+    {
+        return preg_match('/^[a-zA-Z0-9_-]++$/D', $token);
     }
 }

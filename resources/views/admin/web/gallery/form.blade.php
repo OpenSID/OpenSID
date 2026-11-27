@@ -1,5 +1,6 @@
 @extends('admin.layouts.index')
 @include('admin.layouts.components.asset_validasi')
+@php filemanager_authorize('galeri'); @endphp
 @section('title')
     <h1>
         <h1>{{ $parent ? 'Rincian Album' : 'Daftar Album' }}</h1>
@@ -96,7 +97,7 @@
                     <h4 class='modal-title' id='FileManagerLabel'>File Manager</h4>
                 </div>
                 <div class="modal-body">
-                    <iframe width="100%" height="400px" src="{{ base_url('rfm/dialog.php?type=1&lang=id&field_id=url&fldr=&akey=' . $session->fm_key) }}" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+                    <iframe width="100%" height="400px" src="{{ route('filemanager.dialog', ['type' => 1, 'lang' => app()->getLocale(), 'field_id' => 'url']) }}" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
                 </div>
             </div>
         </div>

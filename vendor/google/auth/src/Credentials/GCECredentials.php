@@ -111,6 +111,11 @@ class GCECredentials extends CredentialsLoader implements
     const FLAVOR_HEADER = 'Metadata-Flavor';
 
     /**
+     * Flag used to determine whether to perform the GCE residency check. Used for testing.
+     */
+    private static bool $checkResidency = true;
+
+    /**
      * The Linux file which contains the product name.
      */
     private const GKE_PRODUCT_NAME_FILE = '/sys/class/dmi/id/product_name';
@@ -400,6 +405,10 @@ class GCECredentials extends CredentialsLoader implements
             }
         }
 
+        if (!self::$checkResidency) {
+            return false;
+        }
+
         if (PHP_OS === 'Windows' || PHP_OS === 'WINNT') {
             return self::detectResidencyWindows(
                 self::WINDOWS_REGISTRY_KEY_PATH . self::WINDOWS_REGISTRY_KEY_NAME
@@ -431,6 +440,7 @@ class GCECredentials extends CredentialsLoader implements
         $productName = null;
 
         try {
+            // @phpstan-ignore method.notFound
             $productName = $shell->regRead($registryProductKey);
         } catch (com_exception) {
             // This means that we tried to read a key that doesn't exist on the registry

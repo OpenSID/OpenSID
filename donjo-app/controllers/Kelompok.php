@@ -366,7 +366,7 @@ class Kelompok extends Admin_Controller
         $this->session->unset_userdata('program_bantuan');
         $this->session->sex = ($sex == 0) ? null : $sex;
 
-        if ($tipe === $tipe > 50) {
+        if ((int) $tipe > 50) {
             $program_id                     = preg_replace('/^50/', '', $tipe);
             $this->session->program_bantuan = $program_id;
 

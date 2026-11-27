@@ -102,7 +102,7 @@ trait Creator
             throw new InvalidFormatException($exception->getMessage(), 0, $exception);
         }
 
-        $this->constructedObjectId = spl_object_hash($this);
+        $this->constructedObjectId = spl_object_id($this);
 
         self::setLastErrors(parent::getLastErrors());
     }
@@ -134,7 +134,7 @@ trait Creator
      */
     public function __clone(): void
     {
-        $this->constructedObjectId = spl_object_hash($this);
+        $this->constructedObjectId = spl_object_id($this);
     }
 
     /**

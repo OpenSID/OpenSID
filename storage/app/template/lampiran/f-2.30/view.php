@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <style type="text/css">
-	<?php include FCPATH . '/assets/css/lampiran-surat.css'; ?>
+	<?php include PUBLICPATH . '/assets/css/lampiran-surat.css'; ?>
 	/* table {
 		margin: 4px 3px;
 	} */

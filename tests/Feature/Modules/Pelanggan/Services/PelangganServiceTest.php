@@ -17,9 +17,26 @@ class PelangganServiceTest extends BaseTestCase
 {
     private PelangganService $service;
 
+    private string $publicKeyPath;
+
+    private string $privateKeyPem;
+
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Public key default track git (storage/app/template/public.key) sudah fail-closed,
+        // jadi setiap Http::fake untuk refreshLangganan harus menyertakan signature valid.
+        // Generate keypair khusus test agar tidak bergantung pada key default.
+        $res = openssl_pkey_new(['private_key_bits' => 2048, 'private_key_type' => OPENSSL_KEYTYPE_RSA]);
+        openssl_pkey_export($res, $privatePem);
+        $details = openssl_pkey_get_details($res);
+        $publicPem = $details['key'];
+        $this->privateKeyPem = $privatePem;
+        $path = tempnam(sys_get_temp_dir(), 'pelanggan_pub_test_');
+        file_put_contents($path, $publicPem);
+        $this->publicKeyPath = $path;
+        Config::set('services.opendesa.server_layanan_public_key', $path);
 
         $repo = Mockery::mock(SettingAplikasiRepository::class);
         $repo->shouldReceive('resolveSetting')
@@ -35,7 +52,39 @@ class PelangganServiceTest extends BaseTestCase
     protected function tearDown(): void
     {
         Cache::store('subscription')->forget('status_langganan');
+        if (isset($this->publicKeyPath) && is_file($this->publicKeyPath)) {
+            @unlink($this->publicKeyPath);
+        }
         parent::tearDown();
+    }
+
+    private function canonicalJson(array $data): string
+    {
+        $sorted = $this->sortKeysRecursive($data);
+
+        return json_encode($sorted, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    private function sortKeysRecursive(mixed $data): mixed
+    {
+        if (! is_array($data)) {
+            return $data;
+        }
+        ksort($data);
+        foreach ($data as $k => $v) {
+            $data[$k] = $this->sortKeysRecursive($v);
+        }
+
+        return $data;
+    }
+
+    private function signPayload(array $payload, string $timestamp): string
+    {
+        $canonical = $this->canonicalJson($payload);
+        $toSign = $timestamp . $canonical;
+        openssl_sign($toSign, $sig, $this->privateKeyPem, OPENSSL_ALGO_SHA256);
+
+        return 'rsa-sha256=' . base64_encode($sig);
     }
 
     private function mockSetting(string $token): void
@@ -394,8 +443,11 @@ class PelangganServiceTest extends BaseTestCase
             Http::fake([
                 'https://layanan.example.com/*' => function ($request) use (&$authorizationHeader, $desaId) {
                     $authorizationHeader = $request->header('Authorization');
+                    $body = ['token' => 'token-baru', 'desa_id' => $desaId];
+                    $ts = now()->toIso8601String();
+                    $sig = $this->signPayload($body, $ts);
 
-                    return Http::response(['token' => 'token-baru', 'desa_id' => $desaId], 200);
+                    return Http::response($body, 200, ['X-API-Signature' => $sig, 'X-API-Timestamp' => $ts]);
                 },
             ]);
 

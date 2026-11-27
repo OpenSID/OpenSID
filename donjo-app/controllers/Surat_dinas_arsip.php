@@ -186,7 +186,7 @@ class Surat_dinas_arsip extends Admin_Controller
                                 $aksi .= '<a href="#" data-href="' . ci_route('surat_dinas_arsip.delete', $row->id) . '?redirect=' . $redirectDelete . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                             }
                         }
-                        if (User::superAdmin() && ! setting('tte') && $row->status != 0) {
+                        if (User::superAdmin()->exists() && ! setting('tte') && $row->status != 0) {
                             $aksi .= '<a href="' . ci_route('surat_dinas_arsip.ajax_edit_surat', $row->id) . '" class="btn bg-info btn-sm" title="Ubah Surat" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah Surat"><i class="fa fa-edit"></i></a> ';
                         }
                     }
@@ -277,7 +277,10 @@ class Surat_dinas_arsip extends Admin_Controller
             case kades()->id:
                 $current = 'verifikasi_kades';
                 $next    = (setting('tte') && in_array($surat->SuratDinas->jenis, SuratDinas::TINYMCE)) ? 'tte' : null;
-                $log     = (setting('tte')) ? 'TTE' : null;
+                // log_verifikasi 'TTE' hanya relevan kalau surat benar-benar diteruskan ke
+                // tahap tte ($next === 'tte'). Surat RTF tidak mendukung tte via passphrase,
+                // jadi jangan diberi label "Menunggu TTE" walau setting tte aktif.
+                $log = $next === 'tte' ? 'TTE' : null;
                 break;
 
                 // verifikasi sekdes
@@ -619,7 +622,6 @@ class Surat_dinas_arsip extends Admin_Controller
             redirect_with('error', 'Alasan wajib diisi');
         }
 
-        $this->set_hak_akses_rfm();
         $surat_dinas_log    = LogSuratDinas::findOrFail($idLogSurat);
 
         // Catat audit trail

@@ -104,9 +104,10 @@ Route::group('internal_api', ['namespace' => 'internal_api'], static function ()
     // Pemerintah
     Route::match(['GET', 'POST'], 'pemerintah', 'Pemerintah@index')->name('api.pemerintah');
 
-    // Verifikasi surat
-    Route::match(['GET', 'POST'], 'verifikasi-surat', 'LogSurat@verifikasi')->name('api.verifikasi-surat');
-    Route::match(['GET', 'POST'], 'verifikasi-surat-dinas', 'LogSuratDinas@verifikasi')->name('api.verifikasi-surat-dinas');
+    // Verifikasi surat: id surat WAJIB di path. Tanpa id, endpoint dulu membocorkan
+    // seluruh arsip surat desa + PDF berisi PII tanpa auth. Lihat issue #7002.
+    Route::match(['GET', 'POST'], 'verifikasi-surat/{id}', 'LogSurat@verifikasi')->name('api.verifikasi-surat');
+    Route::match(['GET', 'POST'], 'verifikasi-surat-dinas/{id}', 'LogSuratDinas@verifikasi')->name('api.verifikasi-surat-dinas');
 
     // Galeri
     Route::group('galeri', static function (): void {
@@ -116,8 +117,9 @@ Route::group('internal_api', ['namespace' => 'internal_api'], static function ()
 
     // Suplemen
     Route::group('suplemen', static function (): void {
-        Route::match(['GET', 'POST'], '/', 'Suplemen@list')->name('api.suplemen');
-        Route::match(['GET', 'POST'], '{suplemen}', 'Suplemen@anggota')->name('api.suplemen.anggota');
+        Route::match(['GET', 'POST'], '/', 'Suplemen@index')->name('api.suplemen');
+        Route::match(['GET', 'POST'], '{slug}', 'Suplemen@detail')->name('api.suplemen.detail');
+        Route::match(['GET', 'POST'], 'anggota/{slug}', 'Suplemen@anggota')->name('api.suplemen.anggota');
     });
 
     // Rute untuk PPID

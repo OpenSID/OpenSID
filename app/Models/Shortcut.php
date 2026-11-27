@@ -123,7 +123,7 @@ class Shortcut extends BaseModel
     {
         $list_icon = [];
 
-        $file = FCPATH . 'assets/fonts/fontawesome.txt';
+        $file = PUBLICPATH . 'assets/fonts/fontawesome.txt';
 
         if (file_exists($file)) {
             $list_icon = file_get_contents($file);

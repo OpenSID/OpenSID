@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Casts\Path;
 use App\Casts\Zoom;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusDasarEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -66,7 +67,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @property int|null $urut
  * @property int|null $urut_cetak
  * @property-read string $alamat
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\KeluargaAktif> $keluargaAktif
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Keluarga> $keluargaAktif
  * @property-read int|null $keluarga_aktif_count
  * @property-read \App\Models\PendudukSaja|null $kepala
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PendudukHidup> $pendudukPria
@@ -288,11 +289,9 @@ class Wilayah extends BaseModel
 
     public function keluargaAktif()
     {
-        return $this->hasManyThrough(KeluargaAktif::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun')
+        return $this->hasManyThrough(Keluarga::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun')
             ->whereHas('kepalaKeluarga', static function ($q): void {
-                $q->whereNotNull('id_kk')
-                    ->where('kk_level', 1)
-                    ->where('status_dasar', 1);
+                $q->where('status_dasar', StatusDasarEnum::HIDUP);
             });
     }
 

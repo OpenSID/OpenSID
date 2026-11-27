@@ -85,6 +85,35 @@ class MasaAktifAkunService
     }
 
     /**
+     * Cek apakah akun sudah melewati batas masa aktif tanpa efek samping.
+     *
+     * @param User $user Pengguna yang diperiksa.
+     *
+     * @return bool True jika akun dormant.
+     */
+    public function isDormant(User $user): bool
+    {
+        if (! setting('masa_akun_pengguna')) {
+            return false;
+        }
+
+        $masaTidakAktifHari = (int) setting('masa_akun_tidak_aktif');
+        if ($masaTidakAktifHari <= 0) {
+            return false;
+        }
+
+        if ($user->last_login === null) {
+            return false;
+        }
+
+        if (! Carbon::parse($user->last_login)->lessThan(Carbon::now()->subDays($masaTidakAktifHari))) {
+            return false;
+        }
+
+        return $user->id != super_admin();
+    }
+
+    /**
      * Memeriksa apakah akun pengguna sudah tidak aktif terlalu lama saat login.
      * Jika ya, nonaktifkan akun dan kembalikan pesan error.
      *
@@ -94,42 +123,34 @@ class MasaAktifAkunService
      */
     public function checkAndDeactivateIfInactive(User $user): ?string
     {
-        if (! setting('masa_akun_pengguna')) {
-            return null;
-        }
-
-        if ($user->id == super_admin()) {
-            return null;
-        }
-
-        $masaTidakAktifHari = (int) setting('masa_akun_tidak_aktif');
-        if ($masaTidakAktifHari <= 0) {
-            return null;
-        }
-
         // Akun belum pernah login — set last_login ke sekarang agar timer mulai berjalan
-        if ($user->last_login === null) {
+        if ($user->last_login === null && setting('masa_akun_pengguna') && $user->id != super_admin() && (int) setting('masa_akun_tidak_aktif') > 0) {
             $user->last_login = Carbon::now();
             $user->save();
 
             return null;
         }
 
-        $tanggalBatas  = Carbon::now()->subDays($masaTidakAktifHari);
-        $lastLoginDate = Carbon::parse($user->last_login); // Ensure it's a Carbon instance
-
-        if ($lastLoginDate->lessThan($tanggalBatas)) {
-            $user->active = AktifEnum::TIDAK_AKTIF;
-            $user->save();
-
-            $this->sendAccountActivatedNotification($user);
-
-            logger()->notice("Akun pengguna '{$user->nama}' ({$user->username}) dinonaktifkan saat login karena tidak aktif selama lebih dari {$masaTidakAktifHari} hari.");
-
-            return "Login gagal. Akun Anda telah dinonaktifkan karena tidak digunakan selama lebih dari {$masaTidakAktifHari} hari. Silakan hubungi administrator untuk mengaktifkan kembali.";
+        if (! $this->isDormant($user)) {
+            return null;
         }
 
-        return null;
+        $masaTidakAktifHari = (int) setting('masa_akun_tidak_aktif');
+        $message            = "Login gagal. Akun Anda telah dinonaktifkan karena tidak digunakan selama lebih dari {$masaTidakAktifHari} hari. Silakan hubungi administrator untuk mengaktifkan kembali.";
+
+        // Akun sudah nonaktif: kembalikan pesan yang sama tanpa memproses ulang.
+        if ((int) $user->active === AktifEnum::TIDAK_AKTIF) {
+            return $message;
+        }
+
+        $user->active = AktifEnum::TIDAK_AKTIF;
+        $user->save();
+
+        $this->sendAccountActivatedNotification($user);
+
+        logger()->notice("Akun pengguna '{$user->nama}' ({$user->username}) dinonaktifkan saat login karena tidak aktif selama lebih dari {$masaTidakAktifHari} hari.");
+
+        return $message;
     }
 
     /**
@@ -179,7 +200,7 @@ class MasaAktifAkunService
 
         // TODO: Ganti dengan helper log aktivitas OpenSID jika tersedia, contoh: log_activity($message);
         activity()
-            ->causedBy(auth()->id) // Jika dijalankan oleh sistem, penyebabnya adalah user itu sendiri
+            ->causedBy(auth()->user() ?? $user) // Jika dijalankan oleh sistem, penyebabnya adalah user itu sendiri
             ->performedOn($user)
             ->inLog('Akun')
             ->event($event)

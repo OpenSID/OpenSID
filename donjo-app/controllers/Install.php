@@ -37,7 +37,9 @@
 
 use App\Bootstrap\CodeIgniterBootstrap;
 use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -209,6 +211,14 @@ class Install extends CI_Controller
         try {
             folder_desa();
 
+            // Titik yang tepat untuk symlink publik: folder desa/* baru saja
+            // dibuat oleh folder_desa(), jadi target symlink pasti sudah ada.
+            //
+            // storage:link tidak membuat folder induk; bila public/desa belum ada
+            // symlink() gagal DIAM-DIAM dan command tetap melaporkan berhasil.
+            File::ensureDirectoryExists(public_path('desa'));
+            Artisan::call('storage:link', ['--relative' => true]);
+
             CodeIgniterBootstrap::configureConfig(app());
             DB::purge('default');
             DB::reconnect('default');
@@ -301,6 +311,14 @@ class Install extends CI_Controller
         return true;
     }
 
+    /**
+     * Menyiapkan folder yang TIDAK bergantung pada folder desa.
+     *
+     * Berjalan di konstruktor, sehingga hanya boleh mengerjakan hal yang
+     * syaratnya sudah terpenuhi pada setiap langkah wizard. Symlink folder
+     * publik desa sengaja TIDAK dibuat di sini: folder desa/* baru ada setelah
+     * folder_desa() pada langkah migrasi, jadi pembuatannya diletakkan di sana.
+     */
     public function folder_lainnya(): void
     {
         foreach (config_item('lainnya') as $folder => $lainnya) {
@@ -312,18 +330,34 @@ class Install extends CI_Controller
 
     private function check_server(): bool
     {
-        foreach ($this->config->item('server') as $check) {
-            if (! $check['check']()) {
-                return false;
-            }
-        }
-
-        return true;
+        return $this->semua_syarat_wajib_terpenuhi($this->config->item('server'));
     }
 
     private function check_folders(): bool
     {
-        foreach ($this->config->item('folders') as $check) {
+        return $this->semua_syarat_wajib_terpenuhi($this->config->item('folders'));
+    }
+
+    /**
+     * Pemeriksaan bertanda 'peringatan' hanya ditampilkan, tidak menghalangi
+     * instalasi.
+     *
+     * Contohnya document root yang belum diarahkan ke folder public dan symlink
+     * folder publik desa. Keduanya penting untuk keamanan dan tampilan, tetapi
+     * ada hosting yang memang tidak mengizinkannya (document root cPanel yang
+     * terkunci, atau symlink yang dilarang). Memblokir instalasi pada kondisi itu
+     * membuat OpenSID sama sekali tidak dapat dipasang, sehingga pengguna
+     * diberi peringatan dan tetap dipersilakan melanjutkan.
+     *
+     * @param array<string, array<string, mixed>> $daftar
+     */
+    private function semua_syarat_wajib_terpenuhi(array $daftar): bool
+    {
+        foreach ($daftar as $check) {
+            if (! empty($check['peringatan'])) {
+                continue;
+            }
+
             if (! $check['check']()) {
                 return false;
             }

@@ -387,7 +387,7 @@ class LogPenduduk extends BaseModel
          * sudah divalidasi ketat sebelum closure ini didefinisikan.
          *
          * Untuk kolom saldo awal ($isAwal = true), ekspresi menghitung selisih antara
-         * peristiwa masuk (kode 1 dan 5) dengan peristiwa keluar (kode 2, 3, 4)
+         * peristiwa masuk (kode 1 dan 5) dengan peristiwa keluar (kode 2, 3, 4, 6)
          * sebelum awal bulan berjalan. Nilai THEN menggunakan id_pend * 10 + kode_peristiwa
          * sebagai pengganti CONCAT agar deduplication berbasis operasi numerik
          * yang lebih ringan daripada komparasi string.
@@ -423,7 +423,7 @@ class LogPenduduk extends BaseModel
                 - COUNT(DISTINCT CASE
                         WHEN tweb_penduduk.sex = {$sex}
                         AND {$wnaExpr}
-                        AND log_penduduk.kode_peristiwa IN (2, 3, 4)
+                        AND log_penduduk.kode_peristiwa IN (2, 3, 4, 6)
                         AND log_penduduk.tgl_lapor < '{$bulanMulai}'
                         THEN log_penduduk.id_pend * 10 + log_penduduk.kode_peristiwa
                     END)
@@ -476,11 +476,17 @@ class LogPenduduk extends BaseModel
             ->selectRaw($buildSelect(1, true, 2, 'WNA_L_KURANG_MATI'))
             ->selectRaw($buildSelect(2, true, 2, 'WNA_P_KURANG_MATI'))
 
-            // Pengurangan penduduk karena pindah/keluar (kode peristiwa 3 dan 4).
-            ->selectRaw($buildSelect(1, false, [3, 4], 'WNI_L_KURANG_KELUAR'))
-            ->selectRaw($buildSelect(2, false, [3, 4], 'WNI_P_KURANG_KELUAR'))
-            ->selectRaw($buildSelect(1, true, [3, 4], 'WNA_L_KURANG_KELUAR'))
-            ->selectRaw($buildSelect(2, true, [3, 4], 'WNA_P_KURANG_KELUAR'))
+            // Pengurangan penduduk karena pindah/keluar (kode peristiwa 3 dan 4), termasuk
+            // tidak tetap pergi (kode peristiwa 6). Kode 6 ikut di bucket ini karena laporan
+            // tidak punya kolom terpisah untuknya, dan LogPenduduk::kembalikan_status_pergi()
+            // sudah memperlakukannya setara pindah keluar — dipasangkan dengan log masuk (kode 5)
+            // baru saat penduduk kembali. Tanpa kode 6 di sini, penduduk yang statusnya "Pergi"
+            // (status_dasar = 6) tetap terhitung di saldo rekapitulasi meski sudah tidak aktif
+            // di dashboard, karena log masuknya tidak pernah diimbangi log keluar manapun.
+            ->selectRaw($buildSelect(1, false, [3, 4, 6], 'WNI_L_KURANG_KELUAR'))
+            ->selectRaw($buildSelect(2, false, [3, 4, 6], 'WNI_P_KURANG_KELUAR'))
+            ->selectRaw($buildSelect(1, true, [3, 4, 6], 'WNA_L_KURANG_KELUAR'))
+            ->selectRaw($buildSelect(2, true, [3, 4, 6], 'WNA_P_KURANG_KELUAR'))
 
             // Jumlah dan mutasi KK diambil dari derived table yang sudah di-GROUP BY dusun.
             // MAX() diperlukan untuk mematuhi sql_mode=only_full_group_by karena

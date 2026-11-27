@@ -11,10 +11,11 @@ trait HasPasswordHistory
 {
     public static function bootHasPasswordHistory(): void
     {
-        if (! Schema::hasTable('password_histories')) {
-            return;
-        }
-
+        // Sengaja tidak memeriksa keberadaan tabel di sini: boot model bisa terjadi
+        // sebelum koneksi database terikat (mis. pada unit test tanpa aplikasi penuh),
+        // dan Schema::hasTable() yang gagal akan membuat model tersangkut status
+        // "sedang booting". Pemeriksaan tabel dilakukan saat perekaman di
+        // recordPasswordHistory(), ketika koneksi sudah pasti tersedia.
         static::whenBooted(function (): void {
             static::updating(function ($model): void {
                 $column = $model->passwordHistoryColumn();

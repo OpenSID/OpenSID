@@ -38,9 +38,12 @@
 namespace App\Listeners\Surat;
 
 use App\Events\Surat\PermohonanSuratSubmitted;
+use App\Models\LogNotifikasiAdmin;
+use App\Models\PendudukMandiri;
 use App\Models\User;
 use App\Notifications\Surat\PermohonanSuratBaru;
 use Exception;
+use Illuminate\Support\Collection;
 use NotificationChannels\Telegram\Telegram;
 
 class SendPermohonanSuratNotification
@@ -51,15 +54,68 @@ class SendPermohonanSuratNotification
     public function handle(PermohonanSuratSubmitted $event): void
     {
         // Send notifications to users with permohonan-surat access
-        User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'permohonan-surat', user: $user))
-            ->each(static function (User $user) use ($event): void {
-                $user->notify(new PermohonanSuratBaru(permohonan: $event->permohonan));
-            });
+        $users = User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'permohonan-surat', user: $user));
+
+        $users->each(static function (User $user) use ($event): void {
+            $user->notify(new PermohonanSuratBaru(permohonan: $event->permohonan));
+        });
+
+        // Dual-write ke log_notifikasi_admin agar notifikasi terbaca di KelolaDesa (mobile) via opensid-api.
+        $this->createLogNotifikasiAdmin($event, $users);
 
         // Send telegram notification if enabled
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             $this->sendTelegramNotification($event);
         }
+    }
+
+    /**
+     * Catat notifikasi ke tabel log_notifikasi_admin (dibaca opensid-api / KelolaDesa mobile).
+     *
+     * @param \Illuminate\Support\Collection<int, User> $users
+     */
+    private function createLogNotifikasiAdmin(PermohonanSuratSubmitted $event, Collection $users): void
+    {
+        try {
+            $dariMandiri = $event->penduduk instanceof PendudukMandiri;
+
+            // Judul disamakan dengan PermohonanSuratBaru (notifikasi web), dan sengaja
+            // dibedakan per jalur (Mandiri: issue #6831, Anjungan: issue #11911) agar
+            // tidak tertukar dengan notifikasi verifikasi surat dari Keluar.php yang
+            // memakai template setting('notifikasi_pengajuan_surat').
+            $judul = $dariMandiri ? 'Permohonan Surat Baru' : "Pengajuan Surat - {$event->surat->nama}";
+
+            $isiNotifikasi = [
+                'judul' => $judul,
+                'isi'   => "Permohonan surat {$event->surat->nama} dari {$this->namaPemohon($event, $dariMandiri)}",
+                // $event->permohonan selalu row permohonan_surat, terlepas dari jalur
+                // Mandiri atau Anjungan — payload TIDAK boleh ikut bercabang di $dariMandiri
+                // (beda dari judul/nama), kalau tidak permohonan Anjungan menunjuk ke
+                // route yang di-resolve lewat log_surat, bukan permohonan_surat.
+                'payload' => '/permohonan/mandiri/periksa/' . $event->permohonan->id,
+                'read'    => 0,
+            ];
+
+            foreach ($users as $user) {
+                LogNotifikasiAdmin::create([
+                    'id_user'   => $user->id,
+                    'config_id' => $user->config_id,
+                    ...$isiNotifikasi,
+                ]);
+            }
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * $event->penduduk bisa PendudukMandiri (akun Layanan Mandiri — tidak punya
+     * kolom `nama` sendiri, harus lewat relasi ->penduduk) atau Penduduk langsung
+     * (pemohon Anjungan, termasuk tamu tanpa akun tweb_penduduk_mandiri — issue #11911).
+     */
+    private function namaPemohon(PermohonanSuratSubmitted $event, bool $dariMandiri): string
+    {
+        return $dariMandiri ? $event->penduduk->penduduk->nama : $event->penduduk->nama;
     }
 
     /**
@@ -69,7 +125,7 @@ class SendPermohonanSuratNotification
     {
         try {
             $pesanTelegram = [
-                '[nama_penduduk]' => $event->penduduk->nama,
+                '[nama_penduduk]' => $event->permohonan->penduduk->nama,
                 '[judul_surat]'   => $event->surat->nama,
                 '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
                 '[melalui]'       => 'Layanan Mandiri',

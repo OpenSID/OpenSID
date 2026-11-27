@@ -1,3 +1,4 @@
+@php filemanager_authorize('pengaturan-surat'); @endphp
 <div class="tab-pane" id="footer">
     <div class="box-body">
         <div class="form-group">
@@ -17,7 +18,7 @@
         </div>
         <div class="form-group">
             <label>Template Footer Surat</label>
-            <textarea name="{{ setting('tte') == '1' ? 'footer_surat_tte' : 'footer_surat' }}" class="form-control input-sm editor required" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="header-footer"
+            <textarea name="{{ setting('tte') == '1' ? 'footer_surat_tte' : 'footer_surat' }}" class="form-control input-sm editor required" data-filemanager='<?= json_encode(['external_filemanager_path' => filemanager_base_url(), 'filemanager_title' => 'File Manager']) ?>' data-salintemplate="header-footer"
                 data-jenis="footer">{{ setting('tte') == '1' ? setting('footer_surat_tte') : setting('footer_surat') }}</textarea>
         </div>
     </div>

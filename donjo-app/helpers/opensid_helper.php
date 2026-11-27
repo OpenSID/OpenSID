@@ -1679,15 +1679,21 @@ if (! function_exists('kodeIsianTanggal')) {
     {
         try {
             $formatInput = 'd F Y';
-            $tanggal     = $tanggal ? Carbon::createFromFormat($formatInput, $tanggal) : Carbon::now();
+            
+            // Handle Carbon objects directly or parse from string
+            if ($tanggal instanceof Carbon) {
+                $carbon = $tanggal;
+            } else {
+                $carbon = $tanggal ? Carbon::createFromFormat($formatInput, $tanggal) : Carbon::now();
+            }
 
             return match ($format) {
-                'hari'        => $tanggal->translatedFormat('l'),
-                'tgl'         => $tanggal->format('d'),
-                'bulan'       => $tanggal->translatedFormat('F'),
-                'bulan_angka' => $tanggal->translatedFormat('m'),
-                'tahun'       => $tanggal->format('Y'),
-                default       => $tanggal->translatedFormat(setting('format_tanggal_surat')),
+                'hari'        => $carbon->translatedFormat('l'),
+                'tgl'         => $carbon->format('d'),
+                'bulan'       => $carbon->translatedFormat('F'),
+                'bulan_angka' => $carbon->translatedFormat('m'),
+                'tahun'       => $carbon->format('Y'),
+                default       => $carbon->translatedFormat(setting('format_tanggal_surat')),
             };
         } catch (InvalidArgumentException $e) {
             return $tanggal;
@@ -1706,7 +1712,8 @@ if (! function_exists('kodeIsianTanggal')) {
 if (! function_exists('tanggalLengkap')) {
     function tanggalLengkap($tgl = null, $prefix = '')
     {
-        $tgl = formatTanggal($tgl ?? Carbon::now());
+        $tglRaw = $tgl ?? Carbon::now();
+        $tgl = formatTanggal($tglRaw);
         if (! empty($prefix)) {
             $prefix = '_' . $prefix;
         }
@@ -1720,37 +1727,37 @@ if (! function_exists('tanggalLengkap')) {
             [
                 'judul' => 'Tanggal (Dengan Hari)',
                 'isian' => 'tgl_hari' . $prefix,
-                'data'  => kodeIsianTanggal($tgl, 'hari') . ', ' . $tgl,
+                'data'  => kodeIsianTanggal($tglRaw, 'hari') . ', ' . $tgl,
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Tanggal (Angka)',
                 'isian'         => 'tanggal' . $prefix,
-                'data'          => kodeIsianTanggal($tgl, 'tgl'),
+                'data'          => kodeIsianTanggal($tglRaw, 'tgl'),
             ],
             [
                 'case_sentence' => false,
                 'judul'         => 'Hari',
                 'isian'         => 'hari' . $prefix,
-                'data'          => kodeIsianTanggal($tgl, 'hari'),
+                'data'          => kodeIsianTanggal($tglRaw, 'hari'),
             ],
             [
                 'case_sentence' => false,
                 'judul'         => 'Bulan',
                 'isian'         => 'bulan' . $prefix,
-                'data'          => kodeIsianTanggal($tgl, 'bulan'),
+                'data'          => kodeIsianTanggal($tglRaw, 'bulan'),
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Bulan (Angka)',
                 'isian'         => 'bulan_angka' . $prefix,
-                'data'          => kodeIsianTanggal($tgl, 'bulan_angka'),
+                'data'          => kodeIsianTanggal($tglRaw, 'bulan_angka'),
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Tahun',
                 'isian'         => 'tahun' . $prefix,
-                'data'          => kodeIsianTanggal($tgl, 'tahun'),
+                'data'          => kodeIsianTanggal($tglRaw, 'tahun'),
             ],
         ];
     }
@@ -2214,10 +2221,14 @@ function versiUmumSetara($version): string
 
 function copyFavicon(): void
 {
-    if (file_exists(LOKASI_LOGO_DESA . 'favicon.ico')) {
-        copy(FCPATH . LOKASI_LOGO_DESA . 'favicon.ico', FCPATH . 'favicon.ico');
+    // LOKASI_LOGO_DESA menunjuk desa/logo/ yang tetap di root proyek (FCPATH),
+    // sedangkan LOKASI_FILES_LOGO menunjuk assets/files/logo/ yang ikut pindah
+    // ke public/ (PUBLICPATH). Tujuan salinan selalu di public/ agar favicon
+    // dapat diambil browser.
+    if (file_exists(FCPATH . LOKASI_LOGO_DESA . 'favicon.ico')) {
+        copy(FCPATH . LOKASI_LOGO_DESA . 'favicon.ico', PUBLICPATH . 'favicon.ico');
     } else {
-        copy(FCPATH . LOKASI_FILES_LOGO . 'favicon.ico', FCPATH . 'favicon.ico');
+        copy(PUBLICPATH . LOKASI_FILES_LOGO . 'favicon.ico', PUBLICPATH . 'favicon.ico');
     }
 }
 

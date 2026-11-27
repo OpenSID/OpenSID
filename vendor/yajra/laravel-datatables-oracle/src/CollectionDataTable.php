@@ -277,17 +277,7 @@ class CollectionDataTable extends DataTableAbstract
         if (! empty($criteria)) {
             $sorter = $this->getSorter($criteria);
 
-            $this->collection = $this->collection
-                ->map(fn ($data) => Arr::dot($data))
-                ->sort($sorter)
-                ->map(function ($data) {
-                    foreach ($data as $key => $value) {
-                        unset($data[$key]);
-                        Arr::set($data, $key, $value);
-                    }
-
-                    return $data;
-                });
+            $this->collection = $this->collection->sort($sorter);
         }
     }
 
@@ -296,9 +286,16 @@ class CollectionDataTable extends DataTableAbstract
      */
     protected function getSorter(array $criteria): Closure
     {
+        // The column names are resolved once instead of on every comparison,
+        // as sorting calls the sorter n log n times.
+        $criteria = array_map(fn ($orderable) => [
+            'column' => $this->getColumnName($orderable['column']),
+            'direction' => $orderable['direction'],
+        ], $criteria);
+
         return function ($a, $b) use ($criteria) {
             foreach ($criteria as $orderable) {
-                $column = $this->getColumnName($orderable['column']);
+                $column = $orderable['column'];
                 $direction = $orderable['direction'];
                 if ($direction === 'desc') {
                     $first = $b;
@@ -307,18 +304,16 @@ class CollectionDataTable extends DataTableAbstract
                     $first = $a;
                     $second = $b;
                 }
-                if (is_numeric($first[$column] ?? null) && is_numeric($second[$column] ?? null)) {
-                    if ($first[$column] < $second[$column]) {
-                        $cmp = -1;
-                    } elseif ($first[$column] > $second[$column]) {
-                        $cmp = 1;
-                    } else {
-                        $cmp = 0;
-                    }
+
+                $firstValue = Arr::get($first, $column);
+                $secondValue = Arr::get($second, $column);
+
+                if (is_numeric($firstValue) && is_numeric($secondValue)) {
+                    $cmp = $firstValue <=> $secondValue;
                 } elseif ($this->config->isCaseInsensitive()) {
-                    $cmp = strnatcasecmp($first[$column] ?? '', $second[$column] ?? '');
+                    $cmp = strnatcasecmp($firstValue ?? '', $secondValue ?? '');
                 } else {
-                    $cmp = strnatcmp($first[$column] ?? '', $second[$column] ?? '');
+                    $cmp = strnatcmp($firstValue ?? '', $secondValue ?? '');
                 }
                 if ($cmp != 0) {
                     return $cmp;

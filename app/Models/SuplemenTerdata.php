@@ -149,6 +149,11 @@ class SuplemenTerdata extends BaseModel
                 ->selectRaw('nama as terdata_nama');
         }
 
+        // Catatan keamanan (#6999): scope ini dipakai bersama oleh sisi admin
+        // (donjo-app/controllers/Suplemen.php: datatables_terdata, form edit, ekspor Excel)
+        // yang MEMBUTUHKAN tempatlahir/tanggallahir/alamat. Pembatasan untuk endpoint
+        // publik internal_api/suplemen dilakukan di SuplemenTerdataTransformer
+        // (tempatlahir tidak dikirim, alamat hanya RT/RW + dusun).
         $query->join('tweb_wil_clusterdesa', 'tweb_wil_clusterdesa.id', '=', 'tweb_penduduk.id_cluster', 'left')
             ->selectRaw('suplemen_terdata.*, tweb_penduduk.nik, tweb_penduduk.nama, tweb_penduduk.tempatlahir, tweb_penduduk.tanggallahir, tweb_penduduk.sex, tweb_keluarga.no_kk, tweb_wil_clusterdesa.rt, tweb_wil_clusterdesa.rw, tweb_wil_clusterdesa.dusun')
             ->selectRaw('(case when (tweb_penduduk.id_kk is null) then tweb_penduduk.alamat_sekarang else tweb_keluarga.alamat end) AS alamat')

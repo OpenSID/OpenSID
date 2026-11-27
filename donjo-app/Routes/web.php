@@ -80,8 +80,6 @@ Route::group('/statistik_web', static function (): void {
     Route::get('/chart_gis_dusun/{tipe?}/{lap?}/{dusun?}', 'Statistik_web@chart_gis_dusun');
     Route::get('/chart_gis_rw/{tipe?}/{lap?}/{dusun?}/{rw?}', 'Statistik_web@chart_gis_rw');
     Route::get('/chart_gis_rt/{tipe?}/{lap?}/{rw?}/{rt?}', 'Statistik_web@chart_gis_rt');
-    Route::get('/chart_gis_kadus/{id_kepala?}', 'Statistik_web@chart_gis_kadus');
-    Route::get('/load_kadus/{tipe?}/{lap?}', 'Statistik_web@load_kadus');
 });
 
 // Koneksi database

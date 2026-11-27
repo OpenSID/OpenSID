@@ -628,6 +628,15 @@ function qrcode_generate(array $qrcode = [], $base64 = false): string
 function to_base64($file): string
 {
     $type = pathinfo($file, PATHINFO_EXTENSION);
+
+    // Konstanta aset (STEMPEL, LAYANAN_LOGO, GAMBAR_QRCODE, LOKASI_FILES_LOGO,
+    // dsb.) bernilai path relatif 'assets/...' yang kini berada di public/.
+    // Path lain — desa/upload/..., storage/... — tetap di root proyek dan
+    // dibiarkan apa adanya.
+    if (str_starts_with(strtolower((string) $file), 'assets/')) {
+        $file = public_path($file);
+    }
+
     $data = file_get_contents($file);
 
     if ($type === 'pdf') {

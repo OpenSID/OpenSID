@@ -23,6 +23,7 @@
             .done(function(data) {
                 Swal.fire({
                     icon: 'success',
+                    title: 'Berhasil!',
                     html: data.message || 'Berhasil disimpan',
                     timer: 2000,
                     showConfirmButton: false
@@ -104,6 +105,7 @@
         if (type === 'success') {
             Swal.fire({
                 icon: 'success',
+                title: 'Berhasil!',
                 html: message,
                 timer: 2000,
                 showConfirmButton: false

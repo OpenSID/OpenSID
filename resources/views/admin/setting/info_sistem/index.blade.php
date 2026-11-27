@@ -86,6 +86,54 @@
 @section('content')
     @include('admin.layouts.components.notifikasi')
 
+    @php
+        $symlinkHilang = collect(config('filesystems.links'))
+            ->reject(static fn ($tujuan, $link) => is_link($link) || ! is_dir($tujuan))
+            ->keys()
+            ->map(static fn ($l) => str_replace(base_path() . DIRECTORY_SEPARATOR, '', $l))
+            ->all();
+    @endphp
+    @if ($symlinkHilang !== [])
+        <div class="callout callout-warning">
+            <h4><i class="fa fa-chain-broken"></i> Symlink folder publik belum lengkap</h4>
+            <p>
+                Foto penduduk, gambar artikel, logo desa, atau berkas unggahan lain
+                kemungkinan tidak tampil. Symlink berikut belum terpasang:
+            </p>
+            <ul>
+                @foreach ($symlinkHilang as $link)
+                    <li><code>{{ $link }}</code></li>
+                @endforeach
+            </ul>
+            <p style="margin-bottom:0">
+                Jalankan <code>php artisan storage:link --relative</code> di server,
+                lalu muat ulang halaman ini. Bila hosting Anda melarang symlink,
+                hubungi penyedia hosting untuk mengaktifkannya.
+            </p>
+        </div>
+    @endif
+
+    @unless (docroot_sudah_benar())
+        <div class="callout callout-danger">
+            <h4><i class="fa fa-exclamation-triangle"></i> Document root belum diarahkan ke folder <code>public</code></h4>
+            <p>
+                Aplikasi tetap berjalan, tetapi berkas sensitif seperti <code>.env</code>,
+                <code>composer.json</code>, dan <code>desa/config/database.php</code>
+                <strong>masih dapat diakses langsung dari internet</strong>. Anda belum
+                mendapat manfaat keamanan dari struktur folder <code>public</code>.
+            </p>
+            <p>Cara memperbaiki, dari yang paling aman:</p>
+            <ol style="margin-bottom:0">
+                <li><strong>VPS/server sendiri:</strong> ubah <code>DocumentRoot</code> pada vhost menjadi
+                    <code>{{ public_path() }}</code>, lalu restart web server.</li>
+                <li><strong>cPanel addon domain/subdomain:</strong> setel Document Root ke
+                    folder <code>public</code> saat membuat domain.</li>
+                <li><strong>cPanel domain utama:</strong> pindahkan isi folder <code>public</code>
+                    ke <code>public_html/</code> dan sisanya ke folder sejajar.</li>
+            </ol>
+        </div>
+    @endunless
+
     @if ($disk)
         <div class="row">
             <div class="col-md-6">
