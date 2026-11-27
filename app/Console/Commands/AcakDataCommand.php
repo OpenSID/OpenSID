@@ -37,15 +37,16 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Config;
-use App\Models\Keluarga;
-use App\Models\Penduduk;
-use App\Models\Rtm;
-use App\Models\Wilayah;
-use Carbon\Carbon;
+use App\Services\Acak\AcakOptions;
+use App\Services\Acak\AcakService;
+use App\Services\FolderDesaCleaner\FolderDesaKeepList;
 use Illuminate\Console\Command;
-use Modules\Lapak\Models\Pelapak;
+use Throwable;
 
+/**
+ * Adapter CLI tipis untuk {@see AcakService}. Seluruh logika de-identifikasi
+ * hidup di service tersebut sehingga jalur CLI dan web memakai inti yang sama.
+ */
 class AcakDataCommand extends Command
 {
     /**
@@ -53,179 +54,94 @@ class AcakDataCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'opensid:db-acak';
+    protected $signature = 'opensid:db-acak
+        {--seed=opensid-demo : Seed deterministik untuk generasi nilai sintetis}
+        {--foto=blur : Foto warga/pamong: none|avatar|blur (blur butuh Python)}
+        {--foto-konten=watermark : Foto artikel/galeri/media: none|watermark|picsum}
+        {--surat=sintetis : Arsip surat: placeholder|sintetis (sintetis hanya konteks web)}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Acak data untuk identitas desa, wilayah administratif, RTM, keluarga, penduduk, dan pelapak pada data yang sudah ada.';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Acak (de-identifikasi) data desa: identitas, wilayah, RTM, keluarga, penduduk, dan pelapak.';
 
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(AcakService $acak): int
     {
-        // INIT
-        $kode_kecamatan = identitas('kode_kecamatan');
-        $this->info('>_ Mulai');
+        if ($acak->isMultiTenant()) {
+            $this->error(\App\Exceptions\Acak\MultiTenantNotSupportedException::PESAN);
 
-        // IDENTITAS DESA
-        $this->info('>_ Acak Identitas Desa');
-        // exclude booted models
-        Config::first()->update([
-            'alamat_kantor' => 'Jalan ' . fake()->streetName . ' No. ' . fake()->buildingNumber,
-            'email'         => fake()->email,
-            'telepon'       => '08' . fake()->numerify('##########'),
-            'ponsel'        => '08' . fake()->numerify('##########'),
-            'website'       => 'https://serambi.opendesa.id',
-            'kode_pos'      => fake()->numerify('#####'),
-            'nama_camat'    => strtoupper(fake()->name),
-            'nip_camat'     => fake()->numerify('###############'),
-        ]);
-
-        // WILAYAH ADMINISTRATIF
-        $this->info('>_ Acak Wilayah Administratif');
-        $dusunList = [
-            'Sumber Rejo',
-            'Tanjung Sari',
-            'Suka Maju',
-            'Sido Makmur',
-            'Suka Damai',
-            'Sejahtera',
-            'Mekar Jaya',
-            'Harapan Jaya',
-            'Tirta Kencana',
-            'Karya Bakti',
-            'Sri Rejeki',
-            'Mukti Jaya',
-            'Sari Murni',
-            'Kerta Bumi',
-            'Mitra Sejati',
-            'Sentosa',
-            'Subur Makmur',
-            'Wijaya Kusuma',
-            'Amerta Jaya',
-            'Bhakti Mulya',
-            'Surya Mandiri',
-            'Suka Sejahtera',
-            'Lestari',
-            'Suka Raharja',
-            'Bhakti Jaya',
-            'Sumber Harapan',
-            'Suka Rukun',
-            'Bakti Sejahtera',
-            'Mukti Rejo',
-            'Mekar Sejati',
-            'Citra Jaya',
-            'Wana Bakti',
-            'Tirta Makmur',
-            'Karya Utama',
-            'Sri Mulya',
-            'Mukti Sejati',
-            'Sari Jaya',
-            'Tirta Murni',
-            'Mitra Jaya',
-            'Karya Lestari',
-            'Sejahtera Abadi',
-            'Mukti Sari',
-            'Harapan Baru',
-            'Suka Mulya',
-            'Bhakti Rejo',
-            'Sumber Jaya',
-            'Suka Makmur',
-            'Sari Sejati',
-            'Kerta Makmur',
-        ];
-
-        $dusuns = Wilayah::dusun()->get();
-
-        foreach ($dusuns as $dusun) {
-            Wilayah::where('dusun', $dusun->dusun)->update(['dusun' => fake()->unique()->randomElement($dusunList)]);
+            return self::FAILURE;
         }
 
-        // RTM
-        $this->info('>_ Acak RTM');
-        $rtms = Rtm::orderBy('id')->get(['id', 'no_kk', 'bdt']);
+        $seed        = (string) $this->option('seed');
+        $photoMode   = (string) $this->option('foto');
+        $fotoKonten  = (string) $this->option('foto-konten');
+        $suratMode   = (string) $this->option('surat');
+        $this->info(">_ Mulai proses acak data (seed: {$seed}, foto: {$photoMode}, foto konten: {$fotoKonten}, surat: {$suratMode})…");
 
-        foreach ($rtms as $key => $rtm) {
-            $update_tgl_daftar = Carbon::parse($rtm->tgl_daftar)->addDays(7);
-            $tgl_daftar        = Carbon::parse($update_tgl_daftar)->format('dmy');
-            $bdt               = empty($rtm->bdt) ? null : $kode_kecamatan . str_pad($key + 1, 10, '0', STR_PAD_LEFT);
-            Rtm::find($rtm->id)->update([
-                'no_kk'      => $kode_kecamatan . $tgl_daftar . str_pad($rtm->id, 4, '0', STR_PAD_LEFT),
-                'tgl_daftar' => $update_tgl_daftar,
-                'bdt'        => $bdt,
-            ]);
+        try {
+            $acak->setProgressCallback(fn (string $step) => $this->line('   ' . $step));
+
+            $result = $acak->run(new AcakOptions(
+                $seed,
+                (new FolderDesaKeepList())->get(),
+                $photoMode,
+                $fotoKonten,
+                $suratMode,
+            ));
+        } catch (Throwable $e) {
+            $this->error('Gagal mengacak data: ' . $e->getMessage());
+            logger()->error($e);
+
+            return self::FAILURE;
         }
 
-        // KELUARGA
-        $this->info('>_ Acak Keluarga');
-        $keluargas = Keluarga::get(['id', 'tgl_daftar']);
+        $this->newLine();
+        $this->info(sprintf('>_ Selesai dalam %s detik', $result->elapsedSeconds));
+        $this->info(sprintf('>_ Baris diproses     : %s', number_format($result->rowsProcessed)));
+        $this->info(sprintf('>_ Tabel dimodifikasi : %d', count($result->tables())));
 
-        foreach ($keluargas as $keluarga) {
-            $update_tgl_daftar = Carbon::parse($keluarga->tgl_daftar)->addDays(7);
-            $tgl_daftar        = Carbon::parse($update_tgl_daftar)->format('dmy');
-            Keluarga::find($keluarga->id)->update([
-                'no_kk'      => $kode_kecamatan . $tgl_daftar . str_pad($keluarga->id, 4, '0', STR_PAD_LEFT),
-                'tgl_daftar' => $update_tgl_daftar,
-            ]);
+        if ($result->orphanedDeleted > 0) {
+            $this->info(sprintf('>_ File usang dihapus  : %s', number_format($result->orphanedDeleted)));
+        }
+        if ($result->periksaResolved !== []) {
+            $this->info(sprintf('>_ Masalah periksa OK  : %s', number_format(array_sum($result->periksaResolved))));
+        }
+        if ($result->periksaResidual !== []) {
+            $this->info('>_ Periksa sisa        : ' . implode(', ', $result->periksaResidual));
+        }
+        if ($result->photosGenerated > 0) {
+            $this->info(sprintf('>_ Avatar dibuat       : %s', number_format($result->photosGenerated)));
+        }
+        if ($result->photosBlurred > 0) {
+            $this->info(sprintf('>_ Wajah dikaburkan    : %s', number_format($result->photosBlurred)));
+        }
+        $fotoKontenTotal = $result->fotosArtikelProcessed + $result->fotosGaleriProcessed + $result->fotosMediaProcessed;
+        if ($fotoKontenTotal > 0) {
+            $this->info(sprintf(
+                '>_ Foto konten diproses: %s (artikel %s, galeri %s, media %s)',
+                number_format($fotoKontenTotal),
+                number_format($result->fotosArtikelProcessed),
+                number_format($result->fotosGaleriProcessed),
+                number_format($result->fotosMediaProcessed),
+            ));
+        }
+        if ($result->arsipReplaced > 0) {
+            $this->info(sprintf('>_ Arsip surat dibuat  : %s', number_format($result->arsipReplaced)));
+        }
+        if ($result->suratSintetisGenerated > 0) {
+            $this->info(sprintf('>_ Surat sintetis      : %s', number_format($result->suratSintetisGenerated)));
         }
 
-        // PENDUDUK
-        $this->info('>_ Acak Penduduk');
-        $penduduks = Penduduk::get(['id', 'nik', 'nama', 'tempatlahir', 'tanggallahir', 'ayah_nik', 'ibu_nik', 'nama_ayah', 'nama_ibu', 'foto', 'akta_lahir', 'akta_perkawinan', 'tanggalperkawinan', 'telepon', 'no_kk_sebelumnya', 'tag_id_card', 'no_asuransi', 'tempat_cetak_ktp', 'tanggal_cetak_ktp']);
-
-        foreach ($penduduks as $penduduk) {
-            $update_tgl_lahir = Carbon::parse($penduduk->tanggallahir)->addDays(7);
-            $tgl_lahir        = Carbon::parse($update_tgl_lahir)->format('dmy');
-            $nik              = $kode_kecamatan . $tgl_lahir . str_pad($penduduk->id, 4, '0', STR_PAD_LEFT);
-            $nama             = $penduduk->sex == '1' ? fake()->firstNameMale : fake()->firstNameFemale;
-
-            Penduduk::find($penduduk->id)->update([
-                'nik'               => $nik,
-                'nama'              => strtoupper($nama),
-                'tempatlahir'       => fake()->city,
-                'tgl_lahir'         => $tgl_lahir,
-                'ayah_nik'          => $penduduk->ayah_nik ? fake()->numerify('################') : null,
-                'ibu_nik'           => $penduduk->ibu_nik ? fake()->numerify('################') : null,
-                'nama_ayah'         => strtoupper(fake()->firstNameMale),
-                'nama_ibu'          => strtoupper(fake()->firstNameFemale),
-                'foto'              => null,
-                'akta_lahir'        => fake()->numerify('#####-LT-######-####'),
-                'akta_perkawinan'   => fake()->numerify('###/##/X/####'),
-                'tanggalperkawinan' => Carbon::parse($penduduk->tanggalperkawinan)->addDays(7),
-                'telepon'           => $penduduk->telepon ? '08' . fake()->numerify('##########') : null,
-                'no_kk_sebelumnya'  => $penduduk->no_kk_sebelumnya ? fake()->numerify('############') : null,
-                'tag_id_card'       => fake()->numerify('##########'), // 10 digit
-                'no_asuransi'       => fake()->numerify('#######'), // 7 digit
-                'tempat_cetak_ktp'  => identitas('nama_kabupaten'),
-                'tanggal_cetak_ktp' => Carbon::parse($penduduk->tanggal_cetak_ktp)->addDays(7),
-            ]);
+        foreach ($result->warnings as $warning) {
+            $this->warn('   ! ' . $warning);
         }
 
-        // PELAPAK
-        $this->info('>_ Acak Pelapak');
-        $pelapaks = Pelapak::whereNotNull('telepon')->get(['id', 'telepon']);
-
-        foreach ($pelapaks as $pelapak) {
-            Pelapak::find($pelapak->id)->update([
-                'telepon' => '08' . fake()->numerify('##########'),
-            ]);
-        }
-
-        cache()->flush();
-        $this->info('>_ Selesai');
+        return self::SUCCESS;
     }
 }

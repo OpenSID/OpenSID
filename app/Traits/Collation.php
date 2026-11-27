@@ -57,10 +57,10 @@ trait Collation
                         ON kcu.CONSTRAINT_NAME = tc.CONSTRAINT_NAME
                         AND kcu.TABLE_SCHEMA = tc.TABLE_SCHEMA
                     WHERE kcu.TABLE_NAME = t.TABLE_NAME
-                    AND kcu.TABLE_SCHEMA = '{$database}'
+                    AND kcu.TABLE_SCHEMA = ?
                     AND tc.CONSTRAINT_TYPE = 'FOREIGN KEY'
                 ) AS has_fk
-            ")
+            ", [$database])
             ->where('t.TABLE_SCHEMA', $database)
             ->where('t.TABLE_TYPE', 'BASE TABLE')
             ->where('t.TABLE_COLLATION', '!=', $dbCollate)

@@ -49,54 +49,17 @@ return [
         'Content-Security-Policy' => implode(' ', [
             "default-src 'self';",
 
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:
-                *.jsdelivr.net
-                *.cloudflare.com
-                code.jquery.com
-                cdn.ckeditor.com
-                unpkg.com
-                uicdn.toast.com
-                toast.com
-                *.googleapis.com
-                *.github.io
-                *.facebook.net
-                platform.twitter.com
-                cdn.datatables.net
-                www.google.com
-                www.gstatic.com;",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: *.jsdelivr.net *.cloudflare.com static.cloudflareinsights.com challenges.cloudflare.com code.jquery.com cdn.ckeditor.com unpkg.com uicdn.toast.com toast.com *.googleapis.com *.github.io *.facebook.net platform.twitter.com cdn.datatables.net www.google.com www.gstatic.com api.mapbox.com *.mapbox.com cdn.tailwindcss.com;",
 
-            "style-src 'self' 'unsafe-inline'
-                fonts.googleapis.com
-                *.gstatic.com
-                *.jsdelivr.net
-                *.cloudflare.com
-                unpkg.com
-                uicdn.toast.com
-                toast.com
-                cdn.datatables.net;",
+            "style-src 'self' 'unsafe-inline' fonts.googleapis.com *.gstatic.com *.jsdelivr.net *.cloudflare.com unpkg.com uicdn.toast.com toast.com cdn.datatables.net api.mapbox.com *.mapbox.com;",
 
             "img-src 'self' data: blob: *;",
 
-            "font-src 'self' data:
-                fonts.gstatic.com
-                *.cloudflare.com
-                *.jsdelivr.net;",
+            "font-src 'self' data: fonts.gstatic.com *.cloudflare.com *.jsdelivr.net;",
 
-            "connect-src 'self'
-                api.ipify.org
-                *.opendesa.id
-                *.opensid.my.id
-                *.cloudflare.com
-                unpkg.com
-                api.mapbox.com
-                *.mapbox.com
-                www.google.com
-                www.gstatic.com;",
+            "connect-src 'self' api.ipify.org *.opendesa.id *.opensid.my.id *.digidesa.id *.cloudflare.com *.cloudflareinsights.com challenges.cloudflare.com unpkg.com api.mapbox.com *.mapbox.com www.google.com www.gstatic.com;",
 
-            "frame-src 'self'
-                *.google.com
-                www.google.com
-                www.gstatic.com;",
+            "frame-src 'self' *.google.com www.google.com www.gstatic.com *.youtube.com *.youtube-nocookie.com challenges.cloudflare.com;",
 
             "worker-src 'self' blob:;",
             "child-src 'self' blob:;",
@@ -104,6 +67,19 @@ return [
             "object-src 'self' blob:;",
 
             "frame-ancestors 'self';",
+            "base-uri 'self';",
+        ]),
+
+        'Content-Security-Policy-Report-Only' => implode(' ', [
+            "default-src 'self';",
+
+            "script-src 'self' 'unsafe-eval' blob: *.jsdelivr.net *.cloudflare.com static.cloudflareinsights.com challenges.cloudflare.com code.jquery.com cdn.ckeditor.com unpkg.com uicdn.toast.com toast.com *.googleapis.com *.github.io *.facebook.net platform.twitter.com cdn.datatables.net www.google.com www.gstatic.com;",
+
+            "style-src 'self' 'unsafe-inline' fonts.googleapis.com *.gstatic.com *.jsdelivr.net *.cloudflare.com unpkg.com uicdn.toast.com toast.com cdn.datatables.net api.mapbox.com *.mapbox.com;",
+
+            "frame-src 'self' *.google.com www.google.com www.gstatic.com *.youtube.com *.youtube-nocookie.com challenges.cloudflare.com;",
+
+            "object-src 'none';",
             "base-uri 'self';",
         ]),
 

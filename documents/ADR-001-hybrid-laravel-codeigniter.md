@@ -1,7 +1,7 @@
-# ADR-001: Adopsi Arsitektur Hibrid Laravel 10 dan CodeIgniter 3
+# ADR-001: Adopsi Arsitektur Hibrid Laravel 13 dan CodeIgniter 3
 
 ## Status
-**Accepted** - Diimplementasikan sejak migrasi ke Laravel 10
+**Accepted** - Diimplementasikan sejak migrasi ke Laravel 13
 
 ### Implementation Status
 - **Verification Date**: 2025-12-26
@@ -13,7 +13,7 @@
 ## Context
 ### Strangler Fig Pattern
 
-Untuk memastikan migrasi dari CodeIgniter 3 ke Laravel 10 berjalan secara bertahap, arsitektur OpenSID menerapkan **Strangler Fig Pattern**. Pattern ini memungkinkan sistem legacy (CI3) tetap berjalan sambil secara bertahap menambahkan dan memindahkan fitur ke sistem modern (Laravel), tanpa perlu rewrite total atau downtime.
+Untuk memastikan migrasi dari CodeIgniter 3 ke Laravel 13 berjalan secara bertahap, arsitektur OpenSID menerapkan **Strangler Fig Pattern**. Pattern ini memungkinkan sistem legacy (CI3) tetap berjalan sambil secara bertahap menambahkan dan memindahkan fitur ke sistem modern (Laravel), tanpa perlu rewrite total atau downtime.
 
 **Prinsip Strangler Fig Pattern:**
 - Fitur baru dikembangkan di Laravel
@@ -83,7 +83,7 @@ Opsi C: ??? (Apa solusinya?)
 ### Solusi: Arsitektur Hibrid Laravel + CodeIgniter 3
 
 **Untuk mengatasi dilema di atas, adopsi Strangler Pattern** yang menggabungkan:
-- **Laravel 10** sebagai framework utama (fitur baru & modern)
+- **Laravel 13** sebagai framework utama (fitur baru & modern)
 - **CodeIgniter 3** sebagai subsistem (backward compatibility & stability)
 
 Pendekatan ini memungkinkan:
@@ -96,7 +96,7 @@ Pendekatan ini memungkinkan:
 ### Implementasi Teknis:
 
 1. **Laravel sebagai Entry Point & Core Framework**
-   - Laravel 10 menjadi primary framework (`index.php` → Laravel)
+   - Laravel 13 menjadi primary framework (`index.php` → Laravel)
    - HTTP Kernel Laravel mengontrol request lifecycle
    - Composer autoloading, modern tooling, testing framework
 
@@ -201,16 +201,21 @@ Pendekatan ini memungkinkan:
 
 ### File Structure
 ```
-opensid-laravel-10/
+opensid-laravel-13/
 ├── app/                    # Laravel application
 │   ├── Bootstrap/
-│   │   └── CodeIgniterBootstrap.php
+│   │   ├── CodeIgniterBootstrap.php
+│   │   ├── EnsureStorageDirectoriesExist.php
+│   │   └── RequestAwareTrait.php
 │   ├── Http/
 │   │   ├── Kernel.php
 │   │   └── Middleware/
 │   │       └── CodeIgniterResponseMiddleware.php
-│   └── Providers/
-│       └── RouteServiceProvider.php
+│   ├── Providers/
+│   │   └── RouteServiceProvider.php
+│   └── Events/
+│       ├── CallingController.php
+│       └── ControllerCalled.php
 ├── bootstrap/
 │   ├── app.php             # Laravel bootstrap
 │   ├── bootCodeIgniter.php # CI bootstrap
@@ -219,9 +224,15 @@ opensid-laravel-10/
 │   ├── controllers/
 │   ├── models/
 │   ├── views/
-│   └── core/
+│   ├── core/               # MY_* extension classes
+│   ├── hooks/
+│   │   └── RouterHook.php
+│   └── libraries/
+│       └── Session/
+│           └── MY_Session.php
 ├── vendor/
-│   └── codeigniter/framework/
+│   ├── codeigniter/framework/
+│   └── opensid/router/
 └── index.php               # Laravel entry point
 ```
 
@@ -229,14 +240,29 @@ opensid-laravel-10/
 
 1. **CodeIgniterBootstrap** (`app/Bootstrap/CodeIgniterBootstrap.php`)
    - Bootstrap CI core saat Laravel initialization
-   - Sync configuration antara CI dan Laravel
+   - Sync database configuration antara CI dan Laravel
+   - Pasang rebinding `request` (setRequest + hook `pre_system`, 1x per request) di setiap app instance
 
-2. **RouteServiceProvider** (`app/Providers/RouteServiceProvider.php`)
-   - Implementasi routing strategy
-   - Extended service container
+2. **EnsureStorageDirectoriesExist** (`app/Bootstrap/EnsureStorageDirectoriesExist.php`)
+   - Membuat storage directories yang diperlukan sebelum booting
 
-3. **CodeIgniterResponseMiddleware** (`app/Http/Middleware/CodeIgniterResponseMiddleware.php`)
-   - Transform CI output ke Laravel Response
+3. **RequestAwareTrait** (`app/Bootstrap/RequestAwareTrait.php`)
+   - Trait untuk sync Request ke semua CI core class (MY_Input, MY_URI, MY_Output, MY_Security)
+   - Memanggil `overrideGlobals()` untuk sync $_POST, $_GET, $_SERVER, $_COOKIE
+
+4. **RouteServiceProvider** (`app/Providers/RouteServiceProvider.php`)
+   - Implementasi routing strategy via `$app->rebinding('request', ...)`
+   - Cek `isMatchedRouteCodeIgniter()` (current route dari `pre_system` yang dijalankan rebinding CodeIgniterBootstrap)
+   - Extended service container (ControllerDispatcher, Redirector, ViewFactory)
+   - Config synchronization dari controller settings (email, telegram, recaptcha)
+
+5. **CodeIgniterResponseMiddleware** (`app/Http/Middleware/CodeIgniterResponseMiddleware.php`)
+   - Sinkronisasi session antara Laravel Session Store dan $_SESSION global
+   - Transform CI output ke Laravel Response via MY_Output::toResponse()
+
+6. **CallingController / ControllerCalled Events** (`app/Events/`)
+   - Event system untuk hook sebelum/sesudah controller execution
+   - Digunakan untuk config synchronization dan logging
 
 ## Related ADRs
 
@@ -246,7 +272,7 @@ opensid-laravel-10/
 
 ## References
 
-- [Laravel 10 Documentation](https://laravel.com/docs/10.x)
+- [Laravel 13 Documentation](https://laravel.com/docs/13.x)
 - [CodeIgniter 3 Documentation](https://codeigniter.com/userguide3/)
 - [Strangler Fig Pattern](https://martinfowler.com/bliki/StranglerFigApplication.html)
 

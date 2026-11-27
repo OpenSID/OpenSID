@@ -1202,7 +1202,10 @@ class Keluarga_model extends MY_Model
 
     private function buat_berkas_kk($data = '')
     {
-        $path_arsip = LOKASI_ARSIP;
+        // RTF disimpan ke folder sementara (BUKAN arsip resmi).
+        // Arsip resmi (desa/arsip/) hanya boleh berisi file PDF yang bersifat immutable.
+        // File RTF adalah derivative yang dapat diubah (mutable) dan merupakan tanggung jawab pengguna.
+        $path_arsip = LOKASI_RTF_SEMENTARA;
         $file       = DEFAULT_LOKASI_EKSPOR . 'kk.rtf';
         if (! is_file($file)) {
             return;
@@ -1278,7 +1281,13 @@ class Keluarga_model extends MY_Model
         $buffer         = str_replace('*nip_camat', "{$h['nip_kepala_camat']}", $buffer);
 
         $berkas_arsip = $path_arsip . "kk_{$k['no_kk']}.rtf";
-        $handle       = fopen($berkas_arsip, 'w+b');
+
+        // Pastikan folder tujuan ada sebelum menulis file
+        if (! is_dir(FCPATH . $path_arsip)) {
+            mkdir(FCPATH . $path_arsip, 0775, true);
+        }
+
+        $handle = fopen($berkas_arsip, 'w+b');
         fwrite($handle, $buffer);
         fclose($handle);
 

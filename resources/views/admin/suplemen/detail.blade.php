@@ -92,8 +92,6 @@
     @include('admin.layouts.components.konfirmasi_hapus')
 @endsection
 
-@include('admin.layouts.components.filter_wilayah')
-
 @push('scripts')
     <script>
         $(document).ready(function() {

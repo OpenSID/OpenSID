@@ -614,8 +614,10 @@ trait Migrator
 
     /**
      * Jalankan migrasi modul.
+     *
+     * @return bool True jika direktori migrasi modul ditemukan dan dijalankan, false jika tidak ditemukan.
      */
-    private function jalankanMigrasiModule(string $name, string $action = 'up'): void
+    private function jalankanMigrasiModule(string $name, string $action = 'up'): bool
     {
         Log::info("Migrasi Module {$name}");
 
@@ -634,7 +636,7 @@ trait Migrator
         } elseif (is_dir($dirNew)) {
             $directoryTable = $dirNew;
         } else {
-            return;
+            return false;
         }
 
         $migrations = File::files($directoryTable);
@@ -657,6 +659,8 @@ trait Migrator
         }
 
         cache()->flush();
+
+        return true;
     }
 
     // NEW 2026

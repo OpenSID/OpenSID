@@ -61,16 +61,49 @@ use Illuminate\Foundation\Application;
 
 class CodeIgniterBootstrap
 {
+    /**
+     * Indicates if the pre_system hook has already been called for the current request.
+     *
+     * Laravel rebinds the "request" instance twice per request, so this flag
+     * ensures the pre_system hook is only executed once per request.
+     */
+    public static bool $preSystemCalled = false;
+
     public function bootstrap(Application $app): void
     {
         require_once base_path('bootstrap/bootCodeIgniter.php');
-        
+
+        // Replicate the CodeIgniter booting process whenever the "request" instance is
+        // rebound. The rebinding is registered on every application instance so it also
+        // works during testing, where a new application instance is created per test.
+        $app->rebinding('request', function ($app, $request) {
+            if (! isset($GLOBALS['EXT'])) {
+                return;
+            }
+
+            // Sync the request instance to CodeIgniter core classes
+            $GLOBALS['EXT']->setRequest($request);
+
+            if (CodeIgniterBootstrap::$preSystemCalled) {
+                return;
+            }
+
+            CodeIgniterBootstrap::$preSystemCalled = true;
+
+            $GLOBALS['EXT']->call_hook('pre_system');
+        });
+
         static::configureConfig($app);
     }
     
     public static function configureConfig(Application $app): void
     {
         if (! isset($GLOBALS['CFG']) || ! $GLOBALS['CFG'] instanceof \CI_Config) {
+            return;
+        }
+        
+        // Skip di environment testing untuk menghindari override
+        if ($app->environment('testing')) {
             return;
         }
         
@@ -88,8 +121,9 @@ class CodeIgniterBootstrap
         
         // Sync app URL
         if (! $app->runningInConsole()) {
-            $config->set('app.url', APP_URL);
-            $config->set('app.asset_url', APP_URL . '/assets');
+            $appUrl = $configCI['app_url'] ?? config('app.url');
+            $config->set('app.url', $appUrl);
+            $config->set('app.asset_url', $appUrl . '/assets');
         }
         
         // Sync database configuration
@@ -109,7 +143,8 @@ class CodeIgniterBootstrap
 protected $bootstrappers = [
     \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables::class,
     \Illuminate\Foundation\Bootstrap\LoadConfiguration::class,
-    \App\Bootstrap\CodeIgniterBootstrap::class,  // â† Injected here
+    \App\Bootstrap\EnsureStorageDirectoriesExist::class,  // Custom: buat storage dirs
+    \App\Bootstrap\CodeIgniterBootstrap::class,           // Custom: bootstrap CI
     \Illuminate\Foundation\Bootstrap\HandleExceptions::class,
     \Illuminate\Foundation\Bootstrap\RegisterFacades::class,
     \Illuminate\Foundation\Bootstrap\RegisterProviders::class,
@@ -122,7 +157,8 @@ protected $bootstrappers = [
 protected $bootstrappers = [
     \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables::class,
     \Illuminate\Foundation\Bootstrap\LoadConfiguration::class,
-    \App\Bootstrap\CodeIgniterBootstrap::class,  // â† Injected here
+    \App\Bootstrap\EnsureStorageDirectoriesExist::class,  // Custom: buat storage dirs
+    \App\Bootstrap\CodeIgniterBootstrap::class,           // Custom: bootstrap CI
     \Illuminate\Foundation\Bootstrap\HandleExceptions::class,
     \Illuminate\Foundation\Bootstrap\RegisterFacades::class,
     \Illuminate\Foundation\Bootstrap\SetRequestForConsole::class,
@@ -152,6 +188,29 @@ $GLOBALS['SEC']  // Security
 $GLOBALS['IN']   // Input
 $GLOBALS['LANG'] // Language
 $GLOBALS['UNI']  // UTF-8
+```
+
+#### 4. Replikasi Proses Booting CI per Request
+
+Bootstrap CI (`bootCodeIgniter.php`) hanya dijalankan **sekali per proses** karena di-`require_once`. Untuk mereplikasi proses booting per request (sync request ke CI + hook `pre_system`), `CodeIgniterBootstrap::bootstrap()` memasang `$app->rebinding('request', ...)`:
+
+- **Terdaftar di setiap instance aplikasi** — berbeda dengan rebinding lama di `bootCodeIgniter.php` yang hanya aktif di instance pertama (masalah saat testing yang membuat banyak instance).
+- **`$EXT->setRequest($request)` selalu dipanggil** agar `$_SERVER` sinkron dengan request terakhir.
+- **`pre_system` hanya sekali per request** — Laravel merebind `request` dua kali per request (`sendRequestThroughRouter` dan `dispatchToRouter`), jadi guard `CodeIgniterBootstrap::$preSystemCalled` mencegah eksekusi ganda.
+- **Urutan eksekusi rebinding** mengikuti urutan registrasi: rebinding `CodeIgniterBootstrap` (saat bootstrap, sebelum providers) selalu jalan lebih dulu daripada rebinding `RouteServiceProvider` (saat BootProviders). Ini menjamin `pre_system` sudah berjalan sebelum `isMatchedRouteCodeIgniter()` dicek.
+
+**Reset guard di lifecycle testing:**
+
+Pada lifecycle normal, satu proses hanya melayani satu request sehingga flag tidak pernah bocor. Pada testing, satu proses melayani banyak request (console kernel saat `setUp`/artisan dan HTTP kernel saat `call`), sehingga flag di-reset sebelum setiap request di `tests/TestCase.php`:
+
+```php
+// tests/TestCase.php
+protected function createTestRequest($symfonyRequest)
+{
+    CodeIgniterBootstrap::$preSystemCalled = false;
+
+    return parent::createTestRequest($symfonyRequest);
+}
 ```
 
 ## Konsekuensi
@@ -272,21 +331,24 @@ class CodeIgniterServiceProvider extends ServiceProvider
 2. LoadConfiguration  
     config/*.php loaded
    
-3. CodeIgniterBootstrap â† CUSTOM
+3. EnsureStorageDirectoriesExist ← CUSTOM
+    Storage directories created
+   
+4. CodeIgniterBootstrap ← CUSTOM
     CI core loaded
     CI config loaded
-    Config synchronized
+    Database config synchronized
    
-4. HandleExceptions
+5. HandleExceptions
     Exception handlers registered
    
-5. RegisterFacades
+6. RegisterFacades
     Laravel facades available
    
-6. RegisterProviders
+7. RegisterProviders
     Service providers registered
    
-7. BootProviders
+8. BootProviders
     Service providers booted
 ```
 
@@ -324,11 +386,11 @@ LARAVEL_START
 $GLOBALS['BM']   // Benchmark
 $GLOBALS['EXT']  // Hooks
 $GLOBALS['CFG']  // Config
-$GLOBALS['URI']  // URI
+$GLOBALS['URI']  // URI - extends RequestAwareTrait
 $GLOBALS['RTR']  // Router
-$GLOBALS['OUT']  // Output
-$GLOBALS['SEC']  // Security
-$GLOBALS['IN']   // Input
+$GLOBALS['OUT']  // Output - extends RequestAwareTrait, implements Responsable
+$GLOBALS['SEC']  // Security - extends RequestAwareTrait
+$GLOBALS['IN']   // Input - extends RequestAwareTrait
 $GLOBALS['LANG'] // Language
 $GLOBALS['UNI']  // UTF-8
 ```
@@ -336,8 +398,10 @@ $GLOBALS['UNI']  // UTF-8
 Accessible via:
 ```php
 $CI =& get_instance();
-$CI->config; // Access CFG
-$CI->input;  // Access IN
+$CI->config;  // Access CFG
+$CI->input;   // Access IN
+$CI->output;  // Access OUT
+$CI->security; // Access SEC
 ```
 
 ## Sinkronisasi Konfigurasi
@@ -345,10 +409,11 @@ $CI->input;  // Access IN
 ### App URL
 
 ```php
-// From: CI config atau APP_URL constant
+// From: CI config atau default dari laravel config
 if (! $app->runningInConsole()) {
-    config()->set('app.url', APP_URL);
-    config()->set('app.asset_url', APP_URL . '/assets');
+    $appUrl = $configCI['app_url'] ?? config('app.url');
+    config()->set('app.url', $appUrl);
+    config()->set('app.asset_url', $appUrl . '/assets');
 }
 ```
 
@@ -488,7 +553,7 @@ protected $bootstrappers = [
 
 ## Referensi
 
-- [Laravel Bootstrap Process](https://laravel.com/docs/10.x/lifecycle)
+- [Laravel Bootstrap Process](https://laravel.com/docs/11.x/lifecycle)
 - [CodeIgniter Application Flow](https://codeigniter.com/userguide3/overview/appflow.html)
 - [PHP Opcache](https://www.php.net/manual/en/book.opcache.php)
 
@@ -496,4 +561,4 @@ protected $bootstrappers = [
 
 **Pengambil Keputusan**: Tim Arsitektur OpenSID  
 **Tanggal**: Januari 2024  
-**Terakhir Diperbarui**: Juni 2026 (Verified & Updated)
+**Terakhir Diperbarui**: Agustus 2026 (Verified & Updated - rebinding request + guard pre_system)

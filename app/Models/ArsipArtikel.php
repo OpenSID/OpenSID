@@ -120,6 +120,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ArsipArtikel whereTipe($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ArsipArtikel whereUrut($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ArsipArtikel withoutConfigId($configId = '')
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @mixin \Eloquent
  */
 class ArsipArtikel extends Artikel

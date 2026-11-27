@@ -7,7 +7,7 @@ define('RFM_BASE_PATH', dirname(__FILE__, 2));
 
 require RFM_BASE_PATH . '/vendor/autoload.php';
 
-Dotenv\Dotenv::createImmutable(RFM_BASE_PATH)->load();
+Dotenv\Dotenv::createImmutable(RFM_BASE_PATH)->safeLoad();
 
 $encryptedCookie = $_COOKIE['rfm_access'] ?? null;
 

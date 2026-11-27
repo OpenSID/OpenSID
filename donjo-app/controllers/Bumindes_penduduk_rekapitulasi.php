@@ -147,7 +147,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         ];
 
         if ($aksi == 'pdf') {
-            $this->laporan_pdf($data);
+            return $this->laporan_pdf($data);
         }
 
         return view('admin.bumindes.penduduk.rekapitulasi.cetak', $data);
@@ -194,6 +194,5 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         } else {
             $laporan->update($lap_sinkron);
         }
-
     }
 }

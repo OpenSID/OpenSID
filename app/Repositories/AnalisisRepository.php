@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisParameter;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class AnalisisRepository
@@ -50,8 +51,8 @@ class AnalisisRepository
         return QueryBuilder::for(AnalisisIndikator::class)
             ->allowedFields('*')
             ->allowedFilters(...[
-                AllowedFilter::exact('id'),
-                AllowedFilter::exact('tahun'),
+                AllowedFilter::exact('id', 'm.id'),
+                AllowedFilter::exact('tahun', 'p.tahun_pelaksanaan'),
                 AllowedFilter::callback('search', static function ($query, $value): void {
                     $query->where(static function ($subQuery) use ($value): void {
                         $subQuery->where('m.nama', 'like', "%{$value}%")
@@ -59,7 +60,7 @@ class AnalisisRepository
                     });
                 }),
             ])
-            ->allowedSorts(...['master', 'tahun'])
+            ->allowedSorts(...['master', AllowedSort::field('tahun', 'p.tahun_pelaksanaan')])
             ->select([
                 'm.id',
                 'm.nama AS master',
@@ -86,15 +87,15 @@ class AnalisisRepository
             ->allowedFilters(...[
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('id_master'),
-                AllowedFilter::exact('tahun'),
+                AllowedFilter::exact('tahun', 'p.tahun_pelaksanaan'),
                 AllowedFilter::callback('search', static function ($query, $value): void {
                     $query->where(static function ($subQuery) use ($value): void {
-                        $subQuery->where('master', 'like', "%{$value}%")
-                            ->orWhere('tahun', 'like', "%{$value}%");
+                        $subQuery->where('m.nama', 'like', "%{$value}%")
+                            ->orWhere('p.tahun_pelaksanaan', 'like', "%{$value}%");
                     });
                 }),
             ])
-            ->allowedSorts(...['master', 'tahun'])
+            ->allowedSorts(...['master', AllowedSort::field('tahun', 'p.tahun_pelaksanaan')])
             ->select([
                 'analisis_indikator.id',
                 'analisis_indikator.nomor',
@@ -129,12 +130,12 @@ class AnalisisRepository
                 AllowedFilter::exact('id_indikator'),
                 AllowedFilter::callback('id_periode', static function ($query, $value): void {
                     $query->addSelect([
-                        // Subquery for the count with dynamic periode filter
-                        DB::raw("(select count(analisis_respon.id_subjek)
+                        DB::raw('(select count(analisis_respon.id_subjek)
                                   from analisis_respon
                                   where analisis_respon.id_parameter = analisis_parameter.id
-                                  and analisis_respon.id_periode = '{$value}') as jml"),
+                                  and analisis_respon.id_periode = ?) as jml'),
                     ]);
+                    $query->addBinding($value, 'select');
                 }),
                 AllowedFilter::callback('search', static function ($query, $value): void {
                     $query->where('jawaban', 'like', "%{$value}%");

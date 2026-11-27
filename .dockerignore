@@ -1,0 +1,13 @@
+# Build context is the repository root (bin/compose.yml sets context: ..);
+# the app code is bind-mounted at runtime, so exclude heavy dirs from the
+# build context to keep `docker build` fast. Keep bin/ and desa.zip (needed
+# by the Dockerfile).
+node_modules
+vendor
+.git
+tests/playwright/node_modules
+**/storage/logs/*
+**/storage/framework/cache/*
+**/storage/framework/sessions/*
+**/storage/framework/views/*
+.DS_Store

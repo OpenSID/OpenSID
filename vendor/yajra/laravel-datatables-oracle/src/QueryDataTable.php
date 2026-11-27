@@ -302,7 +302,7 @@ class QueryDataTable extends DataTableAbstract
             }
 
             if ($this->hasFilterColumn($columnName)) {
-                $keyword = $this->getColumnSearchKeyword($index, true);
+                $keyword = $this->getColumnSearchKeyword($index);
                 $this->applyFilterColumn($this->getBaseQueryBuilder(), $columnName, $keyword);
             } else {
                 $columnName = $this->resolveRelationColumn($columnName);
@@ -432,14 +432,9 @@ class QueryDataTable extends DataTableAbstract
     /**
      * Get column keyword to use for search.
      */
-    protected function getColumnSearchKeyword(int $i, bool $raw = false): string
+    protected function getColumnSearchKeyword(int $i): string
     {
-        $keyword = $this->request->columnKeyword($i);
-        if ($raw || $this->request->isRegex($i)) {
-            return $keyword;
-        }
-
-        return $this->setupKeyword($keyword);
+        return $this->request->columnKeyword($i);
     }
 
     protected function getColumnNameByIndex(int $index): string
@@ -821,11 +816,11 @@ class QueryDataTable extends DataTableAbstract
         $columns = (array) $this->request->searchPanes;
 
         foreach ($columns as $column => $values) {
-            if ($this->isBlacklisted($column)) {
+            if ($this->isBlacklisted($column) || ! isset($this->searchPanes[$column])) {
                 continue;
             }
 
-            if ($this->searchPanes[$column] && $callback = $this->searchPanes[$column]['builder']) {
+            if ($callback = $this->searchPanes[$column]['builder']) {
                 $callback($this->query, $values);
             } else {
                 $this->query->whereIn($column, $values);

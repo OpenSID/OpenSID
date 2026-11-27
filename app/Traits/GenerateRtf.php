@@ -41,7 +41,10 @@ trait GenerateRtf
 {
     private function buat_berkas_kk(array $data = [], $format = null): ?string
     {
-        $path_arsip = LOKASI_ARSIP;
+        // RTF disimpan ke folder sementara (BUKAN arsip resmi).
+        // Arsip resmi (desa/arsip/) hanya boleh berisi file PDF yang bersifat immutable.
+        // File RTF adalah derivative yang dapat diubah (mutable) dan merupakan tanggung jawab pengguna.
+        $path_arsip = LOKASI_RTF_SEMENTARA;
         $file       = DEFAULT_LOKASI_EKSPOR . ($format === 'F1.09' ? 'kk-f1.09.rtf' : 'kk.rtf');
         if (! is_file($file)) {
             return null;
@@ -151,6 +154,11 @@ trait GenerateRtf
         $buffer = str_replace('pos', "{$h['kode_pos']}", $buffer);
         $buffer = str_replace('*tertanda', "\\caps {$tertanda}", $buffer);
         $buffer = str_replace('*nip_camat', "{$h['nip_kepala_camat']}", $buffer);
+
+        // Pastikan folder tujuan ada sebelum menulis file
+        if (! is_dir(FCPATH . $path_arsip)) {
+            mkdir(FCPATH . $path_arsip, 0775, true);
+        }
 
         $berkas_arsip = $path_arsip . "kk_{$k['keluarga']['no_kk']}.rtf";
         $handle       = fopen($berkas_arsip, 'w+b');

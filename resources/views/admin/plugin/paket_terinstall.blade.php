@@ -80,7 +80,7 @@
 
             function loadModule() {
                 let urlModule = '{{ $url_marketplace }}'
-                let token = '{{ $token_layanan }}'
+                let token = @json($token_layanan)
 
                 // Jika token tidak ada, tampilkan dari cache atau data lokal
                 if (!token) {

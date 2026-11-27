@@ -40,6 +40,7 @@ namespace Modules\Analisis\Models;
 use App\Enums\JenisKelaminEnum;
 use App\Models\BaseModel;
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -48,6 +49,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class AnalisisIndikator extends BaseModel
 {
     use ConfigId;
+    use HasFactory;
 
     public $timestamps = false;
 

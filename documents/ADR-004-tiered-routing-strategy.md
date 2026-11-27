@@ -60,6 +60,10 @@ Tier 3: CodeIgniter Routes (Fallback)
 
 public function boot(): void
 {
+    RateLimiter::for('api', function (Request $request) {
+        return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+    });
+
     $this->routes(function () {
         // TIER 1: API Routes (prefix: /api)
         Route::middleware('api')
@@ -70,23 +74,40 @@ public function boot(): void
         Route::middleware('web')
             ->group(base_path('routes/web.php'));
         
-        // TIER 3: CodeIgniter Routes (Fallback)
-        if (!$this->isMatchedRouteLaravel()) {
+        // TIER 3: CodeIgniter Routes (Fallback) via request rebinding
+        $this->app->rebinding('request', function ($app, $request) {
+            if ($this->isMatchedRouteLaravel($request)) {
+                return;
+            }
+
+            // Current route sudah di-resolve oleh pre_system (rebinding
+            // CodeIgniterBootstrap yang terdaftar lebih dulu)
+            if (! $this->isMatchedRouteCodeIgniter()) {
+                return;
+            }
+
             $this->extendControllerDispatcher();
             $this->extendRedirectInstance();
             $this->extendViewInstance();
-            $this->configureConfigFromCI();
-            
+            $this->configureConfig();
+
+            global $URI, $RTR, $OUT, $SEC, $IN;
+
+            $URI->setRequest($request);
+            $RTR->setRequest($request);
+            $OUT->setRequest($request);
+            $SEC->setRequest($request);
+            $IN->setRequest($request);
+
             Route::middleware('codeigniter')
                 ->group(base_path('bootstrap/routeCodeIgniter.php'));
-        }
+        });
     });
 }
 
-protected function isMatchedRouteLaravel(): bool
+protected function isMatchedRouteLaravel(Request $request): bool
 {
-    return rescue(fn () => (bool) Route::getRoutes()
-        ->match($this->app->make('request')), false);
+    return rescue(fn () => (bool) Route::getRoutes()->match($request), false);
 }
 ```
 
@@ -252,13 +273,14 @@ Route::resource('artikel', 'Artikel');
 ```
 
 **Route Compilation Process:**
-1. Request tidak match Tier 1 & 2 (Laravel routes) → Fallback ke CI3 via `codeigniter` middleware group
+1. Request tidak match Tier 1 & 2 (Laravel routes) → rebinding `CodeIgniterBootstrap` menjalankan `pre_system` (sekali per request)
 2. `RouterHook::handlePreSystem()` dipanggil pada hook `pre_system` CodeIgniter
 3. `RouterHook` me-load file route (`web.php`, `api.php`, dan module routes)
 4. `RouteBuilder::compileAll()` mengompilasi semua route yang terdefinisi
 5. `RouteBuilder::getByUrl()` menemukan route yang cocok dengan URL request
-6. File `bootstrap/routeCodeIgniter.php` memvalidasi controller dan me-register route dinamis ke Laravel
-7. ✅ Request diproses oleh controller CI3 via Laravel ControllerDispatcher
+6. Rebinding `RouteServiceProvider` cek `isMatchedRouteCodeIgniter()` → fallback ke CI3 via `codeigniter` middleware group
+7. File `bootstrap/routeCodeIgniter.php` memvalidasi controller dan me-register route dinamis ke Laravel
+8. ✅ Request diproses oleh controller CI3 via Laravel ControllerDispatcher
 
 **Characteristics:**
 - Legacy/compatibility routes (ditulis dengan sintaks modern bergaya Laravel)
@@ -362,6 +384,7 @@ Features:
     \Illuminate\Session\Middleware\StartSession::class,
     \Illuminate\View\Middleware\ShareErrorsFromSession::class,
     \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    \App\Http\Middleware\AuthenticateSession::class,
     \App\Http\Middleware\CodeIgniterResponseMiddleware::class, // Special
 ],
 ```
@@ -587,10 +610,10 @@ Saat migrasi route dari CI ke Laravel:
 
 ## References
 
-- [Laravel Routing Documentation](https://laravel.com/docs/10.x/routing)
-- [Route Caching](https://laravel.com/docs/10.x/routing#route-caching)
-- [API Resources](https://laravel.com/docs/10.x/eloquent-resources)
+- [Laravel Routing Documentation](https://laravel.com/docs/11.x/routing)
+- [Route Caching](https://laravel.com/docs/11.x/routing#route-caching)
 
+- [API Resources](https://laravel.com/docs/11.x/eloquent-resources)
 ---
 
 **Decision Maker**: Tim Arsitektur OpenSID  

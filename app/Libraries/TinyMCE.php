@@ -693,7 +693,7 @@ class TinyMCE
     public function generateSurat($surat, array $data, $margins, $defaultFont)
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
-        // $surat = $this->updateHeightTd($surat);
+        $surat = $this->updateHeightTd($surat);
         $pdf = (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(false)
             ->setDefaultFont($defaultFont);
@@ -795,6 +795,10 @@ class TinyMCE
         }
 
         $final_html = implode('', $processed_lampiran);
+        
+        if (! empty($final_html)) {
+            $final_html = $this->updateHeightTd($final_html);
+        }
 
         // pengecekan jika surat nikah maka gunakan margin yang berbeda
         $margin_cm_to_mm = [5, 5, 5, 8];
@@ -898,7 +902,7 @@ class TinyMCE
     {
         // Cek ada file
         if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
-            ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
+            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
         }
         $tagTTE           = self::TAG_TTE;
         $input            = json_decode($surat->input, true) ?? [];
@@ -1009,10 +1013,17 @@ class TinyMCE
 
     private function updateHeightTd($html)
     {
+        // Extract style blocks to prevent DOMDocument from misplacing/nesting tags inside style tags
+        $style_blocks = [];
+        $html_without_styles = preg_replace_callback('/<style\b[^>]*>(.*?)<\/style>/is', function($matches) use (&$style_blocks) {
+            $style_blocks[] = $matches[0];
+            return '<!--STYLE_PLACEHOLDER_' . (count($style_blocks) - 1) . '-->';
+        }, $html);
+
         // Load the HTML into DOMDocument
         libxml_use_internal_errors(true); // Suppress warnings for malformed HTML
         $dom = new DOMDocument();
-        $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $dom->loadHTML(mb_convert_encoding($html_without_styles, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
 
         // Find all <td> elements
@@ -1043,6 +1054,13 @@ class TinyMCE
             }
         }
 
-        return $dom->saveHTML();
+        $parsed_html = $dom->saveHTML();
+
+        // Restore style blocks
+        foreach ($style_blocks as $index => $style_block) {
+            $parsed_html = str_replace('<!--STYLE_PLACEHOLDER_' . $index . '-->', $style_block, $parsed_html);
+        }
+
+        return $parsed_html;
     }
 }

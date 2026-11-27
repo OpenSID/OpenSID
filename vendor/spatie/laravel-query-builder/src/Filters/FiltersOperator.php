@@ -3,23 +3,25 @@
 namespace Spatie\QueryBuilder\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\Filters\Concerns\HandlesRelationConstraints;
 
 /**
- * @template TModelClass of \Illuminate\Database\Eloquent\Model
- * @template-implements Filter<TModelClass>
+ * @template TModel of Model
+ *
+ * @implements Filter<TModel>
  */
 class FiltersOperator implements Filter
 {
+    /** @use HandlesRelationConstraints<TModel> */
     use HandlesRelationConstraints;
 
     public function __construct(
         protected bool $addRelationConstraint,
         protected FilterOperator $filterOperator,
         protected string $boolean,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Builder $query, mixed $value, string $property): void
     {

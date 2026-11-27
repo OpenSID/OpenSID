@@ -37,7 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Libraries\Acak;
 use App\Libraries\Database as LibrariesDatabase;
 use App\Libraries\Ekspor;
 use App\Libraries\FlxZipArchive;
@@ -50,6 +49,8 @@ use App\Models\LogRestoreDesa;
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use App\Models\User;
+use App\Services\FolderDesaCleaner\FolderDesaKeepList;
+use App\Services\FolderDesaCleaner\FolderDesaScanner;
 use App\Traits\Download;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -57,7 +58,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use STS\ZipStream\Facades\Zip;
-use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
 {
@@ -79,6 +79,7 @@ class Database extends Admin_Controller
 
     public function index(): void
     {
+        $kebutuhan = Sistem::cekKebutuhanSistem();
         $data = [
             'content'      => 'admin.database.backup',
             'form_action'  => setting('multi_desa') ? ci_route('multiDB.restore') : ci_route('database.restore'),
@@ -87,7 +88,9 @@ class Database extends Admin_Controller
             'act_tab'      => 1,
             'inkremental'  => LogBackup::where('status', '<', 2)->latest()->first(),
             'restore'      => LogRestoreDesa::where('status', '=', 0)->exists(),
-            'memory_limit' => Arr::get(Sistem::cekKebutuhanSistem(), 'memory_limit.result'),
+            'memory_limit' => Arr::get($kebutuhan, 'memory_limit.result'),
+            'upload_max'   => Arr::get($kebutuhan, 'upload_max_filesize.result'),
+            'post_max'     => Arr::get($kebutuhan, 'post_max_size.result'),
         ];
 
         view('admin.database.index', $data);
@@ -229,9 +232,9 @@ class Database extends Admin_Controller
             ]);
         }
 
-        $process = new Process(['php', '-f', FCPATH . 'index.php', 'job', 'backup_inkremental', $lokasi]);
-        $process->disableOutput()->setOptions(['create_new_console' => true]);
-        $process->start();
+        $index = escapeshellarg(FCPATH . 'index.php');
+        $lok   = escapeshellarg($lokasi);
+        shell_exec('nohup ' . escapeshellarg($this->phpCliBinary()) . " -f {$index} job backup_inkremental {$lok} > /dev/null 2>&1 &");
 
         return json([
             'status'  => true,
@@ -262,21 +265,30 @@ class Database extends Admin_Controller
     {
         isCan('u', 'database', true, true);
 
-        $token   = setting('layanan_opendesa_token');
+        $token            = setting('layanan_opendesa_token');
+        $telegramSettings = SettingAplikasi::whereIn('key', ['telegram_notifikasi', 'telegram_token', 'telegram_user_id'])
+            ->pluck('value', 'key')
+            ->all();
+        $emailSettings = SettingAplikasi::whereIn('key', ['email_notifikasi', 'email_protocol', 'email_smtp_host', 'email_smtp_user', 'email_smtp_pass', 'email_smtp_port', 'email_smtp_encryption'])
+            ->pluck('value', 'key')
+            ->all();
         $pesan   = 'Proses restore database berhasil';
         $success = false;
 
         try {
             $this->session->sedang_restore = 1;
 
-            $filename = $this->file_restore();
+            $filename     = $this->file_restore();
+            $paksaRestore = $this->input->post('paksa_restore') === 'Y';
 
-            if (! $this->validateAppKeyFromSqlFile($filename)) {
-                throw new Exception('File backup tidak dapat di-restore. File backup berasal dari instalasi OpenSID yang berbeda (App Key tidak cocok). Pastikan Anda menggunakan file backup dari instalasi yang sama.');
+            // Saat "Pertahankan kredensial lokal" dicentang, restore dari instalasi
+            // berbeda diizinkan — lewati cek kecocokan App Key.
+            if (! $paksaRestore && ! $this->validateAppKeyFromSqlFile($filename)) {
+                throw new Exception('File backup tidak dapat di-restore. File backup berasal dari instalasi OpenSID yang berbeda (App Key tidak cocok). Centang "Pertahankan kredensial lokal" untuk tetap melanjutkan.');
             }
 
             DB::statement('SET FOREIGN_KEY_CHECKS=0');
-            $success = (new Ekspor())->restore($filename);
+            $success = (new Ekspor())->restore($filename, $paksaRestore);
         } catch (Throwable $e) {
             logger()->error($e);
             $pesan = $e->getMessage();
@@ -290,6 +302,28 @@ class Database extends Admin_Controller
                 SettingAplikasi::where('key', 'layanan_opendesa_token')->update(['value' => $token]);
             }
 
+            // Pertahankan kredensial lokal: kembalikan setelan notifikasi lokal agar
+            // notifikasi login tidak terkirim ke admin instalasi asal backup, dan paksa
+            // admin verifikasi ulang karena hash password bisa berubah setelah restore.
+            if ($this->input->post('paksa_restore') === 'Y') {
+                foreach ($telegramSettings as $key => $value) {
+                    SettingAplikasi::where('key', $key)->update(['value' => $value]);
+                }
+
+                if ($emailSettings !== []) {
+                    foreach ($emailSettings as $key => $value) {
+                        SettingAplikasi::where('key', $key)->update(['value' => $value]);
+                    }
+                }
+
+                // Mass update tidak memicu model events sehingga QueryCacheable tidak
+                // otomatis di-invalidate. Flush eksplisit agar request berikutnya membaca
+                // setelan notifikasi yang sudah dikembalikan dari DB.
+                (new SettingAplikasi())->flushQueryCache();
+
+                $this->session->change_password = true;
+            }
+
             $this->session->sedang_restore = 0;
 
             if ($success) {
@@ -300,19 +334,107 @@ class Database extends Admin_Controller
         }
     }
 
-    public function acak()
+    /**
+     * Scan folder desa/ dan tampilkan kandidat file untuk dihapus.
+     * Hanya dapat diakses oleh super admin.
+     */
+    public function bersih_folder(): void
     {
         isCan('u');
-        if (setting('penggunaan_server') != 6 && ! super_admin()) {
-            return null;
+        if (! super_admin()) {
+            redirect('database');
         }
-        $acakModel = new Acak();
-        $data      = [
-            'penduduk' => $acakModel->acakPenduduk(),
-            'keluarga' => $acakModel->acakKeluarga(),
+
+        // "Scan ulang" mengosongkan daftar file yang dipertahankan (mulai dari awal);
+        // navigasi biasa ke tab mempertahankan pilihan sebelumnya.
+        if ($this->input->get('rescan')) {
+            (new FolderDesaKeepList())->clear();
+        }
+
+        $this->tampilkanScanBersihFolder();
+    }
+
+    /**
+     * Simpan pilihan (file yang di-deselect / dipertahankan) tanpa menghapus,
+     * agar pilihan tetap berlaku saat kembali ke tab maupun saat proses Acak.
+     */
+    public function simpan_bersih_folder(): void
+    {
+        isCan('u');
+        if (! super_admin()) {
+            redirect('database');
+        }
+
+        (new FolderDesaKeepList())->set($this->keepDariRequest());
+
+        $this->tampilkanScanBersihFolder(tersimpan: true);
+    }
+
+    /**
+     * Hapus file (semua hasil scan KECUALI yang dipertahankan) dan tampilkan hasil.
+     * Pilihan file yang dipertahankan juga disimpan. Hanya untuk super admin.
+     */
+    public function hapus_bersih_folder(): void
+    {
+        isCan('u');
+        if (! super_admin()) {
+            redirect('database');
+        }
+
+        $keep = $this->keepDariRequest();
+        (new FolderDesaKeepList())->set($keep);
+
+        $scanner   = new FolderDesaScanner();
+        $partition = FolderDesaScanner::partition($scanner->scan(), $keep);
+
+        $data = [
+            'act_tab' => 3,
+            'content' => 'admin.database.bersih_folder',
+            'step'    => 'result',
+            'result'  => $scanner->delete($partition['bulkKeys'], $partition['filePaths']),
         ];
 
-        return view('admin.database.acak.index', $data);
+        view('admin.database.index', $data);
+    }
+
+    /**
+     * Render langkah scan Bersihkan Folder Desa dengan daftar file yang
+     * dipertahankan (tersimpan) diterapkan.
+     */
+    private function tampilkanScanBersihFolder(bool $tersimpan = false): void
+    {
+        $data = [
+            'act_tab'   => 3,
+            'content'   => 'admin.database.bersih_folder',
+            'step'      => 'scan',
+            'groups'    => (new FolderDesaScanner())->scan(),
+            'keep'      => (new FolderDesaKeepList())->get(),
+            'scannedAt' => Carbon::now(),
+            'tersimpan' => $tersimpan,
+        ];
+
+        view('admin.database.index', $data);
+    }
+
+    /**
+     * Path relatif yang dipertahankan (di-deselect) dari request, dikirim sebagai
+     * JSON pada field keep_json.
+     *
+     * @return list<string>
+     */
+    private function keepDariRequest(): array
+    {
+        $keep = (array) $this->input->post('keep_paths');
+
+        $json = $this->input->post('keep_json');
+        if (is_string($json) && $json !== '') {
+            $decoded = json_decode($json, true);
+            if (is_array($decoded)) {
+                $keep = array_merge($keep, $decoded);
+            }
+        }
+
+        return array_values(array_filter($keep, 'is_string'));
     }
 
     // Digunakan untuk server yg hanya digunakan untuk web publik
@@ -470,15 +592,15 @@ class Database extends Admin_Controller
             $uploadData = $this->upload->data();
 
             $id = LogRestoreDesa::create([
-                'ukuran'     => $uploadData['file_name'],
-                'path'       => $uploadData['full_path'],
-                'restore_at' => date('Y-m-d H:i:s'),
-                'status'     => 0,
+                'ukuran'        => $uploadData['file_name'],
+                'path'          => $uploadData['full_path'],
+                'restore_at'    => date('Y-m-d H:i:s'),
+                'status'        => 0,
+                'paksa_restore' => $this->input->post('paksa_restore_desa') === 'Y',
             ])->id;
 
-            $process = new Process(['php', '-f', FCPATH . 'index.php', 'job', 'restore_desa', $id]);
-            $process->disableOutput()->setOptions(['create_new_console' => true]);
-            $process->start();
+            $index = escapeshellarg(FCPATH . 'index.php');
+            shell_exec('nohup ' . escapeshellarg($this->phpCliBinary()) . " -f {$index} job restore_desa " . (int) $id . ' > /dev/null 2>&1 &');
 
             return json([
                 'status'  => true,
@@ -506,6 +628,25 @@ class Database extends Admin_Controller
             $value->save();
         }
         redirect($this->controller);
+    }
+
+    /**
+     * Status restore folder desa terkini untuk polling dari frontend.
+     * Status: 0 = proses, 1 = selesai, -1 = gagal, 3 = dibatalkan.
+     */
+    public function status_restore()
+    {
+        $log = LogRestoreDesa::latest()->first();
+
+        return json([
+            'status'  => $log ? (int) $log->status : null,
+            'message' => match ($log?->status) {
+                1       => 'Restore folder desa berhasil.',
+                -1      => 'Restore folder desa gagal.',
+                3       => 'Restore dibatalkan.',
+                default => 'Sedang dalam proses...',
+            },
+        ]);
     }
 
     public function file_restore()
@@ -611,5 +752,20 @@ class Database extends Admin_Controller
             // Jika terjadi error dalam validasi, anggap valid untuk menghindari blocking
             return true;
         }
+    }
+
+    /**
+     * Temukan biner PHP CLI yang bisa dipakai untuk proses job background.
+     *
+     * PHP_BINARY pada konteks FPM adalah daemon php-fpm, bukan biner CLI. Pemetaannya
+     * berbeda-beda tergantung lingkungan:
+     *   Homebrew macOS : …/sbin/php-fpm        → …/bin/php
+     *   Docker         : /usr/local/bin/php-fpm → /usr/local/bin/php
+     *   Ubuntu/Debian  : /usr/sbin/php-fpm8.4   → /usr/bin/php8.4
+     *   Local/Laragon  : …/bin/php-fpm          → …/bin/php
+     */
+    private function phpCliBinary(): string
+    {
+        return php_cli_binary();
     }
 }

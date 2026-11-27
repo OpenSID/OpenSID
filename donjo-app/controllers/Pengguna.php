@@ -37,11 +37,14 @@
 
 use App\Libraries\OTP\OtpManager;
 use App\Models\User;
+use App\Rules\MatchesCurrentPassword;
+use App\Rules\NotInPasswordHistory;
 use App\Services\OtpService;
 use App\Traits\UploadFotoUser;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -121,7 +124,17 @@ class Pengguna extends Admin_Controller
             return redirect_with('error', 'Anda harus memverifikasi email sebelum mengaktifkan autentikasi dua faktor.', 'pengguna#2fa');
         }
 
-        $user->two_factor_enabled = $this->request['two_factor_enabled'];
+        $password = $this->request['konfirmasi_password'] ?? '';
+
+        if (empty($password)) {
+            return redirect_with('error', 'Password harus diisi untuk mengubah pengaturan keamanan.', 'pengguna#2fa');
+        }
+
+        if (! Hash::check($password, $user->password)) {
+            return redirect_with('error', 'Password yang Anda masukkan tidak sesuai.', 'pengguna#2fa');
+        }
+
+        $user->two_factor_enabled = (int) $this->request['two_factor_enabled'];
         $user->save();
 
         return redirect_with('success', 'Pengaturan keamanan berhasil diperbarui.', 'pengguna#2fa');
@@ -149,10 +162,20 @@ class Pengguna extends Admin_Controller
             return redirect('pengguna');
         }
 
+        // Email Desa diperlukan sebagai pengirim verifikasi email.
+        if (empty(identitas('email_desa'))) {
+            return redirect_with(
+                key: 'error',
+                value: 'Tidak dapat mengirim verifikasi email karena <b>Email Desa</b> belum diisi. Silakan lengkapi terlebih dahulu pada Identitas Desa.',
+                to: 'identitas_desa/form',
+                autodismis: true
+            );
+        }
+
         try {
             $request->user()->sendEmailVerificationNotification();
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
+            log_message('error', $e);
 
             return redirect_with('error', 'Tidak berhasil mengirim verifikasi email', 'pengguna');
         }
@@ -284,54 +307,47 @@ class Pengguna extends Admin_Controller
             ];
         }
 
-        $pass_lama  = $request['pass_lama'];
-        $pass_baru  = $request['pass_baru'];
-        $pass_baru1 = $request['pass_baru1'];
-        $pwMasihMD5 = (strlen(ci_auth()->password) == 32) && (stripos(ci_auth()->password, '$') === false);
+        $user = auth('admin')->user();
 
-        if (empty($pass_lama) || empty($pass_baru) || empty($pass_baru1)) {
+        $validator = Validator::make(
+            $request,
+            [
+                'pass_lama' => [
+                    'required',
+                    new MatchesCurrentPassword($user),
+                ],
+                'pass_baru' => [
+                    'required',
+                    'different:pass_lama',
+                    'regex:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/',
+                    new NotInPasswordHistory($user),
+                ],
+                'pass_baru1' => [
+                    'required',
+                    'same:pass_baru',
+                ],
+            ],
+            [
+                'pass_lama.required'  => 'Sandi gagal diganti, <b>Sandi</b> tidak boleh kosong.',
+                'pass_baru.required'  => 'Sandi gagal diganti, <b>Sandi</b> tidak boleh kosong.',
+                'pass_baru1.required' => 'Sandi gagal diganti, <b>Sandi</b> tidak boleh kosong.',
+                'pass_baru.different' => '<b>Sandi</b> gagal diganti, Silakan ganti <b>Sandi Lama</b> Anda dengan <b>Sandi Baru</b>.',
+                'pass_baru.regex'     => 'Sandi gagal diganti, <b>Sandi Baru</b> ' . SYARAT_SANDI . '.',
+                'pass_baru1.same'     => 'Sandi gagal diganti, <b>Sandi Baru</b> dan <b>Sandi Baru (Ulangi)</b> tidak sama.',
+            ]
+        );
+
+        if ($validator->fails()) {
             return [
                 'status' => false,
-                'pesan'  => 'Sandi gagal diganti, <b>Sandi</b> tidak boleh kosong.',
+                'pesan'  => $validator->errors()->first(),
             ];
         }
 
-        if (! preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $pass_baru)) {
-            return [
-                'status' => false,
-                'pesan'  => 'Sandi gagal diganti, <b>Sandi Baru</b> ' . SYARAT_SANDI . '.',
-            ];
-        }
-
-        if (($pwMasihMD5 && md5($pass_lama) != ci_auth()->password) || (! $pwMasihMD5 && ! Hash::check($pass_lama, ci_auth()->password))) {
-            return [
-                'status' => false,
-                'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang Anda masukkan tidak sesuai.',
-            ];
-        }
-
-        if ($pass_baru == $pass_lama) {
-            return [
-                'status' => false,
-                'pesan'  => '<b>Sandi</b> gagal diganti, Silakan ganti <b>Sandi Lama</b> Anda dengan <b>Sandi Baru</b>.',
-            ];
-        }
-
-        if ($pass_baru != $pass_baru1) {
-            return [
-                'status' => false,
-                'pesan'  => 'Sandi gagal diganti, <b>Sandi Baru</b> dan <b>Sandi Baru (Ulangi)</b> tidak sama.',
-            ];
-        }
-
-        $user           = User::findOrFail(ci_auth()->id);
-        $user->password = Hash::make($pass_baru);
+        $user->password = Hash::make($request['pass_baru']);
 
         if ($user->update()) {
-            // Regenerate session ID
             $this->session->sess_regenerate();
-
-            // Update session dengan user data terbaru
             $this->session->isAdmin = $user;
 
             return [

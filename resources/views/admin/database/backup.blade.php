@@ -133,6 +133,7 @@
                                                     onsubmit="showLoadingForm('Sedang memulihkan database, proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.')"
                                                 >
                                                     <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
+                                                    <p class="help-block small"><strong>Catatan:</strong> Batas di atas didasarkan pada konfigurasi PHP. Jika Anda menggunakan Nginx/Apache/OpenLiteSpeed, pastikan batas unggah web server Anda (seperti <code>client_max_body_size</code> pada Nginx) juga telah dikonfigurasi agar sesuai dengan ukuran file backup Anda.</p>
                                                     <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                                                     <p></p>
                                                     <table class="table table-bordered table-hover">
@@ -140,11 +141,11 @@
                                                             <tr>
                                                                 <td style="padding-top:20px;padding-bottom:10px;">
                                                                     <div class="form-group">
-                                                                        <label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .sql atau .sql.gz:</label>
+                                                                        <label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .sql, .gz, atau .sql.gz:</label>
                                                                         <div class="col-sm-12 col-md-5 col-lg-5">
                                                                             <div class="input-group input-group-sm">
                                                                                 <input type="text" class="form-control" id="file_path" name="userfile">
-                                                                                <input type="file" class="hidden" id="file" name="userfile" data-submit="restore" accept=".sql,.sql.gz">
+                                                                                <input type="file" class="hidden" id="file" name="userfile" data-submit="restore" accept=".sql,.gz,.sql.gz">
                                                                                 <span class="input-group-btn">
                                                                                     <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                                                                 </span>
@@ -157,6 +158,8 @@
                                                                         <div class="col-sm-12 col-md-5 col-lg-5">
                                                                             <input type="checkbox" id="hapus_token" name="hapus_token" value="N">
                                                                             <label for="hapus_token">Amankan Token Layanan Saat Ini</label><br>
+                                                                            <input type="checkbox" id="paksa_restore" name="paksa_restore" value="Y">
+                                                                            <label for="paksa_restore" style="display:inline;">Pertahankan kredensial lokal <small class="text-muted">(restore dari instalasi berbeda: pertahankan App Key, koneksi database, dan akun admin lokal)</small></label>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -183,6 +186,7 @@
                                                     onsubmit="showLoadingForm('Sedang memulihkan database, proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.')"
                                                 >
                                                     <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
+                                                    <p class="help-block small"><strong>Catatan:</strong> Batas di atas didasarkan pada konfigurasi PHP. Jika Anda menggunakan Nginx/Apache/OpenLiteSpeed, pastikan batas unggah web server Anda (seperti <code>client_max_body_size</code> pada Nginx) juga telah dikonfigurasi agar sesuai dengan ukuran file backup Anda.</p>
                                                     <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                                                     <p></p>
                                                     <table class="table table-bordered table-hover">
@@ -230,6 +234,7 @@
                                             <div class="col-sm-12">
                                                 <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan folder desa Anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan folder desa dengan data hasil backup terdahulu.</p>
                                                 <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
+                                                <p class="help-block small"><strong>Catatan:</strong> Batas di atas didasarkan pada konfigurasi PHP. Jika Anda menggunakan Nginx/Apache/OpenLiteSpeed, pastikan batas unggah web server Anda (seperti <code>client_max_body_size</code> pada Nginx) juga telah dikonfigurasi agar sesuai dengan ukuran file backup Anda.</p>
                                                 <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                                                 <p></p>
                                                 <table class="table table-bordered table-hover">
@@ -250,6 +255,11 @@
                                                                     <div class="col-sm-12 col-md-3 col-lg-2">
                                                                         <button type="button" id="restore-desa" class="btn btn-block btn-success btn-sm {{ $restore == true ? 'hidden' : '' }}" disabled="disabled"><i class="fa fa-spin fa-refresh"></i>Restore</button>
                                                                         <a class="btn btn-block btn-warning btn-sm {{ $restore == false ? 'hidden' : '' }}" href="{{ ci_route('database.batal_restore') }}"><i class="fa fa-spin fa-refresh"></i>Batalkan proses restore</a>
+                                                                    </div>
+                                                                    <div class="col-md-2 col-lg-3"></div>
+                                                                    <div class="col-sm-12 col-md-5 col-lg-5">
+                                                                        <input type="checkbox" id="paksa_restore_desa" name="paksa_restore_desa" value="Y">
+                                                                        <label for="paksa_restore_desa" style="display:inline;">Pertahankan kredensial lokal <small class="text-muted">(restore dari instalasi berbeda: jangan timpa koneksi database &amp; app_key lokal)</small></label>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -300,6 +310,19 @@
             <div class="callout callout-warning">
                 <h4><i class="fa fa-warning"></i>&nbsp;&nbsp;Informasi</h4>
                 <p>Backup tidak dapat dilakukan karena keterbatasan memori belum sesuai, silakan periksa <a href="{{ base_url('info_sistem#ekstensi') }}">disini.</a></p>
+            </div>
+            `
+                            );
+                        </script>
+                    @endif
+
+                    @if (!$upload_max || !$post_max)
+                        <script>
+                            $("#maincontent").prepend(
+                                `
+            <div class="callout callout-warning">
+                <h4><i class="fa fa-warning"></i>&nbsp;&nbsp;Informasi</h4>
+                <p>Syarat batas unggah (upload_max_filesize / post_max_size) minimal belum terpenuhi di konfigurasi PHP Anda. Proses restore mungkin akan gagal jika file backup berukuran besar. Silakan periksa <a href="{{ base_url('info_sistem#ekstensi') }}">disini.</a></p>
             </div>
             `
                             );

@@ -354,6 +354,12 @@ class Periksa
             $this->periksa['nik_kepala_bukan_kepala_keluarga'] = $nikKepalaBukanKepalaKeluarga->toArray();
         }
 
+        $keuanganTemplateTidakSama = $this->deteksiKeuanganTemplateTidakSama();
+        if (! empty($keuanganTemplateTidakSama)) {
+            $this->periksa['masalah'][]                     = 'keuangan_template_tidak_sama';
+            $this->periksa['keuangan_template_tidak_sama'] = $keuanganTemplateTidakSama;
+        }
+
         // keluarga tanpa nik_kepala
         // $keluargaTanpaNikKepala = $this->deteksiKeluargaTanpaNikKepala();
         // if (! $keluargaTanpaNikKepala->isEmpty()) {
@@ -461,7 +467,7 @@ class Periksa
 
     private function deteksiCollationTableTidakSesuai()
     {
-        return DB::select("SELECT TABLE_NAME, TABLE_COLLATION FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{$this->databaseOption['database']}' AND TABLE_COLLATION != '{$this->databaseOption['collation']}'");
+        return DB::select("SELECT TABLE_NAME, TABLE_COLLATION FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = ? AND TABLE_COLLATION != ?", [$this->databaseOption['database'], $this->databaseOption['collation']]);
     }
 
     private function deteksiJabatan(): array
@@ -755,7 +761,11 @@ class Periksa
     private function perbaikiLogKeluargaBermasalah(): void
     {
         $configId = identitas('id');
-        $userId   = ci_auth()->id;
+        // ci_auth()->id kosong pada konteks headless (mis. job Acak Data yang
+        // detached, tanpa sesi login) — tanpa fallback, SQL mentah menghasilkan
+        // "… , AS updated_by" dan perbaiki() gagal total. Samakan dengan pola di
+        // perbaikiKepalaKeluargaGanda (baris 471).
+        $userId   = ci_auth()->id ?? User::first()->id;
         $sql      = "
             INSERT INTO log_keluarga (config_id, id_kk, id_peristiwa, tgl_peristiwa, updated_by)
             SELECT
@@ -899,9 +909,231 @@ class Periksa
                 $this->tambahRelasiArtikelUser();
                 break;
 
+            case 'keuangan_template_tidak_sama':
+                $this->perbaikiKeuanganTemplate();
+                break;
+
             default:
                 break;
         }
+    }
+
+    public function perbaikiKeuanganTemplateSingleItem(string $currentUuid = '', string $expectedUuid = '', ?string $expectedParentUuid = null, ?string $uraian = null): void
+    {
+        try {
+            DB::transaction(function () {
+                $fkChecksSemula = DB::selectOne('SELECT @@FOREIGN_KEY_CHECKS AS v')->v ?? 1;
+
+                try {
+                    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+                    // 1. Deteksi data tidak sesuai dan alihkan relasi di tabel 'keuangan'
+                    $invalidData = $this->deteksiKeuanganTemplateTidakSama();
+
+                    foreach ($invalidData as $item) {
+                        if (! empty($item['current_uuid']) && ! empty($item['expected_uuid']) && $item['current_uuid'] !== $item['expected_uuid']) {
+                            DB::table('keuangan')
+                                ->where('template_uuid', $item['current_uuid'])
+                                ->update(['template_uuid' => $item['expected_uuid']]);
+
+                            DB::table('keuangan_template')
+                                ->where('parent_uuid', $item['current_uuid'])
+                                ->where('uuid', '!=', $item['expected_uuid'])
+                                ->update(['parent_uuid' => $item['expected_uuid']]);
+                        }
+                    }
+
+                    // 2. Kosongkan & isi ulang tabel 'keuangan_template' dari seeder resmi
+                    DB::table('keuangan_template')->delete();
+
+                    $seederData = \Database\Seeders\KeuanganTemplateSeeder::listData();
+                    $now        = now();
+                    $insertData = [];
+                    $validUuids = [];
+
+                    foreach ($seederData as $template) {
+                        $validUuids[] = $template['uuid'];
+                        $insertData[] = [
+                            'uuid'        => $template['uuid'],
+                            'parent_uuid' => $template['parent_uuid'] ?? null,
+                            'uraian'      => $template['uraian'] ?? '',
+                            'created_by'  => 1,
+                            'updated_by'  => 1,
+                            'created_at'  => $now,
+                            'updated_at'  => $now,
+                        ];
+                    }
+
+                    foreach (array_chunk($insertData, 100) as $chunk) {
+                        DB::table('keuangan_template')->insertOrIgnore($chunk);
+                    }
+
+                    // 3. Pembersihan data invalid di tabel 'keuangan' berdasarkan tahun jika template_uuid tidak terdaftar
+                    $tahunList = DB::table('keuangan')->distinct()->pluck('tahun')->filter()->toArray();
+
+                    if (! empty($tahunList)) {
+                        DB::table('keuangan')
+                            ->whereIn('tahun', $tahunList)
+                            ->whereNotIn('template_uuid', $validUuids)
+                            ->delete();
+                    }
+                } finally {
+                    DB::statement('SET FOREIGN_KEY_CHECKS=' . (int) $fkChecksSemula . ';');
+                }
+            });
+
+            Log::notice('Berhasil memperbaiki struktur keuangan_template dan menyelaraskan data keuangan.');
+        } catch (\Throwable $e) {
+            Log::error('Gagal saat perbaikiKeuanganTemplateSingleItem: ' . $e->getMessage(), [
+                'currentUuid'  => $currentUuid,
+                'expectedUuid' => $expectedUuid,
+                'uraian'       => $uraian,
+                'file'         => $e->getFile(),
+                'line'         => $e->getLine(),
+                'exception'    => $e,
+            ]);
+
+            throw $e;
+        }
+    }
+
+    public function deteksiKeuanganTemplateTidakSama(): array
+    {
+        $seederData    = \Database\Seeders\KeuanganTemplateSeeder::listData();
+        $seederUuidMap = [];
+        $seederMap     = [];
+
+        foreach ($seederData as $item) {
+            $seederUuidMap[$item['uuid']] = $item;
+            $key                          = strtolower(trim($item['uraian']));
+
+            if (! isset($seederMap[$key])) {
+                $seederMap[$key] = [];
+            }
+
+            $seederMap[$key][] = $item;
+        }
+
+        $all_data         = DB::table('keuangan_template')->get();
+        $invalid          = [];
+        $validUuidPattern = '/^\d+(\.\d+)*(-[\d-]+)?$/';
+
+        foreach ($all_data as $row) {
+            $uraianKey            = strtolower(trim($row->uraian));
+            $expected_uuid        = null;
+            $expected_parent_uuid = null;
+            $isAmbiguous          = false;
+            $isUuidValidFormat    = preg_match($validUuidPattern, $row->uuid);
+            $isParentValidFormat  = $row->parent_uuid === null || preg_match($validUuidPattern, $row->parent_uuid);
+
+            if (isset($seederMap[$uraianKey])) {
+                $candidates = $seederMap[$uraianKey];
+                $bestCand   = null;
+
+                // Prioritas 1: Exact match uuid & parent_uuid
+                foreach ($candidates as $cand) {
+                    if ($cand['uuid'] === $row->uuid && $cand['parent_uuid'] === $row->parent_uuid) {
+                        $bestCand = $cand;
+                        break;
+                    }
+                }
+
+                // Prioritas 2: Match uuid
+                if (! $bestCand) {
+                    foreach ($candidates as $cand) {
+                        if ($cand['uuid'] === $row->uuid) {
+                            $bestCand = $cand;
+                            break;
+                        }
+                    }
+                }
+
+                // Prioritas 3: Match parent_uuid
+                if (! $bestCand && $row->parent_uuid) {
+                    foreach ($candidates as $cand) {
+                        if ($cand['parent_uuid'] === $row->parent_uuid) {
+                            $bestCand = $cand;
+                            break;
+                        }
+                    }
+                }
+
+                // Prioritas 4: uraian sama tidak unik di seeder (mis. "Lain-lain") dan tidak ada
+                // kecocokan uuid/parent_uuid sama sekali; jangan asal pilih candidate pertama
+                // karena bisa memindahkan relasi keuangan ke uuid yang salah. Tandai ambigu dan
+                // biarkan admin mengonfirmasi manual.
+                if (! $bestCand) {
+                    if (count($candidates) > 1) {
+                        $isAmbiguous = true;
+                    }
+
+                    $bestCand = $candidates[0];
+                }
+
+                if (! $isAmbiguous) {
+                    $expected_uuid        = $bestCand['uuid'];
+                    $expected_parent_uuid = $bestCand['parent_uuid'];
+                }
+            } else {
+                if (! $isUuidValidFormat) {
+                    $expected_uuid        = '4.1';
+                    $expected_parent_uuid = '4';
+                }
+            }
+
+            if ($isAmbiguous) {
+                $invalid[] = [
+                    'current_uuid'         => $row->uuid,
+                    'current_parent_uuid'  => $row->parent_uuid,
+                    'uraian'               => $row->uraian,
+                    'expected_uuid'        => null,
+                    'expected_parent_uuid' => null,
+                    'problems'             => "uraian '{$row->uraian}' tidak unik di seeder (" . count($candidates) . ' kandidat) dan tidak ada kecocokan uuid/parent_uuid; perlu konfirmasi manual.',
+                    'tindakan'             => 'Perlu Konfirmasi (Ambigu)',
+                ];
+
+                continue;
+            }
+
+            if ($expected_uuid !== null) {
+                $problems = [];
+
+                if ($row->uuid !== $expected_uuid || ! $isUuidValidFormat) {
+                    $problems[] = "uuid = {$row->uuid} (format tidak sesuai, harusnya = {$expected_uuid})";
+                }
+
+                if ($row->parent_uuid !== $expected_parent_uuid || ! $isParentValidFormat) {
+                    $parentExpectStr = $expected_parent_uuid !== null ? "'{$expected_parent_uuid}'" : 'null';
+                    $parentCurrStr   = $row->parent_uuid !== null ? "'{$row->parent_uuid}'" : 'null';
+                    $problems[]      = "parent_uuid = {$parentCurrStr} (format tidak sesuai, harusnya = {$parentExpectStr})";
+                }
+
+                if (! empty($problems)) {
+                    $tindakan = 'Perbarui Parent UUID';
+
+                    if ($row->uuid !== $expected_uuid) {
+                        $tindakan = 'Hapus & Pindahkan Relasi';
+                    }
+
+                    $invalid[] = [
+                        'current_uuid'         => $row->uuid,
+                        'current_parent_uuid'  => $row->parent_uuid,
+                        'uraian'               => $row->uraian,
+                        'expected_uuid'        => $expected_uuid,
+                        'expected_parent_uuid' => $expected_parent_uuid,
+                        'problems'             => implode('; ', $problems),
+                        'tindakan'             => $tindakan,
+                    ];
+                }
+            }
+        }
+
+        return $invalid;
+    }
+
+    private function perbaikiKeuanganTemplate(): void
+    {
+        $this->perbaikiKeuanganTemplateSingleItem();
     }
 
     private function deteksiArtikelKategoriOrphan()

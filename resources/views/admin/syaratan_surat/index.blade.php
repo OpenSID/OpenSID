@@ -24,19 +24,19 @@
             ])
         </div>
         <div class="box-body">
-            {!! form_open(null, 'id="mainform" name="mainform"') !!}
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover" id="tabeldata">
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" id="checkall" /></th>
-                            <th class="padat">NO</th>
-                            <th class="padat">AKSI</th>
-                            <th>NAMA DOKUMEN</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+            <form id="mainform" name="mainform">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="tabeldata">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="checkall" /></th>
+                                <th class="padat">NO</th>
+                                <th class="padat">AKSI</th>
+                                <th>NAMA DOKUMEN</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </form>
         </div>
     </div>
@@ -51,7 +51,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('surat_mohon.datatables') }}",
+                    url: "{{ route('surat_mohon.datatables') }}",
                     method: 'POST',
                 },
                 columns: [{

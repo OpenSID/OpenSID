@@ -38,6 +38,7 @@
 use App\Models\InventarisJalan;
 use App\Models\MutasiInventarisJalan;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -156,7 +157,7 @@ class Inventaris_jalan_mutasi extends Admin_Controller
         }
 
         $data['tip']        = 2;
-        $data['controller'] = str_replace_last('_mutasi', '', $this->controller);
+        $data['controller'] = Str::replaceLast('_mutasi', '', $this->controller);
 
         view('admin.inventaris.jalan.mutasi.form', $data);
     }

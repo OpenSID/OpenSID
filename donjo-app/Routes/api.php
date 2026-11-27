@@ -120,13 +120,6 @@ Route::group('internal_api', ['namespace' => 'internal_api'], static function ()
         Route::match(['GET', 'POST'], '{suplemen}', 'Suplemen@anggota')->name('api.suplemen.anggota');
     });
 
-    // Analisis
-    Route::group('analisis', static function (): void {
-        Route::get('master', 'Analisis@master')->name('api.analisis.master');
-        Route::match(['GET', 'POST'], 'indikator', 'Analisis@indikator')->name('api.analisis.indikator');
-        Route::match(['GET', 'POST'], 'jawaban', 'Analisis@jawaban')->name('api.analisis.jawaban');
-    });
-
     // Rute untuk PPID
     Route::match(['GET', 'POST'], 'ppid', 'Api_informasi_publik@ppid');
 });

@@ -27,7 +27,9 @@ class DriveFileCapabilities extends \Google\Model
    */
   public $canAcceptOwnership;
   /**
-   * Whether the current user can access this file via Gen AI features.
+   * Whether the current user can access this file via Gen AI features. For more
+   * information, see [Drive MCP file eligibility](https://developers.google.com
+   * /workspace/drive/api/guides/drive-mcp-server-file-eligibility).
    *
    * @var bool
    */
@@ -364,7 +366,9 @@ class DriveFileCapabilities extends \Google\Model
     return $this->canAcceptOwnership;
   }
   /**
-   * Whether the current user can access this file via Gen AI features.
+   * Whether the current user can access this file via Gen AI features. For more
+   * information, see [Drive MCP file eligibility](https://developers.google.com
+   * /workspace/drive/api/guides/drive-mcp-server-file-eligibility).
    *
    * @param bool $canAccessViaGenAi
    */

@@ -853,6 +853,15 @@ class Import
 
             return false;
         }
+
+        $max_size_setting = (int) (setting('impor_data_penduduk') ?: 2);
+        $max_size_bytes   = $max_size_setting * 1024 * 1024;
+        if (isset($_FILES['userfile']['size']) && $_FILES['userfile']['size'] > $max_size_bytes) {
+            set_session('error', ' -> Ukuran file melebihi batas ' . $max_size_setting . ' MB');
+
+            return false;
+        }
+
         $mime_type_excel = ['application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12', 'application/wps-office.xlsx'];
         if (! in_array(strtolower((string) $_FILES['userfile']['type']), $mime_type_excel)) {
             set_session('error', ' -> Jenis file salah: ' . $_FILES['userfile']['type']);

@@ -59,11 +59,9 @@ final class Statement implements StatementInterface
         private readonly mixed $conn,
         private string $sql,
     ) {
-        if (stripos($sql, 'INSERT INTO ') !== 0) {
-            return;
+        if (stripos($sql, 'INSERT INTO ') === 0) {
+            $this->sql .= self::LAST_INSERT_ID_SQL;
         }
-
-        $this->sql .= self::LAST_INSERT_ID_SQL;
     }
 
     public function bindValue(int|string $param, mixed $value, ParameterType $type): void

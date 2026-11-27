@@ -240,9 +240,9 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-@\=';
 |
 */
 $config['enable_query_strings'] = false;
-$config['controller_trigger']   = 'c';
-$config['function_trigger']     = 'm';
-$config['directory_trigger']    = 'd';
+$config['controller_trigger'] = 'c';
+$config['function_trigger'] = 'm';
+$config['directory_trigger'] = 'd';
 
 /*
 |--------------------------------------------------------------------------
@@ -292,7 +292,7 @@ $config['log_threshold'] = [1, 5];
 | application/logs/ directory. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = STORAGEPATH . '/logs/';
+$config['log_path'] = STORAGEPATH.'/logs/';
 
 /*
 |--------------------------------------------------------------------------
@@ -317,7 +317,7 @@ $config['clv_log_file_pattern'] = 'opensid-*.log';
 |
 */
 $config['log_file_extension'] = 'log';
-$config['log_file_prefix']    = 'opensid-';
+$config['log_file_prefix'] = 'opensid-';
 
 /*
 |--------------------------------------------------------------------------
@@ -362,7 +362,7 @@ $config['error_views_path'] = '';
 | application/cache/ directory.  Use a full server path with trailing slash.
 |
 */
-$config['cache_path'] = FCPATH . LOKASI_CACHE;
+$config['cache_path'] = FCPATH.LOKASI_CACHE;
 
 /*
 |--------------------------------------------------------------------------
@@ -394,7 +394,7 @@ $config['cache_query_string'] = false;
 |
 */
 $config['encryption_key'] = 'lumbungkomunitas';
-$config['cipher']         = 'AES-256-CBC';
+$config['cipher'] = 'AES-256-CBC';
 
 /*
 |--------------------------------------------------------------------------
@@ -447,12 +447,12 @@ $config['cipher']         = 'AES-256-CBC';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_driver']             = 'files';
-$config['sess_cookie_name']        = 'ci_session';
-$config['sess_expiration']         = 7200;
-$config['sess_save_path']          = sys_get_temp_dir();
-$config['sess_match_ip']           = false;
-$config['sess_time_to_update']     = 300;
+$config['sess_driver'] = 'files';
+$config['sess_cookie_name'] = 'ci_session';
+$config['sess_expiration'] = 7200;
+$config['sess_save_path'] = sys_get_temp_dir();
+$config['sess_match_ip'] = false;
+$config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = false;
 
 /*
@@ -470,10 +470,10 @@ $config['sess_regenerate_destroy'] = false;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']   = '';
-$config['cookie_domain']   = '';
-$config['cookie_path']     = '/';
-$config['cookie_secure']   = false;
+$config['cookie_prefix'] = '';
+$config['cookie_domain'] = '';
+$config['cookie_path'] = '/';
+$config['cookie_secure'] = false;
 $config['cookie_httponly'] = false;
 
 /*
@@ -518,11 +518,11 @@ $config['global_xss_filtering'] = false;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection']   = true;
-$config['csrf_token_name']   = 'sidcsrf';
-$config['csrf_cookie_name']  = 'sidcsrf';
-$config['csrf_expire']       = 7200;
-$config['csrf_regenerate']   = true;
+$config['csrf_protection'] = true;
+$config['csrf_token_name'] = 'sidcsrf';
+$config['csrf_cookie_name'] = 'sidcsrf';
+$config['csrf_expire'] = 7200;
+$config['csrf_regenerate'] = true;
 $config['csrf_exclude_uris'] = ['api.*+', 'external_api.*+', 'internal_api.*+', 'playwright.*+', 'pelanggan/pemesanan'];
 
 /*
@@ -608,15 +608,15 @@ $config['proxy_ips'] = '';
 | - Youtube OpenDesa
 |
 */
-$config['nama_aplikasi']  = 'OpenSID';
-$config['nama_lembaga']   = 'OpenDesa';
-$config['fb_opendesa']    = 'https://www.facebook.com/groups/httpsopendesa.id';
-$config['tg_opendesa']    = 'https://t.me/komunitasopensidstop';
+$config['nama_aplikasi'] = 'OpenSID';
+$config['nama_lembaga'] = 'OpenDesa';
+$config['fb_opendesa'] = 'https://www.facebook.com/groups/httpsopendesa.id';
+$config['tg_opendesa'] = 'https://t.me/komunitasopensidstop';
 $config['tg_kontributor'] = 'https://t.me/+mi5ydVtVfmw0YWY1';
-$config['github']         = 'https://github.com/OpenSID/OpenSID';
-$config['website']        = 'https://opendesa.id';
-$config['forum']          = 'https://forum.opendesa.id';
-$config['youtube']        = 'https://www.youtube.com/KomunitasOpenSID-OpenDesa';
+$config['github'] = 'https://github.com/OpenSID/OpenSID';
+$config['website'] = 'https://opendesa.id';
+$config['forum'] = 'https://forum.opendesa.id';
+$config['youtube'] = 'https://www.youtube.com/KomunitasOpenSID-OpenDesa';
 
 /*
 |--------------------------------------------------------------------------
@@ -628,7 +628,7 @@ $config['youtube']        = 'https://www.youtube.com/KomunitasOpenSID-OpenDesa';
 |
 */
 $config['server_pantau'] = 'https://pantau.opensid.my.id';
-$config['token_pantau']  = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw';
+$config['token_pantau'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw';
 
 /*
 |--------------------------------------------------------------------------
@@ -636,6 +636,28 @@ $config['token_pantau']  = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCw
 |--------------------------------------------------------------------------
 |
 | - Server layanan (Default)
+| - server_layanan_public_key: public key PEM (RSA) yang dipakai untuk
+|   memverifikasi signature respons API layanan.opendesa.id (header
+|   X-API-Signature, format rsa-sha256=<base64>) di
+|   PelangganService::verifyResponseIntegrity() -- dipanggil dari
+|   refreshLangganan() maupun PendaftaranKerjasamaController::register().
+|   Signature ini dicek HANYA jika header X-API-Signature ada (Layanan sudah
+|   mengaktifkan API_SIGNATURE_ENABLED). Begitu header itu ada tapi key ini
+|   masih kosong, respons akan DITOLAK (fail-closed, memaksa update ke versi
+|   yang mendukung verifikasi). Kosongkan untuk menonaktifkan verifikasi
+|   selama layanan.opendesa.id belum menandatangani respons secara asimetris.
+|   Key yang sama JUGA dipakai PelangganService::verifyTokenSignature() untuk
+|   memverifikasi signature JWT (RS256) pada token langganan itu sendiri,
+|   TAPI method itu saat ini tidak dipanggil di mana pun: token dari Layanan
+|   masih ditandatangani HS256 (migrasi ke RS256 belum dilakukan di sisi
+|   Layanan), sehingga verifikasi RS256 akan selalu gagal untuk token asli.
+|   Method itu dipertahankan dormant untuk dipakai lagi begitu Layanan
+|   migrasi signing token ke RS256.
+| - server_layanan_pin: pin sertifikat TLS server layanan, format curl
+|   CURLOPT_PINNEDPUBLICKEY (mis. "sha256//BASE64;sha256//BASE64" untuk
+|   beberapa pin sekaligus/backup). Kosongkan untuk menonaktifkan.
+|   HATI-HATI: pin yang salah/kadaluarsa akan memutus koneksi ke server
+|   layanan sampai konfigurasi ini diperbarui.
 |
 */
 $config['server_layanan'] = 'https://layanan.opendesa.id';
@@ -646,7 +668,7 @@ $config['server_layanan'] = 'https://layanan.opendesa.id';
 |--------------------------------------------------------------------------
 |
 */
-$config['rilis_umum']    = 'https://api.github.com/repos/opensid/opensid/releases/latest';
+$config['rilis_umum'] = 'https://api.github.com/repos/opensid/opensid/releases/latest';
 $config['rilis_premium'] = 'https://api.github.com/repos/opensid/rilis-premium/releases/latest';
 
 /*
@@ -679,7 +701,7 @@ $config['api_google_recaptcha'] = 'https://google.com/recaptcha/api/';
 |--------------------------------------------------------------------------
 |
 */
-$config['cache_blade'] = STORAGEPATH . 'framework/views/';
+$config['cache_blade'] = STORAGEPATH.'framework/views/';
 
 /*
 |--------------------------------------------------------------------------
@@ -688,10 +710,10 @@ $config['cache_blade'] = STORAGEPATH . 'framework/views/';
 |
 */
 $config['maximum_login_attempts'] = 3;
-$config['lockout_time']           = 300;                 // The number of seconds to lockout an account due to exceeded attempts
+$config['lockout_time'] = 300;                 // The number of seconds to lockout an account due to exceeded attempts
 
 $config['modules_locations'] = [
-    FCPATH . 'Modules/' => '../../Modules/',
+    FCPATH.'Modules/' => '../../Modules/',
 ];
 
 /*

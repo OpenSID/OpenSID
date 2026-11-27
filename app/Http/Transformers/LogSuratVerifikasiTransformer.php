@@ -39,6 +39,9 @@ namespace App\Http\Transformers;
 
 use App\Models\LogSurat;
 use App\Models\PendudukSaja;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use League\Fractal\TransformerAbstract;
 
 class LogSuratVerifikasiTransformer extends TransformerAbstract
@@ -58,7 +61,26 @@ class LogSuratVerifikasiTransformer extends TransformerAbstract
             'pamong_nama'    => $surat->nama_pamong,
             'pamong_jabatan' => ($surat->pamong->status_pejabat ? setting('sebutan_pj_kepala_desa') : '') . $surat->nama_jabatan,
             'tanggal'        => $surat->tanggal,
-            'pdf'            => ambilBerkas($surat->nama_surat, null, null, LOKASI_ARSIP, false, false, true),
+            'pdf'            => $this->urlArsip($surat->nama_surat),
         ];
+    }
+
+    private function urlArsip(?string $namaSurat = ''): ?string
+    {
+        if (! $namaSurat) {
+            return null;
+        }
+
+        $fullPath = FCPATH . LOKASI_ARSIP . $namaSurat;
+
+        if (! file_exists($fullPath)) {
+            return null;
+        }
+
+        return URL::temporarySignedRoute(
+            'storage.desa',
+            Carbon::now()->addMinutes(5),
+            ['path' => (string) Str::of(LOKASI_ARSIP)->remove('desa/')->append($namaSurat)],
+        );
     }
 }

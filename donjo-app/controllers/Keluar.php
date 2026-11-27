@@ -221,11 +221,12 @@ class Keluar extends Admin_Controller
                             if (is_file($row->rtfFile())) {
                                 $aksi .= View::make('admin.layouts.components.buttons.btn', [
                                     'url'        => ci_route('keluar.unduh.rtf', $row->id),
-                                    'judul'      => 'Unduh Surat RTF',
+                                    'judul'      => 'Unduh RTF',
                                     'icon'       => 'fa fa-file-word-o',
-                                    'type'       => 'bg-purple',
+                                    'type'       => 'bg-gray',
                                     'buttonOnly' => true,
                                     'blank'      => true,
+                                    'attribut'   => 'title="RTF - bukan arsip resmi (derivative)"',
                                 ])->render();
                             }
                             if (is_file($row->pdfFile())) {
@@ -808,7 +809,7 @@ class Keluar extends Admin_Controller
         }
     }
 
-    public function perorangan($id): void
+    public function perorangan($id = null): void
     {
         $data['penduduk'] = $id ? Penduduk::find($id) : null;
 
@@ -830,10 +831,11 @@ class Keluar extends Admin_Controller
                         $aksi .= View::make('admin.layouts.components.buttons.btn', [
                             'buttonOnly' => true,
                             'url'        => ci_route($row->rtfFile()),
-                            'type'       => 'bg-purple',
+                            'type'       => 'bg-gray',
                             'icon'       => 'fa fa-file-word-o',
                             'blank'      => true,
-                            'judul'      => 'Unduh Surat RTF',
+                            'judul'      => 'Unduh RTF',
+                            'attribut'   => 'title="RTF - bukan arsip resmi (derivative)"',
                         ])->render();
                     }
                     if (is_file($row->pdfFile())) {
@@ -896,17 +898,21 @@ class Keluar extends Admin_Controller
         view('admin.surat.keluar.graph', $data);
     }
 
-    public function unduh($tipe, $id, $preview = false): void
+    public function unduh($tipe, $id, $preview = false)
     {
         $berkas = LogSurat::find($id);
+
         if ($tipe == 'tinymce') {
-            $this->tinymce->cetak_surat($id);
-        } else {
-            if ($tipe == 'pdf') {
-                $berkas->nama_surat = basename($berkas->nama_surat, 'rtf') . 'pdf';
-            }
-            ambilBerkas($tipe == 'lampiran' ? $berkas->lampiran : $berkas->nama_surat, $this->controller, null, LOKASI_ARSIP, (bool) $preview);
+            return $this->tinymce->cetak_surat($id);
         }
+
+        if ($tipe == 'pdf') {
+            $berkas->nama_surat = basename($berkas->nama_surat, 'rtf') . 'pdf';
+        }
+        // Catatan: File RTF yang diunduh adalah derivative (bukan arsip resmi).
+        // Arsip resmi hanya berisi file PDF yang bersifat immutable.
+        // File RTF disimpan di LOKASI_ARSIP hanya untuk backward-compatibility dengan arsip lama.
+        return ambilBerkas($tipe == 'lampiran' ? $berkas->lampiran : $berkas->nama_surat, $this->controller, null, LOKASI_ARSIP, (bool) $preview);
     }
 
     public function dialog_cetak($aksi = '')

@@ -48,7 +48,7 @@ class Saas
      */
     public static function peringatan()
     {
-        if ($layanan = app('ci')->cache->file->get('status_langganan')) {
+        if ($layanan = cache()->store('subscription')->get('status_langganan')) {
 
             return collect($layanan->body->pemesanan)
                 ->map(static function ($data) {
@@ -56,12 +56,12 @@ class Saas
                     $saas               = collect($data->layanan)->where('harga', '>', 0)->firstWhere('nama_kategori', $kategori_siappakai);
 
                     if ($saas !== null) {
-                        $saas->tgl_mulai        = Carbon::parse($data->tgl_mulai);
-                        $saas->tgl_akhir        = Carbon::parse($data->tgl_akhir);
+                        $saas->tgl_mulai        = Carbon::parse($saas->tanggal_mulai);
+                        $saas->tgl_akhir        = Carbon::parse($saas->tanggal_akhir);
                         $saas->status_pemesanan = $data->status_pemesanan;
-                        $saas->sisa_aktif       = $saas->tgl_akhir->diffInDays(Carbon::now()) + 1;
+                        $saas->sisa_aktif       = (int) max(0, Carbon::now()->startOfDay()->diffInDays($saas->tgl_akhir->copy()->startOfDay(), false) + 1);
 
-                        cache()->rememberForever('siappakai', static fn (): true => true);
+                        cache()->rememberForever('siappakai', static fn (): bool => true);
 
                         return $saas;
                     }

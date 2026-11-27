@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Casts\NamaWilayahCast;
 use App\Casts\Path;
 use App\Traits\Author;
 use Rennokki\QueryCache\Traits\QueryCacheable;
@@ -231,40 +232,12 @@ class Config extends BaseModel
      * @var array
      */
     protected $casts = [
-        'path' => Path::class,
+        'path'           => Path::class,
+        'nama_desa'      => NamaWilayahCast::class,
+        'nama_kecamatan' => NamaWilayahCast::class,
+        'nama_kabupaten' => NamaWilayahCast::class,
+        'nama_propinsi'  => NamaWilayahCast::class,
     ];
-
-    /**
-     * Accessor: format nama_desa menjadi ucwords.
-     */
-    public function getNamaDesaAttribute($value): ?string
-    {
-        return $value ? ucwords(strtolower($value)) : $value;
-    }
-
-    /**
-     * Accessor: format nama_kecamatan menjadi ucwords.
-     */
-    public function getNamaKecamatanAttribute($value): ?string
-    {
-        return $value ? ucwords(strtolower($value)) : $value;
-    }
-
-    /**
-     * Accessor: format nama_kabupaten menjadi ucwords.
-     */
-    public function getNamaKabupatenAttribute($value): ?string
-    {
-        return $value ? ucwords(strtolower($value)) : $value;
-    }
-
-    /**
-     * Accessor: format nama_propinsi menjadi ucwords.
-     */
-    public function getNamaPropinsiAttribute($value): ?string
-    {
-        return $value ? ucwords(strtolower($value)) : $value;
-    }
 
     /**
      * The "booted" method of the model.
@@ -303,7 +276,7 @@ class Config extends BaseModel
     public static function deleteFile($model, ?string $file): void
     {
         if ($model->isDirty($file)) {
-            $logo = FCPATH . static::UPLOAD_PATH . $model->getOriginal($file);
+            $logo = base_path(static::UPLOAD_PATH . $model->getOriginal($file));
             if (file_exists($logo)) {
                 unlink($logo);
             }
@@ -366,11 +339,11 @@ class Config extends BaseModel
     {
         $logo = static::UPLOAD_PATH . $this->attributes['logo'];
 
-        if (empty($this->attributes['logo']) || ! file_exists(FCPATH . $logo)) {
-            return base_url('assets/files/logo/opensid_logo.png');
+        if (empty($this->attributes['logo']) || ! file_exists(base_path($logo))) {
+            return preg_replace('#/index\.php(?=/|$)#i', '', asset('files/logo/opensid_logo.png'));
         }
 
-        return base_url($logo);
+        return preg_replace('#/index\.php(?=/|$)#i', '', url($logo));
     }
 
     /**
@@ -382,11 +355,22 @@ class Config extends BaseModel
     {
         $kantor_desa = static::UPLOAD_PATH . $this->attributes['kantor_desa'];
 
-        if (empty($this->attributes['kantor_desa']) || ! file_exists(FCPATH . $kantor_desa)) {
-            return base_url('assets/files/logo/opensid_kantor.jpg');
+        if (empty($this->attributes['kantor_desa']) || ! file_exists(base_path($kantor_desa))) {
+            return preg_replace('#/index\.php(?=/|$)#i', '', asset('files/logo/opensid_kantor.jpg'));
         }
 
-        return base_url($kantor_desa);
+        return preg_replace('#/index\.php(?=/|$)#i', '', url($kantor_desa));
+    }
+
+    /**
+     * Accessor untuk website desa.
+     * Mengembalikan URL website saat ini (url('/')) jika kolom website kosong.
+     *
+     * @return string
+     */
+    public function getWebsiteAttribute()
+    {
+        return empty($this->attributes['website']) ? preg_replace('#/index\.php(?=/|$)#i', '', url('/')) : $this->attributes['website'];
     }
 
     public function scopeAppKey($query, $appKey = null)

@@ -67,57 +67,6 @@ if (! function_exists('set_session')) {
     }
 }
 
-if (! function_exists('can')) {
-    /**
-     * Cek akses user
-     *
-     * @param string|null $akses
-     * @param string|null $slugModul
-     * @param bool        $adminOnly
-     * @param mixed       $demoOnly
-     *
-     * @return array|bool
-     */
-    function can($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false, ?User $user = null)
-    {
-        if (null === $slugModul) {
-            $slugModul = ci()->akses_modul ?? (ci()->sub_modul_ini ?? ci()->modul_ini);
-        }
-
-        if (null !== $user) {
-            return Gate::forUser($user)->allows("{$slugModul}:{$akses}", [$akses, $slugModul, $adminOnly, $demoOnly]);
-        }
-
-        return Gate::allows("{$slugModul}:{$akses}", [$akses, $slugModul, $adminOnly, $demoOnly]);
-    }
-}
-
-if (! function_exists('isCan')) {
-    /**
-     * Cek akses user
-     *
-     * @param string|null $akses
-     * @param string|null $slugModul
-     * @param bool        $adminOnly
-     * @param mixed       $demoOnly
-     */
-    function isCan($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false, ?User $user = null): void
-    {
-        $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
-        if (! can('b', $slugModul, $adminOnly, $demoOnly, $user)) {
-            set_session('error', $pesan);
-            session_error($pesan);
-
-            redirect('beranda');
-        } elseif (! can($akses, $slugModul, $adminOnly, $demoOnly, $user)) {
-            set_session('error', $pesan);
-            session_error($pesan);
-
-            redirect(ci()->controller);
-        }
-    }
-}
-
 if (! function_exists('isMultiDB')) {
     /**
      * Cek apakah aplikasi menggunakan multi database
@@ -214,35 +163,6 @@ if (! function_exists('ci_route')) {
     }
 }
 
-if (! function_exists('setting')) {
-    /**
-     * Mengambil nilai dari pengaturan aplikasi.
-     *
-     * @param mixed|null $key
-     * @param mixed|null $value
-     *
-     * @return mixed|null
-     */
-    function setting($key = null, $value = null)
-    {
-        if (! ci()->setting) {
-            SettingAplikasiRepository::applySettingCI(ci());
-        }
-
-        $setting = ci()->setting;
-
-        if (null === $key) {
-            return $setting;
-        }
-
-        if (null === $value) {
-            return $setting->{$key} ?? null;
-        }
-
-        return $setting->{$key} = $value;
-    }
-}
-
 // hapus_cache('cache_id');
 if (! function_exists('hapus_cache')) {
     function hapus_cache($params = null)
@@ -254,61 +174,6 @@ if (! function_exists('hapus_cache')) {
         }
 
         return false;
-    }
-}
-
-if (! function_exists('calculate_days')) {
-    /**
-     * Calculate minute between 2 date.
-     *
-     * @return int
-     */
-    function calculate_days(string $dateStart, string $format = 'Y-m-d')
-    {
-        return abs(Carbon::createFromFormat($format, $dateStart)->getTimestamp() - Carbon::now()->getTimestamp()) / (60 * 60 * 24);
-    }
-}
-
-if (! function_exists('calculate_date_intervals')) {
-    /**
-     * Calculate list dates interval to minutes.
-     *
-     * @return int
-     */
-    function calculate_date_intervals(array $date)
-    {
-        $reference = Carbon::now();
-        $endTime   = clone $reference;
-
-        foreach ($date as $dateInterval) {
-            if (empty($dateInterval)) {
-                continue;
-            }
-            $endTime = $endTime->add(DateInterval::createFromDateString(calculate_days($dateInterval) . 'days'));
-        }
-
-        return $reference->diff($endTime)->days;
-    }
-}
-
-// Parsedown
-if (! function_exists('parsedown')) {
-    /**
-     * Parsedown.
-     *
-     * @param string|null $params
-     *
-     * @return Parsedown|string
-     */
-    function parsedown($params = null)
-    {
-        $parsedown = new Parsedown();
-
-        if (null !== $params) {
-            return $parsedown->text(file_get_contents(FCPATH . $params));
-        }
-
-        return $parsedown;
     }
 }
 
@@ -353,79 +218,6 @@ if (! function_exists('akun_demo')) {
 
             return true;
         }
-    }
-}
-
-if (! function_exists('folder')) {
-    /**
-     * Membuat folder jika tidak tersedia
-     *
-     * @param string     $folder
-     * @param string     $permissions
-     * @param mixed|null $htaccess
-     * @param array|null $extra
-     */
-    function folder($folder = null, $permissions = 0755, $htaccess = null, array $extra = []): bool
-    {
-        if (empty($folder) || ! is_string($folder)) {
-            return false;
-        }
-
-        ci()->load->helper('file');
-
-        $folderPath = FCPATH . $folder;
-
-        // Buat folder
-        $hasil = is_dir($folderPath) || mkdir($folderPath, $permissions, true);
-
-        if ($hasil) {
-            if ($htaccess !== null) {
-                write_file($folderPath . '.htaccess', config_item($htaccess), 'x');
-            }
-
-            // File index.html
-            write_file($folderPath . 'index.html', config_item('index_html'), 'x');
-
-            foreach ($extra as $value) {
-                $file    = realpath($value);
-                $newfile = realpath($folderPath) . DIRECTORY_SEPARATOR . basename($value);
-
-                if ($file && $newfile) {
-                    copy($file, $newfile);
-                }
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-}
-
-if (! function_exists('folder_desa')) {
-    /**
-     * Membuat folder desa dan isinya
-     */
-    function folder_desa(): bool
-    {
-        ci()->load->config('installer');
-        $list_folder = array_merge(config_item('desa'), config_item('lainnya'));
-
-        // Buat folder dan subfolder desa
-        foreach ($list_folder as $folder => $lainnya) {
-            folder($folder, $lainnya[0], $lainnya[1] ?? null, $lainnya[2] ?? []);
-        }
-
-        write_file(LOKASI_CONFIG_DESA . 'config.php', config_item('config'), 'x');
-        write_file(LOKASI_CONFIG_DESA . 'database.php', config_item('database'), 'x');
-        write_file(DESAPATH . 'pengaturan/siteman/siteman.css', config_item('siteman_css'), 'x');
-        write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
-        write_file(DESAPATH . 'app_key', set_app_key(), 'x');
-
-        // set config app.key untuk proses intall
-        config()->set('app.key', get_app_key());
-
-        return true;
     }
 }
 
@@ -484,34 +276,6 @@ if (! function_exists('case_replace')) {
 
         // Perform case-insensitive replacement with a callback
         return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
-    }
-}
-
-if (! function_exists('kirim_versi_opensid')) {
-    function kirim_versi_opensid($kode_desa): void
-    {
-        if (! config_item('demo_mode') && ! empty($kode_desa) && ENVIRONMENT === 'production') {
-            $ci = get_instance();
-            $ci->load->driver('cache');
-
-            $versi = AmbilVersi();
-            if ($versi != $ci->cache->file->get('versi_app_cache')) {
-                try {
-                    $client = new GuzzleHttp\Client();
-                    $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
-                        'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
-                        'form_params' => [
-                            'kode_desa' => kode_wilayah($kode_desa),
-                            'versi'     => $versi,
-                        ],
-                    ])
-                        ->getBody();
-                    $ci->cache->file->save('versi_app_cache', $versi);
-                } catch (Exception $e) {
-                    log_message('error', $e);
-                }
-            }
-        }
     }
 }
 
@@ -1074,20 +838,6 @@ if (! function_exists('gis_simbols')) {
     }
 }
 
-if (! function_exists('admin_menu')) {
-    /**
-     * admin_menu untuk menampilkan menu admin yang aktif.
-     *
-     * @return mixed
-     */
-    function admin_menu()
-    {
-        $grupId = auth('admin')->user()?->id_grup;
-
-        return cache()->rememberForever("{$grupId}_admin_menu", static fn () => (new Modul())->tree($grupId)->toArray());
-    }
-}
-
 if (! function_exists('menu_tema')) {
     /**
      * admin_menu untuk menampilkan menu admin yang aktif.
@@ -1220,19 +970,6 @@ if (! function_exists('shortcut_cache')) {
         User::pluck('id')->each(static function ($id) {
             cache()->forget('shortcut_' . $id);
         });
-    }
-}
-
-if (! function_exists('emptyData')) {
-    function emptyData($fields): array
-    {
-        $data = [];
-
-        foreach ($fields as $key => $value) {
-            $data[$value] = '';
-        }
-
-        return $data;
     }
 }
 
@@ -1441,47 +1178,6 @@ if (! function_exists('compressPng')) {
             imagepng($image, $path, $quality);
             imagedestroy($image);
         }
-    }
-
-    if (! function_exists('unserialize_flip')) {
-    /**
-     * Unserialize string lalu balik key <-> value
-     *
-     * @param string $str
-     *
-     * @return array
-     */
-    function unserialize_flip($str)
-    {
-        $arr = @unserialize($str);
-
-        if (is_array($arr)) {
-            return array_flip($arr);
-        }
-
-        return [];
-    }
-}
-
-}
-
-if (! function_exists('unserialize_flip')) {
-    /**
-     * Unserialize string lalu balik key <-> value
-     *
-     * @param string $str
-     *
-     * @return array
-     */
-    function unserialize_flip($str)
-    {
-        $arr = @unserialize($str);
-
-        if (is_array($arr)) {
-            return array_flip($arr);
-        }
-
-        return [];
     }
 }
 

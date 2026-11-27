@@ -213,9 +213,14 @@ class Man_user extends Admin_Controller
         }
 
         $data['wilayah']    = Wilayah::tree();
-        $data['user_group'] = UserGrup::status()->when(super_admin() == $id, static function ($query): void {
-                                            $query->where('slug', UserGrup::ADMINISTRATOR);
-                                        })->get(['id', 'nama']);
+        $data['user_group'] = UserGrup::status()
+            ->when(super_admin() == $id, static function ($query): void {
+                $query->where('slug', UserGrup::ADMINISTRATOR);
+            })
+            ->when(! is_super_admin(), static function ($query): void {
+                $query->where('slug', '!=', UserGrup::ADMINISTRATOR);
+            })
+            ->get(['id', 'nama']);
         $data['akses']               = (new UserGrup())->getGrupSistem();
         $data['pamong']              = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
         $data['notifikasi_telegram'] = setting('telegram_notifikasi');
@@ -286,11 +291,19 @@ class Man_user extends Admin_Controller
             }
 
             // Untuk demo jangan ubah username atau password
-            if ($id == UserGrup::where('slug', UserGrup::ADMINISTRATOR)->first()->id && (config_item('demo_mode') || ENVIRONMENT === 'development')) {
+            if ($id == UserGrup::where('slug', UserGrup::ADMINISTRATOR)->first()->id && is_demo_mode()) {
                 unset($data['username'], $data['password']);
             }
 
-            User::findOrFail($id)->update($data);
+            $user = User::findOrFail($id);
+
+            // Reset last_login saat akun diaktifkan kembali agar tidak langsung
+            // dinonaktifkan otomatis oleh MasaAktifAkunService karena last_login lama.
+            if ((int) $user->active === 0 && (int) $data['active'] === 1) {
+                $data['last_login'] = Carbon::now();
+            }
+
+            $user->update($data);
 
             // perbaharui session login
             if ((string) $id === (string) $this->session->isAdmin->id) {
@@ -485,16 +498,27 @@ class Man_user extends Admin_Controller
         return ['status' => true];
     }
 
-    protected function validate($request = [], $id = ''): array
+    protected function validate($request = [], $id = '')
     {
         $isSuperAdmin = $id && (int) $id === super_admin();
-        $data         = [
+
+        // Cegah privilege escalation: hanya Super Admin yang boleh menetapkan grup Administrator
+        $idGrupRequest = $request['id_grup'] ?? null;
+        if (! empty($idGrupRequest)) {
+            $adminGrupId = UserGrup::where('slug', UserGrup::ADMINISTRATOR)->value('id');
+
+            if ((int) $idGrupRequest === (int) $adminGrupId && ! is_super_admin()) {
+                redirect_with('error', 'Hanya Super Admin yang dapat menetapkan grup Administrator.');
+            }
+        }
+
+        $data = [
             'active'         => $isSuperAdmin ? 1 : (int) ($request['aktif'] ?? 0),
             'username'       => isset($request['username']) ? alfanumerik($request['username']) : null,
             'nama'           => isset($request['nama']) ? strip_tags((string) nama($request['nama'])) : null,
             'phone'          => isset($request['phone']) ? htmlentities((string) $request['phone']) : null,
             'email'          => empty($request['email']) ? null : htmlentities((string) $request['email']),
-            'id_grup'        => $request['id_grup'] ?? null,
+            'id_grup'        => $idGrupRequest,
             'pamong_id'      => empty($request['pamong_id']) ? null : $request['pamong_id'],
             'foto'           => isset($request['foto']) ? $this->urusFoto($id) : null,
             'notif_telegram' => (int) ($request['notif_telegram'] ?? 0),
@@ -505,6 +529,14 @@ class Man_user extends Admin_Controller
         ];
 
         if (! empty($request['password'])) {
+            if ($id) {
+                $targetUser = User::find($id);
+
+                if ($targetUser && $targetUser->wasPasswordUsedBefore($request['password'])) {
+                    return redirect_with('error', 'Kata sandi pernah digunakan sebelumnya oleh pengguna ini.', "man_user/form/{$id}");
+                }
+            }
+
             $data['password'] = Hash::make($request['password']);
         }
 

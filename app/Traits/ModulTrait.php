@@ -137,7 +137,7 @@ trait ModulTrait
             return true;
         }
 
-        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
+        if (is_demo_mode()) {
             return true;
         }
 
@@ -150,7 +150,7 @@ trait ModulTrait
     protected function getLayananModul(): array
     {
         return cache()->rememberForever('modul_aktif', static function () {
-            $cache = app('ci')->cache->file->get('status_langganan');
+            $cache = cache()->store('subscription')->get('status_langganan');
 
             return collect($cache->body->pemesanan)
                 ->filter(static fn ($data): bool => $data->status_pemesanan === 'aktif')

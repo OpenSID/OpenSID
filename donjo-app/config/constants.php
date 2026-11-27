@@ -144,7 +144,7 @@ defined('DECADE') || define('DECADE', 315_360_000);
  *
  * Automatic base url
  */
-define('APP_URL', (((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || FORCE_HTTPS == true) ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '') . str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']));
+define('APP_URL', env('APP_URL', (((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || FORCE_HTTPS == true) ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '') . str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME'])));
 
 /**
  * Custom path folder
@@ -198,6 +198,10 @@ define('LAYANAN_LOGO', 'assets/images/layanan/logo.png');
 // Folder
 define('LOKASI_LOGO_DESA', 'desa/logo/');
 define('LOKASI_ARSIP', 'desa/arsip/');
+// Folder penyimpanan file RTF sementara (derivative, BUKAN arsip resmi).
+// File RTF tidak boleh disimpan di LOKASI_ARSIP karena RTF adalah format
+// yang dapat diubah dan tidak layak menjadi arsip resmi (immutable).
+define('LOKASI_RTF_SEMENTARA', 'desa/upload/rtf/');
 define('LOKASI_CACHE', 'desa/cache/');
 define('LOKASI_CONFIG_DESA', 'desa/config/');
 define('LOKASI_LAMPIRAN_SURAT_DESA', 'desa/template-surat/lampiran/');
@@ -244,27 +248,6 @@ define('FONT_SYSTEM_TINYMCE', ['Andale Mono', 'Arial', 'Arial Black', 'Bali Simb
 
 // Pesan Notifikasi
 define('SYARAT_SANDI', 'Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus');
-
-// Info Sistem
-define('EKSTENSI_WAJIB', serialize([
-    'curl',
-    'fileinfo',
-    'gd',
-    'iconv',
-    'json',
-    'mbstring',
-    'mysqli',
-    'mysqlnd',
-    'tidy',
-    'zip',
-    'exif',
-]));
-define('minPhpVersion', '8.4.0');
-define('maxPhpVersion', '8.4.99');
-define('minMySqlVersion', '5.6.0');
-define('maxMySqlVersion', '8.4.0');
-define('minMariaDBVersion', '10.3.0');
-define('maxMariaDBVersion', '11.99.99');
 
 // Pindahan dari referensi_model.php
 define('JENIS_PERATURAN_DESA', serialize([

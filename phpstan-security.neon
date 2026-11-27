@@ -1,0 +1,20 @@
+parameters:
+    customRulesetUsed: true
+    paths:
+        - app
+        - donjo-app
+        - Modules
+    excludePaths:
+        - */vendor/*
+        - app/database/*
+        - tests
+
+services:
+    -
+        class: App\PHPStan\Rules\RawTokenDecodeRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: App\PHPStan\Rules\LayananTokenWriteRule
+        tags:
+            - phpstan.rules.rule

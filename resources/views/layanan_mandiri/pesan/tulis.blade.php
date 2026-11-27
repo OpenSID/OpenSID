@@ -21,14 +21,33 @@
                     {{ session('notif')['pesan'] }}
                 </div>
             @endif
-            <form id="validasi" action="{{ ci_route('layanan-mandiri.pesan.kirim') }}" method="post">
+            <form id="validasi" action="{{ url('layanan-mandiri/pesan/kirim') }}" method="post">
                 <div class="form-group">
                     <label for="subjek">Subjek</label>
-                    <input type="text" class="form-control required {{ $cek_anjungan['keyboard'] == 1 ? 'kbvtext' : '' }}" name="subjek" placeholder="Subjek" value="{{ $subjek ?? session('notif')['data']['subjek'] }}" {{ $kat == 2 ? 'readonly' : '' }}>
+                    <input
+                        type="text"
+                        @class([
+                            'form-control',
+                            'required' => $kat != 2,
+                            'kbvtext' => $cek_anjungan['keyboard'] == 1,
+                        ])
+                        name="subjek"
+                        placeholder="Subjek"
+                        value="{{ $subjek ?? session('notif')['data']['subjek'] }}"
+                        @readonly($kat == 2)
+                    >
                 </div>
                 <div class="form-group">
                     <label for="pesan">Isi Pesan</label>
-                    <textarea class="form-control required {{ $cek_anjungan['keyboard'] == 1 ? 'kbvtext' : '' }}" name="pesan" placeholder="Isi Pesan">{{ session('notif')['data']['pesan'] ?? '' }}</textarea>
+                    <textarea
+                        @class([
+                            'form-control',
+                            'required',
+                            'kbvtext' => $cek_anjungan['keyboard'] == 1,
+                        ])
+                        name="pesan"
+                        placeholder="Isi Pesan"
+                    >{{ session('notif')['data']['pesan'] ?? '' }}</textarea>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn bg-green btn-social">

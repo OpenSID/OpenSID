@@ -16,9 +16,6 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border text-center">
-            {{-- @if (!cache('siappakai') && !setting('multi_desa') && can('u'))
-                <a href="{{ site_url('theme/unggah') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-upload"></i> Unggah</a>
-            @endif --}}
             @if (can('u'))
                 <a href="{{ site_url('theme/pindai') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-retweet"></i> Pindai</a>
             @endif
@@ -93,6 +90,25 @@
             flex-direction: column;
             justify-content: space-between;
             flex: 1;
+        }
+
+        /* Tampilkan modal Detail Tema di tengah layar (horizontal & vertikal) */
+        @media (min-width: 768px) {
+            .modal-detail-tema {
+                text-align: center;
+            }
+            .modal-detail-tema::before {
+                content: '';
+                display: inline-block;
+                height: 100%;
+                vertical-align: middle;
+                margin-right: -4px;
+            }
+            .modal-detail-tema .modal-dialog {
+                display: inline-block;
+                text-align: left;
+                vertical-align: middle;
+            }
         }
     </style>
 @endpush

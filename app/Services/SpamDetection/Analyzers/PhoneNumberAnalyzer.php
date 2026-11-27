@@ -42,8 +42,8 @@ use App\Services\SpamDetection\DTOs\AnalyzerResult;
 class PhoneNumberAnalyzer extends AbstractAnalyzer
 {
     private const PATTERNS = [
-        '/(\+62|0062|0)[2-9]\d{7,11}/',  // Format Indonesia standar
-        '/(\(\d{2,4}\)\s?\d{6,9})/',     // Format dengan kode area berkurung
+        '/(\+62|0062|0)[2-9]\d{7,11}/',        // Format Indonesia standar
+        '/\(\+?\d{2,6}\)\s?\d{6,11}/',        // Format dengan kode area berkurung, opsional "+"
     ];
 
     /** Jumlah nomor unik minimal sebelum dianggap mencurigakan */
@@ -73,8 +73,8 @@ class PhoneNumberAnalyzer extends AbstractAnalyzer
         $reasons     = [];
 
         // Cek: terlalu banyak nomor berbeda (promosi/iklan)
-        if ($uniqueCount > self::UNIQUE_PHONE_THRESHOLD) {
-            $extraNumbers = $uniqueCount - self::UNIQUE_PHONE_THRESHOLD;
+        if ($uniqueCount >= self::UNIQUE_PHONE_THRESHOLD) {
+            $extraNumbers = $uniqueCount - self::UNIQUE_PHONE_THRESHOLD + 1;
             $score       += $extraNumbers * 10;
             $reasons[]    = 'multiple_unique_numbers';
         }

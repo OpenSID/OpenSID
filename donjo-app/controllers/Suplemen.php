@@ -44,6 +44,7 @@ use App\Models\Penduduk;
 use App\Models\Suplemen as ModelSuplemen;
 use App\Models\SuplemenTerdata;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Border;
@@ -280,13 +281,13 @@ class Suplemen extends Admin_Controller
         $individu      = isset($_POST['id_terdata']) ? Penduduk::findOrFail($_POST['id_terdata']) : null;
 
         if ($id) {
-            $sasaran = $suplemen->sasaran == SuplemenTerdata::PENDUDUK
+            $kolom_sasaran = $suplemen->sasaran == SuplemenTerdata::PENDUDUK
                 ? 'penduduk_id'
                 : 'keluarga_id';
 
             $action       = 'Ubah';
             $form_action  = ci_route('suplemen.update_terdata', $id);
-            $terdata      = SuplemenTerdata::anggota($suplemen->sasaran, $suplemen->id)->where($sasaran, $id)->first();
+            $terdata      = SuplemenTerdata::anggota($suplemen->sasaran, $suplemen->id)->where($kolom_sasaran, $id)->first();
             $existingData = $terdata->data_form_isian;
         } else {
             $action      = 'Tambah';
@@ -347,9 +348,15 @@ class Suplemen extends Admin_Controller
     {
         isCan('h');
 
-        $id_suplemen = substr((string) $_SERVER['HTTP_REFERER'], -1);
+        $terdata = SuplemenTerdata::find($id);
 
-        if (SuplemenTerdata::destroy($id)) {
+        if (! $terdata) {
+            redirect_with('error', 'Data tidak ditemukan', $_SERVER['HTTP_REFERER'] ?? 'suplemen');
+        }
+
+        $id_suplemen = $terdata->id_suplemen;
+
+        if ($terdata->delete()) {
             redirect_with('success', 'Berhasil Hapus Data', 'suplemen/rincian/' . $id_suplemen);
         }
 
@@ -360,13 +367,21 @@ class Suplemen extends Admin_Controller
     {
         isCan('h');
 
-        $id_suplemen = substr((string) $_SERVER['HTTP_REFERER'], -1);
+        $ids         = (array) ($this->request['id_cb'] ?? []);
+        $terdata     = SuplemenTerdata::find($ids[0] ?? null);
+        $id_suplemen = $terdata?->id_suplemen;
 
-        if (SuplemenTerdata::destroy($this->request['id_cb'])) {
-            redirect_with('success', 'Berhasil Hapus Data', 'suplemen/rincian/' . $id_suplemen);
+        if (! $id_suplemen && preg_match('/suplemen\/rincian\/(\d+)/', $_SERVER['HTTP_REFERER'] ?? '', $matches)) {
+            $id_suplemen = $matches[1];
         }
 
-        redirect_with('error', 'Gagal Hapus Data', 'suplemen/rincian/' . $id_suplemen);
+        $redirectUrl = $id_suplemen ? 'suplemen/rincian/' . $id_suplemen : ($_SERVER['HTTP_REFERER'] ?? 'suplemen');
+
+        if (SuplemenTerdata::destroy($ids)) {
+            redirect_with('success', 'Berhasil Hapus Data', $redirectUrl);
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', $redirectUrl);
     }
 
     public function apipenduduksuplemen()
@@ -429,7 +444,7 @@ class Suplemen extends Admin_Controller
         return view('admin.suplemen.impor', [
             'suplemen'    => ModelSuplemen::findOrFail($id),
             'form_action' => ci_route('suplemen.impor'),
-            'formatImpor' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-suplemen.xlsx')),
+            'formatImpor' => URL::signedRoute('storage.desa', ['path' => 'impor/format-impor-suplemen.xlsx']),
         ]);
     }
 
@@ -681,11 +696,29 @@ class Suplemen extends Admin_Controller
     {
         $id      = $this->input->post_get('id');
         $sasaran = $this->input->post_get('sasaran');
+        $dusun   = $this->input->post_get('dusun');
+        $rw      = $this->input->post_get('rw');
+        $rt      = $this->input->post_get('rt');
+
+        // Komponen pilihan wilayah (admin.layouts.components.wilayah) mengirim
+        // value RW berupa "dusun__rw" dan RT berupa id baris tweb_wil_clusterdesa,
+        // bukan nilai rw/rt polos. Uraikan dulu supaya cocok dengan kolom rw/rt asli.
+        if ($rt) {
+            $wilayah = Wilayah::find($rt);
+            $dusun   = $wilayah?->dusun ?? $dusun;
+            $rw      = $wilayah?->rw ?? $rw;
+            $rt      = $wilayah?->rt ?? $rt;
+        } elseif ($rw && is_string($rw) && str_contains($rw, '__')) {
+            [$dusunFromRw, $rwOnly] = explode('__', $rw, 2);
+            $dusun = $dusunFromRw ?: $dusun;
+            $rw    = $rwOnly;
+        }
+
         $filters = [
             'sex'   => $this->input->post_get('sex'),
-            'dusun' => $this->input->post_get('dusun'),
-            'rw'    => $this->input->post_get('rw'),
-            'rt'    => $this->input->post_get('rt'),
+            'dusun' => $dusun,
+            'rw'    => $rw,
+            'rt'    => $rt,
         ];
         $user          = ci_auth();
         $aksesWilayah  = [];

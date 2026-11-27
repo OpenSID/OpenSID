@@ -58,36 +58,44 @@ redirect('/path');                    // Exit immediate, tidak return
 
 public function boot(): void
 {
-    // ... rate limiting & route registration ...
-    
-    if (! $this->isMatchedRouteLaravel()) {
-        // 1. Extend core services
-        $this->extendControllerDispatcher();
-        $this->extendRedirectInstance();
-        $this->extendViewInstance();
-        $this->configureConfig();
-        
-        // 2. CRITICAL: Request rebinding ke semua CI components
+    RateLimiter::for('api', function (Request $request) {
+        return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+    });
+
+    $this->routes(function () {
+        Route::middleware('api')
+            ->prefix('api')
+            ->group(base_path('routes/api.php'));
+
+        Route::middleware('web')
+            ->group(base_path('routes/web.php'));
+
         $this->app->rebinding('request', function ($app, $request) {
-            global $EXT, $URI, $RTR, $OUT, $IN;
-            
-            // Unset class cache yang mungkin crash di testing
-            is_loaded(unsetClass: ['cache', 'form_validation', 'session']);
-            
-            // Call pre_system hook (replicate CI boot)
-            $EXT->call_hook('pre_system');
-            
-            // Sync request ke semua CI core classes
+            if ($this->isMatchedRouteLaravel($request)) {
+                return;
+            }
+
+            if (! $this->isMatchedRouteCodeIgniter()) {
+                return;
+            }
+
+            $this->extendControllerDispatcher();
+            $this->extendRedirectInstance();
+            $this->extendViewInstance();
+            $this->configureConfig();
+
+            global $URI, $RTR, $OUT, $SEC, $IN;
+
             $URI->setRequest($request);
             $RTR->setRequest($request);
             $OUT->setRequest($request);
+            $SEC->setRequest($request);
             $IN->setRequest($request);
-            
-            // Register CI routes
+
             Route::middleware('codeigniter')
                 ->group(base_path('bootstrap/routeCodeIgniter.php'));
         });
-    }
+    });
 }
 ```
 
@@ -372,31 +380,27 @@ protected function configureConfig()
         }
         
         // Configure email SMTP
-        if (isset($setting->email_smtp_url)) {
-            $protocol = $setting->email_protocol;
+        if (! empty($setting->email_smtp_host)) {
+            $protocol = $setting->email_protocol ?: 'smtp';
             config([
                 'mail.default' => $protocol,
                 "mail.mailers.{$protocol}" => [
-                    'transport'    => $protocol,
-                    'url'          => $setting->email_smtp_url,
-                    'host'         => $setting->email_smtp_host,
-                    'port'         => $setting->email_smtp_port,
-                    'encryption'   => $setting->email_smtp_encryption ?? 'tls',
-                    'username'     => $setting->email_smtp_user,
-                    'password'     => $setting->email_smtp_pass,
-                    'timeout'      => $setting->email_smtp_timeout,
-                    'local_domain' => $setting->email_smtp_domain,
+                    'transport' => $protocol,
+                    'host'      => $setting->email_smtp_host,
+                    'port'      => $setting->email_smtp_port,
+                    'username'  => $setting->email_smtp_user,
+                    'password'  => $setting->email_smtp_pass,
                 ],
             ]);
         }
         
         // Configure Telegram
-        if (isset($setting->telegram_token)) {
+        if (! empty($setting->telegram_token)) {
             config(['services.telegram-bot-api.token' => $setting->telegram_token]);
         }
         
         // Configure reCAPTCHA
-        if (isset($setting->google_recaptcha_secret_key)) {
+        if (! empty($setting->google_recaptcha_secret_key)) {
             config([
                 'captcha' => [
                     'secret'          => $setting->google_recaptcha_secret_key,
@@ -426,22 +430,53 @@ protected function configureConfig()
 
 #### Implementasi Rebinding
 
+Rebinding `request` dipasang di **dua tempat**, berjalan berurutan sesuai urutan registrasi (CodeIgniterBootstrap terdaftar saat bootstrap, RouteServiceProvider saat BootProviders):
+
 ```php
-$this->app->rebinding('request', function ($app, $request) {
-    global $EXT, $URI, $RTR, $OUT, $IN;
-    
-    // Unset class cache yang bisa crash di testing
-    is_loaded(unsetClass: ['cache', 'form_validation', 'session']);
-    
+// 1. app/Bootstrap/CodeIgniterBootstrap.php - dipasang di setiap app instance
+$app->rebinding('request', function ($app, $request) {
+    if (! isset($GLOBALS['EXT'])) {
+        return;
+    }
+
+    // Sync $_SERVER ke request terakhir (overrideGlobals)
+    $GLOBALS['EXT']->setRequest($request);
+
+    // pre_system hanya sekali per request (Laravel merebind request 2x per request)
+    if (CodeIgniterBootstrap::$preSystemCalled) {
+        return;
+    }
+
+    CodeIgniterBootstrap::$preSystemCalled = true;
+
     // Call pre_system hook untuk replicate CI boot process
-    $EXT->call_hook('pre_system');
-    
+    $GLOBALS['EXT']->call_hook('pre_system');
+});
+
+// 2. app/Providers/RouteServiceProvider.php - hanya untuk request CI
+$this->app->rebinding('request', function ($app, $request) {
+    if ($this->isMatchedRouteLaravel($request)) {
+        return;
+    }
+
+    if (! $this->isMatchedRouteCodeIgniter()) {
+        return;
+    }
+
+    $this->extendControllerDispatcher();
+    $this->extendRedirectInstance();
+    $this->extendViewInstance();
+    $this->configureConfig();
+
+    global $URI, $RTR, $OUT, $SEC, $IN;
+
     // CRITICAL: Sync request ke SEMUA CI core classes
     $URI->setRequest($request);  // MY_URI - parse URL dari $_SERVER
     $RTR->setRequest($request);  // MY_Router (via opensid/router)
     $OUT->setRequest($request);  // MY_Output - compression check dari $_SERVER
+    $SEC->setRequest($request);  // MY_Security - CSRF token verification
     $IN->setRequest($request);   // MY_Input - read $_POST, $_GET, $_COOKIE
-    
+
     // Register CodeIgniter routes
     Route::middleware('codeigniter')
         ->group(base_path('bootstrap/routeCodeIgniter.php'));
@@ -543,11 +578,24 @@ HASIL: Semua data tersinkronisasi dengan benar!
 ┌─────────────────────────────────────┐
 │ Container->rebinding('request')     │
 │ triggered dengan ($app, $request)   │
+│ (2x per request:                    │
+│  sendRequestThroughRouter &         │
+│  dispatchToRouter)                  │
+└─────────────────────────────────────┘
+                ↓
+┌─────────────────────────────────────┐
+│ Callback di CodeIgniterBootstrap    │
+│ (terdaftar pertama) executed:       │
+│  ├─ $EXT->setRequest($request)      │
+│  └─ $EXT->call_hook('pre_system')   │
+│     ← guard 1x per request          │
 └─────────────────────────────────────┘
                 ↓
 ┌─────────────────────────────────────┐
 │ Callback di RouteServiceProvider    │
-│ executed dengan request baru        │
+│ executed:                           │
+│  ├─ isMatchedRouteCodeIgniter()     │
+│  └─ sync CI core classes            │
 └─────────────────────────────────────┘
 ```
 
@@ -556,6 +604,8 @@ HASIL: Semua data tersinkronisasi dengan benar!
 ┌─────────────────────────────────────┐
 │ $EXT->call_hook('pre_system')       │
 │ Execute pre_system hooks            │
+│ (dari rebinding CodeIgniterBootstrap│
+│  - 1x per request)                  │
 └─────────────────────────────────────┘
          ↓
 ┌─────────────────────────────────────┐
@@ -835,12 +885,6 @@ public function setRequest(Request $request): self
     $request->overrideGlobals();  // Safe - just overwrite
     return $this;
 }
-```
-
-**3. Test Environment**
-```php
-// Unset cache classes yang crash di testing
-is_loaded(unsetClass: ['cache', 'form_validation', 'session']);
 ```
 
 ## Migration Path
@@ -1288,9 +1332,9 @@ public function boot(): void
 - [ADR-001: Hybrid Architecture](./ADR-001-hybrid-laravel-codeigniter.md)
 
 ## References
+- [Laravel Service Container](https://laravel.com/docs/11.x/container)
 
-- [Laravel Service Container](https://laravel.com/docs/10.x/container)
-- [Service Provider Extension](https://laravel.com/docs/10.x/providers)
+- [Service Provider Extension](https://laravel.com/docs/11.x/providers)
 - [Dependency Injection Patterns](https://refactoring.guru/design-patterns/dependency-injection)
 
 ---

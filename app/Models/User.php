@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use App\Services\Auth\Traits\Authorizable;
 use App\Traits\ConfigId;
+use App\Traits\HasPasswordHistory;
 use App\Traits\SafeSoftDeletes;
 use App\Traits\ShortcutCache;
 use App\Traits\StatusTrait;
@@ -132,6 +133,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutConfigId($configId = '')
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PasswordHistory> $passwordHistories
+ * @property-read int|null $password_histories_count
  * @mixin \Eloquent
  */
 class User extends BaseModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
@@ -143,6 +146,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     use CanResetPassword;
     use MustVerifyEmail;
     use Notifiable;
+    use HasPasswordHistory;
     use HasOneTimePasswords;
     use StatusTrait;
     use SafeSoftDeletes;
@@ -160,7 +164,28 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     /**
      * {@inheritDoc}
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'config_id',
+        'username',
+        'password',
+        'id_grup',
+        'pamong_id',
+        'email',
+        'active',
+        'nama',
+        'id_telegram',
+        'notif_telegram',
+        'company',
+        'phone',
+        'foto',
+        'session',
+        'batasi_wilayah',
+        'akses_wilayah',
+        'two_factor_enabled',
+        'email_verified_at',
+        'telegram_verified_at',
+        'last_login',
+    ];
 
     /**
      * The accessors to append to the model's array form.
@@ -205,6 +230,21 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
                 unlink($fotoKecil);
             }
         }
+    }
+
+    public function getAksesWilayahAttribute($value)
+    {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (empty($value)) {
+            return [];
+        }
+
+        $decoded = json_decode($value, true);
+
+        return is_array($decoded) ? $decoded : [];
     }
 
     public static function syaratSandi(string $password): bool

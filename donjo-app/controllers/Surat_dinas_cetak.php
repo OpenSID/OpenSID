@@ -246,13 +246,40 @@ class Surat_dinas_cetak extends Admin_Controller
             // Cek duplikasi nomor surat sebelum cetak
             if (empty($cetak['ubah'])) {
                 if (LogSuratDinas::isDuplikat($cetak['input']['nomor'], $cetak['surat']['url_surat'])) {
-                    $surat_terakhir = LogSuratDinas::lastNomerSurat($cetak['surat']['url_surat']);
-                    $pesan          = 'Nomor surat ' . $cetak['input']['nomor'] . ' sudah digunakan. Gunakan nomor surat berikutnya: ' . $surat_terakhir['no_surat_berikutnya'] . '?';
+                    $old_number = $cetak['input']['nomor'];
+                    $next_number = LogSuratDinas::ambilNomorBerikutnya($cetak['surat']['url_surat']);
+                    if ($next_number !== null) {
+                        $cetak['input']['nomor'] = $next_number;
+                        $this->session->log_surat = $cetak;
+                        
+                        // Ganti nomor surat di isi_surat
+                        $format_surat_lama = substitusiNomorSurat($old_number, format_penomoran_surat($cetak['surat']['format_nomor_global'], setting('format_nomor_surat_dinas'), $cetak['surat']['format_nomor_surat'] ?? $cetak['surat']['format_nomor']));
+                        $format_surat_lama = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat_lama);
+                        $format_surat_lama = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat_lama);
+                        $format_surat_lama = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat_lama);
+                        $format_surat_lama = str_ireplace('[tahun]', date('Y'), $format_surat_lama);
 
-                    return $this->output
-                        ->set_status_header(409) // 409 Conflict
-                        ->set_content_type('application/json')
-                        ->set_output(json_encode(['status' => 'error', 'message' => $pesan, 'next_number' => $surat_terakhir['no_surat_berikutnya']]));
+                        $format_surat_baru = substitusiNomorSurat($next_number, format_penomoran_surat($cetak['surat']['format_nomor_global'], setting('format_nomor_surat_dinas'), $cetak['surat']['format_nomor_surat'] ?? $cetak['surat']['format_nomor']));
+                        $format_surat_baru = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat_baru);
+                        $format_surat_baru = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat_baru);
+                        $format_surat_baru = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat_baru);
+                        $format_surat_baru = str_ireplace('[tahun]', date('Y'), $format_surat_baru);
+
+                        $this->request['isi_surat'] = str_ireplace($format_surat_lama, $format_surat_baru, $this->request['isi_surat']);
+                    } else {
+                        $this->simpanSuratSebagaiKonsep($cetak);
+                        $pesan = 'Nomor surat sudah digunakan. Surat otomatis disimpan sebagai konsep karena gagal mendapatkan nomor urut baru setelah dicoba beberapa kali.';
+
+                        return $this->output
+                            ->set_status_header(409) // 409 Conflict
+                            ->set_content_type('application/json')
+                            ->set_output(json_encode([
+                                'status' => 'error',
+                                'message' => $pesan,
+                                'saved_as_konsep' => true,
+                                'redirect' => ci_route('surat_dinas_arsip/masuk')
+                            ]));
+                    }
                 }
             }
 
@@ -523,7 +550,7 @@ class Surat_dinas_cetak extends Admin_Controller
                 $atas_nama .= 'u.b ' . ucwords($pamong->pamong_jabatan . ' ' . identitas()->nama_desa);
             }
 
-            $log_surat['no_surat'] = LogSuratDinas::lastNomerSurat($surat->suratDinas->url_surat)['no_surat_berikutnya'];
+            $log_surat['no_surat'] = LogSuratDinas::ambilNomorBerikutnya($surat->suratDinas->url_surat) ?? LogSuratDinas::lastNomerSurat($surat->suratDinas->url_surat)['no_surat_berikutnya'];
             $log_surat['surat']    = $surat->suratDinas;
             $log_surat['input']    = [
                 // 1. Nomer surat dicek dan dibuat ulang
@@ -640,5 +667,51 @@ class Surat_dinas_cetak extends Admin_Controller
 
             return ucwords($label);
         });
+    }
+
+    private function simpanSuratSebagaiKonsep($cetak)
+    {
+        $id_pamong = $this->ttd($cetak['input']['pilih_atas_nama'], $cetak['input']['pamong_id']);
+        $pamong    = Pamong::find($id_pamong);
+        $log_surat = [
+            'id_format_surat' => $cetak['id_format_surat'],
+            'id_pamong'       => $id_pamong,
+            'nama_jabatan'    => $pamong->jabatan->nama,
+            'nama_pamong'     => $pamong->pamong_nama,
+            'id_user'         => ci_auth()->id,
+            'tanggal'         => Carbon::now(),
+            'karakter'        => $cetak['karakter'] ?? 1,
+            'derajat'         => $cetak['derajat'] ?? 1,
+            'input'           => json_encode($cetak['input']),
+        ];
+        $log_surat['verifikasi_operator'] = 0;
+
+        $isi_surat = $this->request['isi_surat'];
+
+        // Kembalikan kode isian [format_nomor_surat]
+        $format_surat = substitusiNomorSurat($cetak['input']['nomor'], format_penomoran_surat($cetak['surat']['format_nomor_global'], setting('format_nomor_surat_dinas'), $cetak['surat']['format_nomor_surat'] ?? $cetak['surat']['format_nomor']));
+        $format_surat = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
+        $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
+        $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
+        $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
+
+        $isi_surat = str_ireplace($format_surat, '[format_nomor_surat]', $isi_surat);
+
+        // Kembalikan kode isian [tgl_surat]
+        $tgl_surat = tgl_indo($log_surat['tanggal']);
+        $isi_surat = str_replace($tgl_surat, '[tgl_surat]', $isi_surat);
+
+        // Hanya simpan isian surat
+        if (strpos($isi_surat, '<!-- pagebreak --></p>') !== false) {
+            $parts = explode('<!-- pagebreak --></p>', $isi_surat);
+            $isi_surat = count($parts) > 1 ? $parts[1] : $isi_surat;
+        }
+
+        $log_surat['isi_surat'] = $isi_surat;
+
+        // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
+        $log_surat['verifikasi_operator'] = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSuratDinas::PERIKSA : LogSuratDinas::TERIMA;
+
+        return LogSuratDinas::updateOrCreate(['id' => $cetak['id']], $log_surat);
     }
 }

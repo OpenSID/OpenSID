@@ -1,0 +1,67 @@
+{
+    "name": "yajra/laravel-datatables-html",
+    "description": "Laravel DataTables HTML builder plugin",
+    "keywords": [
+        "yajra",
+        "laravel",
+        "dataTables",
+        "jquery",
+        "html",
+        "js"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arjay Angeles",
+            "email": "aqangeles@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "yajra/laravel-datatables-oracle": "^13.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.1",
+        "orchestra/testbench": "^11",
+        "laravel/pint": "^1.21",
+        "rector/rector": "^2.0",
+        "livewire/livewire": "^3.4|^4.0"
+    },
+    "suggest": {
+        "laravel/livewire": "Required for Livewire layout support."
+    },
+    "autoload": {
+        "psr-4": {
+            "Yajra\\DataTables\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yajra\\DataTables\\Html\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "13.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Yajra\\DataTables\\HtmlServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "pint": "./vendor/bin/pint",
+        "rector": "./vendor/bin/rector",
+        "stan": "./vendor/bin/phpstan analyse --memory-limit=2G --ansi --no-progress --no-interaction --configuration=phpstan.neon.dist",
+        "pr": [
+            "@rector",
+            "@pint",
+            "@stan",
+            "@test"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

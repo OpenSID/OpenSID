@@ -404,13 +404,40 @@ class Surat extends Admin_Controller
         // Cek duplikasi nomor surat sebelum cetak
         if ($ubah == null) {
             if (LogSurat::isDuplikat('log_surat', $cetak['input']['nomor'], $cetak['surat']['url_surat'])) {
-                $surat_terakhir = LogSurat::lastNomerSurat($cetak['surat']['url_surat']);
-                $pesan          = 'Nomor surat ' . $cetak['input']['nomor'] . ' sudah digunakan. Gunakan nomor surat berikutnya: ' . $surat_terakhir['no_surat_berikutnya'] . '?';
+                $old_number = $cetak['input']['nomor'];
+                $next_number = LogSurat::ambilNomorBerikutnya($cetak['surat']['url_surat']);
+                if ($next_number !== null) {
+                    $cetak['input']['nomor'] = $next_number;
+                    $this->session->log_surat = $cetak;
+                    
+                    // Ganti nomor surat di isi_surat
+                    $format_surat_lama = substitusiNomorSurat($old_number, format_penomoran_surat($cetak['surat']['format_nomor_global'], setting('format_nomor_surat'), $cetak['surat']['format_nomor_surat'] ?? $cetak['surat']['format_nomor']));
+                    $format_surat_lama = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat_lama);
+                    $format_surat_lama = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat_lama);
+                    $format_surat_lama = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat_lama);
+                    $format_surat_lama = str_ireplace('[tahun]', date('Y'), $format_surat_lama);
 
-                return $this->output
-                    ->set_status_header(409) // 409 Conflict
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(['status' => 'error', 'message' => $pesan, 'next_number' => $surat_terakhir['no_surat_berikutnya']]));
+                    $format_surat_baru = substitusiNomorSurat($next_number, format_penomoran_surat($cetak['surat']['format_nomor_global'], setting('format_nomor_surat'), $cetak['surat']['format_nomor_surat'] ?? $cetak['surat']['format_nomor']));
+                    $format_surat_baru = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat_baru);
+                    $format_surat_baru = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat_baru);
+                    $format_surat_baru = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat_baru);
+                    $format_surat_baru = str_ireplace('[tahun]', date('Y'), $format_surat_baru);
+
+                    $this->request['isi_surat'] = str_ireplace($format_surat_lama, $format_surat_baru, $this->request['isi_surat']);
+                } else {
+                    $this->simpanSuratSebagaiKonsep($cetak);
+                    $pesan = 'Nomor surat sudah digunakan. Surat otomatis disimpan sebagai konsep karena gagal mendapatkan nomor urut baru setelah dicoba beberapa kali.';
+
+                    return $this->output
+                        ->set_status_header(409) // 409 Conflict
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode([
+                            'status' => 'error',
+                            'message' => $pesan,
+                            'saved_as_konsep' => true,
+                            'redirect' => ci_route('keluar/masuk')
+                        ]));
+                }
             }
         }
 
@@ -642,7 +669,7 @@ class Surat extends Admin_Controller
                 $atas_nama .= 'u.b ' . ucwords($pamong->pamong_jabatan . ' ' . identitas()->nama_desa);
             }
 
-            $log_surat['no_surat'] = LogSurat::lastNomerSurat($surat->url_surat)['no_surat_berikutnya'];
+            $log_surat['no_surat'] = LogSurat::ambilNomorBerikutnya($surat->url_surat) ?? LogSurat::lastNomerSurat($surat->url_surat)['no_surat_berikutnya'];
             $log_surat['surat']    = $surat->formatSurat;
             $input                 = json_decode($surat->input, true) ?? [];
             $log_surat['input']    = [
@@ -992,5 +1019,73 @@ class Surat extends Admin_Controller
             log_message('error', $e->getMessage());
         }
         // akhir notifikasi Mobile Admin
+    }
+
+    private function simpanSuratSebagaiKonsep($cetak)
+    {
+        $id_pamong = $this->ttd($cetak['input']['pilih_atas_nama'], $cetak['input']['pamong_id']);
+        $pamong    = Pamong::find($id_pamong);
+        $log_surat = [
+            'id_format_surat' => $cetak['id_format_surat'],
+            'id_pend'         => $cetak['id_pend'], // nik = id_pend
+            'id_pamong'       => $id_pamong,
+            'nama_jabatan'    => $pamong->jabatan->nama,
+            'nama_pamong'     => $pamong->pamong_nama,
+            'id_user'         => ci_auth()->id,
+            'tanggal'         => Carbon::now(),
+            'kecamatan'       => isset($cetak['kecamatan']) ? $cetak['kecamatan'] : ($cetak['surat']->kecamatan ?? 0),
+            'input'           => json_encode($cetak['input']),
+        ];
+        $log_surat['verifikasi_operator'] = 0;
+
+        if ($nik = $cetak['input']['nik']) {
+            $nik = Penduduk::select('nik')->find($nik)->nik;
+        } else {
+            // Surat untuk non-warga
+            $log_surat['nama_non_warga'] = $cetak['input']['individu']['nama'];
+            $log_surat['nik_non_warga']  = $cetak['input']['individu']['nik'] ?: null;
+            $nik                         = $log_surat['nik_non_warga'];
+        }
+
+        if ($cetak['input']['sebagai']) {
+            $name_pelapor = $cetak['input']['sebagai'];
+            if ($cetak['input']['id_pend_' . $name_pelapor]) {
+                $pelapor['id_pend_pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
+                $pelapor                    = Penduduk::select('id', 'nik', 'nama')->where('id', $pelapor['id_pend_pelapor'])->first();
+                $pelapor['nik_pelapor']     = $pelapor->nik;
+                $pelapor['nama_pelapor']    = $pelapor->nama;
+            } else {
+                $pelapor['id_pend_pelapor'] = null;
+                $pelapor['nik_pelapor']     = $cetak['input'][$name_pelapor]['nik'];
+                $pelapor['nama_pelapor']    = $cetak['input'][$name_pelapor]['nama'];
+            }
+            $log_surat['pemohon'] = json_encode(['id_pend' => $pelapor['id'], 'nik' => $pelapor['nik_pelapor'], 'nama' => $pelapor['nama_pelapor']]);
+        } else {
+            $log_surat['pemohon'] = null;
+        }
+
+        $isi_surat = $this->request['isi_surat'];
+
+        // Kembalikan kode isian [format_nomor_surat]
+        $format_surat = substitusiNomorSurat($cetak['input']['nomor'], format_penomoran_surat($cetak['surat']['format_nomor_global'], setting('format_nomor_surat'), $cetak['surat']['format_nomor_surat'] ?? $cetak['surat']['format_nomor']));
+        $format_surat = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
+        $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
+        $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
+        $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
+
+        $isi_surat = str_ireplace($format_surat, '[format_nomor_surat]', $isi_surat);
+
+        // Hanya simpan isian surat
+        if (strpos($isi_surat, '<!-- pagebreak --></p>') !== false) {
+            $parts = explode('<!-- pagebreak --></p>', $isi_surat);
+            $isi_surat = count($parts) > 1 ? $parts[1] : $isi_surat;
+        }
+
+        $log_surat['isi_surat'] = $isi_surat;
+
+        // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
+        $log_surat['verifikasi_operator'] = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
+
+        return LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat);
     }
 }

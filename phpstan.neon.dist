@@ -69,8 +69,11 @@ parameters:
 
     ignoreErrors:
         -
-            identifier: nullCoalesce.offset
-            path: app/Rules/SecureCloudUrl.php
-        -
             identifier: trait.unused
             path: app/Traits/Download.php
+
+services:
+    -
+        class: App\PHPStan\Rules\AdminModulAttributeRule
+        tags:
+            - phpstan.rules.rule

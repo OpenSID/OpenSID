@@ -84,7 +84,10 @@ class Changes extends \Google\Service\Resource
    * loss of access.
    * @opt_param bool includeTeamDriveItems Deprecated: Use
    * `includeItemsFromAllDrives` instead.
-   * @opt_param int pageSize The maximum number of changes to return per page.
+   * @opt_param int pageSize The maximum number of changes to return. The service
+   * may return fewer than this value. If unspecified, at most 100 changes will be
+   * returned. The maximum value is 1000; values above 1000 will be coerced to
+   * 1000.
    * @opt_param bool restrictToMyDrive Whether to restrict the results to changes
    * inside the My Drive hierarchy. This omits changes to files such as those in
    * the Application Data folder or shared files which have not been added to My
@@ -135,7 +138,10 @@ class Changes extends \Google\Service\Resource
    * loss of access.
    * @opt_param bool includeTeamDriveItems Deprecated: Use
    * `includeItemsFromAllDrives` instead.
-   * @opt_param int pageSize The maximum number of changes to return per page.
+   * @opt_param int pageSize The maximum number of changes to return. The service
+   * may return fewer than this value. If unspecified, at most 100 changes will be
+   * returned. The maximum value is 1000; values above 1000 will be coerced to
+   * 1000.
    * @opt_param bool restrictToMyDrive Whether to restrict the results to changes
    * inside the My Drive hierarchy. This omits changes to files such as those in
    * the Application Data folder or shared files which have not been added to My
