@@ -16,6 +16,7 @@ user, which is much faster. It can work with S3 buckets or any PSR7 Stream.
    Nginx
    Varnish
    ContentLength
+   LargeFilesToS3
 
 Installation
 ---------------
@@ -39,7 +40,7 @@ as well:
 If ``composer install`` yields the following error, your installation is missing
 the `mbstring extension <https://www.php.net/manual/en/book.mbstring.php>`_,
 either `install it <https://www.php.net/manual/en/mbstring.installation.php>`_
-or run the follwoing command:
+or run the following command:
 
 .. code-block::
     Your requirements could not be resolved to an installable set of packages.
@@ -120,7 +121,7 @@ It is recommended to extract with another tool like
 `7-zip <https://www.7-zip.org/>`_.
 See `#146 <https://github.com/maennchen/ZipStream-PHP/issues/146>`_.
 
-It is the responsability of the client code to make sure that files are not
+It is the responsibility of the client code to make sure that files are not
 saved with the same path, as it is not possible for the library to figure it out
 while streaming a zip.
 See `#154 <https://github.com/maennchen/ZipStream-PHP/issues/154>`_.

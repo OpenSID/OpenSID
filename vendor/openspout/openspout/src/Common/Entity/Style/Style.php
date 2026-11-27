@@ -114,12 +114,12 @@ final class Style
 
     private bool $isEmpty = true;
 
-    public function __serialize(): array
+    public function __sleep(): array
     {
         $vars = get_object_vars($this);
         unset($vars['id'], $vars['isRegistered']);
 
-        return $vars;
+        return array_keys($vars);
     }
 
     public function getId(): int

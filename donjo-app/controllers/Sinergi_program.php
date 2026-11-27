@@ -39,7 +39,6 @@ use App\Models\SinergiProgram as SinergiProgramModel;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
 use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -207,7 +206,7 @@ class Sinergi_program extends Admin_Controller
             ],
             callback: static function ($uploadData) {
                 Image::load($uploadData['full_path'])
-                    ->format(Manipulations::FORMAT_WEBP)
+                    ->format('webp')
                     ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
 
                 // Hapus original file

@@ -47,6 +47,6 @@ class InventarisKontruksiRepository
         return QueryBuilder::for(InventarisKontruksi::aktif())
             ->allowedFields('*')
             ->allowedFilters('*')
-            ->allowedSorts(['updated_at', 'created_at', 'id'])->jsonPaginate();
+            ->allowedSorts(...['updated_at', 'created_at', 'id'])->jsonPaginate();
     }
 }

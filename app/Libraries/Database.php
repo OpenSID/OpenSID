@@ -50,6 +50,8 @@ class Database
 {
     use Migration;
 
+    public \CI_Controller $ci;
+
     public string $minimumVersionBuild = MINIMUM_VERSION_BUILD;
 
     private string $engine    = 'InnoDB';
@@ -59,6 +61,7 @@ class Database
 
     public function __construct()
     {
+        $this->ci             = app()->make(\CI_Controller::class);
         $this->databaseOption = DB::getConnections()['default']->getConfig();
         $this->databaseName   = $this->databaseOption['database'];
     }
@@ -162,7 +165,7 @@ class Database
             echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
         }
         $password = $this->databaseOption['password'];
-        if (strlen((string) $password) < 80) {
+        if (strlen((string) $password) < 80 && ! $this->ci->session->has_userdata('instalasi')) {
             updateConfigFile('password', encrypt($password));
         }
 

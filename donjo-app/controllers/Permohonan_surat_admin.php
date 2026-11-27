@@ -224,9 +224,10 @@ class Permohonan_surat_admin extends Admin_Controller
         ];
 
         PesanMandiri::create($data);
-        $this->proses($id_permohonan, $tipe);
 
         $this->kirim_notifikasi_penduduk($id_permohonan, $data['komentar'], $data['subjek'], '/layanan');
+
+        $this->proses($id_permohonan, $tipe);
 
         redirect('permohonan_surat_admin');
     }

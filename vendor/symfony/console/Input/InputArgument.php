@@ -25,37 +25,51 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class InputArgument
 {
+    /**
+     * Providing an argument is required (e.g. just 'app:foo' is not allowed).
+     */
     public const REQUIRED = 1;
+
+    /**
+     * Providing an argument is optional (e.g. 'app:foo' and 'app:foo bar' are both allowed). This is the default behavior of arguments.
+     */
     public const OPTIONAL = 2;
+
+    /**
+     * The argument accepts multiple values and turn them into an array (e.g. 'app:foo bar baz' will result in value ['bar', 'baz']).
+     */
     public const IS_ARRAY = 4;
 
-    private string $name;
     private int $mode;
-    private string|int|bool|array|float|null $default;
-    private array|\Closure $suggestedValues;
-    private string $description;
+    private mixed $default;
 
     /**
      * @param string                                                                        $name            The argument name
-     * @param int|null                                                                      $mode            The argument mode: a bit mask of self::REQUIRED, self::OPTIONAL and self::IS_ARRAY
+     * @param int-mask-of<InputArgument::*>|null                                            $mode            The argument mode: a bit mask of self::REQUIRED, self::OPTIONAL and self::IS_ARRAY
      * @param string                                                                        $description     A description text
-     * @param string|bool|int|float|array|null                                              $default         The default value (for self::OPTIONAL mode only)
+     * @param mixed                                                                         $default         The default value (for self::OPTIONAL mode only)
      * @param array|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
      *
      * @throws InvalidArgumentException When argument mode is not valid
      */
-    public function __construct(string $name, ?int $mode = null, string $description = '', string|bool|int|float|array|null $default = null, \Closure|array $suggestedValues = [])
-    {
-        if (null === $mode) {
-            $mode = self::OPTIONAL;
-        } elseif ($mode > 7 || $mode < 1) {
+    public function __construct(
+        private string $name,
+        ?int $mode = null,
+        private string $description = '',
+        mixed $default = null,
+        private \Closure|array $suggestedValues = [],
+    ) {
+        // If not explicitly marked as required, we assume the value to be optional
+        $mode = self::REQUIRED === (self::REQUIRED & $mode) ? $mode : (self::OPTIONAL | $mode);
+        if ($mode >= (self::IS_ARRAY << 1) || $mode < 1) {
             throw new InvalidArgumentException(\sprintf('Argument mode "%s" is not valid.', $mode));
         }
 
-        $this->name = $name;
+        if ((self::REQUIRED | self::OPTIONAL) === ((self::REQUIRED | self::OPTIONAL) & $mode)) {
+            trigger_deprecation('symfony/console', '8.1', 'Argument "%s" mode should specify either required or optional.', $name);
+        }
+
         $this->mode = $mode;
-        $this->description = $description;
-        $this->suggestedValues = $suggestedValues;
 
         $this->setDefault($default);
     }
@@ -90,16 +104,9 @@ class InputArgument
 
     /**
      * Sets the default value.
-     *
-     * @return void
-     *
-     * @throws LogicException When incorrect default value is given
      */
-    public function setDefault(string|bool|int|float|array|null $default = null)
+    public function setDefault(mixed $default): void
     {
-        if (1 > \func_num_args()) {
-            trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
-        }
         if ($this->isRequired() && null !== $default) {
             throw new LogicException('Cannot set a default value except for InputArgument::OPTIONAL mode.');
         }
@@ -118,18 +125,21 @@ class InputArgument
     /**
      * Returns the default value.
      */
-    public function getDefault(): string|bool|int|float|array|null
+    public function getDefault(): mixed
     {
         return $this->default;
     }
 
+    /**
+     * Returns true if the argument has values for input completion.
+     */
     public function hasCompletion(): bool
     {
         return [] !== $this->suggestedValues;
     }
 
     /**
-     * Adds suggestions to $suggestions for the current completion input.
+     * Supplies suggestions when command resolves possible completion options for input.
      *
      * @see Command::complete()
      */

@@ -38,10 +38,8 @@
 namespace App\Providers;
 
 use App\Models\SettingAplikasi;
-use Exception;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Compilers\BladeCompiler;
 
 class ViewServiceProvider extends ServiceProvider
@@ -53,8 +51,6 @@ class ViewServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->bootShareViewData();
-        $this->bootHideSensitiveSetting();
     }
 
     protected function registerBladeExtensions(BladeCompiler $bladeCompiler): void
@@ -64,52 +60,5 @@ class ViewServiceProvider extends ServiceProvider
         $bladeCompiler->directive('disabled', static fn ($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
         $bladeCompiler->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
         $bladeCompiler->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
-    }
-
-    protected function bootShareViewData(): void
-    {
-        if (! $this->app['ci']->session->instalasi) {
-            try {
-                $desa = identitas();
-            } catch (Exception) {
-            }
-        }
-
-        if ($this->app['ci']->session->db_error['code'] === 1049) {
-            $this->app['ci']->session->error_db = null;
-            $this->app['ci']->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
-        } else {
-            $errors          = new ViewErrorBag();
-            $flashdataErrors = $this->app['ci']->session->flashdata('errors');
-            if ($flashdataErrors instanceof \Illuminate\Support\MessageBag) {
-                $errors->put('default', $flashdataErrors);
-            } elseif (is_array($flashdataErrors)) {
-                // Handle array of errors from FormRequest validation
-                $errors->put('default', new \Illuminate\Support\MessageBag($flashdataErrors));
-            } elseif ($this->app['ci']->session->errors instanceof \Illuminate\Support\MessageBag) {
-                $errors->put('default', $this->app['ci']->session->errors);
-            }
-
-            View::share([
-                'errors'      => $errors,
-                'ci'          => $this->app['ci'],
-                'desa'        => $desa ?? null,
-                'auth'        => $this->app['ci']->session->isAdmin,
-                'session'     => $this->app['ci']->session,
-                'token_name'  => $this->app['ci']->security->get_csrf_token_name(),
-                'token_value' => $this->app['ci']->security->get_csrf_hash(),
-            ]);
-        }
-    }
-
-    protected function bootHideSensitiveSetting()
-    {
-        View::composer('*', function ($view): void {
-            $ci = $this->app->make('ci');
-
-            foreach (SettingAplikasi::$sensitiveKeys as $key) {
-                unset($ci->setting->{$key});
-            }
-        });
     }
 }

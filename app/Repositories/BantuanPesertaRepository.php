@@ -78,7 +78,7 @@ class BantuanPesertaRepository
 
         return QueryBuilder::for($bantuan)
             ->allowedFields('*')
-            ->allowedFilters([
+            ->allowedFilters(...[
                 AllowedFilter::callback('status', static function ($query, $value) use ($currentDate) {
                     $query
                         ->when($value == 1, static function ($query) use ($currentDate) {
@@ -122,7 +122,7 @@ class BantuanPesertaRepository
                     }
                 }),
             ])
-            ->allowedSorts(['nama', 'kartu_nama', 'kartu_alamat', 'sdate', 'edate', 'id'])
+            ->allowedSorts(...['nama', 'kartu_nama', 'kartu_alamat', 'sdate', 'edate', 'id'])
             ->jsonPaginate();
     }
 }

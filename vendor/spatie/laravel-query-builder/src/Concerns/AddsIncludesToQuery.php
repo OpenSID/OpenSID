@@ -6,42 +6,24 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\Exceptions\InvalidIncludeQuery;
-use Spatie\QueryBuilder\Includes\IncludeInterface;
+use Spatie\QueryBuilder\Includes\IncludedRelationship;
 
 trait AddsIncludesToQuery
 {
     protected ?Collection $allowedIncludes = null;
 
-    public function allowedIncludes($includes): static
+    public function allowedIncludes(AllowedInclude|string ...$includes): static
     {
-        $includes = is_array($includes) ? $includes : func_get_args();
-
         $this->allowedIncludes = collect($includes)
-            ->reject(function ($include) {
-                return empty($include);
+            ->reject(fn ($include) => empty($include))
+            ->flatMap(function ($include): array {
+                if ($include instanceof AllowedInclude) {
+                    return [$include];
+                }
+
+                return $this->generateIncludesFromString($include);
             })
-            ->flatMap(function ($include): Collection {
-                if ($include instanceof Collection) {
-                    return $include;
-                }
-
-                if ($include instanceof IncludeInterface) {
-                    return collect([$include]);
-                }
-
-                if (Str::endsWith($include, config('query-builder.count_suffix', 'Count'))) {
-                    return AllowedInclude::count($include);
-                }
-
-                if (Str::endsWith($include, config('query-builder.exists_suffix', 'Exists'))) {
-                    return AllowedInclude::exists($include);
-                }
-
-                return AllowedInclude::relationship($include);
-            })
-            ->unique(function (AllowedInclude $allowedInclude) {
-                return $allowedInclude->getName();
-            });
+            ->unique(fn (AllowedInclude $allowedInclude) => $allowedInclude->getName());
 
         $this->ensureAllIncludesExist();
 
@@ -52,52 +34,73 @@ trait AddsIncludesToQuery
         return $this;
     }
 
-    protected function addIncludesToQuery(Collection $includes)
+    protected function generateIncludesFromString(string $include): array
+    {
+        $countSuffix = config('query-builder.suffixes.count', 'Count');
+        $existsSuffix = config('query-builder.suffixes.exists', 'Exists');
+
+        if (Str::endsWith($include, $countSuffix)) {
+            return [AllowedInclude::count($include)];
+        }
+
+        if (Str::endsWith($include, $existsSuffix)) {
+            return [AllowedInclude::exists($include)];
+        }
+
+        $paths = IncludedRelationship::getIndividualRelationshipPathsFromInclude($include);
+
+        $includes = [];
+
+        foreach ($paths as $path) {
+            $includes[] = AllowedInclude::relationship($path);
+
+            if (! Str::contains($path, '.')) {
+                $includes[] = AllowedInclude::count($path.$countSuffix);
+                $includes[] = AllowedInclude::exists($path.$existsSuffix);
+            }
+        }
+
+        return $includes;
+    }
+
+    protected function addIncludesToQuery(Collection $includes): void
     {
         $includes->each(function ($include) {
             $include = $this->findInclude($include);
 
-            $include->include($this);
+            $include?->include($this);
         });
     }
 
     protected function findInclude(string $include): ?AllowedInclude
     {
         return $this->allowedIncludes
-            ->first(function (AllowedInclude $included) use ($include) {
-                return $included->isForInclude($include);
-            });
+            ->first(fn (AllowedInclude $included) => $included->isForInclude($include));
     }
 
-    protected function ensureAllIncludesExist()
+    protected function ensureAllIncludesExist(): void
     {
-        if (config('query-builder.disable_invalid_includes_query_exception', false)) {
+        if (config('query-builder.disable_invalid_include_query_exception', false)) {
             return;
         }
 
         $includes = $this->request->includes();
 
-        $allowedIncludeNames = $this->allowedIncludes->map(function (AllowedInclude $allowedInclude) {
-            return $allowedInclude->getName();
-        });
+        $allowedIncludeNames = $this->allowedIncludes?->map(fn (AllowedInclude $allowedInclude) => $allowedInclude->getName());
 
         $diff = $includes->diff($allowedIncludeNames);
 
         if ($diff->count()) {
             throw InvalidIncludeQuery::includesNotAllowed($diff, $allowedIncludeNames);
         }
-
-        // TODO: Check for non-existing relationships?
     }
 
     protected function filterNonExistingIncludes(Collection $includes): Collection
     {
-        if (config('query-builder.disable_invalid_includes_query_exception', false) == false) {
+        if (! config('query-builder.disable_invalid_include_query_exception', false)) {
             return $includes;
         }
 
-        return $includes->filter(function ($include) {
-            return $this->findInclude($include);
-        });
+        return $includes->filter(fn ($include) => ! is_null($this->findInclude($include)));
     }
 }

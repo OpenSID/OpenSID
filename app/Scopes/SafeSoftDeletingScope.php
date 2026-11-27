@@ -56,8 +56,12 @@ class SafeSoftDeletingScope extends SoftDeletingScope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if (Schema::hasColumn($model->getTable(), $model->getDeletedAtColumn())) {
-            parent::apply($builder, $model);
+        try {
+            if (Schema::hasColumn($model->getTable(), $model->getDeletedAtColumn())) {
+                parent::apply($builder, $model);
+            }
+        } catch (\Throwable $e) {
+            // Ignore database connection/structure exceptions during booting/scopes evaluation
         }
     }
 }

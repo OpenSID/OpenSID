@@ -119,7 +119,7 @@ $autoload['libraries'] = ['session', 'user_agent', 'form_validation'];
 |	$autoload['drivers'] = array('cache' => 'cch');
 |
 */
-$autoload['drivers'] = ['session'];
+$autoload['drivers'] = ['cache'];
 
 /*
 | -------------------------------------------------------------------
@@ -129,7 +129,7 @@ $autoload['drivers'] = ['session'];
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = ['url', 'language', 'general', 'form', 'donjolib', 'date', 'pict', 'opensid', 'database', 'surat', 'core', 'theme', 'illuminate'];
+$autoload['helper'] = ['url', 'language', 'general', 'form', 'donjolib', 'date', 'pict', 'opensid', 'database', 'surat', 'core', 'theme'];
 
 /*
 | -------------------------------------------------------------------

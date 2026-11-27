@@ -59,10 +59,6 @@
 
         @include('admin.pengaturan.pengaturan_modal')
 
-        @if ($moduleDetail['rilis'])
-        @include('simpel-core::components.buttons.rilis', $moduleDetail)
-        @endif
-
         @include('admin.layouts.partials.footer')
 
         @include('admin.layouts.partials.control_sidebar')

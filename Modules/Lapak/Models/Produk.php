@@ -44,7 +44,6 @@ use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
 
 class Produk extends BaseModel
 {
@@ -298,9 +297,9 @@ class Produk extends BaseModel
             $uploadData = ci()->upload->data()['file_name'];
 
             if (extension_loaded('gd')) {
-                Image::load(ci()->upload->data('full_path'))
-                    ->useImageDriver('gd')
-                    ->format(Manipulations::FORMAT_WEBP)
+                Image::useImageDriver('gd')
+                    ->loadFile(ci()->upload->data('full_path'))
+                    ->format('webp')
                     ->save(ci()->upload->data('file_path') . ci()->upload->data('raw_name') . '.webp');
 
                 // Hapus original file

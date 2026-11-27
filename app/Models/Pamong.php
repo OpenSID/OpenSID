@@ -205,7 +205,7 @@ class Pamong extends BaseModel
     /**
      * Define a one-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function jabatan()
     {
@@ -215,7 +215,7 @@ class Pamong extends BaseModel
     /**
      * Define a one-to-many relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function kehadiranPerangkat()
     {
@@ -225,7 +225,7 @@ class Pamong extends BaseModel
     /**
      * Define a one-to-many relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function kehadiranPengaduan()
     {
@@ -374,17 +374,19 @@ class Pamong extends BaseModel
      */
     public function getPamongNamaAttribute()
     {
-        $pamong_nama = $this->attributes['id_pend'] != null ? $this->penduduk->nama : $this->attributes['pamong_nama'];
+        $nama = ($this->attributes['id_pend'] ?? null)
+            ? $this->penduduk->nama
+            : ($this->attributes['pamong_nama'] ?? '');
 
         if ($this->gelar_depan) {
-            $pamong_nama = $this->gelar_depan . ' ' . $pamong_nama;
+            $nama = $this->gelar_depan . ' ' . $nama;
         }
 
         if ($this->gelar_belakang) {
-            return $pamong_nama . ', ' . $this->gelar_belakang;
+            $nama .= ', ' . $this->gelar_belakang;
         }
 
-        return $pamong_nama;
+        return $nama;
     }
 
     public function getPamongNikAttribute()

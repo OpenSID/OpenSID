@@ -360,13 +360,12 @@ trait Migrator
      * @param string $tabel Nama tabel
      * @param array  $kolom Kolom primary key
      */
-    public function cek_primary_key($tabel, $kolom = []): bool
+    public function cek_primary_key(string $tabel, array $kolom = []): bool
     {
-        $schemaManager = DB::connection()->getDoctrineSchemaManager();
-        $indexes       = $schemaManager->listTableIndexes($tabel);
+        $indexes = Schema::getIndexes($tabel);
 
         foreach ($indexes as $index) {
-            if ($index->isPrimary() && $index->getColumns() == $kolom) {
+            if ($index['primary'] && $index['columns'] === $kolom) {
                 return true;
             }
         }

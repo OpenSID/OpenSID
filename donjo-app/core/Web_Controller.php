@@ -75,9 +75,7 @@ class Web_Controller extends MY_Controller
         theme_active();
 
         if (setting('offline_mode') == 2 || (setting('offline_mode') == 1 && can('b', 'web'))) {
-            $this->maintenance();
-
-            exit;
+            abort(response($this->maintenance()));
         }
 
         $this->viewShare();
@@ -90,12 +88,12 @@ class Web_Controller extends MY_Controller
     {
         $counterVisitor = true;
 
-        if ((new Session())->has('pengunjungOnline') || identitas() === null) {
+        if (session()->has('pengunjungOnline') || identitas() === null) {
             $counterVisitor = false;
         }
         if ($counterVisitor) {
             StatistikPengunjung::counterVisitor(request()->ip());
-            (new Session())->set('pengunjungOnline', date('Y-m-d'));
+            session()->put('pengunjungOnline', date('Y-m-d'));
         }
 
         $statistik_pengunjung = StatistikPengunjung::summary();
@@ -226,9 +224,7 @@ class Web_Controller extends MY_Controller
     {
         $menuAktif = $this->menuAktif($link);
         if (! $menuAktif) {
-            view('theme::menu_not_active');
-
-            exit;
+            abort(response(view('theme::menu_not_active')));
         }
     }
 

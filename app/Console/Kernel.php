@@ -37,356 +37,43 @@
 
 namespace App\Console;
 
-use App\Console\Commands\AcakDataCommand;
-use App\Console\Commands\DesaBaruCommand;
-use App\Console\Commands\ModuleCommand;
-use App\Console\Commands\Modules\CastMakeCommand;
-use App\Console\Commands\Modules\ControllerMakeCommand;
-use App\Console\Commands\Modules\EnumMakeCommand;
-use App\Console\Commands\Modules\HelperMakeCommand;
-use App\Console\Commands\Modules\MigrationMakeCommand;
-use App\Console\Commands\Modules\ModelMakeCommand;
-use App\Console\Commands\Modules\ModuleMakeCommand;
-use App\Console\Commands\Modules\ObserverMakeCommand;
-use App\Console\Commands\Modules\RuleMakeCommand;
-use App\Console\Commands\Modules\ScopeMakeCommand;
-use App\Console\Commands\Modules\SeedMakeCommand;
-use App\Console\Commands\Modules\ServiceMakeCommand;
-use App\Console\Commands\Modules\TraitMakeCommand;
-use App\Console\Commands\PindaiTemaCommand;
-use App\Console\Commands\SetupCommand;
-use App\Console\Commands\UpdateThemesCommand;
-use App\Console\Commands\ViewClearCommand;
-use App\Exceptions\Handler;
-use App\Services\Laravel;
-use Illuminate\Console\Application as Artisan;
-use Illuminate\Console\Events\CommandFinished;
-use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Console\Scheduling\ScheduleRunCommand;
-use Illuminate\Contracts\Console\Kernel as KernelContract;
-use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Events\Dispatcher;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use RuntimeException;
-use Symfony\Component\Console\ConsoleEvents;
-use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\Console\Event\ConsoleTerminateEvent;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Throwable;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-class Kernel implements KernelContract
+class Kernel extends ConsoleKernel
 {
     /**
-     * The Symfony event dispatcher implementation.
-     *
-     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface|null
+     * {@inheritDoc}
      */
-    protected $symfonyDispatcher;
-
-    /**
-     * The Artisan application instance.
-     *
-     * @var Artisan
-     */
-    protected $artisan;
-
-    /**
-     * Indicates if facade aliases are enabled for the console.
-     *
-     * @var bool
-     */
-    protected $aliases = true;
-
-    /**
-     * The Artisan commands provided by the application.
-     *
-     * @var array
-     */
-    protected $commands = [
-        \App\Console\Commands\PasangModulUji::class,
-        \App\Console\Commands\PasangTemaUji::class,
-        AcakDataCommand::class,
-        DesaBaruCommand::class,
-        ModuleCommand::class,
-        SetupCommand::class,
-        UpdateThemesCommand::class,
-        ViewClearCommand::class,
-        PindaiTemaCommand::class,
-
-        // Command module tambahan
-        ModuleMakeCommand::class,      // php artisan make:module
-        ControllerMakeCommand::class,  // php artisan make:controller
-        ControllerMakeCommand::class,  // php artisan make:controller
-        MigrationMakeCommand::class,   // php artisan make:migration
-        ModelMakeCommand::class,       // php artisan make:model
-        TraitMakeCommand::class,       // php artisan make:trait
-        SeedMakeCommand::class,        // php artisan make:seed
-        EnumMakeCommand::class,        // php artisan make:enum
-        CastMakeCommand::class,        // php artisan make:cast
-        HelperMakeCommand::class,      // php artisan make:helper
-        ServiceMakeCommand::class,     // php artisan make:service
-        RuleMakeCommand::class,        // php artisan make:rule
-        ObserverMakeCommand::class,    // php artisan make:observer
-        ScopeMakeCommand::class,       // php artisan make:scope
+    protected $bootstrappers = [
+        \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables::class,
+        \Illuminate\Foundation\Bootstrap\LoadConfiguration::class,
+        \App\Bootstrap\CodeIgniterBootstrap::class,
+        \Illuminate\Foundation\Bootstrap\HandleExceptions::class,
+        \Illuminate\Foundation\Bootstrap\RegisterFacades::class,
+        \Illuminate\Foundation\Bootstrap\SetRequestForConsole::class,
+        \Illuminate\Foundation\Bootstrap\RegisterProviders::class,
+        \Illuminate\Foundation\Bootstrap\BootProviders::class,
     ];
 
     /**
-     * Create a new console kernel instance.
-     *
-     * @return void
-     */
-    public function __construct(
-        /**
-         * The application implementation.
-         */
-        protected Laravel $app
-    ) {
-        if ($this->app->runningInConsole()) {
-            $this->setRequestForConsole($this->app);
-        } else {
-            $this->rerouteSymfonyCommandEvents();
-        }
-
-        $this->app->prepareForConsoleCommand($this->aliases);
-        $this->defineConsoleSchedule();
-    }
-
-    /**
-     * Re-route the Symfony command events to their Laravel counterparts.
-     *
-     * @internal
-     *
-     * @return $this
-     */
-    public function rerouteSymfonyCommandEvents(): static
-    {
-        if (null === $this->symfonyDispatcher) {
-            $this->symfonyDispatcher = new EventDispatcher();
-
-            $this->symfonyDispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event): void {
-                $this->app[Dispatcher::class]->dispatch(
-                    new CommandStarting($event->getCommand()->getName(), $event->getInput(), $event->getOutput())
-                );
-            });
-
-            $this->symfonyDispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event): void {
-                $this->app[Dispatcher::class]->dispatch(
-                    new CommandFinished($event->getCommand()->getName(), $event->getInput(), $event->getOutput(), $event->getExitCode())
-                );
-            });
-        }
-
-        return $this;
-    }
-
-    /**
-     * Run the console application.
-     *
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
-    public function handle($input, $output = null)
-    {
-        try {
-            $this->app->boot();
-
-            return $this->getArtisan()->run($input, $output);
-        } catch (Throwable $e) {
-            $this->reportException($e);
-
-            $this->renderException($output, $e);
-
-            return 1;
-        }
-    }
-
-    /**
-     * Bootstrap the application for artisan commands.
-     */
-    public function bootstrap(): void
-    {
-
-    }
-
-    /**
-     * Terminate the application.
-     *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param int                                             $status
-     */
-    public function terminate($input, $status): void
-    {
-
-    }
-
-    /**
-     * Run an Artisan console command by name.
-     *
-     * @param string     $command
-     * @param mixed|null $outputBuffer
-     *
-     * @return int
-     */
-    public function call($command, array $parameters = [], $outputBuffer = null)
-    {
-        return $this->getArtisan()->call($command, $parameters, $outputBuffer);
-    }
-
-    /**
-     * Queue the given console command.
-     *
-     * @param string $command
-     */
-    public function queue($command, array $parameters = []): void
-    {
-        throw new RuntimeException('Queueing Artisan commands is not supported.');
-    }
-
-    /**
-     * Get all of the commands registered with the console.
-     *
-     * @return array
-     */
-    public function all()
-    {
-        return $this->getArtisan()->all();
-    }
-
-    /**
-     * Get the output for the last run command.
-     *
-     * @return string
-     */
-    public function output()
-    {
-        return $this->getArtisan()->output();
-    }
-
-    /**
-     * Set the request instance for URL generation.
-     *
-     * @return void
-     */
-    protected function setRequestForConsole(Laravel $app)
-    {
-        $server = $_SERVER;
-
-        $server = array_merge($server, [
-            'SCRIPT_FILENAME' => 'artisan',
-            'SCRIPT_NAME'     => 'artisan',
-            'PHP_SELF'        => 'artisan',
-            'PATH_TRANSLATED' => 'artisan',
-            'argv'            => Arr::except($server['argv'], 0),
-        ]);
-
-        $_SERVER = $server;
-
-        $app->instance('request', Request::create(
-            base_url(),
-            'GET',
-            [],
-            [],
-            [],
-            $server
-        ));
-    }
-
-    /**
      * Define the application's command schedule.
-     *
-     * @return void
      */
-    protected function defineConsoleSchedule()
+    protected function schedule(Schedule $schedule): void
     {
-        $this->app->instance(
-            Schedule::class,
-            $schedule = new Schedule()
-        );
-
-        $this->schedule($schedule);
+        // $schedule->command('inspire')->hourly();
     }
 
     /**
-     * Define the application's command schedule.
-     *
-     * @return void
+     * Register the commands for the application.
      */
-    protected function schedule(Schedule $schedule)
+    protected function commands(): void
     {
+        $this->load(__DIR__.'/Commands');
 
-    }
+        require base_path('routes/console.php');
 
-    /**
-     * Get the Artisan application instance.
-     *
-     * @return Artisan
-     */
-    protected function getArtisan()
-    {
-        if (null === $this->artisan) {
-            $artisan = new Artisan($this->app, $this->app->make('events'), $this->app->version());
-            $artisan->setName('OpenSID');
-            $artisan->resolveCommands($this->getCommands());
-            $artisan->setContainerCommandLoader();
-
-            if ($this->symfonyDispatcher instanceof EventDispatcher) {
-                $artisan->setDispatcher($this->symfonyDispatcher);
-                $artisan->setSignalsToDispatchEvent();
-            }
-
-            return $this->artisan = $artisan;
-        }
-
-        return $this->artisan;
-    }
-
-    /**
-     * Get the commands to add to the application.
-     */
-    protected function getCommands(): array
-    {
-        return array_merge($this->commands, [
-            ScheduleRunCommand::class,
-        ]);
-    }
-
-    /**
-     * Report the exception to the exception handler.
-     *
-     * @return void
-     */
-    protected function reportException(Throwable $e)
-    {
-        $this->resolveExceptionHandler()->report($e);
-    }
-
-    /**
-     * Report the exception to the exception handler.
-     *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
-     */
-    protected function renderException($output, Throwable $e)
-    {
-        $this->resolveExceptionHandler()->renderForConsole($output, $e);
-    }
-
-    /**
-     * Get the exception handler from the container.
-     *
-     * @return ExceptionHandler
-     */
-    protected function resolveExceptionHandler()
-    {
-        if ($this->app->bound(ExceptionHandler::class)) {
-            return $this->app->make(ExceptionHandler::class);
-        }
-
-        return $this->app->make(Handler::class);
+        // TODO: Hapus blok kode ini setelah dependensi CodeIgniter 3 dihapus sepenuhnya
+        is_loaded(unsetClass: ['cache', 'form_validation', 'session']);
     }
 }

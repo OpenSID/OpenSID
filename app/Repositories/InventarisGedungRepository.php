@@ -47,6 +47,6 @@ class InventarisGedungRepository
         return QueryBuilder::for(InventarisGedung::aktif())
             ->allowedFields('*')
             ->allowedFilters('*')
-            ->allowedSorts(['updated_at', 'created_at', 'id'])->jsonPaginate();
+            ->allowedSorts(...['updated_at', 'created_at', 'id'])->jsonPaginate();
     }
 }

@@ -56,6 +56,7 @@ use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\Urls;
 use Carbon\Carbon;
+use Illuminate\Contracts\Support\Responsable;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 
@@ -685,6 +686,10 @@ class Surat extends Admin_Controller
                 'tolak'       => $tolak,
             ]);
         } catch (Throwable $e) {
+            if ($e instanceof Responsable) {
+                throw $e;
+            }
+
             logger()->error($e);
 
             show_404('Terjadi kesalahan saat memproses surat.');
@@ -878,7 +883,7 @@ class Surat extends Admin_Controller
             $kk_level         = $data['individu']['kk_level'];
             $ada_anggota      = $filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA || $kk_level == SHDKEnum::KEPALA_KELUARGA;
 
-            $data['anggota'] = $ada_anggota ? Keluarga::find($data['individu']['id_kk'])->anggota : null;
+            $data['anggota'] = $ada_anggota ? Keluarga::find($data['individu']['id_kk'])?->anggota : null;
             if ($kategori != 'individu') {
                 return $data;
             }

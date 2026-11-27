@@ -151,6 +151,38 @@ class Config extends BaseModel
     ];
 
     /**
+     * Accessor: format nama_desa menjadi ucwords.
+     */
+    public function getNamaDesaAttribute($value): ?string
+    {
+        return $value ? ucwords(strtolower($value)) : $value;
+    }
+
+    /**
+     * Accessor: format nama_kecamatan menjadi ucwords.
+     */
+    public function getNamaKecamatanAttribute($value): ?string
+    {
+        return $value ? ucwords(strtolower($value)) : $value;
+    }
+
+    /**
+     * Accessor: format nama_kabupaten menjadi ucwords.
+     */
+    public function getNamaKabupatenAttribute($value): ?string
+    {
+        return $value ? ucwords(strtolower($value)) : $value;
+    }
+
+    /**
+     * Accessor: format nama_propinsi menjadi ucwords.
+     */
+    public function getNamaPropinsiAttribute($value): ?string
+    {
+        return $value ? ucwords(strtolower($value)) : $value;
+    }
+
+    /**
      * The "booted" method of the model.
      */
     public static function boot(): void

@@ -80,7 +80,7 @@ class NewPasswordController extends MY_Controller
 
         $this->validated($request, [
             'token'    => ['required'],
-            'email'    => ['required', 'email', 'not_regex:/[\r\n]/'],
+            'email'    => ['required', 'email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
         // Here we will attempt to reset the user's password. If it is successful we

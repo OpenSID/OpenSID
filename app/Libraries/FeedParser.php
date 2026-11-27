@@ -42,9 +42,9 @@ use Illuminate\Support\Facades\Http;
 use XMLParser;
 
 /**
- * PHP Univarsel Feed Parser class
+ * PHP Universal Feed Parser class
  *
- * Parses RSS 1.0, RSS2.0 and ATOM Feed
+ * Parses RSS 1.0, RSS 2.0 and ATOM Feed
  *
  * @license     GNU General Public License (GPL)
  *
@@ -52,7 +52,7 @@ use XMLParser;
  */
 class FeedParser
 {
-    private readonly XMLParser $xmlParser;
+    private XMLParser $xmlParser;
     private array $channels = [];
     private array $items    = [];
     private string $url;
@@ -71,11 +71,7 @@ class FeedParser
      */
     public function __construct()
     {
-        $this->xmlParser = xml_parser_create();
-
-        xml_set_object($this->xmlParser, $this);
-        xml_set_element_handler($this->xmlParser, 'startElement', 'endElement');
-        xml_set_character_data_handler($this->xmlParser, 'characterData');
+        $this->initParser();
     }
 
     /**
@@ -115,7 +111,7 @@ class FeedParser
      *
      * @return array Feed item as associative array
      */
-    public function getItem(mixed $index)
+    public function getItem(mixed $index): array
     {
         if ($index < $this->getTotalItems()) {
             return $this->items[$index];
@@ -133,7 +129,7 @@ class FeedParser
      *
      * @return string Channel tag value
      */
-    public function getChannel(mixed $tagName)
+    public function getChannel(mixed $tagName): string
     {
         if (array_key_exists(strtoupper((string) $tagName), $this->channels)) {
             return $this->channels[strtoupper((string) $tagName)];
@@ -161,7 +157,7 @@ class FeedParser
     /**
      * Get the detected Feed version
      *
-     * @return string Feed version (e.g., 'rss', 'atom', '1.0', '2.0')
+     * @return string Feed version (e.g., 'atom', '1.0', '2.0')
      */
     public function getFeedVersion(): string
     {
@@ -173,10 +169,13 @@ class FeedParser
      *
      * @param mixed $url The feed URL to parse
      *
-     * @return bool|null Returns null on success, false on error
+     * @return bool Returns true on success, false on error
      */
-    public function parse(mixed $url): ?bool
+    public function parse(mixed $url): bool
     {
+        // Reset state so instance can be reused
+        $this->reset();
+
         $this->url = $url;
 
         try {
@@ -187,28 +186,30 @@ class FeedParser
             return false;
         }
 
-        if ($URLContent !== '' && $URLContent !== '0') {
-            $segments = str_split($URLContent, 4096);
-
-            foreach ($segments as $index => $data) {
-                $lastPiese = (count($segments) - 1) == $index;
-                $result    = xml_parse($this->xmlParser, $data, $lastPiese);
-                if ($result === 0) {
-                    logger()->error('XML error: ' . sprintf(
-                        '%s at line %d',
-                        xml_error_string(xml_get_error_code($this->xmlParser)),
-                        xml_get_current_line_number($this->xmlParser)
-                    ));
-
-                    return false;
-                }
-            }
-            xml_parser_free($this->xmlParser);
-        } else {
+        if ($URLContent === '' || $URLContent === '0') {
             logger()->error('Feed content is empty.');
 
             return false;
         }
+
+        $segments = str_split($URLContent, 4096);
+
+        foreach ($segments as $index => $data) {
+            $lastPiece = (count($segments) - 1) === $index;
+            $result    = xml_parse($this->xmlParser, $data, $lastPiece);
+
+            if ($result === 0) {
+                logger()->error('XML error: ' . sprintf(
+                    '%s at line %d',
+                    xml_error_string(xml_get_error_code($this->xmlParser)),
+                    xml_get_current_line_number($this->xmlParser)
+                ));
+
+                return false;
+            }
+        }
+
+        xml_parser_free($this->xmlParser);
 
         if ($this->version === '' || $this->version === '0') {
             logger()->error('Unable to detect feed version.');
@@ -216,20 +217,51 @@ class FeedParser
             return false;
         }
 
-        return null;
+        return true;
+    }
+
+    /**
+     * Initialize the XML parser and register handlers.
+     * Called in constructor and reset() so the parser can be reused.
+     */
+    private function initParser(): void
+    {
+        $this->xmlParser = xml_parser_create();
+
+        xml_set_object($this->xmlParser, $this);
+        xml_set_element_handler($this->xmlParser, 'startElement', 'endElement');
+        xml_set_character_data_handler($this->xmlParser, 'characterData');
+    }
+
+    /**
+     * Reset parser state so parse() can be called again on the same instance.
+     */
+    private function reset(): void
+    {
+        $this->channels       = [];
+        $this->items          = [];
+        $this->version        = '';
+        $this->insideItem     = false;
+        $this->currentTag     = '';
+        $this->currentItem    = [];
+        $this->currentChannel = [];
+
+        // Re-create the XML parser because xml_parser_free() invalidates it
+        $this->initParser();
     }
 
     /**
      * Start element XML parser handler
      *
      * @param XMLParser $parser  XML parser object
-     * @param string    $name    Element tag name
-     * @param array     $attribs Element attributes
+     * @param string    $name    Element tag name (uppercased by PHP xml_parser)
+     * @param array     $attribs Element attributes (keys uppercased by PHP xml_parser)
      */
     private function startElement(XMLParser $parser, string $name, array $attribs): void
     {
-        $name             = strtolower($name);
-        $this->currentTag = $name;
+        // PHP xml_parser uppercases all tag names and attribute keys
+        $nameLower        = strtolower($name);
+        $this->currentTag = $nameLower;
 
         // Detect feed version from root element
         if ($this->version === '' || $this->version === '0') {
@@ -237,13 +269,13 @@ class FeedParser
         }
 
         // Handle item/entry tags
-        if (in_array($name, $this->itemTags, true)) {
+        if (in_array($nameLower, $this->itemTags, true)) {
             $this->insideItem  = true;
             $this->currentItem = [];
         }
 
         // Handle channel/feed tags
-        if (in_array($name, $this->channelTags, true)) {
+        if (in_array($nameLower, $this->channelTags, true)) {
             $this->currentChannel = [];
         }
     }
@@ -252,14 +284,14 @@ class FeedParser
      * End element XML parser handler
      *
      * @param XMLParser $parser XML parser object
-     * @param string    $name   Element tag name
+     * @param string    $name   Element tag name (uppercased by PHP xml_parser)
      */
     private function endElement(XMLParser $parser, string $name): void
     {
-        $name = strtolower($name);
+        $nameLower = strtolower($name);
 
         // Save item when closing item/entry tag
-        if (in_array($name, $this->itemTags, true)) {
+        if (in_array($nameLower, $this->itemTags, true)) {
             $this->insideItem = false;
             if (! empty($this->currentItem)) {
                 $this->items[] = $this->currentItem;
@@ -268,9 +300,9 @@ class FeedParser
         }
 
         // Save channel when closing channel/feed tag
-        if (in_array($name, $this->channelTags, true)) {
+        if (in_array($nameLower, $this->channelTags, true)) {
             if (! empty($this->currentChannel)) {
-                $this->channels[strtoupper($name)] = $this->currentChannel;
+                $this->channels[strtoupper($nameLower)] = $this->currentChannel;
             }
             $this->currentChannel = [];
         }
@@ -295,39 +327,45 @@ class FeedParser
         $data = $this->unhtmlentities($data);
 
         if ($this->insideItem) {
-            // Store data in current item
-            if (! isset($this->currentItem[strtoupper($this->currentTag)])) {
-                $this->currentItem[strtoupper($this->currentTag)] = $data;
+            $key = strtoupper($this->currentTag);
+            if (! isset($this->currentItem[$key])) {
+                $this->currentItem[$key] = $data;
             } else {
-                $this->currentItem[strtoupper($this->currentTag)] .= $data;
+                $this->currentItem[$key] .= $data;
             }
         } else {
-            // Store data in current channel
-            if (! isset($this->currentChannel[strtoupper($this->currentTag)])) {
-                $this->currentChannel[strtoupper($this->currentTag)] = $data;
+            $key = strtoupper($this->currentTag);
+            if (! isset($this->currentChannel[$key])) {
+                $this->currentChannel[$key] = $data;
             } else {
-                $this->currentChannel[strtoupper($this->currentTag)] .= $data;
+                $this->currentChannel[$key] .= $data;
             }
         }
     }
 
     /**
-     * Detect and set feed version from root element
+     * Detect and set feed version from root element.
      *
-     * @param string $tagName Root element tag name
-     * @param array  $attribs Root element attributes
+     * IMPORTANT: PHP xml_parser_create() uppercases ALL attribute keys.
+     * 'xmlns' becomes 'XMLNS', 'version' becomes 'VERSION'.
+     * $name passed here is the raw uppercased tag name from the parser.
+     *
+     * @param string $name    Root element tag name (uppercased)
+     * @param array  $attribs Root element attributes (keys uppercased)
      */
-    private function findVersion(string $tagName, array $attribs): void
+    private function findVersion(string $name, array $attribs): void
     {
-        $tagName = strtolower($tagName);
+        $nameLower = strtolower($name);
 
-        if ($tagName === 'rss') {
-            $this->version = $attribs['version'] ?? '2.0';
-        } elseif ($tagName === 'feed' && isset($attribs['xmlns'])) {
-            if (str_contains($attribs['xmlns'], 'atom')) {
+        if ($nameLower === 'rss') {
+            // 'VERSION' because xml_parser uppercases attribute keys
+            $this->version = $attribs['VERSION'] ?? '2.0';
+        } elseif ($nameLower === 'feed' && isset($attribs['XMLNS'])) {
+            // 'XMLNS' because xml_parser uppercases attribute keys
+            if (str_contains($attribs['XMLNS'], 'atom')) {
                 $this->version = 'atom';
             }
-        } elseif ($tagName === 'rdf:rdf') {
+        } elseif ($nameLower === 'rdf:rdf') {
             $this->version = '1.0';
         }
     }

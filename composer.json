@@ -10,78 +10,60 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/agungsugiarto/laravel-one-time-passwords"
+            "url": "https://github.com/OpenSID/laravel-eloquent-query-cache"
         }
     ],
     "require": {
         "php": "^8.4",
         "codeigniter/framework": "^3.1",
-        "cviebrock/eloquent-sluggable": "^10.0",
+        "cviebrock/eloquent-sluggable": "^13.0",
         "dg/mysql-dump": "^1.6",
-        "doctrine/dbal": "3.7.0",
-        "dragonmantank/cron-expression": "^3.3",
+        "doctrine/dbal": "^4.0",
         "edwinhoksberg/php-fcm": "^1.2",
         "erusev/parsedown": "^1.7",
-        "f9webltd/laravel-api-response-helpers": "^2.0",
+        "f9webltd/laravel-api-response-helpers": "^3.1",
         "google/apiclient": "^2.11",
-        "illuminate/auth": "^10.0",
-        "illuminate/broadcasting": "^10.0",
-        "illuminate/bus": "^10.0",
-        "illuminate/cache": "^10.0",
-        "illuminate/collections": "^10.0",
-        "illuminate/config": "^10.0",
-        "illuminate/console": "^10.0",
-        "illuminate/cookie": "^10.0",
-        "illuminate/database": "^10.0",
-        "illuminate/encryption": "^10.0",
-        "illuminate/events": "^10.0",
-        "illuminate/filesystem": "^10.0",
-        "illuminate/hashing": "^10.0",
-        "illuminate/http": "^10.0",
-        "illuminate/log": "^10.0",
-        "illuminate/macroable": "^10.0",
-        "illuminate/notifications": "^10.0",
-        "illuminate/pagination": "^10.0",
-        "illuminate/queue": "^10.0",
-        "illuminate/session": "^10.0",
-        "illuminate/support": "^10.0",
-        "illuminate/translation": "^10.0",
-        "illuminate/validation": "^10.0",
-        "illuminate/view": "^10.0",
+        "guzzlehttp/guzzle": "^7.2",
         "karriere/pdf-merge": "^2.1",
-        "laravel-notification-channels/telegram": "^5.0",
-        "laravel/helpers": "^1.7",
-        "league/flysystem": "^3.8.0",
+        "laravel-notification-channels/telegram": "^7.0",
+        "laravel/framework": "^13.8",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^3.0",
         "mike42/escpos-php": "^3.0",
         "opensid/router": "^2403",
-        "openspout/openspout": "^4.24",
-        "ramsey/uuid": "^4.2",
-        "rap2hpoutre/fast-excel": "^5.5",
-        "rennokki/laravel-eloquent-query-cache": "^3.4",
+        "openspout/openspout": "^4.25",
+        "ramsey/uuid": "^4.9",
+        "rap2hpoutre/fast-excel": "^5.6",
+        "rennokki/laravel-eloquent-query-cache": "dev-laravel-13",
         "slowprog/composer-copy-file": "^0.3.3",
-        "spatie/eloquent-sortable": "^4.3",
-        "spatie/image": "^2.2",
+        "spatie/eloquent-sortable": "^5.0",
+        "spatie/image": "^3.0",
         "spatie/laravel-activitylog": "^4.10",
-        "spatie/laravel-fractal": "^6.2",
-        "spatie/laravel-json-api-paginate": "^1.15",
-        "spatie/laravel-one-time-passwords": "dev-main",
-        "spatie/laravel-query-builder": "^5.7",
-        "spipu/html2pdf": "^5.2",
-        "stechstudio/laravel-zipstream": "^5.0",
-        "symfony/console": "^6.1",
-        "symfony/process": "^6.1",
-        "symfony/var-dumper": "^6.1",
+        "spatie/laravel-fractal": "^6.4",
+        "spatie/laravel-json-api-paginate": "^2.0",
+        "spatie/laravel-one-time-passwords": "^1.1",
+        "spatie/laravel-query-builder": "^7.3",
+        "spipu/html2pdf": "^5.3",
+        "stechstudio/laravel-zipstream": "^5.7",
+        "tinymce/tinymce": "^7.2",
         "voku/anti-xss": "^4.1",
-        "yajra/laravel-datatables-oracle": "^10.11"
+        "yajra/laravel-datatables-oracle": "^13.0"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.42",
-        "fakerphp/faker": "^1.9.1",
+        "fakerphp/faker": "^1.23",
         "friendsofphp/php-cs-fixer": "^3.49",
+        "fruitcake/laravel-debugbar": "^4.3",
+        "larastan/larastan": "^3.0",
+        "laravel/pail": "^1.2.5",
+        "laravel/pao": "^1.0.6",
+        "laravel/pint": "^1.27",
         "mikey179/vfsstream": "~1.1.0",
         "mockery/mockery": "^1.6",
-        "phpunit/phpunit": "^9.6",
-        "rector/rector": "^1.0"
+        "nunomaduro/collision": "^8.6",
+        "phpunit/phpunit": "^12.5.12",
+        "rector/rector": "^2.0",
+        "spatie/laravel-ignition": "^2.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -90,11 +72,14 @@
             "App\\": "app/",
             "Database\\Factories\\": "app/database/factories/",
             "Database\\Seeders\\": "app/database/seeders/",
-            "Modules\\": "Modules/",
-            "Illuminate\\Routing\\": "app/Illuminate/Routing/"
+            "Modules\\": "Modules/"
         },
+        "exclude-from-classmap": [
+            "Modules/*/Http/Controllers"
+        ],
         "files": [
-            "donjo-app/helpers/illuminate_helper.php"
+            "app/Helpers/core_helper.php",
+            "app/Helpers/opensid_helper.php"
         ]
     },
     "autoload-dev": {
@@ -103,20 +88,27 @@
         }
     },
     "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
         "allow-plugins": {
-            "ergebnis/composer-normalize": true
-        },
-        "sort-packages": true
+            "ergebnis/composer-normalize": true,
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
     },
     "extra": {
+        "laravel": {
+            "dont-discover": []
+        },
         "composer-normalize": {
             "indent-size": 4,
             "indent-style": "space"
         },
         "copy-file": {
+            "vendor/tinymce/tinymce": "assets/js/tinymce-72",
             "storage/app/vendor": "vendor",
-            "storage/app/public/assets/js/tinymce-72/plugins/image": "assets/js/tinymce-72/plugins/image",
-            "storage/app/public/assets/js/tinymce-72/plugins/media": "assets/js/tinymce-72/plugins/media"
+            "storage/app/public/assets/js/tinymce-72/plugins/image": "assets/js/tinymce-72/plugins/image"
         },
         "google/apiclient-services": [
             "Drive",
@@ -124,13 +116,46 @@
         ]
     },
     "scripts": {
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan migrate --force",
+            "npm install --ignore-scripts",
+            "npm run build"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+        ],
         "post-install-cmd": [
             "SlowProg\\CopyFile\\ScriptHandler::copy"
         ],
-        "post-update-cmd": [
+        "pre-autoload-dump": [
+            "Google\\Task\\Composer::cleanup",
             "SlowProg\\CopyFile\\ScriptHandler::copy"
         ],
-        "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "SlowProg\\CopyFile\\ScriptHandler::copy",
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ],
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi @no_additional_args",
+            "@php artisan test"
+        ],
         "blade": [
             "npm run prettier-blade"
         ],
@@ -139,7 +164,6 @@
         ],
         "rector": [
             "rector process --ansi"
-        ],
-        "test": "phpunit"
+        ]
     }
 }

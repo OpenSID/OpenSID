@@ -21,7 +21,7 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     <x-tambah-button modal="true" :url="$routePath . '/form'" />
-                    <x-hapus-button confirmDelete="true" selectData="true" :url="$routePath . '/delete'" />                    
+                    <x-hapus-button confirmDelete="true" selectData="true" :url="$routePath . '/delete'" />
                     @if (can('u'))
                         @if (setting('sinkronisasi_opendk'))
                             <x-btn-button judul="Kirim Ke OpenDK" tooltip="Kirim Ke OpenDK" icon="fa fa-random" formAction="true" type="btn-primary" :url="ci_route($routePath . '.kirim')" />

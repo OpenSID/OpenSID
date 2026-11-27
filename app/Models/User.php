@@ -184,7 +184,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     /**
      * Define a one-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function pamong()
     {
@@ -194,7 +194,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     /**
      * Define a one-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function userGrup()
     {

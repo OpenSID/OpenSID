@@ -55,7 +55,7 @@ class Beranda extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->isAdmin = $this->session->isAdmin->pamong;
+        $this->isAdmin = auth('admin')->user()?->pamong;
     }
 
     public function index()

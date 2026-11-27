@@ -54,9 +54,9 @@ class DataDinamisSeeder extends Seeder
      */
     public $config_id;
 
-    public function __construct()
+    public function __construct(?int $config_id = null)
     {
-        $this->config_id = identitas('id');
+        $this->config_id = $config_id ?? identitas('id');
     }
 
     /**
@@ -184,7 +184,7 @@ class DataDinamisSeeder extends Seeder
 
     protected function tambahPengaturanAplikasi()
     {
-        (new ImportSetting())->handle();
+        (new ImportSetting())->handle(configId: $this->config_id);
     }
 
     protected function tambahMediaSosial()

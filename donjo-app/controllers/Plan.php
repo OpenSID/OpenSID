@@ -280,10 +280,9 @@ class Plan extends Admin_Controller
         return view('admin.peta.lokasi.maps', $data);
     }
 
-    public function update_maps($parent, $id)
+    public function update_maps($parent, $id, MapLokasiRequest $request)
     {
         isCan('u');
-        $request = new MapLokasiRequest();
 
         try {
             $data = $this->input->post();
@@ -321,13 +320,11 @@ class Plan extends Admin_Controller
         }
     }
 
-    public function insert($parent)
+    public function insert($parent, LokasiRequest $request)
     {
         isCan('u');
 
         try {
-            $request = new LokasiRequest();
-
             if ($lokasi = Lokasi::create($request->validated())) {
                 if (request()->hasFile('foto')) {
                     $lokasi->foto = $this->uploadPicture('foto', LOKASI_FOTO_LOKASI);
@@ -351,13 +348,12 @@ class Plan extends Admin_Controller
         ]);
     }
 
-    public function update($parent, $id)
+    public function update($parent, $id, LokasiRequest $request)
     {
         isCan('u');
 
         try {
-            $request = new LokasiRequest();
-            $lokasi  = Lokasi::findOrFail($id);
+            $lokasi = Lokasi::findOrFail($id);
 
             if ($lokasi->update($request->validated())) {
                 if (request()->hasFile('foto')) {

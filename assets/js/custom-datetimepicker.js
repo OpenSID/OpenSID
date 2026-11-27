@@ -6,13 +6,20 @@ $(document).ready(function()
 {
 
 	//Fortmat Tanggal dan Jam
-	$('.datepicker').datepicker(
-	{
-		weekStart : 1,
-		language:'id',
-		format: 'dd-mm-yyyy',
-		autoclose: true
-	});
+	if ($.fn.datepicker) {
+		$('.datepicker').datepicker(
+		{
+			weekStart : 1,
+			language:'id',
+			format: 'dd-mm-yyyy',
+			autoclose: true
+		});
+	}
+
+	// Hentikan inisialisasi datetimepicker jika plugin-nya tidak dimuat di halaman ini
+	if (!$.fn.datetimepicker) {
+		return;
+	}
 
 	var defaultTglMulai = ($('#tgl_mulai').val() != '') ? moment($('#tgl_mulai').val(), 'DD-MM-YYYY') : moment();
 	$('#tgl_mulai').datetimepicker({

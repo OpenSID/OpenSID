@@ -39,43 +39,45 @@ class XliffLintCommand extends Command
     private bool $displayCorrectFiles;
     private ?\Closure $directoryIteratorProvider;
     private ?\Closure $isReadableProvider;
-    private bool $requireStrictFileNames;
 
-    public function __construct(?string $name = null, ?callable $directoryIteratorProvider = null, ?callable $isReadableProvider = null, bool $requireStrictFileNames = true)
-    {
+    public function __construct(
+        ?string $name = null,
+        ?callable $directoryIteratorProvider = null,
+        ?callable $isReadableProvider = null,
+        private bool $requireStrictFileNames = true,
+    ) {
         parent::__construct($name);
 
         $this->directoryIteratorProvider = null === $directoryIteratorProvider ? null : $directoryIteratorProvider(...);
         $this->isReadableProvider = null === $isReadableProvider ? null : $isReadableProvider(...);
-        $this->requireStrictFileNames = $requireStrictFileNames;
     }
 
-    /**
-     * @return void
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('filename', InputArgument::IS_ARRAY, 'A file, a directory or "-" for reading from STDIN')
             ->addOption('format', null, InputOption::VALUE_REQUIRED, \sprintf('The output format ("%s")', implode('", "', $this->getAvailableFormatOptions())))
             ->setHelp(<<<EOF
-The <info>%command.name%</info> command lints an XLIFF file and outputs to STDOUT
-the first encountered syntax error.
+                The <info>%command.name%</info> command lints an XLIFF file and outputs to STDOUT
+                the first encountered syntax error.
 
-You can validates XLIFF contents passed from STDIN:
+                You can validates XLIFF contents passed from STDIN:
 
-  <info>cat filename | php %command.full_name% -</info>
+                  <info>cat filename | php %command.full_name% -</info>
 
-You can also validate the syntax of a file:
+                You can also validate the syntax of a file:
 
-  <info>php %command.full_name% filename</info>
+                  <info>php %command.full_name% filename</info>
 
-Or of a whole directory:
+                Or of a whole directory:
 
-  <info>php %command.full_name% dirname</info>
-  <info>php %command.full_name% dirname --format=json</info>
+                  <info>php %command.full_name% dirname</info>
 
-EOF
+                The <info>--format</info> option specifies the format of the command output:
+
+                  <info>php %command.full_name% dirname --format=json</info>
+
+                EOF
             )
         ;
     }
@@ -121,7 +123,7 @@ EOF
         $internal = libxml_use_internal_errors(true);
 
         $document = new \DOMDocument();
-        $document->loadXML($content);
+        $document->loadXML($content, \LIBXML_NONET);
 
         if (null !== $targetLanguage = $this->getTargetLanguageFromFile($document)) {
             $normalizedLocalePattern = \sprintf('(%s|%s)', preg_quote($targetLanguage, '/'), preg_quote(str_replace('-', '_', $targetLanguage), '/'));
@@ -176,7 +178,7 @@ EOF
             } elseif (!$info['valid']) {
                 ++$erroredFiles;
                 $io->text('<error> ERROR </error>'.($info['file'] ? \sprintf(' in %s', $info['file']) : ''));
-                $io->listing(array_map(function ($error) use ($info, $githubReporter) {
+                $io->listing(array_map(static function ($error) use ($info, $githubReporter) {
                     // general document errors have a '-1' line number
                     $line = -1 === $error['line'] ? null : $error['line'];
 
@@ -200,7 +202,7 @@ EOF
     {
         $errors = 0;
 
-        array_walk($filesInfo, function (&$v) use (&$errors) {
+        array_walk($filesInfo, static function (&$v) use (&$errors) {
             $v['file'] = (string) $v['file'];
             if (!$v['valid']) {
                 ++$errors;
@@ -224,7 +226,7 @@ EOF
         }
 
         foreach ($this->getDirectoryIterator($fileOrDirectory) as $file) {
-            if (!\in_array($file->getExtension(), ['xlf', 'xliff'])) {
+            if (!\in_array($file->getExtension(), ['xlf', 'xliff'], true)) {
                 continue;
             }
 
@@ -237,7 +239,7 @@ EOF
      */
     private function getDirectoryIterator(string $directory): iterable
     {
-        $default = fn ($directory) => new \RecursiveIteratorIterator(
+        $default = static fn ($directory) => new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS),
             \RecursiveIteratorIterator::LEAVES_ONLY
         );
@@ -251,7 +253,7 @@ EOF
 
     private function isReadable(string $fileOrDirectory): bool
     {
-        $default = fn ($fileOrDirectory) => is_readable($fileOrDirectory);
+        $default = static fn ($fileOrDirectory) => is_readable($fileOrDirectory);
 
         if (null !== $this->isReadableProvider) {
             return ($this->isReadableProvider)($fileOrDirectory, $default);
@@ -278,6 +280,7 @@ EOF
         }
     }
 
+    /** @return string[] */
     private function getAvailableFormatOptions(): array
     {
         return ['txt', 'json', 'github'];

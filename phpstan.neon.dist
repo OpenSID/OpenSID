@@ -1,0 +1,64 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+    reportUnmatchedIgnoredErrors: false
+    paths:
+        - app/
+
+    # Level 10 is the highest level
+    level: 5
+
+    excludePaths:
+        - app/Actions/Theme/ActivateTheme.php
+        - app/Console/Commands/PasangModulUji.php
+        - app/Console/Commands/PasangTemaUji.php
+        - app/Events/KapabilitasModulDiperbarui.php
+        - app/Observers/SettingAplikasiObserver.php
+        - app/Services/Anjungan/AktivasiAnjungan.php
+        - app/Services/Anjungan/HasilAktivasiAnjungan.php
+        - app/Services/Anjungan/ModeAktivasiAnjungan.php
+        - app/Services/Anjungan/PenentuanAnjungan.php
+        - app/Services/Anjungan/PenyediaAnjungan.php
+        - app/Services/Database/SetelanDipertahankan.php
+        - app/Services/Install/CreateGrupAksesService.php
+        - app/Services/Kapabilitas/GerbangFitur.php
+        - app/Services/Kapabilitas/LayananAktif.php
+        - app/Services/Kapabilitas/PenyediaKunciFitur.php
+        - app/Services/Kapabilitas/PerbaruiLangganan.php
+        - app/Services/Kapabilitas/SumberStatusFitur.php
+        - app/Services/Layanan/LocalLayanan.php
+        - app/Services/LayananSuratCetakService.php
+        - app/Services/Mandiri/PenentuanMasukMandiri.php
+        - app/Services/Mandiri/TokenPerangkatMandiri.php
+        - app/Services/Module/LayananHttpSource.php
+        - app/Services/Module/LocalMarketplace.php
+        - app/Services/Module/LocalRepoSource.php
+        - app/Services/Module/ModuleManager.php
+        - app/Services/Module/ModuleSource.php
+        - app/Services/Module/PemeriksaIonCube.php
+        - app/Services/Pengumuman/SumberPengumuman.php
+        - app/Services/Penjaga/PenjagaPermintaan.php
+        - app/Services/Telemetri/PelaporVersi.php
+        - app/Services/Theme/BursaTema.php
+        - app/Services/Theme/PenjagaTema.php
+        - app/Services/Theme/SumberTemaBursa.php
+        - app/Traits/ModuleMigrations.php
+        - app/database/seeders/DataAwal/DataAwalSeeder.php
+        - app/database/seeders/DataAwal/GisSimbol.php
+        - app/database/seeders/DataAwal/GrupAkses.php
+        - app/database/seeders/DataAwal/KeuanganManualRefKegiatan.php
+        - app/database/seeders/DataAwal/RentangUmur.php
+        - app/database/seeders/DataAwal/SettingAplikasi.php
+        - app/database/seeders/DataAwal/SettingModul.php
+        - app/database/seeders/DataAwal/StrukturTabelSeeder.php
+        - app/database/seeders/DataAwal/Twebaset.php
+        - app/database/*
+
+    bootstrapFiles:
+        - phpstan-bootstrap.php
+
+#    ignoreErrors:
+#        - '#PHPDoc tag @var#'

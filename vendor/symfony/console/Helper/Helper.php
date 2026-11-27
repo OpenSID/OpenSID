@@ -21,16 +21,10 @@ use Symfony\Component\String\UnicodeString;
  */
 abstract class Helper implements HelperInterface
 {
-    protected $helperSet;
+    protected ?HelperSet $helperSet = null;
 
-    /**
-     * @return void
-     */
-    public function setHelperSet(?HelperSet $helperSet = null)
+    public function setHelperSet(?HelperSet $helperSet): void
     {
-        if (1 > \func_num_args()) {
-            trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
-        }
         $this->helperSet = $helperSet;
     }
 
@@ -47,10 +41,18 @@ abstract class Helper implements HelperInterface
     {
         $string ??= '';
 
-        if (preg_match('//u', $string)) {
-            $string = preg_replace('/[\p{Cc}\x7F]++/u', '', $string, -1, $count);
+        if ('' === $string) {
+            return 0;
+        }
 
-            return (new UnicodeString($string))->width(false) + $count;
+        // Fast path for ASCII-only strings (no multi-byte, no control chars except common ones)
+        if (!preg_match('/[^\x20-\x7E]/', $string)) {
+            return \strlen($string);
+        }
+
+        // Single PCRE call: returns null if string is not valid UTF-8
+        if (null !== $clean = preg_replace('/[\p{Cc}\x7F]++/u', '', $string, -1, $count)) {
+            return (new UnicodeString($clean))->width(false) + $count;
         }
 
         if (false === $encoding = mb_detect_encoding($string, null, true)) {
@@ -97,53 +99,49 @@ abstract class Helper implements HelperInterface
         return mb_substr($string, $from, $length, $encoding);
     }
 
-    /**
-     * @return string
-     */
-    public static function formatTime(int|float $secs, int $precision = 1)
+    public static function formatTime(int|float $secs, int $precision = 1): string
     {
+        $ms = (int) ($secs * 1000);
         $secs = (int) floor($secs);
 
-        if (0 === $secs) {
-            return '< 1 sec';
+        if (0 === $ms) {
+            return '< 1 ms';
         }
 
         static $timeFormats = [
-            [1, '1 sec', 'secs'],
-            [60, '1 min', 'mins'],
-            [3600, '1 hr', 'hrs'],
-            [86400, '1 day', 'days'],
+            [1, 'ms'],
+            [1000, 's'],
+            [60000, 'min'],
+            [3600000, 'h'],
+            [86_400_000, 'd'],
         ];
 
         $times = [];
         foreach ($timeFormats as $index => $format) {
-            $seconds = isset($timeFormats[$index + 1]) ? $secs % $timeFormats[$index + 1][0] : $secs;
+            $milliSeconds = isset($timeFormats[$index + 1]) ? $ms % $timeFormats[$index + 1][0] : $ms;
 
             if (isset($times[$index - $precision])) {
                 unset($times[$index - $precision]);
             }
 
-            if (0 === $seconds) {
+            if (0 === $milliSeconds) {
                 continue;
             }
 
-            $unitCount = ($seconds / $format[0]);
-            $times[$index] = 1 === $unitCount ? $format[1] : $unitCount.' '.$format[2];
+            $unitCount = ($milliSeconds / $format[0]);
+            $times[$index] = $unitCount.' '.$format[1];
 
-            if ($secs === $seconds) {
+            if ($ms === $milliSeconds) {
                 break;
             }
 
-            $secs -= $seconds;
+            $ms -= $milliSeconds;
         }
 
         return implode(', ', array_reverse($times));
     }
 
-    /**
-     * @return string
-     */
-    public static function formatMemory(int $memory)
+    public static function formatMemory(int $memory): string
     {
         if ($memory >= 1024 * 1024 * 1024) {
             return \sprintf('%.1f GiB', $memory / 1024 / 1024 / 1024);
@@ -160,15 +158,18 @@ abstract class Helper implements HelperInterface
         return \sprintf('%d B', $memory);
     }
 
-    /**
-     * @return string
-     */
-    public static function removeDecoration(OutputFormatterInterface $formatter, ?string $string)
+    public static function removeDecoration(OutputFormatterInterface $formatter, ?string $string): string
     {
+        $string ??= '';
+
+        if (!str_contains($string, '<') && !str_contains($string, "\033")) {
+            return $string;
+        }
+
         $isDecorated = $formatter->isDecorated();
         $formatter->setDecorated(false);
         // remove <...> formatting
-        $string = $formatter->format($string ?? '');
+        $string = $formatter->format($string);
         // remove already formatted characters
         $string = preg_replace("/\033\[[^m]*m/", '', $string ?? '');
         // remove terminal hyperlinks

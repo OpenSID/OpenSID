@@ -7,6 +7,7 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\OneTimePasswords\Livewire\OneTimePasswordComponent;
 use Spatie\OneTimePasswords\Support\Config;
+use Spatie\OneTimePasswords\Support\OriginInspector\DoNotEnforceOrigin;
 use Spatie\OneTimePasswords\Support\OriginInspector\OriginEnforcer;
 use Spatie\OneTimePasswords\Support\PasswordGenerators\OneTimePasswordGenerator;
 
@@ -24,7 +25,11 @@ class OneTimePasswordsServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->bind(OriginEnforcer::class, config('one-time-passwords.origin_enforcer'));
+        $originEnforcer = config('one-time-passwords.enforce_same_origin', true)
+            ? config('one-time-passwords.origin_enforcer')
+            : DoNotEnforceOrigin::class;
+
+        $this->app->bind(OriginEnforcer::class, $originEnforcer);
 
         $this->app->bind(OneTimePasswordGenerator::class, function () {
             $generator = Config::getPasswordGenerator();

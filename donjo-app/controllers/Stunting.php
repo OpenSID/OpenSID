@@ -619,9 +619,9 @@ class Stunting extends Admin_Controller
     public function eksporIbuHamil(): void
     {
         $filters = [
-            'bulan'    => $this->input->get('bulan'),
-            'tahun'    => $this->input->get('tahun'),
-            'posyandu' => $this->input->get('posyandu'),
+            'bulan'    => $this->input->post('bulan'),
+            'tahun'    => $this->input->post('tahun'),
+            'posyandu' => $this->input->post('posyandu'),
         ];
 
         $judul = [
@@ -831,9 +831,9 @@ class Stunting extends Admin_Controller
     public function eksporAnak(): void
     {
         $filters = [
-            'bulan'    => $this->input->get('bulan'),
-            'tahun'    => $this->input->get('tahun'),
-            'posyandu' => $this->input->get('posyandu'),
+            'bulan'    => $this->input->post('bulan'),
+            'tahun'    => $this->input->post('tahun'),
+            'posyandu' => $this->input->post('posyandu'),
         ];
 
         $judul = [
@@ -1036,8 +1036,8 @@ class Stunting extends Admin_Controller
     public function eksporPaud(): void
     {
         $filters = [
-            'tahun'    => $this->input->get('tahun'),
-            'posyandu' => $this->input->get('posyandu'),
+            'tahun'    => $this->input->post('tahun'),
+            'posyandu' => $this->input->post('posyandu'),
         ];
 
         $judul = [

@@ -144,6 +144,18 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     }
 
     /**
+     * Get the name of the password attribute for the user.
+     *
+     * Laravel writes the rehashed password on login to this column.
+     *
+     * @return string
+     */
+    public function getAuthPasswordName()
+    {
+        return 'pin';
+    }
+
+    /**
      * Get email penduduk attribute.
      *
      * @return string

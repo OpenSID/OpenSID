@@ -99,7 +99,7 @@
 				}
 			],
 			'language': {
-				'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+				'url': BASE_URL + 'assets/bootstrap/js/dataTables.indonesian.lang'
 			},
 		});
 

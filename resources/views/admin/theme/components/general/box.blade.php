@@ -13,34 +13,29 @@
     </div>
 
     <div class="box-body">
-        <div class="text-center">
-            <center>
-                @php $file = $asset_path . '/thumbnail/preview-1.jpg' @endphp
-                @if (file_exists(FCPATH . $file))
-                    <img
-                        style="width:100%; max-height: 160px;"
-                        src="{{ base_url($asset_path . '/thumbnail/preview-1.jpg') }}"
-                        class="img-responsive"
-                        alt="{{ $nama }}"
-                        onerror="this.onerror=null; this.src='{{ asset('images/404-image-not-found.jpg') }}'; this.style='max-height: 160px;';"
-                    >
-                @elseif ($thumbnail)
-                    <img
-                        style="width:100%; max-height: 160px;"
-                        src="{{ $thumbnail }}"
-                        class="img-responsive"
-                        alt="{{ $nama }}"
-                        onerror="this.onerror=null; this.src='{{ asset('images/404-image-not-found.jpg') }}'; this.style='max-height: 160px;';"
-                    >
-                @else
-                    <img
-                        style="max-height: 160px;"
-                        src="{{ asset('images/404-image-not-found.jpg') }}"
-                        class="img-responsive"
-                        alt="{{ $nama }}"
-                    >
-                @endif
-            </center>
+        <div class="theme-thumbnail-wrapper" style="width: 100%; height: 180px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; border-radius: 4px; margin-bottom: 15px;">
+            @php $file = $asset_path . '/thumbnail/preview-1.jpg' @endphp
+            @if (file_exists(FCPATH . $file))
+                <img
+                    style="width: 100%; height: 100%; object-fit: cover;"
+                    src="{{ base_url($asset_path . '/thumbnail/preview-1.jpg') }}"
+                    alt="{{ $nama }}"
+                    onerror="this.onerror=null; this.src='{{ asset('images/404-image-not-found.jpg') }}';"
+                >
+            @elseif ($thumbnail)
+                <img
+                    style="width: 100%; height: 100%; object-fit: cover;"
+                    src="{{ $thumbnail }}"
+                    alt="{{ $nama }}"
+                    onerror="this.onerror=null; this.src='{{ asset('images/404-image-not-found.jpg') }}';"
+                >
+            @else
+                <img
+                    style="width: 100%; height: 100%; object-fit: cover;"
+                    src="{{ asset('images/404-image-not-found.jpg') }}"
+                    alt="{{ $nama }}"
+                >
+            @endif
         </div>
         <br>
         <div class="text-center">

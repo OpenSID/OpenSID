@@ -50,15 +50,13 @@ class AccessWilayahScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $user         = ci_auth();
-        $aksesWilayah = [];
-        if ($user->batasi_wilayah && (! empty($user->akses_wilayah))) {
-            $aksesWilayah = $user->akses_wilayah;
-            $namaTable    = $model->getTable();
-            $namaColumn   = $model->getWilayahColumn();
+        $user = auth()->user();
 
-            // semua model yang menerapkan trait ConfigId dipastikan memiliki kolom config_id
-            return $builder->whereIn($namaTable . '.' . $namaColumn, $aksesWilayah);
+        if ($user?->batasi_wilayah && ! empty($user->akses_wilayah)) {
+            return $builder->whereIn(
+                "{$model->getTable()}.{$model->getWilayahColumn()}",
+                $user->akses_wilayah
+            );
         }
 
         return $builder;

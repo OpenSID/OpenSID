@@ -34,18 +34,13 @@ final class TranslationPushCommand extends Command
 {
     use TranslationTrait;
 
-    private TranslationProviderCollection $providers;
-    private TranslationReaderInterface $reader;
-    private array $transPaths;
-    private array $enabledLocales;
-
-    public function __construct(TranslationProviderCollection $providers, TranslationReaderInterface $reader, array $transPaths = [], array $enabledLocales = [])
-    {
-        $this->providers = $providers;
-        $this->reader = $reader;
-        $this->transPaths = $transPaths;
-        $this->enabledLocales = $enabledLocales;
-
+    public function __construct(
+        private TranslationProviderCollection $providers,
+        private TranslationReaderInterface $reader,
+        private array $transPaths = [],
+        private array $enabledLocales = [],
+    ) {
+        $this->enabledLocales = array_filter($enabledLocales);
         parent::__construct();
     }
 
@@ -60,7 +55,7 @@ final class TranslationPushCommand extends Command
         if ($input->mustSuggestOptionValuesFor('domains')) {
             $provider = $this->providers->get($input->getArgument('provider'));
 
-            if ($provider && method_exists($provider, 'getDomains')) {
+            if (method_exists($provider, 'getDomains')) {
                 $domains = $provider->getDomains();
                 $suggestions->suggestValues($domains);
             }
@@ -87,25 +82,26 @@ final class TranslationPushCommand extends Command
                 new InputOption('locales', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Specify the locales to push.', $this->enabledLocales),
             ])
             ->setHelp(<<<'EOF'
-The <info>%command.name%</> command pushes translations to the given provider. Only new
-translations are pushed, existing ones are not overwritten.
+                The <info>%command.name%</> command pushes translations to the given provider. Only new
+                translations are pushed, existing ones are not overwritten.
 
-You can overwrite existing translations by using the <comment>--force</> flag:
+                You can overwrite existing translations by using the <info>--force</> flag:
 
-  <info>php %command.full_name% --force provider</>
+                  <info>php %command.full_name% --force provider</>
 
-You can delete provider translations which are not present locally by using the <comment>--delete-missing</> flag:
+                You can delete provider translations which are not present locally by using the <info>--delete-missing</> flag:
 
-  <info>php %command.full_name% --delete-missing provider</>
+                  <info>php %command.full_name% --delete-missing provider</>
 
-Full example:
+                Full example:
 
-  <info>php %command.full_name% provider --force --delete-missing --domains=messages --domains=validators --locales=en</>
+                  <info>php %command.full_name% provider --force --delete-missing --domains=messages --domains=validators --locales=en</>
 
-This command pushes all translations associated with the <comment>messages</> and <comment>validators</> domains for the <comment>en</> locale.
-Provider translations for the specified domains and locale are deleted if they're not present locally and overwritten if it's the case.
-Provider translations for others domains and locales are ignored.
-EOF
+                This command pushes all translations associated with the <info>messages</> and <info>validators</> domains for the <info>en</> locale.
+                Provider translations for the specified domains and locale are deleted if they're not present locally and overwritten if it's the case.
+                Provider translations for others domains and locales are ignored.
+
+                EOF
             )
         ;
     }
@@ -174,9 +170,9 @@ EOF
         $domains = [];
 
         foreach ($translatorBag->getCatalogues() as $catalogue) {
-            $domains += $catalogue->getDomains();
+            $domains = array_merge($domains, $catalogue->getDomains());
         }
 
-        return array_unique($domains);
+        return array_values(array_unique($domains));
     }
 }

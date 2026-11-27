@@ -25,14 +25,14 @@ use Symfony\Component\Console\Exception\RuntimeException;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class Input implements InputInterface, StreamableInputInterface
+abstract class Input implements RawInputInterface, StreamableInputInterface
 {
-    protected $definition;
+    protected InputDefinition $definition;
     /** @var resource */
     protected $stream;
-    protected $options = [];
-    protected $arguments = [];
-    protected $interactive = true;
+    protected array $options = [];
+    protected array $arguments = [];
+    protected bool $interactive = true;
 
     public function __construct(?InputDefinition $definition = null)
     {
@@ -44,10 +44,7 @@ abstract class Input implements InputInterface, StreamableInputInterface
         }
     }
 
-    /**
-     * @return void
-     */
-    public function bind(InputDefinition $definition)
+    public function bind(InputDefinition $definition): void
     {
         $this->arguments = [];
         $this->options = [];
@@ -58,20 +55,15 @@ abstract class Input implements InputInterface, StreamableInputInterface
 
     /**
      * Processes command line arguments.
-     *
-     * @return void
      */
-    abstract protected function parse();
+    abstract protected function parse(): void;
 
-    /**
-     * @return void
-     */
-    public function validate()
+    public function validate(): void
     {
         $definition = $this->definition;
         $givenArguments = $this->arguments;
 
-        $missingArguments = array_filter(array_keys($definition->getArguments()), fn ($argument) => !\array_key_exists($argument, $givenArguments) && $definition->getArgument($argument)->isRequired());
+        $missingArguments = array_filter(array_keys($definition->getArguments()), static fn ($argument) => !\array_key_exists($argument, $givenArguments) && $definition->getArgument($argument)->isRequired());
 
         if (\count($missingArguments) > 0) {
             throw new RuntimeException(\sprintf('Not enough arguments (missing: "%s").', implode(', ', $missingArguments)));
@@ -83,10 +75,7 @@ abstract class Input implements InputInterface, StreamableInputInterface
         return $this->interactive;
     }
 
-    /**
-     * @return void
-     */
-    public function setInteractive(bool $interactive)
+    public function setInteractive(bool $interactive): void
     {
         $this->interactive = $interactive;
     }
@@ -105,10 +94,7 @@ abstract class Input implements InputInterface, StreamableInputInterface
         return $this->arguments[$name] ?? $this->definition->getArgument($name)->getDefault();
     }
 
-    /**
-     * @return void
-     */
-    public function setArgument(string $name, mixed $value)
+    public function setArgument(string $name, mixed $value): void
     {
         if (!$this->definition->hasArgument($name)) {
             throw new InvalidArgumentException(\sprintf('The "%s" argument does not exist.', $name));
@@ -144,10 +130,7 @@ abstract class Input implements InputInterface, StreamableInputInterface
         return \array_key_exists($name, $this->options) ? $this->options[$name] : $this->definition->getOption($name)->getDefault();
     }
 
-    /**
-     * @return void
-     */
-    public function setOption(string $name, mixed $value)
+    public function setOption(string $name, mixed $value): void
     {
         if ($this->definition->hasNegation($name)) {
             $this->options[$this->definition->negationToName($name)] = !$value;
@@ -175,10 +158,8 @@ abstract class Input implements InputInterface, StreamableInputInterface
 
     /**
      * @param resource $stream
-     *
-     * @return void
      */
-    public function setStream($stream)
+    public function setStream($stream): void
     {
         $this->stream = $stream;
     }
@@ -189,5 +170,39 @@ abstract class Input implements InputInterface, StreamableInputInterface
     public function getStream()
     {
         return $this->stream;
+    }
+
+    public function getRawArguments(): array
+    {
+        return $this->arguments;
+    }
+
+    public function getRawOptions(): array
+    {
+        return $this->options;
+    }
+
+    public function unparse(?array $optionNames = null): array
+    {
+        $rawOptions = $this->getRawOptions();
+
+        $filteredRawOptions = null === $optionNames
+            ? $rawOptions
+            : array_intersect_key($rawOptions, array_fill_keys($optionNames, ''));
+
+        $unparsedOptions = [];
+
+        foreach ($filteredRawOptions as $optionName => $parsedOption) {
+            $option = $this->definition->getOption($optionName);
+
+            $unparsedOptions[] = match (true) {
+                $option->isNegatable() => [\sprintf('--%s%s', $parsedOption ? '' : 'no-', $optionName)],
+                !$option->acceptValue() => [\sprintf('--%s', $optionName)],
+                $option->isArray() => array_map(static fn ($item) => \sprintf('--%s=%s', $optionName, $item), $parsedOption),
+                default => [\sprintf('--%s=%s', $optionName, $parsedOption)],
+            };
+        }
+
+        return array_merge(...$unparsedOptions);
     }
 }

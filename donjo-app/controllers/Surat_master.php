@@ -645,7 +645,7 @@ class Surat_master extends Admin_Controller
         redirect_with('success', 'Berhasil Impor Data');
     }
 
-    public function impor(): void
+    public function impor()
     {
         isCan('u');
         $config['upload_path']   = sys_get_temp_dir();
@@ -659,11 +659,11 @@ class Surat_master extends Admin_Controller
         if ($this->upload->do_upload('userfile')) {
             $list_data = $this->formatImport(file_get_contents($this->upload->data()['full_path']));
             if ($list_data) {
-                $this->impor_filter($list_data);
+                return $this->impor_filter($list_data);
             }
         }
 
-        redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
+        return redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
     }
 
     public function bawaan(): void

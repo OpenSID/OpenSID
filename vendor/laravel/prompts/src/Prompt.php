@@ -5,6 +5,7 @@ namespace Laravel\Prompts;
 use Closure;
 use Laravel\Prompts\Exceptions\FormRevertedException;
 use Laravel\Prompts\Output\ConsoleOutput;
+use Laravel\Prompts\Support\Result;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
@@ -127,7 +128,7 @@ abstract class Prompt
             $this->hideCursor();
             $this->render();
 
-            while (($key = static::terminal()->read()) !== null) {
+            $result = $this->runLoop(function (string $key): ?Result {
                 $continue = $this->handleKeyPress($key);
 
                 $this->render();
@@ -135,7 +136,7 @@ abstract class Prompt
                 if ($continue === false || $key === Key::CTRL_C) {
                     if ($key === Key::CTRL_C) {
                         if (isset(static::$cancelUsing)) {
-                            return (static::$cancelUsing)();
+                            return Result::from((static::$cancelUsing)());
                         } else {
                             static::terminal()->exit();
                         }
@@ -145,11 +146,41 @@ abstract class Prompt
                         throw new FormRevertedException;
                     }
 
-                    return $this->transformedValue();
+                    return Result::from($this->transformedValue());
                 }
-            }
+
+                // Continue looping.
+                return null;
+            });
+
+            return $result;
         } finally {
             $this->clearListeners();
+        }
+    }
+
+    /**
+     * Implementation of the prompt looping mechanism.
+     *
+     * @param  callable(string $key): ?Result  $callable
+     */
+    public function runLoop(callable $callable): mixed
+    {
+        while (($key = static::terminal()->read()) !== null) {
+            /**
+             * If $key is an empty string, Terminal::read
+             * has failed. We can continue to the next
+             * iteration of the loop, and try again.
+             */
+            if ($key === '') {
+                continue;
+            }
+
+            $result = $callable($key);
+
+            if ($result instanceof Result) {
+                return $result->value;
+            }
         }
     }
 

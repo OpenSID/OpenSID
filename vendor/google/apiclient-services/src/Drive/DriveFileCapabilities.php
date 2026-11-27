@@ -314,6 +314,12 @@ class DriveFileCapabilities extends \Google\Model
    */
   public $canShare;
   /**
+   * Whether the current user can start an approval on the file.
+   *
+   * @var bool
+   */
+  public $canStartApproval;
+  /**
    * Output only. Whether the current user can move this file to trash.
    *
    * @var bool
@@ -1046,6 +1052,22 @@ class DriveFileCapabilities extends \Google\Model
   public function getCanShare()
   {
     return $this->canShare;
+  }
+  /**
+   * Whether the current user can start an approval on the file.
+   *
+   * @param bool $canStartApproval
+   */
+  public function setCanStartApproval($canStartApproval)
+  {
+    $this->canStartApproval = $canStartApproval;
+  }
+  /**
+   * @return bool
+   */
+  public function getCanStartApproval()
+  {
+    return $this->canStartApproval;
   }
   /**
    * Output only. Whether the current user can move this file to trash.

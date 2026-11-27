@@ -34,18 +34,7 @@ final class CompleteCommand extends Command
 {
     public const COMPLETION_API_VERSION = '1';
 
-    /**
-     * @deprecated since Symfony 6.1
-     */
-    protected static $defaultName = '|_complete';
-
-    /**
-     * @deprecated since Symfony 6.1
-     */
-    protected static $defaultDescription = 'Internal command to provide shell completion suggestions';
-
     private array $completionOutputs;
-
     private bool $isDebug = false;
 
     /**
@@ -109,30 +98,35 @@ final class CompleteCommand extends Command
                 '',
                 '<comment>'.date('Y-m-d H:i:s').'</>',
                 '<info>Input:</> <comment>("|" indicates the cursor position)</>',
-                '  '.(string) $completionInput,
+                '  '.$completionInput,
                 '<info>Command:</>',
-                '  '.(string) implode(' ', $_SERVER['argv']),
+                '  '.implode(' ', $_SERVER['argv']),
                 '<info>Messages:</>',
             ]);
 
-            $command = $this->findCommand($completionInput, $output);
+            if ($command = $this->findCommand($completionInput)) {
+                $command->mergeApplicationDefinition();
+                $completionInput->bind($command->getDefinition());
+            }
             if (null === $command) {
                 $this->log('  No command found, completing using the Application class.');
 
                 $this->getApplication()->complete($completionInput, $suggestions);
             } elseif (
                 $completionInput->mustSuggestArgumentValuesFor('command')
-                && $command->getName() !== $completionInput->getCompletionValue()
-                && !\in_array($completionInput->getCompletionValue(), $command->getAliases(), true)
             ) {
-                $this->log('  No command found, completing using the Application class.');
+                $this->log('  Command found, completing command name.');
 
                 // expand shortcut names ("cache:cl<TAB>") into their full name ("cache:clear")
-                $suggestions->suggestValues(array_filter(array_merge([$command->getName()], $command->getAliases())));
+                $commandNames = array_filter(array_merge([$command->getName()], $command->getAliases()));
+                foreach ($commandNames as $name) {
+                    if (str_starts_with($name, $completionInput->getCompletionValue())) {
+                        $commandNames = [$name];
+                        break;
+                    }
+                }
+                $suggestions->suggestValues($commandNames);
             } else {
-                $command->mergeApplicationDefinition();
-                $completionInput->bind($command->getDefinition());
-
                 if (CompletionInput::TYPE_OPTION_NAME === $completionInput->getCompletionType()) {
                     $this->log('  Completing option names for the <comment>'.($command instanceof LazyCommand ? $command->getCommand() : $command)::class.'</> command.');
 
@@ -155,7 +149,7 @@ final class CompleteCommand extends Command
 
             $this->log('<info>Suggestions:</>');
             if ($options = $suggestions->getOptionSuggestions()) {
-                $this->log('  --'.implode(' --', array_map(fn ($o) => $o->getName(), $options)));
+                $this->log('  --'.implode(' --', array_map(static fn ($o) => $o->getName(), $options)));
             } elseif ($values = $suggestions->getValueSuggestions()) {
                 $this->log('  '.implode(' ', $values));
             } else {
@@ -196,7 +190,7 @@ final class CompleteCommand extends Command
         return $completionInput;
     }
 
-    private function findCommand(CompletionInput $completionInput, OutputInterface $output): ?Command
+    private function findCommand(CompletionInput $completionInput): ?Command
     {
         try {
             $inputName = $completionInput->getFirstArgument();

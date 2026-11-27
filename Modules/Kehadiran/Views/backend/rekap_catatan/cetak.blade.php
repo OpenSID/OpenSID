@@ -141,7 +141,7 @@
 
 @section('header')
     <div style="text-align: center; margin-bottom: 10px;">
-        <img class="logo" src="{{ base_url('assets/files/logo/opensid_logo.png') }}" alt="logo-desa"
+        <img class="logo" src="{{ gambar_desa(identitas('logo')) }}" alt="logo-desa"
             onerror="this.style.display='none'">
         <h1 class="judul">
             PEMERINTAH {!! strtoupper(

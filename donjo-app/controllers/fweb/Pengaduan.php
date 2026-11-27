@@ -36,11 +36,12 @@
  */
 
 use App\Events\Pengaduan\PengaduanSubmitted;
-use App\Libraries\Captcha;
 use App\Models\Pengaduan as PengaduanModel;
+use App\Rules\CaptchaRule;
+use App\Rules\NotSpam;
 use App\Traits\Upload;
+use Illuminate\Validation\ValidationException;
 use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -63,76 +64,92 @@ class Pengaduan extends Web_Controller
         return view('theme::partials.pengaduan.index', $data);
     }
 
-    public function kirim(): void
+    public function kirim()
     {
-        $post = $this->input->post();
-        // Periksa isian captcha
-        $captcha = new Captcha();
-        if (! $captcha->check($this->request['captcha_code'])) {
-            set_session('data', $post);
-            redirect_with('error', 'Kode captcha Anda salah. Silakan ulangi lagi.');
-        }
-        if (empty($this->input->ip_address())) {
-            redirect_with('error', 'Pengaduan gagal dikirim. IP Address Anda tidak dikenali.');
-        }
-
-        // Cek pengaduan dengan ip_address yang pada hari yang sama
-        $cek = PengaduanModel::where('ip_address', '=', $this->input->ip_address())
+        $batasAduan = (int) setting('jumlah_aduan_pengguna');
+        $sudahKirim = PengaduanModel::where('ip_address', $this->input->ip_address())
             ->whereNull('id_pengaduan')
             ->whereDate('created_at', date('Y-m-d'))
-            ->count() >= setting('jumlah_aduan_pengguna');
+            ->count();
 
-        if ($cek) {
-            redirect_with('error', "Pengaduan gagal dikirim. Anda hanya dapat mengirimkan {$this->setting->jumlah_aduan_pengguna} pengaduan dalam satu hari.");
+        if ($sudahKirim >= $batasAduan) {
+            return redirect_with('error', "Pengaduan gagal dikirim. Anda hanya dapat mengirimkan {$batasAduan} pengaduan dalam satu hari.");
         }
 
-        $dataInsert   = $this->validasi($post);
-        $pengaduan    = PengaduanModel::create($dataInsert);
-        $id_pengaduan = $pengaduan->id;
-        event(new PengaduanSubmitted($pengaduan));
-        // notifikasi penduduk
-        $payload = '/pengaduan/detail/' . $id_pengaduan;
-        $isi     = 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.';
-        $this->kirim_notifikasi_admin('all', $isi, $post['judul'], $payload);
+        $validated = $this->validated(request(), [
+            'nik'          => 'required|digits:16',
+            'nama'         => ['required', 'string', 'min:3', 'max:100', 'regex:/^[\p{L}\s\.\,\-\']+$/u'],
+            'email'        => 'nullable|email:rfc,dns|max:100',
+            'telepon'      => ['nullable', 'regex:/^(\+62|62|0)[0-9]{8,12}$/', 'max:15'],
+            'judul'        => ['required', 'string', 'min:5', 'max:255', 'not_regex:/<[^>]*>/', new NotSpam(threshold: 65)],
+            'isi'          => ['required', 'string', 'min:10', 'max:5000', 'regex:/\S/', 'not_regex:/<[^>]*>/', new NotSpam(threshold: 70)],
+            'foto'         => 'nullable|file|mimes:jpg,jpeg,png,webp|max:1024',
+            'captcha_code' => ['required', new CaptchaRule()],
+        ]);
 
-        redirect_with('success', 'Pengaduan berhasil dikirim.');
-    }
 
-    private function validasi($post)
-    {
-        $data = [
-            'nik'        => bilangan($post['nik']),
-            'nama'       => nama($post['nama']),
-            'email'      => email($post['email']),
-            'telepon'    => bilangan($post['telepon']),
-            'judul'      => bersihkan_xss($post['judul']),
-            'isi'        => bersihkan_xss($post['isi']),
-            'ip_address' => $this->input->ip_address(),
-        ];
-
-        if ($this->request['foto']) {
-            $data['foto'] = $this->upload(
+        $foto = null;
+        if (! empty($validated['foto'])) {
+            $foto = $this->upload(
                 file: 'foto',
                 config: [
                     'upload_path'   => LOKASI_PENGADUAN,
                     'allowed_types' => 'jpg|jpeg|png|webp',
-                    'max_size'      => max_upload() * 1024,
-                    'file_name'     => namafile($post['judul']),
+                    'max_size'      => 1024,
+                    'file_name'     => namafile(strip_tags($validated['judul'])),
                     'overwrite'     => true,
                 ],
                 callback: static function ($uploadData) {
                     Image::load($uploadData['full_path'])
-                        ->format(Manipulations::FORMAT_WEBP)
+                        ->format('webp')
                         ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
 
-                    // Hapus original file
                     unlink($uploadData['full_path']);
 
                     return "{$uploadData['raw_name']}.webp";
                 }
-            );
+            ) ?? null;
         }
 
-        return $data;
+        $data = [
+            'nik'        => bilangan($validated['nik']),
+            'nama'       => nama($validated['nama']),
+            'email'      => isset($validated['email']) ? email($validated['email']) : null,
+            'telepon'    => isset($validated['telepon']) ? bilangan($validated['telepon']) : null,
+            'judul'      => bersihkan_xss($validated['judul']),
+            'isi'        => bersihkan_xss($validated['isi']),
+            'foto'       => $foto,
+            'ip_address' => $this->input->ip_address(),
+        ];
+
+        $pengaduan    = PengaduanModel::create($data);
+        $id_pengaduan = $pengaduan->id;
+
+        event(new PengaduanSubmitted($pengaduan));
+
+        $payload = '/pengaduan/detail/' . $id_pengaduan;
+        $isi     = 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.';
+        $this->kirim_notifikasi_admin('all', $isi, $data['judul'], $payload);
+
+        return redirect_with('success', 'Pengaduan berhasil dikirim.');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function invalid($request, ValidationException $exception)
+    {
+        // Set session('data') agar JS membuka modal kembali
+        // dan form ter-repopulate — sesuai mekanisme legacy view
+        set_session('data', array_intersect_key(
+            $request->all(),
+            array_flip(['nik', 'nama', 'email', 'telepon', 'judul', 'isi'])
+        ));
+
+        // Set pesan error pertama dari semua field untuk ditampilkan
+        // via notifikasi yang sudah ada di view
+        $firstError = collect($exception->errors())->flatten()->first();
+
+        return redirect_with('error', $firstError);
     }
 }

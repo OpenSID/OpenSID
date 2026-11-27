@@ -205,6 +205,8 @@ class BantuanPeserta extends BaseModel
 
     public static function boot(): void
     {
+        parent::boot();
+
         static::updating(static function ($model): void {
             static::deleteFile($model, 'kartu_peserta');
         });

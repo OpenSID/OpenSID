@@ -86,9 +86,6 @@ class Mandiri_Controller extends MY_Controller
                 // Pengguna belum melakukan verifikasi Telegram, arahkan ke halaman verifikasi Telegram
                 return redirect('layanan-mandiri/daftar/verifikasi/telegram');
             }
-
-            // logout other devices jika melakukan perubahan password
-            $this->middleware->run('AuthenticateSession', 'penduduk');
         }
     }
 }

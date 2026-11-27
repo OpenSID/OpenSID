@@ -78,7 +78,7 @@ class Kehadiran extends BaseModel
     /**
      * Define a many-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function pamong()
     {

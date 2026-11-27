@@ -165,37 +165,84 @@ class Kelompok extends Admin_Controller
         redirect("{$this->controller}/form_anggota/{$id}");
     }
 
+    /**
+     * API Endpoint untuk Select2 AJAX dengan Infinite Scroll
+     * Digunakan untuk load data Ketua Kelompok/Lembaga secara bertahap
+     *
+     * Parameter:
+     * - q: search term (NIK/Nama)
+     * - page: nomor halaman (default 1)
+     * - tipe: tipe kelompok/lembaga
+     * - kelompok: ID kelompok untuk exclude anggota yang sudah ada
+     */
     public function apipendudukkelompok()
     {
-        if ($this->input->is_ajax_request()) {
-            $cari     = $this->input->get('q');
-            $tipe     = $this->input->get('tipe');
-            $kelompok = $this->input->get('kelompok');
-            $anggota  = KelompokAnggota::tipe($tipe)->where('id_kelompok', '=', $kelompok)->pluck('id_penduduk')->filter()->values();
-            $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
-                ->where('status_dasar', StatusDasarEnum::HIDUP)
-                ->whereNotIn('id', $anggota)
-                ->when($cari, static function ($query) use ($cari): void {
-                    $query->where(static function ($q) use ($cari): void {
-                        $q->where('nik', 'like', "%{$cari}%")
-                            ->orWhere('nama', 'like', "%{$cari}%");
-                    });
-                })
-                ->paginate(10);
+        try {
+            // Validasi request AJAX
+            if (!$this->input->is_ajax_request()) {
+                return show_404();
+            }
+
+            // Get parameters
+            $search   = trim((string) $this->input->get('q', ''));
+            $page     = (int) $this->input->get('page', 1);
+            $tipe     = trim((string) $this->input->get('tipe', ''));
+            $kelompok = (int) $this->input->get('kelompok', 0);
+
+            // Validasi parameter
+            if ($page < 1) {
+                $page = 1;
+            }
+
+            // Build query untuk penduduk hidup
+            $query = Penduduk::with('Wilayah')->select(['id', 'nik', 'nama', 'id_cluster'])
+                ->where('status_dasar', StatusDasarEnum::HIDUP);
+
+            // Filter berdasarkan search term (NIK atau Nama)
+            if ($search) {
+                $query->where(static function ($q) use ($search): void {
+                    $q->where('nik', 'like', "%{$search}%")
+                        ->orWhere('nama', 'like', "%{$search}%");
+                });
+            }
+
+            // Exclude anggota yang sudah terdaftar dalam kelompok/lembaga
+            if ($kelompok > 0 && $tipe) {
+                $anggota = KelompokAnggota::tipe($tipe)
+                    ->where('id_kelompok', '=', $kelompok)
+                    ->pluck('id_penduduk')
+                    ->filter()
+                    ->values()
+                    ->toArray();
+
+                if (!empty($anggota)) {
+                    $query->whereNotIn('id', $anggota);
+                }
+            }
+
+            // Paginate dengan 10 item per halaman
+            $penduduk = $query->orderBy('nama', 'ASC')->paginate(10, ['*'], 'page', $page);
 
             return json([
                 'results' => collect($penduduk->items())
                     ->map(static fn ($item): array => [
-                        'id'   => $item->id,
-                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
-                    ]),
+                        'id'   => (string) $item->id,
+                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . ($item->wilayah->rt ?? '0') . ', RW-' . ($item->wilayah->rw ?? '0') . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . ($item->wilayah->dusun ?? '')),
+                    ])->toArray(),
                 'pagination' => [
                     'more' => $penduduk->currentPage() < $penduduk->lastPage(),
                 ],
+                'total' => $penduduk->total(),
             ]);
+        } catch (\Exception $e) {
+            log_message('error', 'apipendudukkelompok error: ' . $e->getMessage());
+            return json([
+                'error'   => true,
+                'message' => 'Gagal memuat data. Silakan coba lagi.',
+                'results' => [],
+                'pagination' => ['more' => false],
+            ], 500);
         }
-
-        return show_404();
     }
 
     // $aksi = cetak/unduh
@@ -623,4 +670,6 @@ class Kelompok extends Admin_Controller
                 });
             });
     }
+
+
 }

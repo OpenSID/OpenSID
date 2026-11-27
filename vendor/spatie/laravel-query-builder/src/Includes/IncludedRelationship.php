@@ -3,24 +3,42 @@
 namespace Spatie\QueryBuilder\Includes;
 
 use Closure;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class IncludedRelationship implements IncludeInterface
 {
-    /** @var Closure|null */
-    public $getRequestedFieldsForRelatedTable;
+    private ?Closure $fieldsCallback = null;
 
-    public function __invoke(Builder $query, string $relationship)
+    public function setFieldsCallback(Closure $callback): void
+    {
+        $this->fieldsCallback = $callback;
+    }
+
+    public function __invoke(Builder $query, string $relationship): void
     {
         $relatedTables = collect(explode('.', $relationship));
 
         $withs = $relatedTables
-            ->mapWithKeys(function ($table, $key) use ($query, $relatedTables) {
+            ->mapWithKeys(function ($table, $key) use ($relatedTables, $query) {
                 $fullRelationName = $relatedTables->slice(0, $key + 1)->implode('.');
+                $fields = [];
 
-                if ($this->getRequestedFieldsForRelatedTable) {
-                    $fields = ($this->getRequestedFieldsForRelatedTable)($fullRelationName);
+                if ($this->fieldsCallback) {
+                    $tableName = null;
+                    $strategy = config('query-builder.convert_relation_table_name_strategy');
+
+                    if ($strategy !== null) {
+                        try {
+                            $relatedModel = $query->getModel()->{$fullRelationName}()->getRelated();
+                            $tableName = $relatedModel->getTable();
+                        } catch (Exception) {
+                            $tableName = null;
+                        }
+                    }
+
+                    $fields = ($this->fieldsCallback)($fullRelationName, $tableName);
                 }
 
                 if (empty($fields)) {
@@ -28,7 +46,7 @@ class IncludedRelationship implements IncludeInterface
                 }
 
                 return [$fullRelationName => function ($query) use ($fields) {
-                    $query->select($fields);
+                    $query->select($query->qualifyColumns($fields));
                 }];
             })
             ->toArray();

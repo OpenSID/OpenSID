@@ -21,6 +21,7 @@ use Symfony\Component\VarDumper\Dumper\ContextProvider\CliContextProvider;
 use Symfony\Component\VarDumper\Dumper\ContextProvider\RequestContextProvider;
 use Symfony\Component\VarDumper\Dumper\ContextProvider\SourceContextProvider;
 use Symfony\Component\VarDumper\Dumper\ContextualizedDumper;
+use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\Dumper\ServerDumper;
 
@@ -37,14 +38,8 @@ class VarDumper
      */
     private static $handler;
 
-    /**
-     * @param string|null $label
-     *
-     * @return mixed
-     */
-    public static function dump(mixed $var/* , string $label = null */)
+    public static function dump(mixed $var, ?string $label = null): mixed
     {
-        $label = 2 <= \func_num_args() ? func_get_arg(1) : null;
         if (null === self::$handler) {
             self::register();
         }
@@ -52,11 +47,8 @@ class VarDumper
         return (self::$handler)($var, $label);
     }
 
-    public static function setHandler(?callable $callable = null): ?callable
+    public static function setHandler(?callable $callable): ?callable
     {
-        if (1 > \func_num_args()) {
-            trigger_deprecation('symfony/var-dumper', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
-        }
         $prevHandler = self::$handler;
 
         // Prevent replacing the handler with expected format as soon as the env var was set:
@@ -75,28 +67,21 @@ class VarDumper
         $cloner->addCasters(ReflectionCaster::UNSET_CLOSURE_FILE_INFO);
 
         $format = $_SERVER['VAR_DUMPER_FORMAT'] ?? null;
-        switch (true) {
-            case 'html' === $format:
-                $dumper = new HtmlDumper();
-                break;
-            case 'cli' === $format:
-                $dumper = new CliDumper();
-                break;
-            case 'server' === $format:
-            case $format && 'tcp' === parse_url($format, \PHP_URL_SCHEME):
-                $host = 'server' === $format ? $_SERVER['VAR_DUMPER_SERVER'] ?? '127.0.0.1:9912' : $format;
-                $dumper = \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? new CliDumper() : new HtmlDumper();
-                $dumper = new ServerDumper($host, $dumper, self::getDefaultContextProviders());
-                break;
-            default:
-                $dumper = \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? new CliDumper() : new HtmlDumper();
-        }
+
+        $dumper = match ($format) {
+            'html' => new HtmlDumper(),
+            'cli' => new CliDumper(),
+            'server' => self::selectDumperForAccept($_SERVER['VAR_DUMPER_SERVER'] ?? '127.0.0.1:9912'),
+            default => self::selectDumperForAccept(
+                $format && 'tcp' === parse_url($format, \PHP_URL_SCHEME) ? $format : null,
+            ),
+        };
 
         if (!$dumper instanceof ServerDumper) {
             $dumper = new ContextualizedDumper($dumper, [new SourceContextProvider()]);
         }
 
-        self::$handler = function ($var, ?string $label = null) use ($cloner, $dumper) {
+        self::$handler = static function ($var, ?string $label = null) use ($cloner, $dumper) {
             $var = $cloner->cloneVar($var);
 
             if (null !== $label) {
@@ -105,6 +90,24 @@ class VarDumper
 
             $dumper->dump($var);
         };
+    }
+
+    private static function selectDumperForAccept(?string $serverHost): DataDumperInterface
+    {
+        $isCliSapi = \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true);
+        $accept = $_SERVER['HTTP_ACCEPT'] ?? ($isCliSapi ? 'txt' : 'html');
+
+        $dumper = match (true) {
+            str_contains($accept, 'html'), str_contains($accept, '*/*') => new HtmlDumper(),
+            $isCliSapi => new CliDumper(),
+            default => new CliDumper('php://output'),
+        };
+
+        if (null !== $serverHost) {
+            $dumper = new ServerDumper($serverHost, $dumper, self::getDefaultContextProviders());
+        }
+
+        return $dumper;
     }
 
     private static function getDefaultContextProviders(): array

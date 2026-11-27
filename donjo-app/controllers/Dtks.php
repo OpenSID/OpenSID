@@ -48,6 +48,7 @@ use App\Models\Wilayah;
 use App\Services\DTKSRegsosEk2022k;
 
 use App\Services\DtksService;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
@@ -207,6 +208,10 @@ class Dtks extends Admin_Controller
         try {
             return (new DTKSRegsosEk2022k())->info();
         } catch (Throwable $th) {
+            if ($th instanceof Responsable) {
+                throw $th;
+            }
+
             echo 'File info tidak ditemukan';
         }
     }
@@ -216,6 +221,10 @@ class Dtks extends Admin_Controller
         try {
             return (new DTKSRegsosEk2022k())->impor();
         } catch (Throwable $th) {
+            if ($th instanceof Responsable) {
+                throw $th;
+            }
+
             echo 'File info tidak ditemukan';
         }
     }

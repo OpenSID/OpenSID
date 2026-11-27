@@ -49,7 +49,7 @@ class AnalisisRepository
     {
         return QueryBuilder::for(AnalisisIndikator::class)
             ->allowedFields('*')
-            ->allowedFilters([
+            ->allowedFilters(...[
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('tahun'),
                 AllowedFilter::callback('search', static function ($query, $value): void {
@@ -59,7 +59,7 @@ class AnalisisRepository
                     });
                 }),
             ])
-            ->allowedSorts(['master', 'tahun'])
+            ->allowedSorts(...['master', 'tahun'])
             ->select([
                 'm.id',
                 'm.nama AS master',
@@ -83,7 +83,7 @@ class AnalisisRepository
     {
         return QueryBuilder::for(AnalisisIndikator::class)
             ->allowedFields('*')
-            ->allowedFilters([
+            ->allowedFilters(...[
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('id_master'),
                 AllowedFilter::exact('tahun'),
@@ -94,7 +94,7 @@ class AnalisisRepository
                     });
                 }),
             ])
-            ->allowedSorts(['master', 'tahun'])
+            ->allowedSorts(...['master', 'tahun'])
             ->select([
                 'analisis_indikator.id',
                 'analisis_indikator.nomor',
@@ -125,7 +125,7 @@ class AnalisisRepository
             ->leftJoin('analisis_respon', 'analisis_respon.id_parameter', '=', 'analisis_parameter.id')
             ->orderBy('kode_jawaban', 'ASC')
             ->allowedFields('*')
-            ->allowedFilters([
+            ->allowedFilters(...[
                 AllowedFilter::exact('id_indikator'),
                 AllowedFilter::callback('id_periode', static function ($query, $value): void {
                     $query->addSelect([
@@ -161,7 +161,7 @@ class AnalisisRepository
                         });
                 }),
             ])
-            ->allowedSorts(['jawaban'])
+            ->allowedSorts(...['jawaban'])
             ->jsonPaginate();
     }
 }

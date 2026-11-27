@@ -28,10 +28,7 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
  */
 abstract class DataCollector implements DataCollectorInterface
 {
-    /**
-     * @var array|Data
-     */
-    protected $data = [];
+    protected array|Data $data = [];
 
     private ClonerInterface $cloner;
 
@@ -58,10 +55,10 @@ abstract class DataCollector implements DataCollectorInterface
     /**
      * @return callable[] The casters to add to the cloner
      */
-    protected function getCasters()
+    protected function getCasters(): array
     {
-        $casters = [
-            '*' => function ($v, array $a, Stub $s, $isNested) {
+        return [
+            '*' => static function ($v, array $a, Stub $s, $isNested) {
                 if (!$v instanceof Stub) {
                     $b = $a;
                     foreach ($a as $k => $v) {
@@ -85,40 +82,19 @@ abstract class DataCollector implements DataCollectorInterface
                 return $a;
             },
         ] + ReflectionCaster::UNSET_CLOSURE_FILE_INFO;
-
-        return $casters;
     }
 
-    public function __sleep(): array
+    public function __serialize(): array
     {
-        return ['data'];
+        return ['data' => $this->data];
     }
 
-    /**
-     * @return void
-     */
-    public function __wakeup()
+    public function __unserialize(array $data): void
     {
+        $this->data = $data['data'] ?? $data["\0*\0data"];
     }
 
-    /**
-     * @internal to prevent implementing \Serializable
-     */
-    final protected function serialize(): void
-    {
-    }
-
-    /**
-     * @internal to prevent implementing \Serializable
-     */
-    final protected function unserialize(string $data): void
-    {
-    }
-
-    /**
-     * @return void
-     */
-    public function reset()
+    public function reset(): void
     {
         $this->data = [];
     }

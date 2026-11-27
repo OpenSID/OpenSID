@@ -40,7 +40,6 @@ use App\Models\MediaSosial;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
 use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -190,7 +189,7 @@ class Sosmed extends Admin_Controller
                     Image::load($uploadData['full_path'])
                         ->width(100)
                         ->height(100)
-                        ->format(Manipulations::FORMAT_WEBP)
+                        ->format('webp')
                         ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
 
                     // Hapus original file

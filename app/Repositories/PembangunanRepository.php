@@ -47,7 +47,7 @@ class PembangunanRepository
     {
         return QueryBuilder::for(Pembangunan::with('pembangunanDokumentasi')->active()->orderBy('tahun_anggaran', 'desc'))
             ->allowedFields('*')
-            ->allowedFilters([
+            ->allowedFilters(...[
                 AllowedFilter::callback('slug', static function ($query, $value) {
                     $query->where('slug', $value);
                 }),
@@ -57,7 +57,7 @@ class PembangunanRepository
                             ->orWhere('keterangan', 'LIKE', '%' . $value . '%');
                     });
             })])
-            ->allowedSorts(['created_at', 'updated_at', 'id'])
+            ->allowedSorts(...['created_at', 'updated_at', 'id'])
             ->jsonPaginate();
     }
 }

@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
+use App\Bootstrap\RequestAwareTrait;
+
 /*
  *
  * File ini bagian dari:
@@ -57,4 +60,30 @@ require APPPATH . 'third_party/MX/Router.php';
 
 class MY_Router extends MX_Router
 {
+    use RequestAwareTrait;
+
+    public \CI_URI $uri;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setRequest(Request $request): self
+    {
+        $this->request = $request;
+
+        if (method_exists($request, 'overrideGlobals')) {
+            $request->overrideGlobals();
+        }
+
+        // reinitialize router state
+        $this->class  = '';
+        $this->method = 'index';
+        $this->directory = '';
+        $this->default_controller = '';
+        $this->_set_routing();
+
+        log_message('info', 'Reinitializing Router with new request object.');
+
+        return $this;
+    }
 }
