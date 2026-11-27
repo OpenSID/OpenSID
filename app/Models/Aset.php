@@ -39,6 +39,28 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id_aset
+ * @property string $golongan
+ * @property string $bidang
+ * @property string $kelompok
+ * @property string $sub_kelompok
+ * @property string $sub_sub_kelompok
+ * @property string $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset golongan($golongan)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset whereBidang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset whereGolongan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset whereIdAset($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset whereKelompok($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset whereSubKelompok($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset whereSubSubKelompok($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Aset withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Aset extends BaseModel
 {
     /**

@@ -39,6 +39,25 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $tgl_ekspor
+ * @property string $kode_ekspor
+ * @property int $semua
+ * @property string|null $dari_tgl
+ * @property int $total
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogEkspor newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogEkspor newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogEkspor query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogEkspor whereDariTgl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogEkspor whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogEkspor whereKodeEkspor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogEkspor whereSemua($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogEkspor whereTglEkspor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogEkspor whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogEkspor withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogEkspor extends BaseModel
 {
     public $timestamps = false;

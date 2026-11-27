@@ -41,6 +41,21 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int $url_id
+ * @property string $created
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Statistics newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Statistics newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Statistics query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Statistics whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Statistics whereCreated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Statistics whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Statistics whereUrlId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Statistics withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Statistics extends BaseModel
 {
     use ConfigId;

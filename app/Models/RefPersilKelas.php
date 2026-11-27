@@ -39,6 +39,21 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $tipe
+ * @property string $kode
+ * @property string|null $ndesc
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilKelas newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilKelas newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilKelas query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilKelas whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilKelas whereKode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilKelas whereNdesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilKelas whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPersilKelas withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class RefPersilKelas extends BaseModel
 {
     /**

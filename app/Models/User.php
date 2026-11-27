@@ -54,6 +54,86 @@ use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int|null $config_id
+ * @property string|null $username
+ * @property string $password
+ * @property string|null $remember_token
+ * @property int|null $id_grup
+ * @property int|null $pamong_id
+ * @property string|null $email
+ * @property string|null $last_login
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property int|null $active
+ * @property int $otp_enabled
+ * @property string|null $otp_channel
+ * @property string|null $otp_identifier
+ * @property string|null $telegram_chat_id
+ * @property string|null $nama
+ * @property string $id_telegram
+ * @property string|null $token
+ * @property string|null $token_exp
+ * @property \Illuminate\Support\Carbon|null $telegram_verified_at
+ * @property int $notif_telegram
+ * @property string|null $company
+ * @property string|null $phone
+ * @property string|null $foto
+ * @property string $session
+ * @property int $batasi_wilayah
+ * @property array<array-key, mixed>|null $akses_wilayah
+ * @property bool $two_factor_enabled
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read string $status_label
+ * @property-read string $url_foto
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \App\Models\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OneTimePassword> $oneTimePasswords
+ * @property-read int|null $one_time_passwords_count
+ * @property-read \App\Models\Pamong|null $pamong
+ * @property-read \App\Models\UserGrup|null $userGrup
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User status(?mixed $status = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User superAdmin()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAksesWilayah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBatasiWilayah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCompany($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIdGrup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIdTelegram($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLogin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereNotifTelegram($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOtpChannel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOtpEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOtpIdentifier($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePamongId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSession($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTelegramChatId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTelegramVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTokenExp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUsername($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutConfigId($configId = '')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
+ * @mixin \Eloquent
+ */
 class User extends BaseModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
     use ConfigId;

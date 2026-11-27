@@ -38,29 +38,13 @@
 namespace Tests\Feature\Beranda;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Traits\RefreshDatabase;
 use Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class BerandaTest extends BaseTestCase
 {
     use RefreshDatabase;
-
-    protected function migrateFreshUsing(): array
-    {
-        $seeder = $this->seeder();
-
-        return array_merge(
-            [
-                '--drop-views'  => $this->shouldDropViews(),
-                '--drop-types'  => $this->shouldDropTypes(),
-                '--schema-path' => base_path('tests/playwright/storage/database/schema.sql'),
-                '--path'        => 'database/migrations',
-                '--realpath'    => false,
-            ],
-            $seeder ? ['--seeder' => $seeder] : ['--seed' => $this->shouldSeed()]
-        );
-    }
 
     private User $user;
 

@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefDokumen newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefDokumen newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefDokumen query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefDokumen whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefDokumen whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefDokumen withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class RefDokumen extends BaseModel
 {
     /**

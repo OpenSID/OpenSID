@@ -31,6 +31,9 @@ class Terminal
     private StdinReader $input;
     private StreamOutput $output;
     private bool $bracketedPasteEnabled = false;
+    private bool $altScreenEnabled = false;
+    private bool $mouseReportingEnabled = false;
+    private bool $useUnicode = true;
     private SymfonyTerminal $symfonyTerminal;
     private Cursor $cursor;
 
@@ -116,6 +119,22 @@ class Terminal
     public function flush(): void
     {
         \fflush($this->output->getStream());
+    }
+
+    /**
+     * Enable or disable Unicode in PsySH-owned terminal UI.
+     */
+    public function setUseUnicode(bool $useUnicode): void
+    {
+        $this->useUnicode = $useUnicode;
+    }
+
+    /**
+     * Check whether PsySH-owned terminal UI should use Unicode.
+     */
+    public function useUnicode(): bool
+    {
+        return $this->useUnicode;
     }
 
     /**
@@ -340,6 +359,77 @@ class Terminal
     public function isBracketedPasteEnabled(): bool
     {
         return $this->bracketedPasteEnabled;
+    }
+
+    /**
+     * Switch to the alternate screen buffer, saving cursor position.
+     *
+     * Terminals expose one alternate buffer. Treat it as a mode bit rather
+     * than a stack so repeated enable/disable calls are idempotent.
+     */
+    public function enableAltScreen(): void
+    {
+        if (!$this->altScreenEnabled) {
+            $this->write("\033[?1049h", false);
+            $this->altScreenEnabled = true;
+            // Cursor row tracking is meaningless across an alt-screen switch.
+            $this->invalidateFrame(true);
+        }
+    }
+
+    /**
+     * Return to the primary screen buffer, restoring the saved cursor.
+     */
+    public function disableAltScreen(): void
+    {
+        if ($this->altScreenEnabled) {
+            $this->write("\033[?1049l", false);
+            $this->altScreenEnabled = false;
+            $this->invalidateFrame(true);
+        }
+    }
+
+    /**
+     * Check if alternate screen mode is active.
+     */
+    public function isAltScreenEnabled(): bool
+    {
+        return $this->altScreenEnabled;
+    }
+
+    /**
+     * Enable button-and-wheel mouse reporting in SGR (1006) mode.
+     *
+     * Pager turns this on while it owns the screen so wheel events become
+     * keys.
+     */
+    public function enableMouseReporting(): void
+    {
+        if (!$this->mouseReportingEnabled) {
+            // 1000: button press/release events.
+            // 1006: SGR extended format (the only one the parser handles).
+            $this->write("\033[?1000h\033[?1006h", false);
+            $this->mouseReportingEnabled = true;
+        }
+    }
+
+    /**
+     * Disable mouse reporting.
+     */
+    public function disableMouseReporting(): void
+    {
+        if ($this->mouseReportingEnabled) {
+            $this->write("\033[?1006l\033[?1000l", false);
+            $this->mouseReportingEnabled = false;
+        }
+    }
+
+    /**
+     * Check if mouse reporting is enabled.
+     */
+    public function isMouseReportingEnabled(): bool
+    {
+        return $this->mouseReportingEnabled;
     }
 
     /**

@@ -41,6 +41,32 @@ use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int|null $config_id
+ * @property string $filename
+ * @property string $type
+ * @property array<array-key, mixed> $data
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $max_risk
+ * @property-read mixed $scan_date
+ * @property-read mixed $scan_type
+ * @property-read mixed $suspicious_count
+ * @property-read mixed $total_files
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport ofType(?mixed $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport whereFilename($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityReport whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class SecurityReport extends Model
 {
     use ConfigId;

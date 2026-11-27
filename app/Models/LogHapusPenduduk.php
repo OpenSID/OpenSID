@@ -41,6 +41,29 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_pend
+ * @property numeric $nik
+ * @property string|null $foto
+ * @property string|null $deleted_by
+ * @property \Illuminate\Support\Carbon $deleted_at
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk data()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk whereIdPend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk whereNik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogHapusPenduduk withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogHapusPenduduk extends BaseModel
 {
     use ConfigId;

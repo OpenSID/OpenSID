@@ -7,7 +7,7 @@ parameters:
 			path: app/Actions/GrupAkses/DefaultGrupAkses.php
 
 		-
-			message: '#^Comparison operation "\=\=" between Illuminate\\Database\\Eloquent\\Model\|null and 0 results in an error\.$#'
+			message: '#^Comparison operation "\=\=" between App\\Models\\Modul\|null and 0 results in an error\.$#'
 			identifier: equal.invalid
 			count: 1
 			path: app/Actions/GrupAkses/DefaultGrupAkses.php
@@ -15,6 +15,12 @@ parameters:
 		-
 			message: '#^Method App\\Actions\\GrupAkses\\DefaultGrupAkses\:\:runMigration\(\) should return string but returns true\.$#'
 			identifier: return.type
+			count: 1
+			path: app/Actions/GrupAkses/DefaultGrupAkses.php
+
+		-
+			message: '#^Parameter \#1 \$expression of method Illuminate\\Database\\Query\\Builder\:\:selectRaw\(\) expects literal\-string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: app/Actions/GrupAkses/DefaultGrupAkses.php
 
@@ -37,72 +43,6 @@ parameters:
 			path: app/Bootstrap/RequestAwareTrait.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Keluarga\:\:\$tgl_daftar\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$ayah_nik\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$ibu_nik\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$no_kk_sebelumnya\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$sex\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$tanggal_cetak_ktp\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$tanggallahir\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$tanggalperkawinan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$telepon\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Rtm\:\:\$tgl_daftar\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Wilayah\:\:\$dusun\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/AcakDataCommand.php
-
-		-
 			message: '#^Parameter \#1 \$string of function str_pad expects string, int given\.$#'
 			identifier: argument.type
 			count: 4
@@ -121,7 +61,7 @@ parameters:
 			path: app/Console/Commands/ModuleCommand.php
 
 		-
-			message: '#^Comparison operation "\=\=" between Illuminate\\Database\\Eloquent\\Model\|null and 0 results in an error\.$#'
+			message: '#^Comparison operation "\=\=" between App\\Models\\Modul\|null and 0 results in an error\.$#'
 			identifier: equal.invalid
 			count: 1
 			path: app/Console/Commands/ModuleCommand.php
@@ -129,6 +69,12 @@ parameters:
 		-
 			message: '#^Method App\\Console\\Commands\\ModuleCommand\:\:runMigration\(\) should return string but returns true\.$#'
 			identifier: return.type
+			count: 1
+			path: app/Console/Commands/ModuleCommand.php
+
+		-
+			message: '#^Parameter \#1 \$expression of method Illuminate\\Database\\Query\\Builder\:\:selectRaw\(\) expects literal\-string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: app/Console/Commands/ModuleCommand.php
 
@@ -143,48 +89,6 @@ parameters:
 			identifier: method.childReturnType
 			count: 1
 			path: app/Console/Commands/Modules/BaseModuleMakeCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Theme\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/PindaiTemaCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Theme\:\:\$sistem\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/PindaiTemaCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Theme\:\:\$slug\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/PindaiTemaCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Theme\:\:\$status\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Console/Commands/PindaiTemaCommand.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,App\\Models\\Theme\>\:\:map\(\) contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
-			count: 1
-			path: app/Console/Commands/PindaiTemaCommand.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PembangunanDokumentasi\:\:\$created_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Exports/DokumentasiPembangunanOpendkExport.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PembangunanDokumentasi\:\:\$updated_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Exports/DokumentasiPembangunanOpendkExport.php
 
 		-
 			message: '#^Access to an undefined property CI_Controller\:\:\$zip\.$#'
@@ -211,21 +115,15 @@ parameters:
 			path: app/Exports/PesertaBantuanOpendkExport.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Bantuan\:\:\$edate\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Exports/ProgramBantuanOpendkExport.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Bantuan\:\:\$sdate\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Exports/ProgramBantuanOpendkExport.php
-
-		-
 			message: '#^Access to an undefined property CI_Controller\:\:\$zip\.$#'
 			identifier: property.notFound
 			count: 2
+			path: app/Exports/ProgramBantuanOpendkExport.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Support\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
 			path: app/Exports/ProgramBantuanOpendkExport.php
 
 		-
@@ -239,6 +137,12 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Exports/SuratLayananExport.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 1
+			path: app/Helpers/core_helper.php
 
 		-
 			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
@@ -259,46 +163,10 @@ parameters:
 			path: app/Http/Middleware/CodeIgniterResponseMiddleware.php
 
 		-
-			message: '#^Using nullsafe property access on non\-nullable type CI_Controller\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Middleware/CodeIgniterResponseMiddleware.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Artikel\:\:\$tgl_upload\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/ArtikelTransformer.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Artikel\:\:\$tgl_upload_local\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Transformers/ArtikelTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\BantuanPeserta\:\:\$bantuan\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Transformers/BantuanPesertaTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\BantuanPeserta\:\:\$kartu_alamat\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Transformers/BantuanPesertaTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\BantuanPeserta\:\:\$kartu_nama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Transformers/BantuanPesertaTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\BantuanPeserta\:\:\$program_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/BantuanPesertaTransformer.php
 
 		-
 			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\BantuanPeserta\. Use \-\> instead\.$#'
@@ -319,28 +187,10 @@ parameters:
 			path: app/Http/Transformers/DptTransformer.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$sex\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/DptTransformer.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$total\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Transformers/DptTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Galery\:\:\$gambar\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/GaleriTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Galery\:\:\$jenis\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Transformers/GaleriTransformer.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\Galery\:\:\$src_gambar\.$#'
@@ -355,58 +205,16 @@ parameters:
 			path: app/Http/Transformers/GaleriTransformer.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$gambar\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/GaleriTransformer.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$jenis\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/GaleriTransformer.php
-
-		-
 			message: '#^Parameter \#2 \$params of function ci_route expects array\|string\|null, int given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Transformers/GaleriTransformer.php
 
 		-
-			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\. Use \-\> instead\.$#'
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Galery\>\. Use \-\> instead\.$#'
 			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Http/Transformers/GaleriTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DokumenHidup\:\:\$kategori\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Transformers/InformasiPublikTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DokumenHidup\:\:\$satuan\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Transformers/InformasiPublikTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DokumenHidup\:\:\$tgl_upload\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InformasiPublikTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DokumenHidup\:\:\$tipe\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InformasiPublikTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisAsset\:\:\$harga\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisAssetTransformer.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\InventarisAsset\:\:\$harga_format\.$#'
@@ -415,34 +223,10 @@ parameters:
 			path: app/Http/Transformers/InventarisAssetTransformer.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\InventarisGedung\:\:\$harga\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisGedungTransformer.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\InventarisGedung\:\:\$harga_format\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Transformers/InventarisGedungTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisGedung\:\:\$no_dokument\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisGedungTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisGedung\:\:\$tanggal_dokument\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisGedungTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisJalan\:\:\$harga\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisJalanTransformer.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\InventarisJalan\:\:\$harga_format\.$#'
@@ -451,70 +235,10 @@ parameters:
 			path: app/Http/Transformers/InventarisJalanTransformer.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\InventarisJalan\:\:\$luas\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisJalanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisJalan\:\:\$no_dokument\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisJalanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisJalan\:\:\$tanggal_dokument\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisJalanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisKontruksi\:\:\$harga\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisKontruksiTransformer.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\InventarisKontruksi\:\:\$harga_format\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Transformers/InventarisKontruksiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisKontruksi\:\:\$luas_bangunan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisKontruksiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisKontruksi\:\:\$no_dokument\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisKontruksiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisKontruksi\:\:\$status_tanah\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisKontruksiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisKontruksi\:\:\$tanggal\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisKontruksiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisKontruksi\:\:\$tanggal_dokument\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisKontruksiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisPeralatan\:\:\$harga\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisPeralatanTransformer.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\InventarisPeralatan\:\:\$harga_format\.$#'
@@ -523,46 +247,10 @@ parameters:
 			path: app/Http/Transformers/InventarisPeralatanTransformer.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\InventarisPeralatan\:\:\$no_bpkb\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisPeralatanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisPeralatan\:\:\$no_polisi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisPeralatanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\InventarisTanah\:\:\$harga\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/InventarisTanahTransformer.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\InventarisTanah\:\:\$harga_format\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Transformers/InventarisTanahTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KelompokAnggota\:\:\$foto\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/KelompokAnggotaTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KelompokAnggota\:\:\$no_anggota\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/KelompokAnggotaTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KelompokAnggota\:\:\$sex_luar\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/KelompokAnggotaTransformer.php
 
 		-
 			message: '#^Using nullsafe property access "\?\-\>sex" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
@@ -571,196 +259,10 @@ parameters:
 			path: app/Http/Transformers/KelompokAnggotaTransformer.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Kelompok\:\:\$keterangan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/KelompokTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Kelompok\:\:\$kode\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/KelompokTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Kelompok\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/KelompokTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Kelompok\:\:\$pengurus\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/KelompokTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Kelompok\:\:\$slug\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/KelompokTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Kelompok\:\:\$tipe\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/KelompokTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$nama_jabatan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratDinasVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$nama_pamong\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratDinasVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$pamong\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratDinasVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$suratDinas\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratDinasVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$tanggal\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratDinasVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$formatSurat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$id_pend\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$nama_jabatan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$nama_non_warga\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$nama_pamong\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$nama_surat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$pamong\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$tanggal\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\PendudukSaja\>\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/LogSuratVerifikasiTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$foto\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Transformers/PembangunanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$lokasi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PembangunanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$pembangunanDokumentasi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PembangunanTransformer.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$pembangunan_dokumentasi\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Transformers/PembangunanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$atasan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PemerintahTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$bagan_layout\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PemerintahTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$bagan_offset\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PemerintahTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$bagan_tingkat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PemerintahTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$bagan_warna\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PemerintahTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$media_sosial\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PemerintahTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$status_pejabat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PemerintahTransformer.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Transformers/PemerintahTransformer.php
 
 		-
 			message: '#^Access to an undefined property Modules\\Kehadiran\\Models\\Kehadiran\:\:\$jam_keluar\.$#'
@@ -787,93 +289,15 @@ parameters:
 			path: app/Http/Transformers/PemerintahTransformer.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$created_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PengaduanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$foto\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PengaduanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$isi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PengaduanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$judul\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PengaduanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Transformers/PengaduanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$status\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PengaduanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$updated_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/PengaduanTransformer.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:map\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Transformers/PengaduanTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dokumen\:\:\$kategori\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/ProdukHukumTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dokumen\:\:\$satuan\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Transformers/ProdukHukumTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dokumen\:\:\$tgl_upload\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/ProdukHukumTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dokumen\:\:\$tipe\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/ProdukHukumTransformer.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/ProdukHukumTransformer.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Wilayah\:\:\$kepala_nama\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 3
 			path: app/Http/Transformers/WilayahTransformer.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\Wilayah\:\:\$penduduk_pria_wanita_count\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 3
 			path: app/Http/Transformers/WilayahTransformer.php
 
 		-
@@ -883,64 +307,16 @@ parameters:
 			path: app/Http/Transformers/WilayahTransformer.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$kepala\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Transformers/WilayahTransformer.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$kepala_nama\.$#'
+			message: '#^Access to an undefined property App\\Models\\Wilayah\:\:\$sebutan_rt\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Transformers/WilayahTransformer.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
+			message: '#^Access to an undefined property App\\Models\\Wilayah\:\:\$sebutan_rw\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Transformers/WilayahTransformer.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$penduduk_pria_count\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/WilayahTransformer.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$penduduk_pria_wanita_count\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/WilayahTransformer.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$penduduk_wanita_count\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/WilayahTransformer.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$rts\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/WilayahTransformer.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$rw\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/WilayahTransformer.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$sebutan_rw\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Transformers/WilayahTransformer.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Bantuan\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Bantuan\>\:\:\$sasaran\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Imports/BantuanImports.php
 
 		-
 			message: '#^Loose comparison using \=\= between 1 and 1 will always evaluate to true\.$#'
@@ -1015,312 +391,6 @@ parameters:
 			path: app/Libraries/AnalisisImport.php
 
 		-
-			message: '#^Method App\\Libraries\\BIP\\Bip2012\:\:imporDataBip\(\) has invalid return type App\\Libraries\\BIP\\setting\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$dari with type mixed is not subtype of native type int\.$#'
-			identifier: parameter.phpDocType
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$i with type mixed is not subtype of native type int\.$#'
-			identifier: parameter.phpDocType
-			count: 2
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(array		data keluarga untuk anggota yg dicari\)\: Unexpected token "data", expected variable at offset 159 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int		cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 164 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int		jumlah baris di sheet\)\: Unexpected token "jumlah", expected variable at offset 123 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int	cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 110 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int	cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 118 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet			data excel berisi bip\)\: Unexpected token "data", expected variable at offset 82 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 61 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 70 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 78 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^Variable \$pos might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: app/Libraries/BIP/Bip2012.php
-
-		-
-			message: '#^Method App\\Libraries\\BIP\\Bip2016\:\:imporDataBip\(\) has invalid return type App\\Libraries\\BIP\\setting\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$dari with type mixed is not subtype of native type int\.$#'
-			identifier: parameter.phpDocType
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$i with type mixed is not subtype of native type int\.$#'
-			identifier: parameter.phpDocType
-			count: 2
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(array		data keluarga untuk anggota yg dicari\)\: Unexpected token "data", expected variable at offset 159 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int		cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 164 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int		jumlah baris di sheet\)\: Unexpected token "jumlah", expected variable at offset 123 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int	cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 110 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int	cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 118 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet			data excel berisi bip\)\: Unexpected token "data", expected variable at offset 82 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 61 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 70 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 78 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016.php
-
-		-
-			message: '#^Loose comparison using \=\= between int\<min, \-1\>\|int\<1, max\> and 0 will always evaluate to false\.$#'
-			identifier: equal.alwaysFalse
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^Method App\\Libraries\\BIP\\Bip2016Luwutimur\:\:imporDataBip\(\) has invalid return type App\\Libraries\\BIP\\setting\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$dari with type mixed is not subtype of native type int\.$#'
-			identifier: parameter.phpDocType
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$i with type mixed is not subtype of native type int\.$#'
-			identifier: parameter.phpDocType
-			count: 2
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(array		data keluarga untuk anggota yg dicari\)\: Unexpected token "data", expected variable at offset 159 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int		cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 164 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int		jumlah baris di sheet\)\: Unexpected token "jumlah", expected variable at offset 123 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int	cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 110 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int	cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 118 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet			data excel berisi bip\)\: Unexpected token "data", expected variable at offset 82 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 61 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 70 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 78 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/Bip2016Luwutimur.php
-
-		-
-			message: '#^Loose comparison using \=\= between int\<min, \-1\>\|int\<1, max\> and 0 will always evaluate to false\.$#'
-			identifier: equal.alwaysFalse
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^Method App\\Libraries\\BIP\\BipEktp\:\:imporDataBip\(\) has invalid return type App\\Libraries\\BIP\\setting\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$dari with type mixed is not subtype of native type int\.$#'
-			identifier: parameter.phpDocType
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$i with type mixed is not subtype of native type int\.$#'
-			identifier: parameter.phpDocType
-			count: 2
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(array		data keluarga untuk anggota yg dicari\)\: Unexpected token "data", expected variable at offset 159 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int		cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 164 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int		jumlah baris di sheet\)\: Unexpected token "jumlah", expected variable at offset 123 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int	cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 110 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(int	cari dari baris ini\)\: Unexpected token "cari", expected variable at offset 118 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet			data excel berisi bip\)\: Unexpected token "data", expected variable at offset 82 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 61 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 70 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(sheet		data excel berisi bip\)\: Unexpected token "data", expected variable at offset 78 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/BIP/BipEktp.php
-
-		-
 			message: '#^Expression on left side of \?\? is not nullable\.$#'
 			identifier: nullCoalesce.expr
 			count: 2
@@ -1357,12 +427,6 @@ parameters:
 			path: app/Libraries/Database.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$app_key\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Ekspor.php
-
-		-
 			message: '#^Function str_slug not found\.$#'
 			identifier: function.notFound
 			count: 1
@@ -1387,90 +451,6 @@ parameters:
 			path: app/Libraries/FeedParser.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Keluarga\:\:\$alamat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Import.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Auth\\AuthManager\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Import.php
-
-		-
-			message: '#^Anonymous function should return Illuminate\\Support\\Collection\<\(int\|string\), bool\|DateInterval\|DateTimeInterface\|float\|int\|string\|null\> but returns Illuminate\\Support\\Collection\<\(int\|string\), bool\|DateInterval\|DateTimeInterface\|float\|int\|string\|null\>\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Libraries/Import.php
-
-		-
-			message: '#^Method App\\Libraries\\Import\:\:getKode\(\) should return int but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Libraries/Import.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(array		tulisan \=\> kode angka\)\: Unexpected token "tulisan", expected variable at offset 75 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/Import.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(string	tulisan yang akan dikonversi\)\: Unexpected token "tulisan", expected variable at offset 118 on line 5$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/Import.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),mixed\>\:\:map\(\) expects callable\(mixed, int\|string\)\: Illuminate\\Support\\Collection\<int\|string, bool\|DateInterval\|DateTimeInterface\|float\|int\|string\|null\>, Closure\(mixed\)\: Illuminate\\Support\\Collection\<int\|string, bool\|DateInterval\|DateTimeInterface\|float\|int\|string\|null\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Libraries/Import.php
-
-		-
-			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(mixed\)\: bool\)\|null, ''strlen'' given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Libraries/Import.php
-
-		-
-			message: '#^Variable \$value in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: app/Libraries/Import.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keuangan\:\:\$anggaran\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Libraries/Keuangan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keuangan\:\:\$realisasi\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Libraries/Keuangan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keuangan\:\:\$tahun\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/Keuangan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keuangan\:\:\$template\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/Keuangan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keuangan\:\:\$template_uuid\.$#'
-			identifier: property.notFound
-			count: 5
-			path: app/Libraries/Keuangan.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\KeuanganTemplate\:\:\$Kd_Bid\.$#'
 			identifier: property.notFound
 			count: 1
@@ -1480,12 +460,6 @@ parameters:
 			message: '#^Access to an undefined property App\\Models\\KeuanganTemplate\:\:\$Nama_Bidang\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Libraries/Keuangan.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Keuangan\>\:\:map\(\) contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
-			count: 2
 			path: app/Libraries/Keuangan.php
 
 		-
@@ -1507,72 +481,6 @@ parameters:
 			path: app/Libraries/Keuangan.php
 
 		-
-			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: app/Libraries/LogViewer.php
-
-		-
-			message: '#^Method App\\Libraries\\LogViewer\:\:getLogLevel\(\) has invalid return type App\\Libraries\\log\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Libraries/LogViewer.php
-
-		-
-			message: '#^Method App\\Libraries\\LogViewer\:\:getLogLevel\(\) should return App\\Libraries\\log but returns string\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Libraries/LogViewer.php
-
-		-
-			message: '#^Method App\\Libraries\\LogViewer\:\:processLogsForAPI\(\) never returns array so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: app/Libraries/LogViewer.php
-
-		-
-			message: '#^Method App\\Libraries\\LogViewer\:\:processLogsForAPI\(\) should return array\|null but returns bool\|string\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Libraries/LogViewer.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$file with type mixed is not subtype of native type string\.$#'
-			identifier: parameter.phpDocType
-			count: 1
-			path: app/Libraries/LogViewer.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$fileName with type mixed is not subtype of native type string\.$#'
-			identifier: parameter.phpDocType
-			count: 2
-			path: app/Libraries/LogViewer.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(bool\. If true returns the basename of the files otherwise full path\)\: Unexpected token "\.", expected variable at offset 187 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/LogViewer.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(filename\. It can be all \- to delete all log files \- or specific for a file\)\: Unexpected token "\.", expected variable at offset 90 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/LogViewer.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(array\. An \[\[\], \[\], \[\] \.\.\.\] where each element is a processed log line\)\: Unexpected token "\.", expected TOKEN_HORIZONTAL_WS at offset 343 on line 9$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Libraries/LogViewer.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between null and null will always evaluate to true\.$#'
-			identifier: identical.alwaysTrue
-			count: 1
-			path: app/Libraries/LogViewer.php
-
-		-
 			message: '#^Property App\\Libraries\\NoCaptcha\:\:\$sitekey \(string\) on left side of \?\?\= is not nullable\.$#'
 			identifier: nullCoalesce.property
 			count: 1
@@ -1591,85 +499,13 @@ parameters:
 			path: app/Libraries/OTP/Interface/OtpInterface.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\:\:\$email_tgl_kadaluarsa\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/OTP/Repository/OtpEmail.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\:\:\$email_tgl_verifikasi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/OTP/Repository/OtpEmail.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\:\:\$email_token\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/OTP/Repository/OtpEmail.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\:\:\$telegram_tgl_kadaluarsa\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/OTP/Repository/OtpTelegram.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\:\:\$telegram_tgl_verifikasi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/OTP/Repository/OtpTelegram.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\:\:\$telegram_token\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/OTP/Repository/OtpTelegram.php
-
-		-
 			message: '#^Return type \(void\) of method App\\Libraries\\OTP\\Repository\\OtpTelegram\:\:kirimPesan\(\) should be compatible with return type \(bool\) of method App\\Libraries\\OTP\\Interface\\OtpInterface\:\:kirimPesan\(\)$#'
 			identifier: method.childReturnType
 			count: 1
 			path: app/Libraries/OTP/Repository/OtpTelegram.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$alamat_sekarang\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Periksa.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$created_at\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/Periksa.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$id_cluster\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Periksa.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/Periksa.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Rtm\:\:\$nama_penduduk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Periksa.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Rtm\:\:\$no_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Periksa.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id_rtm\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Libraries/Periksa.php
@@ -1681,19 +517,13 @@ parameters:
 			path: app/Libraries/Periksa.php
 
 		-
-			message: '#^Call to function is_array\(\) with string will always evaluate to false\.$#'
-			identifier: function.impossibleType
-			count: 1
-			path: app/Libraries/Periksa.php
-
-		-
 			message: '#^Call to protected static method nomerKKSementara\(\) of class App\\Models\\Keluarga\.$#'
 			identifier: staticMethod.protected
 			count: 1
 			path: app/Libraries/Periksa.php
 
 		-
-			message: '#^Comparison operation "\=\=" between Illuminate\\Database\\Eloquent\\Model\|null and 0 results in an error\.$#'
+			message: '#^Comparison operation "\=\=" between App\\Models\\Modul\|null and 0 results in an error\.$#'
 			identifier: equal.invalid
 			count: 1
 			path: app/Libraries/Periksa.php
@@ -1713,6 +543,12 @@ parameters:
 		-
 			message: '#^Offset 0 on non\-empty\-list\<string\> on left side of \?\? always exists and is not nullable\.$#'
 			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Libraries/Periksa.php
+
+		-
+			message: '#^Parameter \#1 \$expression of method Illuminate\\Database\\Query\\Builder\:\:selectRaw\(\) expects literal\-string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: app/Libraries/Periksa.php
 
@@ -1975,12 +811,6 @@ parameters:
 			path: app/Libraries/SpreadsheetExcelReader.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Bantuan\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Statistik.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Bantuan\:\:\$peserta_lakilaki_count\.$#'
 			identifier: property.notFound
 			count: 4
@@ -1990,18 +820,6 @@ parameters:
 			message: '#^Access to an undefined property App\\Models\\Bantuan\:\:\$peserta_perempuan_count\.$#'
 			identifier: property.notFound
 			count: 4
-			path: app/Libraries/Statistik.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Bantuan\:\:\$sasaran\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/Statistik.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Bantuan\:\:\$slug\.$#'
-			identifier: property.notFound
-			count: 1
 			path: app/Libraries/Statistik.php
 
 		-
@@ -2083,49 +901,7 @@ parameters:
 			path: app/Libraries/TinyMCE.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\AliasKodeIsian\:\:\$alias\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\AliasKodeIsian\:\:\$content\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\AliasKodeIsian\:\:\$judul\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$template\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$template_desa\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\LogSuratDinas\>\:\:\$formatSurat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\LogSuratDinas\>\:\:\$suratDinas\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Libraries/TinyMCE.php
@@ -2138,24 +914,6 @@ parameters:
 
 		-
 			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$pamong_jabatan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SuratDinas\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SuratDinas\:\:\$template\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SuratDinas\:\:\$template_desa\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Libraries/TinyMCE.php
@@ -2203,24 +961,6 @@ parameters:
 			path: app/Libraries/TinyMCE.php
 
 		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\AliasKodeIsian\>\:\:map\(\) contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,App\\Models\\FormatSurat\>\:\:map\(\) contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<int,App\\Models\\SuratDinas\>\:\:map\(\) contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
-			count: 1
-			path: app/Libraries/TinyMCE.php
-
-		-
 			message: '#^Result of method Karriere\\PdfMerge\\PdfMerge\:\:add\(\) \(void\) is used\.$#'
 			identifier: method.void
 			count: 2
@@ -2239,37 +979,7 @@ parameters:
 			path: app/Libraries/TinyMCE/AtasNama.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$pamong_niap\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/TinyMCE/AtasNama.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$pamong_nip\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/TinyMCE/AtasNama.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Pamong\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Pamong\>\:\:\$pamong_jabatan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/AtasNama.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Pamong\>\:\:\$pamong_niap\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/AtasNama.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Pamong\>\:\:\$pamong_nip\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/AtasNama.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Libraries/TinyMCE/AtasNama.php
@@ -2279,24 +989,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: app/Libraries/TinyMCE/AtasNama.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/FakeDataIsian.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$nik\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/FakeDataIsian.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$tanggallahir\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/FakeDataIsian.php
 
 		-
 			message: '#^Method App\\Libraries\\TinyMCE\\FakeDataIsian\:\:set\(\) should return static\(App\\Libraries\\TinyMCE\\FakeDataIsian\) but returns App\\Libraries\\TinyMCE\\FakeDataIsian\.$#'
@@ -2315,60 +1007,6 @@ parameters:
 			identifier: nullCoalesce.variable
 			count: 1
 			path: app/Libraries/TinyMCE/FakeDataIsian.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianAnggotaKeluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$agama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianAnggotaKeluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$golongan_darah\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianAnggotaKeluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$jenis_kelamin\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianAnggotaKeluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$pekerjaan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianAnggotaKeluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$pendidikan_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianAnggotaKeluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$pendidikan_sedang\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianAnggotaKeluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$penduduk_hubungan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianAnggotaKeluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$warganegara\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianAnggotaKeluarga.php
 
 		-
 			message: '#^Anonymous function never returns float so it can be removed from the return type\.$#'
@@ -2395,18 +1033,6 @@ parameters:
 			path: app/Libraries/TinyMCE/KodeIsianForm.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$nama_surat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianGambar.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$foto\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianGambar.php
-
-		-
 			message: '#^Relation ''keluarga'' is not found in App\\Models\\Penduduk model\.$#'
 			identifier: larastan.relationExistence
 			count: 1
@@ -2425,37 +1051,7 @@ parameters:
 			path: app/Libraries/TinyMCE/KodeIsianPenandaTangan.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$pamong_niap\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/TinyMCE/KodeIsianPenandaTangan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$pamong_nip\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/TinyMCE/KodeIsianPenandaTangan.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Pamong\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Pamong\>\:\:\$pamong_jabatan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenandaTangan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Pamong\>\:\:\$pamong_niap\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenandaTangan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Pamong\>\:\:\$pamong_nip\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenandaTangan.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Libraries/TinyMCE/KodeIsianPenandaTangan.php
@@ -2465,162 +1061,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: app/Libraries/TinyMCE/KodeIsianPenandaTangan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$akta_lahir\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$akta_perceraian\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$akta_perkawinan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$alamat_sebelumnya\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$ayah_nik\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$bpjs_ketenagakerjaan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$dokumen_kitas\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$dokumen_pasport\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$email\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$ibu_nik\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$kelahiran_anak_ke\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$keluarga\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$kk_level\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$nama_ayah\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$nama_ibu\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$nik\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$suku\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$tanggal_akhir_paspor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$tanggallahir\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$tanggalperceraian\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$tanggalperkawinan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$telepon\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$tempatlahir\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$bdt\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/TinyMCE/KodeIsianPenduduk.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$dusun\.$#'
@@ -2663,114 +1103,6 @@ parameters:
 			identifier: larastan.relationExistence
 			count: 1
 			path: app/Libraries/TinyMCE/KodeIsianPeristiwa.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$alamat_kantor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$email_desa\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$hp_kontak\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$jabatan_kontak\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$kode_desa\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$kode_kabupaten\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$kode_kecamatan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$kode_pos\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$kode_propinsi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$lat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$lng\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$nama_desa\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$nama_kabupaten\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$nama_kecamatan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$nama_kontak\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$nama_propinsi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Config\:\:\$telepon\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Theme\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Libraries/Tracker.php
 
 		-
 			message: '#^Expression on left side of \?\? is not nullable\.$#'
@@ -2867,12 +1199,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Listeners/Kehadiran/SendPengajuanIzinApprovalNotification.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$pamong_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Listeners/Kehadiran/SendPengajuanIzinNotification.php
 
 		-
 			message: '#^Access to an undefined property Modules\\Kehadiran\\Models\\PengajuanIzin\:\:\$id_pamong\.$#'
@@ -3097,46 +1423,16 @@ parameters:
 			path: app/Listeners/Penduduk/SendTelegramVerificationNotification.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$isi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Listeners/Pengaduan/SendPengaduanNotification.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$judul\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Listeners/Pengaduan/SendPengaduanNotification.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Listeners/Pengaduan/SendPengaduanNotification.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\PendudukMandiri\:\:\$nama\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Listeners/Pesan/SendPesanMasukNotification.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Listeners/Surat/SendPermohonanSuratNotification.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\PendudukMandiri\:\:\$nama\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Listeners/Surat/SendPermohonanSuratNotification.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$id_telegram\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Listeners/Surat/SendPermohonanSuratVerificationNotification.php
 
 		-
 			message: '#^Cannot access property \$id on array\|object\.$#'
@@ -3157,10 +1453,40 @@ parameters:
 			path: app/Mail/GenericMail.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$active\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Mail/MasaAktifAkunMail.php
+			message: '#^PHPDoc tag @method for method App\\Models\\Activity\:\:causedBy\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Activity.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\Activity\:\:forBatch\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Activity.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\Activity\:\:forEvent\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Activity.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\Activity\:\:forSubject\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Activity.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\Activity\:\:hasBatch\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Activity.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\Activity\:\:inLog\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/Activity.php
 
 		-
 			message: '#^PHPDoc type array of property App\\Models\\Agenda\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
@@ -3196,12 +1522,6 @@ parameters:
 			message: '#^Access to an undefined property App\\Models\\Area\:\:\$color\.$#'
 			identifier: property.notFound
 			count: 2
-			path: app/Models/Area.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Area\:\:\$enabled\.$#'
-			identifier: property.notFound
-			count: 1
 			path: app/Models/Area.php
 
 		-
@@ -3247,9 +1567,99 @@ parameters:
 			path: app/Models/Area.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\ArsipArtikel\:\:\$judul\.$#'
-			identifier: property.notFound
-			count: 2
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:active\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:arsip\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:artikelStatis\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:berdasarkan\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:cari\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:dinamis\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:diunggahSekarang\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:enable\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:headline\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:kategori\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:keuangan\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:onlyArticle\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:openKab\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:sitemap\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:slideShow\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/ArsipArtikel.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\ArsipArtikel\:\:statis\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
 			path: app/Models/ArsipArtikel.php
 
 		-
@@ -3257,36 +1667,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: app/Models/ArsipArtikel.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Artikel\:\:\$id_kategori\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Artikel.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Artikel\:\:\$id_user\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Artikel.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Artikel\:\:\$isi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Artikel.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Artikel\:\:\$tgl_upload\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Artikel.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Artikel\:\:\$tipe\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Artikel.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:enable\(\)\.$#'
@@ -3367,18 +1747,6 @@ parameters:
 			path: app/Models/Bahasa.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Bantuan\:\:\$edate\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Bantuan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Bantuan\:\:\$sdate\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Bantuan.php
-
-		-
 			message: '#^Call to method when\(\) on an unknown class App\\Models\\Builder\.$#'
 			identifier: class.notFound
 			count: 1
@@ -3439,6 +1807,12 @@ parameters:
 			path: app/Models/Bantuan.php
 
 		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Support\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Models/Bantuan.php
+
+		-
 			message: '#^Variable \$data might not be defined\.$#'
 			identifier: variable.undefined
 			count: 3
@@ -3481,7 +1855,7 @@ parameters:
 			path: app/Models/BantuanPeserta.php
 
 		-
-			message: '#^Parameter \#1 \$relation of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\BantuanPeserta\>\:\:whereHas\(\) expects Illuminate\\Database\\Eloquent\\Relations\\Relation\<TRelatedModel of Illuminate\\Database\\Eloquent\\Model, \*, \*\>\|string, array\{bantuan\: Closure\(mixed\)\: mixed\} given\.$#'
+			message: '#^Parameter \#1 \$relation of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\BantuanPeserta\>\:\:whereHas\(\) expects Illuminate\\Database\\Eloquent\\Relations\\Relation\<TRelatedModel of Illuminate\\Database\\Eloquent\\Model \(method Illuminate\\Database\\Eloquent\\Builder\:\:whereHas\(\), parameter\), \*, \*\>\|string, array\{bantuan\: static\-Closure\(mixed\)\: mixed\} given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Models/BantuanPeserta.php
@@ -3497,30 +1871,6 @@ parameters:
 			identifier: function.void
 			count: 2
 			path: app/Models/BaseModel.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Cdesa\:\:\$alamat_pemilik_luar\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Cdesa.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Cdesa\:\:\$jenis_pemilik\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Models/Cdesa.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Cdesa\:\:\$nama_pemilik_luar\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Cdesa.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Cdesa\:\:\$nik_pemilik_luar\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Cdesa.php
 
 		-
 			message: '#^Using nullsafe property access "\?\-\>alamatWilayah" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
@@ -3601,34 +1951,22 @@ parameters:
 			path: app/Models/DaftarKontak.php
 
 		-
+			message: '#^PHPDoc tag @method for method App\\Models\\DatabaseNotification\:\:read\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/DatabaseNotification.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Models\\DatabaseNotification\:\:unread\(\) return type contains unknown class App\\Models\\Builder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Models/DatabaseNotification.php
+
+		-
 			message: '#^PHPDoc type array of property App\\Models\\DisposisiSuratmasuk\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/DisposisiSuratmasuk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dokumen\:\:\$attr\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Dokumen.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dokumen\:\:\$retensi_date\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Dokumen.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dokumen\:\:\$retensi_number\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Dokumen.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dokumen\:\:\$retensi_unit\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Dokumen.php
 
 		-
 			message: '#^Access to an undefined property CI_Controller\:\:\$security\.$#'
@@ -3703,6 +2041,36 @@ parameters:
 			path: app/Models/Dokumen.php
 
 		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, array\<mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/Dokumen.php
+
+		-
+			message: '#^Parameter \#1 \$value of method Carbon\\Carbon\:\:addDays\(\) expects float\|int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/Dokumen.php
+
+		-
+			message: '#^Parameter \#1 \$value of method Carbon\\Carbon\:\:addMonths\(\) expects float\|int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/Dokumen.php
+
+		-
+			message: '#^Parameter \#1 \$value of method Carbon\\Carbon\:\:addWeeks\(\) expects float\|int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/Dokumen.php
+
+		-
+			message: '#^Parameter \#1 \$value of method Carbon\\Carbon\:\:addYears\(\) expects float\|int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/Dokumen.php
+
+		-
 			message: '#^Parameter \$query of method App\\Models\\Dokumen\:\:scopeAktif\(\) has invalid type App\\Models\\Builder\.$#'
 			identifier: class.notFound
 			count: 1
@@ -3727,12 +2095,6 @@ parameters:
 			path: app/Models/Dokumen.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\DokumenHidup\:\:\$retensi_date\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/DokumenHidup.php
-
-		-
 			message: '#^PHPDoc tag @var above a method has no effect\.$#'
 			identifier: varTag.misplaced
 			count: 2
@@ -3751,40 +2113,10 @@ parameters:
 			path: app/Models/DokumenHidup.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$dtksAnggota\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Dtks.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$keluarga\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/Dtks.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$anggota\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Dtks.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$kepalaKeluarga\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/Dtks.php
-
-		-
 			message: '#^PHPDoc type array of property App\\Models\\Dtks\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/Dtks.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$penduduk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/DtksAnggota.php
 
 		-
 			message: '#^Method App\\Models\\DtksAnggota\:\:dtks\(\) should return Illuminate\\Database\\Eloquent\\Relations\\HasOne but returns Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\Dtks, \$this\(App\\Models\\DtksAnggota\)\>\.$#'
@@ -3859,50 +2191,8 @@ parameters:
 			path: app/Models/FcmTokenMandiri.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$format_nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/FormatSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$format_nomor_global\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/FormatSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$jenis\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/FormatSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$margin\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/FormatSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/FormatSurat.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$dokumen\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/FormatSurat.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$ref_syarat_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/FormatSurat.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$ref_syarat_nama\.$#'
-			identifier: property.notFound
+			message: '#^Anonymous function should return array\{label\: string, value\: int, form_surat\: array\{array\{type\: ''select'', required\: true, label\: ''Dokumen Syarat'', name\: ''dokumen'', multiple\: false, values\: Illuminate\\Support\\Collection\<int, array\{label\: mixed, value\: mixed\}\>\}\}\} but returns array\{label\: string, value\: int, form_surat\: array\{array\{type\: ''select'', required\: true, label\: ''Dokumen Syarat'', name\: ''dokumen'', multiple\: false, values\: Illuminate\\Support\\Collection\<int, array\{label\: mixed, value\: mixed\}\>\}\}\}\.$#'
+			identifier: return.type
 			count: 1
 			path: app/Models/FormatSurat.php
 
@@ -3937,28 +2227,16 @@ parameters:
 			path: app/Models/FormatSurat.php
 
 		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
 			count: 1
 			path: app/Models/FormatSurat.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Galery\:\:\$enabled\.$#'
-			identifier: property.notFound
+			message: '#^Strict comparison using \=\=\= between int\|null and false will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
 			count: 1
-			path: app/Models/Galery.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Galery\:\:\$slider\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Galery.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Galery\:\:\$urut\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Galery.php
+			path: app/Models/FormatSurat.php
 
 		-
 			message: '#^PHPDoc type array of property App\\Models\\Galery\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
@@ -3974,12 +2252,6 @@ parameters:
 
 		-
 			message: '#^Access to an undefined property App\\Models\\Garis\:\:\$color\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Garis.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Garis\:\:\$enabled\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Models/Garis.php
@@ -4195,19 +2467,7 @@ parameters:
 			path: app/Models/KaderMasyarakat.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Kategori\:\:\$enabled\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Kategori.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Kategori\:\:\$submenu\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Kategori.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Kategori\:\:\$urut\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Models/Kategori.php
@@ -4249,97 +2509,19 @@ parameters:
 			path: app/Models/KehadiranPamong.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Kelompok\:\:\$ketua\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^Access to an undefined property CI_Controller\:\:\$session\.$#'
-			identifier: property.notFound
-			count: 6
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Kelompok\>\:\:withConfigId\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Query\\Builder\:\:whereHas\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^Cannot call method toArray\(\) on stdClass\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^Expression on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.expr
-			count: 1
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^Method App\\Models\\Kelompok\:\:scopeStatus\(\) has invalid return type App\\Models\\Builder\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^Method App\\Models\\Kelompok\:\:scopeTipe\(\) has invalid return type App\\Models\\Builder\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(@return \\Illuminate\\Database\\Eloquent\\Collection\)\: Unexpected token "@return", expected type at offset 129 on line 6$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Models\\Kelompok\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>kelompok" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Models/Kelompok.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KelompokAnggota\:\:\$anggota\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Models/KelompokAnggota.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KelompokAnggota\:\:\$id_penduduk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/KelompokAnggota.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KelompokAnggota\:\:\$jabatan\.$#'
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$dusun\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Models/KelompokAnggota.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\KelompokAnggota\:\:\$nama_luar\.$#'
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$rt\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/KelompokAnggota.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$rw\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Models/KelompokAnggota.php
@@ -4375,141 +2557,9 @@ parameters:
 			path: app/Models/Keluarga.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Keluarga\:\:\$nik_kepala\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keluarga\:\:\$no_kk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keluarga\:\:\$updated_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keluarga\:\:\$updated_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keluarga\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Keluarga\>\:\:\$nik_kepala\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keluarga\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Keluarga\>\:\:\$no_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$alamat_sekarang\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$foto\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$id_cluster\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$kk_level\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$status\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$kk_level\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$no_kk_sebelumnya\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$updated_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$updated_by\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
 			message: '#^Access to an undefined property CI_Controller\:\:\$upload\.$#'
 			identifier: property.notFound
 			count: 12
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$kk_level\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$no_kk_sebelumnya\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Keluarga.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status_dasar\.$#'
-			identifier: property.notFound
-			count: 1
 			path: app/Models/Keluarga.php
 
 		-
@@ -4573,18 +2623,6 @@ parameters:
 			path: app/Models/Keluarga.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Keuangan\:\:\$tahun\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Keuangan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Keuangan\:\:\$template\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Keuangan.php
-
-		-
 			message: '#^PHPDoc type array of property App\\Models\\Keuangan\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
 			identifier: property.phpDocType
 			count: 1
@@ -4627,42 +2665,6 @@ parameters:
 			path: app/Models/KlasifikasiSurat.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Komentar\:\:\$artikel\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Komentar.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Komentar\:\:\$owner\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Komentar.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Komentar\:\:\$parent_id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Komentar.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\User\>\:\:\$foto\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Komentar.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\User\>\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Komentar.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Komentar.php
-
-		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$tipe$#'
 			identifier: parameter.notFound
 			count: 1
@@ -4677,6 +2679,18 @@ parameters:
 		-
 			message: '#^Parameter \#3 \$sex of function AmbilFoto expects string\|null, int\<1, 2\> given\.$#'
 			identifier: argument.type
+			count: 1
+			path: app/Models/Komentar.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: app/Models/Komentar.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Support\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Models/Komentar.php
 
@@ -4777,75 +2791,9 @@ parameters:
 			path: app/Models/LogNotifikasiMandiri.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\LogPenduduk\:\:\$config_id\.$#'
-			identifier: property.notFound
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
 			count: 2
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogPenduduk\:\:\$id_pend\.$#'
-			identifier: property.notFound
-			count: 6
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogPenduduk\:\:\$kode_peristiwa\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogPenduduk\:\:\$penduduk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogPenduduk\:\:\$penolong_mati\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogPenduduk\:\:\$pergiTerakhir\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogPenduduk\:\:\$ref_pindah\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogPenduduk\:\:\$sebab\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogPenduduk\:\:\$tgl_lapor\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Penduduk\>\:\:\$kk_level\.$#'
-			identifier: property.notFound
-			count: 1
 			path: app/Models/LogPenduduk.php
 
 		-
@@ -4864,6 +2812,12 @@ parameters:
 			message: '#^Parameter \#1 \$string of function str_pad expects string, int\<1, 12\> given\.$#'
 			identifier: argument.type
 			count: 1
+			path: app/Models/LogPenduduk.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Support\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
 			path: app/Models/LogPenduduk.php
 
 		-
@@ -4897,204 +2851,6 @@ parameters:
 			path: app/Models/LogSinkronisasi.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$kode_surat\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$formatSurat\.$#'
-			identifier: property.notFound
-			count: 6
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$lampiran\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$nama_surat\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$no_surat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$penduduk\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$tte\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$verifikasi_kades\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$verifikasi_operator\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$verifikasi_sekdes\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(string 	nama tabel surat\)\: Unexpected token "nama", expected variable at offset 98 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^PHPDoc tag @var above a method has no effect\.$#'
-			identifier: varTag.misplaced
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Models\\LogSurat\:\:\$casts is not covariant with PHPDoc type array\<string, string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$casts\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Models\\LogSurat\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Models\\LogSurat\:\:\$with is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$with\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Relation ''surat'' is not found in App\\Models\\LogSurat model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Variable \$surat might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: app/Models/LogSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$lampiran\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$nama_surat\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$no_surat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$penduduk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$suratDinas\.$#'
-			identifier: property.notFound
-			count: 5
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$tte\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$verifikasi_kades\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$verifikasi_operator\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSuratDinas\:\:\$verifikasi_sekdes\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SuratDinas\:\:\$kode_surat\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(string 	nama tabel surat\)\: Unexpected token "nama", expected variable at offset 98 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Models\\LogSuratDinas\:\:\$casts is not covariant with PHPDoc type array\<string, string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$casts\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Models\\LogSuratDinas\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^PHPDoc type array of property App\\Models\\LogSuratDinas\:\:\$with is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$with\.$#'
-			identifier: property.phpDocType
-			count: 1
-			path: app/Models/LogSuratDinas.php
-
-		-
-			message: '#^Variable \$surat might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: app/Models/LogSuratDinas.php
-
-		-
 			message: '#^PHPDoc type array of property App\\Models\\LogTolak\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
 			identifier: property.phpDocType
 			count: 1
@@ -5105,12 +2861,6 @@ parameters:
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/LogTte.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Lokasi\:\:\$enabled\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Lokasi.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\Lokasi\:\:\$jenis\.$#'
@@ -5165,18 +2915,6 @@ parameters:
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/MediaSosial.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Menu\:\:\$enabled\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Menu.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Menu\:\:\$urut\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Menu.php
 
 		-
 			message: '#^PHPDoc type array of property App\\Models\\Menu\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
@@ -5317,40 +3055,10 @@ parameters:
 			path: app/Models/Notifikasi.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\OtpToken\:\:\$attempts\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/OtpToken.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\OtpToken\:\:\$expires_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/OtpToken.php
-
-		-
 			message: '#^PHPDoc type array of property App\\Models\\OtpToken\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/OtpToken.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$gelar_belakang\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Pamong.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$gelar_depan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Pamong.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pamong\:\:\$penduduk\.$#'
-			identifier: property.notFound
-			count: 8
-			path: app/Models/Pamong.php
 
 		-
 			message: '#^Access to an undefined property Modules\\Kehadiran\\Models\\Kehadiran\:\:\$status_kehadiran\.$#'
@@ -5527,50 +3235,26 @@ parameters:
 			path: app/Models/Paud.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$anggaran\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Pembangunan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$id_lokasi\.$#'
-			identifier: property.notFound
+			message: '#^Loose comparison using \=\= between false and false will always evaluate to true\.$#'
+			identifier: equal.alwaysTrue
 			count: 1
-			path: app/Models/Pembangunan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$lokasi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Pembangunan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$pamong\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Pembangunan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$pamong_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Pembangunan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$pembangunanDokumentasi\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Pembangunan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pembangunan\:\:\$wilayah\.$#'
-			identifier: property.notFound
-			count: 13
 			path: app/Models/Pembangunan.php
 
 		-
 			message: '#^PHPDoc type array of property App\\Models\\Pembangunan\:\:\$appends is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$appends\.$#'
 			identifier: property.phpDocType
+			count: 1
+			path: app/Models/Pembangunan.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of static method Illuminate\\Support\\Str\:\:endsWith\(\) expects string, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/Pembangunan.php
+
+		-
+			message: '#^Property App\\Models\\Pembangunan\:\:\$anggaran \(int\|null\) does not accept string\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: app/Models/Pembangunan.php
 
@@ -5611,55 +3295,7 @@ parameters:
 			path: app/Models/Pendapat.php
 
 		-
-			message: '#^Access to an undefined property \$this\(App\\Models\\Penduduk\)\:\:\$no_asuransi\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$agama_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$akta_perceraian\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$akta_perkawinan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$alamat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$alamat_sekarang\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$bahasa_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$cacat_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$cara_kb_id\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Models/Penduduk.php
@@ -5671,55 +3307,7 @@ parameters:
 			path: app/Models/Penduduk.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$foto\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$golongan_darah_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$id_asuransi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$id_cluster\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 5
-			path: app/Models/Penduduk.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$id_sex\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$jenis_kelahiran\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$keluarga\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$kk_level\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Models/Penduduk.php
@@ -5737,97 +3325,7 @@ parameters:
 			path: app/Models/Penduduk.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$nik\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$pekerjaan_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$pendidikan_kk_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$pendidikan_sedang_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$penolong_kelahiran\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$sakit_menahun_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$session\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$sex\.$#'
-			identifier: property.notFound
-			count: 5
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$status\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$status_dasar\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$status_kawin\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$tanggallahir\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$tanggalperceraian\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$tanggalperkawinan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$tempat_dilahirkan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$warganegara_id\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Models/Penduduk.php
@@ -5836,42 +3334,6 @@ parameters:
 			message: '#^Access to an undefined property CI_Controller\:\:\$upload\.$#'
 			identifier: property.notFound
 			count: 12
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$dusun\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$lat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$lng\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nik_kepala\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$rt\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$rw\.$#'
-			identifier: property.notFound
-			count: 1
 			path: app/Models/Penduduk.php
 
 		-
@@ -5895,12 +3357,6 @@ parameters:
 		-
 			message: '#^Call to method whereIn\(\) on an unknown class App\\Models\\Builder\.$#'
 			identifier: class.notFound
-			count: 1
-			path: app/Models/Penduduk.php
-
-		-
-			message: '#^Called ''pluck'' on Laravel collection, but could have been retrieved as a query\.$#'
-			identifier: larastan.noUnnecessaryCollectionCall
 			count: 1
 			path: app/Models/Penduduk.php
 
@@ -6001,6 +3457,12 @@ parameters:
 			path: app/Models/Penduduk.php
 
 		-
+			message: '#^Property App\\Models\\Penduduk\:\:\$sex \(int\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Models/Penduduk.php
+
+		-
 			message: '#^Relation ''bantuanPenduduk'' is not found in App\\Models\\BantuanPeserta model\.$#'
 			identifier: larastan.relationExistence
 			count: 1
@@ -6037,78 +3499,6 @@ parameters:
 			path: app/Models/Penduduk.php
 
 		-
-			message: '#^Access to an undefined property \$this\(App\\Models\\PendudukHidup\)\:\:\$no_asuransi\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$bahasa_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$jenis_kelahiran\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$ktp_el\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$pekerjaan_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$penolong_kelahiran\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$sakit_menahun_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$sex\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$status_dasar\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$status_rekam\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$tanggallahir\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/PendudukHidup.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukHidup\:\:\$tempat_dilahirkan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukHidup.php
-
-		-
 			message: '#^Call to an undefined method App\\Models\\PendudukHidup\:\:scopeConfigId\(\)\.$#'
 			identifier: method.notFound
 			count: 2
@@ -6127,6 +3517,12 @@ parameters:
 			path: app/Models/PendudukHidup.php
 
 		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: app/Models/PendudukHidup.php
+
+		-
 			message: '#^Method App\\Models\\PendudukHidup\:\:clusterDesa\(\) has invalid return type App\\Models\\BelongsTo\.$#'
 			identifier: class.notFound
 			count: 1
@@ -6134,6 +3530,12 @@ parameters:
 
 		-
 			message: '#^Method App\\Models\\PendudukHidup\:\:clusterDesa\(\) should return App\\Models\\BelongsTo but returns Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<Illuminate\\Database\\Eloquent\\Model, \$this\(App\\Models\\PendudukHidup\)\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/PendudukHidup.php
+
+		-
+			message: '#^Method App\\Models\\PendudukHidup\:\:getUmurAttribute\(\) should return string\|null but returns int\.$#'
 			identifier: return.type
 			count: 1
 			path: app/Models/PendudukHidup.php
@@ -6181,16 +3583,16 @@ parameters:
 			path: app/Models/PendudukHidup.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\PendudukMandiri\:\:\$penduduk\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Models/PendudukMandiri.php
+			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Support\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/PendudukHidup.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\PendudukMandiri\:\:\$pin\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/PendudukMandiri.php
+			message: '#^Using nullsafe property access on non\-nullable type Illuminate\\Support\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/PendudukHidup.php
 
 		-
 			message: '#^Call to method update\(\) on an unknown class App\\Models\\BelongsTo\.$#'
@@ -6239,78 +3641,6 @@ parameters:
 			identifier: new.static
 			count: 1
 			path: app/Models/PendudukMandiri.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\:\:\$email\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\:\:\$nik\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\:\:\$telepon\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\PendudukSaja\>\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\PendudukSaja\>\:\:\$id_rtm\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\PendudukSaja\>\:\:\$keluarga\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\PendudukSaja\>\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\PendudukSaja\>\:\:\$nik\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\PendudukSaja\>\:\:\$sex\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendudukSaja\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\PendudukSaja\>\:\:\$status\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukSaja.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Rtm\:\:\$bdt\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PendudukSaja.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$dusun\.$#'
@@ -6373,50 +3703,8 @@ parameters:
 			path: app/Models/PermohonanSurat.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Dokumen\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Dokumen\>\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PermohonanSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PermohonanSurat\:\:\$id_pemohon\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PermohonanSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PermohonanSurat\:\:\$status\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PermohonanSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PermohonanSurat\:\:\$syarat\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/PermohonanSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SyaratSurat\:\:\$ref_syarat_nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PermohonanSurat.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$ref_syarat_nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PermohonanSurat.php
-
-		-
 			message: '#^Method App\\Models\\PermohonanSurat\:\:getSyaratSuratAttribute\(\) should return string but returns null\.$#'
 			identifier: return.type
-			count: 1
-			path: app/Models/PermohonanSurat.php
-
-		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),mixed\>\:\:map\(\) contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
 			count: 1
 			path: app/Models/PermohonanSurat.php
 
@@ -6451,36 +3739,6 @@ parameters:
 			path: app/Models/Persil.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$dusun\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Persil.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$kode\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Persil.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama_kepemilikan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Persil.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$rt\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Persil.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$rw\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Persil.php
-
-		-
 			message: '#^PHPDoc type array of property App\\Models\\Persil\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
 			identifier: property.phpDocType
 			count: 1
@@ -6491,24 +3749,6 @@ parameters:
 			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Models/Persil.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pesan\:\:\$created_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Pesan.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PesanDetail\:\:\$created_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/PesanDetail.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Point\:\:\$enabled\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Point.php
 
 		-
 			message: '#^PHPDoc type array of property App\\Models\\Point\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
@@ -6643,24 +3883,6 @@ parameters:
 			path: app/Models/SasaranPaud.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\SecurityReport\:\:\$created_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/SecurityReport.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SecurityReport\:\:\$data\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/SecurityReport.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SecurityReport\:\:\$type\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/SecurityReport.php
-
-		-
 			message: '#^Empty array passed to foreach\.$#'
 			identifier: foreach.emptyArray
 			count: 1
@@ -6671,12 +3893,6 @@ parameters:
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/Setting.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SettingAplikasi\:\:\$key\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/SettingAplikasi.php
 
 		-
 			message: '#^PHPDoc type array of property App\\Models\\SettingAplikasi\:\:\$casts is not covariant with PHPDoc type array\<string, string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$casts\.$#'
@@ -6695,12 +3911,6 @@ parameters:
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/SettingAplikasi.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$jabatan_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Shortcut.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<TRelatedModel of Illuminate\\Database\\Eloquent\\Model\>\:\:status\(\)\.$#'
@@ -6733,12 +3943,6 @@ parameters:
 			path: app/Models/Shortcut.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\SinergiProgram\:\:\$gambar\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/SinergiProgram.php
-
-		-
 			message: '#^PHPDoc type array of property App\\Models\\SinergiProgram\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
 			identifier: property.phpDocType
 			count: 1
@@ -6755,18 +3959,6 @@ parameters:
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/Statistics.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\StatistikPengunjung\:\:\$Jumlah\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/StatistikPengunjung.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\StatistikPengunjung\:\:\$ipAddress\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/StatistikPengunjung.php
 
 		-
 			message: '#^PHPDoc type array of property App\\Models\\StatistikPengunjung\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
@@ -6793,44 +3985,8 @@ parameters:
 			path: app/Models/SuplemenTerdata.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\SuratDinas\:\:\$format_nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/SuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SuratDinas\:\:\$format_nomor_global\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/SuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SuratDinas\:\:\$margin\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/SuratDinas.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SuratDinas\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/SuratDinas.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$dokumen\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/SuratDinas.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$ref_syarat_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/SuratDinas.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$ref_syarat_nama\.$#'
-			identifier: property.notFound
+			message: '#^Anonymous function should return array\{label\: string, value\: int, form_surat\: array\{array\{type\: ''select'', required\: true, label\: ''Dokumen Syarat'', name\: ''dokumen'', multiple\: false, values\: Illuminate\\Support\\Collection\<int, array\{label\: mixed, value\: mixed\}\>\}\}\} but returns array\{label\: string, value\: int, form_surat\: array\{array\{type\: ''select'', required\: true, label\: ''Dokumen Syarat'', name\: ''dokumen'', multiple\: false, values\: Illuminate\\Support\\Collection\<int, array\{label\: mixed, value\: mixed\}\>\}\}\}\.$#'
+			identifier: return.type
 			count: 1
 			path: app/Models/SuratDinas.php
 
@@ -6865,8 +4021,8 @@ parameters:
 			path: app/Models/SuratDinas.php
 
 		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
+			message: '#^Parameter \#1 \$isGlobal of function format_penomoran_surat expects bool, int\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: app/Models/SuratDinas.php
 
@@ -6925,18 +4081,6 @@ parameters:
 			path: app/Models/TanahDesa.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\TanahKasDesa\:\:\$nama_pemilik_asal\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/TanahKasDesa.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\TanahKasDesa\:\:\$peruntukan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/TanahKasDesa.php
-
-		-
 			message: '#^PHPDoc type array of property App\\Models\\TanahKasDesa\:\:\$casts is not covariant with PHPDoc type array\<string, string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$casts\.$#'
 			identifier: property.phpDocType
 			count: 1
@@ -6945,6 +4089,18 @@ parameters:
 		-
 			message: '#^PHPDoc type array of property App\\Models\\TanahKasDesa\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
 			identifier: property.phpDocType
+			count: 1
+			path: app/Models/TanahKasDesa.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Enums\\AsalTanahKasEnum\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Models/TanahKasDesa.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Enums\\PeruntukanTanahKasEnum\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Models/TanahKasDesa.php
 
@@ -6979,12 +4135,6 @@ parameters:
 			path: app/Models/TeksBerjalan.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Theme\:\:\$path\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Theme.php
-
-		-
 			message: '#^PHPDoc type array of property App\\Models\\Theme\:\:\$casts is not covariant with PHPDoc type array\<string, string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$casts\.$#'
 			identifier: property.phpDocType
 			count: 1
@@ -7003,12 +4153,6 @@ parameters:
 			path: app/Models/Theme.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Urls\:\:\$alias\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Urls.php
-
-		-
 			message: '#^PHPDoc type array of property App\\Models\\Urls\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
 			identifier: property.phpDocType
 			count: 1
@@ -7021,19 +4165,7 @@ parameters:
 			path: app/Models/Urls.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$foto\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/User.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\User\:\:\$sex\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/User.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$telegram_verified_at\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Models/User.php
@@ -7075,18 +4207,6 @@ parameters:
 			path: app/Models/UserGrup.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Theme\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Widget.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Widget\:\:\$jenis_widget\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Widget.php
-
-		-
 			message: '#^Function ci not found\.$#'
 			identifier: function.notFound
 			count: 1
@@ -7109,18 +4229,6 @@ parameters:
 			identifier: property.phpDocType
 			count: 1
 			path: app/Models/Widget.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Wilayah\:\:\$rw\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Models/Wilayah.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$rts\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Wilayah.php
 
 		-
 			message: '#^Call to method where\(\) on an unknown class App\\Models\\Builder\.$#'
@@ -7279,18 +4387,6 @@ parameters:
 			path: app/Notifications/Kehadiran/PengajuanIzinBaru.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Komentar\:\:\$id_artikel\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/Komentar/KomentarBaru.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Komentar\:\:\$owner\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Notifications/Komentar/KomentarBaru.php
-
-		-
 			message: '#^PHPDoc tag @return with type Illuminate\\Notifications\\Messages\\MailMessage is incompatible with native type NotificationChannels\\Telegram\\TelegramMessage\.$#'
 			identifier: return.phpDocType
 			count: 1
@@ -7315,58 +4411,10 @@ parameters:
 			path: app/Notifications/Penduduk/VerifyNotification.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$judul\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Notifications/Pengaduan/PengaduanBaru.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Pengaduan\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Notifications/Pengaduan/PengaduanBaru.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PesanMandiri\:\:\$owner\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/Pesan/PesanMasuk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PesanMandiri\:\:\$subjek\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/Pesan/PesanMasuk.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Pesan\:\:\$subjek\.$#'
 			identifier: property.notFound
 			count: 2
 			path: app/Notifications/Pesan/PesanOpenDK.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PermohonanSurat\:\:\$penduduk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Notifications/Surat/PermohonanSuratBaru.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PermohonanSurat\:\:\$surat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/Surat/PermohonanSuratBaru.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$formatSurat\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Notifications/Surat/PermohonanSuratMasuk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\LogSurat\:\:\$penduduk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Notifications/Surat/PermohonanSuratMasuk.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$created_by\.$#'
@@ -7399,7 +4447,7 @@ parameters:
 			path: app/Providers/AppServiceProvider.php
 
 		-
-			message: '#^Offset 2 on array\{non\-empty\-string, decimal\-int\-string, string\} on left side of \?\? always exists and is not nullable\.$#'
+			message: '#^Offset 2 on array\{non\-empty\-string, numeric\-string, string\} on left side of \?\? always exists and is not nullable\.$#'
 			identifier: nullCoalesce.offset
 			count: 1
 			path: app/Providers/AppServiceProvider.php
@@ -7409,24 +4457,6 @@ parameters:
 			identifier: argument.staticClosure
 			count: 2
 			path: app/Providers/AppServiceProvider.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\GrupAkses\:\:\$akses\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Providers/AuthServiceProvider.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\GrupAkses\:\:\$id_grup\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Providers/AuthServiceProvider.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\GrupAkses\:\:\$id_modul\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Providers/AuthServiceProvider.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\GrupAkses\:\:\$parent_slug\.$#'
@@ -7507,6 +4537,12 @@ parameters:
 			path: app/Providers/RouteServiceProvider.php
 
 		-
+			message: '#^Strict comparison using \!\=\= between non\-empty\-string and false will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Providers/RouteServiceProvider.php
+
+		-
 			message: '#^Strict comparison using \=\=\= between int and ''refresh'' will always evaluate to false\.$#'
 			identifier: identical.alwaysFalse
 			count: 1
@@ -7523,12 +4559,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: app/Repositories/AnalisisRepository.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Bantuan\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Bantuan\>\:\:\$sasaran\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Repositories/BantuanPesertaRepository.php
 
 		-
 			message: '#^Relation ''anggota'' is not found in App\\Models\\KelompokAnggota model\.$#'
@@ -7589,18 +4619,6 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: app/Repositories/ProdukHukumRepository.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SettingAplikasi\:\:\$attribute\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Repositories/SettingAplikasiRepository.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SettingAplikasi\:\:\$key\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Repositories/SettingAplikasiRepository.php
 
 		-
 			message: '#^Access to an undefined property App\\Repositories\\SettingAplikasiRepository\:\:\$controller\.$#'
@@ -7747,18 +4765,6 @@ parameters:
 			path: app/Repositories/StuntingRepository.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Anak\:\:\$status_gizi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Repositories/StuntingRepository.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Suplemen\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Suplemen\>\:\:\$sasaran\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Repositories/SuplemenTerdataRepository.php
-
-		-
 			message: '#^Using nullsafe property access "\?\-\>details" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
 			identifier: nullsafe.neverNull
 			count: 1
@@ -7769,18 +4775,6 @@ parameters:
 			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Rules/NotSpam.php
-
-		-
-			message: '#^Offset ''host'' on array\{scheme\: ''http'', host\: ''vendor'', path\: ''/bin/''\} on left side of \?\? always exists and is not nullable\.$#'
-			identifier: nullCoalesce.offset
-			count: 2
-			path: app/Rules/SecureCloudUrl.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\|App\\Models\\PendudukMandiri\|App\\Models\\User\:\:\$batasi_wilayah\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Scopes/AccessWilayahScope.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getWilayahColumn\(\)\.$#'
@@ -7843,18 +4837,6 @@ parameters:
 			path: app/Scopes/WilayahNullScope.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\FormatSurat\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/ArsipFisikSurat.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SyaratSurat\:\:\$ref_syarat_nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/ArsipFisikSurat.php
-
-		-
 			message: '#^Method App\\Services\\ArsipFisikSurat\:\:dataJenis\(\) never returns Illuminate\\Database\\Query\\Builder so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
@@ -7891,834 +4873,6 @@ parameters:
 			path: app/Services/Auth/Traits/LoginRequest.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\BantuanPeserta\:\:\$bantuan\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\BantuanPeserta\:\:\$program_id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$bulan_bantuan_pemda\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$bulan_blt_dana_desa\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$bulan_bss_bnpt\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$bulan_pkh\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$bulan_subsidi_listrik\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$bulan_subsidi_lpg\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$bulan_subsidi_pupuk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$catatan\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$dtksAnggota\.$#'
-			identifier: property.notFound
-			count: 7
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$id_rtm\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$jumlah_babi\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$jumlah_kambing_domba\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$jumlah_kerbau\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$jumlah_kuda\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$jumlah_sapi\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_ac\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_bahan_bakar_memasak\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_bantuan_pemda\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_blt_dana_desa\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_bss_bnpt\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_daya_terpasang\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_daya_terpasang2\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_daya_terpasang3\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_fasilitas_tempat_bab\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_hasil_pendataan_keluarga\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_internet_sebulan\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_jarak_sumber_air_ke_tpl\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_jenis_atap\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_jenis_dinding\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_jenis_kloset\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_jenis_lantai_terluas\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_kapal_perahu_motor\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_kk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_komputer_laptop\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_lahan\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_lemari_es\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_mobil\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_pemanas_air\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_pembuangan_akhir_tinja\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_perahu\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_perhiasan_10_gr_emas\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_pkh\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_rek_aktif\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_rumah_ditempat_lain\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_sepeda\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_sepeda_motor\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_sertiv_lahan_milik\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_smartphone\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_stat_bangunan_tinggal\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_subsidi_listrik\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_subsidi_lpg\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_subsidi_pupuk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_sumber_air_minum\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_sumber_penerangan_utama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_tabung_gas_5_5_kg\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_telepon_rumah\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kd_televisi\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$keluarga\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kode_desa\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kode_kabupaten\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kode_kecamatan\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kode_landmark_wilkerstat\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kode_pml\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kode_ppl\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kode_provinsi\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kode_sls_non_sls\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$kode_sub_sls\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$luas_lantai\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$nama_pml\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$nama_ppl\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$nama_responden\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$nama_sls_non_sls\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$no_hp_responden\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$no_urut_bangunan_tinggal\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$no_urut_keluarga_verif\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$status_keluarga\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$tahun_bantuan_pemda\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$tahun_blt_dana_desa\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$tahun_bss_bnpt\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$tahun_pkh\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$tahun_subsidi_listrik\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$tahun_subsidi_lpg\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$tahun_subsidi_pupuk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$tanggal_pemeriksaan\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$tanggal_pendataan\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$updated_at\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$id_dtks\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$id_keluarga\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$id_penduduk\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_hubungan_dg_kk\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_ijazah_tertinggi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_jenis_kelamin\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_kelas_tertinggi\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_ket_keberadaan_art\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_partisipasi_sekolah\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_pendidikan_tertinggi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_penyakit_kronis_menahun\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_punya_kartuid\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_sering_sedih_depresi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_stat_perkawinan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$kd_status_kehamilan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$nik\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$no_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$pekerjaan_saat_ini\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$pendidikan_kk_saat_ini\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$pendidikan_saat_ini\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksAnggota\:\:\$tgl_lahir\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksLampiran\:\:\$dtks_count\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksPengaturanProgram\:\:\$id_bantuan\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksPengaturanProgram\:\:\$kode\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\DtksPengaturanProgram\:\:\$nilai_default\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Penduduk\:\:\$id_kk\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SettingAplikasi\:\:\$key\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$anggota\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$kepalaKeluarga\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Call to an undefined method Carbon\\Carbon\:\:floatDiffInYears\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Comparison operation "\<" between int\<0, max\> and 0 is always false\.$#'
-			identifier: smaller.alwaysFalse
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Comparison operation "\>" between \*NEVER\* and 999 results in an error\.$#'
-			identifier: greater.invalid
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Left side of && is always true\.$#'
-			identifier: booleanAnd.leftAlwaysTrue
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Method App\\Services\\DTKSRegsosEk2022k\:\:savePengaturanProgram\(\) should return array\<array\<mixed\>\> but returns array\<string, array\<string, list\<string\>\>\|int\>\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Method App\\Services\\DTKSRegsosEk2022k\:\:savePengaturanProgram\(\) should return array\<array\<mixed\>\> but returns array\<string, array\<string, string\>\|int\>\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^PHPDoc tag @param references unknown parameter\: \$config$#'
-			identifier: parameter.notFound
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(\[form_input_name \=\> \[target_table, target_field\]\]\)\: Unexpected token "\[", expected type at offset 20 on line 2$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(array\[''content'' \=\> '''', ''header_code'' \=\> ''''\]\)\: Unexpected token "\[", expected TOKEN_HORIZONTAL_WS at offset 24 on line 2$#'
-			identifier: phpDoc.parseError
-			count: 12
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(array\[''content'' \=\> '''', ''header_code'' \=\> ''''\]\)\: Unexpected token "\[", expected TOKEN_HORIZONTAL_WS at offset 55 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(array\[''content'' \=\> '''', ''header_code'' \=\> ''''\]\)\: Unexpected token "\[", expected TOKEN_HORIZONTAL_WS at offset 70 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Parameter \#2 \$context of function unlink expects resource\|null, string\|false given\.$#'
-			identifier: argument.type
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Relation ''bantuan'' is not found in App\\Models\\BantuanPeserta model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Result of && is always false\.$#'
-			identifier: booleanAnd.alwaysFalse
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Result of function json \(void\) is used\.$#'
-			identifier: function.void
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between 2 and 0 will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Variable \$formatter might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Variable \$foto might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
-			message: '#^Variable \$key might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: app/Services/DTKSRegsosEk2022k.php
-
-		-
 			message: '#^Parameter \#2 \$direction of method Illuminate\\Database\\Query\\Builder\:\:orderBy\(\) expects ''asc''\|''desc''\|SortDirection, ''ASC'' given\.$#'
 			identifier: argument.type
 			count: 2
@@ -8731,22 +4885,10 @@ parameters:
 			path: app/Services/DatabaseConfiguratorService.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Dtks\:\:\$versi_kuisioner\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/DtksService.php
-
-		-
 			message: '#^Parameter \#2 \$direction of method Illuminate\\Database\\Query\\Builder\:\:orderBy\(\) expects ''asc''\|''desc''\|SortDirection, ''DESC'' given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Services/Feed.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Bantuan\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/LaporanPenduduk.php
 
 		-
 			message: '#^Offset ''0'' does not exist on array\{\}\.$#'
@@ -8765,30 +4907,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: app/Services/LaporanPenduduk.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$active\.$#'
-			identifier: property.notFound
-			count: 6
-			path: app/Services/MasaAktifAkunService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$last_login\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/MasaAktifAkunService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Services/MasaAktifAkunService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$username\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/MasaAktifAkunService.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Auth\\AuthManager\:\:\$id\.$#'
@@ -8815,30 +4933,6 @@ parameters:
 			path: app/Services/NotificationService.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\OtpToken\:\:\$attempts\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/OtpService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\OtpToken\:\:\$token_hash\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/OtpService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\User\>\:\:\$otp_channel\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/OtpService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\User\>\:\:\$otp_identifier\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/OtpService.php
-
-		-
 			message: '#^Function ci not found\.$#'
 			identifier: function.notFound
 			count: 1
@@ -8849,42 +4943,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: app/Services/OtpService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SecurityBaseline\:\:\$excluded_dirs\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Security/FileIntegrityDefaultService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SecurityBaseline\:\:\$files\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Security/FileIntegrityDefaultService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SecurityBaseline\:\:\$generated_at\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Services/Security/FileIntegrityDefaultService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SecurityBaseline\:\:\$statistics\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Security/FileIntegrityDefaultService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SecurityBaseline\:\:\$target_directory\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Security/FileIntegrityDefaultService.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\SecurityBaseline\:\:\$version\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/Security/FileIntegrityDefaultService.php
 
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$relativePath$#'

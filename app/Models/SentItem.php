@@ -42,6 +42,55 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property \Illuminate\Support\Carbon $UpdatedInDB
+ * @property \Illuminate\Support\Carbon $InsertIntoDB
+ * @property string $SendingDateTime
+ * @property string|null $DeliveryDateTime
+ * @property string $Text
+ * @property string $DestinationNumber
+ * @property string $Coding
+ * @property string $UDH
+ * @property string $SMSCNumber
+ * @property int $Class
+ * @property string $TextDecoded
+ * @property int $ID
+ * @property int $config_id
+ * @property string $SenderID
+ * @property int $SequencePosition
+ * @property string $Status
+ * @property int $StatusError
+ * @property int $TPMR
+ * @property int $RelativeValidity
+ * @property string $CreatorID
+ * @property-read \App\Models\DaftarKontak|null $kontak
+ * @property-read \App\Models\PendudukSaja|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereCoding($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereCreatorID($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereDeliveryDateTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereDestinationNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereID($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereInsertIntoDB($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereRelativeValidity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereSMSCNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereSenderID($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereSendingDateTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereSequencePosition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereStatusError($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereTPMR($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereTextDecoded($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereUDH($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem whereUpdatedInDB($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SentItem withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class SentItem extends BaseModel
 {
     use ConfigId;

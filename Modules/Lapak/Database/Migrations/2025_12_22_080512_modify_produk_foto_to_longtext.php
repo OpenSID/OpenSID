@@ -45,14 +45,14 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        try {
-            if (Schema::hasTable('produk') && Schema::hasColumn('produk', 'foto')) {
-                Schema::table('produk', static function (Blueprint $table) {
+        if (Schema::hasTable('produk') && Schema::hasColumn('produk', 'foto')) {
+            $columnType = Schema::getColumnType('produk', 'foto');
+
+            if ($columnType !== 'longtext') {
+                Schema::table('produk', function (Blueprint $table) {
                     $table->longText('foto')->nullable()->change();
                 });
             }
-        } catch (Throwable $th) {
-            log_message('error', 'Migrasi Modifikasi Kolom Foto Produk Gagal: ' . $th->getMessage());
         }
     }
 
@@ -61,14 +61,14 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        try {
-            if (Schema::hasTable('produk') && Schema::hasColumn('produk', 'foto')) {
-                Schema::table('produk', static function (Blueprint $table) {
-                    $table->string('foto', 225)->nullable()->change();
+        if (Schema::hasTable('produk') && Schema::hasColumn('produk', 'foto')) {
+            $columnType = Schema::getColumnType('produk', 'foto');
+
+            if ($columnType === 'longtext') {
+                Schema::table('produk', function (Blueprint $table) {
+                    $table->text('foto')->nullable()->change();
                 });
             }
-        } catch (Throwable $th) {
-            log_message('error', 'Rollback Migrasi Modifikasi Kolom Foto Produk Gagal: ' . $th->getMessage());
         }
     }
 };

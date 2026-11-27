@@ -42,6 +42,40 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $nomor_urut
+ * @property string $tanggal_penerimaan
+ * @property string|null $nomor_surat
+ * @property string|null $kode_surat
+ * @property string $tanggal_surat
+ * @property string|null $pengirim
+ * @property string|null $isi_singkat
+ * @property string|null $isi_disposisi
+ * @property string|null $berkas_scan
+ * @property string|null $lokasi_arsip
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk arsipFisikSuratMasuk()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk autocomplete()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk tahun()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereBerkasScan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereIsiDisposisi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereIsiSingkat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereKodeSurat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereLokasiArsip($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereNomorSurat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereNomorUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk wherePengirim($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereTanggalPenerimaan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk whereTanggalSurat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratMasuk withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class SuratMasuk extends BaseModel
 {
     use ConfigId;

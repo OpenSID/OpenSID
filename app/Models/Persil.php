@@ -44,6 +44,46 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nomor
+ * @property int|null $nomor_urut_bidang
+ * @property int $kelas
+ * @property numeric|null $luas_persil
+ * @property int|null $id_wilayah
+ * @property string|null $lokasi
+ * @property string|null $path
+ * @property int|null $cdesa_awal
+ * @property int|null $id_peta
+ * @property int $is_publik 1 = tampilkan di web publik, 0 = tidak ditampilkan di web publik
+ * @property-read \App\Models\Cdesa|null $cdesa
+ * @property-read mixed $kelas_tanah
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MutasiCdesa> $mutasi
+ * @property-read int|null $mutasi_count
+ * @property-read \App\Models\RefPersilKelas|null $refKelas
+ * @property-read \App\Models\Wilayah|null $wilayah
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil filterCdesa($idCdesa)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil list()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil public()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereCdesaAwal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereIdPeta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereIdWilayah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereIsPublik($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereKelas($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereLokasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereLuasPersil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereNomor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil whereNomorUrutBidang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Persil withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Persil extends BaseModel
 {
     use ConfigId;

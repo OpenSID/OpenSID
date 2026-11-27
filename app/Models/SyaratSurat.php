@@ -42,6 +42,23 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $ref_syarat_id
+ * @property int $config_id
+ * @property string $ref_syarat_nama
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Dokumen> $dokumen
+ * @property-read int|null $dokumen_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat deleteFormatSuratExist(?mixed $id)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat formatSuratExist()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat whereRefSyaratId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat whereRefSyaratNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class SyaratSurat extends BaseModel
 {
     use ConfigId;

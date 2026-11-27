@@ -41,6 +41,27 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $kode
+ * @property string $nama
+ * @property string $uraian
+ * @property bool $enabled
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat enabled(?mixed $value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat filter($enabled)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat whereKode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat whereUraian($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KlasifikasiSurat withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KlasifikasiSurat extends BaseModel
 {
     use ConfigId;

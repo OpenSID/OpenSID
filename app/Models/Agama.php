@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agama newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agama newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agama query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agama whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agama whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Agama withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Agama extends BaseModel
 {
     /**

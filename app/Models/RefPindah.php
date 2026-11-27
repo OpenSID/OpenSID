@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPindah newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPindah newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPindah query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPindah whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPindah whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefPindah withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class RefPindah extends BaseModel
 {
     /**

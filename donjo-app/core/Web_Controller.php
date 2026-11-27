@@ -52,6 +52,7 @@ use App\Models\StatistikPengunjung;
 use App\Models\TeksBerjalan;
 use App\Models\Widget;
 use App\Services\LaporanPenduduk;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\View;
 use Modules\Kehadiran\Models\HariLibur;
 use Modules\Kehadiran\Models\JamKerja;
@@ -61,14 +62,13 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Web_Controller extends MY_Controller
+class Web_Controller extends MY_Controller implements HasMiddleware
 {
     public $cek_anjungan;
 
     public function __construct()
     {
         parent::__construct();
-        SecurityHeaders::handle();
         $this->header = identitas();
         $this->load->helper('theme');
 
@@ -79,6 +79,16 @@ class Web_Controller extends MY_Controller
         }
 
         $this->viewShare();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function middleware(): array
+    {
+        return [
+            SecurityHeaders::class,
+        ];
     }
 
     /**

@@ -84,14 +84,21 @@ class PembangunanOpendkExport
         $p                = $this->p;
         $tgl_sinkronisasi = LogSinkronisasi::where('modul', '=', 'program-bantuan')->first()->updated_at ?? null;
 
-        $dataExport = Pembangunan::when($tgl_sinkronisasi != null, static fn ($q) => $q->where('updated_at', '>', $tgl_sinkronisasi))
-            ->when($tgl_sinkronisasi == null, static fn ($q) => $q->skip($p * $limit)->take($limit))
-            ->get($this->fields)->map(static function ($item) use ($kodeDesa, $ci) {
-            $data      = collect($item->toArray());
+        $dataExport = Pembangunan::when($tgl_sinkronisasi != null, fn ($q) => $q->where('updated_at', '>', $tgl_sinkronisasi))
+            ->when($tgl_sinkronisasi == null, fn ($q) => $q->skip($p * $limit)->take($limit))
+            ->get()->map(function ($item) use ($kodeDesa, $ci) {
+            $data      = collect($item->toArray())->only($this->fields);
             $file_foto = LOKASI_GALERI . $data['foto'];
             if (is_file($file_foto)) {
                 $ci->zip->read_file($file_foto);
             }
+            // Access sumber_dana directly from model to apply array cast
+            $sumberDana = $item->sumber_dana;
+            if (is_array($sumberDana) && !empty($sumberDana)) {
+                $data['sumber_dana'] = json_encode($sumberDana);
+            }
+            // Map lokasi: use lokasi_pemb accessor to handle both manual input and id_lokasi relation
+            $data['lokasi'] = $item->lokasi_pemb;
             $data->prepend(kode_wilayah($kodeDesa), 'desa_id');
 
             return $data->toArray();

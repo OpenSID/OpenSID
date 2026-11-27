@@ -42,6 +42,35 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int $versi_kuisioner
+ * @property string $kode
+ * @property int|null $id_bantuan
+ * @property string|null $nilai_default
+ * @property string $target_table
+ * @property string $target_field
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Bantuan|null $bantuan
+ * @property-read string $versi_kuisioner_name
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram whereIdBantuan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram whereKode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram whereNilaiDefault($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram whereTargetField($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram whereTargetTable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram whereVersiKuisioner($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DtksPengaturanProgram withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class DtksPengaturanProgram extends BaseModel
 {
     use ConfigId;

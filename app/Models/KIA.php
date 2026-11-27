@@ -41,6 +41,37 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $no_kia
+ * @property int|null $ibu_id
+ * @property int|null $anak_id
+ * @property string|null $hari_perkiraan_lahir
+ * @property string|null $created_at
+ * @property int|null $created_by
+ * @property string|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\PendudukSaja|null $anak
+ * @property-read \App\Models\Anak|null $bulananAnak
+ * @property-read \App\Models\PendudukSaja|null $ibu
+ * @property-read \App\Models\IbuHamil|null $ibuHamil
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA whereAnakId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA whereHariPerkiraanLahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA whereIbuId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA whereNoKia($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KIA withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KIA extends BaseModel
 {
     use ConfigId;

@@ -40,6 +40,32 @@ namespace App\Models;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int|null $config_id
+ * @property \Illuminate\Support\Carbon $generated_at
+ * @property string $version
+ * @property string $target_directory
+ * @property array<array-key, mixed>|null $excluded_dirs
+ * @property array<array-key, mixed> $statistics
+ * @property array<array-key, mixed> $files
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline whereExcludedDirs($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline whereFiles($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline whereGeneratedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline whereStatistics($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline whereTargetDirectory($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SecurityBaseline whereVersion($value)
+ * @mixin \Eloquent
+ */
 class SecurityBaseline extends Model
 {
     use ConfigId;

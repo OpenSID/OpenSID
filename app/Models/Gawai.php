@@ -44,6 +44,59 @@ use Illuminate\Database\Eloquent\Builder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string|null $uuid
+ * @property string|null $user_agent
+ * @property int $config_id
+ * @property string $ip_address
+ * @property string|null $keterangan
+ * @property bool|null $keyboard
+ * @property bool $status
+ * @property int $permohonan_surat_tanpa_akun
+ * @property int $orientasi_layar
+ * @property string|null $status_alasan
+ * @property string|null $mac_address
+ * @property string|null $printer_ip
+ * @property string|null $printer_port
+ * @property string|null $id_pengunjung
+ * @property array<array-key, mixed>|null $tipe
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\User|null $createdBy
+ * @property-read string $status_label
+ * @property-read \App\Models\User|null $updatedBy
+ * @method static Builder<static>|Gawai active()
+ * @method static Builder<static>|Gawai inactive()
+ * @method static Builder<static>|Gawai newModelQuery()
+ * @method static Builder<static>|Gawai newQuery()
+ * @method static Builder<static>|Gawai query()
+ * @method static Builder<static>|Gawai status(?int $status = null)
+ * @method static Builder<static>|Gawai whereConfigId($value)
+ * @method static Builder<static>|Gawai whereCreatedAt($value)
+ * @method static Builder<static>|Gawai whereCreatedBy($value)
+ * @method static Builder<static>|Gawai whereId($value)
+ * @method static Builder<static>|Gawai whereIdPengunjung($value)
+ * @method static Builder<static>|Gawai whereIpAddress($value)
+ * @method static Builder<static>|Gawai whereKeterangan($value)
+ * @method static Builder<static>|Gawai whereKeyboard($value)
+ * @method static Builder<static>|Gawai whereMacAddress($value)
+ * @method static Builder<static>|Gawai whereOrientasiLayar($value)
+ * @method static Builder<static>|Gawai wherePermohonanSuratTanpaAkun($value)
+ * @method static Builder<static>|Gawai wherePrinterIp($value)
+ * @method static Builder<static>|Gawai wherePrinterPort($value)
+ * @method static Builder<static>|Gawai whereStatus($value)
+ * @method static Builder<static>|Gawai whereStatusAlasan($value)
+ * @method static Builder<static>|Gawai whereTipe($value)
+ * @method static Builder<static>|Gawai whereUpdatedAt($value)
+ * @method static Builder<static>|Gawai whereUpdatedBy($value)
+ * @method static Builder<static>|Gawai whereUserAgent($value)
+ * @method static Builder<static>|Gawai whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Gawai withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Gawai extends BaseModel
 {
     use Author;

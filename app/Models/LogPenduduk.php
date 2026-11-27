@@ -51,6 +51,66 @@ use InvalidArgumentException;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int $id_pend
+ * @property int|null $kode_peristiwa
+ * @property string|null $meninggal_di
+ * @property string|null $jam_mati
+ * @property string|null $sebab
+ * @property string|null $penolong_mati
+ * @property string|null $akta_mati
+ * @property string|null $file_akta_mati
+ * @property string|null $alamat_tujuan
+ * @property \Illuminate\Support\Carbon $tgl_lapor
+ * @property \Illuminate\Support\Carbon|null $tgl_peristiwa
+ * @property string|null $catatan
+ * @property string|null $no_kk
+ * @property string|null $nama_kk
+ * @property int|null $ref_pindah
+ * @property string|null $maksud_tujuan_kedatangan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read string $penyebab_kematian
+ * @property-read string $tujuan_pindah
+ * @property-read string $yang_menerangkan
+ * @property-read \App\Models\Keluarga|null $keluarga
+ * @property-read \App\Models\Penduduk $penduduk
+ * @property-read LogPenduduk|null $pergiTerakhir
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk peristiwaSampaiDengan(string $tanggal)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk rekapitulasiList($filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk tahun()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereAktaMati($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereAlamatTujuan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereCatatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereFileAktaMati($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereIdPend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereJamMati($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereKodePeristiwa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereMaksudTujuanKedatangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereMeninggalDi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereNamaKk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereNoKk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk wherePenolongMati($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereRefPindah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereSebab($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereTglLapor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereTglPeristiwa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPenduduk withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogPenduduk extends BaseModel
 {
     use ConfigId;

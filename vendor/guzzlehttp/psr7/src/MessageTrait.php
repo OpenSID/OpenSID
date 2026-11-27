@@ -43,6 +43,8 @@ trait MessageTrait
             );
         }
 
+        $this->assertProtocolVersion($version);
+
         if ($this->protocol === $version) {
             return $this;
         }
@@ -273,6 +275,12 @@ trait MessageTrait
                 ));
             }
 
+            // Convert non-finite floats explicitly, as implicit coercion of
+            // NAN emits a warning on PHP 8.5.
+            if (is_float($value) && !is_finite($value)) {
+                $value = is_nan($value) ? 'NAN' : ($value > 0 ? 'INF' : '-INF');
+            }
+
             $trimmed = trim((string) $value, " \t");
             $this->assertValue($trimmed);
 
@@ -298,6 +306,23 @@ trait MessageTrait
             throw new \InvalidArgumentException(
                 sprintf('"%s" is not valid header name.', $header)
             );
+        }
+    }
+
+    /**
+     * @param mixed $version
+     */
+    private function assertProtocolVersion($version): void
+    {
+        if (is_string($version)) {
+            $this->assertNoLineSeparators($version, 'Protocol version');
+        }
+    }
+
+    private function assertNoLineSeparators(string $value, string $field): void
+    {
+        if (strpbrk($value, "\r\n") !== false) {
+            throw new \InvalidArgumentException($field.' must not contain CR or LF characters.');
         }
     }
 

@@ -48,6 +48,38 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $judul
+ * @property string|null $key
+ * @property string|null $value
+ * @property int|null $urut
+ * @property string|null $keterangan
+ * @property string|null $jenis
+ * @property array<array-key, mixed>|null $option
+ * @property string|null $attribute
+ * @property string|null $kategori
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi urut()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereAttribute($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereOption($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi whereValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SettingAplikasi withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class SettingAplikasi extends BaseModel
 {
     use ConfigId;

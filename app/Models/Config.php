@@ -43,6 +43,90 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $app_key
+ * @property string|null $nama_desa
+ * @property string|null $kode_desa
+ * @property string|null $kode_desa_bps
+ * @property int|null $kode_pos
+ * @property string|null $nama_kecamatan
+ * @property string|null $kode_kecamatan
+ * @property string $nama_kepala_camat
+ * @property string $nip_kepala_camat
+ * @property string|null $nama_kabupaten
+ * @property string|null $kode_kabupaten
+ * @property string|null $nama_propinsi
+ * @property string|null $kode_propinsi
+ * @property string|null $logo
+ * @property string|null $lat
+ * @property string|null $lng
+ * @property int|null $zoom
+ * @property string|null $map_tipe
+ * @property mixed|null $path
+ * @property string|null $alamat_kantor
+ * @property string|null $email_desa
+ * @property string|null $telepon
+ * @property string|null $nomor_operator
+ * @property string|null $website
+ * @property string|null $kantor_desa
+ * @property string|null $warna
+ * @property string|null $border
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property string|null $nama_kontak
+ * @property string|null $hp_kontak
+ * @property string|null $jabatan_kontak
+ * @property-read string $nama_kepala_desa
+ * @property-read string $nip_kepala_desa
+ * @property-read mixed $path_kantor_desa
+ * @property-read mixed $path_logo
+ * @property-read string $url_kantor_desa
+ * @property-read string $url_logo
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config appKey($appKey = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereAlamatKantor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereAppKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereBorder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereEmailDesa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereHpKontak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereJabatanKontak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereKantorDesa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereKodeDesa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereKodeDesaBps($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereKodeKabupaten($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereKodeKecamatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereKodePos($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereKodePropinsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereLat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereLng($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereLogo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereMapTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereNamaDesa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereNamaKabupaten($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereNamaKecamatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereNamaKepalaCamat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereNamaKontak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereNamaPropinsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereNipKepalaCamat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereNomorOperator($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereTelepon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereWarna($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereWebsite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config whereZoom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Config withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Config extends BaseModel
 {
     use Author;

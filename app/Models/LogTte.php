@@ -41,6 +41,29 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $message
+ * @property string|null $jenis_error
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte whereJenisError($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTte withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogTte extends BaseModel
 {
     use ConfigId;

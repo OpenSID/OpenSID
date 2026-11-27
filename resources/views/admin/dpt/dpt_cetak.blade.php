@@ -14,7 +14,7 @@
 @section('header')
     <div class="header" align="center">
         <label align="left">{{ get_identitas() }}</label>
-        <h3> DAFTAR CALON PEMILIH UNTUK TANGGAL PEMILIHAN {{ $tanggal_pemilihan }}</h3>
+        <h3> {{ strtoupper('DAFTAR CALON PEMILIH UNTUK TANGGAL PEMILIHAN ' . $tanggal_pemilihan) }}</h3>
         <br>
     </div>
 @endsection

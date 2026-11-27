@@ -49,6 +49,61 @@ use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $rt
+ * @property string $rw
+ * @property string $dusun
+ * @property int|null $id_kepala
+ * @property string|null $lat
+ * @property string|null $lng
+ * @property int|null $zoom
+ * @property mixed|null $path
+ * @property string|null $map_tipe
+ * @property string|null $warna
+ * @property string|null $border
+ * @property int|null $urut
+ * @property int|null $urut_cetak
+ * @property-read string $alamat
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\KeluargaAktif> $keluargaAktif
+ * @property-read int|null $keluarga_aktif_count
+ * @property-read \App\Models\PendudukSaja|null $kepala
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PendudukHidup> $pendudukPria
+ * @property-read int|null $penduduk_pria_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PendudukHidup> $pendudukWanita
+ * @property-read int|null $penduduk_wanita_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Wilayah> $rts
+ * @property-read int|null $rts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Wilayah> $rwAll
+ * @property-read int|null $rw_all_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Wilayah> $rws
+ * @property-read int|null $rws_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah dusun()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah ordered(string $direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah rt($dusun = null, $rw = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah rw($dusun = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereBorder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereDusun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereIdKepala($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereLat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereLng($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereMapTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereRt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereRw($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereUrutCetak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereWarna($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah whereZoom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Wilayah withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Wilayah extends BaseModel
 {
     use ConfigId;

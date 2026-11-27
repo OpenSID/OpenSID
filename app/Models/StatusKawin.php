@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKawin newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKawin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKawin query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKawin whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKawin whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKawin withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class StatusKawin extends BaseModel
 {
     /**

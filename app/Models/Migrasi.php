@@ -41,6 +41,21 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $versi_database
+ * @property array<array-key, mixed>|null $premium
+ * @property int $config_id
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Migrasi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Migrasi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Migrasi query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Migrasi whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Migrasi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Migrasi wherePremium($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Migrasi whereVersiDatabase($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Migrasi withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Migrasi extends BaseModel
 {
     use ConfigId;

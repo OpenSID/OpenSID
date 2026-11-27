@@ -39,6 +39,47 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id_penduduk
+ * @property int $config_id
+ * @property int|null $vaksin_1
+ * @property string|null $tgl_vaksin_1
+ * @property string|null $dokumen_vaksin_1
+ * @property string|null $jenis_vaksin_1
+ * @property int|null $vaksin_2
+ * @property string|null $tgl_vaksin_2
+ * @property string|null $dokumen_vaksin_2
+ * @property string|null $jenis_vaksin_2
+ * @property int|null $vaksin_3
+ * @property string|null $tgl_vaksin_3
+ * @property string|null $dokumen_vaksin_3
+ * @property string|null $jenis_vaksin_3
+ * @property int|null $tunda
+ * @property string|null $keterangan
+ * @property string|null $surat_dokter
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereDokumenVaksin1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereDokumenVaksin2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereDokumenVaksin3($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereIdPenduduk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereJenisVaksin1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereJenisVaksin2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereJenisVaksin3($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereSuratDokter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereTglVaksin1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereTglVaksin2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereTglVaksin3($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereTunda($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereVaksin1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereVaksin2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin whereVaksin3($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CovidVaksin withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class CovidVaksin extends BaseModel
 {
     /**

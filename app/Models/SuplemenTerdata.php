@@ -41,6 +41,38 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_suplemen
+ * @property string|null $id_terdata
+ * @property int|null $keluarga_id
+ * @property int|null $penduduk_id
+ * @property int|null $sasaran
+ * @property string|null $keterangan
+ * @property array<array-key, mixed>|null $data_form_isian Menyimpan data dinamis sebagai JSON atau teks
+ * @property-read \App\Models\Keluarga|null $keluarga
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @property-read \App\Models\Suplemen|null $suplemen
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata anggota($sasaran, $suplemen)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata filter(array $filters)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata sasaranKeluarga()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata sasaranPenduduk()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata whereDataFormIsian($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata whereIdSuplemen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata whereIdTerdata($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata whereKeluargaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata wherePendudukId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata whereSasaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuplemenTerdata withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class SuplemenTerdata extends BaseModel
 {
     use ConfigId;

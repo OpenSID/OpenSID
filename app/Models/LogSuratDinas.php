@@ -45,6 +45,89 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int $id_format_surat
+ * @property int $id_pamong
+ * @property string|null $nama_pamong Nama pamong agar tidak berubah saat ada perubahan di master pamong
+ * @property string|null $nama_jabatan
+ * @property int|null $id_user
+ * @property string $tanggal
+ * @property string|null $bulan
+ * @property string|null $tahun
+ * @property string|null $no_surat
+ * @property string|null $nama_surat
+ * @property string|null $lampiran
+ * @property string|null $keterangan
+ * @property string|null $lokasi_arsip
+ * @property int|null $urls_id
+ * @property bool $status 0. Konsep, 1. Cetak
+ * @property string|null $log_verifikasi
+ * @property int|null $tte
+ * @property int|null $verifikasi_operator
+ * @property int|null $verifikasi_kades
+ * @property int|null $verifikasi_sekdes
+ * @property string|null $isi_surat
+ * @property string|null $input
+ * @property int|null $karakter 1:biasa, 2:terbatas, 3:rahasia
+ * @property int|null $derajat 1:biasa, 2:segera, 3:sangat segera
+ * @property string|null $created_at
+ * @property int|null $created_by
+ * @property string|null $updated_at
+ * @property int|null $updated_by
+ * @property string|null $deleted_at
+ * @property-read string|null $file_surat
+ * @property-read array|string $format_penomoran_surat
+ * @property-read \App\Models\Pamong|null $pamong
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @property-read \App\Models\SuratDinas $suratDinas
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LogTolak> $tolak
+ * @property-read int|null $tolak_count
+ * @property-read \App\Models\Urls|null $urlId
+ * @property-read \App\Models\User|null $user
+ * @method static Builder<static>|LogSuratDinas arsip($isAdmin, array $listJabatan = [])
+ * @method static Builder<static>|LogSuratDinas ditolak()
+ * @method static Builder<static>|LogSuratDinas masuk($isAdmin, array $listJabatan = [])
+ * @method static Builder<static>|LogSuratDinas newModelQuery()
+ * @method static Builder<static>|LogSuratDinas newQuery()
+ * @method static Builder<static>|LogSuratDinas pengguna()
+ * @method static Builder<static>|LogSuratDinas query()
+ * @method static Builder<static>|LogSuratDinas status(?mixed $value = 1)
+ * @method static Builder<static>|LogSuratDinas whereBulan($value)
+ * @method static Builder<static>|LogSuratDinas whereConfigId($value)
+ * @method static Builder<static>|LogSuratDinas whereCreatedAt($value)
+ * @method static Builder<static>|LogSuratDinas whereCreatedBy($value)
+ * @method static Builder<static>|LogSuratDinas whereDeletedAt($value)
+ * @method static Builder<static>|LogSuratDinas whereDerajat($value)
+ * @method static Builder<static>|LogSuratDinas whereId($value)
+ * @method static Builder<static>|LogSuratDinas whereIdFormatSurat($value)
+ * @method static Builder<static>|LogSuratDinas whereIdPamong($value)
+ * @method static Builder<static>|LogSuratDinas whereIdUser($value)
+ * @method static Builder<static>|LogSuratDinas whereInput($value)
+ * @method static Builder<static>|LogSuratDinas whereIsiSurat($value)
+ * @method static Builder<static>|LogSuratDinas whereKarakter($value)
+ * @method static Builder<static>|LogSuratDinas whereKeterangan($value)
+ * @method static Builder<static>|LogSuratDinas whereLampiran($value)
+ * @method static Builder<static>|LogSuratDinas whereLogVerifikasi($value)
+ * @method static Builder<static>|LogSuratDinas whereLokasiArsip($value)
+ * @method static Builder<static>|LogSuratDinas whereNamaJabatan($value)
+ * @method static Builder<static>|LogSuratDinas whereNamaPamong($value)
+ * @method static Builder<static>|LogSuratDinas whereNamaSurat($value)
+ * @method static Builder<static>|LogSuratDinas whereNoSurat($value)
+ * @method static Builder<static>|LogSuratDinas whereStatus($value)
+ * @method static Builder<static>|LogSuratDinas whereTahun($value)
+ * @method static Builder<static>|LogSuratDinas whereTanggal($value)
+ * @method static Builder<static>|LogSuratDinas whereTte($value)
+ * @method static Builder<static>|LogSuratDinas whereUpdatedAt($value)
+ * @method static Builder<static>|LogSuratDinas whereUpdatedBy($value)
+ * @method static Builder<static>|LogSuratDinas whereUrlsId($value)
+ * @method static Builder<static>|LogSuratDinas whereVerifikasiKades($value)
+ * @method static Builder<static>|LogSuratDinas whereVerifikasiOperator($value)
+ * @method static Builder<static>|LogSuratDinas whereVerifikasiSekdes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSuratDinas withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogSuratDinas extends BaseModel
 {
     use ConfigId;

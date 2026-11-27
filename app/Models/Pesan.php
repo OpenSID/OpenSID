@@ -41,6 +41,33 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $judul
+ * @property string $jenis
+ * @property int $sudah_dibaca
+ * @property int $diarsipkan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PesanDetail> $detailPesan
+ * @property-read int|null $detail_pesan_count
+ * @property-read mixed $custom_date
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan status($status)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan whereDiarsipkan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan whereSudahDibaca($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pesan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Pesan extends BaseModel
 {
     use ConfigId;

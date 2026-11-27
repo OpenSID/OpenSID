@@ -60,7 +60,6 @@ class SetupCommand extends Command
         $configContent = <<<EOS
             <?php
 
-            {$config}['demo_mode']  = true;
             {$config}['user_admin'] = 0;
             EOS;
 
@@ -69,8 +68,8 @@ class SetupCommand extends Command
 
             {$db}['default']['hostname'] = getenv('DB_HOST');
             {$db}['default']['username'] = getenv('DB_USERNAME');
-            {$db}['default']['password'] = 'secret';
-            {$db}['default']['port']     = 3306;
+            {$db}['default']['password'] = getenv('DB_PASSWORD') ?: '';
+            {$db}['default']['port']     = (int) (getenv('DB_PORT') ?: 3306);
             {$db}['default']['database'] =  getenv('DB_DATABASE');
             {$db}['default']['dbcollat'] = 'utf8mb4_general_ci';
             {$db}['default']['stricton'] = true;

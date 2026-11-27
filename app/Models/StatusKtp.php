@@ -39,6 +39,21 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @property int $ktp_el
+ * @property string $status_rekam
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKtp newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKtp newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKtp query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKtp whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKtp whereKtpEl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKtp whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKtp whereStatusRekam($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|StatusKtp withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class StatusKtp extends BaseModel
 {
     /**

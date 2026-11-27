@@ -40,6 +40,31 @@ namespace App\Models;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $judul
+ * @property string $alias
+ * @property string $content
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian whereAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AliasKodeIsian withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class AliasKodeIsian extends BaseModel
 {
     use Author;

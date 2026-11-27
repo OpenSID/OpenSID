@@ -48,6 +48,89 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $gambar
+ * @property string $isi
+ * @property int $enabled
+ * @property \Illuminate\Support\Carbon $tgl_upload
+ * @property int|null $id_kategori
+ * @property int|null $id_user
+ * @property string $judul
+ * @property int $headline
+ * @property string|null $gambar1
+ * @property string|null $gambar2
+ * @property string|null $gambar3
+ * @property string|null $dokumen
+ * @property string|null $link_dokumen
+ * @property int $boleh_komentar
+ * @property string|null $slug
+ * @property int|null $hit
+ * @property int|null $tampilan
+ * @property int $slider
+ * @property string $tipe
+ * @property int|null $urut
+ * @property int $jenis_widget
+ * @property-read \App\Models\Agenda|null $agenda
+ * @property-read \App\Models\User|null $author
+ * @property-read \App\Models\Kategori|null $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Komentar> $comments
+ * @property-read int|null $comments_count
+ * @property-read mixed $kategori
+ * @property-read mixed $perkiraan_membaca
+ * @property-read void $url_gambar1
+ * @property-read void $url_gambar2
+ * @property-read void $url_gambar3
+ * @property-read void $url_gambar
+ * @property-read string $url_slug
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ArtikelWilayah> $wilayah
+ * @property-read int|null $wilayah_count
+ * @method static Builder<static>|Artikel active()
+ * @method static Builder<static>|Artikel arsip()
+ * @method static Builder<static>|Artikel artikelStatis()
+ * @method static Builder<static>|Artikel berdasarkan($thn, $bln, $hr, $url)
+ * @method static Builder<static>|Artikel cari($cari)
+ * @method static Builder<static>|Artikel dinamis()
+ * @method static Builder<static>|Artikel diunggahSekarang()
+ * @method static Builder<static>|Artikel enable()
+ * @method static Builder<static>|Artikel headline()
+ * @method static Builder<static>|Artikel kategori($id)
+ * @method static Builder<static>|Artikel keuangan()
+ * @method static Builder<static>|Artikel newModelQuery()
+ * @method static Builder<static>|Artikel newQuery()
+ * @method static Builder<static>|Artikel onlyArticle()
+ * @method static Builder<static>|Artikel openKab()
+ * @method static Builder<static>|Artikel query()
+ * @method static Builder<static>|Artikel sitemap()
+ * @method static Builder<static>|Artikel slideShow($gambarUtama = false)
+ * @method static Builder<static>|Artikel statis()
+ * @method static Builder<static>|Artikel whereBolehKomentar($value)
+ * @method static Builder<static>|Artikel whereConfigId($value)
+ * @method static Builder<static>|Artikel whereDokumen($value)
+ * @method static Builder<static>|Artikel whereEnabled($value)
+ * @method static Builder<static>|Artikel whereGambar($value)
+ * @method static Builder<static>|Artikel whereGambar1($value)
+ * @method static Builder<static>|Artikel whereGambar2($value)
+ * @method static Builder<static>|Artikel whereGambar3($value)
+ * @method static Builder<static>|Artikel whereHeadline($value)
+ * @method static Builder<static>|Artikel whereHit($value)
+ * @method static Builder<static>|Artikel whereId($value)
+ * @method static Builder<static>|Artikel whereIdKategori($value)
+ * @method static Builder<static>|Artikel whereIdUser($value)
+ * @method static Builder<static>|Artikel whereIsi($value)
+ * @method static Builder<static>|Artikel whereJenisWidget($value)
+ * @method static Builder<static>|Artikel whereJudul($value)
+ * @method static Builder<static>|Artikel whereLinkDokumen($value)
+ * @method static Builder<static>|Artikel whereSlider($value)
+ * @method static Builder<static>|Artikel whereSlug($value)
+ * @method static Builder<static>|Artikel whereTampilan($value)
+ * @method static Builder<static>|Artikel whereTglUpload($value)
+ * @method static Builder<static>|Artikel whereTipe($value)
+ * @method static Builder<static>|Artikel whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Artikel withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Artikel extends BaseModel
 {
     use WilayahNull;

@@ -281,7 +281,7 @@ final class UriTemplate
 
         $matches = [];
         if (\preg_match_all('/%[0-9A-Fa-f]{2}|./s', $value, $matches) === false) {
-            throw new \RuntimeException('Unable to encode URI template value.');
+            throw new \RuntimeException(\sprintf('Unable to encode URI template value: %s', \preg_last_error_msg()));
         }
 
         $encoded = '';

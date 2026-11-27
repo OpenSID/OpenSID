@@ -43,6 +43,48 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $modul
+ * @property string|null $slug
+ * @property string $url
+ * @property bool $aktif
+ * @property string|null $ikon
+ * @property int|null $urut
+ * @property int $level
+ * @property int $hidden
+ * @property string|null $ikon_kecil
+ * @property Modul|null $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Modul> $children
+ * @property-read int|null $children_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Modul> $childrens
+ * @property-read int|null $childrens_count
+ * @property-read mixed $raw_aktif
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul isActive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul isChild()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul isNonActive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul isParent()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul isShow()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul status($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereAktif($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereHidden($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereIkon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereIkonKecil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereModul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereParent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Modul withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Modul extends BaseModel
 {
     use ConfigId;

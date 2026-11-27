@@ -42,6 +42,41 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property \Illuminate\Support\Carbon $UpdatedInDB
+ * @property \Illuminate\Support\Carbon $ReceivingDateTime
+ * @property string $Text
+ * @property string $SenderNumber
+ * @property string $Coding
+ * @property string $UDH
+ * @property string $SMSCNumber
+ * @property int $Class
+ * @property string $TextDecoded
+ * @property int $ID
+ * @property int $config_id
+ * @property string $RecipientID
+ * @property string $Processed
+ * @property-read \App\Models\DaftarKontak|null $kontak
+ * @property-read \App\Models\PendudukSaja|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereCoding($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereID($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereProcessed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereReceivingDateTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereRecipientID($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereSMSCNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereSenderNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereTextDecoded($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereUDH($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox whereUpdatedInDB($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Inbox withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Inbox extends BaseModel
 {
     use ConfigId;

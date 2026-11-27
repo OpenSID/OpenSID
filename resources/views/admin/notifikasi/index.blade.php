@@ -57,7 +57,9 @@
                 <table class="table table-bordered table-striped table-hover" id="tabeldata">
                     <thead>
                         <tr>
+                            @if(can('u') || can('h'))
                             <th><input type="checkbox" id="checkall" /></th>
+                            @endif
                             <th class="padat">NO</th>
                             <th class="padat">AKSI</th>
                             <th class="padat">KATEGORI</th>

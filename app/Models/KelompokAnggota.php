@@ -42,6 +42,71 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int $id_kelompok
+ * @property int|null $id_penduduk
+ * @property string|null $nama_luar
+ * @property string|null $nik_luar
+ * @property int|null $sex_luar
+ * @property string|null $tempatlahir_luar
+ * @property string|null $tanggallahir_luar
+ * @property string|null $alamat_luar
+ * @property int|null $agama_luar
+ * @property int|null $pendidikan_luar
+ * @property string|null $no_anggota
+ * @property string|null $keterangan
+ * @property string|null $jabatan
+ * @property string|null $no_sk_jabatan
+ * @property string|null $tipe
+ * @property string|null $periode
+ * @property string|null $nmr_sk_pengangkatan
+ * @property string|null $tgl_sk_pengangkatan
+ * @property string|null $nmr_sk_pemberhentian
+ * @property string|null $tgl_sk_pemberhentian
+ * @property string|null $foto
+ * @property-read \App\Models\Penduduk|null $anggota
+ * @property-read string $alamat_lengkap
+ * @property-read string $nama_jabatan
+ * @property-read string $nama_penduduk
+ * @property-read \App\Models\Kelompok $kelompok
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota anggota()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota cekAnggotaTerdaftar($validasi = null, $data = null, $id_kelompok = 0)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota listAnggota(?mixed $kelompokId = 0)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota pengurus()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota slugKelompok($slug)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota tipe(?mixed $tipe = 'kelompok')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota ubahJabatan($id_kelompok, $id_penduduk, $jabatan, $jabatan_lama)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereAgamaLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereAlamatLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereIdKelompok($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereIdPenduduk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereJabatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereNamaLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereNikLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereNmrSkPemberhentian($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereNmrSkPengangkatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereNoAnggota($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereNoSkJabatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota wherePendidikanLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota wherePeriode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereSexLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereTanggallahirLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereTempatlahirLuar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereTglSkPemberhentian($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereTglSkPengangkatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokAnggota withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KelompokAnggota extends BaseModel
 {
     use ConfigId;

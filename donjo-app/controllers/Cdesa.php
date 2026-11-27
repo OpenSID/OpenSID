@@ -68,10 +68,14 @@ class Cdesa extends Admin_Controller
                 ->filter(static function ($query) {
                     $keyword = request('search')['value'] ?? null;
                     if ($keyword) {
-                        $query->where('nomor', 'like', DB::raw("cast('{$keyword}' as unsigned)"))
-                            ->orWhere('nama_kepemilikan', 'like', "%{$keyword}%")
-                            ->orWhere('nama_pemilik_luar', 'like', "%{$keyword}%")
-                            ->orWhereHas('penduduk', static fn ($q) => $q->where('nik', 'like', "%{$keyword}%")->orWhere('nama', 'like', "%{$keyword}%"));
+                        $query->where(function ($q) use ($keyword) {
+                            if (is_numeric($keyword)) {
+                                $q->whereRaw('cast(nomor as unsigned) = ?', [(int) $keyword]);
+                            }
+                            $q->orWhere('nama_kepemilikan', 'like', "%{$keyword}%")
+                                ->orWhere('nama_pemilik_luar', 'like', "%{$keyword}%")
+                                ->orWhereHas('penduduk', static fn ($p) => $p->where('nik', 'like', "%{$keyword}%")->orWhere('nama', 'like', "%{$keyword}%"));
+                        });
                     }
                 })->orderColumn('nomor', static function ($query, $order) {
                     $query->orderByRaw('cast(nomor as unsigned) ' . $order);

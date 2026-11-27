@@ -44,6 +44,34 @@ use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property string $uuid
+ * @property int $config_id
+ * @property string $judul
+ * @property string $tanggal
+ * @property int $status
+ * @property string $keterangan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan status(?mixed $value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan whereTanggal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pemilihan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Pemilihan extends BaseModel
 {
     use ConfigId;

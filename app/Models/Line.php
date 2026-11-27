@@ -45,6 +45,43 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string|null $simbol
+ * @property string|null $color
+ * @property int|null $tipe
+ * @property int|null $tebal
+ * @property string|null $jenis
+ * @property int|null $parrent
+ * @property int $enabled
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Line> $children
+ * @property-read int|null $children_count
+ * @property-read string $status_label
+ * @property-read Line|null $parent
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line child(int $parent)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line root()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line status(?int $status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line subLine()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line whereColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line whereParrent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line whereSimbol($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line whereTebal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Line withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Line extends BaseModel
 {
     use ConfigId;

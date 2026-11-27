@@ -42,6 +42,31 @@ use App\Traits\Uuid;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property string $uuid
+ * @property string|null $parent_uuid
+ * @property string $uraian
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, KeuanganTemplate> $children
+ * @property-read int|null $children_count
+ * @property-read KeuanganTemplate|null $parent
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate jenisAnggaran()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate whereParentUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate whereUraian($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KeuanganTemplate withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KeuanganTemplate extends BaseModel
 {
     use Uuid;

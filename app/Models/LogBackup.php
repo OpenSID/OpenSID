@@ -41,6 +41,33 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $ukuran
+ * @property string|null $path
+ * @property int $permanen
+ * @property \Illuminate\Support\Carbon|null $downloaded_at
+ * @property int $status
+ * @property int $pid_process
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup whereDownloadedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup wherePermanen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup wherePidProcess($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup whereUkuran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogBackup withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogBackup extends BaseModel
 {
     use ConfigId;

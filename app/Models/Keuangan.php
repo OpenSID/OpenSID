@@ -42,6 +42,35 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $template_uuid
+ * @property string $tahun
+ * @property numeric $anggaran
+ * @property numeric $realisasi
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\KeuanganTemplate $template
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan tahunAnggaran()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan whereAnggaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan whereRealisasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan whereTahun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan whereTemplateUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keuangan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Keuangan extends BaseModel
 {
     use ConfigId;

@@ -43,6 +43,68 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama_barang
+ * @property string $kode_barang
+ * @property string $register
+ * @property string $kontruksi
+ * @property int $panjang
+ * @property int $lebar
+ * @property int $luas
+ * @property string|null $letak
+ * @property string $tanggal_dokument
+ * @property string|null $no_dokument
+ * @property string|null $status_tanah
+ * @property string|null $kode_tanah
+ * @property string $kondisi
+ * @property string $asal
+ * @property float $harga
+ * @property string $keterangan
+ * @property int $status
+ * @property int $visible
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\MutasiInventarisJalan|null $mutasi
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan aktif()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan cetak($tahun = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan listKdRegister()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan reg()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan sumInventaris()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan visible($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereAsal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereHarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereKodeBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereKodeTanah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereKondisi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereKontruksi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereLebar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereLetak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereLuas($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereNamaBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereNoDokument($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan wherePanjang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereRegister($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereStatusTanah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereTanggalDokument($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan whereVisible($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisJalan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class InventarisJalan extends BaseModel
 {
     use ConfigId;

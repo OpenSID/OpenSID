@@ -50,6 +50,7 @@
         "yajra/laravel-datatables-oracle": "^13.0"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.7",
         "ergebnis/composer-normalize": "^2.42",
         "fakerphp/faker": "^1.23",
         "friendsofphp/php-cs-fixer": "^3.49",
@@ -75,7 +76,9 @@
             "Modules\\": "Modules/"
         },
         "exclude-from-classmap": [
-            "Modules/*/Http/Controllers"
+            "Modules/*/Http/Controllers",
+            "tests/Feature/Perbaiki/",
+            "tests/Unit/Perbaiki/"
         ],
         "files": [
             "app/Helpers/core_helper.php",

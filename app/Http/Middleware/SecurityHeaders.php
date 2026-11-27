@@ -37,22 +37,35 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class SecurityHeaders
 {
-    public static function handle(): void
+    /**
+     * Handle an incoming request.
+     *
+     * Header keamanan diset pada objek Response (bukan fungsi native header()),
+     * sesuai konvensi middleware Laravel sehingga tetap mudah ditest dan tidak
+     * bergantung pada side-effect global.
+     */
+    public function handle(Request $request, Closure $next): Response
     {
+        /** @var Response $response */
+        $response = $next($request);
+
         if (! config('security.enabled')) {
-            return;
+            return $response;
         }
 
-        $request = request();
-        $headers = self::getMergedSecurityHeaders();
+        $headers = $this->getMergedSecurityHeaders();
 
         foreach ($headers as $key => $value) {
 
-            if ($key === 'Strict-Transport-Security' && ! is_https()) {
+            if ($key === 'Strict-Transport-Security' && ! $request->secure()) {
                 continue;
             }
 
@@ -61,8 +74,10 @@ class SecurityHeaders
                 continue;
             }
 
-            header("{$key}: {$value}", true);
+            $response->headers->set($key, $value, true);
         }
+
+        return $response;
     }
 
     /**
@@ -70,14 +85,14 @@ class SecurityHeaders
      * - Header baru dari tema akan ditambahkan
      * - Header yang sudah ada akan di-append value dari tema
      */
-    protected static function getMergedSecurityHeaders(): array
+    protected function getMergedSecurityHeaders(): array
     {
         $defaultHeaders = config('security.headers', []);
-        $themeHeaders   = self::loadThemeSecurityConfig();
+        $themeHeaders   = $this->loadThemeSecurityConfig();
 
         foreach ($themeHeaders as $key => $value) {
             if (array_key_exists($key, $defaultHeaders)) {
-                $defaultHeaders[$key] = self::appendHeaderValue($defaultHeaders[$key], $value);
+                $defaultHeaders[$key] = $this->appendHeaderValue($defaultHeaders[$key], $value);
             } else {
                 $defaultHeaders[$key] = $value;
             }
@@ -92,7 +107,7 @@ class SecurityHeaders
      * @param string $existingValue Value header yang sudah ada
      * @param string $newValue      Value baru dari tema
      */
-    protected static function appendHeaderValue(string $existingValue, string $newValue): string
+    protected function appendHeaderValue(string $existingValue, string $newValue): string
     {
         $existingValue = rtrim($existingValue, '; ');
 
@@ -103,7 +118,7 @@ class SecurityHeaders
      * Load konfigurasi security dari tema aktif.
      * Mendukung format PHP array (security.php) atau JSON (security.json).
      */
-    protected static function loadThemeSecurityConfig(): array
+    protected function loadThemeSecurityConfig(): array
     {
         try {
             $themePath = theme_full_path();
@@ -127,9 +142,7 @@ class SecurityHeaders
                 return is_array($config) ? $config : [];
             }
         } catch (Throwable $e) {
-            if (function_exists('log_message')) {
-                log_message('error', 'Error loading theme security config: ' . $e->getMessage());
-            }
+            Log::error('Error loading theme security config: ' . $e->getMessage());
         }
 
         return [];

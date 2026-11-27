@@ -40,6 +40,39 @@ namespace App\Models;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $slug
+ * @property string $nama
+ * @property int $jenis
+ * @property string|null $template
+ * @property string|null $template_desa
+ * @property int $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat jenis(?mixed $value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereTemplate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereTemplateDesa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LampiranSurat withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LampiranSurat extends BaseModel
 {
     use Author;

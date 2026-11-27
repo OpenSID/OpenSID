@@ -42,6 +42,22 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int|null $id
+ * @property string|null $lat
+ * @property string|null $lng
+ * @property int|null $config_id
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMap newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMap newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMap query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMap whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMap whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMap whereLat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMap whereLng($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PendudukMap withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class PendudukMap extends BaseModel
 {
     use ConfigId;

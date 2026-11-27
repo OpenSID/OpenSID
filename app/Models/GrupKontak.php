@@ -41,6 +41,27 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id_grup
+ * @property int $config_id
+ * @property string $nama_grup
+ * @property string|null $keterangan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AnggotaGrup> $anggota
+ * @property-read int|null $anggota_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupKontak newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupKontak newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupKontak query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupKontak whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupKontak whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupKontak whereIdGrup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupKontak whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupKontak whereNamaGrup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupKontak whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|GrupKontak withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class GrupKontak extends BaseModel
 {
     use ConfigId;

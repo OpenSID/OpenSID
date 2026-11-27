@@ -71,7 +71,7 @@ class NotifikasiController extends Admin_Controller
             return datatables($query)
                 ->addIndexColumn()
                 ->addColumn('ceklist', static function ($row) {
-                    if (can('h')) {
+                    if (can('u') || can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })

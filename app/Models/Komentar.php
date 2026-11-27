@@ -44,6 +44,55 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_artikel
+ * @property string $owner
+ * @property string|null $email
+ * @property string|null $subjek
+ * @property string $komentar
+ * @property \Illuminate\Support\Carbon $tgl_upload
+ * @property int|null $status
+ * @property int|null $tipe
+ * @property string|null $no_hp
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property int|null $is_archived
+ * @property string|null $permohonan
+ * @property int|null $parent_id
+ * @property-read \App\Models\Artikel|null $artikel
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Komentar> $children
+ * @property-read int|null $children_count
+ * @property-read mixed $foto
+ * @property-read mixed $pengguna
+ * @property-read mixed $url_artikel
+ * @property-read \App\Models\Kategori|null $kategori
+ * @method static Builder<static>|Komentar enable()
+ * @method static Builder<static>|Komentar jumlahBaca($id)
+ * @method static Builder<static>|Komentar newModelQuery()
+ * @method static Builder<static>|Komentar newQuery()
+ * @method static Builder<static>|Komentar query()
+ * @method static Builder<static>|Komentar show()
+ * @method static Builder<static>|Komentar tipePesan(string $type)
+ * @method static Builder<static>|Komentar unread()
+ * @method static Builder<static>|Komentar whereConfigId($value)
+ * @method static Builder<static>|Komentar whereEmail($value)
+ * @method static Builder<static>|Komentar whereId($value)
+ * @method static Builder<static>|Komentar whereIdArtikel($value)
+ * @method static Builder<static>|Komentar whereIsArchived($value)
+ * @method static Builder<static>|Komentar whereKomentar($value)
+ * @method static Builder<static>|Komentar whereNoHp($value)
+ * @method static Builder<static>|Komentar whereOwner($value)
+ * @method static Builder<static>|Komentar whereParentId($value)
+ * @method static Builder<static>|Komentar wherePermohonan($value)
+ * @method static Builder<static>|Komentar whereStatus($value)
+ * @method static Builder<static>|Komentar whereSubjek($value)
+ * @method static Builder<static>|Komentar whereTglUpload($value)
+ * @method static Builder<static>|Komentar whereTipe($value)
+ * @method static Builder<static>|Komentar whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Komentar withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Komentar extends BaseModel
 {
     use ConfigId;

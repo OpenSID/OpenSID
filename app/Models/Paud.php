@@ -41,6 +41,57 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id_sasaran_paud
+ * @property int $config_id
+ * @property int|null $posyandu_id
+ * @property int|null $kia_id
+ * @property int $kategori_usia
+ * @property int $januari
+ * @property int $februari
+ * @property int $maret
+ * @property int $april
+ * @property int $mei
+ * @property int $juni
+ * @property int $juli
+ * @property int $agustus
+ * @property int $september
+ * @property int $oktober
+ * @property int $november
+ * @property int $desember
+ * @property string|null $created_at
+ * @property int|null $created_by
+ * @property string|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\KIA|null $kia
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud filter(array $filters)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereAgustus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereApril($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereDesember($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereFebruari($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereIdSasaranPaud($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereJanuari($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereJuli($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereJuni($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereKategoriUsia($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereKiaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereMaret($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereMei($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereNovember($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereOktober($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud wherePosyanduId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereSeptember($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Paud withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Paud extends BaseModel
 {
     use ConfigId;
