@@ -1941,6 +1941,11 @@ $(document).ready(function () {
     $(selector)
       .on("show.bs.modal", function (e) {
         var link = $(e.relatedTarget);
+        // Cegah trigger ulang jika event bukan dari tombol/link pembuka modal
+        if (!link.length || !link.attr('href')) {
+          // Bukan trigger dari tombol/link pembuka modal, abaikan
+          return;
+        }
         var modal = $(this);
         var fetchedData = modal.find(".fetched-data");
         modal.find(".modal-title").text(link.data("title"));
@@ -1975,7 +1980,7 @@ $(document).ready(function () {
         $(this).find(".fetched-data").html("");
         $(this).find(".modal-title").text("");
       });
-  });
+    });
   return false;
 });
 

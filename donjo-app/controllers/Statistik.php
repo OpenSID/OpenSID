@@ -37,6 +37,7 @@
 
 use App\Enums\Statistik\StatistikPendudukEnum;
 use App\Models\Bantuan;
+use App\Models\Pamong;
 use App\Models\Wilayah;
 use App\Services\LaporanPenduduk;
 
@@ -188,6 +189,9 @@ class Statistik extends Admin_Controller
 
         $data = array_merge($filter, $this->modal_penandatangan());
 
+        if ($this->input->post('pamong_ttd')) {
+            $data['pamong_ttd'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
+        }
         $query              = $this->sumberData($lap, $filter);
         $data['laporan_no'] = $this->input->post('laporan_no');
         $data['main']       = $query;
@@ -212,7 +216,7 @@ class Statistik extends Admin_Controller
         return match (true) {
             in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ((int) $lap > 50 && (int) $sasaran == 2)                    => site_url("keluarga/statistik/{$lap}/"),
             $lap == 'bdt'                                                                    || $lap == 'dtsen' || ((int) $lap > 50 && (int) $sasaran == 3) => site_url("rtm/statistik/{$lap}/"),
-            $lap == 'akta-kematian'                                                                                                                         => site_url("penduduk_log/statistik/{$lap}/"),
+            in_array($lap, ['akta-kematian', 'akta-kematian-wilayah'])                                                                                      => site_url("penduduk_log/statistik/{$lap}/"),
             (int) $lap < 50 || $lap == 'kia' || ((int) $lap > 50 && (int) $sasaran == 1)                                                                    => site_url("penduduk/statistik/{$lap}/"),
             (int) $lap > 50 && (int) $sasaran == 4                                                                                                          => site_url("kelompok/statistik/{$lap}/"),
             default                                                                                                                                         => null,

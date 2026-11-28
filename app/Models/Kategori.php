@@ -37,7 +37,7 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigIdNull;
+use App\Traits\WilayahNull;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -47,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kategori extends BaseModel
 {
-    use ConfigIdNull;
+    use WilayahNull;
     use SortableTrait;
 
     public const ENABLE = 1;
@@ -160,6 +160,30 @@ class Kategori extends BaseModel
     public function artikel(): HasMany
     {
         return $this->hasMany(Artikel::class, 'id_kategori');
+    }
+
+    /**
+     * Relasi ke tabel jembatan kategori_wilayah.
+     */
+    public function wilayah(): HasMany
+    {
+        return $this->hasMany(KategoriWilayah::class);
+    }
+
+    /**
+     * Nama tabel pivot wilayah untuk model ini.
+     */
+    public function wilayahPivotTable(): string
+    {
+        return 'kategori_wilayah';
+    }
+
+    /**
+     * Nama foreign key di tabel pivot wilayah.
+     */
+    public function wilayahPivotForeignKey(): string
+    {
+        return 'kategori_id';
     }
 
     protected function scopeChild($query, int $parent)

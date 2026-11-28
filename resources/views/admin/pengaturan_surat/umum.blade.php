@@ -492,42 +492,5 @@
                 data.push(tag);
             }
         });
-
-        var TableData = $('#tabeldata').DataTable({
-            responsive: true,
-            processing: true,
-            serverSide: true,
-            bPaginate: false,
-            ajax: {
-                url: "{{ ci_route('surat_master.syaratSuratDatatables', $suratMaster->id) }}",
-                method: 'POST',
-            },
-            drawCallback: function(settings) {
-                // Disable all checkbox inputs after the DataTable is rendered
-                $('input[type="checkbox"]').prop('disabled', {{ $viewOnly }});
-            },
-            columns: [{
-                    data: 'ceklist',
-                    class: 'padat',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'DT_RowIndex',
-                    class: 'padat',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'ref_syarat_nama',
-                    name: 'ref_syarat_nama',
-                    searchable: true,
-                    orderable: true
-                },
-            ],
-            order: [
-                [2, 'asc']
-            ]
-        });
     </script>
 @endpush

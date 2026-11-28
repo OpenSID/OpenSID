@@ -597,37 +597,6 @@ if (! function_exists('kirim_versi_opensid')) {
     }
 }
 
-if (! function_exists('kotak')) {
-    function kotak(?string $data_kolom, int $max_kolom = 26): string
-    {
-        $view = '';
-
-        for ($i = 0; $i < $max_kolom; $i++) {
-            $view .= '<td class="kotak padat tengah">';
-            if (isset($data_kolom[$i])) {
-                $view .= strtoupper($data_kolom[$i]);
-            } else {
-                $view .= '&nbsp;';
-            }
-            $view .= '</td>';
-        }
-
-        return $view;
-    }
-}
-
-if (! function_exists('checklist')) {
-    function checklist($kondisi_1, $kondisi_2): string
-    {
-        $view = '<td class="kotak padat tengah">';
-        if ($kondisi_1 == $kondisi_2) {
-            $view .= '<img src="' . FCPATH . 'assets/images/check.png' . '" height="10" width="10"/>';
-        }
-
-        return $view . '</td>';
-    }
-}
-
 if (! function_exists('create_tree_folder')) {
     function create_tree_folder($arr, string $baseDir)
     {

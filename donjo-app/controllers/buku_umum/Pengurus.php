@@ -430,20 +430,18 @@ class Pengurus extends Admin_Controller
             'main'  => $query->take($paramDatatable['length'])->get(),
             'start' => $paramDatatable['start'],
             'aksi'  => $aksi,
+            'file'  => SebutanDesa('Daftar [Pemerintah Desa]'),
         ];
 
-        $data['pamong_ttd'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
+        $pamong_ttd         = $this->input->post('pamong_ttd');
+        $data['pamong_ttd'] = ! empty($pamong_ttd)
+            ? Pamong::selectData()->where(['pamong_id' => $pamong_ttd])->first()?->toArray()
+            : null;
 
-        $data['pamong_ketahui'] = ! empty($ttd['pamong_ketahui']?->pamong_id)
-        ? Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']->pamong_id])->first()?->toArray()
-        : null;
-
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=wilayah_' . date('Y-m-d') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
+        $pamong_ketahui         = $this->input->post('pamong_ketahui');
+        $data['pamong_ketahui'] = ! empty($pamong_ketahui)
+            ? Pamong::selectData()->where(['pamong_id' => $pamong_ketahui])->first()?->toArray()
+            : null;
 
         $data['is_landscape'] = true;
 
@@ -526,6 +524,13 @@ class Pengurus extends Admin_Controller
     // Jabatan
     public function jabatan()
     {
+        return view('admin.jabatan.index', [
+            'selected_nav' => 'pengurus',
+        ]);
+    }
+
+    public function jabatanDatatables()
+    {
         if ($this->input->is_ajax_request()) {
             $refJabatan = $this->refJabatan;
 
@@ -561,9 +566,7 @@ class Pengurus extends Admin_Controller
                 ->make();
         }
 
-        return view('admin.jabatan.index', [
-            'selected_nav' => 'pengurus',
-        ]);
+        return show_404();
     }
 
     public function jabatanform($id = '')

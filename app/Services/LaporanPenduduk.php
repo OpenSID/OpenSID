@@ -50,6 +50,7 @@ use App\Enums\PendidikanSedangEnum;
 use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\Statistik\StatistikJenisBantuanEnum;
 use App\Enums\Statistik\StatistikKeluargaEnum;
 use App\Enums\Statistik\StatistikPendudukEnum;
@@ -192,7 +193,7 @@ class LaporanPenduduk
                 $semua = $query->where('b.sex', 2);
             } elseif ($lap == 'buku-nikah') {
                 $semua = $query->where('b.status_kawin', '!=', 1);
-            } elseif ($lap == 'akta-kematian') {
+            } elseif (in_array($lap, ['akta-kematian', 'akta-kematian-wilayah'])) {
                 $status_dasar = '2';
                 $semua        = $this->data_jml_semua_penduduk($status_dasar);
             } else {
@@ -334,7 +335,6 @@ class LaporanPenduduk
                     'pendidikan_kk_id',
                     PendidikanKKEnum::all()
                 );
-                break;
 
             // Pekerjaan
             case '1':
@@ -342,7 +342,6 @@ class LaporanPenduduk
                     'pekerjaan_id',
                     PekerjaanEnum::all()
                 );
-                break;
 
             // Status Kawin
             case '2':
@@ -350,7 +349,6 @@ class LaporanPenduduk
                     'status_kawin',
                     StatusKawinEnum::all()
                 );
-                break;
 
             // Hubungan KK (SHDK)
             case 'hubungan_kk':
@@ -358,7 +356,6 @@ class LaporanPenduduk
                     'kk_level',
                     SHDKEnum::all()
                 );
-                break;
 
             // Warga Negara
             case '5':
@@ -366,7 +363,6 @@ class LaporanPenduduk
                     'warganegara_id',
                     WargaNegaraEnum::all()
                 );
-                break;
 
             // Penduduk Status
             case '6':
@@ -374,7 +370,6 @@ class LaporanPenduduk
                     'status',
                     StatusPendudukEnum::all()
                 );
-                break;
 
             // Golongan Darah
             case '7':
@@ -382,7 +377,6 @@ class LaporanPenduduk
                     'golongan_darah_id',
                     GolonganDarahEnum::all()
                 );
-                break;
 
             // Sakit Menahun
             case '10':
@@ -390,7 +384,6 @@ class LaporanPenduduk
                     'sakit_menahun_id',
                     SakitMenahunEnum::all()
                 );
-                break;
 
             // Cara KB
             case '16':
@@ -398,7 +391,6 @@ class LaporanPenduduk
                     'cara_kb_id',
                     CaraKBEnum::all()
                 );
-                break;
 
             // Cacat
             case '9':
@@ -406,7 +398,6 @@ class LaporanPenduduk
                     'cacat_id',
                     CacatEnum::all()
                 );
-                break;
 
             // Pendidikan Sedang
             case '14':
@@ -414,7 +405,6 @@ class LaporanPenduduk
                     'pendidikan_sedang_id',
                     PendidikanSedangEnum::all()
                 );
-                break;
 
             // Agama
             case '3':
@@ -422,7 +412,6 @@ class LaporanPenduduk
                     'agama_id',
                     AgamaEnum::all()
                 );
-                break;
 
             // Jenis Kelamin
             case '4':
@@ -430,7 +419,6 @@ class LaporanPenduduk
                     'sex',
                     JenisKelaminEnum::all()
                 );
-                break;
 
             // Asuransi
             case '19':
@@ -438,7 +426,6 @@ class LaporanPenduduk
                     'id_asuransi',
                     AsuransiEnum::all()
                 );
-                break;
 
             // Kehamilan
             case 'hamil':
@@ -447,7 +434,6 @@ class LaporanPenduduk
                     HamilEnum::all(),
                     static fn ($query) => $query->where('p.sex', JenisKelaminEnum::PEREMPUAN)
                 );
-                break;
 
             // Umur rentang
             case '13':
@@ -465,7 +451,6 @@ class LaporanPenduduk
                         $query->take($param['length'])->skip($param['start']);
                     })
                     ->get();
-                break;
 
             case 'akta-kematian':
                 // Akta Kematian
@@ -489,7 +474,33 @@ class LaporanPenduduk
                         $query->take($param['length'])->skip($param['start']);
                     })
                     ->get();
-                break;
+
+            case 'akta-kematian-wilayah':
+                // Kepemilikan Akta Kematian Berdasarkan Wilayah
+                $idCluster   = $this->filter['idCluster'];
+                $adaAktaMati = 'l.akta_mati IS NOT NULL AND l.akta_mati != "" AND l.file_akta_mati IS NOT NULL';
+
+                return DB::table('tweb_wil_clusterdesa as w')
+                    ->select('w.dusun as id', 'w.dusun as nama')
+                    ->selectRaw("COUNT(DISTINCT CASE WHEN {$adaAktaMati} THEN b.id END) as jumlah")
+                    ->selectRaw("COUNT(DISTINCT CASE WHEN {$adaAktaMati} AND b.sex = 1 THEN b.id END) as laki")
+                    ->selectRaw("COUNT(DISTINCT CASE WHEN {$adaAktaMati} AND b.sex = 2 THEN b.id END) as perempuan")
+                    ->leftJoin('tweb_penduduk as b', 'b.id_cluster', '=', 'w.id')
+                    ->leftJoin('log_penduduk as l', static function ($join) {
+                        $join->on('b.id', '=', 'l.id_pend')
+                             ->where('l.kode_peristiwa', PeristiwaPendudukEnum::MATI->value);
+                    })
+                    ->where('b.status_dasar', StatusDasarEnum::MATI)
+                    ->where('b.config_id', identitas('id'))
+                    ->where('w.config_id', identitas('id'))
+                    ->groupBy('w.dusun')
+                    ->when($idCluster, static function ($sq) use ($idCluster) {
+                        $sq->whereIn('w.id', $idCluster);
+                    })
+                    ->when($this->paramCetak, static function ($query, $param) {
+                        $query->take($param['length'])->skip($param['start']);
+                    })
+                    ->get();
 
                 // KELUARGA
             case 'kelas_sosial':
@@ -509,7 +520,6 @@ class LaporanPenduduk
                     ->leftJoin('tweb_penduduk as p', 'p.id', '=', 'k.nik_kepala')
                     ->groupBy(['u.id', 'u.nama'])
                     ->get();
-                break;
 
                 // RTM
             case 'bdt':
@@ -524,7 +534,6 @@ class LaporanPenduduk
                     ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.tgl_daftar) = ?', [$tahun]))
                     ->groupBy('u.id')
                     ->get();
-                break;
 
             case 'dtsen':
                 // DTSEN
@@ -538,7 +547,6 @@ class LaporanPenduduk
                     ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.tgl_daftar) = ?', [$tahun]))
                     ->groupBy('u.id')
                     ->get();
-                break;
 
                 // BANTUAN
             case 'bantuan_penduduk':
@@ -574,7 +582,6 @@ class LaporanPenduduk
                     FROM program u WHERE (u.config_id = ' . $configId . ' OR u.config_id IS NULL)';
 
                 return DB::select(DB::raw($sql), array_merge($tahunParam, $tahunParam, $tahunParam));
-                break;
 
             // PENDUDUK
             case 'buku-nikah':
@@ -586,7 +593,6 @@ class LaporanPenduduk
 
                 return $data->filter(static fn ($row) => ! empty($row['jumlah'])
                         && $row['id'] != StatusKawinEnum::BELUMKAWIN)->values();
-                break;
 
             case 'kia':
                 // Kepemilikan kia
@@ -599,7 +605,6 @@ class LaporanPenduduk
                     ->selectRaw(DB::raw('(' . $jml['str_jml_laki'] . ') as laki'))
                     ->selectRaw(DB::raw('(' . $jml['str_jml_perempuan'] . ') as perempuan'))
                     ->get();
-                break;
 
             case 'covid':
                 // Covid
@@ -618,7 +623,6 @@ class LaporanPenduduk
                     ->leftJoin('tweb_penduduk as p', 'p.id', '=', 'k.id_terdata')
                     ->groupBy('u.id', 'u.nama')
                     ->get();
-                break;
 
                 case 'adat':
                     // Adat
@@ -643,8 +647,6 @@ class LaporanPenduduk
 
                     return $query;
 
-                    break;
-
             case 'suku':
                 // Suku
                 $idCluster = $this->filter['idCluster'];
@@ -666,8 +668,6 @@ class LaporanPenduduk
                     ->get();
 
                 return $query;
-
-                break;
 
             case 'marga':
                 // Marga
@@ -692,8 +692,6 @@ class LaporanPenduduk
 
                 return $query;
 
-                break;
-
             case 'pekerja_migran':
                 // Pekerja Migran
                 $idCluster = $this->filter['idCluster'];
@@ -716,8 +714,6 @@ class LaporanPenduduk
 
                 return $query;
 
-                break;
-
             case 'bpjs-tenagakerja':
                 // BPJS Tenaga Kerja
                 $data = $this->select_jml_penduduk_per_kategori('pekerjaan_id', 'tweb_penduduk_pekerjaan');
@@ -725,8 +721,6 @@ class LaporanPenduduk
                 return $data->where('p.bpjs_ketenagakerjaan', '!=', null)
                     ->where('p.bpjs_ketenagakerjaan', '!=', '')
                     ->get();
-
-                break;
 
             case 'status-asuransi-kesehatan':
                 $idCluster = $this->filter['idCluster'];
@@ -753,8 +747,6 @@ class LaporanPenduduk
                     ->groupBy('u.status_asuransi')
                     ->get();
 
-                break;
-
             case '15':
                 // Umur kategori
                 $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai";
@@ -775,8 +767,6 @@ class LaporanPenduduk
                     })
                     ->get();
 
-                break;
-
             case '17':
                 // Akta kelahiran
                 $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND akta_lahir <> '' ";
@@ -795,8 +785,6 @@ class LaporanPenduduk
                         $query->take($param['length'])->skip($param['start']);
                     })
                     ->get();
-
-                break;
 
             case '18':
                 // Kepemilikan ktp
@@ -819,13 +807,10 @@ class LaporanPenduduk
                         $query->take($param['length'])->skip($param['start']);
                     })
                     ->get();
-                break;
 
             default:
                 return $this->select_jml_penduduk_per_kategori($statistik_penduduk['0']['id_referensi'], $statistik_penduduk['0']['tabel_referensi'])->get();
         }
-
-        return true;
     }
 
     /**

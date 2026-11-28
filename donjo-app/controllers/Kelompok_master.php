@@ -59,6 +59,11 @@ class Kelompok_master extends Admin_Controller
 
     public function index()
     {
+        return view('admin.kelompok_master.index');
+    }
+
+    public function datatables()
+    {
         if ($this->input->is_ajax_request()) {
             $controller = $this->controller;
 
@@ -89,7 +94,7 @@ class Kelompok_master extends Admin_Controller
                 ->make();
         }
 
-        return view('admin.kelompok_master.index');
+        return show_404();
     }
 
     public function form($id = 0)

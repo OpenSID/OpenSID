@@ -156,9 +156,15 @@ class Pelapak extends BaseModel
 
     private function pelapakValidasi(): array
     {
+        // maksimal 20 karakter untuk nomor telepon, dan hanya angka yang diperbolehkan
+        $telepon = bilangan(request('telepon', ''));
+        if (strlen($telepon) > 20) {
+            $telepon = substr($telepon, 0, 20);
+        }
+
         return [
             'id_pend' => bilangan(request('id_pend')),
-            'telepon' => bilangan(request('telepon')),
+            'telepon' => $telepon,
         ];
     }
 }

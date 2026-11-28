@@ -260,18 +260,24 @@ class Surat_masuk extends Admin_Controller
         collect($this->ref_disposisi())->each(static function ($item, $key) use (&$disposisi): void {
             $disposisi[] = ['id' => $key, 'nama' => $item];
         })->toArray();
-        $data['input']                 = $_POST;
-        $data['pamong_ttd']            = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
-        $data['pamong_ketahui']        = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
+
+        $data                          = $this->modal_penandatangan();
+        $data['aksi']                  = 'cetak';
+        $data['file']                  = 'Lembar Disposisi Surat Masuk';
+        $data['isi']                   = 'admin.surat_masuk.disposisi';
+        $data['letak_ttd']             = ['1', '1', '2'];
+        $data['tgl_cetak']             = date('Y-m-d');
         $data['ref_disposisi']         = $disposisi;
+        $data['is_landscape']          = true;
         $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
         $data['surat']                 = SuratMasuk::findOrFail($id)->toArray();
 
-        return view('admin.surat_masuk.disposisi', $data);
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     public function dialog($aksi = 'cetak')
     {
+        $data               = $this->modal_penandatangan();
         $data['aksi']       = $aksi;
         $data['formAction'] = ci_route('surat_masuk.cetak', $aksi);
 
@@ -287,14 +293,18 @@ class Surat_masuk extends Admin_Controller
                 });
             });
 
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->prepareQuery()->results();
-        $data['file']      = 'Surat Masuk';
-        $data['isi']       = 'admin.surat_masuk.cetak';
-        $data['letak_ttd'] = ['1', '1', '2'];
-        $data['tahun']     = $this->input->get('tahun') ?? null;
-        $data['tgl_cetak'] = $this->request['tgl_cetak'];
+        $ttd                    = $this->modal_penandatangan();
+        $pamong_ttd             = $this->input->post('pamong_ttd');
+        $pamong_ketahui         = $this->input->post('pamong_ketahui');
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $pamong_ttd ?: $ttd['pamong_ttd']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ttd'];
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $pamong_ketahui ?: $ttd['pamong_ketahui']['pamong_id']])->first()?->toArray() ?? $ttd['pamong_ketahui'];
+        $data['aksi']           = $aksi;
+        $data['main']           = $query->prepareQuery()->results();
+        $data['file']           = 'Surat Masuk';
+        $data['isi']            = 'admin.surat_masuk.cetak';
+        $data['letak_ttd']      = ['1', '1', '2'];
+        $data['tahun']          = $this->input->get('tahun') ?? null;
+        $data['tgl_cetak']      = $this->request['tgl_cetak'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }
