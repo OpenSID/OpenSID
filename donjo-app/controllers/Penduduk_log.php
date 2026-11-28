@@ -494,6 +494,7 @@ class Penduduk_log extends Admin_Controller
             'penduduk.keluarga.wilayah',        // Eager load untuk accessor getAlamatWilayahAttribute
             'penduduk.wilayah',                 // Eager load wilayah penduduk
             'penduduk.rtm',                     // Eager load rtm untuk accessor getLokasiAttribute
+            'penduduk.logMati',                 // Eager load untuk menghindari N+1 saat akses umur penduduk mati
             'keluarga',
             'pergiTerakhir',
         ])

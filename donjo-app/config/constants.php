@@ -157,7 +157,11 @@ define('KEHADIRAN', 'kehadiran');
 /**
  * Custom path directory
  */
-define('DESAPATH', 'desa' . DIRECTORY_SEPARATOR);
+// Absolut, bukan relatif terhadap folder kerja PHP. Sebelum index.php dipindah ke
+// public/, folder kerja kebetulan selalu sama dengan root proyek sehingga path
+// relatif 'desa/' ikut benar. Setelah pemindahan folder kerja menjadi public/,
+// sehingga path harus ditambatkan ke FCPATH agar tetap menunjuk root proyek.
+define('DESAPATH', FCPATH . 'desa' . DIRECTORY_SEPARATOR);
 define('DESAPATHPERMISSION', 0755);
 define('RESOURCESPATH', 'resources' . DIRECTORY_SEPARATOR);
 define('STORAGEPATH', 'storage' . DIRECTORY_SEPARATOR);

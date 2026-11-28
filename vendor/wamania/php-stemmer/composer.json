@@ -1,0 +1,29 @@
+{
+	"name": "wamania/php-stemmer",
+	"description": "Native PHP Stemmer",
+	"keywords": ["stemmer", "porter", "php"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Wamania",
+			"homepage": "http://wamania.com"
+		}
+	],
+	"require": {
+		"php": ">=7.3",
+		"joomla/string": ">=2.0.1"
+	},
+	"require-dev":{
+		"phpunit/phpunit": "^9.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Wamania\\Snowball\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Wamania\\Snowball\\Tests\\": "test/"
+		}
+	}
+}

@@ -67,7 +67,9 @@ return [
 
         'assets' => [
             'driver' => 'local',
-            'root'   => base_path('assets'),
+            // Ikut pindah ke public/ bersama index.php. Folder desa/ tetap di
+            // root proyek, karena itu disk 'desa' di bawah tetap base_path().
+            'root'   => public_path('assets'),
             'links'  => 'skip',
         ],
 
@@ -81,6 +83,24 @@ return [
             'driver' => 'local',
             'root'   => storage_path('app/template'),
             'links'  => 'skip',
+        ],
+
+        'filemanager' => [
+            'driver' => 'local',
+            'root' => base_path('desa/upload/media'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/') . '/desa/upload/media',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
+        'filemanager_thumbs' => [
+            'driver' => 'local',
+            'root' => base_path('desa/upload/thumbs'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/') . '/desa/upload/thumbs',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
         ],
 
         'local' => [
@@ -126,8 +146,33 @@ return [
     |
     */
 
+    /*
+     * Folder desa/ sengaja TIDAK dipindah ke public/ karena merupakan data milik
+     * desa: di-gitignore penuh dan tidak boleh tersentuh saat update aplikasi.
+     * Symlink membuat URL lama seperti desa/upload/artikel/foto.jpg tetap valid
+     * tanpa memindahkan satu berkas pun.
+     *
+     * Hanya folder yang memang perlu diakses browser yang didaftarkan di sini.
+     * desa/config, desa/app_key, desa/cache, desa/arsip, desa/template-surat,
+     * dan desa/widgets sengaja TIDAK disertakan — justru itulah berkas yang
+     * selama ini terekspos dan menjadi alasan pemindahan ke public/.
+     *
+     * desa/themes juga TIDAK disymlink. Folder tema berisi kode sumber —
+     * berkas .blade.php, config.json, dan composer.json — yang tidak boleh
+     * terbaca dari internet. Aset tema disajikan lewat route theme_asset,
+     * yang membaca dari <path tema>/assets saja, sehingga berlaku sama untuk
+     * tema desa (desa/themes) maupun tema sistem (storage/app/themes).
+     * Seluruh tema memakai helper theme_asset(); tidak ada yang menuliskan
+     * URL desa/themes secara langsung.
+     *
+     * Dibuat dengan `php artisan storage:link --relative` agar target bersifat
+     * relatif sehingga tetap valid bila folder proyek dipindahkan.
+     */
     'links' => [
-        // public_path('storage') => storage_path('app/public'),
+        public_path('desa/upload')     => base_path('desa/upload'),
+        public_path('desa/logo')       => base_path('desa/logo'),
+        public_path('desa/pengaturan') => base_path('desa/pengaturan'),
+        public_path('desa/anjungan')   => base_path('desa/anjungan'),
     ],
 
 ];

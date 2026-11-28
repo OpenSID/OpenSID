@@ -179,33 +179,6 @@ class Admin_Controller extends MY_Controller
         ])->toArray();
     }
 
-    protected function set_hak_akses_rfm()
-    {
-        $user = auth('admin')->user();
-
-        $payload = [
-            'user_id'                => $user->id,
-            'fm_key'                 => hash_hmac('sha256', $user->id, config('app.key')),
-            'hapus_gambar_rfm'       => can('h'),
-            'ubah_tambah_gambar_rfm' => can('u'),
-            'expires'                => time() + 86400, // 24 hours
-        ];
-
-        // Set encrypted cookie
-        \Illuminate\Support\Facades\Cookie::queue(
-            'rfm_access',
-            encrypt($payload),
-            1440, // 24 hours in minutes
-            '/',
-            null,
-            request()->secure(), // HTTPS only
-            true, // HttpOnly
-            false, // Raw = false (akan di-encrypt)
-            'lax'
-        );
-
-        $this->session->set_userdata('fm_key', $payload['fm_key']);
-    }
 
     private function modules_list()
     {

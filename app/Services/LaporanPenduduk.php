@@ -77,9 +77,14 @@ class LaporanPenduduk
             return $bantuan->nama;
         }
 
+        // Skema legacy: id program bantuan dienkode sebagai "50<id>" (dipakai Statistik.php & Statistik_web.php)
+        if ((int) $lap > 50 && ($bantuan = Bantuan::find(preg_replace('/^50/', '', $lap)))) {
+            return $bantuan->nama;
+        }
+
         $list_judul = StatistikPendudukEnum::allKeyLabel() + StatistikKeluargaEnum::allKeyLabel() + StatistikRtmEnum::allKeyLabel() + StatistikJenisBantuanEnum::allKeyLabel();
 
-        return $list_judul[$lap];
+        return $list_judul[$lap] ?? null;
     }
 
     public static function menuLabel()
@@ -189,7 +194,27 @@ class LaporanPenduduk
         } elseif (in_array($lap, ['bdt', 'dtsen'])) {
             $semua = $this->data_jml_semua_rtm();
         } elseif ($lap === 'akta-kematian' || $lap === 'akta-kematian-wilayah') {
-            $semua = $this->data_jml_semua_penduduk('2')->get()->toArray();
+            // FIX #11926: untuk status_dasar=2 (mati) jangan pakai filterTahunPenduduk (snapshot hidup akhir tahun)
+            // yang selalu menghasilkan 0 karena log terakhir MATI di-exclude NOT IN (2,3,4).
+            // TOTAL harus = semua penduduk meninggal pada tahun terfilter (YEAR l.tgl_lapor),
+            // konsisten dengan per-kategori yang sudah filter YEAR(l.tgl_lapor) di select_per_kategori().
+            $tahun     = $this->filter['tahun'] ?? null;
+            $idCluster = $this->filter['idCluster'] ?? null;
+            $semua = DB::table('tweb_penduduk as b')
+                ->selectRaw('COUNT(DISTINCT b.id) as jumlah')
+                ->selectRaw('COUNT(DISTINCT CASE WHEN b.sex = 1 THEN b.id END) as laki')
+                ->selectRaw('COUNT(DISTINCT CASE WHEN b.sex = 2 THEN b.id END) as perempuan')
+                ->join('log_penduduk as l', function ($join) use ($tahun) {
+                    $join->on('b.id', '=', 'l.id_pend')
+                        ->where('l.kode_peristiwa', PeristiwaPendudukEnum::MATI->value);
+                    if ($tahun) {
+                        $join->whereYear('l.tgl_lapor', $tahun);
+                    }
+                })
+                ->when($idCluster, static fn ($q) => $q->whereIn('b.id_cluster', $idCluster))
+                ->where('b.status_dasar', StatusDasarEnum::MATI)
+                ->where('b.config_id', identitas('id'))
+                ->get()->toArray();
         } elseif ($lap === 'hamil') {
             $semua = $this->data_jml_semua_penduduk($status_dasar)->where('b.sex', 2)->get()->toArray();
         } elseif ($lap === 'buku-nikah') {
@@ -206,6 +231,7 @@ class LaporanPenduduk
         $dusun = $this->filter['dusun'];
         $rw    = $this->filter['rw'];
         $rt    = $this->filter['rt'];
+        $tahun = $this->filter['tahun'] ?? null;
 
         return DB::table('keluarga_aktif as k')
             ->selectRaw('COUNT(k.id) as jumlah')
@@ -213,6 +239,7 @@ class LaporanPenduduk
             ->selectRaw('COUNT(CASE WHEN p.sex = 2 THEN p.id END) as perempuan')
             ->leftJoin('tweb_penduduk as p', 'p.id', '=', 'k.nik_kepala')
             ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id')
+            ->when($tahun, fn ($sq) => $this->filterTahunKeluarga($sq, $tahun, 'k'))
             ->when($dusun, static function ($sq) use ($dusun, $rw, $rt) {
                 $sq->where(static function ($subquery) use ($dusun, $rw, $rt) {
                     $subquery->where('a.dusun', $dusun);
@@ -233,6 +260,7 @@ class LaporanPenduduk
         $dusun = $this->filter['dusun'];
         $rw    = $this->filter['rw'];
         $rt    = $this->filter['rt'];
+        $tahun = $this->filter['tahun'] ?? null;
 
         return DB::table('tweb_rtm as r')
             ->selectRaw('COUNT(r.id) as jumlah')
@@ -241,6 +269,7 @@ class LaporanPenduduk
             ->leftJoin('tweb_penduduk as p', 'p.id', '=', 'r.nik_kepala') // TODO: Ganti kolom no_kk jadi no_rtm
             ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id')
             ->whereNotNull('r.nik_kepala')
+            ->when($tahun, fn ($sq) => $this->filterTahunKeluarga($sq, $tahun, 'r'))
             ->when($dusun, static function ($sq) use ($dusun, $rw, $rt) {
                 $sq->where(static function ($subquery) use ($dusun, $rw, $rt) {
                     $subquery->where('a.dusun', $dusun);
@@ -515,11 +544,11 @@ class LaporanPenduduk
                     ->selectRaw('COUNT(k.id) as jumlah')
                     ->selectRaw('COUNT(CASE WHEN k.kelas_sosial = u.id AND p.sex = 1 THEN p.id END) AS laki')
                     ->selectRaw('COUNT(CASE WHEN k.kelas_sosial = u.id AND p.sex = 2 THEN p.id END) AS perempuan')
-                    ->leftJoin('keluarga_aktif as k', static function ($join) use ($tahun) {
+                    ->leftJoin('keluarga_aktif as k', function ($join) use ($tahun) {
                         $join->on('k.kelas_sosial', '=', 'u.id')
                             ->where('k.config_id', '=', identitas('id'));
                         if ($tahun) {
-                            $join->whereRaw('YEAR(k.tgl_daftar) = ?', [$tahun]);
+                            $this->filterTahunKeluarga($join, $tahun, 'k');
                         }
                     })
                     ->leftJoin('tweb_penduduk as p', 'p.id', '=', 'k.nik_kepala')
@@ -536,7 +565,7 @@ class LaporanPenduduk
                     ->join('tweb_penduduk as p', 'p.id', '=', 'u.nik_kepala')
                     ->whereNotNull('u.bdt')
                     ->where('u.config_id', identitas('id'))
-                    ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.tgl_daftar) = ?', [$tahun]))
+                    ->when($tahun, fn ($sq) => $this->filterTahunKeluarga($sq, $tahun, 'u'))
                     ->groupBy('u.id')
                     ->get();
 
@@ -549,7 +578,7 @@ class LaporanPenduduk
                     ->join('tweb_penduduk as p', 'p.id', '=', 'u.nik_kepala')
                     ->where('u.terdaftar_dtks', '!=', '0')
                     ->where('u.config_id', identitas('id'))
-                    ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.tgl_daftar) = ?', [$tahun]))
+                    ->when($tahun, fn ($sq) => $this->filterTahunKeluarga($sq, $tahun, 'u'))
                     ->groupBy('u.id')
                     ->get();
 
@@ -859,6 +888,26 @@ class LaporanPenduduk
         ", [$configId, $akhirTahun]);
 
         return $query;
+    }
+
+    /**
+     * Filter keluarga/RTM berdasarkan tahun untuk statistik keluarga.
+     *
+     * Tabel keluarga/RTM tidak menyimpan histori kelas sosial maupun status
+     * keanggotaan, sehingga filter tahun di sini berarti "keluarga yang sudah
+     * terdaftar sampai dengan akhir tahun X" (berdasarkan tgl_daftar), bukan
+     * snapshot kondisi keluarga pada tahun tersebut. Keluarga tanpa tgl_daftar
+     * dianggap sudah terdaftar sejak awal sehingga tetap ikut terhitung.
+     *
+     * @param mixed $query
+     */
+    private function filterTahunKeluarga($query, string $tahun, string $alias = 'k')
+    {
+        if (! in_array($alias, ['k', 'u', 'r'], true)) {
+            throw new InvalidArgumentException("Alias tabel tidak valid: {$alias}");
+        }
+
+        return $query->whereRaw("({$alias}.tgl_daftar IS NULL OR {$alias}.tgl_daftar <= ?)", [$tahun . '-12-31 23:59:59']);
     }
 
     private function str_jml_penduduk(string $where, string $sex = '', string $status_dasar = '1', bool $skipTahunFilter = false)

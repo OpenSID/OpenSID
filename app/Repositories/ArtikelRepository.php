@@ -46,7 +46,7 @@ class ArtikelRepository
     public function list()
     {
         return QueryBuilder::for(Artikel::active())
-            ->allowedFields('*')
+            ->allowedFields(...['id', 'judul', 'isi', 'gambar', 'gambar1', 'gambar2', 'gambar3', 'tgl_upload', 'slug', 'hit', 'enabled', 'headline', 'boleh_komentar', 'tipe', 'id_kategori', 'id_user'])
             ->allowedFilters(...[
                 AllowedFilter::callback('search', static function ($query, string $value): void {
                     $query->where('judul', 'LIKE', '%' . $value . '%')

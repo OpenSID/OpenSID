@@ -1,0 +1,36 @@
+{
+    "name": "joomla/string",
+    "type": "joomla-package",
+    "description": "Joomla String Package",
+    "keywords": ["joomla", "framework", "string"],
+    "homepage": "https://github.com/joomla-framework/string",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": "^8.3.0",
+        "symfony/deprecation-contracts": "^2|^3",
+        "symfony/polyfill-mbstring": "^1.31.0"
+    },
+    "require-dev": {
+        "doctrine/inflector": "^2.0.10",
+        "joomla/test": "^4.0",
+        "phpunit/phpunit": "^12.2.6",
+        "squizlabs/php_codesniffer": "^3.7.2",
+        "phpstan/phpstan": "2.1.17",
+        "phpstan/phpstan-deprecation-rules": "2.0.3"
+    },
+    "suggest": {
+        "ext-mbstring": "For improved processing",
+        "doctrine/inflector": "To use the string inflector"
+    },
+    "autoload": {
+        "psr-4": {
+            "Joomla\\String\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Joomla\\String\\Tests\\": "Tests/"
+        }
+    },
+    "minimum-stability": "dev"
+}

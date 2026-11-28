@@ -210,8 +210,21 @@ class Permohonan_surat_admin extends Admin_Controller
     public function kirim_pesan($id_permohonan = 0, $tipe = 0): void
     {
         $tipe ??= 0;
-        $periksa = PermohonanSurat::with(['surat'])->where(['id' => $id_permohonan, 'status' => PermohonanSurat::SEDANG_DIPERIKSA])->first()->toArray();
-        $pemohon = Penduduk::find($periksa['id_pemohon'])->toArray();
+        $periksa = PermohonanSurat::with(['surat'])->where(['id' => $id_permohonan, 'status' => PermohonanSurat::SEDANG_DIPERIKSA])->first();
+
+        if (! $periksa) {
+            redirect_with('error', 'Permohonan sudah diproses admin lain, silakan refresh halaman', ci_route('permohonan_surat_admin'));
+        }
+
+        $periksa = $periksa->toArray();
+
+        $pemohon = Penduduk::find($periksa['id_pemohon']);
+
+        if (! $pemohon) {
+            redirect_with('error', 'Data pemohon tidak ditemukan', ci_route('permohonan_surat_admin'));
+        }
+
+        $pemohon = $pemohon->toArray();
         $post    = $this->input->post();
         $judul   = ($tipe == 0) ? 'Perlu Dilengkapi' : 'Dibatalkan';
         $data    = [

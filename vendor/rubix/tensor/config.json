@@ -1,0 +1,53 @@
+{
+    "namespace": "tensor",
+    "name": "tensor",
+    "extension-name": "tensor",
+    "description": "A library and extension that provides objects for scientific computing in PHP.",
+    "author": "The Rubix ML Community",
+    "version": "3.0.5",
+    "verbose": true,
+    "extra-cflags": "-O3",
+    "extra-libs": "-lopenblas -llapacke -lgfortran",
+    "extra-sources": [
+        "include/arithmetic.c",
+        "include/comparison.c",
+        "include/linear_algebra.c",
+        "include/signal_processing.c",
+        "include/settings.c"
+    ],
+    "initializers": {
+        "module": [
+            {
+                "include": "cblas.h",
+                "code": "openblas_set_num_threads(1)"
+            }
+        ]
+    },
+    "optimizer-dirs": [
+        "optimizers"
+    ],
+    "optimizations": {
+        "static-type-inference": true,
+        "static-type-inference-second-pass": true,
+        "local-context-pass": true,
+        "constant-folding": true,
+        "static-constant-class-folding": true,
+        "call-gatherer-pass": true,
+        "check-invalid-reads": false,
+        "private-internal-methods": false,
+        "public-internal-methods": false,
+        "public-internal-functions": true
+    },
+    "warnings": {
+        "unused-variable": true,
+        "unused-variable-external": false,
+        "possible-wrong-parameter": true,
+        "possible-wrong-parameter-undefined": false,
+        "nonexistent-function": true,
+        "nonexistent-class": true
+    },
+    "extra": {
+        "export-classes": false,
+        "indent": "spaces"
+    }
+}

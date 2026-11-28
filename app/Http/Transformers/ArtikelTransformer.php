@@ -42,10 +42,36 @@ use League\Fractal\TransformerAbstract;
 
 class ArtikelTransformer extends TransformerAbstract
 {
-    public function transform(Artikel $artikel)
+    /**
+     * Whitelist kunci payload artikel publik. Jangan pernah `return $artikel->toArray()`
+     * mentah di sini: Artikel eager-load relasi `author` (App\Models\User) sehingga
+     * payload berisiko membocorkan PII operator desa (email, phone, telegram id,
+     * otp_identifier, session, akses_wilayah, dst) tanpa autentikasi di
+     * endpoint publik GET/POST /internal_api/arsip.
+     */
+    private const ALLOWED_KEYS = [
+        'id', 'judul', 'isi', 'gambar', 'gambar1', 'gambar2', 'gambar3',
+        'tgl_upload', 'tgl_upload_local', 'slug', 'url_slug', 'hit',
+        'enabled', 'headline', 'boleh_komentar', 'tipe', 'id_kategori',
+        'author', 'category',
+    ];
+
+    /**
+     * Kolom author yang boleh tampil di endpoint artikel publik. Hanya nama
+     * penulis yang dibutuhkan tema (partials/arsip/index.blade.php).
+     */
+    private const AUTHOR_FIELDS = ['nama'];
+
+    public function transform(Artikel $artikel): array
     {
         $artikel->tgl_upload_local = tgl_indo($artikel->tgl_upload);
 
-        return $artikel->toArray();
+        $data = collect($artikel->toArray())->only(self::ALLOWED_KEYS)->toArray();
+
+        if (isset($data['author']) && is_array($data['author'])) {
+            $data['author'] = collect($data['author'])->only(self::AUTHOR_FIELDS)->toArray();
+        }
+
+        return $data;
     }
 }

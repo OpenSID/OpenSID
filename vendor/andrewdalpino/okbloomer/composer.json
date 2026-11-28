@@ -1,0 +1,73 @@
+{
+    "name": "andrewdalpino/okbloomer",
+    "type": "library",
+    "description": "An autoscaling Bloom filter with ultra-low memory usage for PHP.",
+    "license": "MIT",
+    "readme": "README.md",
+    "keywords": [
+        "bloom filter", "scalable bloom filter", "layered bloom filter"
+    ],
+    "authors": [
+        {
+            "name": "Andrew DalPino",
+            "role": "Lead Developer",
+            "homepage": "https://github.com/andrewdalpino",
+            "email": "support@andrewdalpino.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpstan/extension-installer": "^1.0",
+        "phpunit/phpunit": "^9.5",
+        "phpbench/phpbench": "^1.0",
+        "friendsofphp/php-cs-fixer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "OkBloomer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OkBloomer\\Benchmarks\\": "benchmarks/",
+            "OkBloomer\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "analyze": "phpstan analyse -c phpstan.neon",
+        "benchmark": "phpbench run --report=aggregate",
+        "build": [
+            "@composer install",
+            "@analyze",
+            "@test",
+            "@check"
+        ],
+        "check": [
+            "@putenv PHP_CS_FIXER_IGNORE_ENV=1",
+            "php-cs-fixer fix --config=.php_cs.dist.php -v --dry-run --using-cache=no"
+        ],
+        "fix": "php-cs-fixer fix --config=.php_cs.dist.php",
+        "test": "phpunit"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "process-timeout": 3000
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/andrewdalpino"
+        }
+    ],
+    "support": {
+        "docs": "https://github.com/andrewdalpino/OkBloomer/README.md",
+        "issues": "https://github.com/andrewdalpino/OkBloomer/issues",
+        "source": "https://github.com/andrewdalpino/OkBloomer",
+        "email": "support@andrewdalpino.com"
+    }
+}

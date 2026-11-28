@@ -26,10 +26,13 @@
     <div class="box-body">
         <div class="theme-thumbnail-wrapper" style="width: 100%; height: 180px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #f5f5f5; border-radius: 4px; margin-bottom: 15px;">
             @php $file = $asset_path . '/thumbnail/preview-1.jpg' @endphp
+            {{-- Thumbnail disajikan lewat route theme_asset, bukan URL berkas
+                 statis. Folder storage/app/themes dan desa/themes berada di luar
+                 document root sejak index.php pindah ke public/. --}}
             @if (file_exists(FCPATH . $file))
                 <img
                     style="width: 100%; height: 100%; object-fit: cover;"
-                    src="{{ base_url($asset_path . '/thumbnail/preview-1.jpg') }}"
+                    src="{{ url('theme_asset/' . $slug . '?file=thumbnail/preview-1.jpg') }}"
                     alt="{{ $nama }}"
                     onerror="this.onerror=null; this.src='{{ asset('images/404-image-not-found.jpg') }}';"
                 >

@@ -71,9 +71,7 @@ class MY_Router extends MX_Router
     {
         $this->request = $request;
 
-        if (method_exists($request, 'overrideGlobals')) {
-            $request->overrideGlobals();
-        }
+        $this->overrideGlobals($request);
 
         // reinitialize router state
         $this->class  = '';

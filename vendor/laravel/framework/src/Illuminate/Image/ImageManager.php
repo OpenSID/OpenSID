@@ -33,6 +33,18 @@ class ImageManager extends Manager
     }
 
     /**
+     * Create an image instance from a stream.
+     *
+     * @param  resource  $stream
+     */
+    public function fromStream(mixed $stream): Image
+    {
+        return new Image(
+            fn () => stream_get_contents($stream) ?: throw new ImageException('Invalid stream image data.'),
+        );
+    }
+
+    /**
      * Create an image instance from a base64 encoded string.
      */
     public function fromBase64(string $base64): Image
@@ -78,7 +90,9 @@ class ImageManager extends Manager
     public function fromUrl(string $url): Image
     {
         return new Image(
-            fn () => $this->container->make(HttpFactory::class)->get($url)->body(),
+            fn () => $this->container->make(HttpFactory::class)->get($url)
+                ->throw()
+                ->body(),
         );
     }
 

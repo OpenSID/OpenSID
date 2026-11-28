@@ -1,0 +1,20 @@
+ARG_ENABLE("tensor", "enable tensor", "no");
+
+if (PHP_TENSOR != "no") {
+  EXTENSION("tensor", "tensor.c", null, "-I"+configure_module_dirname);
+  ADD_SOURCES(configure_module_dirname + "/kernel", "main.c memory.c exception.c debug.c backtrace.c object.c array.c string.c fcall.c require.c file.c operators.c math.c concat.c variables.c filter.c iterator.c exit.c time.c", "tensor");
+  /* PCRE is always included on WIN32 */
+  AC_DEFINE("ZEPHIR_USE_PHP_PCRE", 1, "Whether PHP pcre extension is present at compile time");
+  if (PHP_JSON != "no") {
+    ADD_EXTENSION_DEP("tensor", "json");
+    AC_DEFINE("ZEPHIR_USE_PHP_JSON", 1, "Whether PHP json extension is present at compile time");
+  }
+  ADD_SOURCES(configure_module_dirname + "/include", "arithmetic.c comparison.c linear_algebra.c signal_processing.c settings.c", "tensor");
+  ADD_SOURCES(configure_module_dirname + "/tensor", "algebraic.zep.c arithmetic.zep.c arraylike.zep.c comparable.zep.c special.zep.c statistical.zep.c trigonometric.zep.c tensor.zep.c vector.zep.c columnvector.zep.c matrix.zep.c settings.zep.c", "tensor");
+	ADD_SOURCES(configure_module_dirname + "/tensor/exceptions", "tensorexception.zep.c invalidargumentexception.zep.c dimensionalitymismatch.zep.c runtimeexception.zep.c", "tensor");
+	ADD_SOURCES(configure_module_dirname + "/tensor/decompositions", "cholesky.zep.c eigen.zep.c lu.zep.c svd.zep.c", "tensor");
+	ADD_SOURCES(configure_module_dirname + "/tensor/reductions", "ref.zep.c rref.zep.c", "tensor");
+  ADD_FLAG("CFLAGS_TENSOR", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
+  ADD_FLAG("CFLAGS", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
+  ADD_FLAG("LDFLAGS", "/LTCG");
+}

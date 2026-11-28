@@ -58,7 +58,7 @@ class SettingSeeder extends Seeder
                 'key'        => 'api_gform_id_script',
                 'value'      => null,
                 'keterangan' => 'Script ID untuk Google API',
-                'jenis'      => 'text',
+                'jenis'      => 'input-text',
                 'kategori'   => 'Analisis',
             ],
             [
@@ -74,7 +74,7 @@ class SettingSeeder extends Seeder
                 'key'        => 'api_gform_redirect_uri',
                 'value'      => 'https://berputar.opendesa.id/index.php/first/get_form_info',
                 'keterangan' => 'Redirect URI untuk Google API',
-                'jenis'      => 'text',
+                'jenis'      => 'input-text',
                 'kategori'   => 'Analisis',
             ],
         ]);

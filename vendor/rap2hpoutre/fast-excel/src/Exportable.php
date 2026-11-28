@@ -5,10 +5,14 @@ namespace Rap2hpoutre\FastExcel;
 use DateTimeInterface;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use OpenSpout\Common\Entity\Cell;
+use OpenSpout\Common\Entity\Cell\StringCell;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Writer\Common\AbstractOptions;
 use OpenSpout\Writer\WriterInterface;
+use OpenSpout\Writer\XLSX\Entity\SheetView;
+use OpenSpout\Writer\XLSX\Writer;
 use Traversable;
 
 /**
@@ -36,11 +40,17 @@ trait Exportable
     /** @var bool */
     private $string_values = false;
 
+    /** @var bool */
+    private $escape_formulas = false;
+
     /** @var array<string, string> */
     private $column_formats = [];
 
     /** @var string|null */
     private $hidden_column_prefix = null;
+
+    /** @var bool */
+    private $right_to_left = false;
 
     /**
      * @param AbstractOptions $options
@@ -103,6 +113,20 @@ trait Exportable
     public function stringValues(bool $enabled = true): static
     {
         $this->string_values = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Write string values as explicit text cells so a value starting with "="
+     * (or other formula-triggering input) is never emitted as a live formula
+     * cell. Protects against CSV/formula injection and "corrupt file" errors.
+     *
+     * @param bool $enabled
+     */
+    public function escapeFormulas(bool $enabled = true): static
+    {
+        $this->escape_formulas = $enabled;
 
         return $this;
     }
@@ -191,6 +215,12 @@ trait Exportable
 
         $writer->$function($path);
 
+        if ($this->right_to_left && $writer instanceof Writer) {
+            $sheetView = new SheetView();
+            $sheetView->setRightToLeft(true);
+            $writer->getCurrentSheet()->setSheetView($sheetView);
+        }
+
         // It can export one sheet (Collection) or N sheets (SheetCollection)
         $data = $this->transpose ? $this->transposeData() : ($this->data instanceof SheetCollection ? $this->data : collect([$this->data]));
 
@@ -211,6 +241,11 @@ trait Exportable
             }
             if ($has_sheets && $last_key !== $key) {
                 $writer->addNewSheetAndMakeItCurrent();
+            }
+            if ($this->right_to_left && $writer instanceof Writer) {
+                $sheetView = new SheetView();
+                $sheetView->setRightToLeft(true);
+                $writer->getCurrentSheet()->setSheetView($sheetView);
             }
         }
         $writer->close();
@@ -306,7 +341,7 @@ trait Exportable
             $this->writeHeader($writer, $collection->first());
         }
 
-        $use_styles = $this->rows_style || $this->column_styles;
+        $use_styles = $this->rows_style || $this->column_styles || $this->escape_formulas;
 
         // Write rows one by one so Row objects can be garbage-collected as
         // they are written, instead of materializing them all up front.
@@ -322,6 +357,12 @@ trait Exportable
                 // Column styles are matched against the value keys; use positional
                 // keys so numeric style indexes work with associative rows.
                 $writer->addRow($this->createRow(array_values($values), $this->rows_style, $this->column_styles));
+            } elseif ($this->rowHasCell($values)) {
+                // Row::fromValues() cannot accept Cell instances; build the row
+                // manually so pre-built cells are written through as-is. We
+                // already know it has a cell, so call the builder directly
+                // instead of createRow() to avoid a second rowHasCell() scan.
+                $writer->addRow($this->buildRowFromCells(array_values($values)));
             } else {
                 $writer->addRow(Row::fromValues($values));
             }
@@ -438,7 +479,7 @@ trait Exportable
         $row = [];
         foreach (is_array($data) ? $data : collect($data)->all() as $key => $value) {
             $value = is_null($value) ? '' : $this->formatValue($value, $key);
-            if (is_string($value) || is_int($value) || is_float($value) || $value instanceof DateTimeInterface) {
+            if (is_string($value) || is_int($value) || is_float($value) || $value instanceof DateTimeInterface || $value instanceof Cell) {
                 $row[$key] = $value;
             }
         }
@@ -517,6 +558,53 @@ trait Exportable
      */
     private function createRow(array $values = [], ?Style $rows_style = null, array $column_styles = []): Row
     {
-        return Row::fromValuesWithStyles($values, $rows_style, $column_styles);
+        // Fast path: no pre-built cells and no escaping, let OpenSpout build
+        // the cells from the scalar values.
+        if (!$this->escape_formulas && !$this->rowHasCell($values)) {
+            return Row::fromValuesWithStyles($values, $rows_style, $column_styles);
+        }
+
+        return $this->buildRowFromCells($values, $rows_style, $column_styles);
+    }
+
+    /**
+     * Build a Row cell by cell: pre-built Cell values are used as-is, and the
+     * remaining scalars are converted while preserving any per-column style.
+     * With escapeFormulas() enabled, string scalars become StringCell so a
+     * leading "=" can never be turned into a live formula.
+     * Row::fromValuesWithStyles() cannot be used here because it calls
+     * Cell::fromValue() on every value.
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    private function buildRowFromCells(array $values, ?Style $rows_style = null, array $column_styles = []): Row
+    {
+        $cells = [];
+        foreach ($values as $key => $value) {
+            $style = $column_styles[$key] ?? null;
+            if ($value instanceof Cell) {
+                $cells[] = $value;
+            } elseif ($this->escape_formulas && is_string($value)) {
+                $cells[] = new StringCell($value, $style);
+            } else {
+                $cells[] = Cell::fromValue($value, $style);
+            }
+        }
+
+        return new Row($cells, $rows_style);
+    }
+
+    /**
+     * Whether any value in the given row is already an OpenSpout Cell instance.
+     */
+    private function rowHasCell(array $row): bool
+    {
+        foreach ($row as $value) {
+            if ($value instanceof Cell) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

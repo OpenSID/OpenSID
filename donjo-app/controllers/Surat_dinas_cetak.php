@@ -48,6 +48,7 @@ use App\Models\RefJabatan;
 use App\Models\SuratDinas;
 use App\Models\SuratKeluar;
 use App\Models\Urls;
+use App\Services\Surat\NamaSuratArsipService;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -79,7 +80,7 @@ class Surat_dinas_cetak extends Admin_Controller
 
             $kepalaDesa = Pamong::kepalaDesa()->exists();
 
-            return datatables()->of((new SuratDinas())->kunci(SuratDinas::KUNCI_DISABLE)->orderBy('favorit', 'desc')->latest('updated_at'))
+            return datatables()->of((new SuratDinas())->kunci(SuratDinas::KUNCI_DISABLE)->siapCetak()->orderBy('favorit', 'desc')->latest('updated_at'))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($kepalaDesa): string {
                     $aksi = '';
@@ -115,6 +116,7 @@ class Surat_dinas_cetak extends Admin_Controller
                     $query->orWhere('nama', 'like', "%{$cari}%");
                 })->whereIn('jenis', SuratDinas::TINYMCE)
                 ->kunci(SuratDinas::KUNCI_DISABLE)
+                ->siapCetak()
                 ->latest('updated_at')
                 ->orderBy('favorit', 'desc')
                 ->paginate(10);
@@ -184,7 +186,6 @@ class Surat_dinas_cetak extends Admin_Controller
     public function pratinjau($url, $id = null)
     {
         $this->withInput();
-        $this->set_hak_akses_rfm();
         $surat = SuratDinas::cetak($url)->first();
 
         if ($surat && $this->request) {
@@ -635,10 +636,7 @@ class Surat_dinas_cetak extends Admin_Controller
 
     private function nama_surat_arsip(string $url, $nomor): string
     {
-        $nomor_surat = str_replace("'", '', $nomor);
-        $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
-
-        return $url . '_' . date('Y-m-d') . '_' . $nomor_surat . '.pdf';
+        return NamaSuratArsipService::buat($url, $nomor);
     }
 
     // Data yang digunakan surat jenis rtf dan tinymce

@@ -107,7 +107,6 @@
                         <tr>
                             <th class="p-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">No.</th>
                             <th class="p-3 text-left text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Nama</th>
-                            <th class="p-3 text-left text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Tempat, Tgl Lahir</th>
                             <th class="p-3 text-center text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Jenis Kelamin</th>
                             <th class="p-3 text-left text-xs font-bold uppercase tracking-wider border border-gray-300 dark:border-gray-600">Alamat</th>
                         </tr>
@@ -134,29 +133,29 @@
             },
 
             loadDetailSuplemen() {
-                const apiUrl = `{{ route('api.suplemen') }}?filter[slug]={{ $slug }}`;
+                const apiUrl = `{{ route('api.suplemen.detail', $slug) }}`;
                 fetch(apiUrl)
                     .then(response => response.json())
                     .then(data => {
-                        if (data.data && data.data.length > 0) {
-                            const suplemen = data.data[0];
+                        if (data.data) {
+                            const suplemen = data.data;
                             this.detail = suplemen.attributes;
                             this.judulHalaman = `Data Suplemen: ${suplemen.attributes.nama}`;
-                            this.initDataTable(suplemen.id);
+                            this.initDataTable();
                         } else {
                             this.judulHalaman = 'Data Tidak Ditemukan';
-                            document.getElementById('tabel-terdata').querySelector('tbody').innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">Data suplemen tidak ditemukan.</td></tr>`;
+                            document.getElementById('tabel-terdata').querySelector('tbody').innerHTML = `<tr><td colspan="4" class="p-4 text-center text-gray-500">Data suplemen tidak ditemukan.</td></tr>`;
                         }
                         this.isLoading = false;
                     })
                     .catch(error => {
                         console.error("Error fetching detail:", error);
                         this.isLoading = false;
-                        document.getElementById('tabel-terdata').querySelector('tbody').innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Gagal memuat detail data.</td></tr>`;
+                        document.getElementById('tabel-terdata').querySelector('tbody').innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500">Gagal memuat detail data.</td></tr>`;
                     });
             },
 
-            initDataTable(suplemenId) {
+            initDataTable() {
                 if (this.dataTable) {
                     this.dataTable.destroy();
                 }
@@ -165,7 +164,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: `{{ route('api.suplemen') }}/${suplemenId}`,
+                        url: `{{ route('api.suplemen.anggota', $slug) }}`,
                         method: 'POST',
                         data: d => ({
                             "page[size]": d.length,
@@ -182,7 +181,6 @@
                     columns: [
                         { data: null, searchable: false, orderable: false, className: 'text-center p-2 border border-gray-300 dark:border-gray-600' },
                         { data: "attributes.terdata_nama", name: 'tweb_penduduk.nama', className: 'p-2 border border-gray-300 dark:border-gray-600' },
-                        { data: null, name: 'tweb_penduduk.tanggallahir', className: 'p-2 border border-gray-300 dark:border-gray-600', render: (data, type, row) => `${row.attributes.tempatlahir || ''}, ${row.attributes.tanggallahir || ''}`},
                         { data: "attributes.sex", name: 'tweb_penduduk.sex', className: 'text-center p-2 border border-gray-300 dark:border-gray-600' },
                         { data: "attributes.alamat", name: 'alamat_sekarang', orderable: false, className: 'whitespace-normal p-2 border border-gray-300 dark:border-gray-600' },
                     ],

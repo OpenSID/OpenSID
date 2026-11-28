@@ -84,7 +84,6 @@ class Lampiran extends Admin_Controller
     public function form($id = null)
     {
         isCan('u');
-        $this->set_hak_akses_rfm();
 
         $lampiran = $id ? LampiranSurat::findOrFail($id) : null;
         $margin   = LampiranSurat::MARGINS;

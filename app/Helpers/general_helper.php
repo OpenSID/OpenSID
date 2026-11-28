@@ -105,8 +105,20 @@ if (! function_exists('folder')) {
         if ($hasil) {
             if ($htaccess !== null) {
                 $htaccessPath = $folderPath . DIRECTORY_SEPARATOR . '.htaccess';
-                if (! File::exists($htaccessPath)) {
-                    File::put($htaccessPath, config('installer.' . $htaccess));
+                $isiHtaccess  = (string) config('installer.' . $htaccess);
+
+                // Tulis .htaccess bila belum ada, atau perbarui bila masih memakai
+                // template lama yang lemah (lihat premium#7008). htaccess4 (rfm)
+                // sengaja mengizinkan PHP sehingga tidak ikut ditandai.
+                $perluTulis = ! File::exists($htaccessPath);
+
+                if (! $perluTulis && $htaccess !== 'htaccess4') {
+                    $isiLama    = (string) File::get($htaccessPath);
+                    $perluTulis = ! str_contains($isiLama, 'premium#7008');
+                }
+
+                if ($perluTulis) {
+                    File::put($htaccessPath, $isiHtaccess);
                 }
             }
 
@@ -128,6 +140,59 @@ if (! function_exists('folder')) {
         }
 
         return false;
+    }
+}
+
+if (! function_exists('docroot_sudah_benar')) {
+    /**
+     * Memeriksa apakah document root web server sudah diarahkan ke folder public.
+     *
+     * Setelah index.php pindah ke public/, aplikasi tetap dapat berjalan
+     * meskipun document root masih menunjuk root proyek — pengguna cukup
+     * membuka https://desa.id/public/ atau memasang forwarder .htaccess.
+     * Aplikasi jalan, tetapi .env, composer.json, dan desa/config/database.php
+     * TETAP dapat diakses dari internet, sehingga tidak ada manfaat keamanan
+     * yang diperoleh.
+     *
+     * Dua pemeriksaan yang saling melengkapi:
+     *
+     * 1. DOCUMENT_ROOT dibandingkan dengan public_path(). Ini pemeriksaan yang
+     *    paling langsung dan berlaku untuk semua web server. Dipakai bila
+     *    tersedia dan dapat di-resolve.
+     * 2. SCRIPT_NAME yang masih mengandung /public/. Menangkap mode forwarder
+     *    pada Apache, dan `php -S -t public` saat pengembangan.
+     *
+     * Pemeriksaan kedua saja tidak cukup: pada nginx dengan document root di
+     * root proyek dan `try_files`, SCRIPT_NAME dapat tetap bernilai /index.php
+     * sehingga peringatan justru tidak muncul pada skenario paling berbahaya.
+     *
+     * Pada CLI tidak ada document root web, jadi dianggap benar.
+     */
+    function docroot_sudah_benar(): bool
+    {
+        if (PHP_SAPI === 'cli') {
+            return true;
+        }
+
+        $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '';
+
+        if ($documentRoot !== '') {
+            $docroot = realpath($documentRoot);
+            $public  = realpath(public_path());
+
+            // Hanya menyimpulkan bila keduanya benar-benar dapat di-resolve.
+            if ($docroot !== false && $public !== false) {
+                return rtrim($docroot, DIRECTORY_SEPARATOR) === rtrim($public, DIRECTORY_SEPARATOR);
+            }
+        }
+
+        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+
+        if ($scriptName === '') {
+            return true;
+        }
+
+        return ! str_contains($scriptName, '/public/');
     }
 }
 

@@ -36,6 +36,7 @@
  */
 
 use App\Http\Transformers\PetaTransformer;
+use App\Models\Menu;
 use App\Repositories\PetaRepository;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -44,6 +45,12 @@ class Peta extends Api_Controller
 {
     public function index()
     {
+        // Samakan kontrol akses dengan halaman web (fweb/Peta): endpoint hanya
+        // melayani permintaan bila menu "peta" dipublikasikan oleh admin desa.
+        if (! Menu::active()->whereLink('peta')->exists()) {
+            return show_404();
+        }
+
         $data = (new PetaRepository())->list();
 
         json($this->fractal([collect($data)->prepend(1, 'id')], new PetaTransformer(), 'peta'));

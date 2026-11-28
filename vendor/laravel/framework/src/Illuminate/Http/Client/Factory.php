@@ -156,6 +156,27 @@ class Factory
     }
 
     /**
+     * Execute a callback while requests are created without global middleware or global options.
+     *
+     * @template TReturn
+     *
+     * @param  (\Closure(): TReturn)  $callback
+     * @return TReturn
+     */
+    public function withoutGlobalConfiguration(Closure $callback)
+    {
+        [$middleware, $options] = [$this->globalMiddleware, $this->globalOptions];
+
+        [$this->globalMiddleware, $this->globalOptions] = [[], []];
+
+        try {
+            return $callback();
+        } finally {
+            [$this->globalMiddleware, $this->globalOptions] = [$middleware, $options];
+        }
+    }
+
+    /**
      * Create a new response instance for use during stubbing.
      *
      * @param  \Psr\Http\Message\StreamInterface|array|string|resource|null  $body
@@ -175,7 +196,7 @@ class Factory
      *
      * @param  \Psr\Http\Message\StreamInterface|array|string|resource|null  $body
      * @param  int  $status
-     * @param  array<string, mixed>  $headers
+     * @param  array  $headers
      * @return \GuzzleHttp\Psr7\Response
      *
      * @throws \InvalidArgumentException
@@ -192,8 +213,8 @@ class Factory
             $headers['Content-Type'] = 'application/json';
         }
 
-        if (! is_string($body) && ! is_null($body) && ! is_resource($body) && ! $body instanceof StreamInterface) {
-            throw new InvalidArgumentException('HTTP fake response body must be a string, array, resource, Psr\Http\Message\StreamInterface, or null.');
+        if (! is_string($body) && ! is_null($body) && (! is_resource($body) || get_resource_type($body) !== 'stream') && ! $body instanceof StreamInterface) {
+            throw new InvalidArgumentException('HTTP fake response body must be a string, array, stream resource, Psr\Http\Message\StreamInterface, or null.');
         }
 
         return new Psr7Response($status, static::normalizeResponseHeaders($headers), $body);
@@ -266,7 +287,7 @@ class Factory
      *
      * @param  \Psr\Http\Message\StreamInterface|array|string|resource|null  $body
      * @param  int  $status
-     * @param  array<string, mixed>  $headers
+     * @param  array  $headers
      * @return \Illuminate\Http\Client\RequestException
      */
     public static function failedRequest($body = null, $status = 200, $headers = [])

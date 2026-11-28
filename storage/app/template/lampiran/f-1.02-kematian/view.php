@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <style type="text/css">
-    <?php include(FCPATH . "/assets/css/dukcapil.css"); ?>
+    <?php include(PUBLICPATH . "/assets/css/dukcapil.css"); ?>
 </style>
 
 <page orientation="portrait" format="210x330" style="font-size: 7pt">

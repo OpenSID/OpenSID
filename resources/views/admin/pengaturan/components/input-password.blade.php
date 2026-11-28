@@ -1,14 +1,14 @@
 <div class="input-group input-group-sm">
     <input
         type="password"
-        class="form-control {{ $value['class'] }}"
-        id="input_{{ $value['key'] }}"
+        class="form-control {{ $value['class'] ?? '' }}"
+        id="{{ $value['key'] }}"
         name="{{ $value['key'] }}"
         data-password="{{ !empty($value['default']) ? 1 : 0 }}"
         value=""
-        {{ $value['readonly'] }}
-        {{ $value['disabled'] }}
-        {!! $value['attributes'] !!}
+        {{ $value['readonly'] ?? '' }}
+        {{ $value['disabled'] ?? '' }}
+        {!! $value['attributes'] ?? '' !!}
     >
 
     <div class="input-group-addon show-hide-password" style="cursor:pointer;">

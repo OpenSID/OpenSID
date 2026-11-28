@@ -80,4 +80,26 @@ class DokumenHidupTest extends BaseTestCase
             'nama' => 'Perdes Uji Coverage',
         ]);
     }
+
+    #[Test]
+    public function scope_get_dokumen_mengembalikan_null_jika_tidak_ditemukan(): void
+    {
+        // ID yang tidak ada di database
+        $hasil = DokumenHidup::getDokumen(999999);
+
+        $this->assertNull($hasil);
+    }
+
+    #[Test]
+    public function scope_get_dokumen_mengembalikan_data_jika_ditemukan(): void
+    {
+        $dokumen = DokumenHidupFactory::new()->create(['id_pend' => null]);
+
+        $hasil = DokumenHidup::getDokumen($dokumen->id);
+
+        $this->assertNotNull($hasil);
+        $this->assertSame($dokumen->id, $hasil['id']);
+        $this->assertSame($dokumen->nama, $hasil['nama']);
+        $this->assertIsArray($hasil['attr']);
+    }
 }

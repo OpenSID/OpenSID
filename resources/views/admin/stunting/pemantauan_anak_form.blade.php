@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tanggal Periksa</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control input-sm tgl_sekarang required" name="tanggal_periksa" placeholder="Masukkan tanggal periksa" value="{{ old('tanggal_periksa', $anak->tanggal_periksa ?? date('Y-m-d')) }}" />
+                            <input type="text" class="form-control input-sm tgl_sekarang required" name="tanggal_periksa" placeholder="Masukkan tanggal periksa" value="{{ old('tanggal_periksa', isset($anak->tanggal_periksa) && $anak->tanggal_periksa ? date('d-m-Y', strtotime($anak->tanggal_periksa)) : date('d-m-Y')) }}" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -76,7 +76,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Umur</label>
                         <div class="col-sm-9">
-                            <input disabled type="text" class="form-control input-sm" name="umur" value="{{ $umur->y . ' tahun ' . $umur->m . ' bulan' }}" />
+                            <input disabled type="text" class="form-control input-sm" name="umur" value="{{ $umur ? "{$umur->y} tahun {$umur->m} bulan" : 'Pilih KIA terlebih dahulu' }}" />
                         </div>
                     </div>
                     <div class="form-group" style="display: none">
@@ -508,33 +508,36 @@
             }
         });
 
-        $('select[name="id_kia"]').on('change', function() {
-            var id = this.value;
+        function hitungUmur() {
+            var id = $('select[name="id_kia"]').val();
+            if (!id) return;
+            var tanggalPeriksa = $('input[name="tanggal_periksa"]').val();
             $.ajax({
                 method: 'POST',
                 url: "{{ ci_route('stunting.formAnak') }}",
                 data: {
                     kia: id,
+                    tanggal_periksa: tanggalPeriksa,
                 },
                 dataType: 'json',
                 success: function(data) {
                     if (data == null) {
                         console.log('a');
                     } else {
-                        if (data.m >= 6) {
+                        var totalBulan = data.y * 12 + data.m;
+                        if (totalBulan >= 6) {
                             $('#pemberian_imunisasi_campak').prop("disabled", false);
                         } else {
                             $('#pemberian_imunisasi_campak').prop("disabled", true);
                         }
-                        if (data.y == 1) {
-                            $('input[name=umur_bulan]').val(12 + data.m);
-                        } else {
-                            $('input[name=umur_bulan]').val(data.m);
-                        }
+                        $('input[name=umur_bulan]').val(totalBulan);
                         $('input[name=umur]').val(data.y + ' tahun ' + data.m + ' bulan');
                     }
                 }
             });
-        });
+        }
+
+        $('select[name="id_kia"]').on('change', hitungUmur);
+        $('input[name="tanggal_periksa"]').on('dp.change change', hitungUmur);
     </script>
 @endpush

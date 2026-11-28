@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\Builder as BaseQueryBuilder;
+use Illuminate\Database\Query\JoinClause;
 use Yajra\DataTables\Exceptions\Exception;
 
 /**
@@ -291,7 +293,7 @@ class EloquentDataTable extends QueryDataTable
                 default:
                     throw new Exception('Relation '.$model::class.' is not yet supported.');
             }
-            $this->performJoin($table, $foreign, $other);
+            $this->performRelationJoin($model, $table, $tableAlias, $foreign, $other);
             $lastQuery = $model->getQuery();
         }
 
@@ -321,14 +323,112 @@ class EloquentDataTable extends QueryDataTable
      */
     protected function performJoin($table, $foreign, $other, $type = 'left'): void
     {
+        if ($this->isJoined($table)) {
+            return;
+        }
+
+        $this->getBaseQueryBuilder()->join($table, $foreign, '=', $other, $type);
+    }
+
+    /**
+     * Perform the join of a relation, keeping the constraints it was declared with.
+     *
+     * A relation like hasOne(Translation::class)->where('lang', 'en') would
+     * otherwise be joined on its keys only, returning the rows of every language.
+     *
+     * @param  Relation<Model, Model, mixed>  $relation
+     */
+    protected function performRelationJoin(
+        Relation $relation,
+        string $table,
+        string $alias,
+        string $foreign,
+        string $other,
+        string $type = 'left'
+    ): void {
+        $constraints = $this->getRelationConstraints($relation, $alias);
+
+        if (! $constraints) {
+            $this->performJoin($table, $foreign, $other, $type);
+
+            return;
+        }
+
+        if ($this->isJoined($table)) {
+            return;
+        }
+
+        $this->getBaseQueryBuilder()->join(
+            $table,
+            function (JoinClause $join) use ($foreign, $other, $constraints) {
+                $join->on($foreign, '=', $other)
+                    ->mergeWheres($constraints['wheres'], $constraints['bindings']);
+            },
+            null,
+            null,
+            $type
+        );
+    }
+
+    /**
+     * Get the constraints a relation was declared with, if any.
+     *
+     * The relation is resolved without constraints, so its query only holds the
+     * conditions of the relation itself and not the ones on the related keys.
+     *
+     * @param  Relation<Model, Model, mixed>  $relation
+     * @return array{wheres: array, bindings: array}|null
+     */
+    protected function getRelationConstraints(Relation $relation, string $alias): ?array
+    {
+        $query = $relation->getQuery()->getQuery();
+
+        if (empty($query->wheres)) {
+            return null;
+        }
+
+        return [
+            'wheres' => $this->qualifyRelationWheres($query->wheres, $alias),
+            'bindings' => $query->getRawBindings()['where'] ?? [],
+        ];
+    }
+
+    /**
+     * Qualify the columns of the given wheres with the table of the joined relation.
+     */
+    protected function qualifyRelationWheres(array $wheres, string $alias): array
+    {
+        foreach ($wheres as $index => $where) {
+            $nested = $where['query'] ?? null;
+
+            if (($where['type'] ?? null) === 'Nested' && $nested instanceof BaseQueryBuilder) {
+                $nested = clone $nested;
+                $nested->wheres = $this->qualifyRelationWheres($nested->wheres, $alias);
+                $wheres[$index]['query'] = $nested;
+
+                continue;
+            }
+
+            $column = $where['column'] ?? null;
+
+            if (is_string($column) && ! str_contains($column, '.')) {
+                $wheres[$index]['column'] = $alias.'.'.$column;
+            }
+        }
+
+        return $wheres;
+    }
+
+    /**
+     * Check if the given table is already joined.
+     */
+    protected function isJoined(string $table): bool
+    {
         $joins = [];
-        $builder = $this->getBaseQueryBuilder();
-        foreach ($builder->joins ?? [] as $join) {
+        foreach ($this->getBaseQueryBuilder()->joins ?? [] as $join) {
             $joins[] = $join->table;
         }
 
-        if (! in_array($table, $joins)) {
-            $this->getBaseQueryBuilder()->join($table, $foreign, '=', $other, $type);
-        }
+        return in_array($table, $joins);
     }
 }

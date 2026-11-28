@@ -32,6 +32,4 @@
 <script>
 const BASE_URL = '{{ base_url() }}';
 const SITE_URL = '{{ site_url() }}';
-const setting = @json(setting());
-const config = @json(identitas());
 </script>

@@ -105,6 +105,15 @@
     
     <script>
     document.addEventListener("DOMContentLoaded", function () {
+        const setting = {
+            max_zoom_peta: @json(setting('max_zoom_peta')),
+            min_zoom_peta: @json(setting('min_zoom_peta')),
+            mapbox_key: @json(setting('mapbox_key')),
+            jenis_peta: @json(setting('jenis_peta')),
+            tampil_luas_peta: @json(setting('tampil_luas_peta')),
+            default_tampil_peta_wilayah: @json(setting('default_tampil_peta_wilayah')),
+            default_tampil_peta_infrastruktur: @json(setting('default_tampil_peta_infrastruktur')),
+        };
         window.openModal = function(title, url) {
             fetch(url)
                 .then(response => response.text())

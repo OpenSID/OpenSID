@@ -23,11 +23,27 @@ trait RequestAwareTrait
     {
         $this->request = $request;
 
+        $this->overrideGlobals($request);
+
+        return $this;
+    }
+
+    /**
+     * Sinkronkan global arrays dengan request object via overrideGlobals().
+     * PHP_SELF milik SAPI tidak termasuk ServerBag request sehingga
+     * nilai awal proses dipulihkan agar konsisten dengan proses boot.
+     */
+    protected function overrideGlobals(Request $request): void
+    {
+        static $phpSelf = ['value' => $_SERVER['PHP_SELF'] ?? null];
+
         if (method_exists($request, 'overrideGlobals')) {
             $request->overrideGlobals();
         }
 
-        return $this;
+        if ($phpSelf['value'] !== null) {
+            $_SERVER['PHP_SELF'] = $phpSelf['value'];
+        }
     }
 
     /**

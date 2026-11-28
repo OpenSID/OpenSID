@@ -5,12 +5,17 @@ namespace Spatie\LaravelPackageTools\Concerns\PackageServiceProvider;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 trait ProcessMigrations
 {
+    private array $existingAppMigrations = [];
+
     protected function bootPackageMigrations(): self
     {
+        $this->existingAppMigrations = [];
+
         if ($this->package->discoversMigrations) {
             $this->discoverPackageMigrations();
 
@@ -90,7 +95,7 @@ trait ProcessMigrations
             $migrationFileName = Str::of($migrationFileName)->afterLast('/');
         }
 
-        foreach (glob(database_path("{$migrationsPath}*.php")) as $filename) {
+        foreach ($this->existingAppMigrationsIn($migrationsPath) as $filename) {
             if ((substr($filename, -$len) === $migrationFileName . '.php')) {
                 return $filename;
             }
@@ -100,6 +105,11 @@ trait ProcessMigrations
         $formattedFileName = Str::of($migrationFileName)->snake()->finish('.php');
 
         return database_path("{$migrationsPath}{$timestamp}_{$formattedFileName}");
+    }
+
+    private function existingAppMigrationsIn(string $migrationsPath): array
+    {
+        return $this->existingAppMigrations[$migrationsPath] ??= (File::glob(database_path("{$migrationsPath}*.php")) ?: []);
     }
 
     private static function stripTimestampPrefix(string $filename): string

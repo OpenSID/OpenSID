@@ -201,6 +201,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LogSurat> $logSurat
  * @property-read int|null $log_surat_count
  * @property-read \App\Models\LogPenduduk|null $log_latest
+ * @property-read \App\Models\LogPenduduk|null $logMati
  * @property-read \App\Models\PendudukMandiri|null $mandiri
  * @property-read \App\Models\PendudukMap|null $map
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
@@ -1184,6 +1185,17 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     }
 
     /**
+     * Get the death log (kode_peristiwa = MATI).
+     *
+     * @return HasOne
+     */
+    public function logMati()
+    {
+        return $this->hasOne(LogPenduduk::class, 'id_pend')
+            ->where('kode_peristiwa', PeristiwaPendudukEnum::MATI->value);
+    }
+
+    /**
      * Getter wajib ktp attribute.
      */
     public function getWajibKTPAttribute(): string
@@ -1373,7 +1385,17 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
     public function getUmurAttribute()
     {
-        return usia($this->tanggallahir, null, '%y');
+        $tanggalAkhir = null;
+
+        if ($this->status_dasar == StatusDasarEnum::MATI) {
+            $logMati = $this->logMati;
+
+            if ($logMati && $logMati->tgl_peristiwa) {
+                $tanggalAkhir = $logMati->tgl_peristiwa->format('Y-m-d');
+            }
+        }
+
+        return usia($this->tanggallahir, $tanggalAkhir, '%y');
     }
 
     public function getAlamatWilayahAttribute()

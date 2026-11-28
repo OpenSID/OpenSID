@@ -183,8 +183,12 @@ class Ekspor
         $this->db->query('SET FOREIGN_KEY_CHECKS=0');
         $tables = $this->db->query('SHOW TABLES');
         if ($tables) {
+            $drops = [];
             while ($row = $tables->fetch_row()) {
-                $this->db->query('DROP TABLE IF EXISTS `' . $this->db->real_escape_string($row[0]) . '`');
+                $drops[] = '`' . $this->db->real_escape_string($row[0]) . '`';
+            }
+            if ($drops !== []) {
+                $this->db->query('DROP TABLE IF EXISTS ' . implode(',', $drops));
             }
         }
 

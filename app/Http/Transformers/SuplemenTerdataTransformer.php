@@ -44,12 +44,14 @@ class SuplemenTerdataTransformer extends TransformerAbstract
 {
     public function transform($suplemenTerdata): array
     {
+        // Tempat/tanggal lahir tidak dikirim: data pribadi (komponen verifikasi identitas/KYC)
+        // dan alamat dibatasi hanya RT/RW + dusun, tanpa nama jalan/nomor rumah (alamat KK/alamat_sekarang).
+        // Lihat issue #6999.
         return [
             'id'           => (string) $suplemenTerdata->id,
             'terdata_nama' => $suplemenTerdata->terdata_nama,
-            'tempatlahir'  => $suplemenTerdata->tempatlahir,
             'sex'          => JenisKelaminEnum::valueOf($suplemenTerdata->sex),
-            'alamat'       => strtoupper($suplemenTerdata->alamat . ' ' . 'RT/RW ' . $suplemenTerdata->rt . '/' . $suplemenTerdata->rw . ' - ' . setting('sebutan_dusun') . ' ' . $suplemenTerdata->dusun),
+            'alamat'       => strtoupper('RT/RW ' . $suplemenTerdata->rt . '/' . $suplemenTerdata->rw . ' - ' . setting('sebutan_dusun') . ' ' . $suplemenTerdata->dusun),
         ];
     }
 }

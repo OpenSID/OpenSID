@@ -1,5 +1,96 @@
 <?php
 
+/*
+ * Blok .htaccess untuk menolak eksekusi skrip di folder yang dapat ditulis
+ * (unggahan, arsip, storage, assets). Dipakai ulang oleh htaccess1..3 di bawah
+ * dan oleh perintah `php artisan opensid:amankan-folder-upload` untuk menimpa
+ * berkas .htaccess lama pada instalasi existing.
+ *
+ * Perbaikan untuk https://github.com/OpenSID/premium/issues/7008:
+ * - pola FilesMatch case-insensitive `(?i)` + daftar ekstensi skrip lengkap;
+ * - sintaks Apache 2.4 (`Require all denied`) dengan fallback Apache 2.2;
+ * - handler & mesin PHP dimatikan (RemoveHandler/RemoveType/SetHandler/engine off)
+ *   sehingga file tetap inert walau di-include/symlink/alias;
+ * - aturan berbasis mod_rewrite agar tetap berlaku di LiteSpeed/OpenLiteSpeed.
+ *
+ * Catatan: .htaccess DIABAIKAN sepenuhnya oleh Nginx. Proteksi setara di level
+ * web server didokumentasikan di dokumentasi/PANDUAN_PROTEKSI_EKSEKUSI_UPLOAD.md.
+ */
+$blokirEksekusiSkrip = <<<'APACHE'
+    # --- OpenSID: tolak eksekusi skrip di folder ini (premium#7008) ---
+    <FilesMatch "(?i)\.(php[0-9]*|phtml|phtm|phps|phpt|phar|pht|pgif|phpjpeg|inc|hphp|ctp|module)\.?$">
+        <IfModule mod_authz_core.c>
+            Require all denied
+        </IfModule>
+        <IfModule !mod_authz_core.c>
+            Order allow,deny
+            Deny from all
+        </IfModule>
+    </FilesMatch>
+
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+        RewriteRule "(?i)\.(php[0-9]*|phtml|phtm|phps|phpt|phar|pht|pgif|phpjpeg|inc|hphp|ctp|module)\.?$" - [F,L]
+    </IfModule>
+
+    <IfModule mod_mime.c>
+        RemoveHandler .php .php3 .php4 .php5 .php7 .php8 .phtml .phtm .phar .pht .phps .phpt .cgi .pl .py
+        RemoveType .php .php3 .php4 .php5 .php7 .php8 .phtml .phtm .phar .pht .phps .phpt .cgi .pl .py
+    </IfModule>
+
+    <FilesMatch "(?i)\.(php[0-9]*|phtml|phtm|phps|phpt|phar|pht)\.?$">
+        SetHandler None
+    </FilesMatch>
+
+    <IfModule mod_php.c>
+        php_flag engine off
+    </IfModule>
+    <IfModule mod_php5.c>
+        php_flag engine off
+    </IfModule>
+    <IfModule mod_php7.c>
+        php_flag engine off
+    </IfModule>
+    <IfModule mod_php8.c>
+        php_flag engine off
+    </IfModule>
+
+    Options -ExecCGI -Indexes
+    APACHE;
+
+/*
+ * Tambahan untuk folder arsip/dokumen (htaccess2): tolak juga akses langsung ke
+ * berkas dokumen/gambar agar diserahkan lewat controller yang memeriksa hak akses.
+ */
+$blokirBerkasArsip = <<<'APACHE'
+    # --- OpenSID: tolak akses langsung berkas arsip/dokumen (premium#7008) ---
+    <FilesMatch "(?i)\.(rtf|pdf|jpe?g|png|gif|webp|bmp|tiff?)$">
+        <IfModule mod_authz_core.c>
+            Require all denied
+        </IfModule>
+        <IfModule !mod_authz_core.c>
+            Order allow,deny
+            Deny from all
+        </IfModule>
+    </FilesMatch>
+    APACHE;
+
+/*
+ * Tambahan untuk storage/assets (htaccess3): ekstensi skrip non-PHP lain.
+ */
+$blokirSkripLain = <<<'APACHE'
+    # --- OpenSID: tolak eksekusi skrip non-PHP (premium#7008) ---
+    <FilesMatch "(?i)\.(pl|py|jsp|asp|aspx|cgi|sh|bash|htm|shtml|xhtml)$">
+        <IfModule mod_authz_core.c>
+            Require all denied
+        </IfModule>
+        <IfModule !mod_authz_core.c>
+            Order allow,deny
+            Deny from all
+        </IfModule>
+    </FilesMatch>
+    APACHE;
+
 return [
     'desa' => [
         'desa/anjungan/menu/'             => [0775, 'htaccess1'],
@@ -8,9 +99,9 @@ return [
         'desa/cache/'                     => [0775],
         'desa/config/'                    => [0775],
         'desa/logo/'                      => [0775, 'htaccess1'],
-        'desa/pengaturan/'                => [0775],
-        'desa/pengaturan/siteman/'        => [0775],
-        'desa/pengaturan/siteman/images/' => [0775],
+        'desa/pengaturan/'                => [0775, 'htaccess1'],
+        'desa/pengaturan/siteman/'        => [0775, 'htaccess1'],
+        'desa/pengaturan/siteman/images/' => [0775, 'htaccess1'],
         'desa/template-surat/lampiran/'   => [0775],
         'desa/themes/'                    => [0775],
         'desa/upload/'                    => [0775, 'htaccess1'],
@@ -54,9 +145,7 @@ return [
         'storage/app/public/'           => [0775, 'htaccess3'],
         'storage/debugbar/'             => [0775, 'htaccess3'],
         'backup_inkremental/'           => [0775, 'htaccess3'],
-        'assets/'                       => [0755, 'htaccess3'],
-        'rfm/'                          => [0755, 'htaccess4'],
-        'rfm/config/'                   => [0755, 'htaccess4'],
+        'public/assets/'                => [0755, 'htaccess3'],
     ],
 
     'config' => <<<'EOS'
@@ -90,26 +179,11 @@ return [
         </html>
         EOS,
 
-    'htaccess1' => <<<'EOS'
-        <FilesMatch "\.(php|php\.|php3?|phtml|phpjpeg)$">
-            Order Allow,Deny
-            Deny from all
-        </FilesMatch>
-        EOS,
+    'htaccess1' => $blokirEksekusiSkrip . "\n",
 
-    'htaccess2' => <<<'EOS'
-        <FilesMatch "\.(rtf|pdf|jpe?g|png|php|php\.|php3?|phtml|phpjpeg)$">
-            Order Allow,Deny
-            Deny from all
-        </FilesMatch>
-        EOS,
+    'htaccess2' => $blokirBerkasArsip . "\n\n" . $blokirEksekusiSkrip . "\n",
 
-    'htaccess3' => <<<'EOS'
-        <FilesMatch "\.(php|php\.|php3?|phtml|phpjpeg|pl|py|jsp|asp|htm|shtml|sh|cgi)$">
-            order allow,deny
-            deny from all
-        </FilesMatch>
-        EOS,
+    'htaccess3' => $blokirSkripLain . "\n\n" . $blokirEksekusiSkrip . "\n",
 
     'htaccess4' => <<<'EOS'
         <FilesMatch "\.(php)$">

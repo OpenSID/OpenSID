@@ -37,12 +37,7 @@
 
 namespace App\Services\SpamDetection;
 
-use App\Services\SpamDetection\Analyzers\CapsLockAnalyzer;
-use App\Services\SpamDetection\Analyzers\ContactPatternAnalyzer;
-use App\Services\SpamDetection\Analyzers\ExcessiveSymbolsAnalyzer;
-use App\Services\SpamDetection\Analyzers\KeywordAnalyzer;
-use App\Services\SpamDetection\Analyzers\PhoneNumberAnalyzer;
-use App\Services\SpamDetection\Analyzers\RepeatingContentAnalyzer;
+use App\Services\SpamDetection\Analyzers\MlSpamAnalyzer;
 use App\Services\SpamDetection\Analyzers\UrlAnalyzer;
 use App\Services\SpamDetection\Contracts\ContentAnalyzerInterface;
 use App\Services\SpamDetection\DTOs\AnalyzerResult;
@@ -148,13 +143,10 @@ class SpamDetectionService
     public static function defaultAnalyzers(): array
     {
         return [
-            new KeywordAnalyzer(),
-            new PhoneNumberAnalyzer(),
+            // Deteksi pola URL mencurigakan + whitelist domain resmi (.go.id, dll)
             new UrlAnalyzer(),
-            new RepeatingContentAnalyzer(),
-            new CapsLockAnalyzer(),
-            new ExcessiveSymbolsAnalyzer(),
-            new ContactPatternAnalyzer(),
+            // Deteksi berbasis model ML lokal (pengganti analyzer keyword/phone/caps/symbols/repeating/contact)
+            new MlSpamAnalyzer(),
         ];
     }
 }

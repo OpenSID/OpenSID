@@ -1,0 +1,55 @@
+# ============================================================================
+# FORWARDER .htaccess — HANYA untuk hosting yang document root-nya terkunci
+# ============================================================================
+#
+#  ⚠️  PERINGATAN: INI KOMPROMI, BUKAN SOLUSI PENUH.
+#
+#  Berkas ini membuat aplikasi BERJALAN pada hosting yang tidak mengizinkan
+#  perubahan document root (umumnya cPanel domain utama atau instalasi di
+#  subfolder). Tetapi berkas sensitif seperti .env, composer.json, dan
+#  desa/config/database.php TETAP berada dalam jangkauan web server —
+#  artinya Anda TIDAK mendapat manfaat keamanan dari struktur public/.
+#
+#  Gunakan hanya jika benar-benar tidak ada pilihan lain.
+#
+# ============================================================================
+#
+#  URUTAN PILIHAN, DARI TERBAIK KE TERBURUK:
+#
+#  1. VPS / server sendiri
+#     Ubah DocumentRoot di vhost menjadi /path/ke/opensid/public,
+#     lalu restart web server. Ini pilihan terbaik.
+#
+#  2. cPanel addon domain / subdomain
+#     Saat membuat domain, isi Document Root dengan opensid/public.
+#     Sama amannya dengan pilihan 1.
+#
+#  3. cPanel domain utama — susun ulang folder
+#     /home/user/opensid/       ← seluruh aplikasi, di luar jangkauan
+#     /home/user/public_html/   ← isi folder public/ dipindah ke sini
+#     Sesuaikan path require di public_html/index.php menjadi ../opensid/.
+#
+#  4. Forwarder ini  ← pilihan terakhir, keamanan TIDAK meningkat
+#
+# ============================================================================
+#
+#  CARA PAKAI:
+#     cp htaccess-forwarder.apache.txt .htaccess
+#
+#  Anda TETAP perlu memasang public/.htaccess:
+#     cp htaccess-public.apache.txt public/.htaccess
+#
+#  Setelah terpasang, halaman Info Sistem akan menampilkan peringatan bahwa
+#  document root belum diarahkan ke folder public. Peringatan itu benar dan
+#  memang sengaja — jangan diabaikan, dan upayakan pindah ke pilihan 1-3.
+#
+# ============================================================================
+
+RewriteEngine On
+
+# Jangan teruskan request yang sudah menunjuk ke dalam public/
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ public/$1 [L]
+
+# Matikan directory listing
+Options -Indexes

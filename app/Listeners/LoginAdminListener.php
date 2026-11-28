@@ -37,6 +37,8 @@
 
 namespace App\Listeners;
 
+use App\Models\User;
+use App\Services\MasaAktifAkunService;
 use Exception;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Container\Container;
@@ -71,8 +73,15 @@ class LoginAdminListener
         // hapus sesi halaman yang dituju setelah login.
         $this->app['ci']->session->unset_userdata('intended');
 
-        $login->user->last_login = Carbon::now();
-        $login->user->save();
+        // Jangan perbarui last_login bila akun dormant agar cek masa aktif
+        // saat login tetap dapat menonaktifkannya dengan pesan yang konsisten.
+        $pengguna  = $login->user;
+        $isDormant = $pengguna instanceof User && (new MasaAktifAkunService())->isDormant($pengguna);
+
+        if (! $isDormant) {
+            $login->user->last_login = Carbon::now();
+            $login->user->save();
+        }
 
         $ip    = $this->app['ci']->input->ip_address();
         $geoip = geoip_info($ip);

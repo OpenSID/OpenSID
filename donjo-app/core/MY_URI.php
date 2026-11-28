@@ -37,9 +37,7 @@ class MY_URI extends CI_URI
     {
         $this->request = $request;
 
-        if (method_exists($request, 'overrideGlobals')) {
-            $request->overrideGlobals();
-        }
+        $this->overrideGlobals($request);
 
         $this->uri_string = '';
         $this->segments = [];

@@ -1,164 +1,23 @@
 {!! form_open_multipart(ci_route('notif.update_setting'), 'class="form-group" id="main_setting"') !!}
     <div class="modal-body">
         @foreach ($list_setting as $key => $pengaturan)
-            @if ($pengaturan->jenis != 'upload' && $pengaturan->kategori == $kategori_pengaturan)
+            @if ($pengaturan->kategori == $kategori_pengaturan)
                 @php
-                    $attrData = json_decode($pengaturan->attribute, true) ?? [];
-                    $requiredIf = $attrData['required_if'] ?? null;
-                    $requiredIfAttr = $requiredIf ? "data-required-if='" . json_encode($requiredIf) . "'" : '';
+                    $value = $pengaturan->toComponentData();
+                    $componentView = view()->exists("admin.pengaturan.components.{$value['type']}")
+                        ? "admin.pengaturan.components.{$value['type']}"
+                        : "admin.pengaturan.components.input-text";
+                    $requiredIfAttr = !empty($value['required_if']) ? "data-required-if='" . json_encode($value['required_if']) . "'" : '';
                 @endphp
                 <div class="form-group" id="form_{{ $pengaturan->key }}" {!! $requiredIfAttr !!}>
-                    <label>{{ SebutanDesa($pengaturan->judul) }}</label>
-                    @if ($pengaturan->jenis == 'option' || $pengaturan->jenis == 'boolean')
-                        <select {!! $pengaturan->attribute
-                            ? str_replace('class="', 'class="form-control input-sm select2 required ', $pengaturan->attribute)
-                            : 'class="form-control input-sm select2 required"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}">
-                            @foreach ($pengaturan->option as $key => $value)
-                                <option value="{{ $key }}" @selected($pengaturan->value == $key)>{{ $value }}</option>
-                            @endforeach
-                        </select>
-                    @elseif ($pengaturan->jenis == 'multiple-option')
-                        <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]"
-                            multiple="multiple">
-                            @foreach ($pengaturan->option as $val)
-                                <option value="{{ $val }}"
-                                    {{ in_array($val, json_decode($pengaturan->value) ?? []) ? 'selected' : '' }}>
-                                    {{ $val }}
-                                </option>
-                            @endforeach
-                        </select>
-                    @elseif ($pengaturan->jenis == 'multiple-option-array')
-                        <input type="hidden" name="{{ $pengaturan->key }}" value="[]">
-                        <select class="form-control input-sm select2" name="{{ $pengaturan->key }}[]" multiple="multiple">
-                            @foreach ($pengaturan->option as $key => $val)
-                                <option value="{{ $val['id'] }}"
-                                    {{ in_array($val['id'], json_decode($pengaturan->value) ?? []) ? 'selected' : '' }}>
-                                    {{ SebutanDesa($val['nama']) }}
-                                </option>
-                            @endforeach
-                        </select>
-                    @elseif ($pengaturan->jenis == 'datetime')
-                        <div class="input-group input-group-sm date">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input {!! $pengaturan->attribute
-                                ? str_replace('class="', 'class="form-control input-sm pull-right tgl_1 ', $pengaturan->attribute)
-                                : 'class="form-control input-sm pull-right tgl_1"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}"
-                                type="text" value="{{ $pengaturan->value }}">
-                        </div>
-                    @elseif ($pengaturan->jenis == 'unggah')
-                        <div class="input-group">
-                            <input type="text" class="form-control input-sm" id="file_path"
-                                name="{{ $pengaturan->key }}">
-                            <input type="file" class="hidden" id="file" name="{{ $pengaturan->key }}">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-info btn-sm" id="file_browser"><i
-                                        class="fa fa-search"></i>&nbsp;</button>
-                                <a href="{{ ci_route('kehadiran.latar-kehadiran') }}" class="btn btn-danger btn-sm"
-                                    title="Lihat Gambar" target="_blank"><i class="fa fa-eye"></i>&nbsp;</a>
-                            </span>
-                        </div>
-                    @elseif ($pengaturan->jenis == 'referensi')
-                        {{-- prettier-ignore-start --}}
-                        <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
-                            @php
-                                $modelData   = $pengaturan->option;
-                                $whereClause = $attrData['where'] ?? [];
-                                $groupConfig = $modelData['group'] ?? null;
-
-                                $query = (new $modelData['model']())
-                                    ->select([$modelData['value'], $modelData['label']]);
-
-                                foreach ($whereClause as $column => $val) {
-                                    $query->where($column, $val);
-                                }
-
-                                if ($groupConfig) {
-                                    $query->addSelect($groupConfig['column'])->orderBy($groupConfig['column']);
-                                }
-
-                                $referensiData = $query->get()->toArray();
-                                $selectedValue = json_decode($pengaturan->value, 1);
-                            @endphp
-                            <option value="-" @selected(empty($selectedValue))>Tanpa Referensi (kosong)</option>
-                            @if ($groupConfig)
-                                @foreach ($groupConfig['labels'] as $groupValue => $groupLabel)
-                                    @php
-                                        $groupItems = array_filter($referensiData, fn ($v) => (string) $v[$groupConfig['column']] === (string) $groupValue);
-                                    @endphp
-                                    @if (count($groupItems))
-                                        <optgroup label="{{ SebutanDesa($groupLabel) }}">
-                                            @foreach ($groupItems as $val)
-                                                <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue ?? []))>{{ $val[$modelData['label']] }}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    @endif
-                                @endforeach
-                            @else
-                                @foreach ($referensiData as $val)
-                                    <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue ?? []))>{{ $val[$modelData['label']] }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                        {{-- prettier-ignore-end --}}
-                        {{-- New --}}
-                    @elseif (in_array($pengaturan->jenis, [
-                            'input-text',
-                            'input-number',
-                            'input-url',
-                            'select-simbol',
-                            'select-boolean',
-                            'select-array',
-                            'select-multiple-array',
-                            'textarea',
-                        ]))
-                        {{-- Rebuild structur setting --}}
-                        @php
-                            $value = [];
-                            $attributes = json_decode($pengaturan->attribute, true);
-                            $attributes = is_array($attributes) ? $attributes : [];
-                            if (isset($attributes['class'])) {
-                                $value['class'] = $attributes['class'];
-                                unset($attributes['class']);
-                            }
-
-                            // Exclude required_if dari HTML attributes
-                            unset($attributes['required_if']);
-
-                            $value['type'] = $pengaturan->jenis;
-                            $value['default'] = $pengaturan->value;
-                            $value['readonly'] = strpos($pengaturan->attribute, 'readonly') ? 'readonly' : '';
-                            $value['disabled'] = strpos($pengaturan->attribute, 'disabled') ? 'disabled' : '';
-                            $value['attributes'] = implode(
-                                ' ',
-                                array_map(
-                                    function ($key, $val) {
-                                        return $key . '="' . $val . '"';
-                                    },
-                                    array_keys($attributes),
-                                    $attributes,
-                                ),
-                            );
-                            $value['key'] = $pengaturan->key;
-                            $value['option'] = $pengaturan->option;
-                        @endphp
-                        @includeIf("admin.pengaturan.components.{$value['type']}", ['value' => $value])
-                        {{-- End New --}}
-                    @else
-                        <input {!! $pengaturan->attribute
-                            ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute)
-                            : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}"
-                            {{ strpos($pengaturan->attribute, 'type=') ? '' : 'type="text"' }}
-                            value="{{ $pengaturan->value }}" />
-                    @endif
+                    <label for="{{ $pengaturan->key }}">{{ SebutanDesa($pengaturan->judul) }}</label>
+                    @include($componentView, ['value' => $value, 'pengaturan' => $pengaturan])
                     <p class="help-block">
                         <code>{!! SebutanDesa($pengaturan->keterangan) !!}</code>
                     </p>
                 </div>
             @endif
         @endforeach
-
     </div>
     <div class="modal-footer">
         {!! batal() !!}
@@ -193,6 +52,39 @@
                     }
                 }
             });
+
+            // Toggle visibilitas password untuk komponen input-password.
+            $(document)
+                .off('click', '.show-hide-password')
+                .on('click', '.show-hide-password', function() {
+                    const $toggle = $(this);
+                    const $input = $toggle.closest('.input-group').find('input').first();
+                    const $icon = $toggle.find('i').first();
+
+                    if ($input.length === 0) {
+                        return;
+                    }
+
+                    const isPassword = $input.attr('type') === 'password';
+                    $input.attr('type', isPassword ? 'text' : 'password');
+
+                    if ($icon.length > 0) {
+                        $icon.toggleClass('fa-eye', isPassword);
+                        $icon.toggleClass('fa-eye-slash', !isPassword);
+                    }
+                })
+                .off('click', '[id^="file_browser"]')
+                .on('click', '[id^="file_browser"]', function() {
+                    const $group = $(this).closest('.input-group');
+                    $group.find('input[type="file"]').trigger('click');
+                })
+                .off('change', '.input-group input[type="file"]')
+                .on('change', '.input-group input[type="file"]', function() {
+                    const $fileInput = $(this);
+                    const $group = $fileInput.closest('.input-group');
+                    const fileName = $fileInput.val().split('\\').pop();
+                    $group.find('input[type="text"]').val(fileName);
+                });
 
             // Generic handler untuk required_if
             $('[data-required-if]').each(function() {

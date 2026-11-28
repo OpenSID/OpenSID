@@ -96,7 +96,10 @@ class VerifyNotification extends Notification
     protected function verificationUrl(mixed $notifiable)
     {
         $hash      = sha1((string) ($for = $this->via == 'mail' ? $notifiable->getEmailForVerification() : $notifiable->getTelegramForVerification()));
-        $signature = hash_hmac('sha256', (string) $for, config_item('encryption_key'));
+        // get_app_key() (rahasia unik per desa), bukan config_item('encryption_key')
+        // yang nilainya masih default publik 'lumbungkomunitas' -- harus sama dengan
+        // yang dipakai VerificationNotificationController::verifyEmail()/verifyTelegram().
+        $signature = hash_hmac('sha256', (string) $for, get_app_key());
         $expire    = strtotime(date('Y-m-d H:i:s') . ' +60 minutes');
         $via       = $this->via === 'mail' ? 'email' : 'telegram';
 

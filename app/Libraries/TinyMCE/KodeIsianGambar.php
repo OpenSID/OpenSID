@@ -59,12 +59,12 @@ class KodeIsianGambar
     public function setKodeIsianGambar(): array
     {
         // Logo Surat
-        $file_logo = $this->request['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(identitas()->logo, false, true);
+        $file_logo = $this->request['logo_garuda'] ? PUBLICPATH . LOGO_GARUDA : gambar_desa(identitas()->logo, false, true);
         $this->replacePlaceholder('[logo]', $file_logo, 90, 90);
 
         // Logo BSrE
         if (setting('tte') == 1) {
-            $this->replacePlaceholder('[logo_bsre]', FCPATH . LOGO_BSRE, height: 50 );
+            $this->replacePlaceholder('[logo_bsre]', PUBLICPATH . LOGO_BSRE, height: 50 );
         }
 
         // Foto Penduduk

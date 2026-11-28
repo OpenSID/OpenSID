@@ -172,7 +172,7 @@ class Surat extends Mandiri_Controller
         }
 
         $data = [
-            'menu_surat_mandiri'   => FormatSurat::kunci(0)->mandiri()->get(),
+            'menu_surat_mandiri'   => FormatSurat::kunci(0)->siapCetak()->mandiri()->get(),
             'menu_dokumen_mandiri' => SyaratSurat::get()->toArray(),
             'permohonan'           => $permohonan,
             'form_action'          => $form_action,
@@ -396,8 +396,15 @@ class Surat extends Mandiri_Controller
         // Panggil 1 penduduk berdasarkan datanya sendiri
         $data['penduduk'] = [$data['periksa']['penduduk']];
 
-        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
-        $data['surat']              = FormatSurat::where('url_surat', $url)->first()->toArray();
+        $data['surat_terakhir'] = LogSurat::lastNomerSurat($url);
+
+        $surat = FormatSurat::where('url_surat', $url)->first();
+
+        if (! $surat) {
+            show_404();
+        }
+
+        $data['surat']              = $surat->toArray();
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
         $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);

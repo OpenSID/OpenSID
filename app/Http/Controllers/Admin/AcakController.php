@@ -132,7 +132,7 @@ class AcakController extends Controller
      */
     private function luncurkanJob(int $id): void
     {
-        $index  = escapeshellarg(FCPATH . 'index.php');
+        $index  = escapeshellarg(PUBLICPATH . 'index.php');
         $binary = escapeshellarg(php_cli_binary());
 
         shell_exec('nohup ' . $binary . " -f {$index} job acak_data " . $id . ' > /dev/null 2>&1 &');

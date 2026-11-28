@@ -37,7 +37,9 @@
 
 use App\Http\Transformers\SuplemenTerdataTransformer;
 use App\Http\Transformers\SuplemenTransformer;
+use App\Models\Menu;
 use App\Models\Penduduk;
+use App\Models\Suplemen as SuplemenModel;
 use App\Repositories\SuplemenRepository;
 use App\Repositories\SuplemenTerdataRepository;
 
@@ -68,16 +70,40 @@ class Suplemen extends Api_Controller
         return show_404();
     }
 
-    public function list()
+    public function index()
     {
         $suplemen = new SuplemenRepository();
         json($this->fractal($suplemen->list(), new SuplemenTransformer(), 'suplemen'));
     }
 
-    public function anggota($suplemen)
+    public function detail($slug)
     {
-        $suplemenTerdata = new SuplemenTerdataRepository($suplemen);
+        $suplemen = SuplemenModel::whereSlug($slug)->first();
+        if ($suplemen === null || ! $this->menuSuplemenAktif($suplemen->id)) {
+            return show_404();
+        }
+
+        json($this->fractal($suplemen, new SuplemenTransformer(), 'suplemen'));
+    }
+
+    public function anggota($slug)
+    {
+        $suplemen = SuplemenModel::whereSlug($slug)->first();
+        if ($suplemen === null || ! $this->menuSuplemenAktif($suplemen->id)) {
+            return show_404();
+        }
+
+        $suplemenTerdata = new SuplemenTerdataRepository($suplemen->id);
         json($this->fractal($suplemenTerdata->list(), new SuplemenTerdataTransformer(), 'suplemen_terdata'));
+    }
+
+    /**
+     * Data suplemen hanya boleh tersaji ke publik bila menunya dipublikasikan admin
+     * (menu aktif) — samakan dengan Suplemen@detail pada sisi web. Lihat issue #6999.
+     */
+    private function menuSuplemenAktif($idSuplemen): bool
+    {
+        return Menu::active()->whereLink("data-suplemen/{$idSuplemen}")->exists();
     }
 
     private function get_pilihan_penduduk($cari, $terdata)

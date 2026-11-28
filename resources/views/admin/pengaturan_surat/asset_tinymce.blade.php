@@ -101,7 +101,7 @@ src: url($url) format('truetype');
                 toolbar2: "responsivefilemanager | salintemplate | kodeisian " + (!pratinjau ? " | insertpagebreak" : ""),
                 image_advtab: true,
                 external_plugins: {
-                    "filemanager": "{{ base_url('rfm/plugin.min.js') }}"
+                    "filemanager": "{{ filemanager_asset('plugin.min.js') }}"
                 },
                 skin: 'tinymce-5',
                 relative_urls: false,
@@ -238,7 +238,7 @@ src: url($url) format('truetype');
                 toolbar2: "responsivefilemanager | salintemplate | kodeisian " + (!pratinjau ? " | insertpagebreak" : ""),
                 image_advtab: true,
                 external_plugins: {
-                    "filemanager": "{{ base_url('rfm/plugin.min.js') }}"
+                    "filemanager": "{{ filemanager_asset('plugin.min.js') }}"
                 },
                 skin: 'tinymce-5',
                 relative_urls: false,

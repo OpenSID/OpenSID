@@ -1,8 +1,9 @@
 <textarea
-    class="form-control input-sm {!! $value['class'] !!} required"
-    id="input_{{ $value['key'] }}"
+    class="form-control input-sm {!! $value['class'] ?? '' !!}"
+    id="{{ $value['key'] }}"
     name="{{ $value['key'] }}"
     rows="5"
-    {{ $value['readonly'] }}
-    {!! $value['attributes'] !!}
+    {{ $value['readonly'] ?? '' }}
+    {{ $value['disabled'] ?? '' }}
+    {!! $value['attributes'] ?? '' !!}
 >{{ $value['default'] }}</textarea>
