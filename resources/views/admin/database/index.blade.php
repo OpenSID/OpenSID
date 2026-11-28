@@ -23,6 +23,9 @@
             @if (can('u'))
                 <li {!! $act_tab == 2 ? 'class="active"' : '' !!}><a href="{{ ci_route('database.migrasi_cri') }}">Migrasi DB</a></li>
             @endif
+            @if (super_admin())
+                <li {!! $act_tab == 3 ? 'class="active"' : '' !!}><a href="{{ route('database.bersih_folder') }}"><i class="fa fa-trash-o"></i> Bersihkan Folder Desa</a></li>
+            @endif
         </ul>
         <div class="tab-content">
             @include($content)

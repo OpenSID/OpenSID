@@ -1,0 +1,78 @@
+{
+    "name": "yajra/laravel-datatables-buttons",
+    "description": "Laravel DataTables Buttons Plugin.",
+    "keywords": [
+        "laravel",
+        "datatables",
+        "buttons",
+        "jquery"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arjay Angeles",
+            "email": "aqangeles@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "yajra/laravel-datatables-oracle": "^13",
+        "yajra/laravel-datatables-html": "^13",
+        "illuminate/console": "^13"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.1",
+        "orchestra/testbench": "^11",
+        "laravel/pint": "^1.21",
+        "rector/rector": "^2.0",
+        "maatwebsite/excel": "^3.1.64",
+        "openspout/openspout": "^4.24 || ^5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yajra\\DataTables\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yajra\\DataTables\\Buttons\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "13.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Yajra\\DataTables\\ButtonsServiceProvider"
+            ]
+        }
+    },
+    "suggest": {
+        "yajra/laravel-datatables-export": "Exporting of dataTables (excel, csv and PDF) via livewire and queue worker.",
+        "maatwebsite/excel": "Exporting of dataTables (excel, csv and PDF) using maatwebsite package.",
+        "openspout/openspout": "Faster streaming export of dataTables (Excel/CSV) when using the fast export option (OpenSpout ^4.24 or ^5.3).",
+        "dompdf/dompdf": "Allows exporting of dataTable to PDF using the DomPDF.",
+        "barryvdh/laravel-snappy": "Allows exporting of dataTable to PDF using the print view."
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "pint": "./vendor/bin/pint",
+        "rector": "./vendor/bin/rector",
+        "stan": "./vendor/bin/phpstan analyse --memory-limit=2G --ansi --no-progress --no-interaction --configuration=phpstan.neon.dist",
+        "pr": [
+            "@pint",
+            "@rector",
+            "@stan",
+            "@test"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/yajra"
+        }
+    ]
+}

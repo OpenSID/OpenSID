@@ -134,9 +134,7 @@
                                                 @foreach ($main['pengunjung'] as $i => $data)
                                                     <tr>
                                                         <td class="text-center">{{ $i + 1 }}</td>
-                                                        <td class="text-center">
-                                                            {{ $main['lblx'] == 'Bulan' ? getBulan($data['Tanggal']) . ' ' . date('Y') : tgl_indo2($data['Tanggal']) }}
-                                                        </td>
+                                                        <td class="text-center">{{ labelPengunjung($main['lblx'], $data['Tanggal']) }}</td>
                                                         <td class="text-center">{{ ribuan($data['Jumlah']) }}</td>
                                                     </tr>
                                                 @endforeach
@@ -178,7 +176,7 @@
                         text: 'Tahun'
                     },
                     categories: [
-                        <?php foreach ($main['pengunjung']as $data): ?>['{{ $main['lblx'] == 'Bulan' ? getBulan($data['Tanggal']) . ' ' . date('Y') : tgl_indo2($data['Tanggal']) }}', ],
+                        <?php foreach ($main['pengunjung']as $data): ?>['{{ labelPengunjung($main['lblx'], $data['Tanggal']) }}', ],
                         <?php endforeach; ?>
                     ]
                 },
@@ -204,7 +202,7 @@
                     shadow: 1,
                     border: 1,
                     data: [
-                        <?php foreach ($main['pengunjung']as $data): ?>['{{ $main['lblx'] == 'Bulan' ? getBulan($data['Tanggal']) . ' ' . date('Y') : tgl_indo2($data['Tanggal']) }}', {{ $data['Jumlah'] }}],
+                        <?php foreach ($main['pengunjung']as $data): ?>['{{ labelPengunjung($main['lblx'], $data['Tanggal']) }}', {{ $data['Jumlah'] }}],
                         <?php endforeach; ?>
                     ]
                 }]

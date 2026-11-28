@@ -975,7 +975,7 @@ abstract class DataTableAbstract implements DataTable
         // Only allow characters valid in unquoted SQL identifiers: alphanumeric, underscore, dot, dash, and space.
         // Allows `>` for JSON path operators (e.g. column->path) handled by the query grammar.
         // This is a defense-in-depth measure to prevent SQL injection via columns[N][data] or columns[N][name].
-        if (! preg_match('/^[a-zA-Z0-9_.\-> ]+$/', (string) $validated)) {
+        if (! preg_match('/^[\p{L}\p{N}_.\-> ]+$/u', (string) $validated)) {
             throw new InvalidArgumentException("Invalid column name: \"$column\".");
         }
 

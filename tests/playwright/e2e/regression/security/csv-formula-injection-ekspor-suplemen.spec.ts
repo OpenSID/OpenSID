@@ -4,7 +4,7 @@ import { test, expect } from '../../../utils/regressionTest';
 import path from 'path';
 const fs = require('fs');
 const os = require('os');
-const XLSX = require('xlsx');
+const XLSX = require('@e965/xlsx');
 
 
 test.describe('Bug/error: CSV/Formula Injection pada Ekspor Excel Data Terdata #6081', () => {
@@ -28,16 +28,16 @@ test.describe('Bug/error: CSV/Formula Injection pada Ekspor Excel Data Terdata #
 
     // Unduh file ekspor
     const [download] = await Promise.all([
-        page.waitForEvent('download'),
-        page.goto(`/suplemen/ekspor`),
+      page.waitForEvent('download'),
+      page.goto(`/suplemen/ekspor`),
     ]);
     const filePath = path.join(`suplemen.xlsx`);
     await download.saveAs(filePath);
 
     // 6. Baca file XLSX dan cek nilainya
     const workbook = XLSX.readFile(filePath);
-    const sheet    = workbook.Sheets[workbook.SheetNames[0]];
-    const rows     = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
     // Cari nilai keterangan di kolom F (index 5), lewati baris header
     const keteranganValues = rows.slice(1).map(row => String(row[5] ?? ''));

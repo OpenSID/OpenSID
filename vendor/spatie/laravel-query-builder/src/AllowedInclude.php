@@ -13,10 +13,16 @@ use Spatie\QueryBuilder\Includes\IncludedRelationship;
 use Spatie\QueryBuilder\Includes\IncludedSum;
 use Spatie\QueryBuilder\Includes\IncludeInterface;
 
+/**
+ * @consistent-constructor
+ */
 class AllowedInclude
 {
     protected string $internalName;
 
+    /**
+     * @param  IncludeInterface<*>  $includeClass
+     */
     public function __construct(
         protected string $name,
         protected IncludeInterface $includeClass,
@@ -27,7 +33,7 @@ class AllowedInclude
 
     public static function relationship(string $name, ?string $internalName = null): static
     {
-        return new static($name, new IncludedRelationship(), $internalName);
+        return new static($name, new IncludedRelationship, $internalName);
     }
 
     public static function count(string $name, ?string $internalName = null, ?Closure $constraint = null): static
@@ -65,11 +71,17 @@ class AllowedInclude
         return new static($name, new IncludedCallback($callback), $internalName);
     }
 
+    /**
+     * @param  IncludeInterface<*>  $includeClass
+     */
     public static function custom(string $name, IncludeInterface $includeClass, ?string $internalName = null): static
     {
         return new static($name, $includeClass, $internalName);
     }
 
+    /**
+     * @param  QueryBuilder<*>  $query
+     */
     public function include(QueryBuilder $query): void
     {
         if ($this->includeClass instanceof IncludedRelationship) {

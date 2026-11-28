@@ -1,0 +1,63 @@
+services:
+    laravel.test:
+        build:
+            context: ..
+            dockerfile: bin/docker/8.4/Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: opensid-premium
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-80}:80'
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+            IGNITION_LOCAL_SITES_PATH: '${PWD}'
+            DB_HOST: '${DB_HOST:-mariadb}'
+            DB_PORT: '${DB_PORT:-3306}'
+            DB_DATABASE: '${DB_DATABASE:-opensid-laravel-test}'
+            DB_USERNAME: '${DB_USERNAME:-opensid}'
+            DB_PASSWORD: '${DB_PASSWORD:-password}'
+            SUPERVISOR_PHP_COMMAND: '/usr/bin/php -d variables_order=EGPCS artisan serve --host=0.0.0.0 --port=80'
+        volumes:
+            - '..:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            - mariadb
+    mariadb:
+        image: 'mariadb:11'
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD:-password}'
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_DATABASE: '${DB_DATABASE:-opensid-laravel-test}'
+            MYSQL_USER: '${DB_USERNAME:-opensid}'
+            MYSQL_PASSWORD: '${DB_PASSWORD:-password}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            MYSQL_EXTRA_OPTIONS: '${MYSQL_EXTRA_OPTIONS:-}'
+        volumes:
+            - 'sail-mariadb:/var/lib/mysql'
+            - './docker/mariadb/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+            - '../tests/playwright/storage/database/schema.sql:/schema.sql:ro'
+        networks:
+            - sail
+        healthcheck:
+            test:
+                - CMD
+                - mariadb-admin
+                - ping
+                - '-p${DB_PASSWORD}'
+            retries: 3
+            timeout: 5s
+networks:
+    sail:
+        driver: bridge
+volumes:
+    sail-mariadb:
+        driver: local

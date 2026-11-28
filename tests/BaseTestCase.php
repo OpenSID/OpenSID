@@ -37,6 +37,14 @@
 
 namespace Tests;
 
+use App\Attributes\AdminModul;
+
 abstract class BaseTestCase extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->beforeApplicationDestroyed(fn () => AdminModul::flush());
+    }
 }

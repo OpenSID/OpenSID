@@ -44,32 +44,86 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Sistem
 {
+    public static function daftarEkstensiWajib(): array
+    {
+        return [
+            'pdo_mysql'      => ['name' => 'PDO MySQL extension'],
+            'curl'           => ['name' => 'Curl extension'],
+            'exif'           => ['name' => 'Exif extension'],
+            'fileinfo'       => ['name' => 'Fileinfo extension'],
+            'gd'             => ['name' => 'GD extension'],
+            'iconv'          => ['name' => 'Iconv extension'],
+            'json'           => ['name' => 'Json extension'],
+            'mbstring'       => ['name' => 'Mbstring extension'],
+            'mysqli'         => ['name' => 'Mysqli extension'],
+            'mysqlnd'        => ['name' => 'Mysqlnd extension'],
+            'tidy'           => ['name' => 'Tidy extension'],
+            'zip'            => ['name' => 'Zip extension'],
+        ];
+    }
+
+    public static function syaratPhp(): array
+    {
+        return [
+            'name' => 'PHP Version',
+            'min'  => '8.4.0',
+            'max'  => '8.4.99',
+        ];
+    }
+
+    public static function syaratDatabase(): array
+    {
+        return [
+            'mysql' => [
+                'name' => 'MySQL',
+                'min'  => '5.6.0',
+                'max'  => '8.4.0',
+            ],
+            'mariadb' => [
+                'name' => 'MariaDB',
+                'min'  => '10.3.0',
+                'max'  => '11.99.99',
+            ],
+        ];
+    }
+
     public static function cekEkstensi(): array
     {
-        $e = get_loaded_extensions();
-        usort($e, 'strcasecmp');
-        $ekstensi = array_flip($e);
-        $e        = unserialize(EKSTENSI_WAJIB);
-        usort($e, 'strcasecmp');
-        $ekstensi_wajib = array_flip($e);
-        $lengkap        = true;
+        $loaded = array_flip(get_loaded_extensions());
+        $devEnv = ! app()->environment('production');
+        $daftar = self::daftarEkstensiWajib();
 
-        foreach (array_keys($ekstensi_wajib) as $key) {
-            $ekstensi_wajib[$key] = isset($ekstensi[$key]);
-            $lengkap              = $lengkap && $ekstensi_wajib[$key];
+        $ekstensi = [];
+        $lengkap  = true;
+
+        foreach ($daftar as $key => $meta) {
+            $devOptional = ! empty($meta['dev_optional']);
+            $isLoaded    = isset($loaded[$key]);
+            $devBypassed = $devOptional && $devEnv && ! $isLoaded;
+
+            $ekstensi[$key] = [
+                'loaded'       => $isLoaded,
+                'dev_optional' => $devOptional,
+                'dev_bypassed' => $devBypassed,
+            ];
+
+            if (! $isLoaded && ! $devBypassed) {
+                $lengkap = false;
+            }
         }
-        $data['lengkap']  = $lengkap;
-        $data['ekstensi'] = $ekstensi_wajib;
 
-        return $data;
+        return [
+            'lengkap'  => $lengkap,
+            'ekstensi' => $ekstensi,
+        ];
     }
 
     public static function cekKebutuhanSistem(): array
     {
         $requirements = [
             ['key' => 'max_execution_time', 'condition' => '>=', 'required' => '300'],
-            ['key' => 'post_max_size', 'condition' => '>=', 'required' => '10M'],
-            ['key' => 'upload_max_filesize', 'condition' => '>=', 'required' => '20M'],
+            ['key' => 'post_max_size', 'condition' => '>=', 'required' => '256M'],
+            ['key' => 'upload_max_filesize', 'condition' => '>=', 'required' => '256M'],
             ['key' => 'memory_limit', 'condition' => '>=', 'required' => '512M'],
         ];
 
@@ -112,15 +166,19 @@ class Sistem
 
     public static function cekPhp(): array
     {
+        $syarat = self::syaratPhp();
+
         return [
-            'versi' => PHP_VERSION,
-            'cek'   => version_compare(PHP_VERSION, '8.4', '>='),
+            'versi'  => PHP_VERSION,
+            'cek'    => version_compare(PHP_VERSION, $syarat['min'], '>=') && version_compare(PHP_VERSION, $syarat['max'], '<='),
+            'syarat' => $syarat,
         ];
     }
 
     public static function cekDatabase(): array
     {
-        $versi = DB::select('SELECT VERSION() AS version')[0]->version;
+        $versi  = DB::select('SELECT VERSION() AS version')[0]->version;
+        $syarat = self::syaratDatabase();
 
         // MariaDB menyertakan string "MariaDB" di dalam versi-nya
         $isMariaDB = stripos($versi, 'mariadb') !== false;
@@ -129,16 +187,17 @@ class Sistem
         $versiAngka = preg_replace('/[^0-9.].*/', '', $versi);
 
         if ($isMariaDB) {
-            $cek = version_compare($versiAngka, minMariaDBVersion, '>=')
-                && version_compare($versiAngka, maxMariaDBVersion, '<');
+            $cek = version_compare($versiAngka, $syarat['mariadb']['min'], '>=')
+                && version_compare($versiAngka, $syarat['mariadb']['max'], '<');
         } else {
-            $cek = version_compare($versiAngka, minMySqlVersion, '>=')
-                && version_compare($versiAngka, maxMySqlVersion, '<');
+            $cek = version_compare($versiAngka, $syarat['mysql']['min'], '>=')
+                && version_compare($versiAngka, $syarat['mysql']['max'], '<');
         }
 
         return [
-            'versi' => $versi,
-            'cek'   => $cek,
+            'versi'  => $versi,
+            'cek'    => $cek,
+            'syarat' => $syarat,
         ];
     }
 

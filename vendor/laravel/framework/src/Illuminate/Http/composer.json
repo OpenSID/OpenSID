@@ -20,6 +20,7 @@
         "guzzlehttp/guzzle": "^7.8.2",
         "guzzlehttp/uri-template": "^1.0",
         "illuminate/collections": "^13.0",
+        "illuminate/conditionable": "^13.0",
         "illuminate/macroable": "^13.0",
         "illuminate/session": "^13.0",
         "illuminate/support": "^13.0",
@@ -29,7 +30,8 @@
         "symfony/polyfill-php85": "^1.36"
     },
     "suggest": {
-        "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image()."
+        "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image().",
+        "illuminate/image": "Required to retrieve uploaded files as images (^13.0)."
     },
     "minimum-stability": "dev",
     "autoload": {

@@ -12,16 +12,19 @@ function route_exists($name)
     return isset(Route::$compiled['names'][$name]);
 }
 
-/**
- * Returns the framework singleton
- *
- * (Alias of &get_instance() CodeIgniter function)
- *
- * @return object
- */
-function &ci()
-{
-    return get_instance();
+
+if (! function_exists('ci')) {
+    /**
+     * Returns the framework singleton
+     *
+     * (Alias of &get_instance() CodeIgniter function)
+     *
+     * @return \CI_Controller
+     */
+    function &ci()
+    {
+        return get_instance();
+    }
 }
 
 /**

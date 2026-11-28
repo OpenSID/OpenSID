@@ -5,6 +5,7 @@ namespace Illuminate\Queue;
 use Illuminate\Contracts\Queue\ClearableQueue;
 use Illuminate\Contracts\Queue\Queue as QueueContract;
 use Illuminate\Contracts\Redis\Factory as Redis;
+use Illuminate\Queue\Attributes\Delay;
 use Illuminate\Queue\Jobs\InspectedJob;
 use Illuminate\Queue\Jobs\RedisJob;
 use Illuminate\Redis\Connections\Connection;
@@ -271,8 +272,10 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
 
         $bulk = function () use ($jobs, $data, $queue) {
             foreach ((array) $jobs as $job) {
-                if (isset($job->delay)) {
-                    $this->later($job->delay, $job, $data, $queue);
+                $delay = is_object($job) ? $this->getAttributeValue($job, Delay::class, 'delay') : null;
+
+                if (isset($delay)) {
+                    $this->later($delay, $job, $data, $queue);
                 } else {
                     $this->push($job, $data, $queue);
                 }
@@ -396,11 +399,11 @@ class RedisQueue extends Queue implements QueueContract, ClearableQueue
     {
         $this->migrate($prefixed = $this->getQueueRedisKey($queue));
 
-        $block = ! $this->secondaryQueueHadJob && $index == 0;
+        $block = ! $this->secondaryQueueHadJob && $index === 0;
 
         [$job, $reserved] = $this->retrieveNextJob($prefixed, $block);
 
-        if ($index == 0) {
+        if ($index === 0) {
             $this->secondaryQueueHadJob = false;
         }
 

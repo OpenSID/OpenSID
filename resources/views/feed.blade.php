@@ -23,7 +23,7 @@
                 <guid>{{ site_url('artikel/' . buat_slug((array) $key)) }}</guid>
                 <pubDate>{{ date(DATE_RSS, strtotime($key->tgl_upload)) }}</pubDate>
                 <category>
-                    <![CDATA[{{ $key->kategori }}]]>
+                    <![CDATA[{{ $key->kategori_nama }}]]>
                 </category>
                 <description>
                     <![CDATA[

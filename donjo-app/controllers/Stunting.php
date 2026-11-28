@@ -543,7 +543,7 @@ class Stunting extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $hamil = KIA::find($this->input->get('kia'));
 
-            return json($hamil->anak_id ?? 0);
+            return json($hamil->anak_id ?? '0');
         }
 
         if ($id) {
@@ -935,7 +935,7 @@ class Stunting extends Admin_Controller
                     $aksi = '';
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url' => 'stunting/deletePaud/' . $row->id_sasaran_paud,
+                        'url' => 'stunting/formPaud/' . $row->id_sasaran_paud,
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [

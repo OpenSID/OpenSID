@@ -596,11 +596,9 @@ abstract class AbstractSchemaManager
         $tableNames = [];
 
         foreach ($this->createSchemaProvider()->getAllTableNames() as $tableName) {
-            if (! $this->testTableName($tableName, $filter)) {
-                continue;
+            if ($this->testTableName($tableName, $filter)) {
+                $tableNames[] = $tableName;
             }
-
-            $tableNames[] = $tableName;
         }
 
         return $tableNames;
@@ -619,11 +617,9 @@ abstract class AbstractSchemaManager
         $tables = [];
 
         foreach ($this->createSchemaProvider()->getAllTables() as $table) {
-            if (! $this->testTableName($table->getObjectName(), $filter)) {
-                continue;
+            if ($this->testTableName($table->getObjectName(), $filter)) {
+                $tables[] = $table;
             }
-
-            $tables[] = $table;
         }
 
         return $tables;

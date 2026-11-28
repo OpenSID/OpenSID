@@ -38,6 +38,7 @@
 use App\Models\InventarisTanah;
 use App\Models\MutasiInventarisTanah;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -152,7 +153,7 @@ class Inventaris_tanah_mutasi extends Admin_Controller
         }
 
         $data['tip']        = 2;
-        $data['controller'] = str_replace_last('_mutasi', '', $this->controller);
+        $data['controller'] = Str::replaceLast('_mutasi', '', $this->controller);
 
         view('admin.inventaris.tanah.mutasi.form', $data);
     }

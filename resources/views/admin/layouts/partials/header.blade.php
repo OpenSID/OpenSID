@@ -1,5 +1,5 @@
 <header class="main-header">
-    <a href="{{ ci_route('/') }}" target="_blank" class="logo">
+    <a href="{{ url('/') }}" target="_blank" class="logo">
         <span class="logo-mini"><b>SID</b></span>
         <span class="logo-lg"><b>OpenSID</b></span>
     </a>
@@ -15,7 +15,7 @@
 
                 @if ($notif['langganan'] && can('b', 'layanan-pelanggan'))
                     <li>
-                        <a href="{{ ci_route('pelanggan') }}">
+                        <a href="{{ url('pelanggan') }}">
                             <i class="fa {{ $notif['langganan']['ikon'] }} fa-sm" title="Status Langganan {{ $notif['langganan']['masa'] }} hari" style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;
                             @if ($notif['langganan']['status'] > 2)
                                 <span class="badge" id="b_langganan"></span>
@@ -51,7 +51,7 @@
                                 <ul class="menu">
                                     @forelse ($notif_list as $notifikasi)
                                         <li style="padding: 8px 10px; border-bottom: 1px solid #f4f4f4; @if($notifikasi->unread()) background-color: #f0f8ff; @endif; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;" data-notif-id="{{ $notifikasi->id }}">
-                                            <a href="{{ ci_route('notifikasi.show', $notifikasi->id) }}" style="padding: 0; display: block; flex: 1; min-width: 0;">
+                                            <a href="{{ url("notifikasi/show/{$notifikasi->id}") }}" style="padding: 0; display: block; flex: 1; min-width: 0;">
                                                 <div style="font-size: 12px;">
                                                     @if (!empty($notifikasi->data['icon']))
                                                         <i class="fa {{ $notifikasi->data['icon'] }}" style="margin-right: 5px; color: {{ $notifikasi->data['color'] ?? '#666' }};"></i>
@@ -84,7 +84,7 @@
                                 Tidak ada notifikasi untuk ditampilkan
                             </li>
                         @endif
-                        <li class="footer"><a href="{{ ci_route('notifikasi') }}">Selengkapnya...</a></li>
+                        <li class="footer"><a href="{{ url('notifikasi') }}">Selengkapnya...</a></li>
                     </ul>
                 </li>
 
@@ -103,10 +103,10 @@
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="<?= site_url('pengguna') ?>" class="btn bg-maroon btn-sm">Profil</a>
+                                <a href="<?= url('pengguna') ?>" class="btn bg-maroon btn-sm">Profil</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{ ci_route('siteman.logout') }}" class="btn bg-maroon btn-sm">Keluar</a>
+                                <a href="{{ url('siteman/logout') }}" class="btn bg-maroon btn-sm">Keluar</a>
                             </div>
                         </li>
                     </ul>
@@ -142,7 +142,7 @@ $(document).ready(function() {
         var $item = $(`[data-notif-id="${notifId}"]`);
 
         $.ajax({
-            url: `{{ ci_route("notifikasi.mark-as-read") }}/${notifId}`,
+            url: `{{ url("notifikasi/mark-as-read") }}/${notifId}`,
             method: 'get',
             dataType: 'json',
             success: function(response) {

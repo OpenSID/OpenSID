@@ -109,7 +109,7 @@ class SecureCloudUrl implements ValidationRule
      */
     public function getTrustedDomains(): array
     {
-        $appDomain = strtolower(parse_url(APP_URL)['host'] ?? '');
+        $appDomain = strtolower((string) parse_url(APP_URL, PHP_URL_HOST));
 
         return [
             // App domain sendiri
@@ -161,8 +161,7 @@ class SecureCloudUrl implements ValidationRule
 
     private function isCurrentAppDomain(string $host): bool
     {
-        $appUrl    = APP_URL;
-        $appDomain = strtolower(parse_url($appUrl)['host'] ?? '');
+        $appDomain = strtolower((string) parse_url(APP_URL, PHP_URL_HOST));
 
         return $host === $appDomain || str_ends_with($host, ".{$appDomain}");
     }

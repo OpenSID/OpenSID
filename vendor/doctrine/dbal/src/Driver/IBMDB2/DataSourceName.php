@@ -68,11 +68,9 @@ final class DataSourceName
                 'password' => 'PWD',
             ] as $dbalParam => $dsnParam
         ) {
-            if (! isset($params[$dbalParam])) {
-                continue;
+            if (isset($params[$dbalParam])) {
+                $dsnParams[$dsnParam] = $params[$dbalParam];
             }
-
-            $dsnParams[$dsnParam] = $params[$dbalParam];
         }
 
         return self::fromArray($dsnParams);

@@ -35,38 +35,71 @@ Tanpa strategi yang jelas, akan terjadi:
 ```php
 // app/Providers/RouteServiceProvider.php
 
-$this->routes(function () {
-    // 1. Laravel routes dicek terlebih dahulu
-    Route::middleware('web')
-        ->group(base_path('routes/web.php'));
-    
-    Route::middleware('api')
-        ->prefix('api')
-        ->group(base_path('routes/api.php'));
-    
-    // 2. Jika tidak match Laravel route, gunakan CodeIgniter
-    if (!$this->isMatchedRouteLaravel()) {
-        Route::middleware('codeigniter')
-            ->group(base_path('bootstrap/routeCodeIgniter.php'));
-    }
-});
+public function boot(): void
+{
+    RateLimiter::for('api', function (Request $request) {
+        return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+    });
+
+    $this->routes(function () {
+        // 1. API Routes (Tier 1)
+        Route::middleware('api')
+            ->prefix('api')
+            ->group(base_path('routes/api.php'));
+        
+        // 2. Web Routes (Tier 2)
+        Route::middleware('web')
+            ->group(base_path('routes/web.php'));
+        
+        // 3. CodeIgniter Routes (Tier 3) - via request rebinding
+        $this->app->rebinding('request', function ($app, $request) {
+            if ($this->isMatchedRouteLaravel($request)) {
+                return;
+            }
+
+            if (! $this->isMatchedRouteCodeIgniter()) {
+                return;
+            }
+
+            $this->extendControllerDispatcher();
+            $this->extendRedirectInstance();
+            $this->extendViewInstance();
+            $this->configureConfig();
+
+            global $URI, $RTR, $OUT, $SEC, $IN;
+
+            $URI->setRequest($request);
+            $RTR->setRequest($request);
+            $OUT->setRequest($request);
+            $SEC->setRequest($request);
+            $IN->setRequest($request);
+
+            Route::middleware('codeigniter')
+                ->group(base_path('bootstrap/routeCodeIgniter.php'));
+        });
+    });
+}
 ```
 
 ### Route Matching Logic
 
 ```php
-protected function isMatchedRouteLaravel(): bool
+protected function isMatchedRouteLaravel(Request $request): bool
 {
-    return rescue(fn () => (bool) Route::getRoutes()
-        ->match($this->app->make('request')), false);
+    return rescue(fn () => (bool) Route::getRoutes()->match($request), false);
 }
 ```
 
 **Process:**
-1. Request masuk → Laravel routing dicek dulu
-2. Jika match → Execute Laravel controller
-3. Jika tidak match → Lanjut ke CodeIgniter routing
-4. CodeIgniter routing menggunakan `RouteBuilder` dari `opensid/router`
+1. Request masuk → Laravel routing dicek dulu (Tier 1: API, Tier 2: Web)
+2. Jika match → Execute Laravel controller, **tidak ada rebinding**
+3. Jika tidak match → `$app->rebinding('request')` triggered (dua kali per request oleh Laravel: `sendRequestThroughRouter` dan `dispatchToRouter`)
+4. Rebinding `CodeIgniterBootstrap` (terdaftar paling awal) melakukan `$EXT->setRequest($request)` dan memanggil hook `pre_system` — di-guard agar **hanya sekali per request**
+5. Rebinding `RouteServiceProvider` cek `isMatchedRouteCodeIgniter()` — current route sudah di-resolve oleh `pre_system` di langkah 4
+6. Service extensions diaktifkan (ControllerDispatcher, Redirector, ViewFactory)
+7. Request di-sync ke CI core classes (URI, RTR, OUT, SEC, IN)
+8. CodeIgniter routing menggunakan `RouteBuilder` dari `opensid/router`
+9. Route di-register sebagai dynamic Laravel route via `bootstrap/routeCodeIgniter.php`
 
 ## Consequences
 
@@ -150,24 +183,32 @@ protected function isMatchedRouteLaravel(): bool
 └────────────────────┬────────────────────────────────────────┘
                      │
                      ▼
-┌─────────────────────────────────────────────────────────────┐
-│           RouteServiceProvider::boot()                      │
-│  ┌──────────────────────────────────────────────────┐       │
-│  │  1. Register Laravel routes (web.php, api.php)   │       │
-│  └──────────────────────────────────────────────────┘       │
-│                     │                                       │
-│                     ▼                                       │
-│  ┌──────────────────────────────────────────────────┐       │
-│  │  2. Cek: isMatchedRouteLaravel()?                │       │
-│  └──────────────────────────────────────────────────┘       │
-│           │                             │                   │
-│      YA   │                             │ TIDAK             │
-│           ▼                             ▼                   │
-│  ┌────────────────┐      ┌──────────────────────────┐       │
-│  │ Laravel Route  │      │  CodeIgniter Fallback    │       │
-│  │   Matched      │      │  (codeigniter middleware)│       │
-│  └────────────────┘      └──────────────────────────┘       │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│           RouteServiceProvider::boot()                                  │
+│  ┌──────────────────────────────────────────────────┐                   │
+│  │  1. Register API routes   (routes/api.php)       │                   │
+│  │  2. Register Web routes   (routes/web.php)       │                   │
+│  └──────────────────────────────────────────────────┘                   │
+│                     │                                                   │
+│                     ▼                                                   │
+│  ┌──────────────────────────────────────────────────┐                   │
+│  │  Laravel Route matched? (isMatchedRouteLaravel)  │                   │
+│  └──────────────────────────────────────────────────┘                   │
+│           │                             │                               │
+│      YA   │                             │ TIDAK                         │
+│           ▼                             ▼                               │
+│  ┌────────────────┐      ┌──────────────────────────────────────┐       │
+│  │ Execute        │      │  $app->rebinding('request')          │       │
+│  │ Laravel Route  │      │  → [CodeIgniterBootstrap]            │       │
+│  └────────────────┘      │    setRequest + pre_system (1x)      │       │
+│                          │  → [RouteServiceProvider]            │       │
+│                          │    isMatchedRouteCodeIgniter?        │       │
+│                          │  → extend services                   │       │
+│                          │  → sync Request ke CI classes        │       │
+│                          │  → Route::middleware('codeigniter')  │       │
+│                          │    → bootstrap/routeCodeIgniter.php  │       │
+│                          └──────────────────────────────────────┘       │
+└─────────────────────────────────────────────────────────────────────────┘
                                          │
                                          ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -180,12 +221,13 @@ protected function isMatchedRouteLaravel(): bool
 │  └──────────────────────────────────────────────────┘       │
 │                     │                                       │
 │                     ▼                                       │
-│  ┌──────────────────────────────────────────────────┐       │
-│  │  bootstrap/routeCodeIgniter.php                  │       │
-│  │  - Validasi controller/method                    │       │
-│  │  - Register dynamic Laravel route                │       │
-│  │  - Dispatch via Laravel ControllerDispatcher     │       │
-│  └──────────────────────────────────────────────────┘       │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │  bootstrap/routeCodeIgniter.php                     │    │
+│  │  - Validasi controller/method                       │    │
+│  │  - Register dynamic Laravel route                   │    │
+│  │  - Dispatch via Laravel ControllerDispatcher        │    │
+│  │  - Fire CI hooks (pre_controller, post_controller)  │    │
+│  └─────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────┘
                                          │
                                          ▼
@@ -520,8 +562,8 @@ Target: **90% routes** menggunakan Laravel dalam 2 tahun
 
 ## Referensi
 
-- [Laravel Routing Documentation](https://laravel.com/docs/10.x/routing)
-- [Route Model Binding](https://laravel.com/docs/10.x/routing#route-model-binding)
+- [Laravel Routing Documentation](https://laravel.com/docs/11.x/routing)
+- [Route Model Binding](https://laravel.com/docs/11.x/routing#route-model-binding)
 - [Strangler Fig Pattern](https://martinfowler.com/bliki/StranglerFigApplication.html)
 - [opensid/router Package](https://github.com/opensid/router) - Routing bergaya Laravel untuk CodeIgniter
 
@@ -531,10 +573,12 @@ Target: **90% routes** menggunakan Laravel dalam 2 tahun
 
 | File | Peran | Deskripsi |
 |------|------|-------------|
-| `app/Providers/RouteServiceProvider.php` | Entry Point Laravel | Check Laravel routes dulu, fallback ke CI |
+| `app/Providers/RouteServiceProvider.php` | Entry Point Laravel | Register Laravel routes, rebinding request ke CI fallback |
+| `app/Bootstrap/CodeIgniterBootstrap.php` | Bootstrapper CI | Bootstrap CI core + rebinding `request` (setRequest + pre_system 1x per request) |
+| `app/Bootstrap/RequestAwareTrait.php` | Trait Sync Request | Sync Laravel Request ke CI core classes via overrideGlobals() |
 | `donjo-app/hooks/RouterHook.php` | Manager Routing CI | Load, compile, resolve CI routes |
 | `vendor/opensid/router/src/RouteBuilder.php` | Compiler Route | Compile dan match route patterns |
-| `bootstrap/routeCodeIgniter.php` | Bridge Laravel-CI | Convert CI routes jadi dynamic Laravel routes |
+| `bootstrap/routeCodeIgniter.php` | Bridge Laravel-CI | Convert CI routes jadi dynamic Laravel routes, fire CI hooks |
 | `donjo-app/Routes/web.php` | Definisi Route CI | Define CI routes (sintaks bergaya Laravel) |
 
 ### Alur Route Matching
@@ -542,23 +586,37 @@ Target: **90% routes** menggunakan Laravel dalam 2 tahun
 ```php
 // 1. Request masuk ke Laravel
 RouteServiceProvider::boot()
-  ├─> Register routes/web.php (Laravel)
-  ├─> Register routes/api.php (Laravel)
-  └─> Cek isMatchedRouteLaravel()
-       ├─> TRUE: Execute Laravel route ✓
-       └─> FALSE: Lanjut ke CI fallback
+  ├─> Register routes/api.php (Laravel - Tier 1)
+  ├─> Register routes/web.php (Laravel - Tier 2)
+  └─> Cek isMatchedRouteLaravel($request)
+       ├─> TRUE: Execute Laravel route ✓ (TIDAK trigger rebinding)
+       └─> FALSE: $app->rebinding('request') triggered (2x per request)
             │
-            ├─> app->rebinding('request') triggered
-            ├─> $EXT->call_hook('pre_system')
-            │    └─> RouterHook::handlePreSystem()
-            │         ├─> loadRoutes()
-            │         │    ├─> Load donjo-app/Routes/web.php
-            │         │    ├─> Load {module}/Routes/web.php
-            │         │    └─> RouteBuilder::compileAll()
-            │         └─> RouteBuilder::getByUrl($url)
-            │              ├─> Cek direct match
-            │              ├─> Cek regex pattern match
-            │              └─> Auto-route fallback (jika diaktifkan)
+            ├─> [CodeIgniterBootstrap - rebinding terdaftar pertama]
+            │    ├─> $EXT->setRequest($request)
+            │    │    └─> overrideGlobals() sync $_SERVER
+            │    └─> $EXT->call_hook('pre_system')  ← guard 1x per request
+            │         └─> RouterHook::handlePreSystem()
+            │              ├─> loadRoutes()
+            │              │    ├─> Load donjo-app/Routes/web.php
+            │              │    ├─> Load {module}/Routes/web.php
+            │              │    └─> RouteBuilder::compileAll()
+            │              └─> RouteBuilder::getByUrl($url)
+            │                   ├─> Cek direct match
+            │                   ├─> Cek regex pattern match
+            │                   └─> Auto-route fallback (jika diaktifkan)
+            │
+            ├─> [RouteServiceProvider]
+            │    ├─> Cek isMatchedRouteCodeIgniter() (current route dari pre_system)
+            │    ├─> extendControllerDispatcher()
+            │    ├─> extendRedirectInstance()
+            │    ├─> extendViewInstance()
+            │    └─> configureConfig() (Event listener)
+            │
+            ├─> global $URI, $RTR, $OUT, $SEC, $IN
+            ├─> $URI->setRequest($request) / $RTR->setRequest($request)
+            ├─> $OUT->setRequest($request) / $SEC->setRequest($request)
+            ├─> $IN->setRequest($request)
             │
             ├─> Route::middleware('codeigniter')->group(...)
             │    └─> bootstrap/routeCodeIgniter.php
@@ -589,17 +647,18 @@ public function test_penduduk_detail()
 
 **Cara kerjanya:**
 1. Laravel test client membuat request
-2. RouteServiceProvider cek Laravel routes → tidak match
-3. Fallback ke CI routing
-4. RouterHook load CI routes
-5. routeCodeIgniter.php buat dynamic Laravel route
-6. Laravel test client bisa inspect response ✓
+2. Rebinding `CodeIgniterBootstrap` jalan lebih dulu → `setRequest` + `pre_system` (1x per request)
+3. RouteServiceProvider cek Laravel routes → tidak match
+4. Fallback ke CI routing (current route sudah resolve dari `pre_system`)
+5. RouterHook load CI routes
+6. routeCodeIgniter.php buat dynamic Laravel route
+7. Laravel test client bisa inspect response ✓
 
 ---
 
 **Pengambil Keputusan**: Tim Arsitektur OpenSID  
 **Tanggal**: Januari 2024  
-**Terakhir Diperbarui**: Juni 2026 (Updated - Detail Implementasi Diperbaiki)
+**Terakhir Diperbarui**: Agustus 2026 (Updated - pre_system dipindah ke CodeIgniterBootstrap)
 
 ## Laporan Verifikasi
 

@@ -14,7 +14,7 @@ import { test, expect } from '../../../utils/regressionTest';
 
 test.describe('Acak Data — opsi Arsip Surat (surat sintetis)', () => {
   test('tab Acak menampilkan opsi Arsip Surat dengan "Surat sintetis" terpilih default', async ({ page }) => {
-    await page.goto('database/acak');
+    await page.goto('acak-data');
 
     // Halaman Acak (tab 3) terbuka untuk super admin — bukan 403.
     await expect(page.locator('#maincontent')).toContainText('Arsip Surat');
@@ -36,7 +36,7 @@ test.describe('Acak Data — opsi Arsip Surat (surat sintetis)', () => {
   });
 
   test('pilihan placeholder dapat dipilih (radio mutually exclusive)', async ({ page }) => {
-    await page.goto('database/acak');
+    await page.goto('acak-data');
 
     const sintetis = page.locator('input[name="surat_mode"][value="sintetis"]');
     const placeholder = page.locator('input[name="surat_mode"][value="placeholder"]');

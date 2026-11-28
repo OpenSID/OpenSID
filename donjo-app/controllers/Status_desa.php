@@ -81,7 +81,7 @@ class Status_desa extends Admin_Controller
             }
 
             if ($response?->getStatusCode() === 200 && ($response->getBody()->getContents() !== '' && $response->getBody()->getContents() !== '0')) {
-                $this->cache->file->delete($cache);
+                (new \App\Libraries\Cache())->delete($cache);
                 set_session('tahun', $tahun);
 
                 redirect_with('success', 'Berhasil Perbarui Data');
@@ -134,7 +134,7 @@ class Status_desa extends Admin_Controller
                     'verify' => false,
                 ]);
 
-                $this->cache->file->delete($cache);
+                (new \App\Libraries\Cache())->delete($cache);
 
                 redirect_with('success', 'Berhasil Perbarui Data');
             } catch (Exception $e) {

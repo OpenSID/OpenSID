@@ -324,7 +324,7 @@ trait Upload
         $CI     = &get_instance();
 
         if (! is_dir($config['upload_path'])) {
-            folder($config['upload_path'], '0755', 'htaccess1');
+            folder($config['upload_path'], 0755, 'htaccess1');
         }
 
         $CI->load->library('upload');
@@ -370,7 +370,7 @@ trait Upload
         $CI     = &get_instance();
 
         if (! is_dir($config['upload_path'])) {
-            folder($config['upload_path'], '0755', 'htaccess1');
+            folder($config['upload_path'], 0755, 'htaccess1');
         }
 
         $CI->load->library('upload');

@@ -511,11 +511,9 @@ class SQLitePlatform extends AbstractPlatform
         $sql = [];
 
         foreach ($this->getIndexesInAlteredTable($diff) as $index) {
-            if ($index->isPrimary()) {
-                continue;
+            if (! $index->isPrimary()) {
+                $sql[] = $this->getCreateIndexSQL($index, $table->getQuotedName($this));
             }
-
-            $sql[] = $this->getCreateIndexSQL($index, $table->getQuotedName($this));
         }
 
         return $sql;
@@ -662,11 +660,9 @@ class SQLitePlatform extends AbstractPlatform
                 $newColumn,
             );
 
-            if (! isset($newColumnNames[$oldColumnName])) {
-                continue;
+            if (isset($newColumnNames[$oldColumnName])) {
+                $newColumnNames[$oldColumnName] = $newColumn->getQuotedName($this);
             }
-
-            $newColumnNames[$oldColumnName] = $newColumn->getQuotedName($this);
         }
 
         foreach ($diff->getAddedColumns() as $column) {
@@ -766,7 +762,9 @@ class SQLitePlatform extends AbstractPlatform
             $type = $definition['type'];
 
             switch (true) {
-                case isset($definition['columnDefinition']) || $definition['autoincrement']:
+                case isset($definition['columnDefinition']):
+                case $definition['autoincrement']:
+                case $definition['comment'] !== '':
                 case $type instanceof Types\DateTimeType && $definition['default'] === $this->getCurrentTimestampSQL():
                 case $type instanceof Types\DateType && $definition['default'] === $this->getCurrentDateSQL():
                 case $type instanceof Types\TimeType && $definition['default'] === $this->getCurrentTimeSQL():
@@ -827,11 +825,9 @@ class SQLitePlatform extends AbstractPlatform
         foreach ($indexes as $key => $index) {
             $indexName = $index->getName();
             foreach ($diff->getRenamedIndexes() as $oldIndexName => $renamedIndex) {
-                if (strtolower($indexName) !== strtolower($oldIndexName)) {
-                    continue;
+                if (strtolower($indexName) === strtolower($oldIndexName)) {
+                    unset($indexes[$key]);
                 }
-
-                unset($indexes[$key]);
             }
 
             $changed      = false;
@@ -844,11 +840,9 @@ class SQLitePlatform extends AbstractPlatform
                 }
 
                 $indexColumns[] = $nameMap[$normalizedColumnName];
-                if ($columnName === $nameMap[$normalizedColumnName]) {
-                    continue;
+                if ($columnName !== $nameMap[$normalizedColumnName]) {
+                    $changed = true;
                 }
-
-                $changed = true;
             }
 
             if (! $changed) {
@@ -867,11 +861,9 @@ class SQLitePlatform extends AbstractPlatform
         foreach ($diff->getDroppedIndexes() as $index) {
             $indexName = $index->getName();
 
-            if ($indexName === '') {
-                continue;
+            if ($indexName !== '') {
+                unset($indexes[strtolower($indexName)]);
             }
-
-            unset($indexes[strtolower($indexName)]);
         }
 
         foreach (
@@ -911,11 +903,9 @@ class SQLitePlatform extends AbstractPlatform
                 }
 
                 $localColumns[] = $nameMap[$normalizedColumnName];
-                if ($columnName === $nameMap[$normalizedColumnName]) {
-                    continue;
+                if ($columnName !== $nameMap[$normalizedColumnName]) {
+                    $changed = true;
                 }
-
-                $changed = true;
             }
 
             if (! $changed) {
@@ -934,11 +924,9 @@ class SQLitePlatform extends AbstractPlatform
         foreach ($diff->getDroppedForeignKeys() as $constraint) {
             $constraintName = $constraint->getName();
 
-            if ($constraintName === '') {
-                continue;
+            if ($constraintName !== '') {
+                unset($foreignKeys[strtolower($constraintName)]);
             }
-
-            unset($foreignKeys[strtolower($constraintName)]);
         }
 
         foreach (array_merge($diff->getModifiedForeignKeys(), $diff->getAddedForeignKeys()) as $constraint) {
@@ -960,11 +948,9 @@ class SQLitePlatform extends AbstractPlatform
         $primaryIndex = [];
 
         foreach ($this->getIndexesInAlteredTable($diff) as $index) {
-            if (! $index->isPrimary()) {
-                continue;
+            if ($index->isPrimary()) {
+                $primaryIndex = [$index->getName() => $index];
             }
-
-            $primaryIndex = [$index->getName() => $index];
         }
 
         return $primaryIndex;

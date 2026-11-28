@@ -2,6 +2,8 @@
 
 namespace GuzzleHttp\Handler;
 
+use GuzzleHttp\Psr7;
+
 /**
  * Resolves proxy configuration from the process environment with the same
  * semantics libcurl applies, so the cURL handlers can pin CURLOPT_PROXY and
@@ -28,13 +30,13 @@ final class ProxyEnvironment
      */
     public static function getProxyForScheme(string $scheme): ?string
     {
-        $scheme = \strtolower($scheme);
+        $scheme = Psr7\Utils::asciiToLower($scheme);
         $candidates = [$scheme.'_proxy'];
         if ($scheme !== 'http') {
             // Uppercase HTTP_PROXY is deliberately never consulted: a CGI
             // request header "Proxy:" becomes HTTP_PROXY in the environment.
             // See https://httpoxy.org for more information.
-            $candidates[] = \strtoupper($scheme).'_PROXY';
+            $candidates[] = Psr7\Utils::asciiToUpper($scheme).'_PROXY';
         }
         $candidates[] = 'all_proxy';
         $candidates[] = 'ALL_PROXY';
@@ -77,7 +79,13 @@ final class ProxyEnvironment
     {
         $entries = [];
 
-        foreach (\preg_split('/[\s,]+/', $noProxy) ?: [] as $entry) {
+        $split = \preg_split('/[\s,]+/', $noProxy);
+
+        if ($split === false) {
+            throw new \RuntimeException('Unable to split the no_proxy value: '.\preg_last_error_msg());
+        }
+
+        foreach ($split as $entry) {
             if ($entry !== '' && $entry[0] === '.') {
                 $entry = \substr($entry, 1);
             }

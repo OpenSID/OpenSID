@@ -176,11 +176,9 @@ class SQLiteSchemaManager extends AbstractSchemaManager
 
             $list[$id]['local'][] = $row['from'];
 
-            if ($row['to'] === null) {
-                continue;
+            if ($row['to'] !== null) {
+                $list[$id]['foreign'][] = $row['to'];
             }
-
-            $list[$id]['foreign'][] = $row['to'];
         }
 
         foreach ($list as $id => $value) {
@@ -467,11 +465,9 @@ SQL,
 
             $sqlByTable[$tableName] ??= $this->getCreateTableSQL($tableName);
 
-            if ($row['pk'] === 0 || $row['pk'] === '0' || $row['type'] !== 'INTEGER') {
-                continue;
+            if ($row['pk'] !== 0 && $row['pk'] !== '0' && $row['type'] === 'INTEGER') {
+                $pkColumnNamesByTable[$tableName][] = $row['name'];
             }
-
-            $pkColumnNamesByTable[$tableName][] = $row['name'];
         }
 
         foreach ($rows as $row) {
@@ -593,11 +589,9 @@ SQL,
         foreach ($tables as $table) {
             $comment = $this->parseTableCommentFromSQL($table, $this->getCreateTableSQL($table));
 
-            if ($comment === null) {
-                continue;
+            if ($comment !== null) {
+                $tableOptions[$table]['comment'] = $comment;
             }
-
-            $tableOptions[$table]['comment'] = $comment;
         }
 
         /** @phpstan-ignore return.type */

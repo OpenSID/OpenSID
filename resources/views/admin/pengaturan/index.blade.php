@@ -109,17 +109,5 @@
             e.onchange = show;
             show();
         }
-
-        $('#file').change(function() {
-            previewImage(this, '.preview-img');
-        });
-
-        $('#file1').change(function() {
-            previewImage(this, '.preview-img-1');
-        });
-
-        $('#file2').change(function() {
-            previewImage(this, '.preview-img-2');
-        });
     </script>
 @endpush

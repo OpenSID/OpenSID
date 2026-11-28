@@ -3,10 +3,12 @@
 namespace Spatie\QueryBuilder\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * @template TModelClass of \Illuminate\Database\Eloquent\Model
- * @template-implements Filter<TModelClass>
+ * @template TModel of Model
+ *
+ * @implements Filter<TModel>
  */
 class FiltersCallback implements Filter
 {

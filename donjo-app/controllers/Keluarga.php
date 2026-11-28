@@ -602,7 +602,7 @@ class Keluarga extends Admin_Controller
         view('admin.penduduk.keluarga.cetak_kk_all', ['all_kk' => KeluargaModel::dataCetak($this->request['id_cb'] ?? [$id])]);
     }
 
-    public function doc_kk($id = 0): void
+    public function doc_kk($id = 0)
     {
         $datas = KeluargaModel::dataCetak($this->request['id_cb'] ?? [$id] );
 
@@ -613,12 +613,10 @@ class Keluarga extends Admin_Controller
             // Masukkan semua berkas ke dalam zip
             $berkas_kk = masukkan_zip($berkas_kk);
             // Unduh berkas zip
-            header('Content-disposition: attachment; filename=berkas_kk_' . date('d-m-Y') . '.zip');
-            header('Content-type: application/zip');
-            readfile($berkas_kk);
+            return response()->download($berkas_kk, 'berkas_kk_' . date('d-m-Y') . '.zip');
         } else {
             // Satu kk
-            ambilBerkas(basename($berkas_kk[0]));
+            return ambilBerkas(basename($berkas_kk[0]), lokasi: LOKASI_RTF_SEMENTARA);
         }
     }
 

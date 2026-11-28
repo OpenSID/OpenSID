@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Repositories\SyaratSuratRepository;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
 
@@ -46,9 +47,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @property int $ref_syarat_id
  * @property int $config_id
  * @property string $ref_syarat_nama
+ * @property int $jumlah_format_surat
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Dokumen> $dokumen
  * @property-read int|null $dokumen_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat deleteFormatSuratExist(?mixed $id)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat formatSuratExist()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SyaratSurat newQuery()
@@ -117,33 +118,37 @@ class SyaratSurat extends BaseModel
     }
 
     /**
-     * Scope Format surat exist.
+     * @deprecated Pindah ke SyaratSuratRepository::queryWithFormatSuratExist().
+     *             Scope ini dipertahankan untuk kompatibilitas CI3 fallback.
      *
      * @param \Illuminate\Database\Query\Builder $query
      */
-    public function scopeFormatSuratExist($query): void
+    public function scopeFormatSuratExist($query)
     {
         $sql = <<<'EOD'
                 json_contains(tweb_surat_format.syarat_surat, concat('"', ref_syarat_surat.ref_syarat_id, '"'), '$' )
             EOD;
 
-        $query->select(['ref_syarat_id', 'ref_syarat_nama', DB::raw('count(syarat_surat) as jumlah_format_surat')])
+        return $query->select(['ref_syarat_id', 'ref_syarat_nama', DB::raw('count(syarat_surat) as jumlah_format_surat')])
             ->leftJoin('tweb_surat_format', DB::raw($sql), '=', DB::raw('1'))
             ->groupBy(['ref_syarat_id', 'ref_syarat_nama']);
     }
 
     /**
-     * Scope Format surat exist.
-     *
-     * @param \Illuminate\Database\Query\Builder $query
-     *
-     * @return \Illuminate\Database\Query\Builder
+     * @deprecated Pindah ke SyaratSuratRepository::queryWithFormatSuratExist().
+     *             Wrapper ini dipertahankan untuk kompatibilitas CI3 fallback.
      */
-    public function scopeDeleteFormatSuratExist($query, mixed $id)
+    public static function formatSuratExist()
     {
-        return $this->formatSuratExist()
-            ->where('ref_syarat_surat.ref_syarat_id', $id)
-            ->whereNull('tweb_surat_format.id')
-            ->delete();
+        return app(SyaratSuratRepository::class)->queryWithFormatSuratExist();
+    }
+
+    /**
+     * @deprecated Pindah ke SyaratSuratRepository::deleteWithFormatSuratExist().
+     *             Wrapper ini dipertahankan untuk kompatibilitas CI3 fallback.
+     */
+    public static function deleteFormatSuratExist(mixed $id): int
+    {
+        return app(SyaratSuratRepository::class)->deleteWithFormatSuratExist($id);
     }
 }

@@ -141,7 +141,22 @@ class MY_Controller extends CI_Controller
 
         $error = $this->session->db_error;
         if (isset($error['code']) && $error['code'] == 1049 && ! $this->db) {
-            return;
+            // Database sempat gagal pada request sebelumnya. Jangan langsung berhenti:
+            // coba sambungkan ulang — database bisa saja sudah pulih. Jika berhasil,
+            // bersihkan flag dan lanjutkan alur normal sehingga aplikasi sembuh sendiri
+            // tanpa perlu logout/hapus cookie. Jika masih gagal, pertahankan perilaku
+            // lama (berhenti) agar halaman koneksi_database tetap bisa diakses.
+            try {
+                $this->load->database();
+            } catch (\Throwable) {
+                // biarkan $this->db tetap null
+            }
+
+            if (! $this->db || ! $this->db->conn_id) {
+                return;
+            }
+
+            $this->session->unset_userdata('db_error');
         }
         $this->controller = strtolower($this->router->fetch_class());
         $this->request    = $this->input->post();
@@ -173,7 +188,10 @@ class MY_Controller extends CI_Controller
             }
         });
 
-        (new Database())->checkMigration();
+        if (! app()->environment('testing')) {
+            (new Database())->checkMigration();
+        }
+
         (new Tracker())->trackDesa();
     }
 

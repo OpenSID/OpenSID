@@ -1714,5 +1714,18 @@
         "ikon_kecil": "fa fa-cubes",
         "parent": 11,
         "parent_slug": "pengaturan"
+    },
+    {
+        "modul": "Acak Data",
+        "slug": "acak-data",
+        "url": "acak-data",
+        "aktif": 0,
+        "ikon": "fa-random",
+        "urut": 99,
+        "level": 1,
+        "hidden": 2,
+        "ikon_kecil": "",
+        "parent": 5,
+        "parent_slug": "database"
     }
 ]

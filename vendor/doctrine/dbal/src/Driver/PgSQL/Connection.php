@@ -32,11 +32,9 @@ final class Connection implements ConnectionInterface
     public function __destruct()
     {
         // @phpstan-ignore isset.initializedProperty
-        if (! isset($this->connection)) {
-            return;
+        if (isset($this->connection)) {
+            @pg_close($this->connection);
         }
-
-        @pg_close($this->connection);
     }
 
     public function prepare(string $sql): Statement

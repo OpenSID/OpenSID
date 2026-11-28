@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+if [ "$SUPERVISOR_PHP_USER" != "root" ] && [ "$SUPERVISOR_PHP_USER" != "sail" ]; then
+    echo "You should set SUPERVISOR_PHP_USER to either 'sail' or 'root'."
+    exit 1
+fi
+
+if [ ! -z "$WWWUSER" ]; then
+    usermod -u $WWWUSER sail
+fi
+
+# The workspace is bind-mounted over /var/www/html, so extraction done at
+# image-build time is shadowed. Extract the OpenSID "desa" application here
+# instead, so a fresh Codespace clone (where desa/ is gitignored/empty) gets it.
+DESA_ZIP="/var/www/html/tests/playwright/storage/database/desa.zip"
+if [ -f "$DESA_ZIP" ]; then
+    mkdir -p /var/www/html/desa
+    unzip -o -q "$DESA_ZIP" -d /var/www/html
+fi
+
+# Write an env-driven OpenSID database configuration (overrides the extracted one).
+mkdir -p /var/www/html/desa/config
+cat > /var/www/html/desa/config/database.php <<'PHP'
+<?php
+
+// -------------------------------------------------------------------------
+//
+// Konfigurasi database OpenSID. Nilai diambil dari environment container
+// (DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_PORT) dengan fallback
+// ke nilai default agar tetap bisa berjalan di luar container.
+//
+// -------------------------------------------------------------------------
+
+$db['default']['hostname'] = getenv('DB_HOST') ?: 'mariadb';
+$db['default']['username'] = getenv('DB_USERNAME') ?: 'opensid';
+$db['default']['password'] = getenv('DB_PASSWORD') ?: 'password';
+$db['default']['port']     = getenv('DB_PORT') ?: 3306;
+$db['default']['dbcollat'] = 'utf8mb4_general_ci';
+$db['default']['database'] = getenv('DB_DATABASE') ?: 'opensid-laravel-test';
+
+$db['default']['stricton'] = true;
+
+$db['default']['options'] = [
+    // PDO::ATTR_EMULATE_PREPARES => true,
+];
+PHP
+
+# Install PHP dependencies. The workspace bind-mount is owned by root on the
+# host, so this must run here (as root); the devcontainer postCreateCommand runs
+# as the unprivileged "sail" user without sudo and cannot write vendor/.
+# Guarded so we only install when vendor/ is missing (fast on restarts).
+if [ ! -f /var/www/html/vendor/autoload.php ]; then
+    COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist
+fi
+
+# Make Laravel/OpenSID writable dirs (and installed deps) owned by the runtime user.
+chown -R sail:sail \
+    /var/www/html/storage \
+    /var/www/html/bootstrap/cache \
+    /var/www/html/vendor \
+    /var/www/html/desa 2>/dev/null || true
+
+if [ ! -d /.composer ]; then
+    mkdir /.composer
+fi
+
+chmod -R ugo+rw /.composer
+
+if [ $# -gt 0 ]; then
+    if [ "$SUPERVISOR_PHP_USER" = "root" ]; then
+        exec "$@"
+    else
+        exec gosu $WWWUSER "$@"
+    fi
+else
+    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+fi

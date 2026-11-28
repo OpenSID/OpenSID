@@ -41,11 +41,9 @@ final class Result implements ResultInterface
 
     public function __destruct()
     {
-        if (! isset($this->result)) {
-            return;
+        if (isset($this->result)) {
+            $this->free();
         }
-
-        $this->free();
     }
 
     /** {@inheritDoc} */

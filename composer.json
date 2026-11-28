@@ -15,6 +15,7 @@
     ],
     "require": {
         "php": "^8.4",
+        "ext-fileinfo": "*",
         "codeigniter/framework": "^3.1",
         "cviebrock/eloquent-sluggable": "^13.0",
         "dg/mysql-dump": "^1.6",
@@ -47,6 +48,7 @@
         "stechstudio/laravel-zipstream": "^5.7",
         "tinymce/tinymce": "^7.2",
         "voku/anti-xss": "^4.1",
+        "yajra/laravel-datatables-buttons": "^13.0",
         "yajra/laravel-datatables-oracle": "^13.0"
     },
     "require-dev": {
@@ -59,6 +61,7 @@
         "laravel/pail": "^1.2.5",
         "laravel/pao": "^1.0.6",
         "laravel/pint": "^1.27",
+        "laravel/sail": "^1.63",
         "mikey179/vfsstream": "~1.1.0",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
@@ -82,7 +85,11 @@
         ],
         "files": [
             "app/Helpers/core_helper.php",
-            "app/Helpers/opensid_helper.php"
+            "app/Helpers/donjolib_helper.php",
+            "app/Helpers/general_helper.php",
+            "app/Helpers/opensid_helper.php",
+            "app/Helpers/pict_helper.php",
+            "app/Helpers/theme_helper.php"
         ]
     },
     "autoload-dev": {

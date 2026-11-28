@@ -38,15 +38,14 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            Route::middleware('api')
-                ->prefix('api')
-                ->group(base_path('routes/api.php'));
-
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
-
             $this->app->rebinding('request', function ($app, $request) {
                 if ($this->isMatchedRouteLaravel($request)) {
+                    return;
+                }
+
+                global $URI, $RTR, $OUT, $SEC, $IN;
+
+                if (! $this->isMatchedRouteCodeIgniter()) {
                     return;
                 }
 
@@ -54,16 +53,6 @@ class RouteServiceProvider extends ServiceProvider
                 $this->extendRedirectInstance();
                 $this->extendViewInstance();
                 $this->configureConfig();
-
-                global $EXT, $URI, $RTR, $OUT, $SEC, $IN;
-
-                // We need to ignore certain classes when assigning its because
-                // when running on unit tests, these classes is crashed to
-                // load properly and causes fatal errors
-                is_loaded(unsetClass: ['cache', 'form_validation', 'session']);
-
-                // Call the pre_system hook to replicate CI booting process
-                $EXT->call_hook('pre_system');
 
                 // Sync the request instance to CodeIgniter core classes
                 $URI->setRequest($request);
@@ -84,6 +73,14 @@ class RouteServiceProvider extends ServiceProvider
     protected function isMatchedRouteLaravel(Request $request): bool
     {
         return rescue(fn () => (bool) Route::getRoutes()->match($request), false);
+    }
+
+    /**
+     * Checks if the current HTTP request matches any registered CodeIgniter route.
+     */
+    protected function isMatchedRouteCodeIgniter(): bool
+    {
+        return \OpenSID\RouteBuilder::getCurrentRoute()?->is404 === false;
     }
 
     /**
@@ -122,7 +119,7 @@ class RouteServiceProvider extends ServiceProvider
                             : null;
                     }
 
-                    if ($response === null && $buffered !== '' && $buffered !== null && $buffered !== false) {
+                    if ($response === null && $buffered !== null && $buffered !== false && $buffered !== '') {
                         $response = $this->buildResponseFromBuffer($buffered);
                     }
 

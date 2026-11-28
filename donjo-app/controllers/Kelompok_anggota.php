@@ -227,7 +227,7 @@ class Kelompok_anggota extends Admin_Controller
 
     public function aksi($aksi = '', $id = 0): void
     {
-        $_SESSION['aksi'] = $aksi;
+        session(['aksi' => $aksi]);
 
         redirect("{$this->controller}/form/{$id}");
     }
@@ -323,10 +323,15 @@ class Kelompok_anggota extends Admin_Controller
                 KelompokAnggotaModel::where('id', $id_anggota)->update(['foto' => $foto]);
             }
 
+            // aksi == 2 berarti "Tambah Beberapa Anggota", tetap di form agar bisa lanjut input anggota berikutnya
+            $redirect_url = session('aksi') == 2
+                ? route($this->controller . '.form', ['id_kelompok' => $id])
+                : route($this->controller . '.detail', $id);
+
             return json([
                 'status'       => true,
                 'message'      => 'Anggota berhasil disimpan',
-                'redirect_url' => route($this->controller . '.detail', $id),
+                'redirect_url' => $redirect_url,
             ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

@@ -79,6 +79,7 @@ use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
@@ -1481,7 +1482,7 @@ class Penduduk extends Admin_Controller
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor'),
             'boleh_hapus_penduduk' => PendudukSaja::bolehHapusPenduduk(),
-            'formatImpor'          => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-excel.xlsm')),
+            'formatImpor'          => URL::signedRoute('storage.desa', ['path' => 'impor/format-impor-excel.xlsm']),
         ];
 
         return view('admin.penduduk.impor', $data);
@@ -1524,11 +1525,11 @@ class Penduduk extends Admin_Controller
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor_bip'),
             'boleh_hapus_penduduk' => PendudukSaja::bolehHapusPenduduk(),
-            'formatBip2012'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-2012.xls')),
-            'formatBip2016'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-2016.xls')),
-            'formatBipEktp'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-ektp.xls')),
-            'formatBip2016Lutim'   => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-2016-luwutimur.xls')),
-            'formatBipSiak'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-siak.xls')),
+            'formatBip2012'        => URL::signedRoute('storage.desa', ['path' => 'impor/format-bip-2012.xls']),
+            'formatBip2016'        => URL::signedRoute('storage.desa', ['path' => 'impor/format-bip-2016.xls']),
+            'formatBipEktp'        => URL::signedRoute('storage.desa', ['path' => 'impor/format-bip-ektp.xls']),
+            'formatBip2016Lutim'   => URL::signedRoute('storage.desa', ['path' => 'impor/format-bip-2016-luwutimur.xls']),
+            'formatBipSiak'        => URL::signedRoute('storage.desa', ['path' => 'impor/format-siak.xls']),
         ];
 
         return view('admin.penduduk.impor_bip', $data);

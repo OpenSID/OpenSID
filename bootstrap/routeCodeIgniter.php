@@ -164,7 +164,14 @@ if ($currentRoute->isCli) {
         $currentRoute->getMethods(),
         $currentRoute->getFullPath(),
         $action
-    )->name($currentRoute->getName());
+    )
+    ->name($currentRoute->getName())
+    ->setDefaults(
+        collect($currentRoute->params)
+            ->filter(fn ($p) => $p->value !== null)
+            ->mapWithKeys(fn ($p) => [$p->getName() => $p->value])
+            ->all()
+    );
 }
 
 // Mark a benchmark end point
