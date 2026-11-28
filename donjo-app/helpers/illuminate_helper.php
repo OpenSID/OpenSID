@@ -71,9 +71,11 @@ if (! function_exists('app')) {
 
         $container['config']->set([
             'captcha' => [
-                'secret'  => $ci?->setting?->google_recaptcha_secret_key,
-                'sitekey' => $ci?->setting?->google_recaptcha_site_key,
-                'options' => [],
+                'secret'          => $ci?->setting?->google_recaptcha_secret_key,
+                'sitekey'         => $ci?->setting?->google_recaptcha_site_key,
+                'options'         => [],
+                'version'         => $ci?->setting?->google_recaptcha_version ?? 'v2',
+                'score_threshold' => (float) ($ci?->setting?->google_recaptcha_score_threshold ?? 0.5),
             ],
             'services' => [
                 'telegram-bot-api' => [

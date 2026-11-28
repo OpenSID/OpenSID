@@ -699,13 +699,14 @@ function qrcode_generate(array $qrcode = [], $base64 = false): string
     //Tambah Logo - skip jika logopath kosong
     $logopath = $qrcode['logoqr']; // Logo yg tampil di tengah QRCode
     if (! empty($logopath) && file_exists($logopath)) {
-        $QR   = imagecreatefrompng($filename);
+        $QR = imagecreatefrompng($filename);
         if (! $QR) {
             throw new Exception('Failed to create image from QR code PNG for logo processing');
         }
         $logo = imagecreatefromstring(file_get_contents($logopath));
         if (! $logo) {
             imagedestroy($QR);
+
             throw new Exception('Failed to create image from logo file');
         }
         imagecolortransparent($logo, imagecolorallocatealpha($logo, 0, 0, 0, 127));

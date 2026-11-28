@@ -36,9 +36,11 @@
  */
 
 use App\Enums\StatusEnum;
+use App\Http\Requests\Grup\GrupImportRequest;
 use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -309,25 +311,34 @@ class Grup extends Admin_Controller
             ->set_output(json_encode($ekspor, JSON_PRETTY_PRINT));
     }
 
-    public function impor(): void
+    public function impor()
     {
         isCan('u');
-        $config['upload_path']   = sys_get_temp_dir();
-        $config['allowed_types'] = 'json';
-        $config['overwrite']     = true;
-        $config['max_size']      = max_upload() * 1024;
-        $config['file_name']     = time() . '_template_pengguna.json';
 
-        $this->upload->initialize($config);
+        new GrupImportRequest();
 
-        if ($this->upload->do_upload('userfile')) {
-            $list_data = $this->formatImport(file_get_contents($this->upload->data()['full_path']));
+        try {
+
+            $file = request()->file('userfile');
+
+            $path = $file->storeAs(
+                'temp',
+                time() . '_template_pengguna.json'
+            );
+
+            $content   = Storage::get($path);
+            $list_data = $this->formatImport($content);
+
             if ($list_data) {
                 $this->impor_filter($list_data);
+            } else {
+                redirect_with('error', 'Format file tidak valid');
             }
-        }
+        } catch (Exception $e) {
+            logger()->error('Gagal impor grup pengguna: ' . $e->getMessage());
 
-        redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
+            redirect_with('error', 'Gagal Impor Data<br/>' . $e->getMessage());
+        }
     }
 
     public function impor_filter($data)

@@ -36,9 +36,9 @@
  */
 
 use App\Models\User;
-use Modules\BukuTamu\Models\TamuModel;
 use App\Notifications\BukuTamu\TamuBaru;
 use Illuminate\Database\Migrations\Migration;
+use Modules\BukuTamu\Models\TamuModel;
 
 return new class () extends Migration {
     /**
@@ -62,6 +62,13 @@ return new class () extends Migration {
                 );
             });
         });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
     }
 
     private function getUserAccessNotifications(string $modul, string $akses = 'b')
@@ -95,12 +102,5 @@ return new class () extends Migration {
         if (! $exists) {
             $user->notify($notification);
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
     }
 };

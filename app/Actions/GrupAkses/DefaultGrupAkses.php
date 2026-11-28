@@ -162,11 +162,11 @@ class DefaultGrupAkses
                 'arsip-surat-dinas'      => 7,
             ],
             'kasi-kesejahteraan' => [
-                'bantuan'                    => 0,
-                'program-bantuan'            => 7,
-                'peserta-bantuan'            => 7,
-                'satu-data'                  => 0,
-                'dtks'                       => 7,
+                'bantuan'         => 0,
+                'program-bantuan' => 7,
+                'peserta-bantuan' => 7,
+                'satu-data'       => 0,
+                'dtks'            => 7,
             ],
             'kaur-umum-dan-perencanaan' => [
                 'sekretariat'          => 0,

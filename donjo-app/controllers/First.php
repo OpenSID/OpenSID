@@ -98,14 +98,20 @@ class First extends Web_Controller
 
         if ($this->form_validation->run() == true) {
             // Periksa isian captcha
-            $captcha = new App\Libraries\Captcha();
-            if (! $captcha->check($this->input->post('captcha_code'))) {
+            if (! (new App\Libraries\Captcha())->check($this->input->post('captcha_code'))) {
                 $respon = [
-                    'status' => -1, // Notif gagal
+                    'status' => -1,
                     'pesan'  => 'Kode Anda salah. Silakan ulangi lagi.',
                     'data'   => $post,
                 ];
+            } elseif (check_rate_limit('comment_rate_limit_' . get_client_ip(), 1)) {
+                $respon = [
+                    'status' => -1,
+                    'pesan'  => 'Terlalu banyak permintaan. Silakan tunggu minimal 60 detik sebelum mengirim komentar lagi.',
+                    'data'   => $post,
+                ];
             } else {
+                increment_rate_limit('comment_rate_limit_' . get_client_ip(), 60);
                 $data = [
                     'komentar'   => htmlentities($post['komentar']),
                     'owner'      => htmlentities($post['owner']),
@@ -115,22 +121,16 @@ class First extends Web_Controller
                     'id_artikel' => $id,
                 ];
                 $res = Komentar::create($data);
-
-                // Dispatch event to send notifications
                 event(new KomentarSubmitted($res));
 
-                if ($res) {
-                    $respon = [
-                        'status' => 1, // Notif berhasil
-                        'pesan'  => 'Komentar Anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.',
-                    ];
-                } else {
-                    $respon = [
-                        'status' => -1, // Notif gagal
-                        'pesan'  => 'Komentar Anda gagal dikirim. Silakan ulangi lagi.',
-                        'data'   => $post,
-                    ];
-                }
+                $respon = $res ? [
+                    'status' => 1,
+                    'pesan'  => 'Komentar Anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.',
+                ] : [
+                    'status' => -1,
+                    'pesan'  => 'Komentar Anda gagal dikirim. Silakan ulangi lagi.',
+                    'data'   => $post,
+                ];
             }
         } else {
             $respon = [

@@ -280,7 +280,7 @@
                                 <select class="form-control input-sm select2 required" id="id_lokasi" name="id_lokasi">
                                     <option value="">-- Pilih Lokasi Pembangunan --</option>
                                     @foreach ($list_lokasi as $item)
-                                        <option value="{{ $item['id'] }}" @selected($item['id'] == $main->id_lokasi)>{{ strtoupper($item['dusun']) }} {{ empty($item['rw']) ? '' : " - RW  {$item['rw']}" }} {{ empty($item['rt']) ? '' : " / RT  {$item['rt']}" }}</option>
+                                        <option value="{{ $item['id'] }}" @selected($item['id'] == $main->id_lokasi)>{{ strtoupper(setting('sebutan_dusun') . ' ' . $item['dusun']) }} {{ empty($item['rw']) ? '' : " - RW  {$item['rw']}" }} {{ empty($item['rt']) ? '' : " / RT  {$item['rt']}" }}</option>
                                     @endforeach
                                 </select>
                             </div>

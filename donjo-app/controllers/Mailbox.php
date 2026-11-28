@@ -107,7 +107,7 @@ class Mailbox extends Admin_Controller
 
                     if ($canUpdate) {
                         $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                            'url'        => 'detail/' . $row->tipe . '/' . $row->uuid,
+                            'url'        => site_url('mailbox/detail/' . $row->tipe . '/' . $row->uuid),
                             'judul'      => 'Lihat detail pesan',
                             'icon'       => 'fa fa-list',
                             'type'       => 'bg-navy',
@@ -117,7 +117,7 @@ class Mailbox extends Admin_Controller
                         if ($row->tipe == 1) {
                             if ($row->isRead()) {
                                 $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                    'url'        => 'read/' . $row->tipe . '/' . $row->uuid,
+                                    'url'        => site_url('mailbox/read/' . $row->tipe . '/' . $row->uuid),
                                     'judul'      => 'Nonaktifkan',
                                     'icon'       => 'fa fa-envelope-open-o',
                                     'type'       => 'bg-navy',
@@ -125,7 +125,7 @@ class Mailbox extends Admin_Controller
                                 ])->render();
                             } else {
                                 $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                    'url'        => 'read/' . $row->tipe . '/' . $row->uuid,
+                                    'url'        => site_url('mailbox/read/' . $row->tipe . '/' . $row->uuid),
                                     'judul'      => 'Aktifkan',
                                     'icon'       => 'fa fa-envelope-o',
                                     'type'       => 'bg-navy',

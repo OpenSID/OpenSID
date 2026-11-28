@@ -42,8 +42,15 @@ use App\Enums\StatusDasarEnum;
 define('MAX_ANGGOTA_F116', 10);
 define('MAX_ANGGOTA_F101', 10);
 
-$semuaAnggota = App\Models\PendudukSaja::where('id_kk', $individu['id_kk'])->hidup(StatusDasarEnum::HIDUP)->get();
+$semuaAnggota = App\Models\Penduduk::where('id_kk', $individu['id_kk'])->hidup(StatusDasarEnum::HIDUP)->get();
 $anggota      = $semuaAnggota->toArray();
+
+// Ambil data Kepala Dusun dari wilayah
+$kepala_dusun = null;
+if (! empty($anggota) && isset($anggota[0]['wilayah']['id_kepala'])) {
+    $kepala_dusun = \App\Models\Penduduk::find($anggota[0]['wilayah']['id_kepala']);
+}
+
 $anggota_ikut = $semuaAnggota->filter(static fn($q) => !$q->isKepalaKeluarga())->values();
 
 switch (strtolower($input['alasan_permohonan'])) {

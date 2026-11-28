@@ -398,18 +398,18 @@ class Import
                     $fail("kode pekerjaan {$value} tidak dikenal");
                 }
             }],
-            'status_kawin'         => ['required', 'integer', 'between:1,4'],
-            'kk_level'             => ['required', 'integer', 'between:1,11'],
-            'warganegara_id'       => ['required', 'integer', 'between:1,3'],
-            'golongan_darah_id'    => ['required', 'integer', 'between:1,13'],
-            'cacat_id'             => ['nullable', 'integer', 'between:1,7'],
-            'cara_kb_id'           => ['nullable', static function ($attribute, $value, $fail): void {
+            'status_kawin'      => ['required', 'integer', 'between:1,4'],
+            'kk_level'          => ['required', 'integer', 'between:1,11'],
+            'warganegara_id'    => ['required', 'integer', 'between:1,3'],
+            'golongan_darah_id' => ['required', 'integer', 'between:1,13'],
+            'cacat_id'          => ['nullable', 'integer', 'between:1,7'],
+            'cara_kb_id'        => ['nullable', static function ($attribute, $value, $fail): void {
                 if (! in_array((int) $value, CaraKBEnum::keys())) {
                     $fail("kode cara_kb {$value}  tidak dikenal");
                 }
             }],
-            'hamil'        => ['nullable', Rule::in([1, 2])],
-            'ktp_el'       =>  ['nullable', static function ($attribute, $value, $fail): void {
+            'hamil'  => ['nullable', Rule::in([1, 2])],
+            'ktp_el' => ['nullable', static function ($attribute, $value, $fail): void {
                 if (! in_array((int) $value, StatusRekamEnum::keys())) {
                     $fail("kode ktp_el {$value}  tidak dikenal");
                 }

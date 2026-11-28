@@ -1198,7 +1198,7 @@
         "keterangan": "Site key google recaptcha",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"google_recaptcha\", \"value\": \"1\"}}",
         "kategori": "sistem"
     },
     {
@@ -1209,7 +1209,7 @@
         "keterangan": "Secret key google recaptcha",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"google_recaptcha\", \"value\": \"1\"}}",
         "kategori": "sistem"
     },
     {
@@ -1224,6 +1224,31 @@
             "0": "Tidak"
         },
         "attribute": null,
+        "kategori": "sistem"
+    },
+    {
+        "judul": "Google Recaptcha Version",
+        "key": "google_recaptcha_version",
+        "value": "v2",
+        "urut": 22,
+        "keterangan": "Versi Google reCAPTCHA yang digunakan. v2 = Checkbox Challenge, v3 = Score-based (invisible)",
+        "jenis": "select-array",
+        "option": {
+            "v2": "Challenge (v2)",
+            "v3": "Score-based (v3)"
+        },
+        "attribute": "{\"required_if\": {\"field\": \"google_recaptcha\", \"value\": \"1\"}}",
+        "kategori": "sistem"
+    },
+    {
+        "judul": "Google Recaptcha Score Threshold",
+        "key": "google_recaptcha_score_threshold",
+        "value": "0.5",
+        "urut": 22,
+        "keterangan": "Threshold score untuk reCAPTCHA v3 (0.0 - 1.0). Nilai lebih tinggi = lebih ketat. Default: 0.5",
+        "jenis": "input-number",
+        "option": null,
+        "attribute": "{\"class\":\"required\",\"min\":0,\"max\":1,\"step\":0.1,\"placeholder\":\"0.5\",\"required_if\": {\"field\": \"google_recaptcha_version\", \"value\": \"v3\"}}",
         "kategori": "sistem"
     },
     {
@@ -1727,17 +1752,6 @@
         "kategori": "Wilayah Administratif"
     },
     {
-        "judul": "Versi Umum Setara",
-        "key": "compatible_version_general",
-        "value": "26.07",
-        "urut": null,
-        "keterangan": "Versi Umum Yang Setara",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": null,
-        "kategori": "default"
-    },
-    {
         "judul": "Tampilkan C-desa di Peta Website",
         "key": "tampilkan_cdesa_petaweb",
         "value": "1",
@@ -1986,6 +2000,23 @@
         "option": {
             "1": "Ya",
             "0": "Tidak"
+        },
+        "attribute": null,
+        "kategori": "sistem"
+    },
+    {
+        "judul": "Format Nomor Rumah Tangga",
+        "key": "format_no_rtm",
+        "value": "1",
+        "urut": null,
+        "keterangan": "Format yang di gunakan untuk penomoran NO RTM",
+        "jenis": "select-array",
+        "option": {
+            "1": "Angka",
+            "2": "Huruf Angka",
+            "3": "Angka Huruf",
+            "4": "Angka Huruf Angka",
+            "5": "Huruf Angka Huruf"
         },
         "attribute": null,
         "kategori": "sistem"

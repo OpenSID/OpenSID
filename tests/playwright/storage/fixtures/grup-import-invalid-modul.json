@@ -1,0 +1,15 @@
+[
+  {
+    "nama": "Grup Invalid",
+    "slug": "grup-invalid",
+    "status": 1,
+    "akses": [
+      {
+        "modul": {
+          "slug": "modul-yang-tidak-ada"
+        },
+        "akses": 7
+      }
+    ]
+  }
+]

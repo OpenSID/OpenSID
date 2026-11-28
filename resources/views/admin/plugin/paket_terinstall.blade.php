@@ -92,10 +92,11 @@
                             cachedPackages.push(paketCachedData[packageName])
                         } else {
                             // Jika tidak ada cache, buat data minimal dari nama paket
+                            let isDefault = paketBawaan.includes(packageName)
                             cachedPackages.push({
                                 name: packageName,
                                 version: '-',
-                                description: 'Paket tambahan untuk OpenSID',
+                                description: isDefault ? 'Paket default untuk OpenSID' : 'Paket tambahan untuk OpenSID',
                                 thumbnail: defaultThumbnail,
                                 price: 'Gratis',
                                 totalInstall: '-'

@@ -92,7 +92,7 @@
                                     <th>Tanggal Lahir</th>
                                     <th>Agama</th>
                                     <th>Pendidikan</th>
-                                    <th>Pekerjaan</th>
+                                    <th><?= HEADER_PEKERJAAN ?></th>
                                 </tr>
                             </thead>
                             <tbody>

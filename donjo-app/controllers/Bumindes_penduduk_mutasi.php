@@ -110,14 +110,14 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
     public function cetak($aksi = 'cetak')
     {
         $data = [
-            'main'  => datatables($this->sumberData())->prepareQuery()->results(),
-            'start' => app('datatables.request')->start(),
-            'aksi'  => $aksi,
+            'main'    => datatables($this->sumberData())->prepareQuery()->results(),
+            'start'   => app('datatables.request')->start(),
+            'aksi'    => $aksi,
             'filters' => [
                 'tahun' => request()->get('tahun'),
                 'bulan' => request()->get('bulan'),
             ],
-            'file'  => 'Buku Mutasi Penduduk',
+            'file'         => 'Buku Mutasi Penduduk',
             'is_landscape' => true,
         ];
 

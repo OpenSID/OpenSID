@@ -55,6 +55,9 @@
         @include('admin.layouts.partials.sidebar')
 
         <div class="content-wrapper">
+
+            @include('admin.layouts.components.alert_layanan_hosting_expired')
+
             <section class="content-header">
                 @yield('title')
 

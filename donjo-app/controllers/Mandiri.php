@@ -246,7 +246,7 @@ class Mandiri extends Admin_Controller
         isCan('u');
 
         try {
-            $mandiri = PendudukMandiri::find($id_pend) ?? show_404();
+            $mandiri = PendudukMandiri::where('id_pend', $id_pend)->first() ?? show_404();
 
             $pin      = bilangan($this->request['pin'] ?? $mandiri->generate_pin());
             $penduduk = PendudukHidup::select(['nik', 'nama', 'email', 'telepon', 'telegram'])->find($id_pend);

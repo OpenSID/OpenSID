@@ -40,7 +40,7 @@
                 <th>Umur</th>
                 <th>Agama</th>
                 <th>Pendidikan (dlm KK)</th>
-                <th>Pekerjaan</th>
+                <th><?= HEADER_PEKERJAAN ?></th>
                 <th>Kawin</th>
                 <th>Hub. Keluarga</th>
                 <th>Nama Ayah</th>

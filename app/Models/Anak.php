@@ -152,11 +152,11 @@ class Anak extends BaseModel
     public function scopeFilter($query, array $filters)
     {
         if (! empty($filters['bulan'])) {
-            $query->whereMonth('bulanan_anak.created_at', $filters['bulan']);
+            $query->whereMonth('bulanan_anak.tanggal_periksa', $filters['bulan']);
         }
 
         if (! empty($filters['tahun'])) {
-            $query->whereYear('bulanan_anak.created_at', $filters['tahun']);
+            $query->whereYear('bulanan_anak.tanggal_periksa', $filters['tahun']);
         }
 
         if (! empty($filters['posyandu'])) {

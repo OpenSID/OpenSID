@@ -72,4 +72,33 @@ trait ValidateCloudDomainTrait
 
         return null;
     }
+
+    /**
+     * Mengkonversi URL gambar menjadi format yang bisa ditampilkan di browser.
+     * Jika URL berasal dari Google Drive, akan dikonversi ke format thumbnail.
+     * Jika bukan URL Google Drive, URL akan dikembalikan apa adanya.
+     *
+     * @param mixed $url
+     *
+     * @return string|null
+     */
+    protected function googleDriveDirectUrl($url)
+    {
+        if (empty($url)) {
+            return null;
+        }
+
+        if (strpos($url, 'drive.google.com') === false) {
+            return $url;
+        }
+
+        preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $url, $matches);
+        $fileId = $matches[1] ?? null;
+
+        if (! $fileId) {
+            return null;
+        }
+
+        return "https://drive.google.com/thumbnail?id={$fileId}";
+    }
 }

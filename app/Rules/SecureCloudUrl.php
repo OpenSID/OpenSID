@@ -42,8 +42,6 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class SecureCloudUrl implements ValidationRule
 {
-    private string $errorMessage = 'Gunakan layanan cloud storage yang didukung atau URL internal aplikasi.';
-
     /**
      * {@inheritDoc}
      */
@@ -59,25 +57,38 @@ class SecureCloudUrl implements ValidationRule
         $scheme    = strtolower($parsedUrl['scheme'] ?? '');
         $host      = strtolower($parsedUrl['host'] ?? '');
 
+        // 1. Hanya http/https
         if (! $this->isValidScheme($scheme)) {
-            $fail($this->errorMessage);
+            $fail('Hanya URL HTTP/HTTPS yang diizinkan.');
 
             return;
         }
 
-        if ($this->isCurrentAppDomain($host)) {
-            return;
-        }
-
+        // 2. Cek local domain pattern lebih awal
         if ($this->isLocalDomain($host)) {
+            $fail('Domain lokal tidak diizinkan.');
+
             return;
         }
 
-        if ($this->isTrustedCloudDomain($host)) {
-            return;
+        // 3. Cek resolve DNS ke IP lokal/reserved lebih awal
+        $ips = gethostbynamel($host);
+        if ($ips) {
+            foreach ($ips as $ip) {
+                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+                    $fail('URL mengarah ke alamat IP lokal atau reserved.');
+
+                    return;
+                }
+            }
         }
 
-        $fail("Domain '{$host}' tidak diizinkan. Gunakan layanan cloud storage yang didukung.");
+        // 4. Cek domain whitelist
+        if (! ($this->isCurrentAppDomain($host) || $this->isTrustedCloudDomain($host))) {
+            $fail("Domain '{$host}' tidak diizinkan. Gunakan layanan cloud storage yang didukung.");
+
+            return;
+        }
     }
 
     /**
@@ -85,9 +96,27 @@ class SecureCloudUrl implements ValidationRule
      */
     public function getTrustedDomains(): array
     {
+        $appDomain = strtolower(parse_url(APP_URL)['host'] ?? '');
+
         return [
+            // App domain sendiri
+            $appDomain,
+            // CDN publik
+            'cloudinary.com',
+            'cdn.cloudinary.com',
+            'res.cloudinary.com',
+            'imgur.com',
+            'i.imgur.com',
+            'giphy.com',
+            'media.giphy.com',
+            'cdn.pixabay.com',
+            'images.unsplash.com',
+            'images.pexels.com',
+            'cdn.pexels.com',
+            // Cloud storage
             'drive.google.com',
             'onedrive.live.com',
+            'onedrive.com',
             '1drv.ms',
             'dropbox.com',
             'www.dropbox.com',
@@ -96,23 +125,25 @@ class SecureCloudUrl implements ValidationRule
             'app.box.com',
             'mega.nz',
             'mega.co.nz',
+            // AWS S3
             'amazonaws.com',
             's3.amazonaws.com',
-            'mediafire.com',
-            'wetransfer.com',
-            'we.tl',
+            's3-website.amazonaws.com',
+            'cloudfront.net',
+            // Azure
+            'azurewebsites.net',
+            'blob.core.windows.net',
+            // Other cloud providers
+            'wasabisys.com',
+            'backblazeb2.com',
+            'digitaloceanspaces.com',
+            'linode.com',
         ];
     }
 
     private function isValidScheme(string $scheme): bool
     {
-        if (! in_array($scheme, ['http', 'https'])) {
-            $this->errorMessage = 'Hanya URL HTTP/HTTPS yang diizinkan.';
-
-            return false;
-        }
-
-        return true;
+        return in_array($scheme, ['http', 'https']);
     }
 
     private function isCurrentAppDomain(string $host): bool
