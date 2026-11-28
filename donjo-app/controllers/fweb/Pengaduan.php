@@ -35,10 +35,10 @@
  *
  */
 
+use App\Events\Pengaduan\PengaduanSubmitted;
 use App\Libraries\Captcha;
 use App\Models\Pengaduan as PengaduanModel;
 use App\Traits\Upload;
-use NotificationChannels\Telegram\Telegram;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -89,19 +89,7 @@ class Pengaduan extends Web_Controller
         $dataInsert   = $this->validasi($post);
         $pengaduan    = PengaduanModel::create($dataInsert);
         $id_pengaduan = $pengaduan->id;
-        if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-            $telegram = new Telegram(setting('telegram_token'));
-
-            try {
-                $telegram->sendMessage([
-                    'text'       => 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.',
-                    'parse_mode' => 'Markdown',
-                    'chat_id'    => setting('telegram_user_id'),
-                ]);
-            } catch (Exception $e) {
-                log_message('error', $e->getMessage());
-            }
-        }
+        event(new PengaduanSubmitted($pengaduan));
         // notifikasi penduduk
         $payload = '/pengaduan/detail/' . $id_pengaduan;
         $isi     = 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.';

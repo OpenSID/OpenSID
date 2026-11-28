@@ -229,6 +229,7 @@ define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
 define('LOKASI_ICON_MENU_ANJUNGAN', 'desa/anjungan/menu/');
 define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
 define('LOKASI_FOTO_DTKS', 'desa/upload/dtks/');
+define('LOKASI_FOTO_DTSEN', 'desa/upload/dtsen/');
 define('LOKASI_FONT_DESA', 'desa/upload/fonts/');
 define('LOKASI_ICON_SOSMED', 'desa/upload/sosmed/');
 define('LOKASI_SINERGI_PROGRAM', 'desa/upload/widgets/');

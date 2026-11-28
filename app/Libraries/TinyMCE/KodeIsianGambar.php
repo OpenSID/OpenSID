@@ -38,6 +38,7 @@
 namespace App\Libraries\TinyMCE;
 
 use App\Models\LogSurat;
+use App\Models\LogSuratDinas;
 use App\Models\Penduduk;
 
 class KodeIsianGambar
@@ -108,7 +109,12 @@ class KodeIsianGambar
         }
 
         // Generate kode QR (dari surat atau dummy)
-        $cek = $this->surat ? LogSurat::buatQrCode($this->surat->nama_surat, identitas('logo')) : dummyQrCode(identitas('logo'));
+        // Gunakan buatQrCode dari model yang sesuai (LogSuratDinas untuk surat dinas, LogSurat untuk surat biasa)
+        if ($this->surat instanceof LogSuratDinas) {
+            $cek = LogSuratDinas::buatQrCode($this->surat->nama_surat, identitas('logo'));
+        } else {
+            $cek = $this->surat ? LogSurat::buatQrCode($this->surat->nama_surat, identitas('logo')) : dummyQrCode(identitas('logo'));
+        }
 
         // Pastikan gambar kode QR valid sebelum diproses
         $qrcodePath = $cek['viewqr'] ?? null;

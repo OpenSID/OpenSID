@@ -39,6 +39,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Models\LogPenduduk;
+use App\Models\Pamong;
 use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -124,11 +125,13 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
             'tahun' => request()->get('tahun'),
             'bulan' => request()->get('bulan'),
         ];
-        $data['tgl_cetak']    = request('tgl_cetak');
-        $data['file']         = 'Buku KTP dan KK';
-        $data['letak_ttd']    = ['2', '2', '9'];
-        $data['privasi_nik']  = request('privasi_nik') ?? null;
-        $data['is_landscape'] = true;
+        $data['tgl_cetak']      = request('tgl_cetak');
+        $data['file']           = 'Buku KTP dan KK';
+        $data['letak_ttd']      = ['2', '2', '9'];
+        $data['privasi_nik']    = request('privasi_nik') ?? null;
+        $data['is_landscape']   = true;
+        $data['pamong_ttd']     = Pamong::kepalaDesa()->first();
+        $data['pamong_ketahui'] = Pamong::sekretarisDesa()->first();
 
         return view('admin.bumindes.penduduk.ktpkk.cetak', $data);
     }

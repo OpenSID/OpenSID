@@ -5,5 +5,6 @@
     title="{{ $judul }}"
     data-toggle="modal"
     data-target="#{{ $target }}"
-    @if ($confirmMessage) data-body="{{ $confirmMessage }}" @endif
+    @if (!empty($confirmMessage)) data-body="{{ $confirmMessage }}" @endif
+    @if (!empty($method)) data-method="{{ $method }}" @endif
 ><i class="{{ $icon }}"></i></a>

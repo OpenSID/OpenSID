@@ -52,16 +52,18 @@ class DptRepository
     public function list()
     {
         return QueryBuilder::for(PendudukSaja::dpt($this->tanggalPemilihan))
-            ->allowedFields('*')
-            ->allowedFilters('*')
-            ->allowedSorts('*')->jsonPaginate();
+            ->allowedFields(['id', 'nama', 'sex', 'alamat', 'id_cluster'])
+            ->allowedFilters(['sex', 'id_cluster'])
+            ->allowedSorts(['nama', 'sex'])
+            ->jsonPaginate();
     }
 
     public function summary()
     {
         return QueryBuilder::for(PendudukSaja::selectRaw('tweb_wil_clusterdesa.rw, tweb_wil_clusterdesa.dusun, sex, count(*) as total')->join('tweb_wil_clusterdesa', 'tweb_wil_clusterdesa.id', '=', 'tweb_penduduk.id_cluster')->dpt($this->tanggalPemilihan)->groupBy(['tweb_wil_clusterdesa.dusun', 'tweb_wil_clusterdesa.rw', 'sex']))
-            ->allowedFields('*')
-            ->allowedFilters('*')
-            ->allowedSorts('*')->jsonPaginate();
+            ->allowedFields(['dusun', 'rw', 'sex', 'total'])
+            ->allowedFilters(['dusun', 'rw', 'sex'])
+            ->allowedSorts(['dusun', 'rw', 'sex', 'total'])
+            ->jsonPaginate();
     }
 }

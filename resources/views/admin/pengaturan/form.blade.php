@@ -7,15 +7,7 @@
         @endphp
         <div class="form-group" id="form_{{ $pengaturan->key }}" {!! $requiredIfAttr !!}>
             <label class="col-sm-12 col-md-3" for="nama">{{ SebutanDesa($pengaturan->judul) }}</label>
-            @if ($pengaturan->jenis == 'option' || $pengaturan->jenis == 'boolean')
-                <div class="col-sm-12 col-md-4">
-                    <select {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm select2 required ', $pengaturan->attribute) : 'class="form-control input-sm select2 required"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}">
-                        @foreach ($pengaturan->option as $key => $value)
-                            <option value="{{ $key }}" @selected($pengaturan->value == $key)>{{ $value }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            @elseif ($pengaturan->jenis == 'multiple-option')
+            @if ($pengaturan->jenis == 'multiple-option')
                 <div class="col-sm-12 col-md-4">
                     <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @foreach ($pengaturan->option as $val)
@@ -60,22 +52,49 @@
                     {{-- prettier-ignore-start --}}
                     <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @php
-                            $modelData = $pengaturan->option;
-                            $referensiData = (new $modelData['model']())
-                                ->select([$modelData['value'], $modelData['label']])
-                                ->get()
-                                ->toArray();
-                            $selectedValue = json_decode($pengaturan->value, 1);
+                            $modelData   = $pengaturan->option;
+                            $whereClause = $attrData['where'] ?? [];
+                            $groupConfig = $modelData['group'] ?? null;
+
+                            $query = (new $modelData['model']())
+                                ->select([$modelData['value'], $modelData['label']]);
+
+                            foreach ($whereClause as $column => $val) {
+                                $query->where($column, $val);
+                            }
+
+                            if ($groupConfig) {
+                                $query->addSelect($groupConfig['column'])->orderBy($groupConfig['column']);
+                            }
+
+                                $referensiData = $query->get()->toArray();
+                                $selectedValue = json_decode($pengaturan->value, 1);
                         @endphp
                         <option value="-" @selected(empty($selectedValue))>Tanpa Referensi (kosong)</option>
-                        @foreach ($referensiData as $val)
-                            <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue ?? []))>{{ $val[$modelData['label']] }}</option>
-                        @endforeach
-                    </select>
-                    {{-- prettier-ignore-end --}}
+                        @if ($groupConfig)
+                            @foreach ($groupConfig['labels'] as $groupValue => $groupLabel)
+                                @php
+                                    $groupItems = array_filter($referensiData, fn ($v) => (string) $v[$groupConfig['column']] === (string) $groupValue);
+                                @endphp
+                                @if (count($groupItems))
+                                    <optgroup label="{{ SebutanDesa($groupLabel) }}">
+                                        @foreach ($groupItems as $val)
+                                            <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue ?? []))>{{ $val[$modelData['label']] }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                @endif
+                            @endforeach
+                        @else
+                            @foreach ($referensiData as $val)
+                                <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue ?? []))>{{ $val[$modelData['label']] }}</option>
+                            @endforeach
+                        @endif
+                </select>
+                {{-- prettier-ignore-end --}}
                 </div>
             @elseif (in_array($pengaturan->jenis, [
                     'input-text',
+                    'input-password',
                     'input-number',
                     'input-url',
                     'select-simbol',
@@ -123,16 +142,6 @@
                 <div class="col-sm-12 col-md-4">
                     <textarea {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} name="{{ $pengaturan->key }}" placeholder="{{ SebutanDesa($pengaturan->keterangan) }}" rows="7">{{ $pengaturan->value }}</textarea>
                 </div>
-            @elseif ($pengaturan->jenis == 'password')
-                <div class="col-sm-12 col-md-4">
-                    <div class="input-group">
-                        <input {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}" type="password" data-password="{{ $pengaturan->value ? 1 : 0 }}" value="" />
-                        <span class="input-group-addon input-sm show-hide-password"><i class="fa fa-eye-slash"></i></span>
-                    </div>
-                    @if ($pengaturan->value)
-                        <p class="help-block small text-red">Kosongkan jika tidak ingin mengubah Password.</p>
-                    @endif
-                </div>
             @elseif($pengaturan->key == 'apbdes_tahun')
                 <div class="col-sm-12 col-md-4">
                     <select class="form-control input-sm select2" id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}">
@@ -157,20 +166,46 @@
         $(document).ready(function() {
             // Generic handler untuk required_if
             $('[data-required-if]').each(function() {
-                var $formGroup = $(this);
-                var config = $formGroup.data('required-if');
-                var $triggerField = $(`#${config.field}`);
-                var $targetInput = $formGroup.find('input, select, textarea').first();
+                const $formGroup = $(this);
+                const config = $formGroup.data('required-if');
+
+                if (!config || !config.field || config.value === undefined) {
+                    return;
+                }
+
+                // Coba selector langsung (#key), fallback ke #input_key untuk jenis input-text/number/url
+                let $triggerField = $(`#${config.field}`);
+
+                if ($triggerField.length === 0) {
+                    $triggerField = $(`#input_${config.field}`);
+                }
+
+                if ($triggerField.length === 0) {
+                    return;
+                }
+
+                const $targetInput = $formGroup.find('input, select, textarea').first();
 
                 function toggleRequired() {
-                    var currentValue = $triggerField.val();
-                    if (currentValue == config.value) {
+                    const currentValue = $triggerField.val();
+                    // Jika form group trigger sedang hidden (karena required_if chain), ikut hidden
+                    const triggerGroupHidden = $triggerField.closest('.form-group').is(':hidden');
+                    const matched = !triggerGroupHidden && String(config.value) == String(currentValue);
+
+                    if (matched) {
                         $formGroup.show();
-                        $targetInput.addClass('required');
+                        if (!config.optional) {
+                            $targetInput.addClass('required');
+                        } else {
+                            $targetInput.removeClass('required');
+                        }
                     } else {
                         $formGroup.hide();
                         $targetInput.removeClass('required');
                     }
+
+                    // Propagasi ke field yang mungkin bergantung pada field ini (chaining)
+                    $targetInput.trigger('change');
                 }
 
                 // Initial state

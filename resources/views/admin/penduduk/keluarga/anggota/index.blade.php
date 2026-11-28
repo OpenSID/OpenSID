@@ -131,7 +131,7 @@
                                                     <x-btn-button url="{{ ci_route('penduduk.dokumen', $data['id']) }}" type="btn-success" icon="fa fa-upload" judul="Manajemen Dokumen" buttonOnly="true" />
                                                 @endif
                                                 @if (can('u', 'penduduk') && data_lengkap())
-                                                    <x-status-dasar-button url="{{ ci_route('penduduk.edit_status_dasar', [$data['id'], 'keluarga.anggota', $kk]) }}" />
+                                                    <x-status-dasar-button url="{{ ci_route('penduduk.edit_status_dasar', [$data['id'], 'keluarga-anggota', $kk]) }}" />
                                                 @endif
                                                 @if ($data['bisaPecahKK'])
                                                     <x-confirm-button 

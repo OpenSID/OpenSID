@@ -36,17 +36,26 @@
                     @endif
                 </div>
                 <div class="box-body">
-                    <h4 class="box-title text-center"><b>{{ $label }}</b></h4>
+                    <h4 class="box-title text-center"><b id="label-statistik">{{ $label }}</b></h4>
                     <div id="chart" hidden="true"></div>
                 </div>
                 <hr class="batas">
                 <div class="box-body">
-                    @if ($lap != 'kelas_sosial' && $lap != 'bdt')
-                        <div class="row mepet">
-                            @include('admin.layouts.components.wilayah', ['colDusun' => 'col-sm-3'])
+                    <div class="row mepet">
+                        <div class="col-sm-3">
+                            <select name="tahun" id="tahun" class="form-control input-sm select2">
+                                <option value="">Semua Tahun</option>
+                                @foreach (tahun(awal: 2016) as $i)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <hr class="batas">
-                    @endif
+
+                        @if ($lap != 'kelas_sosial' && $lap != 'bdt')
+                            @include('admin.layouts.components.wilayah', ['colDusun' => 'col-sm-3'])
+                        @endif
+                    </div>
+                    <hr class="batas">
                     <div class="table-responsive">
                         <table class="table table-bordered dataTable table-striped table-hover tabel-daftar" id="tabeldata">
                             <thead class="bg-gray color-palette">
@@ -245,6 +254,19 @@
             $('#tahun, #bulan, #dusun, #rw, #rt').change(function() {
                 TableData.draw()
             })
+
+            var originalLabel = $('#label-statistik').text();
+            var baseLabel = originalLabel.replace(/, \d{4}$/, '');
+            $('#tahun').change(function() {
+                var selectedYear = $(this).val();
+                var newLabel = baseLabel;
+                if (selectedYear) {
+                    newLabel = baseLabel + " TAHUN " + selectedYear;
+                } else {
+                    newLabel = originalLabel;
+                }
+                $('#label-statistik').text(newLabel);
+            });
         });
 
         var serverData = [];

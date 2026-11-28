@@ -189,7 +189,6 @@ class AuthenticatedSessionController extends Web_Controller
     /**
      * Endpoint untuk memvalidasi anjungan_uuid dari client-side via AJAX.
      * Jika valid, buat session dan kirim response json.
-     * (Disalin dari Premium v2603; dipakai halaman login modul Anjungan.)
      */
     public function cekAnjunganAjax()
     {

@@ -136,12 +136,23 @@ if (! function_exists('buat_pdf')) {
         $style     = $style ?: APPPATH . '../assets/css/report.css';
         $style_isi = "<style>\n " . file_get_contents($style) . "</style>\n" . $isi;
 
+        // Tangani http dan https sekaligus
+        $base_url_http  = rtrim(str_replace('https://', 'http://', base_url()), '/') . '/';
+        $base_url_https = rtrim(str_replace('http://', 'https://', base_url()), '/') . '/';
+        $base_path      = rtrim(FCPATH, '/') . '/';
+
+        $style_isi = str_replace(
+            [$base_url_http, $base_url_https],
+            [$base_path, $base_path],
+            $style_isi
+        );
+
         // Konversi ke PDF menggunakan html2pdf
         try {
             $html2pdf = new Html2Pdf($orientation, $page_size);
             $html2pdf->setDefaultFont('Arial');
             $html2pdf->writeHTML($style_isi);
-            $html2pdf->output($file . '.pdf', 'FI');
+            $html2pdf->output($file . '.pdf', 'FD');
         } catch (Html2PdfException $e) {
             file_put_contents($file . '_asli', $isi);
             echo $isi;

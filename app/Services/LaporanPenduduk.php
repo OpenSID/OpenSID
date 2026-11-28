@@ -66,6 +66,7 @@ class LaporanPenduduk
     private $lap;
     private $filter;
     private $paramCetak;
+    private $tanggal_laporan_sql;
 
     public static function judulStatistik($lap)
     {
@@ -90,9 +91,10 @@ class LaporanPenduduk
 
     public function listData($lap = 0, $filter = [], $paramCetak = [])
     {
-        $this->lap        = $lap;
-        $this->filter     = $filter;
-        $this->paramCetak = $paramCetak;
+        $this->lap                 = $lap;
+        $this->filter              = $filter;
+        $this->paramCetak          = $paramCetak;
+        $this->tanggal_laporan_sql = ! empty($this->filter['tahun']) ? "'" . $this->filter['tahun'] . "-12-31'" : 'NOW()';
 
         $judul_jumlah = 'JUMLAH';
         $judul_belum  = 'BELUM MENGISI';
@@ -170,14 +172,14 @@ class LaporanPenduduk
         //Siapkan data baris rekaps
         if ((int) $lap == 18) {
             $semua = $this->data_jml_semua_penduduk()
-                ->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0) >= 17
+                ->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0) >= 17
                  OR (status_kawin IS NOT NULL AND status_kawin <> 1))
                 AND (ktp_el != '3' OR ktp_el IS NULL)")
                 ->get()
                 ->toArray();
 
         } elseif ($lap == 'kia') {
-            $semua = $this->data_jml_semua_penduduk()->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)<=17)")->get()->toArray();
+            $semua = $this->data_jml_semua_penduduk()->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0)<=17)")->get()->toArray();
         } elseif (in_array($lap, ['kelas_sosial', 'bantuan_keluarga'])) {
             $semua = $this->data_jml_semua_keluarga();
         } elseif (in_array($lap, ['bdt', 'dtsen'])) {
@@ -273,6 +275,7 @@ class LaporanPenduduk
     protected function data_jml_semua_penduduk($status_dasar = '1')
     {
         $idCluster = $this->filter['idCluster'];
+        $tahun     = $this->filter['tahun'] ?? null;
         $query     = DB::table('tweb_penduduk as b')
             ->selectRaw('COUNT(b.id) as jumlah')
             ->selectRaw('COUNT(CASE WHEN b.sex = 1 THEN b.id END) as laki')
@@ -280,6 +283,9 @@ class LaporanPenduduk
             ->leftJoin('tweb_wil_clusterdesa as a', 'b.id_cluster', '=', 'a.id')
             ->when($idCluster, static function ($sq) use ($idCluster) {
                 $sq->whereIn('a.id', $idCluster);
+            })
+            ->when($tahun, static function ($sq) use ($tahun) {
+                $sq->whereRaw('YEAR(b.created_at) <= ?', [$tahun]);
             })
             ->where('b.config_id', identitas('id'))
             ->where('b.status_dasar', $status_dasar);
@@ -309,7 +315,8 @@ class LaporanPenduduk
 
     protected function select_per_kategori()
     {
-        $lap = $this->lap;
+        $lap   = $this->lap;
+        $tahun = $this->filter['tahun'] ?? null;
 
         $statistik_penduduk = [];
 
@@ -437,7 +444,7 @@ class LaporanPenduduk
 
             // Umur rentang
             case '13':
-                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai";
+                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai";
                 $jml   = $this->select_jml($where);
 
                 return DB::table('tweb_penduduk_umur as u')
@@ -455,8 +462,8 @@ class LaporanPenduduk
 
             case 'akta-kematian':
                 // Akta Kematian
-                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0) >= u.dari
-    AND (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0) <= u.sampai
+                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0) >= u.dari
+    AND (DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0) <= u.sampai
     AND l.akta_mati IS NOT NULL
     AND l.akta_mati != ''
     AND l.file_akta_mati IS NOT NULL ";
@@ -486,9 +493,12 @@ class LaporanPenduduk
                     ->selectRaw('COUNT(k.id) as jumlah')
                     ->selectRaw('COUNT(CASE WHEN k.kelas_sosial = u.id AND p.sex = 1 THEN p.id END) AS laki')
                     ->selectRaw('COUNT(CASE WHEN k.kelas_sosial = u.id AND p.sex = 2 THEN p.id END) AS perempuan')
-                    ->leftJoin('keluarga_aktif as k', static function ($join) {
+                    ->leftJoin('keluarga_aktif as k', static function ($join) use ($tahun) {
                         $join->on('k.kelas_sosial', '=', 'u.id')
                             ->where('k.config_id', '=', identitas('id'));
+                        if ($tahun) {
+                            $join->whereRaw('YEAR(k.tgl_daftar) = ?', [$tahun]);
+                        }
                     })
                     ->leftJoin('tweb_penduduk as p', 'p.id', '=', 'k.nik_kepala')
                     ->groupBy(['u.id', 'u.nama'])
@@ -505,6 +515,7 @@ class LaporanPenduduk
                     ->join('tweb_penduduk as p', 'p.id', '=', 'u.nik_kepala')
                     ->whereNotNull('u.bdt')
                     ->where('u.config_id', identitas('id'))
+                    ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.tgl_daftar) = ?', [$tahun]))
                     ->groupBy('u.id')
                     ->get();
                 break;
@@ -545,7 +556,7 @@ class LaporanPenduduk
 
             case 'kia':
                 // Kepemilikan kia
-                $where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)<=17) AND u.status_rekam = status_rekam AND b.ktp_el != '2'";
+                $where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0)<=17) AND u.status_rekam = status_rekam AND b.ktp_el != '2'";
                 $jml   = $this->select_jml($where);
 
                 return DB::table('tweb_status_ktp as u')
@@ -563,9 +574,12 @@ class LaporanPenduduk
                     ->selectRaw('COUNT(k.id) as jumlah')
                     ->selectRaw('COUNT(CASE WHEN k.status_covid = u.id AND p.sex = 1 THEN k.id_terdata END) AS laki')
                     ->selectRaw('COUNT(CASE WHEN k.status_covid = u.id AND p.sex = 2 THEN k.id_terdata END) AS perempuan')
-                    ->leftJoin('covid19_pemudik as k', static function ($join) {
+                    ->leftJoin('covid19_pemudik as k', static function ($join) use ($tahun) {
                         $join->on('k.status_covid', '=', 'u.id')
                             ->where('k.config_id', '=', identitas('id'));
+                        if ($tahun) {
+                            $join->whereRaw('YEAR(k.created_at) = ?', [$tahun]);
+                        }
                     })
                     ->leftJoin('tweb_penduduk as p', 'p.id', '=', 'k.id_terdata')
                     ->groupBy('u.id', 'u.nama')
@@ -590,6 +604,7 @@ class LaporanPenduduk
                         ->when($idCluster, static function ($sq) use ($idCluster) {
                             $sq->whereIn('a.id', $idCluster);
                         })
+                        ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.created_at) = ?', [$tahun]))
                         ->get();
 
                     return $query;
@@ -613,6 +628,7 @@ class LaporanPenduduk
                     ->when($idCluster, static function ($sq) use ($idCluster) {
                         $sq->whereIn('a.id', $idCluster);
                     })
+                    ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.created_at) = ?', [$tahun]))
                     ->get();
 
                 return $query;
@@ -637,6 +653,7 @@ class LaporanPenduduk
                     ->when($idCluster, static function ($sq) use ($idCluster) {
                         $sq->whereIn('a.id', $idCluster);
                     })
+                    ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.created_at) = ?', [$tahun]))
                     ->get();
 
                 return $query;
@@ -660,6 +677,7 @@ class LaporanPenduduk
                     ->when($idCluster, static function ($sq) use ($idCluster) {
                         $sq->whereIn('a.id', $idCluster);
                     })
+                    ->when($tahun, static fn ($sq) => $sq->whereRaw('YEAR(u.created_at) = ?', [$tahun]))
                     ->get();
 
                 return $query;
@@ -704,7 +722,7 @@ class LaporanPenduduk
 
             case '15':
                 // Umur kategori
-                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai";
+                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai";
                 $jml   = $this->select_jml($where);
 
                 return DB::table('tweb_penduduk_umur as u')
@@ -726,7 +744,7 @@ class LaporanPenduduk
 
             case '17':
                 // Akta kelahiran
-                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND akta_lahir <> '' ";
+                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND akta_lahir <> '' ";
                 $jml   = $this->select_jml($where);
 
                 return DB::table('tweb_penduduk_umur as u')
@@ -748,7 +766,7 @@ class LaporanPenduduk
             case '18':
                 // Kepemilikan ktp
                 $where = "(
-              (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0) >= 17
+              (DATE_FORMAT(FROM_DAYS(TO_DAYS({$this->tanggal_laporan_sql}) - TO_DAYS(tanggallahir)), '%Y')+0) >= 17
               OR (status_kawin IS NOT NULL AND status_kawin <> 1)
           )
           AND u.status_rekam = status_rekam
@@ -817,6 +835,8 @@ class LaporanPenduduk
 
     private function select_jml_penduduk_per_kategori(string $id_referensi, string $tabel_referensi)
     {
+        $tahun = $this->filter['tahun'] ?? null;
+
         $query = DB::table("{$tabel_referensi} as u")
             ->select('u.*')
             ->selectRaw('COUNT(p.id) AS jumlah')
@@ -825,6 +845,9 @@ class LaporanPenduduk
             ->leftJoin('penduduk_hidup as p', static function ($join) use ($id_referensi) {
                 $join->on('u.id', '=', "p.{$id_referensi}")
                     ->where('p.config_id', '=', identitas('id'));
+            })
+            ->when($tahun, static function ($sq) use ($tahun) {
+                $sq->whereRaw('YEAR(p.created_at) = ?', [$tahun]);
             })
             ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id');
 
@@ -856,10 +879,15 @@ class LaporanPenduduk
         }
 
         $idCluster = $this->filter['idCluster'] ?? null;
+        $tahun     = $this->filter['tahun'] ?? null;
 
         if ($idCluster) {
             $query->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id')
                 ->whereIn('a.id', $idCluster);
+        }
+
+        if ($tahun) {
+            $query->whereRaw('YEAR(p.created_at) = ?', [$tahun]);
         }
 
         $rows = $query->groupBy("p.{$id_referensi}")->get()->keyBy($id_referensi);

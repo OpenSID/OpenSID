@@ -40,7 +40,9 @@ namespace App\Libraries;
 use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
+use App\Models\Artikel;
 use App\Models\GrupAkses;
+use App\Models\Kategori;
 use App\Models\Keluarga;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogPenduduk;
@@ -52,7 +54,6 @@ use App\Models\Rtm;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
-use App\Models\Artikel;
 use App\Traits\Collation;
 use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
@@ -215,6 +216,40 @@ class Periksa
         }
     }
 
+    public function perbaikiArtikelKategoriOrphanFleksibel(array $petaArtikelKategori): void
+    {
+        foreach ($petaArtikelKategori as $artikelId => $idKategori) {
+            Artikel::withoutGlobalScopes()
+                ->where('id', (int) $artikelId)
+                ->where('config_id', identitas('id'))
+                ->update(['id_kategori' => $idKategori, 'tipe' => 'dinamis']);
+        }
+
+        Log::notice('Berhasil memperbaiki id_kategori pada ' . count($petaArtikelKategori) . ' artikel dengan kategori tidak valid.');
+
+        // Setelah data bersih, langsung tambahkan relasi FK jika belum ada
+        if (! $this->cekForeignKeyArtikelKategori()) {
+            $this->tambahRelasiArtikelKategori();
+        }
+    }
+
+    public function perbaikiArtikelUserOrphanFleksibel(array $petaArtikelUser): void
+    {
+        foreach ($petaArtikelUser as $artikelId => $idUser) {
+            Artikel::withoutGlobalScopes()
+                ->where('id', (int) $artikelId)
+                ->where('config_id', identitas('id'))
+                ->update(['id_user' => $idUser]);
+        }
+
+        Log::notice('Berhasil memperbaiki id_user pada ' . count($petaArtikelUser) . ' artikel dengan penulis tidak valid.');
+
+        // Setelah data bersih, langsung tambahkan relasi FK jika belum ada
+        if (! $this->cekForeignKeyArtikelUser()) {
+            $this->tambahRelasiArtikelUser();
+        }
+    }
+
     private function deteksiMasalah()
     {
         $dbErrorCode    = session('db_error.code');
@@ -352,8 +387,49 @@ class Periksa
 
         $dataDuplikatArtikel = $this->deteksiDataDuplikatArtikel();
         if (! $dataDuplikatArtikel->isEmpty()) {
-            $this->periksa['masalah'][] = 'data_duplikatartikel';
+            $this->periksa['masalah'][]            = 'data_duplikatartikel';
             $this->periksa['data_duplikatartikel'] = $dataDuplikatArtikel->toArray();
+        }
+
+        // Cek relasi artikel ke kategori (FK artikel_kategori_2026_fk)
+        if (! $this->cekForeignKeyArtikelKategori()) {
+            $artikelKategoriOrphan = $this->deteksiArtikelKategoriOrphan();
+            if (! $artikelKategoriOrphan->isEmpty()) {
+                $this->periksa['masalah'][]               = 'artikel_kategori_orphan';
+                $this->periksa['artikel_kategori_orphan'] = $artikelKategoriOrphan->toArray();
+                $this->periksa['daftar_kategori_aktif']   = Kategori::withoutGlobalScopes()
+                    ->where('config_id', identitas('id'))
+                    ->select(['id', 'kategori'])
+                    ->orderBy('kategori')
+                    ->get()
+                    ->toArray();
+                // Relasi FK akan ditambahkan otomatis setelah orphan diperbaiki,
+                // jadi tidak perlu ditampilkan sebagai masalah terpisah.
+            } else {
+                // Tidak ada orphan, tapi FK belum ada — tampilkan sebagai masalah mandiri.
+                $this->periksa['masalah'][] = 'relasi_artikel_kategori_tidak_ada';
+            }
+        }
+
+        // Cek relasi artikel ke user (FK artikel_kategori_id_user_2026_fk)
+        if (! $this->cekForeignKeyArtikelUser()) {
+            $artikelUserOrphan = $this->deteksiArtikelUserOrphan();
+            if (! $artikelUserOrphan->isEmpty()) {
+                $this->periksa['masalah'][]           = 'artikel_user_orphan';
+                $this->periksa['artikel_user_orphan'] = $artikelUserOrphan->toArray();
+                $this->periksa['daftar_user_aktif']   = User::withoutGlobalScopes()
+                    ->where('config_id', identitas('id'))
+                    ->where('active', 1)
+                    ->select(['id', 'username', 'nama'])
+                    ->orderBy('nama')
+                    ->get()
+                    ->toArray();
+                // Relasi FK akan ditambahkan otomatis setelah orphan diperbaiki,
+                // jadi tidak perlu ditampilkan sebagai masalah terpisah.
+            } else {
+                // Tidak ada orphan, tapi FK belum ada — tampilkan sebagai masalah mandiri.
+                $this->periksa['masalah'][] = 'relasi_artikel_user_tidak_ada';
+            }
         }
 
         $dataCluster = $this->deteksiDuplikasiCluster();
@@ -521,14 +597,14 @@ class Periksa
     private function deteksiDataDuplikatArtikel()
     {
         return Artikel::whereIn(
-                DB::raw('(slug, config_id)'),
-                function ($query) {
+            DB::raw('(slug, config_id)'),
+            static function ($query) {
                     $query->select('slug', 'config_id')
                         ->from('artikel')
                         ->groupBy('slug', 'config_id')
                         ->havingRaw('COUNT(*) > 1');
                 }
-            )
+        )
             ->orderBy('config_id')
             ->orderBy('slug')
             ->get();
@@ -822,8 +898,115 @@ class Periksa
                 $this->runMigration('install/2025_12_22_080512_create_rekap_mutasi_inventaris_view');
                 break;
 
+            case 'artikel_kategori_orphan':
+                Log::notice('Masalah artikel_kategori_orphan memerlukan tindakan manual melalui antarmuka pengguna (UI).');
+                break;
+
+            case 'artikel_user_orphan':
+                Log::notice('Masalah artikel_user_orphan memerlukan tindakan manual melalui antarmuka pengguna (UI).');
+                break;
+
+            case 'relasi_artikel_kategori_tidak_ada':
+                $this->tambahRelasiArtikelKategori();
+                break;
+
+            case 'relasi_artikel_user_tidak_ada':
+                $this->tambahRelasiArtikelUser();
+                break;
+
             default:
                 break;
+        }
+    }
+
+    private function deteksiArtikelKategoriOrphan()
+    {
+        return Artikel::withoutGlobalScopes()
+            ->where('config_id', identitas('id'))
+            ->whereNotNull('id_kategori')
+            ->whereDoesntHave('category')
+            ->select(['id', 'judul', 'id_kategori', 'tgl_upload'])
+            ->orderBy('id_kategori')
+            ->get();
+    }
+
+    private function deteksiArtikelUserOrphan()
+    {
+        return Artikel::withoutGlobalScopes()
+            ->where('config_id', identitas('id'))
+            ->whereNotNull('id_user')
+            ->whereDoesntHave('author')
+            ->select(['id', 'judul', 'id_user', 'tgl_upload'])
+            ->orderBy('id_user')
+            ->get();
+    }
+
+    private function cekForeignKeyArtikelKategori(): bool
+    {
+        return DB::table('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', DB::getDatabaseName())
+            ->where('TABLE_NAME', 'artikel')
+            ->where('CONSTRAINT_NAME', 'artikel_kategori_2026_fk')
+            ->where('REFERENCED_TABLE_NAME', 'kategori')
+            ->exists();
+    }
+
+    private function cekForeignKeyArtikelUser(): bool
+    {
+        return DB::table('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', DB::getDatabaseName())
+            ->where('TABLE_NAME', 'artikel')
+            ->where('CONSTRAINT_NAME', 'artikel_kategori_id_user_2026_fk')
+            ->where('REFERENCED_TABLE_NAME', 'user')
+            ->exists();
+    }
+
+    private function tambahRelasiArtikelKategori(): void
+    {
+        // Hapus FK lama jika masih ada
+        $this->hapusForeignKey('artikel_kategori_fk', 'artikel', 'kategori');
+
+        // Bersihkan orphan (seluruh konfigurasi) termasuk update kolom tipe sebagai safety net,
+        // karena tambahForeignKey() tidak mengetahui kolom tipe milik artikel.
+        DB::table('artikel')
+            ->where(static function ($q) {
+                $q->whereNotNull('id_kategori')
+                    ->whereNotIn('id_kategori', static fn ($sub) => $sub->select('id')->from('kategori'));
+            })
+            ->orWhere('id_kategori', 0)
+            ->update(['id_kategori' => null, 'tipe' => 'dinamis']);
+
+        $berhasil = $this->tambahForeignKey(
+            'artikel_kategori_2026_fk',
+            'artikel',
+            'id_kategori',
+            'kategori',
+            'id',
+            setForeignToNull: false, // sudah dibersihkan di atas
+        );
+
+        if ($berhasil) {
+            Log::notice('Berhasil menambahkan relasi (foreign key) artikel ke kategori.');
+        }
+    }
+
+    private function tambahRelasiArtikelUser(): void
+    {
+        // Hapus FK lama jika masih ada
+        $this->hapusForeignKey('artikel_kategori_id_user_fk', 'artikel', 'user');
+
+        $berhasil = $this->tambahForeignKey(
+            'artikel_kategori_id_user_2026_fk',
+            'artikel',
+            'id_user',
+            'user',
+            'id',
+            setForeignToNull: true,
+            onDeleteAction: 'SET NULL',
+        );
+
+        if ($berhasil) {
+            Log::notice('Berhasil menambahkan relasi (foreign key) artikel ke user.');
         }
     }
 }

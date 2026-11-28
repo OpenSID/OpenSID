@@ -36,6 +36,7 @@
  */
 
 use App\Libraries\Periksa as LibrariesPeriksa;
+use App\Models\Artikel;
 use App\Models\Config;
 use App\Models\Menu;
 use App\Models\Penduduk;
@@ -43,9 +44,9 @@ use App\Models\SuplemenTerdata;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
-use App\Models\Artikel;
 use App\Repositories\SettingAplikasiRepository;
 use App\Services\Auth\Traits\LoginRequest;
+use App\Services\MasaAktifAkunService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -129,6 +130,62 @@ class Periksa extends MY_Controller
         return json(['status' => 1]);
     }
 
+    public function perbaikiArtikelKategoriOrphan()
+    {
+        $this->cekUser();
+
+        // Terima array: artikel_kategori[artikel_id] = id_kategori|null
+        $raw  = $this->input->post('artikel_kategori') ?: [];
+        $peta = [];
+
+        foreach ($raw as $artikelId => $val) {
+            $peta[(int) $artikelId] = ($val !== null && $val !== '' && $val !== 'null') ? (int) $val : null;
+        }
+
+        if (empty($peta)) {
+            return json(['status' => 0, 'message' => 'Tidak ada data yang dikirim.']);
+        }
+
+        try {
+            (new LibrariesPeriksa())->perbaikiArtikelKategoriOrphanFleksibel($peta);
+            $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+        } catch (Exception $e) {
+            logger()->error($e);
+
+            return json(['status' => 0, 'message' => 'Terjadi kesalahan saat memproses permintaan.']);
+        }
+
+        return json(['status' => 1]);
+    }
+
+    public function perbaikiArtikelUserOrphan()
+    {
+        $this->cekUser();
+
+        // Terima array: artikel_user[artikel_id] = id_user|null
+        $raw  = $this->input->post('artikel_user') ?: [];
+        $peta = [];
+
+        foreach ($raw as $artikelId => $val) {
+            $peta[(int) $artikelId] = ($val !== null && $val !== '' && $val !== 'null') ? (int) $val : null;
+        }
+
+        if (empty($peta)) {
+            return json(['status' => 0, 'message' => 'Tidak ada data yang dikirim.']);
+        }
+
+        try {
+            (new LibrariesPeriksa())->perbaikiArtikelUserOrphanFleksibel($peta);
+            $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+        } catch (Exception $e) {
+            logger()->error($e);
+
+            return json(['status' => 0, 'message' => 'Terjadi kesalahan saat memproses permintaan.']);
+        }
+
+        return json(['status' => 1]);
+    }
+
     public function lepas_kaitan_kk_lama($id)
     {
         $this->cekUser();
@@ -172,6 +229,15 @@ class Periksa extends MY_Controller
         }
 
         $this->session->sess_regenerate();
+
+        // Lazy check: periksa masa aktif akun setelah autentikasi berhasil
+        $user    = Auth::guard($this->guard)->user();
+        $message = (new MasaAktifAkunService())->checkAndDeactivateIfInactive($user);
+        if ($message) {
+            Auth::guard($this->guard)->logout();
+            $this->session->sess_destroy();
+            redirect_with('notif', $message, 'periksa');
+        }
 
         redirect('periksa');
     }

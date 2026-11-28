@@ -46,10 +46,25 @@ class PengaduanTransformer extends TransformerAbstract
 {
     public function transform(Pengaduan $pengaduan)
     {
-        $pengaduan->foto = $this->urlAsset($pengaduan->foto);
-        $pengaduan->nama = setting('sembunyikan_sensor_nama_pelapor') ? sensorNama($pengaduan->nama) : $pengaduan->nama;
+        $nama = setting('sembunyikan_sensor_nama_pelapor') ? sensorNama($pengaduan->nama) : $pengaduan->nama;
 
-        return $pengaduan->toArray();
+        return [
+            'id'          => $pengaduan->id,
+            'judul'       => $pengaduan->judul,
+            'isi'         => mb_strimwidth($pengaduan->isi, 0, 50, '…'),
+            'status'      => $pengaduan->status,
+            'nama'        => $nama,
+            'foto'        => $this->urlAsset($pengaduan->foto),
+            'created_at'  => tgl_indo2($pengaduan->created_at),
+            'updated_at'  => tgl_indo2($pengaduan->updated_at),
+            'child_count' => $pengaduan->child_count,
+            'child'       => $pengaduan->child->map(static fn ($reply): array => [
+                'id'         => $reply->id,
+                'nama'       => $reply->nama,
+                'isi'        => $reply->isi,
+                'created_at' => tgl_indo2($reply->created_at),
+            ])->values()->all(),
+        ];
     }
 
     private function urlAsset(?string $file = '')

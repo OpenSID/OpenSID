@@ -37,6 +37,7 @@
 
 use App\Enums\StatusPengaduanEnum;
 use App\Models\Pengaduan;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -55,6 +56,8 @@ class Pengaduan_admin extends Admin_Controller
 
     public function index()
     {
+        NotificationService::markCategoryAsRead(auth('admin')->user(), 'pengaduan');
+
         $data = $this->widget();
         if ($this->input->get('status')) {
             $this->filterColumn['status'] = $this->input->get('status');

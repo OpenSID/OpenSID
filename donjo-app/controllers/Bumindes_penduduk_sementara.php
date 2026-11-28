@@ -41,6 +41,7 @@ use App\Enums\StatusDasarEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\LogPenduduk;
+use App\Models\Pamong;
 use App\Models\Penduduk;
 
 class Bumindes_penduduk_sementara extends Admin_Controller
@@ -96,11 +97,13 @@ class Bumindes_penduduk_sementara extends Admin_Controller
                 'tahun' => request()->get('tahun'),
                 'bulan' => request()->get('bulan'),
             ],
-            'tgl_cetak'    => request()->get('tgl_cetak'),
-            'privasi_nik'  => request()->get('privasi_nik'),
-            'file'         => 'Buku Penduduk Sementara',
-            'letak_ttd'    => ['2', '2', '9'],
-            'is_landscape' => true,
+            'tgl_cetak'      => request()->get('tgl_cetak'),
+            'privasi_nik'    => request()->get('privasi_nik'),
+            'file'           => 'Buku Penduduk Sementara',
+            'letak_ttd'      => ['2', '2', '9'],
+            'is_landscape'   => true,
+            'pamong_ttd'     => Pamong::kepalaDesa()->first(),
+            'pamong_ketahui' => Pamong::sekretarisDesa()->first(),
         ];
 
         return view('admin.bumindes.penduduk.sementara.cetak', $data);

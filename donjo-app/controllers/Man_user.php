@@ -35,12 +35,17 @@
  *
  */
 
+use App\Models\Artikel;
+use App\Models\LogNotifikasiAdmin;
+use App\Models\LogSurat;
+use App\Models\LogSuratDinas;
 use App\Models\Pamong;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
 use App\Services\MasaAktifAkunService;
 use App\Traits\UploadFotoUser;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 
@@ -75,57 +80,118 @@ class Man_user extends Admin_Controller
         $data['user_group'] = UserGrup::status()->pluck('nama', 'id');
 
         if ($this->input->is_ajax_request()) {
-            $input  = $this->input;
-            $status = $input->get('status');
+            $input     = $this->input;
+            $status    = $input->get('status');
+            $isDeleted = $status === 'deleted';
 
-            return datatables()->of(
-                User::with('pamong', 'userGrup')
-                    ->when($status != '', static function ($query) use ($status): void {
-                        $query->status($status);
-                    })
-                    ->whereHas('userGrup', function ($query): void {
-                        if ($group = $this->input->get('group')) {
-                            $query->where('id', $group);
-                        }
-                    })
-            )
+            if ($isDeleted && (! is_super_admin() || ! User::isSoftDeleteReady())) {
+                return datatables()->of(collect())->make();
+            }
+
+            $group = $input->get('group');
+            $query = User::with('pamong', 'userGrup')
+                ->when($isDeleted, static fn ($q) => $q->onlyTrashed())
+                ->when(! $isDeleted && $status === '' && is_super_admin(), static fn ($q) => $q->withTrashed())
+                ->when(! $isDeleted && $status !== '', static fn ($q) => $q->status($status))
+                ->whereHas('userGrup', static function ($q) use ($group): void {
+                    if ($group) {
+                        $q->where('id', $group);
+                    }
+                });
+
+            return datatables()->of($query)
                 ->addIndexColumn()
-                ->addColumn('ceklist', static function ($row) {
-                    if ($row->id != super_admin()) {
+                ->addColumn('ceklist', static function ($row): string {
+                    if ($row->deleted_at === null && $row->id != super_admin()) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
+
+                    return '';
                 })
                 ->addColumn('aksi', static function ($row): string {
-                    $aksi = '';
+                    if ($row->deleted_at !== null) {
+                        $nama = htmlspecialchars((string) $row->nama, ENT_QUOTES);
+                        $url  = site_url("man_user/restore/{$row->id}");
+                        $aksi = View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => '#',
+                            'judul'      => 'Pulihkan',
+                            'icon'       => 'fa fa-undo',
+                            'type'       => 'bg-green',
+                            'tooltip'    => 'Pulihkan',
+                            'onclick'    => "konfirmasiPulihkan('{$url}', '{$nama}')",
+                            'modal'      => false,
+                            'buttonOnly' => true,
+                            'formAction' => '',
+                            'slug'       => false,
+                            'file'       => false,
+                            'disabled'   => false,
+                            'blank'      => false,
+                            'confirm'    => false,
+                            'attribut'   => '',
+                        ])->render() . ' ';
+                        $aksi .= View::make('admin.layouts.components.buttons.confirm', [
+                            'url'            => site_url("man_user/force_delete/{$row->id}"),
+                            'type'           => 'bg-maroon',
+                            'icon'           => 'fa fa-times',
+                            'judul'          => 'Hapus Permanen',
+                            'target'         => 'confirm-delete',
+                            'method'         => 'POST',
+                            'confirmMessage' => '',
+                        ])->render();
 
-                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url' => 'man_user/form/' . $row->id,
-                    ])->render();
+                        return $aksi;
+                    }
 
-                    if ($row->id != super_admin()) {
-                        if (can('u')) {
-                            $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                                'url'    => $row->active == '0' ? site_url("man_user/user_unlock/{$row->id}") : site_url("man_user/user_lock/{$row->id}"),
-                                'active' => $row->active,
-                            ])->render();
-                        }
+                    $aksi = View::make('admin.layouts.components.buttons.edit', ['url' => 'man_user/form/' . $row->id])->render();
+
+                    if (can('u')) {
+                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                            'url'    => $row->active == '0' ? site_url("man_user/user_unlock/{$row->id}") : site_url("man_user/user_lock/{$row->id}"),
+                            'active' => $row->active,
+                        ])->render();
+                    }
+
+                    if (can('h') && $row->id != super_admin()) {
+                        $nama = htmlspecialchars((string) $row->nama, ENT_QUOTES);
+                        $url  = site_url("man_user/delete/{$row->id}");
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'           => site_url("man_user/delete/{$row->id}"),
-                            'confirmDelete' => true,
+                            'url'           => $url,
+                            'confirmDelete' => false,
+                            'judul'         => 'Hapus',
+                            'icon'          => 'fa fa-trash-o',
+                            'type'          => 'bg-maroon',
+                            'onclick'       => "konfirmasiHapus('{$url}', '{$nama}')",
                         ])->render();
                     }
 
                     return $aksi;
                 })
                 ->editColumn('url_foto', static fn ($row): string => '<img class="penduduk_kecil" src="' . $row->url_foto . '"/>')
-                ->addColumn('pamong_status', static fn ($row): string => $row->pamong->pamong_status == 1
-                    ? '<span class="label label-success">Staf</span>'
-                    : '<span class="label label-info">Bukan Staf</span>')
+                ->addColumn('pamong_status', static function ($row): string {
+                    if ($row->deleted_at !== null) {
+                        return '-';
+                    }
+
+                    return ($row->pamong && $row->pamong->pamong_status == 1)
+                        ? '<span class="label label-success">Staf</span>'
+                        : '<span class="label label-info">Bukan Staf</span>';
+                })
                 ->editColumn('last_login', static fn ($row) => tgl_indo2($row->last_login))
-                ->editColumn('email_verified_at', static fn ($row) => tgl_indo2($row->email_verified_at))
+                ->editColumn('email_verified_at', static fn ($row) => tgl_indo2($row->deleted_at ?? $row->email_verified_at))
+                ->addColumn('status_label', static function ($row): string {
+                    if ($row->deleted_at !== null) {
+                        return '<span class="label label-danger">Dihapus</span>';
+                    }
+
+                    return $row->active == 1
+                        ? '<span class="label label-success">Aktif</span>'
+                        : '<span class="label label-danger">Tidak Aktif</span>';
+                })
                 ->rawColumns(['ceklist', 'aksi', 'url_foto', 'pamong_status', 'status_label'])
                 ->make();
         }
+
+        $data['soft_deleted_count'] = User::isSoftDeleteReady() ? User::onlyTrashed()->count() : 0;
 
         return view('admin.pengaturan.pengguna.index', $data);
     }
@@ -235,6 +301,11 @@ class Man_user extends Admin_Controller
     {
         isCan('h');
 
+        $validasi = $this->validate_before_delete((int) $id);
+        if (! $validasi['status']) {
+            redirect_with('error', $validasi['pesan']);
+        }
+
         $this->delete_user($id);
 
         redirect_with('success', 'Berhasil Hapus Data');
@@ -243,6 +314,19 @@ class Man_user extends Admin_Controller
     public function delete_all(): void
     {
         isCan('h');
+
+        $errors = [];
+
+        foreach ($this->request['id_cb'] as $id) {
+            $validasi = $this->validate_before_delete((int) $id);
+            if (! $validasi['status']) {
+                $errors[] = $validasi['pesan'];
+            }
+        }
+
+        if (! empty($errors)) {
+            redirect_with('error', implode('<br>', $errors));
+        }
 
         foreach ($this->request['id_cb'] as $id) {
             $this->delete_user($id);
@@ -278,7 +362,10 @@ class Man_user extends Admin_Controller
         isCan('u');
 
         $user = User::findOrFail($id);
-        $user->update(['active' => 1]);
+        $user->update([
+            'active'     => 1,
+            'last_login' => Carbon::now(),
+        ]);
 
         try {
             $this->masaAktifAkunService->sendAccountActivatedNotification($user);
@@ -290,17 +377,102 @@ class Man_user extends Admin_Controller
 
     }
 
-    protected function delete_user($id = '')
+    public function restore($id = ''): void
+    {
+        if (! is_super_admin()) {
+            redirect_with('error', 'Hanya super admin yang dapat memulihkan pengguna.');
+        }
+
+        if (! User::isSoftDeleteReady()) {
+            redirect_with('error', 'Fitur soft delete belum aktif, jalankan migrasi terlebih dahulu.');
+        }
+
+        $user = User::onlyTrashed()->findOrFail($id);
+        $user->restore();
+
+        redirect_with('success', "Pengguna {$user->nama} berhasil dipulihkan.");
+    }
+
+    public function force_delete($id = ''): void
+    {
+        if (! is_super_admin()) {
+            redirect_with('error', 'Hanya super admin yang dapat menghapus pengguna secara permanen.');
+        }
+
+        if (! User::isSoftDeleteReady()) {
+            redirect_with('error', 'Fitur soft delete belum aktif, jalankan migrasi terlebih dahulu.');
+        }
+
+        $user = User::onlyTrashed()->findOrFail($id);
+        $nama = $user->nama;
+        $user->forceDelete();
+
+        redirect_with('success', "Pengguna {$nama} berhasil dihapus secara permanen.");
+    }
+
+    public function cleanup_soft_deleted(): void
+    {
+        if (! is_super_admin()) {
+            redirect_with('error', 'Hanya super admin yang dapat menghapus pengguna secara permanen.');
+        }
+
+        $users  = User::isSoftDeleteReady() ? User::onlyTrashed()->get() : collect();
+        $jumlah = $users->count();
+
+        foreach ($users as $user) {
+            $user->forceDelete();
+        }
+
+        redirect_with('success', "Berhasil menghapus permanen {$jumlah} pengguna yang telah dihapus.");
+    }
+
+    protected function delete_user($id = ''): void
+    {
+        User::findOrFail($id)->delete();
+    }
+
+    protected function validate_before_delete(int $id): array
     {
         $user = User::findOrFail($id);
 
-        if ($user->foto != 'kuser.png') {
-            // Ambil nama foto
-            $foto = basename(AmbilFoto($user->foto));
-            unlink(LOKASI_USER_PICT . $foto);
+        $jumlah_surat = LogSurat::where('id_user', $id)->count();
+
+        $jumlah_surat_dinas = LogSuratDinas::where(static function ($query) use ($id): void {
+                $query->where('id_user', $id)
+                    ->orWhere('created_by', $id)
+                    ->orWhere('updated_by', $id);
+            })->count();
+
+        $jumlah_artikel = Artikel::where('id_user', $id)->count();
+
+        $jumlah_notifikasi = LogNotifikasiAdmin::where('id_user', $id)->count();
+
+        $total_aktivitas = $jumlah_surat + $jumlah_surat_dinas + $jumlah_artikel + $jumlah_notifikasi;
+
+        if ($total_aktivitas > 0) {
+            $detail = [];
+            if ($jumlah_surat > 0) {
+                $detail[] = "{$jumlah_surat} surat warga";
+            }
+            if ($jumlah_surat_dinas > 0) {
+                $detail[] = "{$jumlah_surat_dinas} surat dinas";
+            }
+            if ($jumlah_artikel > 0) {
+                $detail[] = "{$jumlah_artikel} artikel";
+            }
+            if ($jumlah_notifikasi > 0) {
+                $detail[] = "{$jumlah_notifikasi} notifikasi";
+            }
+
+            return [
+                'status' => false,
+                'pesan'  => "Pengguna {$user->nama} tidak dapat dihapus karena sudah memiliki aktivitas: "
+                          . implode(', ', $detail)
+                          . '.<br>Silakan nonaktifkan pengguna ini saja.',
+            ];
         }
 
-        $user->delete();
+        return ['status' => true];
     }
 
     protected function validate($request = [], $id = ''): array

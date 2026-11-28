@@ -166,10 +166,10 @@
                             render: (data, type, row) => row.attributes.no_anggota
                         },
                         {
-                            data: 'nama',
-                            name: 'nama',
+                            data: 'nama_penduduk',
+                            name: 'nama_penduduk',
                             className: 'text-wrap',
-                            render: (data, type, row) => row.attributes.anggota.nama
+                            render: (data, type, row) => row.attributes.nama_penduduk
                         },
                         {
                             data: 'alamat',
