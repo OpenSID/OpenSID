@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -49,9 +49,8 @@ class Captcha
     protected static $fonts       = [];
     protected static $backgrounds = [];
     protected static $characters;
-    protected static $case_sensitive = false;
 
-    public static function make($case_sensitive = false): bool
+    public static function make($case_sensitive = null): bool
     {
         if (empty(static::$backgrounds)) {
             static::backgrounds();
@@ -61,14 +60,18 @@ class Captcha
             static::fonts();
         }
 
-        static::$case_sensitive = (bool) $case_sensitive;
+        // Jika tidak ada parameter case_sensitive, ambil dari setting
+        if ($case_sensitive === null) {
+            $case_sensitive = (bool) setting('strict_captcha') ?? false;
+        }
+
         static::$characters     = str_replace(
             ['0', '1', '5', 'i', 'I', 'k', 'K', 'l', 'L', 'o', 'O', 's', 'S', 'w', 'W'],
             ['6', '4', '8', '2', '3', 'z', 'Z', 'p', 'P', 'h', 'H', 'x', 'X', 'v', 'V'],
             Str::random(5)
         );
 
-        $characters            = static::$case_sensitive ? static::$characters : strtolower(static::$characters);
+        $characters            = $case_sensitive ? static::$characters : strtolower(static::$characters);
         ci()->session->captcha = Hash::make($characters);
 
         $bg   = static::background();
@@ -122,7 +125,8 @@ class Captcha
 
     public static function check($value): bool
     {
-        $value = trim((string) (static::$case_sensitive ? $value : strtolower((string) $value)));
+        $case_sensitive = (bool) setting('strict_captcha') ?? false;
+        $value = trim((string) ($case_sensitive ? $value : strtolower((string) $value)));
         $hash  = ci()->session->captcha;
 
         return $value && $hash && Hash::check($value, $hash);

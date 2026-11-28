@@ -56,9 +56,12 @@ final class XMLProcessor
      * Resumes the reading of the XML file where it was left off.
      * Stops whenever a callback indicates that reading should stop or at the end of the file.
      *
+     * @return bool TRUE if a callback stopped the reading, FALSE if there was nothing left to read
+     *              (end of the file, or the reader cannot read any further)
+     *
      * @throws XMLProcessingException
      */
-    public function readUntilStopped(): void
+    public function readUntilStopped(): bool
     {
         while ($this->xmlReader->read()) {
             $nodeType = $this->xmlReader->nodeType;
@@ -72,10 +75,12 @@ final class XMLProcessor
 
                 if (self::PROCESSING_STOP === $callbackResponse) {
                     // stop reading
-                    break;
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     /**
@@ -104,7 +109,9 @@ final class XMLProcessor
         $callbackObject = $callback[0];
         $callbackMethodName = $callback[1];
         $reflectionMethod = new ReflectionMethod($callbackObject, $callbackMethodName);
-        $reflectionMethod->setAccessible(true);
+        if (\PHP_VERSION_ID < 80500) {
+            $reflectionMethod->setAccessible(true);
+        }
 
         return [
             self::CALLBACK_REFLECTION_METHOD => $reflectionMethod,

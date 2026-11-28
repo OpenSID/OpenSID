@@ -138,9 +138,9 @@
                                                         url="{{ ci_route('keluarga.delete_anggota.' . $kk, $data['id']) }}" 
                                                         type="bg-purple" 
                                                         icon="fa fa-cut" 
-                                                        judul="Pecah KK" 
+                                                        judul="Pecah KK (Mengeluarkan Penduduk dari Data Keluarga)" 
                                                         target="confirm-status" 
-                                                        confirmMessage="Apakah Anda yakin ingin memecah Data Keluarga ini?" 
+                                                        confirmMessage="Apakah Anda yakin ingin mengeluarkan Penduduk tersebut dari Data Keluarga ini?" 
                                                     />
                                                 @else
                                                     <x-confirm-button 
@@ -155,7 +155,7 @@
                                                     />
                                                 @endif
                                                 @if ($data['bisaGabungKK'])
-                                                    <x-btn-button :url="ci_route('keluarga.ajax_gabung_kk', [$kk, $data['id']])" type="bg-yellow" icon="fa fa-plus-square" judul="Gabung KK" modal="true" buttonOnly="true" modalTarget="modalBox"  />
+                                                    <x-btn-button :url="ci_route('keluarga.ajax_gabung_kk', [$kk, $data['id']])" type="bg-yellow" icon="fa fa-plus-square" judul="Buat KK Baru" modal="true" buttonOnly="true" modalTarget="modalBox"  />
                                                 @endif
                                                 @if ($kepala_kk['status_dasar'] == 1 && $data['kk_level'] != 1)
                                                     <x-edit-hubungan-button url="{{ ci_route('keluarga.edit_anggota.' . $kk, $data['id']) }}" />

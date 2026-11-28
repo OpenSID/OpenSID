@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -116,7 +116,8 @@ class AuthenticatedSessionController extends Web_Controller
         $request = request();
 
         if ($request->has('nik') || ($request->has('tag_id_card') && $request->has('password'))) {
-            if ($request->has('anjungan_uuid')) {
+            
+            if ($this->cek_anjungan && $request->has('anjungan_uuid')) {
                 $anjungan = Anjungan::where('uuid', $request->anjungan_uuid)->first();
                 if (! $anjungan) {
                     redirect_with('error', 'Anjungan tidak ditemukan.', ci_route('layanan-mandiri/masuk'));
@@ -130,13 +131,18 @@ class AuthenticatedSessionController extends Web_Controller
             }
 
             // Login menggunakan NIK atau E-KTP dan password
-            $this->authenticate([
+            $respons = $this->authenticate([
                 'query' => fn ($q) => $q->when(
                     $this->caseQueryExist($request),
                     static fn ($q) => $q->status(0),
                     static fn ($q) => $q->status(1)
                 ),
             ]);
+
+            // Rate limit / validasi gagal: hentikan, jangan lanjut seolah login berhasil
+            if ($respons !== null) {
+                return $respons;
+            }
 
             if (Hash::needsRehash(Auth::guard($this->guard)->user()->getAuthPassword())) {
                 Auth::guard($this->guard)->user()->forceFill([
@@ -172,9 +178,47 @@ class AuthenticatedSessionController extends Web_Controller
             'is_anjungan', 'data_permohonan',
             'auth_mandiri', 'login_ektp',
             'login_penduduk_guest',
+            'anjungan_uuid',
         ]);
 
         return redirect($redirect);
+    }
+
+    /**
+     * Endpoint untuk memvalidasi anjungan_uuid dari client-side via AJAX.
+     * Jika valid, buat session dan kirim response json.
+     * (Disalin dari Premium v2603; dipakai halaman login modul Anjungan.)
+     */
+    public function cekAnjunganAjax()
+    {
+        // Ambil UUID dari request POST
+        $uuid = $this->input->post('anjungan_uuid') ?? null;
+
+        if ($uuid && ! preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $uuid)) {
+            $uuid = null;
+        }
+
+        $is_anjungan = false;
+        if ($uuid) {
+            // Cek ke database apakah UUID ini valid dan tipenya adalah ANJUNGAN
+            $anjungan = Anjungan::where('uuid', $uuid)
+                ->whereJsonContains('tipe', Anjungan::ANJUNGAN)
+                ->first();
+
+            if ($anjungan && $anjungan->status) {
+                $this->session->set_userdata('anjungan_uuid', $uuid);
+                $is_anjungan = true;
+            }
+        }
+
+        // Matikan view agar tidak ada output HTML, dan kirim header JSON
+        $this->output
+            ->set_status_header(200)
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode(['is_anjungan' => $is_anjungan]))
+            ->_display();
+
+        exit;
     }
 
     protected function authenticateEktp(Request $request)

@@ -116,9 +116,9 @@
                     <td>{{ $data->kontruksi_beton == '1' ? 'Ya' : 'Tidak' }}</td>
                     <td>{{ empty($data->luas_bangunan) ? '-' : $data->luas_bangunan }}</td>
                     <td>{{ $data->letak }}</td>
-                    <td>{{ date('d M Y', strtotime($data->tanggal_dokument)) }}</td>
+                    <td>{{ tgl_indo2($data->tanggal_dokument) }}</td>
                     <td>{{ empty($data->no_dokument) ? '-' : $data->no_dokument }}</td>
-                    <td>{{ date('d M Y', strtotime($data->tanggal)) }}</td>
+                    <td>{{ tgl_indo2($data->tanggal) }}</td>
                     <td>{{ empty($data->status_tanah) ? '-' : $data->status_tanah }}</td>
                     <td>{{ empty($main->no_tanah) ? '-' : $main->no_tanah }}</td>
                     <td>{{ $data->asal }}</td>

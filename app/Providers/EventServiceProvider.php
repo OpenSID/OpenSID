@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -90,9 +90,7 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\Komentar\KomentarSubmitted::class => [
             \App\Listeners\Komentar\SendKomentarNotification::class,
         ],
-        \App\Events\BukuTamu\TamuSubmitted::class => [
-            \App\Listeners\BukuTamu\SendTamuNotification::class,
-        ],
+        // Listener BukuTamu didaftarkan oleh BukuTamuServiceProvider::boot()
     ];
 
     /**
@@ -115,17 +113,19 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->callAfterResolving('events', function (Dispatcher $events): void {
-            foreach ($this->listens() as $event => $listeners) {
-                foreach ($listeners as $listener) {
-                    $events->listen($event, $listener);
-                }
-            }
+        // callAfterResolving is unreliable in the custom Lumen-like container
+        // (App\Services\Laravel). Register directly against the resolved Dispatcher.
+        $events = $this->app->make('events');
 
-            foreach ($this->subscribe as $subscriber) {
-                $events->subscribe($subscriber);
+        foreach ($this->listens() as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                $events->listen($event, $listener);
             }
-        });
+        }
+
+        foreach ($this->subscribe as $subscriber) {
+            $events->subscribe($subscriber);
+        }
     }
 
     /**

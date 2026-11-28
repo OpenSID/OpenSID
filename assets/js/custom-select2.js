@@ -27,7 +27,7 @@ $(document).ready(function()
 	      return {
 	        q: params.term || '', // search term
 	        page: params.page || 1,
- 	        filter_sex: $(this).data('filter-sex')
+			filter_sex: $(this).data('filter-sex')
 	      };
 	    },
 	    processResults: function (data, params) {
@@ -59,35 +59,6 @@ $(document).ready(function()
 	});
 
 	$('.select2-kk-ajax').select2({
-	  ajax: {
-	    url: function () {
-	      return $(this).data('url');
-	    },
-	    dataType: 'json',
-	    delay: 250,
-	    data: function (params) {
-	      return {
-	        q: params.term || '', // search term
-	        page: params.page || 1,
-	      };
-	    },
-	    processResults: function (data, params) {
-	      return {
-	        results: data.results,
-	        pagination: data.pagination
-	      };
-	    },
-	    cache: true
-	  },
-	  maximumSelectionLength: 20,
-		templateResult: function (penduduk) {
-			return penduduk.text;
-		},
-	  placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
-	  minimumInputLength: 0,
-	});
-
-	$('.select2-nik-ajax').select2({
 	  ajax: {
 	    url: function () {
 	      return $(this).data('url');

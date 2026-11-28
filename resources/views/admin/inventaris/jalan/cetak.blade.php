@@ -125,7 +125,7 @@
                                     <td>{{ $data->luas }}</td>
                                     <td>{{ $data->lebar }}</td>
                                     <td>{{ $data->letak }}</td>
-                                    <td>{{ $data->tanggal_dokument }}</td>
+                                    <td>{{ tgl_indo2($data->tanggal_dokument) }}</td>
                                     <td>{{ $data->no_dokument }}</td>
                                     <td>{{ $data->status_tanah }}</td>
                                     <td>{{ $data->kode_tanah }}</td>

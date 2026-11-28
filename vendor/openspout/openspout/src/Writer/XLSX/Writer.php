@@ -35,6 +35,23 @@ final class Writer extends AbstractWriterMultiSheets
         return $this->options;
     }
 
+    public function setCreator(string $creator): void
+    {
+        $props = $this->options->getProperties();
+        $this->options->setProperties(new Properties(
+            $props->title,
+            $props->subject,
+            $props->application,
+            $creator,
+            $props->lastModifiedBy,
+            $props->keywords,
+            $props->description,
+            $props->category,
+            $props->language,
+            $props->customProperties
+        ));
+    }
+
     protected function createWorkbookManager(): WorkbookManager
     {
         $workbook = new Workbook();
@@ -43,7 +60,7 @@ final class Writer extends AbstractWriterMultiSheets
             $this->options->getTempFolder(),
             new ZipHelper(),
             new XLSX(),
-            $this->creator
+            $this->options->getProperties()
         );
         $fileSystemHelper->createBaseFilesAndFolders();
 

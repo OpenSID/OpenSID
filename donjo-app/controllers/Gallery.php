@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -58,6 +58,12 @@ class Gallery extends Admin_Controller
 
     public function index(): void
     {
+        if ($this->input->get('url')) {
+            $this->image_proxy();
+
+            return;
+        }
+
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
             'parent'         => strlen($parent) > 20 ? decrypt($parent) : $parent,
@@ -127,13 +133,30 @@ class Gallery extends Admin_Controller
                     ])->render();
 
                     return $aksi;
-                })->editColumn('nama', static function ($row) {
-                    $gambarSedang = ($row->jenis == 1 ? AmbilGaleri($row->gambar ?? '', 'sedang') : $row->gambar);
-                    $gambarKecil  = ($row->jenis == 1 ? AmbilGaleri($row->gambar ?? '', 'kecil') : $row->gambar);
+                })->editColumn('nama', function ($row) {
+                    // Untuk jenis URL (2), gunakan proxy untuk menampilkan gambar
+                    if ($row->jenis == 2) {
+                        $processedUrl = $this->processImageUrl($row->gambar);
+                        $proxyUrl     = site_url('gallery?url=' . urlencode($processedUrl));
+                        $gambarSedang = $proxyUrl;
+                        $gambarKecil  = $proxyUrl;
+                    } else {
+                        // Untuk jenis file upload (1), gunakan AmbilGaleri
+                        $gambarSedang = AmbilGaleri($row->gambar ?? '', 'sedang');
+                        $gambarKecil  = AmbilGaleri($row->gambar ?? '', 'kecil');
+                    }
 
                     return '<label style="cursor: pointer;" class="tampil" data-img="' . $gambarSedang . '" data-rel="popover" data-content="<img width=200 height=134 src=' . $gambarKecil . '>" >' . $row->nama . '</label>';
-                } )->editColumn('gambar', static function ($row): string {
+                })->editColumn('gambar', function ($row): string {
                     if ($row->gambar) {
+                        // Untuk jenis URL (2), gunakan proxy untuk menampilkan gambar
+                        if ($row->jenis == 2) {
+                            $processedUrl = $this->processImageUrl($row->gambar);
+                            $proxyUrl     = site_url('gallery?url=' . urlencode($processedUrl));
+
+                            return '<img src="' . $proxyUrl . '" class="penduduk_kecil" alt="Gambar" style="max-width: 50px; max-height: 50px;">';
+                        }
+                        // Untuk jenis file upload (1), gunakan AmbilGaleri
                         return '<img src="' . AmbilGaleri($row->gambar, 'kecil') . '" class="penduduk_kecil" alt="Gambar">';
                     }
 
@@ -162,9 +185,15 @@ class Gallery extends Admin_Controller
             if ($gallery['jenis'] == 1 && $gallery['gambar']) {
                 $data['file_path_required'] = false;
             }
+            $data['gambar_proxy'] = null;
+            if ($gallery['jenis'] == 2 && $gallery['gambar']) {
+                $processedUrl = $this->processImageUrl($gallery['gambar']);
+                $data['gambar_proxy'] = site_url('gallery?url=' . urlencode($processedUrl));
+            }
         } else {
             $data['gallery']     = null;
             $data['form_action'] = ci_route("gallery.insert.{$parent}");
+            $data['gambar_proxy'] = null;
         }
         view('admin.web.gallery.form', $data);
     }
@@ -286,7 +315,7 @@ class Gallery extends Admin_Controller
     {
         $gambar = null;
         if ($post['jenis'] == 2) {
-            $gambar = $post['url'];
+            $gambar = $this->processImageUrl($post['url']);
             $gambar = str_replace('assets/../desa/', 'desa/', $gambar);
         } else {
             if (UploadError($_FILES['gambar'])) {
@@ -311,4 +340,5 @@ class Gallery extends Admin_Controller
             'gambar' => $gambar,
         ];
     }
+    
 }

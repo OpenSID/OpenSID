@@ -76,7 +76,7 @@ php.ini
 Modules/*
 /assets/modules/*
 
-# Do not ignore Anjungan folder and its contents
+# Do not ignore default module folder and its contents
 !Modules/Anjungan/
 !Modules/Anjungan/**
 !Modules/Analisis/

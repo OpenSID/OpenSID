@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -333,9 +333,18 @@ class Surat_master extends Admin_Controller
             return json(['success' => false, 'message' => $validasi['message']], 500);
         }
 
+        $isUpdate = $cek_surat !== null;
+
         $surat = FormatSurat::updateOrCreate(['id' => $id, 'config_id' => identitas('id')], $validasi, $id);
+
         if ($surat) {
-            return json(['success' => true, 'message' => 'Berhasil Tambah Data', 'redirect' => site_url('surat_master/form/' . $surat->id)], 200);
+            return json([
+                'success' => true,
+                'message' => $isUpdate
+                    ? 'Berhasil Ubah Data'
+                    : 'Berhasil Tambah Data',
+                'redirect' => site_url('surat_master/form/' . $surat->id),
+            ], 200);
         }
 
         return json(['success' => false, 'message' => 'Gagal Tambah Data'], 500);
@@ -368,10 +377,10 @@ class Surat_master extends Admin_Controller
         }
 
         if ($data->update($validasi)) {
-            return json(['success' => true, 'message' => 'Berhasil Tambah Data', 'redirect' => site_url('surat_master')], 200);
+            return json(['success' => true, 'message' => 'Berhasil Ubah Data', 'redirect' => site_url('surat_master')], 200);
         }
 
-        return json(['success' => false, 'message' => 'Gagal Tambah Data'], 500);
+        return json(['success' => false, 'message' => 'Gagal Ubah Data'], 500);
     }
 
     public function kodeIsian($id = null)

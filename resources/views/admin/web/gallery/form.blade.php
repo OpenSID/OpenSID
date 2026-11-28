@@ -67,15 +67,25 @@
                     </div>
                 </div>
             </div>
-            <div id="jenis-url" class="form-group">
-                <label class="control-label col-sm-4" for="url">Link/URL</label>
-                <div class="col-sm-6">
-                    <div class="input-group input-group-sm">
-                        <input id="url" name="url" class="form-control input-sm" type="url" value="{{ $gallery['gambar'] }}" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-info btn-danger btn-sm" id="kosongkan"><i class="fa fa-refresh" title="Kosongkan"></i>&nbsp;</button>
-                            <button type="button" class="btn btn-info btn-info btn-sm" id="file_browser2" data-toggle="modal" data-target="#FileManager"><i class="fa fa-search"></i>&nbsp;</button>
-                        </span>
+            <div id="jenis-url">
+                @if ($gallery && $gallery['gambar'] && $gambar_proxy)
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="nama"></label>
+                        <div class="col-sm-6">
+                            <img class="attachment-img img-responsive img-circle" src="{{ $gambar_proxy }}" alt="Gambar Album">
+                        </div>
+                    </div>
+                @endif
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="url">Link/URL</label>
+                    <div class="col-sm-6">
+                        <div class="input-group input-group-sm">
+                            <input id="url" name="url" class="form-control input-sm" type="url" value="{{ $gallery['gambar'] ?? '' }}" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-info btn-danger btn-sm" id="kosongkan"><i class="fa fa-refresh" title="Kosongkan"></i>&nbsp;</button>
+                                <button type="button" class="btn btn-info btn-info btn-sm" id="file_browser2" data-toggle="modal" data-target="#FileManager"><i class="fa fa-search"></i>&nbsp;</button>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>

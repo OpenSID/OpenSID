@@ -83,7 +83,7 @@
     <script>
         $(document).ready(function() {
             var level = "{{ $level }}";
-            var refreshOrder = {{ $refreshOrder ? true : false }};
+            var refreshOrder = {{ !empty($refreshOrder) ? 'true' : 'false' }};
 
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,

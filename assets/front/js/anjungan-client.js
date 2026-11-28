@@ -6,28 +6,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ------------------------------------------------------------------
     if (anjungan_uuid) {
         console.log("UUID terverifikasi pada server:", anjungan_uuid);
+        generateUUID()
     }
 
     // ------------------------------------------------------------------
     // 2. Kalau UUID belum ada → generate baru dan tampilkan pada form
     // ------------------------------------------------------------------
     if (!anjungan_uuid) {
-        getIp();
+        // getIp();
+        generateUUID()
+    }
+
+    function generateUUID() {
         getUserAgent();
         const temp_uuid = crypto.randomUUID();
         $('#anjungan_id').val(temp_uuid);
     }
 });
 
-getIp = () => {
-    fetch('https://api.ipify.org?format=json') 
-    .then(r => r.json())
-    .then(
-        d => {
-            document.getElementById('ip_address').value = d.ip;
-        }
-    );
-};
+// getIp = () => {
+//     fetch('https://api.ipify.org?format=json') 
+//     .then(r => r.json())
+//     .then(
+//         d => {
+//             document.getElementById('ip_address').value = d.ip;
+//         }
+//     );
+// };
 
 getUserAgent = () => {
     const ua = navigator.userAgent;

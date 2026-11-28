@@ -53,7 +53,8 @@
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="isiqr">Isi Kode :</label>
-                                <textarea class="form-control input-sm tetap required" rows="5" id="isiqr" name="isiqr" maxlength="300">{{ $qrcode['isiqr'] }}</textarea>
+                                <textarea class="form-control input-sm tetap required" rows="5" id="isiqr" name="isiqr" maxlength="300" placeholder="Masukkan teks atau URL untuk QR Code"></textarea>
+                                <small class="text-muted">Maksimal 300 karakter. Hindari karakter spesial dan HTML.</small>
                                 <label for="isiqr" generated="true" class="error" id="error_isiqr">Kolom ini diperlukan.</label>
                             </div>
                             <div class="row">
@@ -170,6 +171,9 @@
             $("#error_isiqr").hide();
 
             $('#newScan').on('click', function() {
+                // Clear all previous scan results
+                clearAllScanResults();
+                
                 if ($('#qr-reader__dashboard_section_swaplink').text().trim() != 'Scan dari File') {
                     $('#qr-reader__dashboard_section_swaplink').trigger('click');
                 }
@@ -194,11 +198,62 @@
             $("#hasil_qrcode").hide();
         });
 
+        // Sanitize input to prevent XSS
+        function sanitizeInput(input) {
+            var div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+
+        // Validate hex color
+        function isValidHexColor(color) {
+            return /^#[0-9A-F]{6}$/i.test(color);
+        }
+
+        // Validate QR Code content
+        function isValidQRContent(content) {
+            // Check length
+            if (content.length === 0) {
+                return { valid: false, message: 'Isi Kode tidak boleh kosong' };
+            }
+            if (content.length > 300) {
+                return { valid: false, message: 'Isi Kode maksimal 300 karakter' };
+            }
+            
+            // Check for dangerous patterns (HTML tags, scripts, etc)
+            var dangerousPatterns = [
+                /<script[^>]*>[\s\S]*?<\/script>/gi,  // script tags
+                /<iframe[^>]*>[\s\S]*?<\/iframe>/gi,  // iframe tags
+                /<svg[^>]*>[\s\S]*?<\/svg>/gi,        // svg tags
+                /<img[^>]*on\w+[^>]*>/gi,             // img with event handlers
+                /javascript:/gi,                       // javascript: protocol
+                /on\w+\s*=/gi                          // event handlers (onclick, etc)
+            ];
+            
+            for (var i = 0; i < dangerousPatterns.length; i++) {
+                if (dangerousPatterns[i].test(content)) {
+                    return { valid: false, message: 'Isi Kode mengandung karakter atau tag yang tidak diizinkan' };
+                }
+            }
+            
+            return { valid: true };
+        }
+
         $('#generate').on('click', function() {
-            if (!$('#isiqr').val()) {
+            var isiqrVal = $('#isiqr').val();
+            
+            // Validate QR Code content
+            var contentValidation = isValidQRContent(isiqrVal);
+            if (!contentValidation.valid) {
                 $('#isiqr').focus();
                 $('#isiqr').closest('.form-group').addClass('has-error');
-                $("#error_isiqr").show();
+                Swal.fire({
+                    title: 'Validasi Gagal',
+                    text: contentValidation.message,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                return false;
             } else {
                 $('#isiqr').closest('.form-group').removeClass('has-error');
                 $("#error_isiqr").hide();
@@ -209,6 +264,17 @@
             var logoqr = $('#logoqr').val();
             var sizeqr = $('#sizeqr').val();
             var foreqr = $('#foreqr').val();
+
+            // Validate foreground color
+            if (foreqr && !isValidHexColor(foreqr)) {
+                Swal.fire({
+                    title: 'Validasi Gagal',
+                    text: 'Format warna harus hex (#RRGGBB)',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return false;
+            }
 
             $.ajax({
                 url: "{{ site_url('qrcode/qrcode_generate') }}",
@@ -225,6 +291,18 @@
                     $("#file_qrcode").attr('src', data);
                     $("#unduh_qrcode").attr('href', data).attr('download', 'unduh_qrcode_' + (Math.floor(Math.random() * 1000) + 1) + '.png');
                     return true;
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = 'Terjadi kesalahan saat membuat QR Code.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        title: 'Error',
+                        text: errorMessage,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
             });
 

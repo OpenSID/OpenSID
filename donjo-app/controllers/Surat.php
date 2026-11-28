@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -361,8 +361,8 @@ class Surat extends Admin_Controller
             $lampiran  = $this->tinymce->generateLampiran($log_surat['id_pend'], $log_surat, $log_surat['input'], true);
 
             // Replace Gambar
-            $data_gambar = KodeIsianGambar::set($surat, $isi_surat, null);
-            $isi_surat   = $data_gambar['result'];
+            // $data_gambar = KodeIsianGambar::set($surat, $isi_surat, null);
+            // $isi_surat   = $data_gambar['result'];
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;
@@ -744,6 +744,7 @@ class Surat extends Admin_Controller
         $filter['sex'] = ($filter_sex == 'perempuan') ? 2 : $filter_sex;
         $kategori      = $this->input->get('kategori') ?? null;
         $kecuali       = $this->input->get('kecuali') ?? null;
+
         if ($kategori) {
             $filterPenduduk = collect(FormatSurat::select('form_isian')->find($this->input->get('surat'))->form_isian->{$kategori})->toArray();
             if (isset($filterPenduduk['data'])) {

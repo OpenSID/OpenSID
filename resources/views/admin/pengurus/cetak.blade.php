@@ -2,6 +2,34 @@
 
 @section('title', 'BUKU ' . strtoupper(setting('sebutan_pemerintah_desa')))
 
+@if(isset($is_landscape) && $is_landscape)
+@push('css')
+<style>
+    /* Mendukung landscape orientation untuk print preview */
+    body.landscape #print-modal {
+        width: 1122px;
+        margin: 0 0 0 -589px;
+    }
+    
+    /* Override overflow hidden untuk enable scrolling */
+    body.landscape #print-modal-content {
+        overflow: auto !important;
+    }
+    
+    @media print {
+        @page {
+            margin: 0.5cm;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    }
+</style>
+@endpush
+@endif
+
 @section('styles')
     <!-- TODO: Pindahkan ke external css -->
     <style>

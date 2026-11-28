@@ -93,6 +93,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="publikasi">Publikasi</label>
+                    <div class="col-sm-3">
+                        <select class="form-control input-sm required" name="publikasi" id="publikasi">
+                            <option value="">Pilih Publikasi</option>
+                            <option value="{{ \App\Enums\StatusEnum::YA }}" @selected($program['publikasi'] == \App\Enums\StatusEnum::YA)>Aktif</option>
+                            <option value="{{ \App\Enums\StatusEnum::TIDAK }}" @selected($program['publikasi'] == \App\Enums\StatusEnum::TIDAK)>Tidak Aktif</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class='box-footer'>
                 <button type='reset' class='btn btn-social btn-danger btn-sm'><i class='fa fa-times'></i>

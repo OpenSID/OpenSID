@@ -9,7 +9,7 @@
     .bg-identitas {
         width: 100%;
         height: 300px;
-        background: url("{{ gambar_desa($main['path_kantor_desa'], true) }}");
+        background: url("{{ $main['url_kantor_desa'] }}");
         background-repeat: no-repeat;
         background-position: center center;
     }
@@ -61,7 +61,7 @@
     @endif
     <div class="box-body">
         <div class="box-body bg-identitas">
-            <img class="img-identitas img-responsive" src="{{ gambar_desa($main['path_logo']) }}" alt="logo-desa">
+            <img class="img-identitas img-responsive" src="{{ $main['url_logo'] }}" alt="Logo {{ ucwords(setting('sebutan_desa')) }}">
             <h3 class="text-identitas">{{ ucwords(setting('sebutan_desa') . ' ' . $main['nama_desa']) }}</h3>
             <p class="text-identitas">
                 <b>{{ ucwords(setting('sebutan_kecamatan') . ' ' . $main['nama_kecamatan'] . ', ' . setting('sebutan_kabupaten') . ' ' . $main['nama_kabupaten'] . ', Provinsi ' . $main['nama_propinsi']) }}</b>
@@ -253,11 +253,7 @@
                             </tr>
                             @foreach($profil_desa['adat'] as $item)
                                 <tr>
-                                    @if ($item->key === 'status_desa')
-                                        <td>{{ SebutanDesa("Status [Desa]") }}</td>
-                                    @else
-                                        <td>{{ $item->judul }}</td>
-                                    @endif
+                                    <td>{{ SebutanDesa($item->judul) }}</td>
                                     <td>:</td>
                                     <td>
                                     @if ($item->key == 'struktur_adat' && $item->value)

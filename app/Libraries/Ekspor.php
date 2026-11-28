@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -46,6 +46,54 @@ use MySQLImport;
 
 class Ekspor
 {
+    public const DAFTAR_KOLOM = [
+        'alamat',
+        'dusun',
+        'rw',
+        'rt',
+        'nama',
+        'no_kk',
+        'no_rtm',
+        'nik',
+        'sex',
+        'tempatlahir',
+        'tanggallahir',
+        'agama_id',
+        'pendidikan_kk_id',
+        'pendidikan_sedang_id',
+        'pekerjaan_id',
+        'status_kawin',
+        'kk_level',
+        'warganegara_id',
+        'ayah_nik',
+        'nama_ayah',
+        'ibu_nik',
+        'nama_ibu',
+        'golongan_darah_id',
+        'akta_lahir',
+        'dokumen_pasport',
+        'tanggal_akhir_paspor',
+        'dokumen_kitas',
+        'akta_perkawinan',
+        'tanggalperkawinan',
+        'akta_perceraian',
+        'tanggalperceraian',
+        'cacat_id',
+        'cara_kb_id',
+        'hamil',
+        'ktp_el',
+        'status_rekam',
+        'alamat_sekarang',
+        'status_dasar',
+        'suku',
+        'tag_id_card',
+        'id_asuransi',
+        'no_asuransi',
+        'lat',
+        'lng',
+        'ket',
+    ];
+
     private readonly mysqli $db;
     private array $config;
     private ?int $configId = null;

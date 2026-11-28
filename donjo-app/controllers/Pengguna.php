@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -122,17 +122,7 @@ class Pengguna extends Admin_Controller
             return redirect_with('error', 'Anda harus memverifikasi email sebelum mengaktifkan autentikasi dua faktor.', 'pengguna#2fa');
         }
 
-        $password = $this->request['konfirmasi_password'] ?? '';
-
-        if (empty($password)) {
-            return redirect_with('error', 'Password harus diisi untuk mengubah pengaturan keamanan.', 'pengguna#2fa');
-        }
-
-        if (! Hash::check($password, $user->password)) {
-            return redirect_with('error', 'Password yang Anda masukkan tidak sesuai.', 'pengguna#2fa');
-        }
-
-        $user->two_factor_enabled = (int) $this->request['two_factor_enabled'];
+        $user->two_factor_enabled = $this->request['two_factor_enabled'];
         $user->save();
 
         return redirect_with('success', 'Pengaturan keamanan berhasil diperbarui.', 'pengguna#2fa');
@@ -339,6 +329,10 @@ class Pengguna extends Admin_Controller
         $user->password = Hash::make($pass_baru);
 
         if ($user->update()) {
+            // Regenerate session ID
+            $this->session->sess_regenerate();
+
+            // Update session dengan user data terbaru
             $this->session->isAdmin = $user;
 
             return [

@@ -897,11 +897,6 @@ class GrupAkses extends Seeder
             ],
             [
                 'grup'  => 'Operator',
-                'slug'  => 'gawai-layanan',
-                'akses' => 3,
-            ],
-            [
-                'grup'  => 'Operator',
                 'slug'  => 'satu-data',
                 'akses' => 3,
             ],

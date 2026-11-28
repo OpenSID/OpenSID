@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -71,8 +71,41 @@ trait GenerateRtf
             $nama_ayah         .= $ranggota['nama_ayah'] . '\\line ';
             $nama_ibu          .= $ranggota['nama_ibu'] . '\\line ';
             $golongan_darah    .= ($ranggota['golongan_darah']) . '\\line ';
-            $tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo(tgl: $ranggota['tanggalperkawinan'], format: 'd-m-Y') . '\\line ' : '- \\line ';
-            $tanggalperceraian .= isset($ranggota['tanggalperceraian']) ? tgl_indo(tgl: $ranggota['tanggalperceraian'], format: 'd-m-Y') . '\\line ' : '- \\line ';
+            // Cek status perkawinan sebelum menampilkan tanggal
+            $statusPerkawinan = $ranggota['status_perkawinan'] ?? '';
+            
+            // Logika untuk KK biasa dan F1.09
+            if ($format === 'F1.09') {
+                // Untuk F1.09: kolom TANGGAL PERKAWINAN/PERCERAIAN
+                // Tampilkan tanggal perkawinan jika status KAWIN
+                // Tampilkan tanggal perceraian jika status CERAI (Cerai Hidup/Cerai Mati)
+                if (str_contains($statusPerkawinan, 'KAWIN')) {
+                    $tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo(tgl: $ranggota['tanggalperkawinan'], format: 'd-m-Y') . '\\line ' : '- \\line ';
+                } elseif (str_contains($statusPerkawinan, 'CERAI')) {
+                    $tanggalperkawinan .= isset($ranggota['tanggalperceraian']) ? tgl_indo(tgl: $ranggota['tanggalperceraian'], format: 'd-m-Y') . '\\line ' : '- \\line ';
+                } else {
+                    $tanggalperkawinan .= '- \\line ';
+                }
+                // F1.09 tidak punya kolom tanggal perceraian terpisah
+                $tanggalperceraian .= '- \\line ';
+            } else {
+                // Untuk KK biasa: ada 2 kolom terpisah
+                // Kolom TANGGAL PERKAWINAN
+                if (str_contains($statusPerkawinan, 'KAWIN')) {
+                    $tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo(tgl: $ranggota['tanggalperkawinan'], format: 'd-m-Y') . '\\line ' : '- \\line ';
+                } else {
+                    // Jika bukan status kawin, jangan tampilkan tanggal perkawinan
+                    $tanggalperkawinan .= '- \\line ';
+                }
+                
+                // Kolom TANGGAL PERCERAIAN
+                if (str_contains($statusPerkawinan, 'CERAI')) {
+                    $tanggalperceraian .= isset($ranggota['tanggalperceraian']) ? tgl_indo(tgl: $ranggota['tanggalperceraian'], format: 'd-m-Y') . '\\line ' : '- \\line ';
+                } else {
+                    // Jika bukan status cerai, jangan tampilkan tanggal perceraian
+                    $tanggalperceraian .= '- \\line ';
+                }
+            }
         }
 
         $buffer = str_replace('[no]', "{$no}", $buffer);
