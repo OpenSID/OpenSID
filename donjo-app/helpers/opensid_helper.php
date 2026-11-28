@@ -82,7 +82,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2705.0.0');
+define('VERSION', '2706.0.0');
 
 /**
  * VERSI_DATABASE
@@ -93,7 +93,7 @@ define('VERSION', '2705.0.0');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2026051571');
+define('VERSI_DATABASE', '2026060171');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -201,16 +201,13 @@ function currentVersion(): string
     return substr_replace(substr(VERSION, 0, 4), '.', 2, 0);
 }
 
-/**
- * favico_desa
- *
- * Mengembalikan path lengkap untuk file favico desa
- *
- * @param mixed $favico
- */
 function favico_desa($favico = 'favicon.ico'): string
 {
-    return base_url($favico) . '?v' . md5_file($favico);
+    if (! file_exists($favico)) {
+        return base_url($favico);
+    }
+
+    return base_url($favico) . '?v=' . md5_file($favico);
 }
 
 /**
@@ -239,7 +236,7 @@ function session_error($pesan = ''): void
     // $_SESSION['error_msg'] = $pesan;
     // $_SESSION['success']   = -1;
 
-    get_instance()->session->set_userdata([
+    get_instance()->session->set_flashdata([
         'error_msg' => $pesan,
         'success'   => -1,
     ]);
@@ -252,7 +249,7 @@ function session_error_clear(): void
 
 function session_success(): void
 {
-    get_instance()->session->set_userdata([
+    get_instance()->session->set_flashdata([
         'error_msg' => '',
         'success'   => 1,
     ]);
@@ -299,7 +296,7 @@ function mark_pantau_down(int $attempt_count = 1): void
     // tidak ter-reset saat flag down expired.
     cache()->put($cache_attempt, $attempt_count, 24 * 60 * 60);
 
-    log_message('warning', "Pantau server marked as down. Attempt: {$attempt_count}, Backoff: {$backoff_minutes} minutes");
+    logger()->warning("Pantau server marked as down. Attempt: {$attempt_count}, Backoff: {$backoff_minutes} minutes");
 }
 
 /**
@@ -1334,25 +1331,6 @@ function kode_wilayah($kode_wilayah): string
     return implode('.', $kode_prov_kab_kec) . $kode_desa;
 }
 
-// Ambil kode_desa dari identitas
-function kode_desa($kodeWilayah = null): string
-{
-    $kodeWilayah ??= identitas('kode_desa');
-
-    return substr($kodeWilayah, 6);
-}
-
-/*
- * Cek apakah kode_desa adalah kelurahan
- * Kelurahan: kode_desa <= 2000
- */
-function isKelurahan($kodeWilayah = null): bool
-{
-    $kodeDesa = (int) kode_desa($kodeWilayah);
-
-    return is_numeric($kodeDesa) && $kodeDesa < 2000;
-}
-
 // Dari 0892611042612 --> +6292611042612 untuk redirect WA
 function format_telpon(string $no_telpon, string $kode_negara = '+62'): string
 {
@@ -1385,31 +1363,20 @@ function strReplaceArrayRecursive($replacement = [], $strArray = false, $isRepla
     return $newArr;
 }
 
-function get_domain(string $url): ?string
+function get_domain($url): string
 {
-    $parse = parse_url($url);
+    $parsed = parse_url($url);
 
-    return preg_replace('#^(http(s)?://)?w{3}\.#', '$1', $parse['host']);
+    if ($parsed === false || ! isset($parsed['host'])) {
+        return '';
+    }
+
+    return $parsed['host'];
 }
 
 function get_antrian($antrian)
 {
     return substr_replace($antrian, '-', 6, 0);
-}
-
-function get_nik($nik = '0')
-{
-    if (substr($nik, 0, 1) !== '0') {
-        return $nik;
-    }
-
-    return '0';
-}
-
-// Sama dengan nik sementara
-function get_nokk($nokk = '0')
-{
-    return get_nik($nokk);
 }
 
 // https://stackoverflow.com/questions/24043400/php-check-if-ipaddress-is-local/37725041
@@ -1572,11 +1539,11 @@ function idm($kode_desa, $tahun)
     // Periksa apakah file cache ada dan tidak kadaluarsa
     if (file_exists($cache_path)) {
         $data = unserialize(file_get_contents($cache_path));
-        $ci->cache->save($cache, $data['data'], YEAR); // Ubah ke satu tahun
+        $ci->cache->file->save($cache, $data['data'], YEAR); // Ubah ke satu tahun
     }
 
     // Ambil cache IDM
-    if ($data = $ci->cache->get($cache)) {
+    if ($data = $ci->cache->file->get($cache)) {
         return $data;
     }
 
@@ -1600,9 +1567,10 @@ function idm($kode_desa, $tahun)
 
             if (! empty($body_content)) {
                 $idm_data = json_decode($body_content, null)->mapData;
-                $ci->cache->save($cache, $idm_data, YEAR);
 
-                return $ci->cache->get($cache);
+                $ci->cache->file->save($cache, $idm_data, YEAR);
+
+                return $ci->cache->file->get($cache);
             }
         }
     } catch (Exception $e) {
@@ -1633,11 +1601,11 @@ function sdgs()
     // Periksa apakah file cache ada dan perbaharui cache jika kadaluarsa
     if (file_exists($cache_path)) {
         $data = unserialize(file_get_contents($cache_path));
-        $ci->cache->save($cache, $data['data'], YEAR); // Ubah ke satu tahun
+        $ci->cache->file->save($cache, $data['data'], YEAR); // Ubah ke satu tahun
     }
 
     // Ambil cache SDGs
-    if ($data = $ci->cache->get($cache)) {
+    if ($data = $ci->cache->file->get($cache)) {
         return $data;
     }
 
@@ -1674,9 +1642,9 @@ function sdgs()
                     })
                     ->toArray();
 
-                $ci->cache->save($cache, $data, YEAR);
+                $ci->cache->file->save($cache, $data, YEAR);
 
-                return $ci->cache->get($cache);
+                return $ci->cache->file->get($cache);
             }
         }
     } catch (Exception $e) {
@@ -1823,17 +1791,43 @@ function gelar($gelar_depan = null, $nama = null, $gelar_belakang = null)
     return $nama;
 }
 
-function default_file($new_file = null, $default = null)
-{
-    // jika $default ada kata Module/ maka diabaikan, maka langsung kembalikan $default
-    // contoh: http://opensid.test/Modules/Kehadiran/Views/assets/css/style.css
-    if (preg_match('/modules\//', $default)) {
-        $asset = $default;
-    } else {
-        $asset = asset(str_replace('assets/', '', $default));
-    }
+if (! function_exists('default_file')) {
+    /**
+     * Fungsi untuk menentukan URL file yang akan digunakan, dengan prioritas:
+     * 1. Jika $new_file diberikan dan merupakan file yang valid, gunakan URL dari file tersebut.
+     * 2. Jika $new_file tidak valid atau tidak diberikan, gunakan $default sebagai fallback.
+     *
+     * @param string|null $new_file Path file baru yang ingin digunakan (relatif terhadap FCPATH).
+     * @param string|null $default  Path file default yang akan digunakan jika $new_file
+     */
+    function default_file($new_file = null, $default = null)
+    {
+        // Pastikan $new_file adalah string path file yang valid (bukan null, bukan direktori)
+        $new_file     = trim((string) $new_file);
+        $has_new_file = !empty($new_file) && is_file(FCPATH . $new_file);
 
-    return file_exists(FCPATH . $new_file) ? asset($new_file, false) : $asset;
+        if ($has_new_file) {
+            // Jika file kustom ada, bersihkan prefix assets/ jika ada sebelum dikirim ke asset()
+            $clean_file = preg_replace('/^assets\//i', '', $new_file);
+
+            return asset($clean_file);
+        }
+
+        // Jika tidak ada file kustom, gunakan fallback $default
+        if (empty($default)) {
+            return null;
+        }
+
+        // Jika default merupakan URL modul, langsung kembalikan
+        if (preg_match('/modules\//i', $default)) {
+            return $default;
+        }
+
+        // Bersihkan prefix assets/ dari default sebelum dikirim ke asset() untuk mencegah double prefix
+        $clean_default = preg_replace('/^assets\//i', '', $default);
+
+        return asset($clean_default);
+    }
 }
 
 // https://stackoverflow.com/questions/6824002/capitalize-last-letter-of-a-string
@@ -1983,7 +1977,7 @@ if (! function_exists('is_super_admin')) {
      */
     function is_super_admin(): bool
     {
-        return (int) ci_auth()->id === super_admin();
+        return (int) auth('admin')->id() === super_admin();
     }
 }
 

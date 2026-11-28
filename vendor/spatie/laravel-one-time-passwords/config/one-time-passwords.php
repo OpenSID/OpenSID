@@ -1,5 +1,12 @@
 <?php
 
+use Spatie\OneTimePasswords\Actions\ConsumeOneTimePasswordAction;
+use Spatie\OneTimePasswords\Actions\CreateOneTimePasswordAction;
+use Spatie\OneTimePasswords\Models\OneTimePassword;
+use Spatie\OneTimePasswords\Notifications\OneTimePasswordNotification;
+use Spatie\OneTimePasswords\Support\OriginInspector\DefaultOriginEnforcer;
+use Spatie\OneTimePasswords\Support\PasswordGenerators\NumericOneTimePasswordGenerator;
+
 return [
     /*
      * one-time passwords should be consumed within this number of minutes
@@ -25,12 +32,12 @@ return [
      * If you do not wish to enforce this, set this value to
      * Spatie\OneTimePasswords\Support\OriginInspector\DoNotEnforceOrigin
      */
-    'origin_enforcer' => Spatie\OneTimePasswords\Support\OriginInspector\DefaultOriginEnforcer::class,
+    'origin_enforcer' => DefaultOriginEnforcer::class,
 
     /*
      * This class generates a random password
      */
-    'password_generator' => Spatie\OneTimePasswords\Support\PasswordGenerators\NumericOneTimePasswordGenerator::class,
+    'password_generator' => NumericOneTimePasswordGenerator::class,
 
     /*
      * By default, the password generator will create a password with
@@ -56,12 +63,12 @@ return [
     /*
      * The model uses to store one-time passwords
      */
-    'model' => Spatie\OneTimePasswords\Models\OneTimePassword::class,
+    'model' => OneTimePassword::class,
 
     /*
      * The notification used to send a one-time password to a user
      */
-    'notification' => Spatie\OneTimePasswords\Notifications\OneTimePasswordNotification::class,
+    'notification' => OneTimePasswordNotification::class,
 
     /*
      * These class are responsible for performing core tasks regarding one-time passwords.
@@ -69,7 +76,7 @@ return [
      * by specifying your custom class name here.
      */
     'actions' => [
-        'create_one_time_password' => Spatie\OneTimePasswords\Actions\CreateOneTimePasswordAction::class,
-        'consume_one_time_password' => Spatie\OneTimePasswords\Actions\ConsumeOneTimePasswordAction::class,
+        'create_one_time_password' => CreateOneTimePasswordAction::class,
+        'consume_one_time_password' => ConsumeOneTimePasswordAction::class,
     ],
 ];

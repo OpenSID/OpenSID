@@ -84,14 +84,52 @@ class InventarisSubMenuEnum extends BaseEnum
         'header' => 'Inventaris Konstruksi dalam Pengerjaan',
     ];
 
+    /**
+     * Inline array (hindari self:: constant di sini untuk kompatibilitas ioncube)
+     */
     public static $data = [
-        self::LAPORAN,
-        self::TANAH,
-        self::PERALATAN,
-        self::GEDUNG,
-        self::JALAN,
-        self::ASET,
-        self::KONSTRUKSI,
+        [
+            'key'    => 0,
+            'slug'   => 'laporan_inventaris',
+            'label'  => 'Laporan Semua Aset',
+            'header' => 'Laporan Keseluruhan Aset Desa',
+        ],
+        [
+            'key'    => 1,
+            'slug'   => 'inventaris_tanah',
+            'label'  => 'Tanah',
+            'header' => 'Inventaris Tanah',
+        ],
+        [
+            'key'    => 2,
+            'slug'   => 'inventaris_peralatan',
+            'label'  => 'Peralatan Dan Mesin',
+            'header' => 'Inventaris Peralatan dan Mesin',
+        ],
+        [
+            'key'    => 3,
+            'slug'   => 'inventaris_gedung',
+            'label'  => 'Gedung dan Bangunan',
+            'header' => 'Inventaris Gedung dan Bangunan',
+        ],
+        [
+            'key'    => 4,
+            'slug'   => 'inventaris_jalan',
+            'label'  => 'Jalan, Irigasi, dan Jaringan',
+            'header' => 'Inventaris Jalan, Irigasi, dan Jaringan',
+        ],
+        [
+            'key'    => 5,
+            'slug'   => 'inventaris_asset',
+            'label'  => 'Aset Tetap Lainnya',
+            'header' => 'Inventaris Aset Tetap Lainnya',
+        ],
+        [
+            'key'    => 6,
+            'slug'   => 'inventaris_kontruksi',
+            'label'  => 'Konstruksi dalam pengerjaan',
+            'header' => 'Inventaris Konstruksi dalam Pengerjaan',
+        ],
     ];
 
     /**

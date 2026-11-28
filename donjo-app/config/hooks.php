@@ -47,33 +47,38 @@ defined('BASEPATH') || exit('No direct script access allowed');
 | https://codeigniter.com/user_guide/general/hooks.html
 |
 */
-
-$moduleLocations = $CFG->item('modules_locations');
-$hook            = getHooks(['modules_location' => $moduleLocations]);
-
-/*
-|--------------------------------------------------------------------------
-| Create The Application
-|--------------------------------------------------------------------------
-|
-| First we need to get an application instance. This creates an instance
-| of the application / container and bootstraps the application so it
-| is ready to receive HTTP / Console requests from the environment.
-|
-*/
-
-$app = require __DIR__ . '/../../bootstrap/app.php';
-
-/*
-|--------------------------------------------------------------------------
-| Run The Application
-|--------------------------------------------------------------------------
-|
-| Once we have the application, we can handle the incoming request
-| through the kernel, and send the associated response back to
-| the client's browser allowing them to enjoy the creative
-| and wonderful application we have prepared for them.
-|
-*/
-
-$app->run();
+$hook['pre_system'][] = [
+    'class'    => 'RouterHook',
+    'function' => 'handlePreSystem',
+    'filename' => 'RouterHook.php',
+    'filepath' => 'hooks',
+    'params'   => [],
+];
+$hook['pre_controller'][] = [
+    'class'    => 'RouterHook',
+    'function' => 'handlePreController',
+    'filename' => 'RouterHook.php',
+    'filepath' => 'hooks',
+    'params'   => [],
+];
+$hook['post_controller_constructor'][] = [
+    'class'    => 'RouterHook',
+    'function' => 'handlePostControllerConstructor',
+    'filename' => 'RouterHook.php',
+    'filepath' => 'hooks',
+    'params'   => [],
+];
+$hook['post_controller'][] = [
+    'class'    => 'RouterHook',
+    'function' => 'handlePostController',
+    'filename' => 'RouterHook.php',
+    'filepath' => 'hooks',
+    'params'   => [],
+];
+$hook['display_override'][] = [
+    'class'    => 'RouterHook',
+    'function' => 'handleDisplayOverride',
+    'filename' => 'RouterHook.php',
+    'filepath' => 'hooks',
+    'params'   => [],
+];

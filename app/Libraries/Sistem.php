@@ -114,7 +114,7 @@ class Sistem
     {
         return [
             'versi' => PHP_VERSION,
-            'cek'   => (version_compare(PHP_VERSION, minPhpVersion, '>=') && version_compare(PHP_VERSION, maxPhpVersion, '<=')),
+            'cek'   => version_compare(PHP_VERSION, '8.4', '>='),
         ];
     }
 

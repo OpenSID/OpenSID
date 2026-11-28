@@ -35,7 +35,9 @@
  *
  */
 
+use App\Bootstrap\CodeIgniterBootstrap;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -190,7 +192,6 @@ class Install extends CI_Controller
         if (file_exists(DESAPATH)) {
             show_404();
         }
-
         $this->load->database($this->config_database());
 
         if (
@@ -208,7 +209,9 @@ class Install extends CI_Controller
         try {
             folder_desa();
 
-            app()->configure('database');
+            CodeIgniterBootstrap::configureConfig(app());
+            DB::purge('default');
+            DB::reconnect('default');
 
             $this->load->model('seeders/seeder');
 

@@ -47,12 +47,12 @@ class ArtikelRepository
     {
         return QueryBuilder::for(Artikel::active())
             ->allowedFields('*')
-            ->allowedFilters([
+            ->allowedFilters(...[
                 AllowedFilter::callback('search', static function ($query, string $value): void {
                     $query->where('judul', 'LIKE', '%' . $value . '%')
                         ->orWhere('isi', 'LIKE', '%' . $value . '%');
                 }),
             ])
-            ->allowedSorts(['tgl_upload', 'hit', 'id'])->jsonPaginate();
+            ->allowedSorts(...['tgl_upload', 'hit', 'id'])->jsonPaginate();
     }
 }

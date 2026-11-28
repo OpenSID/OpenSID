@@ -30,7 +30,7 @@ class ConsumeOneTimePasswordAction
         Request $request
     ): ConsumeOneTimePasswordResult {
         return (new Timebox)->call(
-            callback: fn () => $this->consumeOneTimePassword($user, $password, $request),
+            callback: fn (Timebox $timebox) => $this->consumeOneTimePassword($user, $password, $request, $timebox),
             microseconds: CarbonInterval::milliseconds(100)->microseconds,
         );
     }
@@ -41,7 +41,8 @@ class ConsumeOneTimePasswordAction
     protected function consumeOneTimePassword(
         Authenticatable $user,
         string $password,
-        Request $request
+        Request $request,
+        Timebox $timebox,
     ): ConsumeOneTimePasswordResult {
         $oneTimePasswords = $this->getAllOneTimePasswordsForUser($user);
 
@@ -73,6 +74,8 @@ class ConsumeOneTimePasswordAction
         }
 
         $this->onSuccessfullyValidated($user, $oneTimePassword);
+
+        $timebox->returnEarly();
 
         return ConsumeOneTimePasswordResult::Ok;
     }

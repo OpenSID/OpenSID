@@ -47,7 +47,7 @@ class GaleriRepository
         return QueryBuilder::for(Galery::whereHas('children')->with(['children' => static fn ($q) => $q->active()])->active()->child(Galery::PARRENT))
             ->allowedFields('*')
             ->allowedFilters('*')
-            ->allowedSorts(['tgl_upload', 'id'])->jsonPaginate();
+            ->allowedSorts(...['tgl_upload', 'id'])->jsonPaginate();
     }
 
     public function sublist($parent)
@@ -55,6 +55,6 @@ class GaleriRepository
         return QueryBuilder::for(Galery::active()->child($parent))
             ->allowedFields('*')
             ->allowedFilters('*')
-            ->allowedSorts(['tgl_upload', 'id'])->jsonPaginate();
+            ->allowedSorts(...['tgl_upload', 'id'])->jsonPaginate();
     }
 }

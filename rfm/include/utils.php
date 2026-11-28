@@ -25,7 +25,7 @@ if ( ! function_exists('response'))
 	}
 }
 
-if ( ! function_exists('trans'))
+if ( ! function_exists('translate'))
 {
 
 	/**
@@ -35,7 +35,7 @@ if ( ! function_exists('trans'))
 	*
 	* @return string translated variable
 	*/
-	function trans($var)
+	function translate($var)
 	{
 		global $lang_vars;
 
@@ -456,7 +456,7 @@ function makeSize($size)
 		$u++;
 	}
 
-	return (number_format($size, 0) . " " . trans($units[ $u ]));
+	return (number_format($size, 0) . " " . translate($units[ $u ]));
 }
 
 /**
@@ -617,7 +617,7 @@ function check_files_extensions_on_path($path, $ext)
 
 
 /**
-* Check file extension 
+* Check file extension
 *
 * @param  string  $extension
 * @param  array   $config
@@ -872,12 +872,12 @@ function image_check_memory_usage($img, $max_breedte, $max_hoogte)
 		$K64 = 65536; // number of bytes in 64K
 		$memory_usage = memory_get_usage();
 		if(ini_get('memory_limit') > 0 ){
-			
+
 			$mem = ini_get('memory_limit');
 			$memory_limit = 0;
 			if (strpos($mem, 'M') !== false) $memory_limit = abs(intval(str_replace(array('M'), '', $mem) * 1024 * 1024));
 			if (strpos($mem, 'G') !== false) $memory_limit = abs(intval(str_replace(array('G'), '', $mem) * 1024 * 1024 * 1024));
-			
+
 			$image_properties = getimagesize($img);
 			$image_width = $image_properties[0];
 			$image_height = $image_properties[1];
@@ -1312,7 +1312,7 @@ function debugger($input, $trace = false, $halt = false)
 	{
 		exit();
 	}
-} 
+}
 
 /**
 * @param  string  $version

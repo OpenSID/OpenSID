@@ -5,7 +5,7 @@ $config = include 'config/config.php';
 require_once 'include/utils.php';
 
 if ($_SESSION['RF']["verify"] != "RESPONSIVEfilemanager") {
-    response(trans('forbidden').AddErrorLocation())->send();
+    response(translate('forbidden').AddErrorLocation())->send();
     exit;
 }
 $languages = include 'lang/languages.php';
@@ -14,24 +14,24 @@ if (isset($_SESSION['RF']['language']) && file_exists('lang/' . basename($_SESSI
     if (array_key_exists($_SESSION['RF']['language'], $languages)) {
         include 'lang/' . basename($_SESSION['RF']['language']) . '.php';
     } else {
-        response(trans('Lang_Not_Found').AddErrorLocation())->send();
+        response(translate('Lang_Not_Found').AddErrorLocation())->send();
         exit;
     }
 } else {
-    response(trans('Lang_Not_Found').AddErrorLocation())->send();
+    response(translate('Lang_Not_Found').AddErrorLocation())->send();
     exit;
 }
 
 
 //check $_GET['file']
 if (isset($_GET['file']) && !checkRelativePath($_GET['file'])) {
-    response(trans('wrong path').AddErrorLocation())->send();
+    response(translate('wrong path').AddErrorLocation())->send();
     exit;
 }
 
 //check $_POST['file']
 if(isset($_POST['path']) && !checkRelativePath($_POST['path'])) {
-    response(trans('wrong path').AddErrorLocation())->send();
+    response(translate('wrong path').AddErrorLocation())->send();
     exit;
 }
 
@@ -41,7 +41,7 @@ $ftp = ftp_con($config);
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'new_file_form':
-            echo trans('Filename') . ': <input type="text" id="create_text_file_name" style="height:30px"> <select id="create_text_file_extension" style="margin:0;width:100px;">';
+            echo translate('Filename') . ': <input type="text" id="create_text_file_name" style="height:30px"> <select id="create_text_file_extension" style="margin:0;width:100px;">';
             foreach ($config['editable_text_file_exts'] as $ext) {
                 echo '<option value=".'.$ext.'">.'.$ext.'</option>';
             }
@@ -52,7 +52,7 @@ if (isset($_GET['action'])) {
             if (isset($_GET['type'])) {
                 $_SESSION['RF']["view_type"] = $_GET['type'];
             } else {
-                response(trans('view type number missing').AddErrorLocation())->send();
+                response(translate('view type number missing').AddErrorLocation())->send();
                 exit;
             }
             break;
@@ -63,7 +63,7 @@ if (isset($_GET['action'])) {
                     $_SESSION['RF']["filter"] = $_GET['type'];
                 }
             } else {
-                response(trans('view type number missing').AddErrorLocation())->send();
+                response(translate('view type number missing').AddErrorLocation())->send();
                 exit;
             }
             break;
@@ -86,46 +86,46 @@ if (isset($_GET['action'])) {
             if (preg_match('/^data:image\/(\w+);base64,/', $image_data, $type)) {
                 $image_data = substr($image_data, strpos($image_data, ',') + 1);
                 $type = strtolower($type[1]); // jpg, png, gif
-                
+
                 // Images get some additional checks
-                if (!in_array($type, ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'webp'], TRUE)) 
+                if (!in_array($type, ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'webp'], TRUE))
                 {
                     response('File type not allowed')->send();
                     exit;
                 }
-                
-                if (!in_array($ext, ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'webp'], TRUE)) 
+
+                if (!in_array($ext, ['gif', 'jpg', 'jpeg', 'jpe', 'png', 'webp'], TRUE))
                 {
                     response('Extension not allowed')->send();
                     exit;
-                }                                
+                }
 
                 $image_data = base64_decode($image_data);
 
                 if ($image_data === false) {
-                    response(trans('TUI_Decode_Failed').AddErrorLocation())->send();
+                    response(translate('TUI_Decode_Failed').AddErrorLocation())->send();
                 exit;
                 }
             } else {
-                response(trans('').AddErrorLocation())->send();
+                response(translate('').AddErrorLocation())->send();
                 exit;
             }
 
             if ($image_data === false) {
-                response(trans('').AddErrorLocation())->send();
+                response(translate('').AddErrorLocation())->send();
                 exit;
             }
 
             if (!checkresultingsize(strlen($image_data))) {
-                response(sprintf(trans('max_size_reached'), $config['MaxSizeTotal']).AddErrorLocation())->send();
+                response(sprintf(translate('max_size_reached'), $config['MaxSizeTotal']).AddErrorLocation())->send();
                 exit;
             }
             if ($ftp) {
                 $temp = tempnam('/tmp', 'RF');
                 unlink($temp);
-                $temp .=".".substr(strrchr($_POST['url'], '.'), 1);                
+                $temp .=".".substr(strrchr($_POST['url'], '.'), 1);
                 file_put_contents($temp, $image_data);
-                if (@getimagesize($temp) === FALSE) {                    
+                if (@getimagesize($temp) === FALSE) {
                     unlink($temp);
                     log_message('error', 'remove attacker file '.$temp);
                     exit;
@@ -159,7 +159,7 @@ if (isset($_GET['action'])) {
 
         case 'extract':
             if (!$config['extract_files']) {
-                response(trans('wrong action').AddErrorLocation())->send();
+                response(translate('wrong action').AddErrorLocation())->send();
             }
             if ($ftp) {
                 $path = $config['ftp_base_url'].$config['upload_dir'] . $_POST['path'];
@@ -196,7 +196,7 @@ if (isset($_GET['action'])) {
                             $sizeTotalFinal += $aStat['size'];
                         }
                         if (!checkresultingsize($sizeTotalFinal)) {
-                            response(sprintf(trans('max_size_reached'), $config['MaxSizeTotal']).AddErrorLocation())->send();
+                            response(sprintf(translate('max_size_reached'), $config['MaxSizeTotal']).AddErrorLocation())->send();
                             exit;
                         }
 
@@ -219,7 +219,7 @@ if (isset($_GET['action'])) {
                         }
                         $zip->close();
                     } else {
-                        response(trans('Zip_No_Extract').AddErrorLocation())->send();
+                        response(translate('Zip_No_Extract').AddErrorLocation())->send();
                         exit;
                     }
 
@@ -242,7 +242,7 @@ if (isset($_GET['action'])) {
                     break;
 
                 default:
-                    response(trans('Zip_Invalid').AddErrorLocation())->send();
+                    response(translate('Zip_Invalid').AddErrorLocation())->send();
                     exit;
             }
 
@@ -325,18 +325,18 @@ if (isset($_GET['action'])) {
                     $("#jquery_jplayer_1").jPlayer({
                         ready: function () {
                             $(this).jPlayer("setMedia", {
-                                title: "<?php 
+                                title: "<?php
        ?>",
-                                mp3: "<?php 
+                                mp3: "<?php
        echo $preview_file;
        ?>",
-                                m4a: "<?php 
+                                m4a: "<?php
        echo $preview_file;
        ?>",
-                                oga: "<?php 
+                                oga: "<?php
        echo $preview_file;
        ?>",
-                                wav: "<?php 
+                                wav: "<?php
        echo $preview_file;
        ?>"
                             });
@@ -350,7 +350,7 @@ if (isset($_GET['action'])) {
                 });
             </script>
 
-            <?php 
+            <?php
    } elseif (in_array(strtolower($info['extension']), $config['ext_video'])) {
        ?>
 
@@ -360,15 +360,15 @@ if (isset($_GET['action'])) {
                     $("#jquery_jplayer_1").jPlayer({
                         ready: function () {
                             $(this).jPlayer("setMedia", {
-                                title: "<?php 
+                                title: "<?php
        ?>",
-                                m4v: "<?php 
+                                m4v: "<?php
        echo $preview_file;
        ?>",
-                                ogv: "<?php 
+                                ogv: "<?php
        echo $preview_file;
        ?>",
-                                flv: "<?php 
+                                flv: "<?php
        echo $preview_file;
        ?>"
                             });
@@ -383,7 +383,7 @@ if (isset($_GET['action'])) {
                 });
             </script>
 
-            <?php 
+            <?php
    }
 
             $content = ob_get_clean();
@@ -392,42 +392,42 @@ if (isset($_GET['action'])) {
             exit;
         case 'copy_cut':
             if ($_POST['sub_action'] != 'copy' && $_POST['sub_action'] != 'cut') {
-                response(trans('wrong sub-action').AddErrorLocation())->send();
+                response(translate('wrong sub-action').AddErrorLocation())->send();
                 exit;
             }
 
             if (trim($_POST['path']) == '') {
-                response(trans('no path').AddErrorLocation())->send();
+                response(translate('no path').AddErrorLocation())->send();
                 exit;
             }
 
-            $msg_sub_action = ($_POST['sub_action'] == 'copy' ? trans('Copy') : trans('Cut'));
+            $msg_sub_action = ($_POST['sub_action'] == 'copy' ? translate('Copy') : translate('Cut'));
             $path = $config['current_path'] . $_POST['path'];
 
             if (is_dir($path)) {
                 // can't copy/cut dirs
                 if ($config['copy_cut_dirs'] === false) {
-                    response(sprintf(trans('Copy_Cut_Not_Allowed'), $msg_sub_action, trans('Folders')).AddErrorLocation())->send();
+                    response(sprintf(translate('Copy_Cut_Not_Allowed'), $msg_sub_action, translate('Folders')).AddErrorLocation())->send();
                     exit;
                 }
                 [$sizeFolderToCopy, $fileNum, $foldersCount] = folder_info($path, false);
                 // size over limit
                 if ($config['copy_cut_max_size'] !== false && is_int($config['copy_cut_max_size']) && ($config['copy_cut_max_size'] * 1024 * 1024) < $sizeFolderToCopy) {
-                    response(sprintf(trans('Copy_Cut_Size_Limit'), $msg_sub_action, $config['copy_cut_max_size']).AddErrorLocation())->send();
+                    response(sprintf(translate('Copy_Cut_Size_Limit'), $msg_sub_action, $config['copy_cut_max_size']).AddErrorLocation())->send();
                     exit;
                 }
                 // file count over limit
                 if ($config['copy_cut_max_count'] !== false && is_int($config['copy_cut_max_count']) && $config['copy_cut_max_count'] < $fileNum) {
-                    response(sprintf(trans('Copy_Cut_Count_Limit'), $msg_sub_action, $config['copy_cut_max_count']).AddErrorLocation())->send();
+                    response(sprintf(translate('Copy_Cut_Count_Limit'), $msg_sub_action, $config['copy_cut_max_count']).AddErrorLocation())->send();
                     exit;
                 }
                 if (!checkresultingsize($sizeFolderToCopy)) {
-                    response(sprintf(trans('max_size_reached'), $config['MaxSizeTotal']).AddErrorLocation())->send();
+                    response(sprintf(translate('max_size_reached'), $config['MaxSizeTotal']).AddErrorLocation())->send();
                     exit;
                 }
             } elseif ($config['copy_cut_files'] === false) {
                 // can't copy/cut files
-                response(sprintf(trans('Copy_Cut_Not_Allowed'), $msg_sub_action, trans('Files')).AddErrorLocation())->send();
+                response(sprintf(translate('Copy_Cut_Not_Allowed'), $msg_sub_action, translate('Files')).AddErrorLocation())->send();
                 exit;
             }
 
@@ -439,17 +439,17 @@ if (isset($_GET['action'])) {
             $_SESSION['RF']['clipboard_action'] = null;
             break;
         case 'chmod':
-            response(sprintf(trans('File_Permission_Not_Allowed'), (is_dir($path) ? trans('Folders') : trans('Files')), 403))->send();
+            response(sprintf(translate('File_Permission_Not_Allowed'), (is_dir($path) ? translate('Folders') : translate('Files')), 403))->send();
             exit;
         case 'get_lang':
             if (! file_exists('lang/languages.php')) {
-                response(trans('Lang_Not_Found').AddErrorLocation())->send();
+                response(translate('Lang_Not_Found').AddErrorLocation())->send();
                 exit;
             }
 
             $languages = include 'lang/languages.php';
             if (! isset($languages) || ! is_array($languages)) {
-                response(trans('Lang_Not_Found').AddErrorLocation())->send();
+                response(translate('Lang_Not_Found').AddErrorLocation())->send();
                 exit;
             }
 
@@ -468,7 +468,7 @@ if (isset($_GET['action'])) {
 
             if (array_key_exists($choosen_lang, $languages)) {
                 if (! file_exists('lang/' . $choosen_lang . '.php')) {
-                    response(trans('Lang_Not_Found').AddErrorLocation())->send();
+                    response(translate('Lang_Not_Found').AddErrorLocation())->send();
                     exit;
                 }
                 $_SESSION['RF']['language'] = $choosen_lang;
@@ -482,7 +482,7 @@ if (isset($_GET['action'])) {
                 $selected_file = $config['current_path'] . $_GET['file'];
 
                 if (! file_exists($selected_file)) {
-                    response(trans('File_Not_Found').AddErrorLocation())->send();
+                    response(translate('File_Not_Found').AddErrorLocation())->send();
                     exit;
                 }
             }
@@ -502,7 +502,7 @@ if (isset($_GET['action'])) {
             $preview_mode = $_GET["preview_mode"];
 
             if ($sub_action != 'preview' && $sub_action != 'edit') {
-                response(trans('wrong action').AddErrorLocation())->send();
+                response(translate('wrong action').AddErrorLocation())->send();
                 exit;
             }
 
@@ -512,7 +512,7 @@ if (isset($_GET['action'])) {
                 $selected_file = ($sub_action == 'preview' ? $config['current_path'] . $_GET['file'] : $config['current_path'] . $_POST['path']);
 
                 if (! file_exists($selected_file)) {
-                    response(trans('File_Not_Found').AddErrorLocation())->send();
+                    response(translate('File_Not_Found').AddErrorLocation())->send();
                     exit;
                 }
             }
@@ -539,7 +539,7 @@ if (isset($_GET['action'])) {
                 || $is_allowed === false
                 || (!$ftp && ! is_readable($selected_file))
             ) {
-                response(sprintf(trans('File_Open_Edit_Not_Allowed'), ($sub_action == 'preview' ? strtolower(trans('Open')) : strtolower(trans('Edit')))).AddErrorLocation())->send();
+                response(sprintf(translate('File_Open_Edit_Not_Allowed'), ($sub_action == 'preview' ? strtolower(translate('Open')) : strtolower(translate('Edit')))).AddErrorLocation())->send();
                 exit;
             }
             if ($sub_action == 'preview') {
@@ -574,10 +574,10 @@ if (isset($_GET['action'])) {
 			response($ret)->send();
 			exit;
         default:
-            response(trans('no action passed').AddErrorLocation())->send();
+            response(translate('no action passed').AddErrorLocation())->send();
             exit;
     }
 } else {
-    response(trans('no action passed').AddErrorLocation())->send();
+    response(translate('no action passed').AddErrorLocation())->send();
     exit;
 }

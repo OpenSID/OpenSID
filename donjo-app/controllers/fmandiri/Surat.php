@@ -180,8 +180,8 @@ class Surat extends Mandiri_Controller
     public function cek_syarat()
     {
         if ($this->input->is_ajax_request()) {
-            $idPermohonan = $this->input->get('id_permohonan');
-            $idSurat      = $this->input->get('id_surat');
+            $idPermohonan = $this->input->get_post('id_permohonan');
+            $idSurat      = $this->input->get_post('id_surat');
 
             $syaratPermohonan = PermohonanSurat::find($idPermohonan)->syarat ?? '';
             $suratMaster      = FormatSurat::find($idSurat)->syarat_surat ?? '';
@@ -203,7 +203,6 @@ class Surat extends Mandiri_Controller
                         'syarat_id'    => $item->ref_syarat_id,
                         'cek_anjungan' => $this->cek_anjungan,
                     ],
-                    returnView: true
                 ))
                 ->rawColumns(['pilihan_syarat'])
                 ->addIndexColumn()

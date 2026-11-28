@@ -45,6 +45,8 @@ class ConfigIdObserver
 {
     public function creating(Model $model): void
     {
-        $model->config_id = identitas('id');
+        // Gunakan ??= agar config_id yang sudah di-set secara eksplisit tidak di-override
+        // Fallback: jika identitas() null (static variable belum ter-set), query langsung dari DB
+        $model->config_id ??= identitas('id') ?? \DB::table('config')->where('app_key', get_app_key())->first()?->id;
     }
 }

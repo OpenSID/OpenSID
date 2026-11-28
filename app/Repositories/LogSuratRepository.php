@@ -46,10 +46,10 @@ class LogSuratRepository
     public function list()
     {
         return QueryBuilder::for(LogSurat::withOnly(['formatSurat']))
-            ->allowedFields(['id', 'tanggal'])
-            ->allowedFilters([
+            ->allowedFields(...['id', 'tanggal'])
+            ->allowedFilters(...[
                 AllowedFilter::exact('id'),
             ])
-            ->allowedSorts(['tanggal', 'bulan', 'tahun'])->jsonPaginate();
+            ->allowedSorts(...['tanggal', 'bulan', 'tahun'])->jsonPaginate();
     }
 }

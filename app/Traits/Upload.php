@@ -42,7 +42,6 @@ use App\Models\Theme;
 use Closure;
 use Exception;
 use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
 
 trait Upload
 {
@@ -84,13 +83,13 @@ trait Upload
                     Image::load($uploadData['full_path'])
                         ->width(440)
                         ->height(440)
-                        ->format(Manipulations::FORMAT_WEBP)
+                        ->format('webp')
                         ->save("{$filePath}kecil_{$rawName}.webp");
 
                     Image::load($uploadData['full_path'])
                         ->width(880)
                         ->height(880)
-                        ->format(Manipulations::FORMAT_WEBP)
+                        ->format('webp')
                         ->save("{$filePath}sedang_{$rawName}.webp");
                 }
 
@@ -179,13 +178,13 @@ trait Upload
                     }
 
                     if ($favicon) {
-                        Image::load($fullPath)->width(16)->height(16)->save("{$filePath}favicon.ico");
+                        Image::load($fullPath)->width(16)->height(16)->format('png')->save("{$filePath}favicon.ico");
 
                         copyFavicon();
                     }
 
                     if ($webp) {
-                        Image::load($fullPath)->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
+                        Image::load($fullPath)->format('webp')->save("{$filePath}{$rawName}.webp");
 
                         unlink($fullPath);
 
@@ -248,14 +247,14 @@ trait Upload
             $nama_file = (new Checker(get_app_key(), $nama_file))->encrypt();
 
             Image::load($tempPng)
-                ->format(Manipulations::FORMAT_WEBP)
+                ->format('webp')
                 ->width(500) // Atur sesuai kebutuhan
                 ->height(500)
                 ->save($lokasi . $nama_file);
 
             // Buat thumbnail kecil
             Image::load($tempPng)
-                ->format(Manipulations::FORMAT_WEBP)
+                ->format('webp')
                 ->width(100)
                 ->height(100)
                 ->save($lokasi . 'kecil_' . $nama_file);
@@ -297,7 +296,7 @@ trait Upload
                 $dimensi = generateDimensi($dimensi);
 
                 Image::load($uploadData['full_path'])
-                    ->format(Manipulations::FORMAT_WEBP)
+                    ->format('webp')
                     ->width($dimensi['width'])
                     ->height($dimensi['height'])
                     ->save("{$filePath}{$rawName}.webp");
@@ -353,7 +352,7 @@ trait Upload
 
             return $uploadData['file_name'];
         } catch (Exception $e) {
-            logger()->errror($e);
+            logger()->error($e);
 
             if ($isAjax) {
                 return json(['error' => $e->getMessage()], 400);
@@ -399,7 +398,7 @@ trait Upload
 
             return $uploadData['file_name'];
         } catch (Exception $e) {
-            logger()->errror($e);
+            logger()->error($e);
 
             if ($isAjax) {
                 return json(['error' => $e->getMessage()], 400);

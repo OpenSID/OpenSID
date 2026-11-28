@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.9.2 (2026-02-11)
+ * TinyMCE version 7.9.3 (2026-05-19)
  */
 
 (function () {
@@ -657,79 +657,32 @@
             allowFullscreen: true
         }
     ];
-    // SSRF Protection: Only allow whitelisted domains for media embeds
-    // SSRF Protection: Whitelist, protocol, and IP validation (adopted from PR#5730/5882)
-    const getAllowedMediaDomains = () => [
-        'youtube.com', 'youtu.be', 'vimeo.com', 'maps.google.com', 'maps.google.co.id', 'dailymotion.com', 'dai.ly',
-        'soundcloud.com', 'w.soundcloud.com', 'player.vimeo.com', 'www.youtube.com', 'www.dailymotion.com'
-    ];
-    const isDomainAllowed = (hostname) => {
-        const allowedDomains = getAllowedMediaDomains();
-        const lowerHostname = hostname.toLowerCase();
-        return allowedDomains.some(domain => {
-            const domainPattern = domain
-                .replace(/\./g, '\\.')
-                .replace(/\*/g, '[a-zA-Z0-9-]*');
-            const regex = new RegExp(`^${domainPattern}$`);
-            return regex.test(lowerHostname) || lowerHostname.endsWith('.' + domain.replace(/^\*\./, ''));
-        });
-    };
-    const isValidMediaUrl = (url) => {
-        try {
-            // Layer 1: Protocol must be http(s)
-            if (!url.match(/^(https?:)?\/\//i)) return false;
-            const urlObj = new URL(url, window.location.origin);
-            const protocol = urlObj.protocol.toLowerCase();
-            if (!['http:', 'https:'].includes(protocol)) return false;
-            // Layer 2: Data URLs, blob, etc not allowed for media embeds
-            // Layer 3: Block private IPs, localhost, reserved hosts
-            const hostname = urlObj.hostname.toLowerCase();
-            const privateIpPatterns = [
-                /^localhost$/, /^127\./, /^192\.168\./, /^10\./, /^172\.(1[6-9]|2[0-9]|3[01])\./, /^169\.254\./, /^\[::1\]$/, /^\[::\]$/, /^::1$/
-            ];
-            if (privateIpPatterns.some(pattern => pattern.test(hostname))) return false;
-            const reservedHostnames = ['example.com', 'example.org', 'example.net'];
-            if (reservedHostnames.includes(hostname)) return false;
-            // Layer 4: Whitelist domain
-            if (!isDomainAllowed(hostname)) return false;
-            // Layer 5: Block @-bypass (user:pass@host)
-            if (urlObj.username || urlObj.password) return false;
-            // Layer 6: Block double protocol (e.g. http://https://...)
-            if (/https?:\/\/https?:\/\//i.test(url)) return false;
-            // Layer 7: Block encoded IP (e.g. 127%2e0%2e0%2e1)
-            if (/%2e|%2E/.test(url)) return false;
-            return true;
-        } catch (e) {
-            return false;
+    const getProtocol = (url) => {
+        const protocolMatches = url.match(/^(https?:\/\/|www\.)(.+)$/i);
+        if (protocolMatches && protocolMatches.length > 1) {
+            return protocolMatches[1] === 'www.' ? 'https://' : protocolMatches[1];
+        }
+        else {
+            return 'https://';
         }
     };
     const getUrl = (pattern, url) => {
-        try {
-            if (!isValidMediaUrl(url)) throw new Error('URL media tidak diizinkan');
-            const u = new URL(url, window.location.origin);
-            const match = pattern.regex.exec(url);
-            let newUrl = u.protocol + '//' + pattern.url;
-            if (isNonNullable(match)) {
-                for (let i = 0; i < match.length; i++) {
-                    newUrl = newUrl.replace('$' + i, () => match[i] ? match[i] : '');
-                }
+        const protocol = getProtocol(url);
+        const match = pattern.regex.exec(url);
+        let newUrl = protocol + pattern.url;
+        if (isNonNullable(match)) {
+            for (let i = 0; i < match.length; i++) {
+                newUrl = newUrl.replace('$' + i, () => match[i] ? match[i] : '');
             }
-            return newUrl.replace(/\?$/, '');
-        } catch (e) {
-            return '';
         }
+        return newUrl.replace(/\?$/, '');
     };
     const matchPattern = (url) => {
-        try {
-            if (!isValidMediaUrl(url)) return null;
-            const u = new URL(url, window.location.origin);
-            const patterns = urlPatterns.filter((pattern) => pattern.regex.test(url));
-            if (patterns.length > 0) {
-                return global$5.extend({}, patterns[0], { url: getUrl(patterns[0], url) });
-            } else {
-                return null;
-            }
-        } catch (e) {
+        const patterns = urlPatterns.filter((pattern) => pattern.regex.test(url));
+        if (patterns.length > 0) {
+            return global$5.extend({}, patterns[0], { url: getUrl(patterns[0], url) });
+        }
+        else {
             return null;
         }
     };
@@ -1036,25 +989,8 @@
         const editorData = getEditorData(editor);
         const currentData = Cell(editorData);
         const initialData = wrap(editorData);
-        // Helper: alertErr ala image/plugin.js
-        const alertErr = (msg, cb) => {
-            if (editor.windowManager && editor.windowManager.alert) {
-                editor.windowManager.alert(msg, cb);
-            } else {
-                alert(msg);
-                if (cb) cb();
-            }
-        };
         const handleSource = (prevData, api) => {
             const serviceData = unwrap(api.getData(), 'source');
-            // Validasi SSRF/whitelist sebelum fetch embed
-            if (serviceData.source && !isValidMediaUrl(serviceData.source)) {
-                alertErr('URL tidak diizinkan. Gunakan domain publik yang terdaftar atau cloud storage yang mendukung.', () => {
-                    api.focus('source');
-                });
-                api.setData(wrap({ ...serviceData, source: '' }));
-                return;
-            }
             // If a new URL is entered, then clear the embed html and fetch the new data
             if (prevData.source !== serviceData.source) {
                 addEmbedHtml(win, editor)({ url: serviceData.source, html: '' });
@@ -1358,13 +1294,75 @@
         }
     };
 
-    const parseAndSanitize = (editor, context, html) => {
+    const parseAndSanitize = (editor, html) => {
         const getEditorOption = editor.options.get;
         const sanitize = getEditorOption('xss_sanitization');
         const validate = shouldFilterHtml(editor);
-        return Parser(editor.schema, { sanitize, validate }).parse(html, { context });
+        return Parser(editor.schema, { sanitize, validate }).parse(html);
     };
 
+    const buildMediaElement = (editor, node) => {
+        var _a;
+        const realElmName = node.attr('data-mce-object');
+        const element = document.createElement(realElmName);
+        // Add width/height to everything but audio
+        if (realElmName !== 'audio') {
+            const className = node.attr('class');
+            const firstChild = node.firstChild;
+            if (className && className.indexOf('mce-preview-object') !== -1 && firstChild) {
+                const width = firstChild.attr('width');
+                const height = firstChild.attr('height');
+                if (isString(width)) {
+                    element.setAttribute('width', width);
+                }
+                if (isString(height)) {
+                    element.setAttribute('height', height);
+                }
+            }
+            else {
+                const width = node.attr('width');
+                const height = node.attr('height');
+                if (isString(width)) {
+                    element.setAttribute('width', width);
+                }
+                if (isString(height)) {
+                    element.setAttribute('height', height);
+                }
+            }
+        }
+        const style = node.attr('style');
+        if (isString(style)) {
+            element.setAttribute('style', style);
+        }
+        // Unprefix all placeholder attributes
+        const attribs = (_a = node.attributes) !== null && _a !== void 0 ? _a : [];
+        let ai = attribs.length;
+        while (ai--) {
+            const attrName = attribs[ai].name;
+            if (attrName.indexOf('data-mce-p-') === 0) {
+                element.setAttribute(attrName.substr(11), attribs[ai].value);
+            }
+        }
+        // Inject innerhtml
+        const innerHtml = node.attr('data-mce-html');
+        if (isString(innerHtml)) {
+            element.innerHTML = unescape(innerHtml);
+        }
+        else {
+            element.innerHTML = '\u00a0';
+        }
+        const fragment = parseAndSanitize(editor, element.outerHTML);
+        const newElement = fragment.getAll(realElmName)[0];
+        if (isNonNullable(newElement)) {
+            if (!isString(innerHtml)) {
+                newElement.empty();
+            }
+            return Optional.some(newElement);
+        }
+        else {
+            return Optional.none();
+        }
+    };
     const setup$1 = (editor) => {
         editor.on('PreInit', () => {
             const { schema, serializer, parser } = editor;
@@ -1388,51 +1386,14 @@
             // Converts iframe, video etc into placeholder images
             parser.addNodeFilter('iframe,video,audio,object,embed', placeHolderConverter(editor));
             // Replaces placeholder images with real elements for video, object, iframe etc
-            serializer.addAttributeFilter('data-mce-object', (nodes, name) => {
-                var _a;
+            serializer.addAttributeFilter('data-mce-object', (nodes) => {
                 let i = nodes.length;
                 while (i--) {
                     const node = nodes[i];
                     if (!node.parent) {
                         continue;
                     }
-                    const realElmName = node.attr(name);
-                    const realElm = new global$2(realElmName, 1);
-                    // Add width/height to everything but audio
-                    if (realElmName !== 'audio') {
-                        const className = node.attr('class');
-                        if (className && className.indexOf('mce-preview-object') !== -1 && node.firstChild) {
-                            realElm.attr({
-                                width: node.firstChild.attr('width'),
-                                height: node.firstChild.attr('height')
-                            });
-                        }
-                        else {
-                            realElm.attr({
-                                width: node.attr('width'),
-                                height: node.attr('height')
-                            });
-                        }
-                    }
-                    realElm.attr({
-                        style: node.attr('style')
-                    });
-                    // Unprefix all placeholder attributes
-                    const attribs = (_a = node.attributes) !== null && _a !== void 0 ? _a : [];
-                    let ai = attribs.length;
-                    while (ai--) {
-                        const attrName = attribs[ai].name;
-                        if (attrName.indexOf('data-mce-p-') === 0) {
-                            realElm.attr(attrName.substr(11), attribs[ai].value);
-                        }
-                    }
-                    // Inject innerhtml
-                    const innerHtml = node.attr('data-mce-html');
-                    if (innerHtml) {
-                        const fragment = parseAndSanitize(editor, realElmName, unescape(innerHtml));
-                        each$1(fragment.children(), (child) => realElm.append(child));
-                    }
-                    node.replace(realElm);
+                    buildMediaElement(editor, node).fold(() => node.remove(), (realElm) => node.replace(realElm));
                 }
             });
         });

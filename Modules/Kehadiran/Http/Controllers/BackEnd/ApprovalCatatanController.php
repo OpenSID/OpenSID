@@ -84,9 +84,13 @@ class ApprovalCatatanController extends AdminModulController
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = request('status', StatusCatatan::MENUNGGU->value);
+            $status = request('status');
 
-            $query = CatatanHarian::where('status', $status)
+            if ($status === null) {
+                $status = StatusCatatan::MENUNGGU->value;
+            }
+
+            $query = CatatanHarian::query()
                 ->with([
                     'pamong:pamong_id,id_pend,jabatan_id,pamong_nama,gelar_depan,gelar_belakang',
                     'pamong.penduduk:id,nama',
@@ -94,10 +98,16 @@ class ApprovalCatatanController extends AdminModulController
                     'approver.penduduk:id,nama',
                 ]);
 
+            $query->when($status === '', static function ($q) {
+                $q->whereNotIn('status', [StatusCatatan::DRAFT->value]);
+            }, static function ($q) use ($status) {
+                $q->where('status', $status);
+            });
+
             $pamongId = request('pamong_id');
-            if (! empty($pamongId)) {
-                $query->where('pamong_id', $pamongId);
-            }
+            $query->when(! empty($pamongId), static function ($q) use ($pamongId) {
+                $q->where('pamong_id', $pamongId);
+            });
 
             $query->orderBy('created_at', 'asc');
 
@@ -147,6 +157,7 @@ class ApprovalCatatanController extends AdminModulController
 
         return view('kehadiran::backend.approval_catatan.detail', [
             'catatan' => $catatan,
+            'proses'  => $catatan->status->value === StatusCatatan::MENUNGGU->value,
         ]);
     }
 
@@ -190,7 +201,7 @@ class ApprovalCatatanController extends AdminModulController
         }
     }
 
-    public function reject(string $id)
+    public function reject(ApprovalCatatanRejectRequest $request, string $id)
     {
         isCan('u');
 
@@ -203,7 +214,6 @@ class ApprovalCatatanController extends AdminModulController
             ]);
         }
 
-        $request = new ApprovalCatatanRejectRequest();
         $data    = $request->validated();
 
         try {

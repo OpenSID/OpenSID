@@ -20,6 +20,7 @@ namespace Google\Service\Drive\Resource;
 use Google\Service\Drive\Channel;
 use Google\Service\Drive\DriveFile;
 use Google\Service\Drive\FileList;
+use Google\Service\Drive\GenerateCseTokenResponse;
 use Google\Service\Drive\GeneratedIds;
 use Google\Service\Drive\LabelList;
 use Google\Service\Drive\ModifyLabelsRequest;
@@ -78,14 +79,16 @@ class Files extends \Google\Service\Resource
   }
   /**
    * Creates a file. For more information, see [Create and manage
-   * files](/workspace/drive/api/guides/create-file). This method supports an
-   * upload* URI and accepts uploaded media with the following characteristics: -
-   * *Maximum file size:* 5,120 GB - *Accepted Media MIME types:* `*` (Specify a
-   * valid MIME type, rather than the literal `*` value. The literal `*` is only
-   * used to indicate that any valid MIME type can be uploaded. For more
-   * information, see [Google Workspace and Google Drive supported MIME
-   * types](/workspace/drive/api/guides/mime-types).) For more information on
-   * uploading files, see [Upload file data](/workspace/drive/api/guides/manage-
+   * files](https://developers.google.com/workspace/drive/api/guides/create-file).
+   * This method supports an upload* URI and accepts uploaded media with the
+   * following characteristics: - *Maximum file size:* 5,120 GB - *Accepted Media
+   * MIME types:* `*` (Specify a valid MIME type, rather than the literal `*`
+   * value. The literal `*` is only used to indicate that any valid MIME type can
+   * be uploaded. For more information, see [Google Workspace and Google Drive
+   * supported MIME
+   * types](https://developers.google.com/workspace/drive/api/guides/mime-types).)
+   * For more information on uploading files, see [Upload file
+   * data](https://developers.google.com/workspace/drive/api/guides/manage-
    * uploads). Apps creating shortcuts with the `create` method must specify the
    * MIME type `application/vnd.google-apps.shortcut`. Apps should specify a file
    * extension in the `name` property when inserting files with the API. For
@@ -230,6 +233,28 @@ class Files extends \Google\Service\Resource
     return $this->call('export', [$params]);
   }
   /**
+   * Generates a CSE token which can be used to create or update CSE files.
+   * (files.generateCseToken)
+   *
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string fileId The ID of the file for which the JWT should be
+   * generated. If not provided, an id will be generated.
+   * @opt_param string parent The ID of the expected parent of the file. Used when
+   * generating a JWT for a new CSE file. If specified, the parent will be
+   * fetched, and if the parent is a shared drive item, the shared drive's policy
+   * will be used to determine the KACLS that should be used. It is invalid to
+   * specify both file_id and parent in a single request.
+   * @return GenerateCseTokenResponse
+   * @throws \Google\Service\Exception
+   */
+  public function generateCseToken($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('generateCseToken', [$params], GenerateCseTokenResponse::class);
+  }
+  /**
    * Generates a set of file IDs which can be provided in create or copy requests.
    * For more information, see [Create and manage
    * files](https://developers.google.com/workspace/drive/api/guides/create-file).
@@ -260,14 +285,16 @@ class Files extends \Google\Service\Resource
   }
   /**
    * Gets a file's metadata or content by ID. For more information, see [Search
-   * for files and folders](/workspace/drive/api/guides/search-files). If you
-   * provide the URL parameter `alt=media`, then the response includes the file
-   * contents in the response body. Downloading content with `alt=media` only
-   * works if the file is stored in Drive. To download Google Docs, Sheets, and
-   * Slides use
-   * [`files.export`](/workspace/drive/api/reference/rest/v3/files/export)
-   * instead. For more information, see [Download and export
-   * files](/workspace/drive/api/guides/manage-downloads). (files.get)
+   * for files and
+   * folders](https://developers.google.com/workspace/drive/api/guides/search-
+   * files). If you provide the URL parameter `alt=media`, then the response
+   * includes the file contents in the response body. Downloading content with
+   * `alt=media` only works if the file is stored in Drive. To download Google
+   * Docs, Sheets, and Slides use [`files.export`](https://developers.google.com/w
+   * orkspace/drive/api/reference/rest/v3/files/export) instead. For more
+   * information, see [Download and export
+   * files](https://developers.google.com/workspace/drive/api/guides/manage-
+   * downloads). (files.get)
    *
    * @param string $fileId The ID of the file.
    * @param array $optParams Optional parameters.
@@ -295,19 +322,21 @@ class Files extends \Google\Service\Resource
   }
   /**
    * Lists the user's files. For more information, see [Search for files and
-   * folders](/workspace/drive/api/guides/search-files). This method accepts the
-   * `q` parameter, which is a search query combining one or more search terms.
-   * This method returns *all* files by default, including trashed files. If you
-   * don't want trashed files to appear in the list, use the `trashed=false` query
-   * parameter to remove trashed files from the results. (files.listFiles)
+   * folders](https://developers.google.com/workspace/drive/api/guides/search-
+   * files). This method accepts the `q` parameter, which is a search query
+   * combining one or more search terms. This method returns *all* files by
+   * default, including trashed files. If you don't want trashed files to appear
+   * in the list, use the `trashed=false` query parameter to remove trashed files
+   * from the results. (files.listFiles)
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string corpora Bodies of items (files or documents) to which the
-   * query applies. Supported bodies are: * `user` * `domain` * `drive` *
-   * `allDrives` Prefer `user` or `drive` to `allDrives` for efficiency. By
-   * default, corpora is set to `user`. However, this can change depending on the
-   * filter set through the `q` parameter. For more information, see [File
+   * @opt_param string corpora Specifies a collection of items (files or
+   * documents) to which the query applies. Supported items include: * `user` *
+   * `domain` * `drive` * `allDrives` Prefer `user` or `drive` to `allDrives` for
+   * efficiency. By default, corpora is set to `user`. However, this can change
+   * depending on the filter set through the `q` parameter. For more information,
+   * see [File
    * organization](https://developers.google.com/workspace/drive/api/guides/about-
    * files#file-organization).
    * @opt_param string corpus Deprecated: The source of files to list. Use
@@ -322,22 +351,27 @@ class Files extends \Google\Service\Resource
    * @opt_param bool includeTeamDriveItems Deprecated: Use
    * `includeItemsFromAllDrives` instead.
    * @opt_param string orderBy A comma-separated list of sort keys. Valid keys
-   * are: * `createdTime`: When the file was created. * `folder`: The folder ID.
-   * This field is sorted using alphabetical ordering. * `modifiedByMeTime`: The
-   * last time the file was modified by the user. * `modifiedTime`: The last time
-   * the file was modified by anyone. * `name`: The name of the file. This field
-   * is sorted using alphabetical ordering, so 1, 12, 2, 22. * `name_natural`: The
-   * name of the file. This field is sorted using natural sort ordering, so 1, 2,
-   * 12, 22. * `quotaBytesUsed`: The number of storage quota bytes used by the
-   * file. * `recency`: The most recent timestamp from the file's date-time
-   * fields. * `sharedWithMeTime`: When the file was shared with the user, if
-   * applicable. * `starred`: Whether the user has starred the file. *
-   * `viewedByMeTime`: The last time the file was viewed by the user. Each key
-   * sorts ascending by default, but can be reversed with the `desc` modifier.
-   * Example usage: `?orderBy=folder,modifiedTime desc,name`.
-   * @opt_param int pageSize The maximum number of files to return per page.
-   * Partial or empty result pages are possible even before the end of the files
-   * list has been reached.
+   * are: * `createdTime`: When the file was created. Avoid using this key for
+   * queries on large item collections as it might result in timeouts or other
+   * issues. For time-related sorting on large item collections, use `modifiedTime
+   * desc` instead. * `folder`: The folder ID. This field is sorted using
+   * alphabetical ordering. * `modifiedByMeTime`: The last time the file was
+   * modified by the user. * `modifiedTime`: The last time the file was modified
+   * by anyone. * `name`: The name of the file. This field is sorted using
+   * alphabetical ordering, so 1, 12, 2, 22. * `name_natural`: The name of the
+   * file. This field is sorted using natural sort ordering, so 1, 2, 12, 22. *
+   * `quotaBytesUsed`: The number of storage quota bytes used by the file. *
+   * `recency`: The most recent timestamp from the file's date-time fields. *
+   * `sharedWithMeTime`: When the file was shared with the user, if applicable. *
+   * `starred`: Whether the user has starred the file. * `viewedByMeTime`: The
+   * last time the file was viewed by the user. Each key sorts ascending by
+   * default, but can be reversed with the `desc` modifier. Example usage:
+   * `?orderBy=folder,modifiedTime desc,name`.
+   * @opt_param int pageSize The maximum number of files to return per page. Pages
+   * may be partial or empty even before reaching the end of the file list. If
+   * unspecified, at most 100 files are returned for shared drives, and the entire
+   * list of files for non-shared drives. The maximum value is 100; values above
+   * 100 are changed to 100.
    * @opt_param string pageToken The token for continuing a previous list request
    * on the next page. This should be set to the value of `nextPageToken` from the
    * previous response.
@@ -414,8 +448,9 @@ class Files extends \Google\Service\Resource
    * type, rather than the literal `*` value. The literal `*` is only used to
    * indicate that any valid MIME type can be uploaded. For more information, see
    * [Google Workspace and Google Drive supported MIME
-   * types](/workspace/drive/api/guides/mime-types).) For more information on
-   * uploading files, see [Upload file data](/workspace/drive/api/guides/manage-
+   * types](https://developers.google.com/workspace/drive/api/guides/mime-types).)
+   * For more information on uploading files, see [Upload file
+   * data](https://developers.google.com/workspace/drive/api/guides/manage-
    * uploads). (files.update)
    *
    * @param string $fileId The ID of the file.

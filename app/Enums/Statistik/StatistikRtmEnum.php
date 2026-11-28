@@ -54,9 +54,20 @@ class StatistikRtmEnum extends BaseEnum
         'label' => 'DTSEN',
     ];
 
+    /**
+     * Inline array (hindari self:: constant di sini untuk kompatibilitas ioncube)
+     */
     public static $data = [
-        self::BDT,
-        self::DTSEN,
+        [
+            'key'   => 'bdt',
+            'slug'  => 'bdt',
+            'label' => 'BDT',
+        ],
+        [
+            'key'   => 'dtsen',
+            'slug'  => 'dtsen',
+            'label' => 'DTSEN',
+        ],
     ];
 
     /**

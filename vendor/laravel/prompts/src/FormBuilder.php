@@ -11,7 +11,7 @@ class FormBuilder
     /**
      * Each step that should be executed.
      *
-     * @var array<int, \Laravel\Prompts\FormStep>
+     * @var array<int, FormStep>
      */
     protected array $steps = [];
 
@@ -28,6 +28,16 @@ class FormBuilder
     public function add(Closure $step, ?string $name = null, bool $ignoreWhenReverting = false): self
     {
         $this->steps[] = new FormStep($step, true, $name, $ignoreWhenReverting);
+
+        return $this;
+    }
+
+    /**
+     * Add a new conditional step.
+     */
+    public function addIf(Closure|bool $condition, Closure $step, ?string $name = null, bool $ignoreWhenReverting = false): self
+    {
+        $this->steps[] = new FormStep($step, $condition, $name, $ignoreWhenReverting);
 
         return $this;
     }
@@ -171,7 +181,7 @@ class FormBuilder
     /**
      * Render a spinner while the given callback is executing.
      *
-     * @param  \Closure(): mixed  $callback
+     * @param  Closure(): mixed  $callback
      */
     public function spin(Closure $callback, string $message = '', ?string $name = null): self
     {

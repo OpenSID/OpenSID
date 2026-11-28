@@ -47,6 +47,6 @@ class InventarisPeralatanRepository
         return QueryBuilder::for(InventarisPeralatan::aktif())
             ->allowedFields('*')
             ->allowedFilters('*')
-            ->allowedSorts(['updated_at', 'created_at', 'id'])->jsonPaginate();
+            ->allowedSorts(...['updated_at', 'created_at', 'id'])->jsonPaginate();
     }
 }

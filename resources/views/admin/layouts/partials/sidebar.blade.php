@@ -41,7 +41,7 @@
             <li class="header">MENU UTAMA</li>
             <?php $modul = admin_menu(); ?>
             <?php foreach ($modul as $mod): ?>
-            <?php if (is_array($mod['childrens']) && count($mod['childrens']) > 0): ?>
+            <?php if (! empty($mod['childrens']) && is_array($mod['childrens'])): ?>
             <li class="treeview <?= jecho($modul_ini, $mod['slug'], 'active') ?>">
                 <a href="<?= ci_route($mod['url']) ?>">
                     <i class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>

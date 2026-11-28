@@ -58,7 +58,7 @@ class KelompokRepository
     {
         return QueryBuilder::for(KelompokAnggota::with('anggota')->anggota()->slugKelompok($slug))
             ->allowedFields('*')
-            ->allowedFilters([
+            ->allowedFilters(...[
                 AllowedFilter::callback('search', static function ($query, $value): void {
                     $query->where(static function ($subQuery) use ($value): void {
                         $subQuery->where('no_anggota', 'LIKE', '%' . $value . '%')
@@ -88,7 +88,7 @@ class KelompokRepository
                     });
                 }),
             ])
-            ->allowedSorts([
+            ->allowedSorts(...[
                 'id',
                 'no_anggota',
                 AllowedSort::custom('jenis_kelamin', new class () implements \Spatie\QueryBuilder\Sorts\Sort {

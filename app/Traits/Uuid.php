@@ -52,7 +52,7 @@ trait Uuid
 
     protected static function bootUuid()
     {
-        static::observe(UuidObserver::class);
+        static::creating([UuidObserver::class, 'creating']);
     }
 
     /**

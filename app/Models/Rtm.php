@@ -148,7 +148,7 @@ class Rtm extends BaseModel
     /**
      * Define a one-to-one relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function kepalaKeluarga()
     {
@@ -158,7 +158,7 @@ class Rtm extends BaseModel
     /**
      * Define a one-to-many relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function anggota()
     {

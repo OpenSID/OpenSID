@@ -285,12 +285,12 @@ class Kelompok_anggota extends Admin_Controller
         view('admin.kelompok.anggota.form', $data);
     }
 
-    public function insert($id = 0)
+    public function insert(KelompokAnggotaRequest $request, int $id = 0)
     {
         isCan('u');
 
         try {
-            $data                = (new KelompokAnggotaRequest())->validated();
+            $data                = $request->validated();
             $data['id_kelompok'] = $id;
             $data['tipe']        = $this->tipe;
 
@@ -335,12 +335,12 @@ class Kelompok_anggota extends Admin_Controller
         }
     }
 
-    public function update($id = 0, $id_a = 0)
+    public function update(KelompokAnggotaRequest $request, int $id = 0, int $id_a = 0)
     {
         isCan('u');
 
         try {
-            $data                = (new KelompokAnggotaRequest())->validated();
+            $data                = $request->validated();
             $data['id_kelompok'] = $id;
             $data['tipe']        = $this->tipe;
             $anggota             = KelompokAnggotaModel::find($id_a);

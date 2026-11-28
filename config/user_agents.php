@@ -35,8 +35,6 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 /*
 | -------------------------------------------------------------------
 | USER AGENT TYPES

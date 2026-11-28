@@ -47,10 +47,12 @@ use App\Models\FcmTokenMandiri;
 use App\Models\LogNotifikasiAdmin;
 use App\Models\LogNotifikasiMandiri;
 use App\Models\PendudukMandiri;
+use App\Models\SettingAplikasi;
 use App\Models\User;
 use App\Repositories\SettingAplikasiRepository;
 use App\Traits\ProvidesConvenienceMethods;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 /**
  * @property CI_Benchmark        $benchmark
@@ -138,16 +140,39 @@ class MY_Controller extends CI_Controller
         $this->middleware->run('ThrottleRequests');
 
         $error = $this->session->db_error;
-        if ($error['code'] == 1049 && ! $this->db) {
+        if (isset($error['code']) && $error['code'] == 1049 && ! $this->db) {
             return;
         }
-        $this->load->driver('cache', ['adapter' => 'file', 'backup' => 'dummy']);
         $this->controller = strtolower($this->router->fetch_class());
         $this->request    = $this->input->post();
+
+        if (! $this->session->instalasi) {
+            try {
+                $desa = identitas();
+            } catch (Exception) {
+            }
+        }
+
+        View::share([
+            'errors'      => $this->session->errors ?: new \Illuminate\Support\ViewErrorBag(),
+            'ci'          => $this,
+            'desa'        => $desa ?? null,
+            'auth'        => auth('admin')->user(),
+            'session'     => $this->session,
+            'token_name'  => $this->security->get_csrf_token_name(),
+            'token_value' => $this->security->get_csrf_hash(),
+        ]);
 
         $this->cekConfig();
 
         SettingAplikasiRepository::applySettingCI($this);
+
+        View::composer('*', function ($view): void {
+            foreach (SettingAplikasi::$sensitiveKeys as $key) {
+                unset($this->setting->{$key});
+            }
+        });
+
         (new Database())->checkMigration();
         (new Tracker())->trackDesa();
     }
@@ -278,28 +303,39 @@ class MY_Controller extends CI_Controller
             redirect('install');
         }
 
-        $this->load->database();
+        try {
+            $this->load->database();
 
-        // Tambahkan model yg akan diautoload di sini. Seeder di load disini setelah
-        // installer berhasil dijalankan dengan kondisi folder desa sudah ada.
-        $this->load->model(['seeders/seeder']);
+            // Tambahkan model yg akan diautoload di sini. Seeder di load disini setelah
+            // installer berhasil dijalankan dengan kondisi folder desa sudah ada.
+            $this->load->model(['seeders/seeder']);
 
-        $appKey   = get_app_key();
-        $appKeyDb = Config::first();
+            $appKey   = get_app_key();
+            $appKeyDb = Config::first();
 
-        if (Config::count() === 0) {
-            $this->session->cek_app_key = true;
-            show_error('Silakan tambah desa baru melalui console');
-        } elseif (Config::count() > 1) {
-            $appKeyDb = Config::appKey()->first();
+            if (Config::count() === 0) {
+                $this->session->cek_app_key = true;
+                show_error('Silakan tambah desa baru melalui console');
+            } elseif (Config::count() > 1) {
+                $appKeyDb = Config::appKey()->first();
+            }
+
+            if (! empty($appKeyDb->app_key) && $appKey !== $appKeyDb->app_key) {
+                $this->session->cek_app_key = true;
+                redirect('koneksi_database/config');
+            }
+
+            $this->cek_anjungan = $this->cekAnjungan();
+        } catch (\Throwable $e) {
+            // Jika database tidak tersedia, arahkan ke halaman koneksi_database
+            if (! $this->db || ! $this->db->conn_id) {
+                logger()->error('Database connection error: ' . $e->getMessage());
+                $_SESSION['db_error'] = ['code' => 1049, 'message' => $e->getMessage()];
+                redirect('koneksi_database');
+            }
+
+            throw $e;
         }
-
-        if (! empty($appKeyDb->app_key) && $appKey !== $appKeyDb->app_key) {
-            $this->session->cek_app_key = true;
-            redirect('koneksi_database/config');
-        }
-
-        $this->cek_anjungan = $this->cekAnjungan();
     }
 
     /**

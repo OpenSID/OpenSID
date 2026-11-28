@@ -38,3 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 $route = getRoutes();
+
+$route['default_controller'] = 'fweb/Utama/index';
+$route['404_override']       = '';
+$route['translate_uri_dashes'] = false;

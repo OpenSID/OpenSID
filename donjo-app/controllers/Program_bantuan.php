@@ -151,25 +151,13 @@ class Program_bantuan extends Admin_Controller
             $peserta  = BantuanPeserta::where('program_id', '=', $bantuan)->pluck('peserta');
             $kk_level = Bantuan::where('id', '=', $bantuan)->first()->kk_level;
 
-            switch ($sasaran) {
-                case 1:
-                    $this->get_pilihan_penduduk($cari, $peserta);
-                    break;
-
-                case 2:
-                    $this->get_pilihan_kk($cari, $peserta, $kk_level);
-                    break;
-
-                case 3:
-                    $this->get_pilihan_rtm($cari, $peserta);
-                    break;
-
-                case 4:
-                    $this->get_pilihan_kelompok($cari, $peserta);
-                    break;
-
-                default:
-            }
+            return match ((int) $sasaran) {
+                1 => $this->get_pilihan_penduduk($cari, $peserta),
+                2 => $this->get_pilihan_kk($cari, $peserta, $kk_level),
+                3 => $this->get_pilihan_rtm($cari, $peserta),
+                4 => $this->get_pilihan_kelompok($cari, $peserta),
+                default => show_404(),
+            };
         }
 
         return show_404();

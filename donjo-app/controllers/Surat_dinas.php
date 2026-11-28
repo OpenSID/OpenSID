@@ -284,12 +284,12 @@ class Surat_dinas extends Admin_Controller
         return show_404();
     }
 
-    public function insert(): void
+    public function insert()
     {
         isCan('u');
 
         if ($this->request['action'] == 'preview') {
-            $this->preview();
+            return $this->preview();
         }
 
         $this->checkTags($this->request['template_desa']);
@@ -546,7 +546,7 @@ class Surat_dinas extends Admin_Controller
         redirect_with('success', 'Berhasil Impor Data');
     }
 
-    public function impor(): void
+    public function impor()
     {
         isCan('u');
         $config['upload_path']   = sys_get_temp_dir();
@@ -560,7 +560,7 @@ class Surat_dinas extends Admin_Controller
         if ($this->upload->do_upload('userfile')) {
             $list_data = $this->formatImport(file_get_contents($this->upload->data()['full_path']));
             if ($list_data) {
-                $this->impor_filter($list_data);
+                return $this->impor_filter($list_data);
             }
         }
 

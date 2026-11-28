@@ -36,40 +36,43 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <div class="row mepet">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <select name="bulan" id="bulan" class="form-control input-sm select2">
-                                    <option value="">Pilih Bulan</option>
-                                    @foreach ($bulan as $key => $data)
-                                        <option @selected($key + 1 == date('n')) value="{{ $key + 1 }}">
-                                            {{ $data }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                    <form action="{{ route('stunting.eksporPaud') }}" method="POST" target="_blank" id="form-excel">
+                        @csrf
+                        <div class="row mepet">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select name="bulan" id="bulan" class="form-control input-sm select2">
+                                        <option value="">Pilih Bulan</option>
+                                        @foreach ($bulan as $key => $data)
+                                            <option @selected($key + 1 == date('n')) value="{{ $key + 1 }}">
+                                                {{ $data }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select id="tahun" name="tahun" class="form-control input-sm select2">
+                                        <option value="">Pilih Tahun</option>
+                                        @foreach ($tahun as $data)
+                                            <option @selected($data->tahun == date('Y')) value="{{ $data->tahun }}">{{ $data->tahun }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <select id="posyandu" name="posyandu" class="form-control input-sm select2">
+                                        <option value="">Posyandu</option>
+                                        @foreach ($posyandu as $data)
+                                            <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <select id="tahun" name="tahun" class="form-control input-sm select2">
-                                    <option value="">Pilih Tahun</option>
-                                    @foreach ($tahun as $data)
-                                        <option @selected($data->tahun == date('Y')) value="{{ $data->tahun }}">{{ $data->tahun }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <select id="posyandu" name="posyandu" class="form-control input-sm select2">
-                                    <option value="">Posyandu</option>
-                                    @foreach ($posyandu as $data)
-                                        <option value="{{ $data->id }}">{{ $data->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                     <hr class="batas">
                     {!! form_open(null, 'id="mainform" name="mainform"') !!}
                     <div class="table-responsive">
@@ -322,18 +325,8 @@
             });
 
             $(document).on('click', '#excel', function(e) {
-                $.ajax({
-                    url: "{{ ci_route('stunting.eksporPaud') }}",
-                    method: 'POST',
-                    data: {
-                        bulan: $('#bulan').val(),
-                        tahun: $('#tahun').val(),
-                        posyandu: $('#posyandu').val(),
-                    },
-                    success: function(data) {
-                        window.open(this.url, '_blank');
-                    },
-                })
+                e.preventDefault();
+                $('#form-excel').submit();
             });
 
             if (hapus == 0) {

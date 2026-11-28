@@ -46,7 +46,7 @@ class ImportSetting
      * Import setting aplikasi dari file JSON
      * (update semua kolom kecuali value).
      */
-    public function handle(?string $path = null): bool
+    public function handle(?string $path = null, ?int $configId = null): bool
     {
         $path ??= storage_path('app/template/impor/default_setting_aplikasi.json');
 
@@ -60,9 +60,14 @@ class ImportSetting
             return false;
         }
 
-        DB::transaction(static function () use ($data): void {
+        $configId ??= identitas('id');
+
+        DB::transaction(static function () use ($data, $configId): void {
             foreach ($data as $item) {
-                unset($item['id'], $item['config_id']);
+                unset($item['id']);
+
+                // Set config_id secara eksplisit
+                $item['config_id'] = $configId;
 
                 $key = $item['key'] ?? null;
                 if (! $key) {

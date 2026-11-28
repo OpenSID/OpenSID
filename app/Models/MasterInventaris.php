@@ -62,6 +62,9 @@ class MasterInventaris extends BaseModel
 
     public function scopePermen47($query, $tahun = null, $jns_asset = null)
     {
+        $akhir_tahun = [];
+        $awal_tahun  = [];
+
         $kondisi = [
             'Baik'                      => 1,
             'Perbaiki'                  => 2,
@@ -127,13 +130,13 @@ class MasterInventaris extends BaseModel
                 $asset->status_mutasi = $akhir_tahun[$asset->asset][$asset->id]->status_mutasi;
                 $asset->jenis_mutasi  = $akhir_tahun[$asset->asset][$asset->id]->jenis_mutasi;
             } else {
-                $asset->akhir_tahun = $kondisi[$asset->kondisi];
+                $asset->akhir_tahun = $kondisi[$asset->kondisi] ?? '';
             }
 
             if (isset($awal_tahun[$asset->asset][$asset->id])) {
                 $asset->awal_tahun = $akhir_tahun[$asset->asset][$asset->id]->kondisi;
             } else {
-                $asset->awal_tahun = $kondisi[$asset->kondisi];
+                $asset->awal_tahun = $kondisi[$asset->kondisi] ?? '';
             }
 
             return $asset;

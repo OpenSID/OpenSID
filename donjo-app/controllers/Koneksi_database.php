@@ -45,7 +45,17 @@ class Koneksi_database extends CI_Controller
 {
     public function index()
     {
-        if ($this->session->db_error['code'] !== 1049) {
+        try {
+            $this->load->database();
+            if ($this->db && $this->db->initialize()) {
+                $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+                redirect(site_url());
+            }
+        } catch (\Throwable $e) {
+            // Keep rendering the error connection page
+        }
+
+        if (empty($this->session->db_error) || $this->session->db_error['code'] !== 1049) {
             redirect(site_url());
         }
 

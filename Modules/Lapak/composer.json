@@ -9,20 +9,11 @@
 		"opensid"
 	],
 	"require": {
-		"php": "^8.1"
-	},
-	"require-dev": {
-		"mikey179/vfsstream": "1.1.*"
+		"php": "^8.4"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"config": {
 		"sort-packages": true
-	},
-	"scripts": {
-		"style-fix": [
-			"php-cs-fixer fix --allow-risky=yes",
-			"npm run prettier-blade"
-		]
 	}
 }

@@ -136,14 +136,14 @@ $(document).ready(function() {
     $(document).on('click', '.mark-as-read-btn', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         var notifId = $(this).data('notif-id');
         var $btn = $(this);
         var $item = $(`[data-notif-id="${notifId}"]`);
-        
+
         $.ajax({
             url: `{{ ci_route("notifikasi.mark-as-read") }}/${notifId}`,
-            method: 'POST',
+            method: 'get',
             dataType: 'json',
             success: function(response) {
                 // Remove background color to indicate read
@@ -156,7 +156,7 @@ $(document).ready(function() {
                 $item.find('.fa-circle').fadeOut(300, function() {
                     $(this).remove();
                 });
-                    
+
                 // Update total notifications badge
                 var totalBadge = $('.notifications-menu .label-danger');
                 var currentCount = parseInt(totalBadge.text()) || 0;

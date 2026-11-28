@@ -54,20 +54,6 @@ Route::get('sitemap', 'Sitemap@index');
 Route::get('feed.xml', 'Feed@index');
 Route::get('feed', 'Feed@index');
 
-// Rute untuk Artikel Lama
-Route::group('/first/artikel', static function (): void {
-    Route::get('/', 'First@utama');
-    Route::get('/{id}', 'First@artikel');
-    Route::get('/{thn}/{bln}/{tgl}/{slug}', 'First@artikel');
-});
-
-// Rute untuk Artikel Baru
-Route::group('/artikel', static function (): void {
-    Route::get('/kategori/{id}/{p?}', 'First@kategori');
-    Route::get('{id}', 'First@artikel');
-    Route::get('{thn}/{bln}/{tgl}/{slug}', 'First@artikel');
-});
-
 Route::get('/arsip/{p?}', 'First@arsip');
 Route::post('/add_comment/{id?}', 'First@add_comment');
 Route::get('/load_apbdes', 'First@load_apbdes');
@@ -83,9 +69,6 @@ Route::group('/first', static function (): void {
     Route::get('/dpt', 'First@dpt')->name('first.dpt');
     Route::get('/get_form_info', 'First@get_form_info')->name('first.get_form_info');
 });
-
-// Captcha
-Route::get('captcha', 'Securimage@show');
 
 // Dokumen web
 Route::group('/dokumen_web', static function (): void {

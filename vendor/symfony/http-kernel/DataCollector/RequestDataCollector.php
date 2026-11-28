@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Process\Process;
 use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
@@ -36,12 +37,11 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
      */
     private \SplObjectStorage $controllers;
     private array $sessionUsages = [];
-    private ?RequestStack $requestStack;
 
-    public function __construct(?RequestStack $requestStack = null)
-    {
+    public function __construct(
+        private ?RequestStack $requestStack = null,
+    ) {
         $this->controllers = new \SplObjectStorage();
-        $this->requestStack = $requestStack;
     }
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
@@ -131,12 +131,14 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
 
         $this->data['content'] = $content;
 
+        $this->data['curlCommand'] = $this->computeCurlCommand($request, $content);
+
         foreach ($this->data as $key => $value) {
             if (!\is_array($value)) {
                 continue;
             }
             if ('request_headers' === $key || 'response_headers' === $key) {
-                $this->data[$key] = array_map(fn ($v) => isset($v[0]) && !isset($v[1]) ? $v[0] : $v, $value);
+                $this->data[$key] = array_map(static fn ($v) => isset($v[0]) && !isset($v[1]) ? $v[0] : $v, $value);
             }
         }
 
@@ -195,74 +197,47 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['path_info'];
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getRequestRequest()
+    public function getRequestRequest(): ParameterBag
     {
         return new ParameterBag($this->data['request_request']->getValue());
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getRequestQuery()
+    public function getRequestQuery(): ParameterBag
     {
         return new ParameterBag($this->data['request_query']->getValue());
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getRequestFiles()
+    public function getRequestFiles(): ParameterBag
     {
         return new ParameterBag($this->data['request_files']->getValue());
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getRequestHeaders()
+    public function getRequestHeaders(): ParameterBag
     {
         return new ParameterBag($this->data['request_headers']->getValue());
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getRequestServer(bool $raw = false)
+    public function getRequestServer(bool $raw = false): ParameterBag
     {
         return new ParameterBag($this->data['request_server']->getValue($raw));
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getRequestCookies(bool $raw = false)
+    public function getRequestCookies(bool $raw = false): ParameterBag
     {
         return new ParameterBag($this->data['request_cookies']->getValue($raw));
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getRequestAttributes()
+    public function getRequestAttributes(): ParameterBag
     {
         return new ParameterBag($this->data['request_attributes']->getValue());
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getResponseHeaders()
+    public function getResponseHeaders(): ParameterBag
     {
         return new ParameterBag($this->data['response_headers']->getValue());
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getResponseCookies()
+    public function getResponseCookies(): ParameterBag
     {
         return new ParameterBag($this->data['response_cookies']->getValue());
     }
@@ -300,18 +275,12 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['content'];
     }
 
-    /**
-     * @return bool
-     */
-    public function isJsonRequest()
+    public function isJsonRequest(): bool
     {
         return 1 === preg_match('{^application/(?:\w+\++)*json$}i', $this->data['request_headers']['content-type']);
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPrettyJson()
+    public function getPrettyJson(): ?string
     {
         $decoded = json_decode($this->getContent());
 
@@ -343,10 +312,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['locale'];
     }
 
-    /**
-     * @return ParameterBag
-     */
-    public function getDotenvVars()
+    public function getDotenvVars(): ParameterBag
     {
         return new ParameterBag($this->data['dotenv_vars']->getValue());
     }
@@ -505,12 +471,12 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
                 'line' => $r->getStartLine(),
             ];
 
-            if (str_contains($r->name, '{closure')) {
+            if ($r->isAnonymous()) {
                 return $controller;
             }
             $controller['method'] = $r->name;
 
-            if ($class = \PHP_VERSION_ID >= 80111 ? $r->getClosureCalledClass() : $r->getClosureScopeClass()) {
+            if ($class = $r->getClosureCalledClass()) {
                 $controller['class'] = $class->name;
             } else {
                 return $r->name;
@@ -531,5 +497,62 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         }
 
         return \is_string($controller) ? $controller : 'n/a';
+    }
+
+    private function computeCurlCommand(Request $request, ?string $content): string
+    {
+        $command = ['curl', '--compressed'];
+
+        $method = $request->getMethod();
+
+        if (Request::METHOD_HEAD === $method) {
+            $command[] = '--head';
+        } elseif (Request::METHOD_GET !== $method) {
+            $command[] = \sprintf('--request %s', $method);
+        }
+
+        $command[] = \sprintf('--url %s', escapeshellarg($request->getUri()));
+
+        foreach ($request->headers->all() as $name => $values) {
+            if (\in_array(strtolower($name), ['host', 'cookie'], true)) {
+                continue;
+            }
+
+            $command[] = '--header '.escapeshellarg(ucwords($name, '-').': '.implode(', ', $values));
+        }
+
+        if ($request->cookies->all()) {
+            $cookies = [];
+            foreach ($request->cookies->all() as $name => $value) {
+                $cookies[] = urlencode($name).'='.urlencode($value);
+            }
+            $command[] = '--cookie '.escapeshellarg(implode('; ', $cookies));
+        }
+
+        if ($content && \in_array($method, [Request::METHOD_POST, Request::METHOD_PUT, Request::METHOD_PATCH, Request::METHOD_DELETE], true)) {
+            $command[] = '--data-raw '.$this->escapePayload($content);
+        }
+
+        return implode(" \\\n  ", $command);
+    }
+
+    public function getCurlCommand(): string
+    {
+        return $this->data['curlCommand'] ?? '';
+    }
+
+    private function escapePayload(string $payload): string
+    {
+        static $useProcess;
+
+        if ($useProcess ??= \function_exists('proc_open') && class_exists(Process::class)) {
+            return substr((new Process(['', $payload]))->getCommandLine(), 3);
+        }
+
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            return '"'.str_replace('"', '""', $payload).'"';
+        }
+
+        return "'".str_replace("'", "'\\''", $payload)."'";
     }
 }

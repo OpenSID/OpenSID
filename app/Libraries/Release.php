@@ -86,7 +86,11 @@ class Release
         }
 
         if (! $this->interval) {
-            $this->setInterval(ENVIRONMENT == 'development' ? 0 : setting('rentang_waktu_notifikasi_rilis'));
+            $this->setInterval(
+                app()->environment('development')
+                    ? 0
+                    : (int) (setting('rentang_waktu_notifikasi_rilis') ?? 0)
+            );
         }
     }
 

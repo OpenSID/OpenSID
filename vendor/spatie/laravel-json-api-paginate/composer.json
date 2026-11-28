@@ -16,13 +16,13 @@
         }
     ],
     "require": {
-        "php": "^8.0",
-        "illuminate/support": "^10.0|^11.0|^12.0"
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^8.21.1|^9.0|^10.0",
-        "pestphp/pest": "^2.34|^3.7",
-        "phpunit/phpunit": "^9.0|^10.5.10|^11.5.3"
+        "orchestra/testbench": "^8.21.1|^9.0|^10.0|^11.0",
+        "pestphp/pest": "^2.0|^3.7|^4.0",
+        "phpunit/phpunit": "^9.0|^10.5.10|^11.5.3|^12.0"
     },
     "autoload": {
         "psr-4": {

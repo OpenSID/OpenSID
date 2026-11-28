@@ -205,14 +205,7 @@ class AuthenticatedSessionController extends Web_Controller
             }
         }
 
-        // Matikan view agar tidak ada output HTML, dan kirim header JSON
-        $this->output
-            ->set_status_header(200)
-            ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode(['is_anjungan' => $is_anjungan]))
-            ->_display();
-
-        exit;
+        return response()->json(['is_anjungan' => $is_anjungan]);
     }
 
     protected function authenticateEktp(Request $request)

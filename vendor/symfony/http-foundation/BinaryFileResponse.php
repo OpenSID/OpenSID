@@ -12,6 +12,7 @@
 namespace Symfony\Component\HttpFoundation;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
@@ -25,16 +26,14 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class BinaryFileResponse extends Response
 {
-    protected static $trustXSendfileTypeHeader = false;
+    protected static bool $trustXSendfileTypeHeader = false;
 
-    /**
-     * @var File
-     */
-    protected $file;
-    protected $offset = 0;
-    protected $maxlen = -1;
-    protected $deleteFileAfterSend = false;
-    protected $chunkSize = 16 * 1024;
+    protected File $file;
+    protected ?\SplTempFileObject $tempFileObject = null;
+    protected int $offset = 0;
+    protected int $maxlen = -1;
+    protected bool $deleteFileAfterSend = false;
+    protected int $chunkSize = 16 * 1024;
 
     /**
      * @param \SplFileInfo|string $file               The file to stream
@@ -44,6 +43,9 @@ class BinaryFileResponse extends Response
      * @param string|null         $contentDisposition The type of Content-Disposition to set automatically with the filename
      * @param bool                $autoEtag           Whether the ETag header should be automatically set
      * @param bool                $autoLastModified   Whether the Last-Modified header should be automatically set
+     *
+     * @throws FileNotFoundException If the given path is not a file
+     * @throws FileException         If the file is not readable
      */
     public function __construct(\SplFileInfo|string $file, int $status = 200, array $headers = [], bool $public = true, ?string $contentDisposition = null, bool $autoEtag = false, bool $autoLastModified = true)
     {
@@ -61,19 +63,23 @@ class BinaryFileResponse extends Response
      *
      * @return $this
      *
-     * @throws FileException
+     * @throws FileNotFoundException If the given path is not a file
+     * @throws FileException         If the file is not readable
      */
     public function setFile(\SplFileInfo|string $file, ?string $contentDisposition = null, bool $autoEtag = false, bool $autoLastModified = true): static
     {
+        $isTemporaryFile = $file instanceof \SplTempFileObject;
+        $this->tempFileObject = $isTemporaryFile ? $file : null;
+
         if (!$file instanceof File) {
             if ($file instanceof \SplFileInfo) {
-                $file = new File($file->getPathname());
+                $file = new File($file->getPathname(), !$isTemporaryFile);
             } else {
-                $file = new File((string) $file);
+                $file = new File($file);
             }
         }
 
-        if (!$file->isReadable()) {
+        if (!$file->isReadable() && !$isTemporaryFile) {
             throw new FileException('File must be readable.');
         }
 
@@ -83,7 +89,7 @@ class BinaryFileResponse extends Response
             $this->setAutoEtag();
         }
 
-        if ($autoLastModified) {
+        if ($autoLastModified && !$isTemporaryFile) {
             $this->setAutoLastModified();
         }
 
@@ -109,8 +115,8 @@ class BinaryFileResponse extends Response
      */
     public function setChunkSize(int $chunkSize): static
     {
-        if ($chunkSize < 1 || $chunkSize > \PHP_INT_MAX) {
-            throw new \LogicException('The chunk size of a BinaryFileResponse cannot be less than 1 or greater than PHP_INT_MAX.');
+        if ($chunkSize < 1) {
+            throw new \InvalidArgumentException('The chunk size of a BinaryFileResponse cannot be less than 1.');
         }
 
         $this->chunkSize = $chunkSize;
@@ -125,7 +131,7 @@ class BinaryFileResponse extends Response
      */
     public function setAutoLastModified(): static
     {
-        $this->setLastModified(\DateTimeImmutable::createFromFormat('U', $this->file->getMTime()));
+        $this->setLastModified(\DateTimeImmutable::createFromFormat('U', $this->tempFileObject ? time() : $this->file->getMTime()));
 
         return $this;
     }
@@ -137,7 +143,7 @@ class BinaryFileResponse extends Response
      */
     public function setAutoEtag(): static
     {
-        $this->setEtag(base64_encode(hash_file('sha256', $this->file->getPathname(), true)));
+        $this->setEtag(base64_encode(hash_file('xxh128', $this->file->getPathname(), true)));
 
         return $this;
     }
@@ -188,7 +194,12 @@ class BinaryFileResponse extends Response
         }
 
         if (!$this->headers->has('Content-Type')) {
-            $this->headers->set('Content-Type', $this->file->getMimeType() ?: 'application/octet-stream');
+            $mimeType = null;
+            if (!$this->tempFileObject) {
+                $mimeType = $this->file->getMimeType();
+            }
+
+            $this->headers->set('Content-Type', $mimeType ?: 'application/octet-stream');
         }
 
         parent::prepare($request);
@@ -196,7 +207,9 @@ class BinaryFileResponse extends Response
         $this->offset = 0;
         $this->maxlen = -1;
 
-        if (false === $fileSize = $this->file->getSize()) {
+        if ($this->tempFileObject) {
+            $fileSize = $this->tempFileObject->fstat()['size'];
+        } elseif (false === $fileSize = $this->file->getSize()) {
             return $this;
         }
         $this->headers->remove('Transfer-Encoding');
@@ -260,7 +273,7 @@ class BinaryFileResponse extends Response
                         if ($start < 0 || $start > $end) {
                             $this->setStatusCode(416);
                             $this->headers->set('Content-Range', \sprintf('bytes */%s', $fileSize));
-                        } elseif ($end - $start < $fileSize - 1) {
+                        } else {
                             $this->maxlen = $end < $fileSize ? $end - $start + 1 : -1;
                             $this->offset = $start;
 
@@ -305,19 +318,25 @@ class BinaryFileResponse extends Response
             }
 
             $out = fopen('php://output', 'w');
-            $file = fopen($this->file->getPathname(), 'r');
+
+            if ($this->tempFileObject) {
+                $file = $this->tempFileObject;
+                $file->rewind();
+            } else {
+                $file = new \SplFileObject($this->file->getPathname(), 'r');
+            }
 
             ignore_user_abort(true);
 
             if (0 !== $this->offset) {
-                fseek($file, $this->offset);
+                $file->fseek($this->offset);
             }
 
             $length = $this->maxlen;
-            while ($length && !feof($file)) {
+            while ($length && !$file->eof()) {
                 $read = $length > $this->chunkSize || 0 > $length ? $this->chunkSize : $length;
 
-                if (false === $data = fread($file, $read)) {
+                if (false === $data = $file->fread($read)) {
                     break;
                 }
                 while ('' !== $data) {
@@ -333,9 +352,8 @@ class BinaryFileResponse extends Response
             }
 
             fclose($out);
-            fclose($file);
         } finally {
-            if ($this->deleteFileAfterSend && is_file($this->file->getPathname())) {
+            if (null === $this->tempFileObject && $this->deleteFileAfterSend && is_file($this->file->getPathname())) {
                 unlink($this->file->getPathname());
             }
         }
@@ -362,10 +380,8 @@ class BinaryFileResponse extends Response
 
     /**
      * Trust X-Sendfile-Type header.
-     *
-     * @return void
      */
-    public static function trustXSendfileTypeHeader()
+    public static function trustXSendfileTypeHeader(): void
     {
         self::$trustXSendfileTypeHeader = true;
     }
@@ -381,5 +397,13 @@ class BinaryFileResponse extends Response
         $this->deleteFileAfterSend = $shouldDelete;
 
         return $this;
+    }
+
+    /**
+     * Returns whether the file will be unlinked after the request is sent.
+     */
+    public function shouldDeleteFileAfterSend(): bool
+    {
+        return $this->deleteFileAfterSend;
     }
 }

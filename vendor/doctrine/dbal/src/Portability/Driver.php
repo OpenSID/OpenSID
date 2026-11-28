@@ -1,70 +1,61 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Doctrine\DBAL\Portability;
 
 use Doctrine\DBAL\ColumnCase;
 use Doctrine\DBAL\Driver as DriverInterface;
+use Doctrine\DBAL\Driver\Connection as ConnectionInterface;
+use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Driver\Middleware\AbstractDriverMiddleware;
-use LogicException;
+use Doctrine\DBAL\Platforms\Exception\PlatformException;
 use PDO;
 use SensitiveParameter;
 
-use function method_exists;
+use const CASE_LOWER;
+use const CASE_UPPER;
 
 final class Driver extends AbstractDriverMiddleware
 {
-    private int $mode;
-
-    /** @var 0|ColumnCase::LOWER|ColumnCase::UPPER */
-    private int $case;
-
-    /**
-     * @param 0|ColumnCase::LOWER|ColumnCase::UPPER $case Determines how the column case will be treated.
-     *                                                    0: The case will be left as is in the database.
-     *                                                    {@see ColumnCase::LOWER}: The case will be lowercased.
-     *                                                    {@see ColumnCase::UPPER}: The case will be uppercased.
-     */
-    public function __construct(DriverInterface $driver, int $mode, int $case)
-    {
+    public function __construct(
+        DriverInterface $driver,
+        private readonly int $mode,
+        private readonly ?ColumnCase $case,
+    ) {
         parent::__construct($driver);
-
-        $this->mode = $mode;
-        $this->case = $case;
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @throws PlatformException
+     * @throws Exception
      */
     public function connect(
         #[SensitiveParameter]
-        array $params
-    ) {
+        array $params,
+    ): ConnectionInterface {
         $connection = parent::connect($params);
 
         $portability = (new OptimizeFlags())(
-            $this->getDatabasePlatform(),
+            $this->getDatabasePlatform($connection),
             $this->mode,
         );
 
         $case = null;
 
-        if ($this->case !== 0 && ($portability & Connection::PORTABILITY_FIX_CASE) !== 0) {
-            $nativeConnection = null;
-            if (method_exists($connection, 'getNativeConnection')) {
-                try {
-                    $nativeConnection = $connection->getNativeConnection();
-                } catch (LogicException $e) {
-                }
-            }
+        if ($this->case !== null && ($portability & Connection::PORTABILITY_FIX_CASE) !== 0) {
+            $nativeConnection = $connection->getNativeConnection();
+
+            $case = match ($this->case) {
+                ColumnCase::LOWER => CASE_LOWER,
+                ColumnCase::UPPER => CASE_UPPER,
+            };
 
             if ($nativeConnection instanceof PDO) {
                 $portability &= ~Connection::PORTABILITY_FIX_CASE;
-                $nativeConnection->setAttribute(
-                    PDO::ATTR_CASE,
-                    $this->case === ColumnCase::LOWER ? PDO::CASE_LOWER : PDO::CASE_UPPER,
-                );
-            } else {
-                $case = $this->case === ColumnCase::LOWER ? Converter::CASE_LOWER : Converter::CASE_UPPER;
+                $nativeConnection->setAttribute(PDO::ATTR_CASE, $case);
             }
         }
 

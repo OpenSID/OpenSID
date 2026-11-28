@@ -48,13 +48,15 @@
             </div>
         </div>
     @else
-        <div class="form-group">
-            <label for="keperluan" class="col-sm-3 control-label">Data Keluarga / KK</label>
-            <div class="col-sm-8">
-                <label class="text-red small">Penduduk yang dipilih bukan
-                    {{ \App\Enums\SHDKEnum::valueOf(\App\Enums\SHDKEnum::KEPALA_KELUARGA) }}</label>
+        @if ($kategori == 'individu' || in_array(\App\Enums\SHDKEnum::KEPALA_KELUARGA, $filters['kk_level'] ?? []))
+            <div class="form-group">
+                <label for="keperluan" class="col-sm-3 control-label">Data Keluarga / KK</label>
+                <div class="col-sm-8">
+                    <label class="text-red small">Penduduk yang dipilih bukan
+                        {{ \App\Enums\SHDKEnum::valueOf(\App\Enums\SHDKEnum::KEPALA_KELUARGA) }}</label>
+                </div>
             </div>
-        </div>
+        @endif
     @endif
 
     @if ($kategori == 'individu')

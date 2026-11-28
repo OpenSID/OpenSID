@@ -60,12 +60,10 @@ class ConsoleSectionOutput extends StreamOutput
      * Clears previous output for this section.
      *
      * @param int $lines Number of lines to clear. If null, then the entire output of this section is cleared
-     *
-     * @return void
      */
-    public function clear(?int $lines = null)
+    public function clear(?int $lines = null): void
     {
-        if (empty($this->content) || !$this->isDecorated()) {
+        if (!$this->content || !$this->isDecorated()) {
             return;
         }
 
@@ -83,13 +81,34 @@ class ConsoleSectionOutput extends StreamOutput
 
     /**
      * Overwrites the previous output with a new message.
-     *
-     * @return void
      */
-    public function overwrite(string|iterable $message)
+    public function overwrite(string|iterable $message): void
     {
-        $this->clear();
-        $this->writeln($message);
+        if (!$this->content || !$this->isDecorated()) {
+            $this->writeln($message);
+
+            return;
+        }
+
+        // Replace own content and write everything in a single cursor-up + erase
+        // pass, to avoid the flicker (and the line-eating artifacts on some
+        // terminals) caused by calling clear() then writeln() back-to-back.
+        $linesCleared = $this->lines;
+        $this->content = [];
+        $this->lines = 0;
+
+        if (!is_iterable($message)) {
+            $message = [$message];
+        }
+
+        foreach ($message as $line) {
+            $this->addContent($this->getFormatter()->format($line) ?? '', true);
+        }
+
+        $erasedContent = $this->popStreamContentUntilCurrentSection($this->maxHeight ? min($this->maxHeight, $linesCleared) : $linesCleared);
+
+        parent::doWrite($this->getVisibleContent(), false);
+        parent::doWrite($erasedContent, false);
     }
 
     public function getContent(): string
@@ -162,10 +181,7 @@ class ConsoleSectionOutput extends StreamOutput
         ++$this->lines;
     }
 
-    /**
-     * @return void
-     */
-    protected function doWrite(string $message, bool $newline)
+    protected function doWrite(string $message, bool $newline): void
     {
         // Simulate newline behavior for consistent output formatting, avoiding extra logic
         if (!$newline && str_ends_with($message, \PHP_EOL)) {

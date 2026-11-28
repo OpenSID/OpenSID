@@ -60,6 +60,7 @@ class Penduduk_log extends Admin_Controller
     public $kategori_pengaturan = 'Catatan Peristiwa';
     private $pertanyaan         = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
     private $judulStatistik;
+    private $filterColumn = [];
     private $statistikFilter = [];
 
     public function __construct()
@@ -76,6 +77,15 @@ class Penduduk_log extends Admin_Controller
         if ($this->statistikFilter) {
             $defaultFilter = $this->statistikFilter;
         }
+
+        $manualFilters = ['tahun', 'dusun', 'rw', 'rt'];
+
+        foreach ($manualFilters as $filter) {
+            if ($value = $this->input->get($filter)) {
+                $this->filterColumn[$filter] = $value;
+            }
+        }
+
         $data['tahun_log_pertama']    = $tglLaporAwal ? (Carbon::createFromFormat('Y-m-d H:i:s', $tglLaporAwal))->format('Y') : date('Y');
         $data['list_jenis_peristiwa'] = LogPenduduk::kodePeristiwa();
         $data['list_sex']             = JenisKelaminEnum::all();
@@ -85,6 +95,7 @@ class Penduduk_log extends Admin_Controller
         $data['statistikFilter']      = $this->statistikFilter;
         $data['judul_statistik']      = $this->judulStatistik;
         $data['pertanyaan']           = $this->pertanyaan;
+        $data['filterColumn']         = $this->filterColumn;
 
         view('admin.penduduk_log.index', $data);
     }
@@ -490,13 +501,19 @@ class Penduduk_log extends Admin_Controller
             ->when($tahun, static fn ($r) => $r->whereYear('tgl_lapor', $tahun))
             ->when($bulan, static fn ($r) => $r->whereMonth('tgl_lapor', $bulan))
             ->when($statistikFilter, static function ($q) use ($statistikFilter) {
-                $kriteria = $statistikFilter['value'];
+                $kriteria = (int) $statistikFilter['value'];
 
                 return match ($kriteria) {
                     TOTAL         => $q,
-                    BELUM_MENGISI => $q->whereNull('file_akta_mati'),
-                    JUMLAH        => $q->whereNotNull('file_akta_mati'),
-                    default       => $q->whereNotNull('file_akta_mati'),
+                    BELUM_MENGISI => $q->where(static function ($sq) {
+                        $sq->whereNull('akta_mati')
+                            ->orWhere('akta_mati', '')
+                            ->orWhere('akta_mati', '-');
+                    }),
+                    JUMLAH        => $q->whereNotNull('akta_mati')
+                        ->whereNotIn('akta_mati', ['', '-']),
+                    default       => $q->whereNotNull('akta_mati')
+                        ->whereNotIn('akta_mati', ['', '-']),
                 };
             })
             ->whereHas(

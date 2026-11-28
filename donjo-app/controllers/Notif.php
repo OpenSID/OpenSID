@@ -71,6 +71,8 @@ class Notif extends Admin_Controller
     public function update_setting(): void
     {
         $data = $this->input->post();
+        unset($data['sidcsrf']);
+
         $this->uploadImgSetting($data);
         if ((new SettingAplikasiRepository())->updateSetting($data)) {
             set_session('success', 'Berhasil Ubah Data');

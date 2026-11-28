@@ -189,36 +189,155 @@ class StatistikPendudukEnum extends BaseEnum
         'label' => 'Kepemilikan Akta Kematian Berdasarkan Wilayah',
     ];
 
+    /**
+     * Inline array (hindari self:: constant di sini untuk kompatibilitas ioncube)
+     */
     public static $data = [
-        self::RENTANG_UMUR,
-        self::KATEGORI_UMUR,
-        self::PENDIDIKAN_KK,
-        self::PENDIDIKAN_SEDANG,
-        self::PEKERJAAN,
-        self::STATUS_PERKAWINAN,
-        self::AGAMA,
-        self::JENIS_KELAMIN,
-        self::HUBUNGAN_KK,
-        self::WARGA_NEGARA,
-        self::STATUS_PENDUDUK,
-        self::GOLONGAN_DARAH,
-        self::PENYANDANG_DISABILITAS,
-        self::PENYAKIT_MENAHUN,
-        self::AKSEPTOR_KB,
-        self::AKTA_KELAHIRAN,
-        self::KEPEMILIKAN_KTP,
-        self::ASURANSI_KESEHATAN,
-        self::STATUS_COVID,
-        self::SUKU_ETNIS,
-        self::MARGA,
-        self::ADAT,
-        self::PEKERJA_MIGRAN,
-        self::BPJS_KETENAGAKERJAAN,
-        self::STATUS_KEPERSERTAAN_ASURANSI_KESEHATAN,
-        self::STATUS_KEHAMILAN,
-        self::KEPEMILIKAN_KIA,
-        self::KEPEMILIKAN_AKTA_KEMATIAN,
-        self::KEPEMILIKAN_AKTA_KEMATIAN_WILAYAH,
+        [
+            'key'   => 13,
+            'slug'  => 'rentang-umur',
+            'label' => 'Rentang Umur',
+        ],
+        [
+            'key'   => 15,
+            'slug'  => 'kategori-umur',
+            'label' => 'Kategori Umur',
+        ],
+        [
+            'key'   => 0,
+            'slug'  => 'pendidikan-dalam-kk',
+            'label' => 'Pendidikan Dalam KK',
+        ],
+        [
+            'key'   => 14,
+            'slug'  => 'pendidikan-sedang-ditempuh',
+            'label' => 'Pendidikan Sedang Ditempuh',
+        ],
+        [
+            'key'   => 1,
+            'slug'  => 'pekerjaan',
+            'label' => 'Pekerjaan',
+        ],
+        [
+            'key'   => 2,
+            'slug'  => 'status-perkawinan',
+            'label' => 'Status Perkawinan',
+        ],
+        [
+            'key'   => 3,
+            'slug'  => 'agama',
+            'label' => 'Agama',
+        ],
+        [
+            'key'   => 4,
+            'slug'  => 'jenis-kelamin',
+            'label' => 'Jenis Kelamin',
+        ],
+        [
+            'key'   => 'hubungan_kk',
+            'slug'  => 'hubungan-dalam-kk',
+            'label' => 'Hubungan Dalam KK',
+        ],
+        [
+            'key'   => 5,
+            'slug'  => 'warga-negara',
+            'label' => 'Warga Negara',
+        ],
+        [
+            'key'   => 6,
+            'slug'  => 'status-penduduk',
+            'label' => 'Status Penduduk',
+        ],
+        [
+            'key'   => 7,
+            'slug'  => 'golongan-darah',
+            'label' => 'Golongan Darah',
+        ],
+        [
+            'key'   => 9,
+            'slug'  => 'penyandang-disabilitas',
+            'label' => 'Penyandang Disabilitas',
+        ],
+        [
+            'key'   => 10,
+            'slug'  => 'penyakit-menahun',
+            'label' => 'Penyakit Menahun',
+        ],
+        [
+            'key'   => 16,
+            'slug'  => 'akseptor-kb',
+            'label' => 'Akseptor KB',
+        ],
+        [
+            'key'   => 17,
+            'slug'  => 'akta-kelahiran',
+            'label' => 'Akta Kelahiran',
+        ],
+        [
+            'key'   => 18,
+            'slug'  => 'kepemilikan-ktp',
+            'label' => 'Kepemilikan KTP',
+        ],
+        [
+            'key'   => 19,
+            'slug'  => 'asuransi-kesehatan',
+            'label' => 'Asuransi Kesehatan',
+        ],
+        [
+            'key'   => 'covid',
+            'slug'  => 'status-covid',
+            'label' => 'Status Covid',
+        ],
+        [
+            'key'   => 'suku',
+            'slug'  => 'suku-etnis',
+            'label' => 'Suku / Etnis',
+        ],
+        [
+            'key'   => 'marga',
+            'slug'  => 'marga',
+            'label' => 'Marga',
+        ],
+        [
+            'key'   => 'adat',
+            'slug'  => 'adat',
+            'label' => 'Adat',
+        ],
+        [
+            'key'   => 'pekerja_migran',
+            'slug'  => 'pekerja_migran',
+            'label' => 'Pekerja Migran',
+        ],
+        [
+            'key'   => 'bpjs-tenagakerja',
+            'slug'  => 'bpjs-ketenagakerjaan',
+            'label' => 'BPJS Ketenagakerjaan',
+        ],
+        [
+            'key'   => 'status-asuransi-kesehatan',
+            'slug'  => 'status_asuransi_kesehatan',
+            'label' => 'Status Kepersertaan Asuransi Kesehatan',
+        ],
+        [
+            'key'   => 'hamil',
+            'slug'  => 'status-kehamilan',
+            'label' => 'Status Kehamilan',
+        ],
+        [
+            'key'   => 'kia',
+            'slug'  => 'kepemilikan-kia',
+            'label' => 'Kepemilikan KIA',
+        ],
+        [
+            'key'   => 'akta-kematian',
+            'slug'  => 'kepemilikan-akta-kematian',
+            'label' => 'Kepemilikan Akta Kematian',
+        ],
+        [
+            'key'   => 'akta-kematian-wilayah',
+            'slug'  => 'kepemilikan-akta-kematian-wilayah',
+            'label' => 'Kepemilikan Akta Kematian Berdasarkan Wilayah',
+        ],
     ];
 
     /**

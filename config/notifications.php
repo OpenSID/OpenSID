@@ -76,7 +76,7 @@ return [
             'color' => '#9b59b6',
             'route' => 'komentar',
             'modul' => 'komentar',
-            'query' => 'status=' . App\Models\Komentar::UNREAD,
+            'query' => 'status=3',
         ],
 
         'inbox' => [
@@ -104,7 +104,7 @@ return [
             'color' => '#27ae60',
             'route' => 'buku_tamu',
             'modul' => 'data-tamu',
-            'query' => 'status=0', // TamuModel::BARU inlined — Modules\BukuTamu dihapus dari core
+            'query' => 'status=0',
         ],
 
         'pengaduan' => [
@@ -114,7 +114,7 @@ return [
             'color' => '#e67e22',
             'route' => 'pengaduan_admin',
             'modul' => 'pengaduan',
-            'query' => 'status=' . App\Enums\StatusPengaduanEnum::MENUNGGU_DIPROSES,
+            'query' => 'status=1',
         ],
 
         'pengajuan_izin' => [

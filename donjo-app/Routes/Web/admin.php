@@ -608,7 +608,7 @@ Route::group('stunting', static function (): void {
     Route::post('/updateIbuHamil/{id?}', 'Stunting@updateIbuHamil')->name('stunting.updateIbuHamil');
     Route::get('/deleteIbuHamil/{id}', 'Stunting@deleteIbuHamil')->name('stunting.deleteIbuHamil');
     Route::post('/deleteAllIbuHamil', 'Stunting@deleteAllIbuHamil')->name('stunting.deleteAllIbuHamil');
-    Route::get('/eksporIbuHamil', 'Stunting@eksporIbuHamil')->name('stunting.eksporIbuHamil');
+    Route::post('/eksporIbuHamil', 'Stunting@eksporIbuHamil')->name('stunting.eksporIbuHamil');
     // Pemantauan Ibu Anak
     Route::get('/pemantauan_anak', 'Stunting@pemantauan_anak')->name('stunting.pemantauan_anak');
     Route::post('/datatablesAnak', 'Stunting@datatablesAnak')->name('stunting.datatablesAnak');
@@ -617,7 +617,7 @@ Route::group('stunting', static function (): void {
     Route::post('/updateAnak/{id?}', 'Stunting@updateAnak')->name('stunting.updateAnak');
     Route::get('/deleteAnak/{id}', 'Stunting@deleteAnak')->name('stunting.deleteAnak');
     Route::post('/deleteAllAnak', 'Stunting@deleteAllAnak')->name('stunting.deleteAllAnak');
-    Route::get('/eksporAnak', 'Stunting@eksporAnak')->name('stunting.eksporAnak');
+    Route::post('/eksporAnak', 'Stunting@eksporAnak')->name('stunting.eksporAnak');
     // Pemantauan Paud
     Route::get('/pemantauan_paud', 'Stunting@pemantauan_paud')->name('stunting.pemantauan_paud');
     Route::post('/datatablesPaud', 'Stunting@datatablesPaud')->name('stunting.datatablesPaud');
@@ -626,7 +626,7 @@ Route::group('stunting', static function (): void {
     Route::post('/updatePaud/{id?}', 'Stunting@updatePaud')->name('stunting.updatePaud');
     Route::get('/deletePaud/{id}', 'Stunting@deletePaud')->name('stunting.deletePaud');
     Route::post('/deleteAllPaud', 'Stunting@deleteAllPaud')->name('stunting.deleteAllPaud');
-    Route::get('/eksporPaud', 'Stunting@eksporPaud')->name('stunting.eksporPaud');
+    Route::post('/eksporPaud', 'Stunting@eksporPaud')->name('stunting.eksporPaud');
     // Rekapitulasi
     Route::get('rekapitulasi_ibu_hamil/{kuartal?}/{tahun?}/{id?}', 'Stunting_rekapitulasi@ibu_hamil')->name('stunting.rekapitulasi_ibu_hamil');
     Route::get('rekapitulasi_bulanan_anak/{kuartal?}/{tahun?}/{id?}', 'Stunting_rekapitulasi@bulanan_anak')->name('stunting.rekapitulasi_bulanan_anak');

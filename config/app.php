@@ -35,12 +35,6 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-$key = file_exists(DESAPATH . 'app_key')
-    ? file_get_contents(DESAPATH . 'app_key')
-    : 'base64:rN3vXWFRHDKFP2sMySe9f4gna7WulisoXTqn7Yo4Ye8=';
-
 return [
 
     /*
@@ -48,13 +42,13 @@ return [
     | Application Name
     |--------------------------------------------------------------------------
     |
-    | This value is the name of your application. This value is used when the
+    | This value is the name of your application, which will be used when the
     | framework needs to place the application's name in a notification or
-    | any other location as required by the application or its packages.
+    | other UI elements where an application name needs to be displayed.
     |
     */
 
-    'name' => 'OpenSID',
+    'name' => env('APP_NAME', 'OpenSID'),
 
     /*
     |--------------------------------------------------------------------------
@@ -66,7 +60,8 @@ return [
     | services the application utilizes. Set this in your ".env" file.
     |
     */
-    'env' => ENVIRONMENT,
+
+    'env' => env('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +73,8 @@ return [
     | application. If disabled, a simple generic error page is shown.
     |
     */
-    'debug' => ENVIRONMENT === 'development',
+
+    'debug' => (bool) env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -87,13 +83,11 @@ return [
     |
     | This URL is used by the console to properly generate URLs when using
     | the Artisan command line tool. You should set this to the root of
-    | your application so that it is used when running Artisan tasks.
+    | the application so that it's available within Artisan commands.
     |
     */
 
-    'url' => APP_URL,
-
-    'asset_url' => APP_URL . 'assets/',
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -101,10 +95,11 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify the default timezone for your application, which
-    | will be used by the PHP date and date-time functions. We have gone
-    | ahead and set this to a sensible default for you out of the box.
+    | will be used by the PHP date and date-time functions. The timezone
+    | is set to "UTC" by default as it is suitable for most use cases.
     |
     */
+
     'timezone' => 'UTC',
 
     /*
@@ -113,53 +108,60 @@ return [
     |--------------------------------------------------------------------------
     |
     | The application locale determines the default locale that will be used
-    | by the translation service provider. You are free to set this value
-    | to any of the locales which will be supported by the application.
+    | by Laravel's translation / localization methods. This option can be
+    | set to any locale for which you plan to have translation strings.
     |
     */
 
-    'locale' => 'id',
+    'locale' => env('APP_LOCALE', 'id'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Application Fallback Locale
-    |--------------------------------------------------------------------------
-    |
-    | The fallback locale determines the locale to use when the current one
-    | is not available. You may change the value to correspond to any of
-    | the language folders that are provided through your application.
-    |
-    */
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
-    'fallback_locale' => 'en',
+    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |
-    | This key is used by the Illuminate encrypter service and should be set
-    | to a random, 32 character string, otherwise these encrypted strings
-    | will not be safe. Please do this before deploying an application!
+    | This key is utilized by Laravel's encryption services and should be set
+    | to a random, 32 character string to ensure that all encrypted values
+    | are secure. You should do this prior to deploying the application.
     |
     */
+
+    'cipher' => 'AES-256-CBC',
+
+    'key' => env(
+        'APP_KEY',
+        file_exists(base_path('desa/app_key'))
+            ? trim(file_get_contents(base_path('desa/app_key')))
+            : 'base64:0Dx+0ZC/QcU7BrlY5vQT7qQtuZGZHsfodogVEFPkZ8Q='
+    ),
+
+    'previous_keys' => [
+        ...array_filter(
+            explode(',', (string) env('APP_PREVIOUS_KEYS', ''))
+        ),
+    ],
 
     /*
     |--------------------------------------------------------------------------
-    | Faker Locale
+    | Maintenance Mode Driver
     |--------------------------------------------------------------------------
     |
-    | This locale will be used by the Faker PHP library when generating fake
-    | data for your database seeds. For example, this will be used to get
-    | localized telephone numbers, street address information and more.
+    | These configuration options determine the driver used to determine and
+    | manage Laravel's "maintenance mode" status. The "cache" driver will
+    | allow maintenance mode to be controlled across multiple machines.
+    |
+    | Supported drivers: "file", "cache"
     |
     */
 
-    'faker_locale' => 'id_ID',
-
-    'key' => $key,
-
-    'cipher' => 'AES-256-CBC',
+    'maintenance' => [
+        'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
+        'store' => env('APP_MAINTENANCE_STORE', 'database'),
+    ],
 
     'map' => [
         'zoom' => 15,
@@ -175,9 +177,10 @@ return [
     ],
 
     'log' => [
-        'log_path'             => STORAGEPATH . 'logs/',
+        'log_path'             => storage_path('logs'),
         'clv_log_file_pattern' => 'opensid-*.log',
         'log_file_extension'   => 'log',
         'log_file_prefix'      => 'opensid-',
     ],
+
 ];

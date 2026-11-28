@@ -1,42 +1,46 @@
 <?php
+// rfm/init.php
+
 error_reporting(0);
-define('ENVIRONMENT', 'production');
 
-$ds = DIRECTORY_SEPARATOR;
-define('FMPATH', dirname(__FILE__, 2) . $ds);
-define('FCPATH', FMPATH . $ds);
-define('APPPATH', FMPATH . "donjo-app{$ds}");
-define('DESAPATH', FMPATH . "desa{$ds}");
-define('LOKASI_CACHE', FMPATH . "desa{$ds}cache{$ds}");
+define('RFM_BASE_PATH', dirname(__FILE__, 2));
 
-define('RESOURCESPATH', FMPATH . "resources{$ds}");
-define('STORAGEPATH', FMPATH . "storage{$ds}");
-define('BASEPATH', FMPATH . "vendor{$ds}codeigniter{$ds}framework{$ds}system{$ds}");
-define('APP_URL', ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}" . str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']));
+require RFM_BASE_PATH . '/vendor/autoload.php';
 
-require_once BASEPATH . "libraries{$ds}Session{$ds}Session_driver.php";
-require_once BASEPATH . "libraries{$ds}Session{$ds}CI_Session_driver_interface.php";
-require_once BASEPATH . "libraries{$ds}Session{$ds}drivers{$ds}Session_files_driver.php";
-require_once BASEPATH . "core{$ds}Common.php";
+Dotenv\Dotenv::createImmutable(RFM_BASE_PATH)->load();
 
-$config = get_config();
+$encryptedCookie = $_COOKIE['rfm_access'] ?? null;
 
-if (empty($config['sess_save_path'])) {
-    $config['sess_save_path'] = rtrim(ini_get('session.save_path'), '/\\');
+if (! $encryptedCookie) {
+    http_response_code(401);
+    exit('Access denied: No cookie');
 }
 
-$config = ['cookie_lifetime'   => $config['sess_expiration'], 'cookie_name'       => $config['sess_cookie_name'], 'cookie_path'       => $config['cookie_path'], 'cookie_domain'     => $config['cookie_domain'], 'cookie_secure'     => $config['cookie_secure'], 'expiration'        => $config['sess_expiration'], 'match_ip'          => $config['sess_match_ip'], 'save_path'         => $config['sess_save_path'], '_sid_regexp'       => '[0-9a-v]{32}'];
+try {
+    $appKey = $_ENV['APP_KEY'] ?? file_get_contents(RFM_BASE_PATH . '/desa/app_key') ?? null;
 
-$class = new CI_Session_files_driver($config);
+    if (str_starts_with($appKey, 'base64:')) {
+        $appKey = base64_decode(substr($appKey, 7));
+    }
 
-session_set_save_handler(
-    [$class, 'open'],
-    [$class, 'close'],
-    [$class, 'read'],
-    [$class, 'write'],
-    [$class, 'destroy'],
-    [$class, 'gc']
-);
-register_shutdown_function('session_write_close');
+    $encrypter = new \Illuminate\Encryption\Encrypter($appKey, $_ENV['APP_CIPHER'] ?? 'AES-256-CBC');
 
-session_name($config['cookie_name']);
+    $data = $encrypter->decrypt($encryptedCookie);
+
+    if (! is_array($data) || ! isset($data['user_id'], $data['expires'])) {
+        throw new Exception('Invalid structure');
+    }
+
+    if (time() > $data['expires']) {
+        throw new Exception('Expired');
+    }
+
+    $GLOBALS['RFM_AUTH'] = [
+        'fm_key'                 => $data['fm_key'],
+        'hapus_gambar_rfm'       => $data['hapus_gambar_rfm'] ?? false,
+        'ubah_tambah_gambar_rfm' => $data['ubah_tambah_gambar_rfm'] ?? false,
+    ];
+} catch (Exception $e) {
+    http_response_code(401);
+    exit('Access denied: ' . $e->getMessage());
+}

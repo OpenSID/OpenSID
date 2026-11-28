@@ -11,6 +11,8 @@ class ZipStreamServiceProvider extends PackageServiceProvider
     {
         $package->name('zipstream')->hasConfigFile();
 
+        $this->app->singleton(Factory::class);
+
         $this->app->singleton('zipstream.builder', Builder::class);
 
         $this->app->singleton('zipstream.s3client', function($app) {
@@ -30,6 +32,6 @@ class ZipStreamServiceProvider extends PackageServiceProvider
 
     public function provides(): array
     {
-        return ['zipstream.builder', 'zipstream.s3client'];
+        return [Factory::class, 'zipstream.builder', 'zipstream.s3client'];
     }
 }

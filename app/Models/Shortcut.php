@@ -105,9 +105,10 @@ class Shortcut extends BaseModel
 
     public static function querys()
     {
-        $isAdmin = get_instance()->session->isAdmin->pamong->jabatan_id;
+        $user    = auth('admin')->user();
+        $isAdmin = $user?->pamong?->jabatan_id;
 
-        return cache()->rememberForever('shortcut_' . ci_auth()->id, static function () use ($isAdmin): array {
+        return cache()->rememberForever('shortcut_' . $user->id, static function () use ($isAdmin): array {
             $activeShortcut = self::where('status', '=', '1')->orderBy('urut')->get();
 
             $shorcutModules = (new ShortcutModule())->scan();
@@ -279,13 +280,13 @@ class Shortcut extends BaseModel
                         'link'   => 'keluar',
                         'akses'  => 'arsip-layanan',
                         'jumlah' => LogSurat::whereNull('deleted_at')
-                            ->when($isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
+                            ->when($isAdmin == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
                                 ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
                                 ->orWhere(static function ($verifikasi): void {
                                     $verifikasi->whereNull('verifikasi_operator');
                                 }))
-                            ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
-                            ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')
+                            ->when($isAdmin == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
+                            ->when($isAdmin == null || ! in_array($isAdmin, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')
                                 ->orWhereNull('verifikasi_operator'))
                             ->count(),
                     ],
