@@ -39,7 +39,7 @@ namespace App\Traits;
 
 trait GenerateRtf
 {
-    private function buat_berkas_kk($data = [], $format = null): ?string
+    private function buat_berkas_kk(array $data = [], $format = null): ?string
     {
         $path_arsip = LOKASI_ARSIP;
         $file       = DEFAULT_LOKASI_EKSPOR . ($format === 'F1.09' ? 'kk-f1.09.rtf' : 'kk.rtf');
@@ -54,10 +54,11 @@ trait GenerateRtf
 
         foreach ($data['main'] as $ranggota) {
             $i++;
-            $nama            .= $ranggota['nama'] . '\\line ';
-            $no              .= $i . '\\line ';
-            $hubungan        .= $ranggota['penduduk_hubungan'] . '\\line ';
-            $nik             .= $ranggota['nik'] . '\\line ';
+            $no       .= $i . '\\line ';
+            $nama     .= $ranggota['nama'] . '\\line ';
+            $hubungan .= $ranggota['penduduk_hubungan'] . '\\line ';
+            // Jika NIK sementara (dimulai dengan '0' dan bukan '0' saja), tampilkan '0'
+            $nik             .= get_nik($ranggota['nik']) . '\\line ';
             $sex             .= ($ranggota['jenis_kelamin']) . '\\line ';
             $tempatlahir     .= $ranggota['tempatlahir'] . '\\line ';
             $tanggallahir    .= tgl_indo(tgl: $ranggota['tanggallahir'], format: 'd-m-Y') . '\\line ';
@@ -79,9 +80,9 @@ trait GenerateRtf
                 // Untuk F1.09: kolom TANGGAL PERKAWINAN/PERCERAIAN
                 // Tampilkan tanggal perkawinan jika status KAWIN
                 // Tampilkan tanggal perceraian jika status CERAI (Cerai Hidup/Cerai Mati)
-                if (str_contains($statusPerkawinan, 'KAWIN')) {
+                if (str_contains((string) $statusPerkawinan, 'KAWIN')) {
                     $tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo(tgl: $ranggota['tanggalperkawinan'], format: 'd-m-Y') . '\\line ' : '- \\line ';
-                } elseif (str_contains($statusPerkawinan, 'CERAI')) {
+                } elseif (str_contains((string) $statusPerkawinan, 'CERAI')) {
                     $tanggalperkawinan .= isset($ranggota['tanggalperceraian']) ? tgl_indo(tgl: $ranggota['tanggalperceraian'], format: 'd-m-Y') . '\\line ' : '- \\line ';
                 } else {
                     $tanggalperkawinan .= '- \\line ';
@@ -91,7 +92,7 @@ trait GenerateRtf
             } else {
                 // Untuk KK biasa: ada 2 kolom terpisah
                 // Kolom TANGGAL PERKAWINAN
-                if (str_contains($statusPerkawinan, 'KAWIN')) {
+                if (str_contains((string) $statusPerkawinan, 'KAWIN')) {
                     $tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo(tgl: $ranggota['tanggalperkawinan'], format: 'd-m-Y') . '\\line ' : '- \\line ';
                 } else {
                     // Jika bukan status kawin, jangan tampilkan tanggal perkawinan
@@ -99,7 +100,7 @@ trait GenerateRtf
                 }
 
                 // Kolom TANGGAL PERCERAIAN
-                if (str_contains($statusPerkawinan, 'CERAI')) {
+                if (str_contains((string) $statusPerkawinan, 'CERAI')) {
                     $tanggalperceraian .= isset($ranggota['tanggalperceraian']) ? tgl_indo(tgl: $ranggota['tanggalperceraian'], format: 'd-m-Y') . '\\line ' : '- \\line ';
                 } else {
                     // Jika bukan status cerai, jangan tampilkan tanggal perceraian
@@ -144,10 +145,12 @@ trait GenerateRtf
         $buffer         = str_replace('*rt', "{$k['keluarga']['wilayah']['rt']}", $buffer);
         $buffer         = str_replace('*rw', "{$k['keluarga']['wilayah']['rw']}", $buffer);
         $buffer         = str_replace('*kk', "\\caps {$k['nama']}", $buffer);
-        $buffer         = str_replace('no_kk', "{$k['keluarga']['no_kk']}", $buffer);
-        $buffer         = str_replace('pos', "{$h['kode_pos']}", $buffer);
-        $buffer         = str_replace('*tertanda', "\\caps {$tertanda}", $buffer);
-        $buffer         = str_replace('*nip_camat', "{$h['nip_kepala_camat']}", $buffer);
+        // Jika nomor KK sementara (dimulai dengan '0' dan bukan '0' saja), tampilkan '0'
+        $noKK   = get_nokk($k['keluarga']['no_kk']);
+        $buffer = str_replace('no_kk', "{$noKK}", $buffer);
+        $buffer = str_replace('pos', "{$h['kode_pos']}", $buffer);
+        $buffer = str_replace('*tertanda', "\\caps {$tertanda}", $buffer);
+        $buffer = str_replace('*nip_camat', "{$h['nip_kepala_camat']}", $buffer);
 
         $berkas_arsip = $path_arsip . "kk_{$k['keluarga']['no_kk']}.rtf";
         $handle       = fopen($berkas_arsip, 'w+b');

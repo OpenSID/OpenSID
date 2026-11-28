@@ -89,13 +89,13 @@ class PembangunanDokumentasi extends BaseModel
         }
     }
 
-    public function getPersentaseAttribute($value)
+    public function getPersentaseAttribute(?string $value): ?string
     {
         if ($value === null || $value === '') {
             return $value;
         }
 
-        return str_contains((string) $value, '%') ? $value : $value . '%';
+        return str_contains($value, '%') ? $value : $value . '%';
     }
 
     public function pembangunan()

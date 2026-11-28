@@ -108,7 +108,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('inventaris_peralatan.datatables') }}"
+                    url: "{{ ci_route('inventaris_peralatan.datatables') }}",
+                    method: 'POST',
                 },
                 columns: [{
                         data: 'DT_RowIndex',

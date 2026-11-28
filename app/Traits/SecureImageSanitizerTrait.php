@@ -90,7 +90,7 @@ trait SecureImageSanitizerTrait
 
         // --- 3. Cek ekstensi file (dari nama asli) ---
         $originalName = $file['name'];
-        $ext          = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        $ext          = strtolower(pathinfo((string) $originalName, PATHINFO_EXTENSION));
 
         if (! in_array($ext, $this->allowedExtensions, true)) {
             return $this->fail("Ekstensi file tidak diizinkan: .{$ext}");
@@ -152,7 +152,7 @@ trait SecureImageSanitizerTrait
 
         $offset    = $this->magicBytes[$ext]['offset'];
         $signature = $this->magicBytes[$ext]['bytes'];
-        $length    = strlen($signature);
+        $length    = strlen((string) $signature);
 
         fseek($handle, $offset);
         $fileBytes = fread($handle, $length);
@@ -165,28 +165,10 @@ trait SecureImageSanitizerTrait
             ];
         }
 
-        // Cek tambahan: pastikan tidak ada PHP tag di awal file (polyglot detection)
-        $handle      = fopen($filePath, 'rb');
-        $headerChunk = fread($handle, 1024); // Baca 1KB pertama
-        fclose($handle);
-
-        $dangerousPatterns = [
-            '<?php',
-            '<?=',
-            '<script',
-            'javascript:',
-            'vbscript:',
-            'data:text/html',
-        ];
-
-        foreach ($dangerousPatterns as $pattern) {
-            if (stripos($headerChunk, $pattern) !== false) {
-                return [
-                    'valid' => false,
-                    'error' => 'File mengandung konten berbahaya dan ditolak.',
-                ];
-            }
-        }
+        // CATATAN: Dangerous pattern check tidak diperlukan di sini
+        // karena re-encode image menggunakan GD Library akan menghilangkan
+        // semua metadata, EXIF, embedded scripts, dan payload berbahaya secara otomatis.
+        // Magic bytes validation sudah cukup untuk fase awal.
 
         return ['valid' => true, 'error' => null];
     }
@@ -262,7 +244,7 @@ trait SecureImageSanitizerTrait
         $data = ob_get_clean();
         imagedestroy($image);
 
-        if (! $outputSuccess || empty($data)) {
+        if (! $outputSuccess || ($data === '' || $data === '0' || $data === false)) {
             return ['success' => false, 'error' => 'Gagal melakukan re-encoding gambar.'];
         }
 

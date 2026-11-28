@@ -88,8 +88,8 @@ class Opendk_pesan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status') ?? null;
-            $arsip  = $this->input->get('arsip') ?? 0;
+            $status = $this->input->post_get('status') ?? null;
+            $arsip  = $this->input->post_get('arsip') ?? 0;
             $pesan  = Pesan::with(['detailPesan'])->status($status)->where('diarsipkan', '=', $arsip)->orderBy('sudah_dibaca', 'ASC')
                 ->orderBy('created_at', 'DESC');
 

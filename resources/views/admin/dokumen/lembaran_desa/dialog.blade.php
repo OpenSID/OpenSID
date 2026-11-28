@@ -38,16 +38,16 @@
     })
 
     function cetak() {
-        // Retrieve DataTable parameters
         let params = $('#tabeldata').DataTable().ajax.params();
 
-        // Convert params object to query string
-        let queryString = $.param(params);
+        // Pindahkan params ke POST body (hindari URL panjang → WAF)
+        $('#form-cetak').find('.dt-param').remove();
+        new URLSearchParams($.param(params)).forEach(function(value, key) {
+            $('#form-cetak').append($('<input>', { type: 'hidden', name: key, value: value, class: 'dt-param' }));
+        });
 
-        // Set form action with query parameters
-        $("#form-cetak").attr("action", `{{ $formAction }}?${queryString}`);
-
-        // Hide modal
+        $("#form-cetak").attr("action", `{{ $formAction }}`);
+        addCsrfField($('#form-cetak')[0]);  // tambah CSRF token
         $('#modalBox').modal('hide');
     }
 </script>

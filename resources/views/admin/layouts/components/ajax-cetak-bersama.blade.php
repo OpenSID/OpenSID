@@ -31,19 +31,23 @@
             params.length = -1;
         }
 
-        // Convert params object to query string
-        let queryString = $.param(params);
+        // Pindahkan params ke POST body (hindari URL panjang → WAF)
+        $('#form-cetak').find('.dt-param').remove();
+        new URLSearchParams($.param(params)).forEach(function(value, key) {
+            $('#form-cetak').append($('<input>', { type: 'hidden', name: key, value: value, class: 'dt-param' }));
+        });
 
         @if ($field_nik ?? true)
             // Get checkbox value
             const privasi_nik = $('#privasi_nik').is(':checked') ? '1' : '0';
-            // Set form action with query parameters
-            $("#form-cetak").attr("action", `{{ $action }}/${privasi_nik}?${queryString}`);
+            // Set form action (tanpa query string)
+            $("#form-cetak").attr("action", `{{ $action }}/${privasi_nik}`);
         @else
-            // Set form action with query parameters
-            $("#form-cetak").attr("action", `{{ $action }}?${queryString}`);
+            // Set form action (tanpa query string)
+            $("#form-cetak").attr("action", `{{ $action }}`);
         @endif
 
+        addCsrfField($('#form-cetak')[0]);  // tambah CSRF token
         // Reset params.length ke original value
         params.length = originalLength;
         // Hide modal

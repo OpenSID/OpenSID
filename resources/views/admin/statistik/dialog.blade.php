@@ -34,5 +34,11 @@
         delete(_objParams.draw)
         delete(_objParams.search)
         $('input[name=params]').val(JSON.stringify(_objParams))
+
+        $('#validasi').submit(function() {
+            if ($('#validasi').valid()) {
+                $('#modalBox').modal('hide');
+            }
+        });
     });
 </script>

@@ -61,6 +61,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('suplemen.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.sasaran = $('#sasaran').val();
                     },

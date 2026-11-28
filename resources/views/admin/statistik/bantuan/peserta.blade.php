@@ -31,6 +31,7 @@
                 'order': [],
                 "ajax": {
                     "url": url,
+                    method: 'POST',
                     "type": "get",
                     data: function(req) {
                         req.tahun = $('#tahun').val();

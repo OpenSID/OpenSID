@@ -35,7 +35,6 @@
  *
  */
 
-use Admin_Controller;
 use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;

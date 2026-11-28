@@ -107,6 +107,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route('buku-umum.dokumen_sekretariat.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.kategori = kategori;
                         req.filter = $('#filter').val();

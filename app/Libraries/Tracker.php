@@ -52,14 +52,14 @@ use App\Models\PendudukMandiri;
 use App\Models\Persil;
 use App\Models\SettingAplikasi;
 use App\Models\User;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Tracker
 {
     public function trackDesa(): void
     {
-        if (setting('enable_track') == false || null === identitas()) {
+        // harus dikonversi ke boolean dulu, karena enable_track berupa string
+        if ((bool) setting('enable_track') === false || null === identitas()) {
             return;
         }
         // Track web dan admin masing2 maksimum sekali sehari
@@ -81,6 +81,16 @@ class Tracker
          * cegah error karena tabel belum ada
          */
         if (config_item('demo_mode')) {
+            return;
+        }
+
+        /**
+         * Jangan kirim data ke pantau jika server pantau sedang down (circuit breaker)
+         * Ini mencegah endless timeout requests yang menyebabkan website lambat
+         */
+        if (pantau_is_down()) {
+            logger()->info('Skipping Tracker.kirimData() - pantau server marked as down');
+
             return;
         }
 
@@ -108,6 +118,7 @@ class Tracker
 
         $desa = [
             'nama_desa'           => $config->nama_desa,
+            'sebutan_desa'        => e(setting('sebutan_desa')) ?? 'desa',
             'kode_desa'           => $config->kode_desa,
             'kode_pos'            => $config->kode_pos,
             'nama_kecamatan'      => $config->nama_kecamatan,
@@ -148,7 +159,7 @@ class Tracker
             return;
         }
 
-        $trackSID_output = httpPost($tracker . '/api/track/desa?token=' . config_item('token_pantau'), $desa); // kirim ke tracksid.
+        $trackSID_output = httpPost(config_item('server_pantau') . '/api/track/desa?token=' . config_item('token_pantau'), $desa); // kirim ke tracksid.
         if ($trackSID_output !== null && $trackSID_output !== '' && $trackSID_output !== '0') {
             cache()->put('tracksid_admin_web', date('Y m d'), DAY);
             $this->cekNotifikasiTrackSID($trackSID_output);

@@ -67,6 +67,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ route($tipe . '.dokumen.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.status      = $('#status').val();
                         req.id_kelompok = '{{ $id_kelompok }}';

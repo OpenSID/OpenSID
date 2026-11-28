@@ -56,9 +56,9 @@ class Pesan extends Mandiri_Controller
             $query = PesanMandiri::where('tipe', $kat)->where('penduduk_id', $this->is_login->id_pend);
 
             // Handle ordering
-            if ($this->input->get('order')) {
-                $orderColumnIndex = $this->input->get('order')[0]['column'];
-                $orderDirection   = $this->input->get('order')[0]['dir'];
+            if ($this->input->post_get('order')) {
+                $orderColumnIndex = $this->input->post_get('order')[0]['column'];
+                $orderDirection   = $this->input->post_get('order')[0]['dir'];
 
                 $columns = [
                     0 => 'DT_RowIndex',

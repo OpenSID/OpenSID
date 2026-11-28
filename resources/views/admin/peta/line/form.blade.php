@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-3">Nama Jenis Garis</label>
                         <div class="col-sm-7">
-                            <input name="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" placeholder="Nama Jenis Garis" value="{{ $line['nama'] }}" />
+                            <input name="nama" class="form-control input-sm nomor_sk required" maxlength="{{ PEMETAAN_NAMA_MAX_LENGTH }}" type="text" placeholder="Nama Jenis Garis" value="{{ $line['nama'] }}" />
                         </div>
                     </div>
                     <div class="form-group">

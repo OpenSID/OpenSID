@@ -121,7 +121,10 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            ajax: "{{ ci_route('rtm.datatables_anggota', $kk) }}",
+            ajax: {
+                url: "{{ ci_route('rtm.datatables_anggota', $kk) }}",
+                method: 'POST',
+            },
             order: [[8, 'desc']],
             columns: [{
                     data: 'ceklist',

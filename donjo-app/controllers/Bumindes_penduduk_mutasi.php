@@ -132,8 +132,8 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
 
     private function sumberData()
     {
-        $tahun = $this->input->get('tahun') ?? null;
-        $bulan = $this->input->get('bulan') ?? null;
+        $tahun = $this->input->post_get('tahun') ?? null;
+        $bulan = $this->input->post_get('bulan') ?? null;
 
         return LogPenduduk::with(['penduduk'])
             ->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value])

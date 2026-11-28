@@ -122,9 +122,23 @@ class Sistem
     {
         $versi = DB::select('SELECT VERSION() AS version')[0]->version;
 
+        // MariaDB menyertakan string "MariaDB" di dalam versi-nya
+        $isMariaDB = stripos($versi, 'mariadb') !== false;
+
+        // Ekstrak hanya angka versi (misal: "8.0.30" atau "10.6.12-MariaDB")
+        $versiAngka = preg_replace('/[^0-9.].*/', '', $versi);
+
+        if ($isMariaDB) {
+            $cek = version_compare($versiAngka, minMariaDBVersion, '>=')
+                && version_compare($versiAngka, maxMariaDBVersion, '<');
+        } else {
+            $cek = version_compare($versiAngka, minMySqlVersion, '>=')
+                && version_compare($versiAngka, maxMySqlVersion, '<');
+        }
+
         return [
             'versi' => $versi,
-            'cek'   => (version_compare($versi, minMySqlVersion, '>=') && version_compare($versi, maxMySqlVersion, '<')) || (version_compare($versi, minMariaDBVersion, '>=')),
+            'cek'   => $cek,
         ];
     }
 

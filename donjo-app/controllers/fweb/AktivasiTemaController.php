@@ -35,12 +35,29 @@
  *
  */
 
+use App\Actions\Theme\ActivateTheme;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class AktivasiTemaController extends Web_Controller
 {
     public function index()
     {
+        $this->verifikasi();
+
         return view('theme::aktivasi');
+    }
+
+    // verifikasi tema
+    public function verifikasi()
+    {
+        $temaAktif = theme_active()->slug;
+
+        // cek apakah cookies langganan-premium = true dan tema yg digunakan adalah tema premium free
+        if ($_COOKIE['langganan-premium'] === 'false' && in_array($temaAktif, TEMA_PREMIUM_FREE)) {
+            (new ActivateTheme())->handle('esensi');
+
+            redirect(site_url());
+        }
     }
 }

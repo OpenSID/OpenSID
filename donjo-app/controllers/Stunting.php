@@ -495,9 +495,9 @@ class Stunting extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $filters = [
-                'bulan'    => $this->input->get('bulan'),
-                'tahun'    => $this->input->get('tahun'),
-                'posyandu' => $this->input->get('posyandu'),
+                'bulan'    => $this->input->post_get('bulan'),
+                'tahun'    => $this->input->post_get('tahun'),
+                'posyandu' => $this->input->post_get('posyandu'),
             ];
 
             return datatables()->of(IbuHamil::select('ibu_hamil.created_at as tanggal_periksa', 'ibu_hamil.*')->with(['kia', 'kia.ibu'])->filter($filters))
@@ -684,9 +684,9 @@ class Stunting extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $filters = [
-                'bulan'    => $this->input->get('bulan'),
-                'tahun'    => $this->input->get('tahun'),
-                'posyandu' => $this->input->get('posyandu'),
+                'bulan'    => $this->input->post_get('bulan'),
+                'tahun'    => $this->input->post_get('tahun'),
+                'posyandu' => $this->input->post_get('posyandu'),
             ];
 
             return datatables()->of(Anak::select('bulanan_anak.*')->with(['kia', 'kia.anak'])->filter($filters))
@@ -917,9 +917,9 @@ class Stunting extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $filters = [
-                'bulan'    => $this->input->get('bulan'),
-                'tahun'    => $this->input->get('tahun'),
-                'posyandu' => $this->input->get('posyandu'),
+                'bulan'    => $this->input->post_get('bulan'),
+                'tahun'    => $this->input->post_get('tahun'),
+                'posyandu' => $this->input->post_get('posyandu'),
             ];
 
             return datatables()->of(Paud::select('sasaran_paud.created_at as tanggal_periksa', 'sasaran_paud.*')->with(['kia', 'kia.anak'])->filter($filters))

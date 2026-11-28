@@ -62,7 +62,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('sms.outbox.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('sms.outbox.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',

@@ -129,6 +129,7 @@
                 info: false,
                 ajax: {
                     url: "{{ ci_route('statistik.penduduk.' . $lap . '.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.tahun = $('#tahun').val();
                         req.bulan = $('#bulan').val();

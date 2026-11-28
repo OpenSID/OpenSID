@@ -106,6 +106,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('data_persil.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.tipe = $('select[name="tipe"]').val()
                         req.kelas = $('select[name="kelas"]').val()

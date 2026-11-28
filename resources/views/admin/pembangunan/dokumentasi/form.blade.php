@@ -52,7 +52,9 @@
                                 <div id="manual">
                                     <div class="col-sm-7">
                                         <input
-                                            maxlength="50"
+                                            maxlength="10"
+                                            pattern="^[0-9]{1,3}%?$"
+                                            title="Hanya boleh angka dan simbol % (contoh: 50%)"
                                             class="form-control input-sm required"
                                             name="persentase"
                                             id="persentase"

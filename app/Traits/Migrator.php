@@ -134,7 +134,7 @@ trait Migrator
 
         $invalidForeignData = DB::table($targetTable)
             ->whereNotNull($targetForeignKeyCol)
-            ->whereNotIn($targetForeignKeyCol, static function ($query) use ($referencedTable, $referencedColumn) {
+            ->whereNotIn($targetForeignKeyCol, static function ($query) use ($referencedTable, $referencedColumn): void {
                 $query->select($referencedColumn)->from($referencedTable);
             })
             ->exists();
@@ -144,7 +144,7 @@ trait Migrator
 
             if ($setForeignToNull) {
                 DB::table($targetTable)
-                    ->whereNotIn($targetForeignKeyCol, static function ($query) use ($referencedTable, $referencedColumn) {
+                    ->whereNotIn($targetForeignKeyCol, static function ($query) use ($referencedTable, $referencedColumn): void {
                         $query->select($referencedColumn)->from($referencedTable);
                     })
                     ->orWhere($targetForeignKeyCol, 0)
@@ -182,7 +182,7 @@ trait Migrator
      * @param string $tabel          Nama tabel yang akan dihapus foreign key.
      * @param string $relasiTable    Nama tabel referensi.
      */
-    public function hapusForeignKey($namaConstraint, $tabel, $relasiTable)
+    public function hapusForeignKey($namaConstraint, $tabel, $relasiTable): void
     {
         $exists = DB::table('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
             ->where('CONSTRAINT_SCHEMA', DB::getDatabaseName())
@@ -192,7 +192,7 @@ trait Migrator
             ->exists();
 
         if ($exists) {
-            Schema::table($tabel, static function (Blueprint $table) use ($namaConstraint) {
+            Schema::table($tabel, static function (Blueprint $table) use ($namaConstraint): void {
                 $table->dropForeign($namaConstraint);
             });
         }
@@ -205,13 +205,11 @@ trait Migrator
      * @param string $column           Nama kolom foreign key yang akan direset.
      * @param string $referencesTable  Nama tabel referensi yang akan digunakan.
      * @param string $referencesColumn Nama kolom referensi yang akan digunakan (default: 'id').
-     *
-     * @return void
      */
-    public function resetForeignKey(string $table, string $column, string $foreignKey, string $referencesTable, string $referencesColumn = 'id')
+    public function resetForeignKey(string $table, string $column, string $foreignKey, string $referencesTable, string $referencesColumn = 'id'): void
     {
         if ($this->foreignKeyExists($table, $foreignKey)) {
-            Schema::table($table, static function (Blueprint $table) use ($column, $foreignKey, $referencesTable, $referencesColumn) {
+            Schema::table($table, static function (Blueprint $table) use ($column, $foreignKey, $referencesTable, $referencesColumn): void {
                 $table->dropForeign($foreignKey);
 
                 $table->foreign($column, $foreignKey)
@@ -287,10 +285,8 @@ trait Migrator
      *
      * @param mixed $where Kondisi where
      * @param array $modul Data modul untuk update
-     *
-     * @return bool
      */
-    public function ubah_modul($where, array $modul)
+    public function ubah_modul(mixed $where, array $modul): bool
     {
         $query = DB::table('setting_modul');
 
@@ -315,7 +311,7 @@ trait Migrator
      *
      * @return bool
      */
-    public function tambah_setting($setting, $config_id = null)
+    public function tambah_setting(array $setting, $config_id = null)
     {
         $setting['config_id'] = $config_id ?? identitas('id');
 
@@ -327,10 +323,8 @@ trait Migrator
      *
      * @param array $data      Data surat
      * @param int   $config_id Config ID
-     *
-     * @return bool
      */
-    public function tambah_surat_tinymce($data, $config_id = null)
+    public function tambah_surat_tinymce($data, $config_id = null): bool
     {
         $config_id ??= identitas('id');
         $data['url_surat'] ??= 'surat-' . url_title($data['nama'], '-', true);
@@ -365,10 +359,8 @@ trait Migrator
      *
      * @param string $tabel Nama tabel
      * @param array  $kolom Kolom primary key
-     *
-     * @return bool
      */
-    public function cek_primary_key($tabel, $kolom = [])
+    public function cek_primary_key($tabel, $kolom = []): bool
     {
         $schemaManager = DB::connection()->getDoctrineSchemaManager();
         $indexes       = $schemaManager->listTableIndexes($tabel);
@@ -388,10 +380,8 @@ trait Migrator
      * @param string $tabel           Nama tabel referensi
      * @param string $nama_constraint Nama constraint
      * @param string $drop            Nama tabel yang akan di-drop foreign key-nya
-     *
-     * @return bool
      */
-    public function hapus_foreign_key($tabel, $nama_constraint, $drop)
+    public function hapus_foreign_key($tabel, $nama_constraint, $drop): bool
     {
         $query = DB::table('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
             ->where('CONSTRAINT_SCHEMA', DB::getDatabaseName())
@@ -416,10 +406,8 @@ trait Migrator
      * Check and fix table structure
      *
      * @param string $tableName
-     *
-     * @return bool
      */
-    public function checkAndFixTable($tableName)
+    public function checkAndFixTable($tableName): bool
     {
         $table = DB::table($tableName)->first();
         if ($table) {
@@ -531,10 +519,8 @@ trait Migrator
 
     /**
      * Tambah atau perbarui data ke tabel setting_aplikasi.
-     *
-     * @return bool
      */
-    protected function createSetting(array $data)
+    protected function createSetting(array $data): bool
     {
         $setting = new SettingAplikasi();
         $setting = $setting->withoutGlobalScope('config_id');
@@ -552,10 +538,8 @@ trait Migrator
 
     /**
      * Tambah atau perbarui beberapa data ke tabel setting_aplikasi.
-     *
-     * @return bool
      */
-    protected function createSettings(array $data)
+    protected function createSettings(array $data): bool
     {
         foreach ($data as $setting) {
             $this->createSetting($setting);
@@ -581,10 +565,8 @@ trait Migrator
 
     /**
      * Hapus data dari tabel setting_aplikasi
-     *
-     * @return void
      */
-    protected function deleteSetting(array $where)
+    protected function deleteSetting(array $where): bool
     {
         $setting = new SettingAplikasi();
         $setting = $setting->withoutGlobalScope('config_id');

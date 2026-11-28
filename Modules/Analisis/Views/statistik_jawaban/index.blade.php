@@ -104,6 +104,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('analisis_statistik_jawaban.' . $analisis_master['id'] . '.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.dusun = $('#dusun').val()
                         req.rw = $('#rw').val()

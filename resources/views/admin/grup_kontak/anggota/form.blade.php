@@ -95,7 +95,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('grup_kontak.penduduk', $grupKontak->id_grup) }}",
+                ajax: {
+                    url: "{{ ci_route('grup_kontak.penduduk', $grupKontak->id_grup) }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -145,7 +148,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('grup_kontak.kontak', $grupKontak->id_grup) }}",
+                ajax: {
+                    url: "{{ ci_route('grup_kontak.kontak', $grupKontak->id_grup) }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

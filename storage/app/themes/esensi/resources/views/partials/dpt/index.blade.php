@@ -1,4 +1,4 @@
-@extends('theme::template')
+﻿@extends('theme::template')
 @include('core::admin.layouts.components.asset_numeral')
 
 @section('layout')
@@ -55,7 +55,7 @@
             const _tfoot = document.getElementById('dpt-tfoot')
             $.ajax({
                 url: _url,
-                type: 'GET',
+                type: 'POST',
                 beforeSend: () => _tbody.innerHTML = `@include('theme::commons.loading')`,
                 success: (response) => {
                     let _trString = []

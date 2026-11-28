@@ -137,6 +137,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('stunting.datatablesPaud') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.tahun = $('#tahun').val();
                         req.posyandu = $('#posyandu').val();
@@ -323,7 +324,7 @@
             $(document).on('click', '#excel', function(e) {
                 $.ajax({
                     url: "{{ ci_route('stunting.eksporPaud') }}",
-                    type: "GET",
+                    method: 'POST',
                     data: {
                         bulan: $('#bulan').val(),
                         tahun: $('#tahun').val(),

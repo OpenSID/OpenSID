@@ -115,6 +115,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('laporan_inventaris.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.mutasi = 1;
                     }

@@ -105,6 +105,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('inventaris_asset.datatables') }}",
+                    method: 'POST',
                     data: function(req) {}
                 },
                 columns: [{

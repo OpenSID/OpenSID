@@ -378,7 +378,7 @@
         $('select[name="id_kia"]').on('change', function() {
             var id = this.value;
             $.ajax({
-                type: "GET",
+                method: 'POST',
                 url: "{{ ci_route('stunting.formIbuHamil') }}",
                 data: {
                     kia: id,

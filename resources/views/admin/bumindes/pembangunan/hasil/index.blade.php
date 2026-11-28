@@ -67,6 +67,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('bumindes_hasil_pembangunan.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.tahun = $('#tahun').val();
                     }

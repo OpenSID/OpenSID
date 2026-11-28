@@ -250,7 +250,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('dtks.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('dtks.datatables') }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

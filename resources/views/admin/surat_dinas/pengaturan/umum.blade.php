@@ -435,7 +435,10 @@
             processing: true,
             serverSide: true,
             bPaginate: false,
-            ajax: "{{ ci_route('surat_dinas.syaratSuratDatatables', $suratDinas->id) }}",
+            ajax: {
+                url: "{{ ci_route('surat_dinas.syaratSuratDatatables', $suratDinas->id) }}",
+                method: 'POST',
+            },
             drawCallback: function(settings) {
                 // Disable all checkbox inputs after the DataTable is rendered
                 $('input[type="checkbox"]').prop('disabled', {{ $viewOnly }});

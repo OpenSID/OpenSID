@@ -443,8 +443,17 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $data['tanggal_cetak_ktp'] = date('Y-m-d');
         }
 
+        // Validasi otomatis Jenis Kelamin berdasarkan Hubungan Keluarga
+        // SUAMI = 2, ISTRI = 3
+        // LAKI-LAKI = 1, PEREMPUAN = 2
+        if ($data['kk_level'] == SHDKEnum::SUAMI && $data['sex'] != JenisKelaminEnum::LAKI_LAKI) {
+            $data['sex'] = JenisKelaminEnum::LAKI_LAKI;
+        } elseif ($data['kk_level'] == SHDKEnum::ISTRI && $data['sex'] != JenisKelaminEnum::PEREMPUAN) {
+            $data['sex'] = JenisKelaminEnum::PEREMPUAN;
+        }
+
         switch ($data['status_kawin']) {
-            case 1:
+            case StatusKawinEnum::BELUMKAWIN:
                 // Status 'belum kawin' tidak berlaku akta perkawinan dan perceraian
                 $data['akta_perkawinan']   = '';
                 $data['akta_perceraian']   = '';
@@ -452,14 +461,16 @@ class Penduduk extends BaseModel implements AuthenticatableContract
                 $data['tanggalperceraian'] = null;
                 break;
 
-            case 2:
+            case StatusKawinEnum::KAWIN:
                 // Status 'kawin' tidak berlaku akta perceraian
                 $data['akta_perceraian']   = '';
                 $data['tanggalperceraian'] = null;
                 break;
 
-            case 3:
-            case 4:
+            case StatusKawinEnum::CERAIHIDUP:
+            case StatusKawinEnum::CERAIMATI:
+                // Sesuai permintaan: jika status kawin ≠ kawin → tanggal kawin otomatis kosong/null
+                $data['tanggalperkawinan'] = null;
                 break;
         }
 
@@ -651,8 +662,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $logPenduduk['tgl_peristiwa'] = Carbon::parse($tgl_mentah)->format('Y-m-d') . ' 00:00:00';
             $logPenduduk['tgl_lapor']     = Carbon::parse($data['tgl_lapor'])->format('Y-m-d');
 
-            // Upload file jika ada
-            if (! empty($data['file_akta_mati'])) {
+            // Upload file akta kematian jika dipilih pada form.
+            if (! empty($_FILES['nama_file']['name'])) {
                 $logPenduduk['file_akta_mati'] = (new self())->uploadAktaMati($penduduk->id);
             }
         }
@@ -1504,6 +1515,17 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     protected function scopeWajibKtp($query)
     {
         return $query->batasiUmur(date('d-m-Y'), ['satuan' => 'tahun', 'min' => 17, 'max' => 9999])->orwhereIn('status_kawin', [StatusKawinEnum::KAWIN, StatusKawinEnum::CERAIHIDUP, StatusKawinEnum::CERAIMATI]);
+    }
+
+    private function uploadAktaMati($idPenduduk)
+    {
+        $config['upload_path']   = LOKASI_DOKUMEN;
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['max_size']      = 1024 * 10;
+        $config['file_name']     = 'akta_mati_' . $idPenduduk . '_' . time();
+        $config['overwrite']     = true;
+
+        return $this->upload('nama_file', $config);
     }
 
     private function isBelumTercatat($akta, $tanggal): bool

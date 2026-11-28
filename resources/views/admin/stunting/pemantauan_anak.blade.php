@@ -129,6 +129,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('stunting.datatablesAnak') }}",
+                    method: 'POST',
                     dataSrc: function(json) {
                         $('#bulan-ini-anak').text(json.recordsFiltered);
 
@@ -356,7 +357,7 @@
             $(document).on('click', '#excel', function(e) {
                 $.ajax({
                     url: "{{ ci_route('stunting.eksporAnak') }}",
-                    type: "GET",
+                    method: 'POST',
                     data: {
                         bulan: $('#bulan').val(),
                         tahun: $('#tahun').val(),

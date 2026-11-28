@@ -109,6 +109,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('klasifikasi.datatables') }}",
+                    method: 'POST',
                     data: function(req) {
                         req.enable = $('select[name="enable"]').val();
                     },

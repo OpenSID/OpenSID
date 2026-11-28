@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('dokumen', static function (Blueprint $table) {
+        Schema::create('dokumen', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id')->index('dokumen_config_fk');
             $table->string('satuan', 200)->nullable();

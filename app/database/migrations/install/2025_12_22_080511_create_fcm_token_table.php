@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('fcm_token', static function (Blueprint $table) {
+        Schema::create('fcm_token', static function (Blueprint $table): void {
             $table->integer('id_user')->nullable()->index('fcm_token_dd_user_fk');
             $table->integer('config_id')->index('fcm_token_config_fk');
             $table->string('device')->unique();

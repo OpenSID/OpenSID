@@ -82,6 +82,7 @@ $(document).ready(function() {
         order: [[ 7, "desc" ]], // Order by tanggal pengajuan desc
         ajax: {
             url: "{{ route('kehadiran_pengajuan_izin_pamong.datatables') }}",
+            method: 'POST',
             data: function(d) {
                 d.status = $('#filter_status').val();
                 d.jenis_izin = $('#filter_jenis').val();

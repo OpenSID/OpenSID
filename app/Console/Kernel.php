@@ -54,6 +54,7 @@ use App\Console\Commands\Modules\SeedMakeCommand;
 use App\Console\Commands\Modules\ServiceMakeCommand;
 use App\Console\Commands\Modules\TraitMakeCommand;
 use App\Console\Commands\SetupCommand;
+use App\Console\Commands\UpdateThemesCommand;
 use App\Console\Commands\ViewClearCommand;
 use App\Exceptions\Handler;
 use App\Services\Laravel;
@@ -109,6 +110,7 @@ class Kernel implements KernelContract
         DesaBaruCommand::class,
         ModuleCommand::class,
         SetupCommand::class,
+        UpdateThemesCommand::class,
         ViewClearCommand::class,
 
         // Command module tambahan

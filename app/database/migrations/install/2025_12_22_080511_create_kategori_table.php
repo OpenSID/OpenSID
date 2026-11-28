@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('kategori', static function (Blueprint $table) {
+        Schema::create('kategori', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id')->nullable()->index('kategori_config_fk');
             $table->string('kategori', 100);

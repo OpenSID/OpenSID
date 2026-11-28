@@ -67,7 +67,7 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
 
-            $tahun = $tahun = $this->input->get('tahun') ?? date('Y');
+            $tahun = $tahun = $this->input->post_get('tahun') ?? date('Y');
 
             return datatables()->of($this->sumberData($tahun))
                 ->addIndexColumn()

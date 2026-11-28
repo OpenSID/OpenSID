@@ -21,7 +21,7 @@
                 @endforeach
             </select>
         </div>
-        {{-- Anggota Keluarga Ikut Pindah — hanya muncul saat status = PINDAH --}}
+        {{-- Anggota Keluarga Ikut Pindah â€” hanya muncul saat status = PINDAH --}}
         <div class="form-group pindah" id="section_anggota_pindah">
             <label>
                 <i class="fa fa-users"></i> Anggota Keluarga yang Ikut Pindah
@@ -40,7 +40,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
                 </div>
-                <input name="jam_mati" id="jammenit_1" class="form-control input-sm" type="text" maxlength="50" placeholder="Jam Kematian"></input>
+                    <input name="jam_mati" id="jam_mati" class="form-control input-sm" type="text" maxlength="50" placeholder="Jam Kematian"></input>
             </div>
         </div>
         <div class="form-group mati">
@@ -139,7 +139,7 @@
         maxDate: moment().endOf('year')
     });
 
-    // ── Load anggota keluarga via AJAX ───────────────────────────
+    // â”€â”€ Load anggota keluarga via AJAX â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     var anggotaSudahDimuat = false;
 
     function loadAnggotaKeluarga() {
@@ -153,7 +153,7 @@
 
         $.ajax({
             url: '{{ ci_route("penduduk.ajax_anggota_keluarga") }}/' + idPenduduk,
-            type: 'GET',
+            method: 'POST',
             dataType: 'json',
             success: function (response) {
                 anggotaSudahDimuat = true;

@@ -261,8 +261,9 @@ define('EKSTENSI_WAJIB', serialize([
 define('minPhpVersion', '8.4.0');
 define('maxPhpVersion', '8.4.99');
 define('minMySqlVersion', '5.6.0');
-define('maxMySqlVersion', '8.0.0');
+define('maxMySqlVersion', '8.4.0');
 define('minMariaDBVersion', '10.3.0');
+define('maxMariaDBVersion', '11.99.99');
 
 // Pindahan dari referensi_model.php
 define('JENIS_PERATURAN_DESA', serialize([
@@ -436,6 +437,12 @@ define('PENOLONG_MATI', serialize([
     '3' => 'Kepolisian',
     '4' => 'Lainnya',
 ]));
+
+// ======================================================================
+// PEMETAAN - Batas panjang kolom nama pada tabel pemetaan
+// (garis, line, area, polygon, point, lokasi) yang di DB = VARCHAR(50)
+// ======================================================================
+defined('PEMETAAN_NAMA_MAX_LENGTH') || define('PEMETAAN_NAMA_MAX_LENGTH', 50);
 
 // ======================================================================
 // TABLE HEADERS - Untuk menghindari typo pada header tabel

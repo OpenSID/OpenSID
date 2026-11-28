@@ -6,7 +6,7 @@
         <td colspan="{{ $spasi_kiri }}" style="width: 20%">&nbsp;</td>
         <td>MENGETAHUI</td>
         <td colspan="{{ $spasi_tengah }}" style="width: 30%">&nbsp;</td>
-        <td colspan="2" class="nowrap">{{ strtoupper($desa['nama_desa'] . ', ' . tgl_indo(date('Y m d'))) }}</td>
+        <td colspan="2" class="nowrap">{{ strtoupper($desa['nama_desa'] . ', ' . tgl_indo($tgl_cetak ?? date('Y m d'))) }}</td>
         <td style="width: 20%">&nbsp;</td>
     </tr>
     <tr class="text-center">

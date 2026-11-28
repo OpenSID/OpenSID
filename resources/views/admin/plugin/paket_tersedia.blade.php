@@ -30,7 +30,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
                 <h4 class="modal-title" id="modalPersetujuanLabel">
                     <i class="fa fa-exclamation-triangle"></i> &nbsp;Perhatian: Paket Premium
                 </h4>
@@ -157,8 +157,7 @@
                         page: page,
                         tipe: tipe
                     },
-                    type: 'GET',
-                    contentType: 'application/json',
+                    method: 'GET',
                     headers: {
                         'Authorization': 'Bearer {{ $token_layanan }}',
                         'Accept': 'application/json'

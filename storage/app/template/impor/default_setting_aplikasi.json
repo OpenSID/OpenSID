@@ -1732,17 +1732,6 @@
         "kategori": "Pengaduan"
     },
     {
-        "judul": "Tahun APBDes",
-        "key": "apbdes_tahun",
-        "value": null,
-        "urut": 3,
-        "keterangan": "Tahun APBDes yang akan ditampilkan dihalaman depan",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": null,
-        "kategori": "Website"
-    },
-    {
         "judul": "SSL TTE",
         "key": "ssl_tte",
         "value": "1",

@@ -57,8 +57,9 @@
             messageContainer.innerHTML = loadingHTML;
 
             // Fetch and display data
-            fetch("{{ route('api.verifikasi-surat') }}?filter[id]={{ $id }}")
-                .then(response => {
+            fetch("{{ route('api.verifikasi-surat') }}?filter[id]={{ $id }}", {
+                method: 'POST',
+            }).then(response => {
                     if (!response.ok) throw new Error('Network response was not ok');
                     return response.json();
                 })

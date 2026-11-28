@@ -82,7 +82,7 @@ class Database
 
         if (! $install && (! $currentVersionBuild || $currentVersionBuild < $minimumVersionBuild)) {
             $minVersion = 'v' . $minVersionPremium . '-premium / ' . $minVersionUmum . '-umum';
-            if ($lastVersionPremium == '-') {
+            if ($lastVersionPremium === '-') {
                 $lastVersion = 'Tidak Diketahui';
             } else {
                 $lastVersion = 'v' . $lastVersionPremium . '-premium / ' . $lastVersionUmum . '-umum';
@@ -236,7 +236,7 @@ class Database
         $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
     }
 
-    private function nextVersion($version, $months): string
+    private function nextVersion(string $version, int $months): string
     {
         $year  = (int) substr($version, 0, 2);
         $month = (int) substr($version, 2, 2);
@@ -244,12 +244,12 @@ class Database
 
         $addYear  = (int) ($months / 12);
         $addMonth = $months % 12;
-        $month    = $month + $addMonth;
-        $year     = $year + $addYear;
+        $month += $addMonth;
+        $year += $addYear;
 
         if ($month > 12) {
             $year++;
-            $month = $month - 12;
+            $month -= 12;
         }
 
         if ($month < 10) {

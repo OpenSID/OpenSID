@@ -91,7 +91,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('penduduk.dokumen_datatables') }}?id_pend={{ $penduduk->id }}",
+                ajax: {
+                    url: "{{ ci_route('penduduk.dokumen_datatables') }}?id_pend={{ $penduduk->id }}",
+                    method: 'POST',
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

@@ -112,6 +112,7 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('inventaris_jalan.datatables') }}",
+                    method: 'POST',
                     data: function(req) {}
                 },
                 columns: [{

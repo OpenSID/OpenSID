@@ -146,7 +146,7 @@
                 if (ibu) {
                     $.ajax({
                         url: "{{ ci_route('stunting.getAnak') }}",
-                        type: "GET",
+                        method: 'POST',
                         data: {
                             ibu: ibu,
                         },

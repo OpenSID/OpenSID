@@ -51,7 +51,7 @@ class Kehadiran_perangkat extends Mandiri_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $order = $this->input->get('order') ?? false;
+            $order = $this->input->post_get('order') ?? false;
 
             $query = Pamong::with([
                 'penduduk',

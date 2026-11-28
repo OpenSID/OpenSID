@@ -42,7 +42,7 @@ use App\Notifications\BaseNotification;
 
 class KomentarBaru extends BaseNotification
 {
-    public function __construct(private Komentar $komentar)
+    public function __construct(private readonly Komentar $komentar)
     {
     }
 

@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('area', static function (Blueprint $table) {
+        Schema::create('area', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->integer('config_id')->index('area_config_fk');
             $table->string('nama', 50);

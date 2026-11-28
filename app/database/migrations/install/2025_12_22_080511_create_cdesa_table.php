@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('cdesa', static function (Blueprint $table) {
+        Schema::create('cdesa', static function (Blueprint $table): void {
             $table->increments('id');
             $table->integer('config_id')->index('cdesa_config_fk');
             $table->string('nomor', 20)->unique('nomor');

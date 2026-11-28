@@ -45,7 +45,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('keuangan_manual_ref_rek2', static function (Blueprint $table) {
+        Schema::create('keuangan_manual_ref_rek2', static function (Blueprint $table): void {
             $table->integer('id', true);
             $table->string('Akun', 100);
             $table->string('Kelompok', 100);
