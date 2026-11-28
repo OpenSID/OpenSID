@@ -113,6 +113,16 @@ jobs:
           unzip -oq tests/playwright/storage/database/desa-2701.zip -d .
           mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions storage/logs bootstrap/cache
 
+      # Uji TIDAK boleh mengirim data pelacak ke Pantau produksi (2701-2706 mengirim juga dalam mode `testing`).
+      # Dua lapis, gagal-tertutup: pelacak mati di database, dan nama host Pantau diarahkan ke runner sendiri.
+      - name: Pastikan pelacak mati dan Pantau tak terjangkau
+        run: |
+          nilai="$(mysql -h 127.0.0.1 -u root -prootpassword -N opensid_playwright_umum -e "SELECT DISTINCT value FROM setting_aplikasi WHERE \`key\`='enable_track'")"
+          if [ "$nilai" != "0" ]; then echo "::error::enable_track harus 0 pada fixture uji (terbaca: '$nilai')"; exit 1; fi
+          printf '127.0.0.1 pantau.opensid.my.id\n::1 pantau.opensid.my.id\n' | sudo tee -a /etc/hosts >/dev/null
+          alamat="$(getent ahosts pantau.opensid.my.id | awk '{print $1}' | sort -u)"
+          if [ -z "$alamat" ] || printf '%s\n' "$alamat" | grep -qvxE '127\.0\.0\.1|::1'; then echo "::error::nama host Pantau belum dialihkan: $alamat"; exit 1; fi
+
       - name: Run smoke suite
         # DB sudah diprovisi di atas; globalSetup hanya memprovisi ulang bila
         # PLAYWRIGHT_RESET_DB=true (lokal), jadi di CI ia tidak menimpa.
