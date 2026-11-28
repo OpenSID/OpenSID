@@ -42,6 +42,29 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $log_surat_id
+ * @property string|null $keterangan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat whereLogSuratId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogPerubahanSurat withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogPerubahanSurat extends BaseModel
 {
     use ConfigId;

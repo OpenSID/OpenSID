@@ -53,7 +53,7 @@ class PembangunanRepository
                 }),
                 AllowedFilter::callback('search', static function ($query, $value) {
                     $query->where(static function ($r) use ($value) {
-                        $r->where('judul', 'like', '%' . $value . '%')->orWhere('isi', 'LIKE', '%' . $value . '%')
+                        $r->where('judul', 'like', '%' . $value . '%')
                             ->orWhere('keterangan', 'LIKE', '%' . $value . '%');
                     });
             })])

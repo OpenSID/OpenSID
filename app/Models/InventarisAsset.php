@@ -43,6 +43,72 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama_barang
+ * @property string $kode_barang
+ * @property string $register
+ * @property string $jenis
+ * @property string|null $judul_buku
+ * @property string|null $spesifikasi_buku
+ * @property string|null $asal_daerah
+ * @property string|null $pencipta
+ * @property string|null $bahan
+ * @property string|null $jenis_hewan
+ * @property string|null $ukuran_hewan
+ * @property string|null $jenis_tumbuhan
+ * @property string|null $ukuran_tumbuhan
+ * @property int $jumlah
+ * @property string $tahun_pengadaan
+ * @property string $asal
+ * @property float $harga
+ * @property string $keterangan
+ * @property int $status
+ * @property int $visible
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\MutasiInventarisAsset|null $mutasi
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset aktif()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset cetak($tahun = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset listKdRegister()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset reg()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset sumInventaris()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset visible($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereAsal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereAsalDaerah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereBahan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereHarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereJenisHewan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereJenisTumbuhan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereJudulBuku($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereJumlah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereKodeBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereNamaBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset wherePencipta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereRegister($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereSpesifikasiBuku($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereTahunPengadaan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereUkuranHewan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereUkuranTumbuhan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset whereVisible($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InventarisAsset withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class InventarisAsset extends BaseModel
 {
     use ConfigId;

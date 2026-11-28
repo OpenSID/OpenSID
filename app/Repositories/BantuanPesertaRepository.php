@@ -94,7 +94,15 @@ class BantuanPesertaRepository
                             });
                         });
                 }),
-                AllowedFilter::callback('tahun', static fn ($query, $value) => $query->when(filter_var($value, FILTER_VALIDATE_INT), static fn ($r, $tahun) => $r->whereYear('sdate', '<=', $tahun)->whereYear('edate', '>=', $tahun))),
+                AllowedFilter::callback('tahun', static function ($query, $value) {
+                    $tahun = is_scalar($value) ? filter_var($value, FILTER_VALIDATE_INT) : false;
+                    if ($tahun !== false && $tahun >= 1900 && $tahun <= 9999) {
+                        $query->whereYear('sdate', '<=', $tahun)
+                            ->whereYear('edate', '>=', $tahun);
+                    } else {
+                        $query->whereRaw('1=0');
+                    }
+                }),
                 AllowedFilter::callback('search', static function ($query, $value) {
                     $query->when($value, static function ($r) use ($value) {
                         $r->where(static function ($s) use ($value) {

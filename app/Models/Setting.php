@@ -43,6 +43,37 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $modul
+ * @property string|null $slug
+ * @property string $url
+ * @property int $aktif
+ * @property string|null $ikon
+ * @property int|null $urut
+ * @property int $level
+ * @property int $hidden
+ * @property string|null $ikon_kecil
+ * @property int|null $parent
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereAktif($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereHidden($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereIkon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereIkonKecil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereModul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereParent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Setting extends BaseModel
 {
     use ConfigId;

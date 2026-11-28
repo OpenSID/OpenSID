@@ -44,6 +44,85 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string $url_surat
+ * @property string|null $kode_surat
+ * @property string|null $lampiran
+ * @property bool $kunci
+ * @property bool $favorit
+ * @property int $jenis
+ * @property int|null $masa_berlaku
+ * @property string|null $satuan_masa_berlaku
+ * @property bool $qr_code
+ * @property bool $logo_garuda
+ * @property string|null $template
+ * @property string|null $template_desa
+ * @property mixed $form_isian
+ * @property string $kode_isian
+ * @property string|null $orientasi
+ * @property string|null $ukuran
+ * @property string|null $margin
+ * @property int|null $margin_global
+ * @property int $footer
+ * @property int $header
+ * @property string|null $format_nomor
+ * @property int|null $format_nomor_global
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read mixed $format_nomor_surat
+ * @property-read string $judul_surat
+ * @property-read array $list_syarat_surat
+ * @property-read string $margin_cm_to_mm
+ * @property-read string|null $url_surat_sistem
+ * @property-read \App\Models\LogSuratDinas|null $logSurat
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SyaratSurat> $syaratSurat
+ * @property-read int|null $syarat_surat_count
+ * @method static Builder<static>|SuratDinas cetak($url = null)
+ * @method static Builder<static>|SuratDinas favorit(?mixed $value = 1)
+ * @method static Builder<static>|SuratDinas isExist(?mixed $value)
+ * @method static Builder<static>|SuratDinas jenis(?mixed $value)
+ * @method static Builder<static>|SuratDinas kunci(?mixed $value = 1)
+ * @method static Builder<static>|SuratDinas newModelQuery()
+ * @method static Builder<static>|SuratDinas newQuery()
+ * @method static Builder<static>|SuratDinas query()
+ * @method static Builder<static>|SuratDinas sistem()
+ * @method static Builder<static>|SuratDinas whereConfigId($value)
+ * @method static Builder<static>|SuratDinas whereCreatedAt($value)
+ * @method static Builder<static>|SuratDinas whereCreatedBy($value)
+ * @method static Builder<static>|SuratDinas whereFavorit($value)
+ * @method static Builder<static>|SuratDinas whereFooter($value)
+ * @method static Builder<static>|SuratDinas whereFormIsian($value)
+ * @method static Builder<static>|SuratDinas whereFormatNomor($value)
+ * @method static Builder<static>|SuratDinas whereFormatNomorGlobal($value)
+ * @method static Builder<static>|SuratDinas whereHeader($value)
+ * @method static Builder<static>|SuratDinas whereId($value)
+ * @method static Builder<static>|SuratDinas whereJenis($value)
+ * @method static Builder<static>|SuratDinas whereKodeIsian($value)
+ * @method static Builder<static>|SuratDinas whereKodeSurat($value)
+ * @method static Builder<static>|SuratDinas whereKunci($value)
+ * @method static Builder<static>|SuratDinas whereLampiran($value)
+ * @method static Builder<static>|SuratDinas whereLogoGaruda($value)
+ * @method static Builder<static>|SuratDinas whereMargin($value)
+ * @method static Builder<static>|SuratDinas whereMarginGlobal($value)
+ * @method static Builder<static>|SuratDinas whereMasaBerlaku($value)
+ * @method static Builder<static>|SuratDinas whereNama($value)
+ * @method static Builder<static>|SuratDinas whereOrientasi($value)
+ * @method static Builder<static>|SuratDinas whereQrCode($value)
+ * @method static Builder<static>|SuratDinas whereSatuanMasaBerlaku($value)
+ * @method static Builder<static>|SuratDinas whereTemplate($value)
+ * @method static Builder<static>|SuratDinas whereTemplateDesa($value)
+ * @method static Builder<static>|SuratDinas whereUkuran($value)
+ * @method static Builder<static>|SuratDinas whereUpdatedAt($value)
+ * @method static Builder<static>|SuratDinas whereUpdatedBy($value)
+ * @method static Builder<static>|SuratDinas whereUrlSurat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SuratDinas withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class SuratDinas extends BaseModel
 {
     use Author;

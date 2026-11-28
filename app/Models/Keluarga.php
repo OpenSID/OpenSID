@@ -54,6 +54,51 @@ use Modules\Analisis\Models\AnalisisRespon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $no_kk
+ * @property int|null $nik_kepala
+ * @property string|null $tgl_daftar
+ * @property int|null $kelas_sosial
+ * @property \Illuminate\Support\Carbon|null $tgl_cetak_kk
+ * @property string|null $alamat
+ * @property int|null $id_cluster
+ * @property string $updated_at
+ * @property int|null $updated_by
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LogKeluarga> $LogKeluarga
+ * @property-read int|null $log_keluarga_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, AnalisisRespon> $analisis
+ * @property-read int|null $analisis_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Penduduk> $anggota
+ * @property-read int|null $anggota_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Bantuan> $bantuan
+ * @property-read int|null $bantuan_count
+ * @property-read \App\Models\Penduduk|null $kepalaKeluarga
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SuplemenTerdata> $suplemen
+ * @property-read int|null $suplemen_count
+ * @property-read \App\Models\Wilayah|null $wilayah
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga aktif()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga logTerakhir($configId, $tgl)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga status()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga statusAktif()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereAlamat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereIdCluster($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereKelasSosial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereNikKepala($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereNoKk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereTglCetakKk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereTglDaftar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Keluarga withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Keluarga extends BaseModel
 {
     use ConfigId;

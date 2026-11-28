@@ -85,7 +85,7 @@ class Beranda extends Admin_Controller
     {
         $info = [];
 
-        if (cek_koneksi_internet() && ! config_item('demo_mode')) {
+        if (cek_koneksi_internet() && ! $this->isDemoMode()) {
             $url_rilis = false ? config_item('rilis_premium') : config_item('rilis_umum'); // CekService dihapus - PREMIUM selalu false di Umum
 
             $release = new Release();
@@ -108,5 +108,11 @@ class Beranda extends Admin_Controller
         }
 
         return $info;
+    }
+
+    private function isDemoMode(): bool
+    {
+        return app()->environment(['development', 'testing'])
+            || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO));
     }
 }

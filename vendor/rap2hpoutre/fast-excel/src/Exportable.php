@@ -3,20 +3,21 @@
 namespace Rap2hpoutre\FastExcel;
 
 use DateTimeInterface;
-use Generator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Writer\Common\AbstractOptions;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Writer\WriterInterface;
+use Traversable;
 
 /**
  * Trait Exportable.
  *
  * @property bool                           $transpose
  * @property bool                           $with_header
+ * @property callable|null                  $writer_configurator
  * @property \Illuminate\Support\Collection $data
  */
 trait Exportable
@@ -28,7 +29,16 @@ trait Exportable
     private $rows_style;
 
     /** @var Style[] */
+    private $header_column_styles = [];
+
+    /** @var Style[] */
     private $column_styles = [];
+
+    /** @var bool */
+    private $string_values = false;
+
+    /** @var array<string, string> */
+    private $column_formats = [];
 
     /**
      * @param AbstractOptions $options
@@ -38,9 +48,47 @@ trait Exportable
     abstract protected function setOptions(&$options);
 
     /** @param Style[] $styles */
+    public function setHeaderColumnStyles($styles): static
+    {
+        $this->header_column_styles = $styles;
+
+        return $this;
+    }
+
+    /** @param Style[] $styles */
     public function setColumnStyles($styles): static
     {
         $this->column_styles = $styles;
+
+        return $this;
+    }
+
+    /**
+     * Export every scalar value as a string (text cell). Useful to preserve
+     * leading zeros or long numeric IDs (e.g. phone numbers) that would
+     * otherwise be written as numbers. Per-column setColumnFormat() rules take
+     * precedence over this flag.
+     *
+     * @param bool $enabled
+     */
+    public function stringValues(bool $enabled = true): static
+    {
+        $this->string_values = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Force the cell type for specific columns, keyed by column name, e.g.
+     * ['phone' => 'string', 'price' => 'number']. A 'string' column is written
+     * as text; a 'number' column casts numeric strings back to int/float. These
+     * rules win over stringValues().
+     *
+     * @param array<string, string> $formats
+     */
+    public function setColumnFormat(array $formats): static
+    {
+        $this->column_formats = $formats;
 
         return $this;
     }
@@ -56,7 +104,7 @@ trait Exportable
      *
      * @return string
      */
-    public function export($path, callable $callback = null)
+    public function export($path, ?callable $callback = null)
     {
         self::exportOrDownload($path, 'openToFile', $callback);
 
@@ -74,7 +122,7 @@ trait Exportable
      *
      * @return \Symfony\Component\HttpFoundation\StreamedResponse|string
      */
-    public function download($path, callable $callback = null)
+    public function download($path, ?callable $callback = null)
     {
         if (method_exists(response(), 'streamDownload')) {
             return response()->streamDownload(function () use ($path, $callback) {
@@ -97,24 +145,22 @@ trait Exportable
      * @throws \OpenSpout\Writer\Exception\WriterNotOpenedException
      * @throws \OpenSpout\Common\Exception\SpoutException
      */
-    private function exportOrDownload($path, $function, callable $callback = null)
+    private function exportOrDownload($path, $function, ?callable $callback = null)
     {
-        if (Str::endsWith($path, 'csv')) {
-            $options = new \OpenSpout\Writer\CSV\Options();
-            $writer = new \OpenSpout\Writer\CSV\Writer($options);
-        } elseif (Str::endsWith($path, 'ods')) {
-            $options = new \OpenSpout\Writer\ODS\Options();
-            $writer = new \OpenSpout\Writer\ODS\Writer($options);
-        } else {
-            $options = new \OpenSpout\Writer\XLSX\Options();
-            $writer = new \OpenSpout\Writer\XLSX\Writer($options);
-        }
-
-        $this->setOptions($options);
-        /* @var \OpenSpout\Writer\WriterInterface $writer */
-        $writer->$function($path);
+        $writer = $this->makeWriter($path);
 
         $has_sheets = ($writer instanceof \OpenSpout\Writer\XLSX\Writer || $writer instanceof \OpenSpout\Writer\ODS\Writer);
+
+        // CSV (and any other single-sheet format) cannot hold multiple sheets.
+        // Fail with a clear message instead of a cryptic "undefined method
+        // ...::getCurrentSheet()" fatal further down.
+        if (!$has_sheets && $this->data instanceof SheetCollection && $this->data->count() > 1) {
+            throw new InvalidArgumentException(
+                'The "'.pathinfo($path, PATHINFO_EXTENSION).'" format does not support multiple sheets; use xlsx or ods.'
+            );
+        }
+
+        $writer->$function($path);
 
         // It can export one sheet (Collection) or N sheets (SheetCollection)
         $data = $this->transpose ? $this->transposeData() : ($this->data instanceof SheetCollection ? $this->data : collect([$this->data]));
@@ -122,14 +168,14 @@ trait Exportable
         foreach ($data as $key => $collection) {
             if ($collection instanceof Collection) {
                 $this->writeRowsFromCollection($writer, $collection, $callback);
-            } elseif ($collection instanceof Generator) {
+            } elseif ($collection instanceof Traversable) {
                 $this->writeRowsFromGenerator($writer, $collection, $callback);
             } elseif (is_array($collection)) {
                 $this->writeRowsFromArray($writer, $collection, $callback);
             } else {
                 throw new InvalidArgumentException('Unsupported type for $data');
             }
-            if (is_string($key)) {
+            if ($has_sheets && is_string($key)) {
                 $writer->getCurrentSheet()->setName($key);
             }
             if ($has_sheets && $data->keys()->last() !== $key) {
@@ -137,6 +183,52 @@ trait Exportable
             }
         }
         $writer->close();
+    }
+
+    private function makeWriter(string $path): WriterInterface
+    {
+        $extension = $this->resolveWriterExtension($path);
+
+        if ($extension === 'csv') {
+            $options = new \OpenSpout\Writer\CSV\Options();
+        } elseif ($extension === 'ods') {
+            $options = new \OpenSpout\Writer\ODS\Options();
+        } else {
+            $options = new \OpenSpout\Writer\XLSX\Options();
+        }
+
+        $this->setOptions($options);
+
+        if (is_callable($this->writer_configurator ?? null)) {
+            $writer = call_user_func($this->writer_configurator, $options, $extension);
+
+            if ($writer instanceof WriterInterface) {
+                return $writer;
+            }
+        }
+
+        if ($extension === 'csv') {
+            return new \OpenSpout\Writer\CSV\Writer($options);
+        }
+
+        if ($extension === 'ods') {
+            return new \OpenSpout\Writer\ODS\Writer($options);
+        }
+
+        return new \OpenSpout\Writer\XLSX\Writer($options);
+    }
+
+    private function resolveWriterExtension(string $path): string
+    {
+        if (str_ends_with($path, 'csv')) {
+            return 'csv';
+        }
+
+        if (str_ends_with($path, 'ods')) {
+            return 'ods';
+        }
+
+        return 'xlsx';
     }
 
     /**
@@ -176,6 +268,15 @@ trait Exportable
                 return $callback($value);
             });
         }
+
+        if ($collection->isEmpty()) {
+            if ($this->data instanceof SheetCollection) {
+                $this->writePlaceholderRowForEmptySheet($writer);
+            }
+
+            return;
+        }
+
         // Prepare collection (i.e remove non-string)
         $this->prepareCollection($collection);
         // Add header row.
@@ -211,9 +312,12 @@ trait Exportable
         $writer->addRows($styled_rows);
     }
 
-    private function writeRowsFromGenerator($writer, Generator $generator, ?callable $callback = null)
+    private function writeRowsFromGenerator($writer, Traversable $generator, ?callable $callback = null)
     {
+        $hasRows = false;
+
         foreach ($generator as $key => $item) {
+            $hasRows = true;
             // Apply callback
             if ($callback) {
                 $item = $callback($item);
@@ -229,11 +333,23 @@ trait Exportable
             // Write rows (one by one).
             $writer->addRow($this->createRow($item->toArray(), $this->rows_style, $this->column_styles));
         }
+
+        if (!$hasRows && $this->data instanceof SheetCollection) {
+            $this->writePlaceholderRowForEmptySheet($writer);
+        }
     }
 
     private function writeRowsFromArray($writer, array $array, ?callable $callback = null)
     {
         $collection = collect($array);
+
+        if ($collection->isEmpty()) {
+            if ($this->data instanceof SheetCollection) {
+                $this->writePlaceholderRowForEmptySheet($writer);
+            }
+
+            return;
+        }
 
         if (is_object($collection->first()) || is_array($collection->first())) {
             // provided $array was valid and could be converted to a collection
@@ -248,8 +364,8 @@ trait Exportable
         }
 
         $keys = array_keys(is_array($first_row) ? $first_row : $first_row->toArray());
-        $writer->addRow($this->createRow($keys, $this->header_style));
-//        $writer->addRow(WriterEntityFactory::createRowFromArray($keys, $this->header_style));
+        $writer->addRow($this->createRow($keys, $this->header_style, $this->header_column_styles));
+        //        $writer->addRow(WriterEntityFactory::createRowFromArray($keys, $this->header_style));
     }
 
     /**
@@ -269,7 +385,7 @@ trait Exportable
                 $need_conversion = true;
             }
         }
-        if ($need_conversion) {
+        if ($need_conversion || $this->string_values || count($this->column_formats)) {
             $this->transform($collection);
         }
     }
@@ -289,11 +405,40 @@ trait Exportable
      */
     private function transformRow($data)
     {
-        return collect($data)->map(function ($value) {
-            return is_null($value) ? (string) $value : $value;
+        return collect($data)->map(function ($value, $key) {
+            if (is_null($value)) {
+                return (string) $value;
+            }
+
+            return $this->formatValue($value, $key);
         })->filter(function ($value) {
             return is_string($value) || is_int($value) || is_float($value) || $value instanceof DateTimeInterface;
         });
+    }
+
+    /**
+     * Apply the configured export format to a single value. A per-column rule
+     * (setColumnFormat) wins over the global stringValues() flag. Dates and
+     * non-numeric strings are always left untouched.
+     *
+     * @param mixed      $value
+     * @param int|string $key
+     *
+     * @return mixed
+     */
+    private function formatValue($value, $key)
+    {
+        $format = $this->column_formats[$key] ?? ($this->string_values ? 'string' : null);
+
+        if ($format === 'string' && (is_int($value) || is_float($value))) {
+            return (string) $value;
+        }
+
+        if ($format === 'number' && is_string($value) && is_numeric($value)) {
+            return $value + 0;
+        }
+
+        return $value;
     }
 
     /**
@@ -318,6 +463,21 @@ trait Exportable
         $this->rows_style = $style;
 
         return $this;
+    }
+
+    /**
+     * OpenSpout multi-sheet workbooks require at least one non-empty row per worksheet.
+     * Empty rows are skipped by the XLSX writer and would otherwise produce a corrupt file.
+     *
+     * @param \OpenSpout\Writer\WriterInterface $writer
+     */
+    private function writePlaceholderRowForEmptySheet($writer): void
+    {
+        if (!$writer instanceof \OpenSpout\Writer\XLSX\Writer && !$writer instanceof \OpenSpout\Writer\ODS\Writer) {
+            return;
+        }
+
+        $writer->addRow($this->createRow([' ']));
     }
 
     /**

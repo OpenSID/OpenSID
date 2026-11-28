@@ -44,6 +44,46 @@ use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $teks
+ * @property int|null $urut
+ * @property int $status
+ * @property int|null $tipe
+ * @property string|null $tautan
+ * @property string|null $judul_tautan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\Artikel|null $artikel
+ * @property-read string $status_label
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan list($tipe = '', $status = '')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan ordered(string $direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan status(?int $status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan tipe(?mixed $value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan urutMax()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereJudulTautan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereTautan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereTeks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TeksBerjalan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class TeksBerjalan extends BaseModel
 {
     use Author;

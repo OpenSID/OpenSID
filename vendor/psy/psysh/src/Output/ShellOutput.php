@@ -178,9 +178,13 @@ class ShellOutput extends ConsoleOutput
     {
         $this->visibleOutputWritten = true;
 
-        // @todo Update OutputPager interface to require doWrite
-        if ($this->paging > 0 && ($this->pager instanceof ProcOutputPager || $this->pager instanceof PassthruPager)) {
-            $this->pager->doWrite($message, $newline);
+        if ($this->paging > 0) {
+            // @todo Update OutputPager interface to require doWrite
+            if ($this->pager instanceof ProcOutputPager || $this->pager instanceof PassthruPager || $this->pager instanceof BuiltinOutputPager) {
+                $this->pager->doWrite($message, $newline);
+            } else {
+                $this->pager->write($message, $newline, self::OUTPUT_RAW);
+            }
         } else {
             parent::doWrite($message, $newline);
         }
@@ -253,25 +257,11 @@ class ShellOutput extends ConsoleOutput
      */
     private function initFormatters()
     {
-        $useGrayFallback = !$this->grayExists();
+        $useGrayFallback = !Theme::grayExists($this->getFormatter());
         $this->theme->applyStyles($this->getFormatter(), $useGrayFallback);
         $this->theme->applyErrorStyles($this->getErrorOutput()->getFormatter(), $useGrayFallback);
 
         // Set inline styles for hyperlinks
         LinkFormatter::setStyles($this->theme->getInlineStyles($useGrayFallback));
-    }
-
-    /**
-     * Checks if the "gray" color exists on the output.
-     */
-    private function grayExists(): bool
-    {
-        try {
-            $this->getFormatter()->format('<fg=gray></>');
-        } catch (\InvalidArgumentException $e) {
-            return false;
-        }
-
-        return true;
     }
 }

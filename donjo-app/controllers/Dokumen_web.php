@@ -55,7 +55,12 @@ class Dokumen_web extends Web_Controller
 
     public function tampil($slug = null)
     {
-        $slug        = decrypt($slug);
+        $slug = decrypt($slug);
+
+        if (empty($slug) || strpos($slug, '..') !== false) {
+            show_404();
+        }
+
         $part        = explode('/', $slug);
         $nama_file   = end($part);
         $lokasi_file = str_replace($nama_file, '', $slug);
@@ -65,7 +70,12 @@ class Dokumen_web extends Web_Controller
 
     public function unduh($slug = null)
     {
-        $slug     = decrypt($slug);
+        $slug = decrypt($slug);
+
+        if (empty($slug) || strpos($slug, '..') !== false) {
+            show_404();
+        }
+
         $part     = explode('/', $slug);
         $fileName = end($part);
         $filePath = str_replace($fileName, '', $slug);

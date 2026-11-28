@@ -41,6 +41,74 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id_bulanan_anak
+ * @property int $config_id
+ * @property int|null $posyandu_id
+ * @property int|null $kia_id
+ * @property int $status_gizi
+ * @property int $umur_bulan
+ * @property int $status_tikar
+ * @property int $pemberian_imunisasi_dasar
+ * @property int|null $pemberian_imunisasi_campak
+ * @property int $pengukuran_berat_badan
+ * @property float|null $berat_badan
+ * @property int $pengukuran_tinggi_badan
+ * @property float|null $tinggi_badan
+ * @property int $konseling_gizi_ayah
+ * @property int $konseling_gizi_ibu
+ * @property int $kunjungan_rumah
+ * @property int $air_bersih
+ * @property int $kepemilikan_jamban
+ * @property int $akta_lahir
+ * @property int $jaminan_kesehatan
+ * @property int $pengasuhan_paud
+ * @property string|null $keterangan
+ * @property string|null $tanggal_periksa
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\KIA|null $kia
+ * @property-read \App\Models\Posyandu|null $posyandu
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak filter(array $filters)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak normal()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak resikoStunting()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak stunting()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak stuntingPendek()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereAirBersih($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereAktaLahir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereBeratBadan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereIdBulananAnak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereJaminanKesehatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereKepemilikanJamban($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereKiaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereKonselingGiziAyah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereKonselingGiziIbu($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereKunjunganRumah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak wherePemberianImunisasiCampak($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak wherePemberianImunisasiDasar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak wherePengasuhanPaud($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak wherePengukuranBeratBadan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak wherePengukuranTinggiBadan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak wherePosyanduId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereStatusGizi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereStatusTikar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereTanggalPeriksa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereTinggiBadan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereUmurBulan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Anak withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Anak extends BaseModel
 {
     use ConfigId;

@@ -37,11 +37,19 @@
 /tests                 export-ignore
 /documents             export-ignore
 /tsconfig.json         export-ignore
-/update-themes.sh      export-ignore
+/.e2e.env              export-ignore
 /.e2e.env.example      export-ignore
-/.editorconfig         export-ignore
+/.env                  export-ignore
 /.env.example          export-ignore
+/.env.testing.example  export-ignore
+/.kilo                 export-ignore
+/.playwright-mcp       export-ignore
+/.phpunit.result.cache export-ignore
+/node_modules          export-ignore
+/test-results          export-ignore
 /phpstan-baseline.neon export-ignore
 /phpstan-bootstrap.php export-ignore
 /phpstan.neon.dist     export-ignore
 /vite.config.js        export-ignore
+/_ide_helper.php       export-ignore
+

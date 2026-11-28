@@ -44,6 +44,42 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $desk
+ * @property string $nama
+ * @property int $enabled
+ * @property string|null $lat
+ * @property string|null $lng
+ * @property int|null $ref_point
+ * @property string|null $foto
+ * @property int|null $id_cluster
+ * @property-read string|null $foto_kecil
+ * @property-read string|null $foto_lokasi
+ * @property-read string|null $foto_sedang
+ * @property-read string $status_label
+ * @property-read string|null $url_foto
+ * @property-read \App\Models\Point|null $point
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi status(?int $status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi whereDesk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi whereIdCluster($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi whereLat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi whereLng($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi whereRefPoint($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lokasi withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Lokasi extends BaseModel
 {
     use ConfigId;

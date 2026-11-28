@@ -39,6 +39,31 @@ namespace App\Models;
 
 use App\Traits\ConfigId;
 
+/**
+ * @property int $id
+ * @property int|null $config_id
+ * @property string $password
+ * @property array<array-key, mixed>|null $origin_properties
+ * @property \Illuminate\Support\Carbon $expires_at
+ * @property string $authenticatable_type
+ * @property int $authenticatable_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $authenticatable
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword whereAuthenticatableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword whereAuthenticatableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword whereExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword whereOriginProperties($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OneTimePassword whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class OneTimePassword extends \Spatie\OneTimePasswords\Models\OneTimePassword
 {
     use ConfigId;

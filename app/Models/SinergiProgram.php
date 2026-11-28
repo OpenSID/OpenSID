@@ -44,6 +44,37 @@ use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property string $uuid
+ * @property int $config_id
+ * @property string $judul
+ * @property string|null $gambar
+ * @property string $tautan
+ * @property int $urut
+ * @property int $status
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ * @property-read mixed $gambar_url
+ * @property-read string $status_label
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram ordered(string $direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram status(?int $status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram whereGambar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram whereTautan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SinergiProgram withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class SinergiProgram extends BaseModel
 {
     use ConfigId;

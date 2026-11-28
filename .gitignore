@@ -7,6 +7,7 @@
 .env
 .env.backup
 .env.production
+.env.testing
 
 # Abaikan folder desa
 desa/*
@@ -20,6 +21,9 @@ sftp-config.json
 /.htaccess
 *.sql
 *.sql.gz
+# Berkas SQL untuk database tes Playwright wajib ikut ter-commit
+!tests/playwright/storage/database/schema.sql
+!tests/playwright/storage/database/seed.sql
 mitra
 generate-route.php
 
@@ -69,6 +73,7 @@ vendor/mikey179/*
 .qodo/*
 .windsurf/*
 .devin/*
+.claude/
 /node_modules
 .cache-rector/*
 !.cache-rector/.gitkeep

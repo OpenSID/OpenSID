@@ -62,6 +62,8 @@ class Admin_Controller extends MY_Controller
      */
     public $premium;
 
+    public $kategori_pengaturan;
+
     public function __construct()
     {
         // To inherit directly the attributes of the parent class.
@@ -260,12 +262,15 @@ class Admin_Controller extends MY_Controller
 
     private function cek_pengumuman()
     {
-        if (config_item('demo_mode') || ENVIRONMENT === 'development') {
+        if (app()->environment(['development', 'testing'])
+            || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
             return null;
         }
 
+        $pengumuman = null;
+
         // Hanya untuk user administrator
-        $this->grup = ci_auth()->id_grup;
+        $this->grup = auth('admin')->user()?->id_grup;
         if ($this->grup == UserGrup::where('slug', UserGrup::ADMINISTRATOR)->first()->id) {
             $notifikasi = Notifikasi::semua();
 

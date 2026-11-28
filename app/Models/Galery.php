@@ -46,6 +46,46 @@ use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $parrent
+ * @property string|null $gambar
+ * @property string $nama
+ * @property int $enabled
+ * @property string $tgl_upload
+ * @property int|null $tipe
+ * @property int|null $slider
+ * @property int|null $urut
+ * @property int $jenis
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Galery> $children
+ * @property-read int|null $children_count
+ * @property-read string $status_label
+ * @property-read void $url_gambar
+ * @property-read Galery|null $parent
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery child(int $parent)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery daftar()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery ordered(string $direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery status(?int $status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereGambar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereParrent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereSlider($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereTglUpload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Galery withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Galery extends BaseModel
 {
     use ConfigId;

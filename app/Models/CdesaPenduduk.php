@@ -41,6 +41,23 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int $id_cdesa
+ * @property int|null $id_pend
+ * @property-read \App\Models\Cdesa $cdesa
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CdesaPenduduk newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CdesaPenduduk newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CdesaPenduduk query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CdesaPenduduk whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CdesaPenduduk whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CdesaPenduduk whereIdCdesa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CdesaPenduduk whereIdPend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CdesaPenduduk withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class CdesaPenduduk extends BaseModel
 {
     use ConfigId;

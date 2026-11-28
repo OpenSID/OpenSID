@@ -41,6 +41,26 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int|null $id_user_mandiri
+ * @property int $config_id
+ * @property string $device id device dari android pemohon
+ * @property string $token token yang didapat dari FCM
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\PendudukMandiri|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmTokenMandiri newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmTokenMandiri newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmTokenMandiri query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmTokenMandiri whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmTokenMandiri whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmTokenMandiri whereDevice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmTokenMandiri whereIdUserMandiri($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmTokenMandiri whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmTokenMandiri whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FcmTokenMandiri withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class FcmTokenMandiri extends BaseModel
 {
     use ConfigId;

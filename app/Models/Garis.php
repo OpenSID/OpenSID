@@ -44,6 +44,39 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string|null $path
+ * @property int $enabled
+ * @property int $ref_line
+ * @property string|null $foto
+ * @property string|null $desk
+ * @property int|null $id_cluster
+ * @property-read string|null $foto_garis
+ * @property-read string|null $foto_kecil
+ * @property-read string|null $foto_sedang
+ * @property-read string $status_label
+ * @property-read \App\Models\Line|null $line
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis status(?int $status = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis whereDesk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis whereFoto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis whereIdCluster($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis whereRefLine($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Garis withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Garis extends BaseModel
 {
     use ConfigId;

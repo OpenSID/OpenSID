@@ -9,9 +9,8 @@
     "skipLibCheck": true,
     "baseUrl": "./tests/playwright",
     "paths": {
-      "@test/e2e/bugs/*": ["e2e/bugs/*"],
-      "@test/e2e/features/*": ["e2e/features/*"],
-      "@test/setup/*": ["setup/*"],
+      "@test/e2e/regression/*": ["e2e/regression/*"],
+      "@test/e2e/smoke/*": ["e2e/smoke/*"],
       "@test/storage/*": ["storage/*"],
       "@test/utils/*": ["utils/*"]
     },

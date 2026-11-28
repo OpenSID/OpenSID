@@ -41,6 +41,55 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id_ibu_hamil
+ * @property int $config_id
+ * @property int|null $posyandu_id
+ * @property int|null $kia_id
+ * @property int|null $status_kehamilan
+ * @property int|null $usia_kehamilan
+ * @property string|null $tanggal_melahirkan
+ * @property int $pemeriksaan_kehamilan
+ * @property int $konsumsi_pil_fe
+ * @property int $butir_pil_fe
+ * @property int $pemeriksaan_nifas
+ * @property int $konseling_gizi
+ * @property int $kunjungan_rumah
+ * @property int $akses_air_bersih
+ * @property int $kepemilikan_jamban
+ * @property int $jaminan_kesehatan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\KIA|null $kia
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil filter(array $filters)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereAksesAirBersih($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereButirPilFe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereIdIbuHamil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereJaminanKesehatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereKepemilikanJamban($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereKiaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereKonselingGizi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereKonsumsiPilFe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereKunjunganRumah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil wherePemeriksaanKehamilan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil wherePemeriksaanNifas($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil wherePosyanduId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereStatusKehamilan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereTanggalMelahirkan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil whereUsiaKehamilan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|IbuHamil withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class IbuHamil extends BaseModel
 {
     use ConfigId;

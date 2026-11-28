@@ -60,7 +60,9 @@ class UpsertModul
             $item['hidden'] = 0;
         }
 
-        $item['ikon_kecil'] ??= $item['ikon'];
+        if (! isset($item['ikon_kecil'])) {
+            $item['ikon_kecil'] = $item['ikon'] ?? null;
+        }
 
         // Tentukan parent
         if (($item['parent'] ?? 0) != 0 || isset($item['parent_slug'])) {

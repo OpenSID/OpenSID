@@ -42,6 +42,33 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int|null $config_id
+ * @property int $user_id
+ * @property string $token_hash
+ * @property string $channel
+ * @property string $identifier
+ * @property string $purpose
+ * @property \Illuminate\Support\Carbon $expires_at
+ * @property int $attempts
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken valid()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken whereAttempts($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken whereChannel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken whereExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken whereIdentifier($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken wherePurpose($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken whereTokenHash($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OtpToken withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class OtpToken extends BaseModel
 {
     use ConfigId;

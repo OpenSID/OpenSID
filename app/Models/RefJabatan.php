@@ -45,6 +45,33 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string|null $tupoksi
+ * @property int $jenis
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan nonAktif()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan urut($order = 'ASC')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan whereTupoksi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RefJabatan withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class RefJabatan extends BaseModel
 {
     use Author;

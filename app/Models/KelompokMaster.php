@@ -41,6 +41,25 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Kelompok> $kelompok
+ * @property string $deskripsi
+ * @property string|null $tipe
+ * @property-read int|null $kelompok_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokMaster newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokMaster newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokMaster query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokMaster tipe(?mixed $tipe = 'kelompok')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokMaster whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokMaster whereDeskripsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokMaster whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokMaster whereKelompok($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokMaster whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|KelompokMaster withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class KelompokMaster extends BaseModel
 {
     use ConfigId;

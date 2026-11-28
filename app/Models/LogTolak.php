@@ -42,6 +42,32 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_surat
+ * @property string $keterangan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property int|null $id_surat_dinas
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak whereIdSurat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak whereIdSuratDinas($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogTolak withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogTolak extends BaseModel
 {
     use ConfigId;

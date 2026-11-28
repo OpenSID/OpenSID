@@ -44,6 +44,79 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property AsalTanahKasEnum $nama_pemilik_asal
+ * @property string $letter_c
+ * @property string $kelas
+ * @property int $luas
+ * @property int|null $asli_milik_desa
+ * @property int|null $pemerintah
+ * @property int|null $provinsi
+ * @property int|null $kabupaten_kota
+ * @property int|null $lain_lain
+ * @property int|null $sawah
+ * @property int|null $tegal
+ * @property int|null $kebun
+ * @property int|null $tambak_kolam
+ * @property int|null $tanah_kering_darat
+ * @property int|null $ada_patok
+ * @property int|null $tidak_ada_patok
+ * @property int|null $ada_papan_nama
+ * @property int|null $tidak_ada_papan_nama
+ * @property string|null $tanggal_perolehan
+ * @property string $lokasi
+ * @property PeruntukanTanahKasEnum $peruntukan
+ * @property string $mutasi
+ * @property string $keterangan
+ * @property int $visible
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read string|null $asal_tanah_kas_label
+ * @property-read string|null $peruntukan_tanah_kas_label
+ * @property-read \App\Models\RefPersilKelas|null $ref_persil_kelas
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa checkLetterC($letterC_persil)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa checkOldLetterC($value, $letterC_persil)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa visible($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereAdaPapanNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereAdaPatok($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereAsliMilikDesa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereKabupatenKota($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereKebun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereKelas($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereLainLain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereLetterC($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereLokasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereLuas($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereMutasi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereNamaPemilikAsal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa wherePemerintah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa wherePeruntukan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereProvinsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereSawah($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereTambakKolam($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereTanahKeringDarat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereTanggalPerolehan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereTegal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereTidakAdaPapanNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereTidakAdaPatok($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa whereVisible($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TanahKasDesa withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class TanahKasDesa extends BaseModel
 {
     use Author;

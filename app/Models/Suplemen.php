@@ -42,6 +42,36 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int|null $config_id
+ * @property string|null $nama
+ * @property string|null $slug
+ * @property int|null $sasaran
+ * @property string|null $keterangan
+ * @property int $status 1 = Aktif, 0 = Nonaktif
+ * @property string $sumber
+ * @property array<array-key, mixed>|null $form_isian Menyimpan data formulir dinamis tambahan sebagai JSON atau teks
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SuplemenTerdata> $terdata
+ * @property-read int|null $terdata_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen filter($sasaran)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen findSimilarSlugs(string $attribute, array $config, string $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen whereFormIsian($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen whereSasaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen whereSumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Suplemen withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Suplemen extends BaseModel
 {
     use ConfigIdNull;

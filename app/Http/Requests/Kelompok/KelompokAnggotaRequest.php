@@ -129,6 +129,6 @@ class KelompokAnggotaRequest extends FormRequest
             }
         }
 
-        $this->data = $data;
+        $this->merge($data);
     }
 }

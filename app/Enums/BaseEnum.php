@@ -191,23 +191,35 @@ abstract class BaseEnum
     // TRANSFORMASI VALUE - TUNGGAL
     // =============================
 
-    public static function valueToUpper(string $key, mixed $default = null): mixed
+    public static function valueToUpper(string|int|null $key, mixed $default = null): mixed
     {
+        if ($key === null) {
+            return '';
+        }
         return strtoupper((string) static::valueOf($key, $default));
     }
 
-    public static function valueToLower(string $key, mixed $default = null): mixed
+    public static function valueToLower(string|int|null $key, mixed $default = null): mixed
     {
+        if ($key === null) {
+            return '';
+        }
         return strtolower((string) static::valueOf($key, $default));
     }
 
-    public static function valueToUcfirst(string $key, mixed $default = null): mixed
+    public static function valueToUcfirst(string|int|null $key, mixed $default = null): mixed
     {
+        if ($key === null) {
+            return '';
+        }
         return ucfirst(strtolower((string) static::valueOf($key, $default)));
     }
 
-    public static function valueToUcwords(string $key, mixed $default = null): mixed
+    public static function valueToUcwords(string|int|null $key, mixed $default = null): mixed
     {
+        if ($key === null) {
+            return '';
+        }
         return ucwords(strtolower((string) static::valueOf($key, $default)));
     }
 
@@ -239,23 +251,35 @@ abstract class BaseEnum
     // TRANSFORMASI KEY - TUNGGAL
     // =============================
 
-    public static function keyToUpper(string $value, mixed $default = null): mixed
+    public static function keyToUpper(string|int|null $value, mixed $default = null): mixed
     {
+        if ($value === null) {
+            return '';
+        }
         return strtoupper((string) static::keyOf($value, $default));
     }
 
-    public static function keyToLower(string $value, mixed $default = null): mixed
+    public static function keyToLower(string|int|null $value, mixed $default = null): mixed
     {
+        if ($value === null) {
+            return '';
+        }
         return strtolower((string) static::keyOf($value, $default));
     }
 
-    public static function keyToUcfirst(string $value, mixed $default = null): mixed
+    public static function keyToUcfirst(string|int|null $value, mixed $default = null): mixed
     {
+        if ($value === null) {
+            return '';
+        }
         return ucfirst(strtolower((string) static::keyOf($value, $default)));
     }
 
-    public static function keyToUcwords(string $value, mixed $default = null): mixed
+    public static function keyToUcwords(string|int|null $value, mixed $default = null): mixed
     {
+        if ($value === null) {
+            return '';
+        }
         return ucwords(strtolower((string) static::keyOf($value, $default)));
     }
 

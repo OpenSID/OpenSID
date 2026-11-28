@@ -43,6 +43,45 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string|null $slug
+ * @property string $versi
+ * @property int $sistem
+ * @property string $path
+ * @property bool $status
+ * @property string|null $keterangan
+ * @property array<array-key, mixed>|null $opsi
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $asset_path
+ * @property-read mixed $config
+ * @property-read mixed $full_path
+ * @property-read string $view_path
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme isActive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme isNotActive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme sistem($status = '1')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme status($status = '1')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereOpsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereSistem($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme whereVersi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Theme withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Theme extends BaseModel
 {
     use ConfigId;

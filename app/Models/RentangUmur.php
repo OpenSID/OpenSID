@@ -41,6 +41,26 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $nama
+ * @property int|null $dari
+ * @property int|null $sampai
+ * @property int|null $status
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur status($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur whereDari($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur whereSampai($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RentangUmur withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class RentangUmur extends BaseModel
 {
     use ConfigId;

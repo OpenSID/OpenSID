@@ -27,6 +27,12 @@ class DriveFileCapabilities extends \Google\Model
    */
   public $canAcceptOwnership;
   /**
+   * Whether the current user can access this file via Gen AI features.
+   *
+   * @var bool
+   */
+  public $canAccessViaGenAi;
+  /**
    * Output only. Whether the current user can add children to this folder. This
    * is always `false` when the item isn't a folder.
    *
@@ -356,6 +362,22 @@ class DriveFileCapabilities extends \Google\Model
   public function getCanAcceptOwnership()
   {
     return $this->canAcceptOwnership;
+  }
+  /**
+   * Whether the current user can access this file via Gen AI features.
+   *
+   * @param bool $canAccessViaGenAi
+   */
+  public function setCanAccessViaGenAi($canAccessViaGenAi)
+  {
+    $this->canAccessViaGenAi = $canAccessViaGenAi;
+  }
+  /**
+   * @return bool
+   */
+  public function getCanAccessViaGenAi()
+  {
+    return $this->canAccessViaGenAi;
   }
   /**
    * Output only. Whether the current user can add children to this folder. This

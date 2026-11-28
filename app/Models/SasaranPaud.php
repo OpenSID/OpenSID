@@ -41,6 +41,55 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id_sasaran_paud
+ * @property int $config_id
+ * @property int|null $posyandu_id
+ * @property int|null $kia_id
+ * @property int $kategori_usia
+ * @property int $januari
+ * @property int $februari
+ * @property int $maret
+ * @property int $april
+ * @property int $mei
+ * @property int $juni
+ * @property int $juli
+ * @property int $agustus
+ * @property int $september
+ * @property int $oktober
+ * @property int $november
+ * @property int $desember
+ * @property string|null $created_at
+ * @property int|null $created_by
+ * @property string|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereAgustus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereApril($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereDesember($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereFebruari($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereIdSasaranPaud($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereJanuari($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereJuli($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereJuni($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereKategoriUsia($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereKiaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereMaret($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereMei($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereNovember($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereOktober($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud wherePosyanduId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereSeptember($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SasaranPaud withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class SasaranPaud extends BaseModel
 {
     use ConfigId;

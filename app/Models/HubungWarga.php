@@ -42,6 +42,34 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int $id_grup
+ * @property string $subjek
+ * @property string $isi
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read \App\Models\User|null $createdBy
+ * @property-read \App\Models\GrupKontak|null $kontak
+ * @property-read \App\Models\User|null $updatedBy
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga whereIdGrup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga whereIsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga whereSubjek($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|HubungWarga withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class HubungWarga extends BaseModel
 {
     use Author;

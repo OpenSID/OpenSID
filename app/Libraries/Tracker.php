@@ -80,7 +80,7 @@ class Tracker
          * Jangan kirim data ke pantau jika versi demo
          * cegah error karena tabel belum ada
          */
-        if (config_item('demo_mode')) {
+        if ($this->isDemoMode()) {
             return;
         }
 
@@ -92,22 +92,6 @@ class Tracker
             logger()->info('Skipping Tracker.kirimData() - pantau server marked as down');
 
             return;
-        }
-
-        if (defined('ENVIRONMENT')) {
-            switch (ENVIRONMENT) {
-                case 'development':
-                    // Jangan kirim data ke pantau jika versi development
-                    return;
-
-                case 'testing':
-                case 'production':
-                    $tracker = config_item('server_pantau');
-                    break;
-
-                default:
-                    exit('The application environment is not set correctly.');
-            }
         }
 
         $config     = Config::appKey()->first()->makeVisible(['nama_kontak', 'hp_kontak', 'jabatan_kontak']);
@@ -224,5 +208,11 @@ class Tracker
     private function jmlUnsurPeta(): float|int|array
     {
         return Area::count() + Garis::count() + Lokasi::count();
+    }
+
+    private function isDemoMode(): bool
+    {
+        return app()->environment(['development', 'testing'])
+            || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO));
     }
 }

@@ -45,6 +45,13 @@ use Illuminate\Database\Eloquent\Model;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseModel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseModel query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseModel withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class BaseModel extends Model
 {
     protected $perPage = 10;

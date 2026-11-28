@@ -45,6 +45,96 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_format_surat
+ * @property int|null $id_pend
+ * @property int|null $id_pamong
+ * @property string|null $nama_pamong Nama pamong agar tidak berubah saat ada perubahan di master pamong
+ * @property string|null $nama_jabatan
+ * @property int|null $id_user
+ * @property string $tanggal
+ * @property string|null $bulan
+ * @property string|null $tahun
+ * @property string|null $no_surat
+ * @property string|null $nama_surat
+ * @property string|null $lampiran
+ * @property numeric|null $nik_non_warga
+ * @property string|null $nama_non_warga
+ * @property string|null $keterangan
+ * @property string|null $lokasi_arsip
+ * @property int|null $urls_id
+ * @property bool $status 0. Konsep, 1. Cetak
+ * @property string|null $log_verifikasi
+ * @property int|null $tte
+ * @property int|null $verifikasi_operator
+ * @property int|null $verifikasi_kades
+ * @property int|null $verifikasi_sekdes
+ * @property string|null $isi_surat
+ * @property string|null $isi_surat_temp
+ * @property int $kecamatan
+ * @property string|null $deleted_at
+ * @property string|null $pemohon
+ * @property string|null $input
+ * @property int|null $lock
+ * @property-read \App\Models\SuratKeluar|null $arsipKeluar
+ * @property-read \App\Models\FormatSurat|null $formatSurat
+ * @property-read string|null $file_surat
+ * @property-read array|string $format_penomoran_surat
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LogPerubahanSurat> $logPerubahanSurat
+ * @property-read int|null $log_perubahan_surat_count
+ * @property-read \App\Models\Pamong|null $pamong
+ * @property-read \App\Models\Penduduk|null $penduduk
+ * @property-read \App\Models\PendudukSaja|null $pendudukSaja
+ * @property-read \App\Models\FormatSurat|null $surat
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LogTolak> $tolak
+ * @property-read int|null $tolak_count
+ * @property-read \App\Models\User|null $user
+ * @method static Builder<static>|LogSurat arsip($isAdmin, array $listJabatan = [])
+ * @method static Builder<static>|LogSurat arsipFisikLayananSurat()
+ * @method static Builder<static>|LogSurat ditolak()
+ * @method static Builder<static>|LogSurat masuk($isAdmin, array $listJabatan = [])
+ * @method static Builder<static>|LogSurat newModelQuery()
+ * @method static Builder<static>|LogSurat newQuery()
+ * @method static Builder<static>|LogSurat pengguna()
+ * @method static Builder<static>|LogSurat query()
+ * @method static Builder<static>|LogSurat status(?mixed $value = 1)
+ * @method static Builder<static>|LogSurat whereBulan($value)
+ * @method static Builder<static>|LogSurat whereConfigId($value)
+ * @method static Builder<static>|LogSurat whereDeletedAt($value)
+ * @method static Builder<static>|LogSurat whereId($value)
+ * @method static Builder<static>|LogSurat whereIdFormatSurat($value)
+ * @method static Builder<static>|LogSurat whereIdPamong($value)
+ * @method static Builder<static>|LogSurat whereIdPend($value)
+ * @method static Builder<static>|LogSurat whereIdUser($value)
+ * @method static Builder<static>|LogSurat whereInput($value)
+ * @method static Builder<static>|LogSurat whereIsiSurat($value)
+ * @method static Builder<static>|LogSurat whereIsiSuratTemp($value)
+ * @method static Builder<static>|LogSurat whereKecamatan($value)
+ * @method static Builder<static>|LogSurat whereKeterangan($value)
+ * @method static Builder<static>|LogSurat whereLampiran($value)
+ * @method static Builder<static>|LogSurat whereLock($value)
+ * @method static Builder<static>|LogSurat whereLogVerifikasi($value)
+ * @method static Builder<static>|LogSurat whereLokasiArsip($value)
+ * @method static Builder<static>|LogSurat whereNamaJabatan($value)
+ * @method static Builder<static>|LogSurat whereNamaNonWarga($value)
+ * @method static Builder<static>|LogSurat whereNamaPamong($value)
+ * @method static Builder<static>|LogSurat whereNamaSurat($value)
+ * @method static Builder<static>|LogSurat whereNikNonWarga($value)
+ * @method static Builder<static>|LogSurat whereNoSurat($value)
+ * @method static Builder<static>|LogSurat wherePemohon($value)
+ * @method static Builder<static>|LogSurat whereStatus($value)
+ * @method static Builder<static>|LogSurat whereTahun($value)
+ * @method static Builder<static>|LogSurat whereTanggal($value)
+ * @method static Builder<static>|LogSurat whereTte($value)
+ * @method static Builder<static>|LogSurat whereUrlsId($value)
+ * @method static Builder<static>|LogSurat whereVerifikasiKades($value)
+ * @method static Builder<static>|LogSurat whereVerifikasiOperator($value)
+ * @method static Builder<static>|LogSurat whereVerifikasiSekdes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogSurat withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LogSurat extends BaseModel
 {
     use ConfigId;

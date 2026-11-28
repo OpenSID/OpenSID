@@ -109,14 +109,14 @@ class CookieJar implements CookieJarInterface
             $this->cookies = [];
 
             return;
-        } elseif (!$path) {
+        } elseif ($path === null) {
             $this->cookies = \array_filter(
                 $this->cookies,
                 static function (SetCookie $cookie) use ($domain): bool {
                     return $cookie->getDomain() === null || !$cookie->matchesDomain($domain);
                 }
             );
-        } elseif (!$name) {
+        } elseif ($name === null) {
             $this->cookies = \array_filter(
                 $this->cookies,
                 static function (SetCookie $cookie) use ($path, $domain): bool {
@@ -130,7 +130,7 @@ class CookieJar implements CookieJarInterface
                 $this->cookies,
                 static function (SetCookie $cookie) use ($path, $domain, $name) {
                     return !($cookie->getDomain() !== null
-                        && $cookie->getName() == $name
+                        && $cookie->getName() === $name
                         && $cookie->matchesPath($path)
                         && $cookie->matchesDomain($domain));
                 }
@@ -168,13 +168,22 @@ class CookieJar implements CookieJarInterface
             return false;
         }
 
+        $maxAge = $cookie->getMaxAge();
+        if ($maxAge !== null && $maxAge <= 0) {
+            if ($cookie->getDomain() !== null) {
+                $this->clear($cookie->getDomain(), $cookie->getPath(), $cookie->getName());
+            }
+
+            return false;
+        }
+
         // Resolve conflicts with previously set cookies
         foreach ($this->cookies as $i => $c) {
             // Two cookies are identical, when their path, and domain are
             // identical.
-            if ($c->getPath() != $cookie->getPath()
-                || $c->getDomain() != $cookie->getDomain()
-                || $c->getName() != $cookie->getName()
+            if ($c->getPath() !== $cookie->getPath()
+                || $c->getDomain() !== $cookie->getDomain()
+                || $c->getName() !== $cookie->getName()
             ) {
                 continue;
             }
@@ -226,7 +235,11 @@ class CookieJar implements CookieJarInterface
         if ($cookieHeader = $response->getHeader('Set-Cookie')) {
             foreach ($cookieHeader as $cookie) {
                 $sc = SetCookie::fromString($cookie);
-                if (!$sc->getDomain()) {
+                $domain = $sc->getDomain();
+                if ($domain === null || $domain === '') {
+                    $sc->setDomain($request->getUri()->getHost());
+                } elseif (\substr($domain, -1) === '.' && '' !== \trim($domain, '.')) {
+                    // Keep pure-dot domains rejected by the dot-only fix.
                     $sc->setDomain($request->getUri()->getHost());
                 }
                 if (0 !== \strpos($sc->getPath(), '/')) {

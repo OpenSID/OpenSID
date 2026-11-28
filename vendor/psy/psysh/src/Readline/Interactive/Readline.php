@@ -28,6 +28,7 @@ use Psy\Readline\Interactive\Input\Key;
 use Psy\Readline\Interactive\Input\KeyBindings;
 use Psy\Readline\Interactive\Renderer\FrameRenderer;
 use Psy\Readline\Interactive\Renderer\OverlayViewport;
+use Psy\Readline\Interactive\Renderer\WidgetInterface;
 use Psy\Readline\Interactive\Suggestion\SuggestionEngine;
 use Psy\Readline\Interactive\Suggestion\SuggestionResult;
 use Psy\Shell;
@@ -40,9 +41,6 @@ use Psy\Shell;
  */
 class Readline
 {
-    private const MODE_NORMAL = 'normal';
-    private const MODE_MENU = 'menu';
-
     private Terminal $terminal;
     private InputQueue $inputQueue;
     private KeyBindings $bindings;
@@ -52,8 +50,6 @@ class Readline
     private ?Shell $shell = null;
     private bool $requireSemicolons = false;
     private Theme $theme;
-
-    private string $mode = self::MODE_NORMAL;
 
     private ?TabAction $tabAction = null;
     private ?ExpandHistoryOnTabAction $expandHistoryAction = null;
@@ -69,6 +65,9 @@ class Readline
     private OverlayViewport $overlayViewport;
     private FrameRenderer $frameRenderer;
     private ?SuggestionResult $currentSuggestion = null;
+
+    /** @var ReadlineMode[] Stack of active modes; top of stack handles input + rendering. */
+    private array $modeStack = [];
 
     /**
      * Create a new interactive Readline instance.
@@ -271,8 +270,10 @@ class Readline
      */
     public function readline()
     {
-        $this->mode = self::MODE_NORMAL;
-        $this->search->exit();
+        while ($this->popMode() !== null) {
+            // Defensive: pop any leftover modes from a previous readline()
+            // that exited via BreakException or similar.
+        }
         $this->clearSuggestion();
 
         if ($this->continueFrame && $this->lastSubmittedText !== null) {
@@ -317,11 +318,13 @@ class Readline
                     continue;
                 }
 
-                if ($this->search->isActive()) {
-                    $result = $this->search->handleInput($key, $buffer);
+                $mode = $this->activeMode();
+                if ($mode !== null) {
+                    $result = $mode->handleKey($key, $buffer);
                     if ($result === true) {
-                        $this->search->display();
+                        $mode->display($buffer);
                     } else {
+                        $this->popMode();
                         if ($result === null) {
                             $this->replayKey($key);
                         }
@@ -351,8 +354,9 @@ class Readline
                             $this->history->reset();
                         }
 
-                        if ($this->search->isActive()) {
-                            $this->search->display();
+                        $mode = $this->activeMode();
+                        if ($mode !== null) {
+                            $mode->display($buffer);
                         } else {
                             $this->syncMultilineMode($buffer->getText());
                             $this->updateSuggestion($buffer);
@@ -402,22 +406,20 @@ class Readline
     }
 
     /**
+     * Set (or clear) the overlay widget and redraw the frame.
+     */
+    public function setOverlay(Buffer $buffer, ?WidgetInterface $widget): void
+    {
+        $this->frameRenderer->setOverlay($widget);
+        $this->display($buffer);
+    }
+
+    /**
      * Clear the overlay and re-render.
      */
     public function clearOverlay(Buffer $buffer): void
     {
-        $this->frameRenderer->clearOverlay($buffer);
-    }
-
-    /**
-     * Render overlay lines and redraw the frame.
-     *
-     * @param string[] $lines
-     */
-    public function renderOverlay(Buffer $buffer, array $lines): void
-    {
-        $this->frameRenderer->setOverlayLines($lines);
-        $this->display($buffer);
+        $this->setOverlay($buffer, null);
     }
 
     /**
@@ -561,7 +563,7 @@ class Readline
             return;
         }
 
-        if ($this->mode !== self::MODE_NORMAL || $this->search->isActive() || $this->multilineMode) {
+        if ($this->activeMode() !== null || $this->multilineMode) {
             $this->clearSuggestion();
 
             return;
@@ -582,20 +584,44 @@ class Readline
     }
 
     /**
-     * Enter completion menu mode.
+     * Push a mode onto the stack. The mode becomes the active key/render handler.
      */
-    public function enterMenuMode(): void
+    public function pushMode(ReadlineMode $mode): void
     {
-        $this->mode = self::MODE_MENU;
+        $this->modeStack[] = $mode;
     }
 
     /**
-     * Exit completion menu mode.
+     * Pop the top mode off the stack and call its onExit. Also clears any
+     * overlay the mode left behind so the next render starts fresh. Returns
+     * the popped mode, or null if the stack was already empty.
      */
-    public function exitMenuMode(): void
+    public function popMode(): ?ReadlineMode
     {
-        if ($this->mode === self::MODE_MENU) {
-            $this->mode = self::MODE_NORMAL;
+        $mode = \array_pop($this->modeStack);
+        if ($mode !== null) {
+            $mode->onExit();
+            $this->frameRenderer->setOverlay(null);
         }
+
+        return $mode;
+    }
+
+    /**
+     * The current active mode (top of stack), or null if no mode is active.
+     */
+    public function activeMode(): ?ReadlineMode
+    {
+        return \end($this->modeStack) ?: null;
+    }
+
+    /**
+     * Construct a Pager that shares this Readline's terminal/input/frame
+     * collaborators. Caller supplies the InteractiveSession because raw-mode
+     * lifecycle is owned at a higher layer.
+     */
+    public function createPager(InteractiveSession $session): Pager
+    {
+        return new Pager($this->terminal, $session, $this->inputQueue, $this->frameRenderer);
     }
 }

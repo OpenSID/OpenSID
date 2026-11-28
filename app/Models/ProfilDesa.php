@@ -42,6 +42,33 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int|null $config_id
+ * @property string $kategori
+ * @property string $judul
+ * @property string $key
+ * @property string|null $value
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa whereKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa whereValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProfilDesa withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class ProfilDesa extends BaseModel
 {
     use ConfigId;

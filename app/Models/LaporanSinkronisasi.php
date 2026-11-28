@@ -41,6 +41,33 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string|null $tipe
+ * @property string $judul
+ * @property int $tahun
+ * @property int $semester
+ * @property string $nama_file
+ * @property string|null $kirim
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi whereKirim($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi whereNamaFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi whereSemester($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi whereTahun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi whereTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LaporanSinkronisasi withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class LaporanSinkronisasi extends BaseModel
 {
     use ConfigId;

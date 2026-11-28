@@ -45,6 +45,41 @@ use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int|null $config_id
+ * @property string $kategori
+ * @property int $tipe
+ * @property int $urut
+ * @property int $enabled
+ * @property int $parrent
+ * @property string|null $slug
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Artikel> $artikel
+ * @property-read int|null $artikel_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Kategori> $children
+ * @property-read int|null $children_count
+ * @property-read Kategori|null $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\KategoriWilayah> $wilayah
+ * @property-read int|null $wilayah_count
+ * @method static Builder<static>|Kategori active()
+ * @method static Builder<static>|Kategori child(int $parent)
+ * @method static Builder<static>|Kategori configId()
+ * @method static Builder<static>|Kategori enable()
+ * @method static Builder<static>|Kategori newModelQuery()
+ * @method static Builder<static>|Kategori newQuery()
+ * @method static Builder<static>|Kategori ordered(string $direction = 'asc')
+ * @method static Builder<static>|Kategori query()
+ * @method static Builder<static>|Kategori whereConfigId($value)
+ * @method static Builder<static>|Kategori whereEnabled($value)
+ * @method static Builder<static>|Kategori whereId($value)
+ * @method static Builder<static>|Kategori whereKategori($value)
+ * @method static Builder<static>|Kategori whereParrent($value)
+ * @method static Builder<static>|Kategori whereSlug($value)
+ * @method static Builder<static>|Kategori whereTipe($value)
+ * @method static Builder<static>|Kategori whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Kategori withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Kategori extends BaseModel
 {
     use WilayahNull;

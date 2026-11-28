@@ -39,6 +39,17 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property string $nama
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cacat newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cacat newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cacat query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cacat whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cacat whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cacat withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Cacat extends BaseModel
 {
     /**

@@ -41,6 +41,30 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property int|null $id_pembangunan
+ * @property string|null $gambar
+ * @property string|null $persentase
+ * @property string|null $keterangan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Pembangunan|null $pembangunan
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi whereGambar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi whereIdPembangunan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi wherePersentase($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PembangunanDokumentasi withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class PembangunanDokumentasi extends BaseModel
 {
     use ConfigId;

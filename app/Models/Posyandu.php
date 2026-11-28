@@ -41,6 +41,29 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string $alamat
+ * @property string|null $created_at
+ * @property int|null $created_by
+ * @property string|null $updated_at
+ * @property int|null $updated_by
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu whereAlamat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Posyandu withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Posyandu extends BaseModel
 {
     use ConfigId;

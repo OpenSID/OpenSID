@@ -45,6 +45,97 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string $url_surat
+ * @property string|null $kode_surat
+ * @property string|null $lampiran
+ * @property bool $kunci
+ * @property bool $favorit
+ * @property int $jenis
+ * @property bool|null $mandiri
+ * @property int|null $masa_berlaku
+ * @property string|null $satuan_masa_berlaku
+ * @property bool $qr_code
+ * @property bool $qr_code_tte
+ * @property bool $logo_garuda
+ * @property int $kecamatan
+ * @property string|null $syarat_surat
+ * @property string|null $template
+ * @property string|null $template_desa
+ * @property mixed $form_isian
+ * @property string $kode_isian
+ * @property string|null $orientasi
+ * @property string|null $ukuran
+ * @property string|null $margin
+ * @property int|null $margin_global
+ * @property int $footer
+ * @property int $header
+ * @property string|null $format_nomor
+ * @property int|null $format_nomor_global
+ * @property int|null $sumber_penduduk_berulang
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property int|null $created_by
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $updated_by
+ * @property-read void $form_surat
+ * @property-read mixed $format_nomor_surat
+ * @property-read string $judul_surat
+ * @property-read array $list_syarat_surat
+ * @property-read string $margin_cm_to_mm
+ * @property-read string|null $url_surat_sistem
+ * @property-read \App\Models\LogSurat|null $logSurat
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SyaratSurat> $syaratSurat
+ * @property-read int|null $syarat_surat_count
+ * @method static Builder<static>|FormatSurat cetak($url = null)
+ * @method static Builder<static>|FormatSurat favorit(?mixed $value = 1)
+ * @method static Builder<static>|FormatSurat isExist(?mixed $value)
+ * @method static Builder<static>|FormatSurat jenis(?mixed $value)
+ * @method static Builder<static>|FormatSurat kunci(?mixed $value = 1)
+ * @method static Builder<static>|FormatSurat mandiri()
+ * @method static Builder<static>|FormatSurat newModelQuery()
+ * @method static Builder<static>|FormatSurat newQuery()
+ * @method static Builder<static>|FormatSurat query()
+ * @method static Builder<static>|FormatSurat sistem()
+ * @method static Builder<static>|FormatSurat whereConfigId($value)
+ * @method static Builder<static>|FormatSurat whereCreatedAt($value)
+ * @method static Builder<static>|FormatSurat whereCreatedBy($value)
+ * @method static Builder<static>|FormatSurat whereFavorit($value)
+ * @method static Builder<static>|FormatSurat whereFooter($value)
+ * @method static Builder<static>|FormatSurat whereFormIsian($value)
+ * @method static Builder<static>|FormatSurat whereFormatNomor($value)
+ * @method static Builder<static>|FormatSurat whereFormatNomorGlobal($value)
+ * @method static Builder<static>|FormatSurat whereHeader($value)
+ * @method static Builder<static>|FormatSurat whereId($value)
+ * @method static Builder<static>|FormatSurat whereJenis($value)
+ * @method static Builder<static>|FormatSurat whereKecamatan($value)
+ * @method static Builder<static>|FormatSurat whereKodeIsian($value)
+ * @method static Builder<static>|FormatSurat whereKodeSurat($value)
+ * @method static Builder<static>|FormatSurat whereKunci($value)
+ * @method static Builder<static>|FormatSurat whereLampiran($value)
+ * @method static Builder<static>|FormatSurat whereLogoGaruda($value)
+ * @method static Builder<static>|FormatSurat whereMandiri($value)
+ * @method static Builder<static>|FormatSurat whereMargin($value)
+ * @method static Builder<static>|FormatSurat whereMarginGlobal($value)
+ * @method static Builder<static>|FormatSurat whereMasaBerlaku($value)
+ * @method static Builder<static>|FormatSurat whereNama($value)
+ * @method static Builder<static>|FormatSurat whereOrientasi($value)
+ * @method static Builder<static>|FormatSurat whereQrCode($value)
+ * @method static Builder<static>|FormatSurat whereQrCodeTte($value)
+ * @method static Builder<static>|FormatSurat whereSatuanMasaBerlaku($value)
+ * @method static Builder<static>|FormatSurat whereSumberPendudukBerulang($value)
+ * @method static Builder<static>|FormatSurat whereSyaratSurat($value)
+ * @method static Builder<static>|FormatSurat whereTemplate($value)
+ * @method static Builder<static>|FormatSurat whereTemplateDesa($value)
+ * @method static Builder<static>|FormatSurat whereUkuran($value)
+ * @method static Builder<static>|FormatSurat whereUpdatedAt($value)
+ * @method static Builder<static>|FormatSurat whereUpdatedBy($value)
+ * @method static Builder<static>|FormatSurat whereUrlSurat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FormatSurat withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class FormatSurat extends BaseModel
 {
     use Author;

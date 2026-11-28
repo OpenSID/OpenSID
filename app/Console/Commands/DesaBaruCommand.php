@@ -38,12 +38,13 @@
 namespace App\Console\Commands;
 
 use App\Libraries\Database;
-use App\Models\Config;
 use App\Models\SettingAplikasi;
 use App\Services\DatabaseConfiguratorService;
 use Database\Seeders\DataStatisSeeder;
 use Database\Seeders\StrukturAwalSeeder;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Throwable;
 
 class DesaBaruCommand extends Command
@@ -81,19 +82,20 @@ class DesaBaruCommand extends Command
     protected DatabaseConfiguratorService $dbConfigurator;
 
     /**
-     * Constructor dengan dependency injection.
-     */
-    public function __construct(DatabaseConfiguratorService $dbConfigurator)
-    {
-        parent::__construct();
-        $this->dbConfigurator = $dbConfigurator;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function handle(): void
     {
+        if (! $this->getLaravel()->bound(\CI_Controller::class)) {
+            $this->getLaravel()->make(\CI_Controller::class);
+
+            if (! function_exists('ci')) {
+                require_once base_path('vendor/opensid/router/src/Functions.php');
+            }
+        }
+
+        $this->dbConfigurator = new DatabaseConfiguratorService();
+
         // Setup database jika parameter diberikan
         $isNewDatabase = $this->hasDatabaseParams();
         if ($isNewDatabase) {
@@ -104,20 +106,20 @@ class DesaBaruCommand extends Command
         if (! $this->option('force')) {
             try {
                 // Cek apakah tabel config sudah ada
-                if (\Schema::hasTable('config')) {
+                if (Schema::hasTable('config')) {
                     // Cek apakah kode_desa sudah ada di database (multitenant)
                     // Gunakan DB query builder langsung untuk hindari ConfigIdScope
                     $kodeDesa = $this->option('kode-desa');
-                    if ($kodeDesa && \DB::table('config')->where('kode_desa', $kodeDesa)->exists()) {
+                    if ($kodeDesa && DB::table('config')->where('kode_desa', $kodeDesa)->exists()) {
                         $this->warn("Kode desa {$kodeDesa} sudah ada di database. Tidak dilakukan perubahan.");
-                        
+
                         return;
                     }
 
                     // Jika tidak ada kode_desa, cek apakah ada config dengan app_key yang sama
-                    if (! $kodeDesa && \DB::table('config')->where('app_key', get_app_key())->exists()) {
+                    if (! $kodeDesa && DB::table('config')->where('app_key', get_app_key())->exists()) {
                         $this->warn('Data desa sudah ada. Tidak dilakukan perubahan.');
-                        
+
                         return;
                     }
                 }
@@ -151,8 +153,8 @@ class DesaBaruCommand extends Command
     protected function buildTasks(): array
     {
         // Skip buat folder jika tabel sudah ada
-        $tablesExist = \Schema::hasTable('config');
-        
+        $tablesExist = Schema::hasTable('config');
+
         if (! $tablesExist) {
             $tasks = ['Membuat folder desa'];
         } else {
@@ -178,8 +180,6 @@ class DesaBaruCommand extends Command
             $tasks[] = 'Setup token layanan';
         }
 
-        $tasks[] = 'Menghapus session';
-
         return $tasks;
     }
 
@@ -196,7 +196,6 @@ class DesaBaruCommand extends Command
             'Menjalankan data dinamis'     => $this->handleMigrasiDataAwal(),
             'Memeriksa migrasi database'   => $this->handlePeriksaMigrasi(),
             'Setup token layanan'          => $this->handleSetupToken(),
-            'Menghapus session'            => $this->handleHapusSession(),
             default                        => null,
         };
     }
@@ -229,7 +228,7 @@ class DesaBaruCommand extends Command
         }
 
         try {
-            // 1. Update CI3 config (sama dengan Installer)
+            // Update CI3 config (sama dengan Installer)
             $this->dbConfigurator->updateConfig(
                 $host,
                 (int) $port,
@@ -238,10 +237,7 @@ class DesaBaruCommand extends Command
                 $password ?? ''
             );
 
-            // 2. folder_desa() akan menulis file database.php dari config_item('database')
-            //    Tidak perlu writeConfigFile() karena folder_desa() sudah handle
-
-            // 3. Test koneksi
+            // Test koneksi
             $this->dbConfigurator->testConnection();
 
             $this->info('Koneksi database berhasil.');
@@ -255,11 +251,6 @@ class DesaBaruCommand extends Command
      */
     protected function handleBuatFolderDesa(): void
      {
-        // Pastikan ci() function tersedia
-        if (! function_exists('ci')) {
-            require_once base_path('vendor/opensid/router/src/Functions.php');
-        }
-
         // Buat folder desa (generate app_key)
         folder_desa();
 
@@ -267,9 +258,6 @@ class DesaBaruCommand extends Command
         if ($kodeDesa = $this->option('kode-desa')) {
             $this->setKodeDesa($kodeDesa);
         }
-
-        // Config record akan dibuat oleh StrukturAwalSeeder::defaultConfig()
-        // configId akan di-set setelah seeder berjalan di handleMigrasiStruktur()
     }
 
     /**
@@ -310,18 +298,18 @@ class DesaBaruCommand extends Command
     protected function handleMigrasiStruktur(): void
     {
         // Cek apakah tabel sudah ada sebelum jalankan migrasi
-        if (\Schema::hasTable('config')) {
+        if (Schema::hasTable('config')) {
             $this->newLine();
             $this->info('Tabel sudah ada, skip migrasi struktur.');
-            
+
             // Pastikan desa/app_key ada (dibutuhkan oleh identitas() dan get_app_key())
             $this->ensureAppKeyFile();
-            
+
             // Cek apakah kode_desa sudah ada
             // Gunakan DB query builder langsung untuk hindari ConfigIdScope
             $kodeDesa = $this->option('kode-desa');
-            $existingConfig = \DB::table('config')->where('kode_desa', $kodeDesa)->first();
-            
+            $existingConfig = DB::table('config')->where('kode_desa', $kodeDesa)->first();
+
             if ($existingConfig) {
                 // Kode desa sudah ada, gunakan config yang ada
                 $this->configId = $existingConfig->id;
@@ -336,7 +324,7 @@ class DesaBaruCommand extends Command
 
                 // Simpan app_key langsung ke database dengan query builder
                 // (hindari Config::create karena model event auto-set app_key dari file)
-                $newConfigId = \DB::table('config')->insertGetId([
+                $newConfigId = DB::table('config')->insertGetId([
                     'app_key'           => $newAppKey,
                     'kode_desa'         => $kodeDesa ?? '',
                     'nama_desa'         => '',
@@ -360,7 +348,7 @@ class DesaBaruCommand extends Command
                 // Clear identitas cache agar membaca app_key baru
                 cache()->forget('identitas_desa');
             }
-            
+
             return;
         }
 
@@ -369,13 +357,13 @@ class DesaBaruCommand extends Command
 
         // Update config_id setelah seeder membuat Config record
         // Gunakan DB query builder langsung untuk hindari ConfigIdScope
-        $config = \DB::table('config')->where('app_key', get_app_key())->first();
+        $config = DB::table('config')->where('app_key', get_app_key())->first();
         $this->configId = $config?->id;
 
         // Simpan kode_desa ke database jika diberikan via parameter
         // (StrukturAwalSeeder::defaultConfig() selalu buat kode_desa kosong)
         if ($kodeDesa = $this->option('kode-desa')) {
-            \DB::table('config')->where('id', $this->configId)->update(['kode_desa' => $kodeDesa]);
+            DB::table('config')->where('id', $this->configId)->update(['kode_desa' => $kodeDesa]);
         }
     }
 
@@ -399,7 +387,7 @@ class DesaBaruCommand extends Command
         // Pastikan config_id tersedia
         if (! $this->configId) {
             // Gunakan DB query builder langsung untuk hindari ConfigIdScope
-            $config = \DB::table('config')->where('app_key', get_app_key())->first();
+            $config = DB::table('config')->where('app_key', get_app_key())->first();
             $this->configId = $config?->id;
         }
 
@@ -408,16 +396,11 @@ class DesaBaruCommand extends Command
             $this->setKodeDesa($kodeDesa);
         }
 
-        // Pastikan ci() function tersedia
-        if (! function_exists('ci')) {
-            require_once base_path('vendor/opensid/router/src/Functions.php');
-        }
-
         // Clear cache sebelum jalankan seeder
         cache()->flush();
 
         // Set identitas_desa cache untuk performa (identitas() sudah bypass ConfigIdScope)
-        $config = \DB::table('config')->where('app_key', get_app_key())->first();
+        $config = DB::table('config')->where('app_key', get_app_key())->first();
         if ($config) {
             cache()->put('identitas_desa', $config, 604800);
         }
@@ -431,11 +414,6 @@ class DesaBaruCommand extends Command
      */
     protected function handlePeriksaMigrasi(): void
     {
-        // Pastikan ci() function tersedia
-        if (! function_exists('ci')) {
-            require_once base_path('vendor/opensid/router/src/Functions.php');
-        }
-
         (new Database())->checkMigration(true);
     }
 
@@ -488,14 +466,7 @@ class DesaBaruCommand extends Command
     protected function handleHapusCache(): void
     {
         resetCacheDesa();
-        $this->callSilent('cache:clear');
-    }
 
-    /**
-     * Hapus session.
-     */
-    protected function handleHapusSession(): void
-    {
-        session_destroy();
+        $this->callSilent('cache:clear');
     }
 }

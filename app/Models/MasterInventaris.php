@@ -42,6 +42,33 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property string $asset
+ * @property int $config_id
+ * @property int $id
+ * @property string $nama_barang
+ * @property string $kode_barang
+ * @property string $kondisi
+ * @property string $keterangan
+ * @property string $asal
+ * @property numeric|null $tahun_pengadaan
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris minTahun()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris permen47($tahun = null, $jns_asset = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris whereAsal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris whereAsset($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris whereKodeBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris whereKondisi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris whereNamaBarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris whereTahunPengadaan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MasterInventaris withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class MasterInventaris extends BaseModel
 {
     use ConfigId;

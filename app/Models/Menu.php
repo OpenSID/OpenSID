@@ -44,6 +44,41 @@ use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property int $id
+ * @property int $config_id
+ * @property string $nama
+ * @property string $link
+ * @property int|null $parrent
+ * @property int $link_tipe
+ * @property int|null $enabled
+ * @property int|null $urut
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Menu> $children
+ * @property-read int|null $children_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Menu> $childrens
+ * @property-read int|null $childrens_count
+ * @property-read mixed $link_url
+ * @property-read Menu|null $parent
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu artikel()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu child(int $parent)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu lainnya()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu ordered(string $direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu statistik()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereConfigId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereLinkTipe($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereParrent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu whereUrut($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Menu withoutConfigId($configId = '')
+ * @mixin \Eloquent
+ */
 class Menu extends BaseModel
 {
     use ConfigId;
